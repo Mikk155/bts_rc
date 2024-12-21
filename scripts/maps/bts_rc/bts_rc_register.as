@@ -59,10 +59,6 @@ void MapActivate()
 void MapInit()
 {
     RegisterPointCheckPointEntity();
-    
-    // Map support is enabled here by default.
-    // So you don't have to add "mp_survival_supported 1" to the map config
-    g_SurvivalMode.EnableMapSupport();
 
     RegisterBTSRCWeapons(); // Custom weapons registered
 
