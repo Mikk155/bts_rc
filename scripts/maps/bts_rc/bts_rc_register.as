@@ -10,7 +10,7 @@
 
 #include "trigger_script/survival.as"
 
-#include "beast_itemtracker"
+#include "game_item_tracker"
 #include "list_weapons"
 #include "mappings"
 #include "player_voices/player_voices"
@@ -54,12 +54,14 @@ void MapStart()
 
 void MapActivate()
 {
-    hItemTrackerMenu = SetupMenu();
+    SetupItemTracker();
     BTS_RC::MapActivate(); //Objective code debug
 }
 
 void MapInit()
 {
+    RegisterItemTracker();
+
     RegisterPointCheckPointEntity();
 
     RegisterBTSRCWeapons(); // Custom weapons registered
