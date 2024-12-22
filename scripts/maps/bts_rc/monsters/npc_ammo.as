@@ -79,15 +79,12 @@ namespace NPC_DROPAMMO
             {
                 CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( pMonster.pev, vecAmmoDrop, Vector(0,0,-90), 3.0); // Active grenade logic - Mikk
 
-                @ammo = g_EntityFuncs.Create( RANDOM_AMMO_DROP, vecAmmoDrop, pMonster.pev.angles, false );
-
-                ammo.pev.spawnflags |= 1024; // no more respawn
+                if( ( @ammo = g_EntityFuncs.Create( RANDOM_AMMO_DROP, vecAmmoDrop, pMonster.pev.angles, false ) ) !is null )
+                    ammo.pev.spawnflags |= 1024; // no more respawn
             }
             else if( gNPCType.exists( pMonster.GetClassname() ) )
             {
-                @ammo = g_EntityFuncs.Create( RANDOM_AMMO_DROP, vecAmmoDrop, pMonster.pev.angles, false ); // Call in ammo/entity drop from monsters
-
-                if( ammo !is null )
+                if( ( @ammo = g_EntityFuncs.Create( RANDOM_AMMO_DROP, vecAmmoDrop, pMonster.pev.angles, false ) ) !is null )
                     ammo.pev.spawnflags |= 1024; // no more respawn
             }
         }
