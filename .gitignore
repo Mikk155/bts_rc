@@ -1,0 +1,15 @@
+maps/*
+!maps/bts_rc*
+
+models/*
+!models/bts_rc*
+
+sound/*
+!sound/bts_rc*
+
+sprites/*
+!sprites/bts_rc*
+
+log.txt
+
+steam_autocloud.vdf
