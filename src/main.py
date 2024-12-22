@@ -15,6 +15,9 @@ entities: dict[int,dict[str,str]] = {}
 
 offset: int = 0
 
+global index_offset;
+index_offset: int = 0
+
 def apply_key( line, value, old, new ) -> ( str | str ):
 
     match = False;
@@ -27,7 +30,20 @@ def apply_key( line, value, old, new ) -> ( str | str ):
 
     return ( line if match else None, value );
 
+def append_line( index: int, key: str, value: str ) -> int:
+
+    entity[ key ] = value;
+
+    input_map.insert( index, f"\"{key}\" \"{value}\"\n" );
+
+    global index_offset;
+    index_offset += 1;
+
+    return index + 1;
+
 for index, line in enumerate( input_map ):
+
+    index += index_offset;
 
     if line.startswith( "}" ):
 
@@ -55,10 +71,24 @@ for index, line in enumerate( input_map ):
 
                 value = keyvalue[1];
 
-                line, value = apply_key( line, value, "ActivateSurvival", "survival::activate" );
+                remap = {
+                    "ActivateSurvival": "survival::activate",
+                    "trigger_shuffle_position": "trigger_script",
+                };
 
-                if line:
-                    input_map[index] = line;
+                for kr, vr in remap.items():
+
+                    new_line, value = apply_key( line, value, kr, vr );
+
+                    if new_line:
+
+                        if kr == "trigger_shuffle_position":
+                            index = append_line( index, "m_iszScriptFunctionName", "randomize::init" );
+                            index = append_line( index, "spawnflags", "4" );
+
+                        input_map[index] = new_line;
+
+                        break;
 
                 entity[ keyvalue[0] ] = keyvalue[1];
 
