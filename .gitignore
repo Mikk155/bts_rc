@@ -13,3 +13,5 @@ sprites/*
 log.txt
 
 steam_autocloud.vdf
+
+src/output.*
