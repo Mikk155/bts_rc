@@ -8,6 +8,8 @@
 // Hands Sleeve Difference based on Playermodels code: KernCore & Mikk155
 // Bulet Wallpuff Code: KernCore, Rizulix
 
+#include "trigger_script/survival.as"
+
 #include "beast_itemtracker"
 #include "list_weapons"
 #include "mappings"
@@ -77,16 +79,4 @@ void MapInit()
 
     // Sound Precache
     PLAYER_VOICES::BTSRC_PrecachePlayerSounds();
-}
-
-void ActivateSurvival( CBaseEntity@ pActivator, CBaseEntity@ pCaller,
-    USE_TYPE useType, float flValue )
-{
-    g_SurvivalMode.Activate();
-}
-
-void DisableSurvival( CBaseEntity@ pActivator, CBaseEntity@ pCaller, 
-    USE_TYPE useType, float flValue )
-{
-    g_SurvivalMode.Disable();
 }
