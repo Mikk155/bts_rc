@@ -1515,7 +1515,7 @@
         "end": 198156
     },
     "18860": {
-        "start": 216589,
+        "start": 216593,
         "entity": {
             "classname": "squadmaker",
             "freeroam": "2",
@@ -1550,6 +1550,6 @@
             "new_solid": "-1",
             "origin": "4204 -11120 16"
         },
-        "end": 216622
+        "end": 216626
     }
 }
