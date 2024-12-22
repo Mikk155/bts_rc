@@ -79,5 +79,14 @@ for index, item in reversed( list( entities.items() ) ):
 
         end -= 1;
 
+ent_file = []
+
+for a, item in entities.items():
+    ent_file.append( "{\n" );
+    for k, v in item[ "entity" ].items():
+        ent_file.append( f"\"{k}\" \"{v}\"\n" )
+    ent_file.append( "}\n" );
+
+open( os.path.join( os.path.dirname(__file__), "output.ent" ), 'w' ).writelines(ent_file);
 open( os.path.join( os.path.dirname(__file__), "output.map" ), 'w' ).writelines(input_map);
 open( os.path.join( os.path.dirname(__file__), "output.json" ), 'w' ).write( json.dumps( entities, indent=4) );
