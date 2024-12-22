@@ -15,6 +15,18 @@ entities: dict[int,dict[str,str]] = {}
 
 offset: int = 0
 
+def apply_key( line, value, old, new ) -> ( str | str ):
+
+    match = False;
+
+    if old in line:
+
+        line = line.replace( old, new );
+        value = new;
+        match = True;
+
+    return ( line if match else None, value );
+
 for index, line in enumerate( input_map ):
 
     if line.startswith( "}" ):
@@ -40,6 +52,13 @@ for index, line in enumerate( input_map ):
             keyvalue = line[ 1: line.rfind( "\"" ) ].split( "\" \"" );
 
             if len(keyvalue) == 2:
+
+                value = keyvalue[1];
+
+                line, value = apply_key( line, value, "ActivateSurvival", "survival::activate" );
+
+                if line:
+                    input_map[index] = line;
 
                 entity[ keyvalue[0] ] = keyvalue[1];
 
