@@ -1,3 +1,0 @@
-"gonome/gonome_idle1.wav" "bts_rc/gonome_hecu/gonome_idle1.wav"
-"gonome/gonome_idle2.wav" "bts_rc/gonome_hecu/gonome_idle2.wav"
-"gonome/gonome_idle3.wav" "bts_rc/gonome_hecu/gonome_idle3.wav"
