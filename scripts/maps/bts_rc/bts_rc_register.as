@@ -8,7 +8,7 @@
 // Hands Sleeve Difference based on Playermodels code: KernCore & Mikk155
 // Bullet Wallpuff Code: KernCore, Rizulix
 
-//#include "entities/randomizer"
+#include "entities/randomizer"
 
 #include "trigger_script/survival"
 
@@ -18,8 +18,7 @@
 #include "player_voices/player_voices"
 #include "monsters/npc_ammo"
 #include "point_checkpoint"
-#include "trigger_shuffle_position"
-#include "selective_nvg"
+//#include "selective_nvg" < Broken -Sniper's fan
 #include "objective_indicator"
 
 void MapStart()
@@ -29,20 +28,22 @@ void MapStart()
 
 void MapActivate()
 {
+    randomizer::unregister();
+
     SetupItemTracker();
     BTS_RC::MapActivate(); //Objective code debug
 }
 
 void MapInit()
 {
+    randomizer::register();
+
     RegisterItemTracker();
 
     RegisterPointCheckPointEntity();
 
     RegisterBTSRCWeapons(); // Custom weapons registered
 
-    BTSRC_NightVision(); // nightvision registered
-    
     BTS_RC::ObjectiveInit(); // Objective indicator registered
 
     g_ClassicMode.ForceItemRemap( true );
