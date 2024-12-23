@@ -1,8 +1,8 @@
-// Standard HECU M4A1
-// Models: HAPE B
-// Scripts: Giegue, Rizulix, Valve Software
-// Sounds: TurtleRock Studios, Valve Software, HAPE B, RaptorSKA
-// Sprites: TurtleRock Studios, Valve Software, SV BOY
+//Standard HECU M4A1
+//Models: HAPE B
+//Scripts: Giegue, Rizulix, Valve Software
+//Sounds: TurtleRock Studios, Valve Software, HAPE B, RaptorSKA
+//Sprites: TurtleRock Studios, Valve Software, SV BOY
 
 namespace BTS_M4
 {
@@ -34,7 +34,7 @@ const int M4_DEFAULT_GIVE 	= Math.RandomLong( 9, 30 );
 const int M4_MAX_AMMO		= 150;
 const int M4_MAX_CLIP 		= 30;
 const int M4_WEIGHT 		= 5;
-//const int M4_MAX_DMG        = 13;
+//const int M4_MAX_DMG		= 13;
 
 const string MODEL_AMMO = "models/w_9mmarclip.mdl";
 const string V_MODEL 	= "models/bts_rc/weapons/v_m4.mdl";
@@ -49,38 +49,38 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	int m_iShotsFired;
 	dictionary g_Models = 
 	{
-    	{ "bts_barney", 0 }, { "bts_otis", 0 },
+		{ "bts_barney", 0 }, { "bts_otis", 0 },
 		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-    	{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
+		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
 		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
 		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-    	{ "bts_construction", 2 }, { "bts_helmet", 4 }
+		{ "bts_construction", 2 }, { "bts_helmet", 4 }
 	};
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-    	switch( int(g_Models[ modelName ]) )
-    	{
-        	case 0:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-            	break;
-        	case 1:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-            	break;
-        	case 2:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-            	break;
+		switch( int( g_Models[ modelName ]) )
+		{
+			case 0:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
+				break;
+			case 1:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
+				break;
+			case 2:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
+				break;
 			case 3:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
 				break;
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
 				break;
-    	}
+		}
 
-    	return m_iCurBodyConfig;
+		return m_iCurBodyConfig;
 	}
 	
 	void Spawn()
@@ -105,7 +105,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
 
 		g_Game.PrecacheModel( "models/w_saw_clip.mdl" );
-		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );       
+		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );	   
 
 		//These are played by the model, needs changing there
 		g_SoundSystem.PrecacheSound( "hl/items/clipinsert1.wav" );
@@ -159,7 +159,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		bool bResult;
 		{
-	        bResult = self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_m4.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_m4.mdl" ), DEPLOY, "m16", 0, GetBodygroup() );
+			bResult = self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_m4.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_m4.mdl" ), DEPLOY, "m16", 0, GetBodygroup() );
 
 			float deployTime = 1.2;
 			self.m_flTimeWeaponIdle = self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + deployTime;
@@ -171,7 +171,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		self.m_fInReload = false;
 
-		if ( g_iCurrentMode == MODE_SCOPE )
+		if( g_iCurrentMode == MODE_SCOPE )
 		{
 			g_iCurrentMode = MODE_UNSCOPE;
 		}
@@ -186,20 +186,20 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		return g_Engine.time; //g_WeaponFuncs.WeaponTimeBase();
 	}
 
-    // Setting FOV command for ToggleZoom void call line
+	//Setting FOV command for ToggleZoom void call line
 	void SetFOV( int fov )
 	{
 		m_pPlayer.pev.fov = m_pPlayer.m_iFOV = fov;
 	}
 
-    // Utilizing SetFOV function inside this call line
+	//Utilizing SetFOV function inside this call line
 	void ToggleZoom( int zoomedFOV )
 	{
-		if ( self.m_fInZoom == true )
+		if( self.m_fInZoom == true )
 		{
-			SetFOV( 0 ); // 0 means reset to default fov
+			SetFOV( 0 ); //0 means reset to default fov
 		}
-		else if ( self.m_fInZoom == false )
+		else if( self.m_fInZoom == false )
 		{
 			SetFOV( zoomedFOV );
 		}
@@ -207,7 +207,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	void PrimaryAttack()
 	{
-		// don't fire underwater
+		//don't fire underwater
 		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
 		{
 			self.PlayEmptySound( );
@@ -229,7 +229,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		{
 			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + 0.13;
 		}
-		else if( g_iCurrentMode == MODE_UNSCOPE)
+		else if( g_iCurrentMode == MODE_UNSCOPE )
 		{
 			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + 0.124;
 		}
@@ -245,7 +245,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		
 		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m4_fire1.wav", 1.0, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
-		// player "shoot" animation
+		//player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
 		g_EngineFuncs.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
@@ -256,10 +256,10 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		Vector vecSrc	 = m_pPlayer.GetGunPosition();
 		Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-		// Weapon spread
+		//Weapon spread
 		Vector vecSpread;
 
-		if( !(m_pPlayer.pev.flags & FL_DUCKING != 0 ) )
+		if( !( m_pPlayer.pev.flags & FL_DUCKING != 0 ) )
 		{
 			vecSpread = VECTOR_CONE_3DEGREES; //spread when standing
 		}
@@ -270,19 +270,19 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		vecSpread = vecSpread * 1.0f;
 		
-		// optimized multiplayer. Widened to make it easier to hit a moving player
+		//optimized multiplayer. Widened to make it easier to hit a moving player
 		self.FireBullets( 1, vecSrc, vecAiming, vecSpread, 8192, BULLET_PLAYER_SAW, 4, 0, m_pPlayer.pev );
 
 		if( self.m_iClip == 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			// HEV suit - indicate out of ammo condition
+			//HEV suit - indicate out of ammo condition
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-		//model difference (HEV has higher stability for weaponary than the one without it) - HL Lore
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		//model difference ( HEV has higher stability for weaponary than the one without it ) - HL Lore
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-		if ( HEV.find(modelName) >= 0 )
+		if( HEV.find( modelName ) >= 0 )
 		{
-			m_pPlayer.pev.punchangle.x = -2.75; // recoil
+			m_pPlayer.pev.punchangle.x = -2.75; //recoil
 
 	//		self.m_flNextPrimaryAttack = self.m_flNextPrimaryAttack + 0.125;
 			if( self.m_flNextPrimaryAttack < WeaponTimeBase() )
@@ -290,7 +290,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		}
 		else
 		{
-			// crouching recoil logic
+			//crouching recoil logic
 			if( m_pPlayer.pev.flags & FL_DUCKING != 0 )
 			{
 				m_pPlayer.pev.punchangle.x = Math.RandomLong( -3, 2 ); //recoil when crouching
@@ -391,7 +391,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
 
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  10, 15 );// how long till we do this again.
+		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  10, 15 );//how long till we do this again.
 	}
 }
 
@@ -412,7 +412,7 @@ class ammo_bts_m4 : ScriptBasePlayerAmmoEntity
 
 		iGive = M4_MAX_CLIP;
 
-		if( pOther.GiveAmmo( iGive, "556", M4_MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "556", M4_MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;
@@ -439,7 +439,7 @@ class ammo_bts_556mag : ScriptBasePlayerAmmoEntity
 
 		iGive = Math.RandomLong( 6, 12 );
 
-		if( pOther.GiveAmmo( iGive, "556", M4_MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "556", M4_MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;

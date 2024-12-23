@@ -9,17 +9,17 @@ namespace BTS_DEAGLE
 
 enum BtsDeagleAnimation
 {
-  IDLE1 = 0,
-  IDLE2,
-  IDLE3,
-  IDLE4,
-  IDLE5,
-  SHOOT,
-  SHOOT_EMPTY,
-  RELOAD_NOSHOT,
-  RELOAD,
-  DRAW,
-  HOLSTER
+	IDLE1 = 0,
+	IDLE2,
+	IDLE3,
+	IDLE4,
+	IDLE5,
+	SHOOT,
+	SHOOT_EMPTY,
+	RELOAD_NOSHOT,
+	RELOAD,
+	DRAW,
+	HOLSTER
 };
 
 array<string> HEV =
@@ -33,7 +33,7 @@ const int MAX_DROP = Math.RandomLong( 1, 4); //4
 const int MAX_AMMO = 18;
 const int DEFAULT_GIVE = Math.RandomLong( 1, 9 );
 
-const int BATTERY_MAX_AMMO      = 60;
+const int BATTERY_MAX_AMMO	  = 60;
 const int BATTERY_DEFAULT_GIVE  = Math.RandomLong( 1, 4 ); //4
 const bool g_bShowFlashlightToAll = true;
 const float LIGHT_DISTANCE = 3072.0f;
@@ -45,51 +45,51 @@ const string V_MODEL = "models/bts_rc/weapons/v_desert_eagle.mdl";
 
 class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 {
-  // State of the flashlight/torchlight - Mikk
-  bool m_bIsFlashlightOn;
+	//State of the flashlight/torchlight - Mikk
+	bool m_bIsFlashlightOn;
 
 	private CBasePlayer@ m_pPlayer = null;
 	int m_iShotsFired;
 	int m_iShell;
-  	private TraceResult tr;
+	private TraceResult tr;
 	private float m_flNextFlashlightTime;
 	private int m_iNextDainTime;
 
-	dictionary g_Models = 
+	dictionary g_Models =
 	{
-    	{ "bts_barney", 0 }, { "bts_otis", 0 },
-	{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-    	{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
-	{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
-	{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-    	{ "bts_construction", 2 }, { "bts_helmet", 4 }
+		{ "bts_barney", 0 }, { "bts_otis", 0 },
+		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
+		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
+		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
+		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
+		{ "bts_construction", 2 }, { "bts_helmet", 4 }
 	};
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
 
-    	switch( int(g_Models[ modelName ]) )
-    	{
-        	case 0:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 0 );
-            	break;
-        	case 1:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 1 );
-            	break;
-        	case 2:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 2 );
-            	break;
+		switch( int( g_Models[ modelName ]) )
+		{
+			case 0:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 0 );
+				break;
+			case 1:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 1 );
+				break;
+			case 2:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 2 );
+				break;
 			case 3:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 3 );
-            	break;
+				break;
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 4 );
-            	break;
-    	}
+				break;
+		}
 
-    return m_iCurBodyConfig;
-}
+		return m_iCurBodyConfig;
+	}
 
 	void ItemPreFrame()
 	{
@@ -142,18 +142,18 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 					m_bIsFlashlightOn = false;
 			}
 
-			m_flNextFlashlightTime = g_Engine.time + 0.0125f; // torchlight's light flickering per seconds
+			m_flNextFlashlightTime = g_Engine.time + 0.0125f; //torchlight's light flickering per seconds
 		}
 
 		BaseClass.ItemPreFrame();
 	}
-	
+
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel(self, "models/bts_rc/weapons/w_desert_eagle.mdl");
+		g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_desert_eagle.mdl");
 		self.m_iDefaultAmmo = DEFAULT_GIVE;
-    self.m_iDefaultSecAmmo = BATTERY_DEFAULT_GIVE;
+		self.m_iDefaultSecAmmo = BATTERY_DEFAULT_GIVE;
 
 		self.FallInit();
 		m_iShotsFired = 0;
@@ -165,10 +165,10 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		g_Game.PrecacheModel( "models/bts_rc/weapons/v_desert_eagle.mdl" );
 		g_Game.PrecacheModel( "models/bts_rc/weapons/p_desert_eagle.mdl" );
 		g_Game.PrecacheModel( "models/bts_rc/weapons/w_desert_eagle.mdl" );
-    	g_Game.PrecacheModel( "models/w_9mmclip.mdl" );
-		
+		g_Game.PrecacheModel( "models/w_9mmclip.mdl" );
+
 		m_iShell = g_Game.PrecacheModel( "models/shell.mdl" );
-		
+
 		g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
 		g_SoundSystem.PrecacheSound( "bts_rc/weapons/desert_eagle_reload.wav" );
 		g_SoundSystem.PrecacheSound( "hl/weapons/357_cock1.wav" );
@@ -178,7 +178,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		info.iMaxAmmo1 = MAX_AMMO;
 		info.iMaxAmmo2 = BATTERY_MAX_AMMO;
-    info.iAmmo1Drop = MAX_CLIP;
+		info.iAmmo1Drop = MAX_CLIP;
 		info.iMaxClip = MAX_CLIP;
 		info.iSlot = 1;
 		info.iPosition = 9;
@@ -186,14 +186,14 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		return true;
 	}
 
-	bool AddToPlayer(CBasePlayer@ pPlayer)
+	bool AddToPlayer( CBasePlayer@ pPlayer )
 	{
-		if ( !BaseClass.AddToPlayer( pPlayer ) )
+		if( !BaseClass.AddToPlayer( pPlayer ) )
 			return false;
 
 		@m_pPlayer = pPlayer;
 		NetworkMessage message( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
-		message.WriteLong( self.m_iId );
+			message.WriteLong( self.m_iId );
 		message.End();
 		return true;
 	}
@@ -210,16 +210,16 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	bool Deploy()
 	{
-    m_bIsFlashlightOn = false;
+		m_bIsFlashlightOn = false;
 
-    bool bResult = self.DefaultDeploy(self.GetV_Model('models/bts_rc/weapons/v_desert_eagle.mdl'), self.GetP_Model('models/bts_rc/weapons/p_desert_eagle.mdl'), DRAW, 'onehanded', 0, GetBodygroup());
-    self.m_flTimeWeaponIdle = WeaponTimeBase() + 1.0;
-    return bResult;
+		bool bResult = self.DefaultDeploy( self.GetV_Model('models/bts_rc/weapons/v_desert_eagle.mdl'), self.GetP_Model('models/bts_rc/weapons/p_desert_eagle.mdl'), DRAW, 'onehanded', 0, GetBodygroup() );
+		self.m_flTimeWeaponIdle = WeaponTimeBase() + 1.0;
+		return bResult;
 	}
 
 	void Holster( int skiplocal = 0 )
 	{
-    m_bIsFlashlightOn = false;
+	m_bIsFlashlightOn = false;
 
 		self.m_fInReload = false;
 
@@ -228,9 +228,9 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		m_pPlayer.pev.viewmodel = 0;
 	}
 
-  bool HasBattery()
+	bool HasBattery()
 	{
-		if( m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0  )
+		if( m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
 		{
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 			return false;
@@ -238,94 +238,94 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		return true;
 	}
 
-  float WeaponTimeBase()
+	float WeaponTimeBase()
 	{
 		return g_Engine.time; //g_WeaponFuncs.WeaponTimeBase();
-	}	
-	
+	}
+
 	void PrimaryAttack()
 	{
-		if ( self.m_iClip <= 0 )
+		if( self.m_iClip <= 0 )
 		{
-			if ( self.m_bFireOnEmpty )
+			if( self.m_bFireOnEmpty )
 			{
 				PlayEmptySound();
 				self.m_flNextPrimaryAttack = g_Engine.time + 0.2;
 			}
-			
+
 			return;
 		}
-		
+
 		self.m_iClip--;
-		
+
 		m_pPlayer.pev.effects |= EF_MUZZLEFLASH;
-		
-		if ( self.m_iClip != 0 )
+
+		if( self.m_iClip != 0 )
 			self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
 		else
 			self.SendWeaponAnim( SHOOT_EMPTY, 0, GetBodygroup() );
-		
-		// player "shoot" animation
+
+		//player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-		
+
 		g_EngineFuncs.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
-		
+
 		Vector vecShellVelocity = m_pPlayer.pev.velocity + g_Engine.v_right * Math.RandomFloat( 50.0, 70.0 ) + g_Engine.v_up * Math.RandomFloat( 100.0, 150.0 ) + g_Engine.v_forward * 25;
 		g_EntityFuncs.EjectBrass( self.pev.origin + m_pPlayer.pev.view_ofs + g_Engine.v_up * -12 + g_Engine.v_forward * 32 + g_Engine.v_right * 6, vecShellVelocity, self.pev.angles.y, m_iShell, TE_BOUNCE_SHELL );
-		
-		// Fire Deagle!
+
+		//Fire Deagle!
 		m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
 		m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
 		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_fire.wav", Math.RandomFloat( 0.92, 1.0 ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-		
+
 		Vector vecSrc = m_pPlayer.GetGunPosition();
 		Vector vecAiming;
-		
-		vecAiming = g_Engine.v_forward;
-		
-		self.FireBullets( 1, vecSrc, vecAiming, Vector( 0.01, 0.01, 0.01 ), 8192, BULLET_PLAYER_EAGLE, 4, 0, m_pPlayer.pev );
-		
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + 0.625;
-		
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + Math.RandomFloat( 10.0, 15.0 );
-		
-		// difference in model for recoil
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
 
-		if ( HEV.find(modelName) >= 0 )
+		vecAiming = g_Engine.v_forward;
+
+		self.FireBullets( 1, vecSrc, vecAiming, Vector( 0.01, 0.01, 0.01 ), 8192, BULLET_PLAYER_EAGLE, 4, 0, m_pPlayer.pev );
+
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + 0.625;
+
+		self.m_flTimeWeaponIdle = WeaponTimeBase() + Math.RandomFloat( 10.0, 15.0 );
+
+		//difference in model for recoil
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
+
+		if( HEV.find( modelName ) >= 0 )
 		{
-			m_pPlayer.pev.punchangle.x = -4.0; // recoil
+			m_pPlayer.pev.punchangle.x = -4.0; //recoil
 		}
 		else
 		{
 			m_pPlayer.pev.punchangle.x = -11.0;
 		}
-		
-		// Decal
+
+		//Decal
 		TraceResult tr;
 		float x, y;
-		
+
 		g_Utility.GetCircularGaussianSpread( x, y );
-		
+
 		Vector vecSpread = Vector( 0.01, 0.01, 0.01 );
 		Vector vecDir = vecAiming + x * vecSpread.x * g_Engine.v_right + y * vecSpread.y * g_Engine.v_up;
 		Vector vecEnd = vecSrc + vecDir * 4096;
-		
+
 		g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-		
+
 		if( tr.flFraction < 1.0 )
 		{
 			if( tr.pHit !is null )
 			{
 				CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-				
+
 				if( pHit is null || pHit.IsBSPModel() )
 					g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_9MM );
 			}
 		}
 	}
 
-  void SecondaryAttack()
+	void SecondaryAttack()
 	{
 		if( !HasBattery() )
 			return;
@@ -338,68 +338,68 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
 	}
 
-  void WeaponIdle()
+	void WeaponIdle()
 	{
 		self.ResetEmptySound();
 
 		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-    if (self.m_flTimeWeaponIdle <= WeaponTimeBase() && self.m_iClip > 0)
-    {
-      int iAnim;
-      const float flNextIdle = g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 0.0, 1.0);
-      if (m_bIsFlashlightOn)
-      {
-        if (flNextIdle > 0.5)
-        {
-          iAnim = IDLE5;
-          self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.0;
-        }
-        else
-        {
-          iAnim = IDLE4;
-          self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.5;
-        }
-      }
-      else
-      {
-        if (flNextIdle <= 0.3)
-        {
-          iAnim = IDLE1;
-          self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.5;
-        }
-        else
-        {
-          if (flNextIdle > 0.6)
-          {
-            iAnim = IDLE3;
-            self.m_flTimeWeaponIdle = WeaponTimeBase() + 1.633;
-          }
-          else
-          {
-            iAnim = IDLE2;
-            self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.5;
-          }
-        }
-      }
+		if( self.m_flTimeWeaponIdle <= WeaponTimeBase() && self.m_iClip > 0 )
+		{
+			int iAnim;
+			const float flNextIdle = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0.0, 1.0 );
+			if( m_bIsFlashlightOn )
+			{
+				if( flNextIdle > 0.5 )
+				{
+				iAnim = IDLE5;
+				self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.0;
+				}
+				else
+				{
+				iAnim = IDLE4;
+				self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.5;
+				}
+			}
+			else
+			{
+				if( flNextIdle <= 0.3 )
+				{
+				iAnim = IDLE1;
+				self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.5;
+				}
+				else
+				{
+				if( flNextIdle > 0.6 )
+				{
+					iAnim = IDLE3;
+					self.m_flTimeWeaponIdle = WeaponTimeBase() + 1.633;
+				}
+				else
+				{
+					iAnim = IDLE2;
+					self.m_flTimeWeaponIdle = WeaponTimeBase() + 2.5;
+				}
+				}
+			}
 
-     self.SendWeaponAnim(iAnim, 0, GetBodygroup());
-    }
+			self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
+		}
 
 	}
 
 	void Reload()
 	{
-		if (self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) <= 0)
-            return;
+		if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 )
+			return;
 
-        const bool bResult = self.DefaultReload(MAX_CLIP, self.m_iClip > 0 ? RELOAD : RELOAD_NOSHOT, 1.5, GetBodygroup());
+		const bool bResult = self.DefaultReload( MAX_CLIP, self.m_iClip > 0 ? RELOAD : RELOAD_NOSHOT, 1.5, GetBodygroup() );
 
-        if (bResult)
-        {
-            self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 10.0, 15.0);
-        }
-        
+		if( bResult )
+		{
+			self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0, 15.0 );
+		}
+
 		BaseClass.Reload();
 	}
 }
@@ -407,7 +407,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
 {
 	void Spawn()
-	{ 
+	{
 		g_EntityFuncs.SetModel( self, MODEL_AMMO );
 
 		pev.scale = 1.0;
@@ -416,12 +416,12 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
 	}
 
 	bool AddAmmo( CBaseEntity@ pOther )
-	{ 
+	{
 		int iGive;
 
 		iGive = MAX_CLIP;
 
-		if( pOther.GiveAmmo( iGive, "357", MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "357", MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;
@@ -434,7 +434,7 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
 class ammo_bts_deagle : ScriptBasePlayerAmmoEntity
 {
 	void Spawn()
-	{ 
+	{
 		g_EntityFuncs.SetModel( self, MODEL_AMMO );
 
 		pev.scale = 1.0;
@@ -443,12 +443,12 @@ class ammo_bts_deagle : ScriptBasePlayerAmmoEntity
 	}
 
 	bool AddAmmo( CBaseEntity@ pOther )
-	{ 
+	{
 		int iGive;
 
 		iGive = MAX_DROP;
 
-		if( pOther.GiveAmmo( iGive, "357", MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "357", MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;
@@ -465,7 +465,7 @@ string GetBTSDeagleName()
 
 string GetBTSDeagleAmmoName()
 {
-    return "ammo_bts_eagle";
+	return "ammo_bts_eagle";
 }
 
 string GetBTSDeagleDAmmoName()
@@ -476,7 +476,7 @@ string GetBTSDeagleDAmmoName()
 void RegisterBTSDeagle()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::weapon_bts_eagle", GetBTSDeagleName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", GetBTSDeagleAmmoName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", GetBTSDeagleAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_deagle", GetBTSDeagleDAmmoName() );
 	g_ItemRegistry.RegisterWeapon( GetBTSDeagleName(), "bts_rc/weapons", "357", "flashlightbattery", GetBTSDeagleAmmoName(), GetBTSDeagleDAmmoName() );
 }

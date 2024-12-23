@@ -1,5 +1,5 @@
 /*
-* Uzi (Single)
+* Uzi ( Single )
 */
 
 namespace BTS_UZI
@@ -15,13 +15,13 @@ enum btsUziAnimation
 	SHOOT,
 	DEPLOY2,
 	AKIMBO_PULL,
-    AKIMBO_IDLE,
-    AKIMBO_RELOAD_RIGHT,
-    AKIMBO_RELOAD_LEFT,
-    AKIMBO_RELOAD_BOTH,
-    AKIMBO_FIRE_LEFT1,
-    AKIMBO_FIRE_RIGHT1,
-    AKIMBO_FIRE_BOTH1,
+	AKIMBO_IDLE,
+	AKIMBO_RELOAD_RIGHT,
+	AKIMBO_RELOAD_LEFT,
+	AKIMBO_RELOAD_BOTH,
+	AKIMBO_FIRE_LEFT1,
+	AKIMBO_FIRE_RIGHT1,
+	AKIMBO_FIRE_BOTH1,
 	AKIMBO_DEPLOY
 };
 
@@ -46,44 +46,44 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	int m_iShell;
 	dictionary g_Models = 
 	{
-    	{ "bts_barney", 0 }, { "bts_otis", 0 },
+		{ "bts_barney", 0 }, { "bts_otis", 0 },
 	{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-    	{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
+		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
 	{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
 	{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-    	{ "bts_construction", 2 }, { "bts_helmet", 4 }
+		{ "bts_construction", 2 }, { "bts_helmet", 4 }
 	};
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-    	switch( int(g_Models[ modelName ]) )
-    	{
-        	case 0:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-            	break;
-        	case 1:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-            	break;
-        	case 2:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-            	break;
+		switch( int( g_Models[ modelName ]) )
+		{
+			case 0:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
+				break;
+			case 1:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
+				break;
+			case 2:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
+				break;
 			case 3:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
 				break;
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
 				break;
-    	}
+		}
 
-    return m_iCurBodyConfig;
+	return m_iCurBodyConfig;
 }
 	
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel(self, "models/bts_rc/weapons/w_uzi.mdl");
+		g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_uzi.mdl");
 		self.m_iDefaultAmmo = DEFAULT_GIVE;
 		self.FallInit();
 		m_iShotsFired = 0;
@@ -95,7 +95,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		g_Game.PrecacheModel( "models/bts_rc/weapons/v_uzi.mdl" );
 		g_Game.PrecacheModel( "models/bts_rc/weapons/p_uzi.mdl" );
 		g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
+		g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
 		
 		m_iShell = g_Game.PrecacheModel( "models/shell.mdl" );
 		
@@ -108,7 +108,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		info.iMaxAmmo1 = MAX_AMMO;
 		info.iMaxAmmo2 = -1;
-        info.iAmmo1Drop = MAX_CLIP;
+		info.iAmmo1Drop = MAX_CLIP;
 		info.iMaxClip = MAX_CLIP;
 		info.iSlot = 1;
 		info.iPosition = 11;
@@ -116,9 +116,9 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		return true;
 	}
 
-	bool AddToPlayer(CBasePlayer@ pPlayer)
+	bool AddToPlayer( CBasePlayer@ pPlayer )
 	{
-		if ( !BaseClass.AddToPlayer( pPlayer ) )
+		if( !BaseClass.AddToPlayer( pPlayer ) )
 			return false;
 
 		@m_pPlayer = pPlayer;
@@ -140,9 +140,9 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	bool Deploy()
 	{
-		bool bResult = self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_uzi.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_uzi.mdl" ), DEPLOY, "mp5", 0, GetBodygroup());
+		bool bResult = self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_uzi.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_uzi.mdl" ), DEPLOY, "mp5", 0, GetBodygroup() );
 		self.m_flTimeWeaponIdle = WeaponTimeBase() + 1.25;
-        return bResult;
+		return bResult;
 	}
 
 	void Holster( int skiplocal = 0 )
@@ -154,31 +154,31 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		m_pPlayer.pev.viewmodel = 0;
 	}
 
-    float WeaponTimeBase()
+	float WeaponTimeBase()
 	{
 		return g_Engine.time; //g_WeaponFuncs.WeaponTimeBase();
 	}
 
 	void PrimaryAttack()
 	{
-		// difference in model for shooting spread
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		//difference in model for shooting spread
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-		if ( HEV.find(modelName) >= 0 )
+		if( HEV.find( modelName ) >= 0 )
 		{
-            FullAutoFire( 0.015, 0.07 );
-        }
-        else
-        {
-            FullAutoFire( 0.0175, 0.07 );
-        }
+			FullAutoFire( 0.015, 0.07 );
+		}
+		else
+		{
+			FullAutoFire( 0.0175, 0.07 );
+		}
 	}
 
 	void FullAutoFire( float& in flSpread, float& in flCycleTime )
 	{
-		if ( self.m_iClip <= 0 )
+		if( self.m_iClip <= 0 )
 		{
-			if ( self.m_bFireOnEmpty )
+			if( self.m_bFireOnEmpty )
 			{
 				PlayEmptySound();
 				self.m_flNextPrimaryAttack = g_Engine.time + 0.2;
@@ -191,9 +191,9 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		
 		m_pPlayer.pev.effects |= EF_MUZZLEFLASH;
 		
-        self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
+		self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
 		
-		// player "shoot" animation
+		//player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 		
 		g_EngineFuncs.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
@@ -201,7 +201,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		Vector vecShellVelocity = m_pPlayer.pev.velocity + g_Engine.v_right * Math.RandomFloat( 50.0, 70.0 ) + g_Engine.v_up * Math.RandomFloat( 100.0, 150.0 ) + g_Engine.v_forward * 25;
 		g_EntityFuncs.EjectBrass( self.pev.origin + m_pPlayer.pev.view_ofs + g_Engine.v_up * -12 + g_Engine.v_forward * 32 + g_Engine.v_right * 6, vecShellVelocity, self.pev.angles.y, m_iShell, TE_BOUNCE_SHELL );
 		
-		// non-silenced
+		//non-silenced
 		m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
 		m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
 		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/uzi_fire1.wav", Math.RandomFloat( 0.92, 1.0 ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
@@ -217,16 +217,16 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		
 		self.m_flTimeWeaponIdle = WeaponTimeBase() + Math.RandomFloat( 10.0, 15.0 );
 		
-        // difference in model for shooting spread
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		//difference in model for shooting spread
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-		if ( HEV.find(modelName) >= 0 )
-        {
-            m_pPlayer.pev.punchangle.x = -2.25;
-        }
-        else
-        {
-			// crouching recoil logic
+		if( HEV.find( modelName ) >= 0 )
+		{
+			m_pPlayer.pev.punchangle.x = -2.25;
+		}
+		else
+		{
+			//crouching recoil logic
 			if( !( m_pPlayer.pev.flags & FL_ONGROUND != 0 ) )
 			{
 				m_pPlayer.pev.punchangle.x = Math.RandomLong( -5, 3 );
@@ -243,9 +243,9 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 			{
 				m_pPlayer.pev.punchangle.x = Math.RandomLong( -3, 3 );
 			}
-        }
+		}
 		
-		// Decal
+		//Decal
 		TraceResult tr;
 		float x, y;
 		
@@ -269,7 +269,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		}
 	}
 
-    void WeaponIdle()
+	void WeaponIdle()
 	{
 		self.ResetEmptySound();
 
@@ -295,7 +295,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		}
 
 		self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 7, 9 );// how long till we do this again.
+		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 7, 9 );//how long till we do this again.
 	}
 
 	void Reload()
@@ -324,7 +324,7 @@ class ammo_bts_uzi : ScriptBasePlayerAmmoEntity
 
 		iGive = MAX_CLIP;
 
-		if( pOther.GiveAmmo( iGive, "9mm", MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "9mm", MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;
@@ -341,13 +341,13 @@ string GetName()
 
 string GetAmmoName()
 {
-    return "ammo_bts_uzi";
+	return "ammo_bts_uzi";
 }
 
 void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::weapon_bts_uzi", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", GetAmmoName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", GetAmmoName() );
 	g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", "9mm", "", GetAmmoName() );
 }
 

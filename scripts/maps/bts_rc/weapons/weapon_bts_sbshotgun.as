@@ -30,8 +30,8 @@ array<string> HEV =
 	"bts_helmet"
 };
 
-// special deathmatch shotgun spreads
-const Vector VECTOR_CONE_DM_SHOTGUN( 0.08716, 0.04362, 0.00  );		// 10 degrees by 5 degrees
+//special deathmatch shotgun spreads
+const Vector VECTOR_CONE_DM_SHOTGUN( 0.08716, 0.04362, 0.00  );		//10 degrees by 5 degrees
 
 const uint SHOTGUN_SINGLE_PELLETCOUNT = 4;
 
@@ -39,9 +39,9 @@ const int SHOTGUN_DEFAULT_AMMO 	= Math.RandomLong( 1, 6 );
 const int SHOTGUN_MAX_CARRY 	= 30;
 const int SHOTGUN_MAX_CLIP 		= 6;
 const int SHOTGUN_WEIGHT 		= 15;
-const int MAX_DMG               = 16;
+const int MAX_DMG			   = 16;
 
-const int BATTERY_MAX_AMMO      = 60;
+const int BATTERY_MAX_AMMO	  = 60;
 const int BATTERY_DEFAULT_GIVE  = Math.RandomLong( 3, 5 ); //5
 const bool g_bShowFlashlightToAll = true;
 const float LIGHT_DISTANCE = 3072.0f;
@@ -67,38 +67,38 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	dictionary g_Models = 
 	{
-    	{ "bts_barney", 0 }, { "bts_otis", 0 },
+		{ "bts_barney", 0 }, { "bts_otis", 0 },
 	{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-    	{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
+		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
 	{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
 	{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-    	{ "bts_construction", 2 }, { "bts_helmet", 4 }
+		{ "bts_construction", 2 }, { "bts_helmet", 4 }
 	};
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-    	switch( int(g_Models[ modelName ]) )
-    	{
-        	case 0:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 0 );
-            	break;
-        	case 1:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 1 );
-            	break;
-        	case 2:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 2 );
-            	break;
+		switch( int( g_Models[ modelName ]) )
+		{
+			case 0:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 0 );
+				break;
+			case 1:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 1 );
+				break;
+			case 2:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 2 );
+				break;
 			case 3:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 3 );
-            	break;
+				break;
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 2, 4 );
-            	break;
-    	}
+				break;
+		}
 
-    return m_iCurBodyConfig;
+	return m_iCurBodyConfig;
 }
 
 	void ItemPreFrame()
@@ -152,7 +152,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 					m_bIsFlashlightOn = false;
 			}
 
-			m_flNextFlashlightTime = g_Engine.time + 0.0125f; // torchlight's light flickering per seconds
+			m_flNextFlashlightTime = g_Engine.time + 0.0125f; //torchlight's light flickering per seconds
 		}
 
 		BaseClass.ItemPreFrame();
@@ -166,7 +166,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		self.m_iDefaultAmmo = SHOTGUN_DEFAULT_AMMO;
 		self.m_iDefaultSecAmmo = BATTERY_DEFAULT_GIVE;
 
-		self.FallInit();// get ready to fall
+		self.FallInit();//get ready to fall
 	}
 
 	void Precache()
@@ -177,27 +177,27 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		g_Game.PrecacheModel( "models/bts_rc/weapons/p_sbshotgun.mdl" );
 		g_Game.PrecacheModel( MODEL_AMMO );
 
-		m_iShell = g_Game.PrecacheModel( "models/shotgunshell.mdl" );// shotgun shell
+		m_iShell = g_Game.PrecacheModel( "models/shotgunshell.mdl" );//shotgun shell
 
-		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );              
+		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );			  
 
 		g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbshotgun_fire1.wav" );//shotgun
 
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload1.wav" );	// shotgun reload
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload3.wav" );	// shotgun reload
+		g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload1.wav" );	//shotgun reload
+		g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload3.wav" );	//shotgun reload
 
-		g_SoundSystem.PrecacheSound("weapons/sshell1.wav");	// shotgun reload
-		g_SoundSystem.PrecacheSound("weapons/sshell3.wav");	// shotgun reload
+		g_SoundSystem.PrecacheSound("weapons/sshell1.wav");	//shotgun reload
+		g_SoundSystem.PrecacheSound("weapons/sshell3.wav");	//shotgun reload
 		
-		g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" ); // gun empty sound
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/scock1.wav" );	// cock gun
+		g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" ); //gun empty sound
+		g_SoundSystem.PrecacheSound( "bts_rc/weapons/scock1.wav" );	//cock gun
 
-		g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav"); // ammo pickup sound
+		g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav"); //ammo pickup sound
 	}
 
 	bool AddToPlayer( CBasePlayer@ pPlayer )
 	{
-		if ( !BaseClass.AddToPlayer( pPlayer ) )
+		if( !BaseClass.AddToPlayer( pPlayer ) )
 			return false;
 			
 		@m_pPlayer = pPlayer;
@@ -268,7 +268,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		if( m_flPumpTime != 0 && m_flPumpTime < g_Engine.time && m_fPlayPumpSound )
 		{
-			// play pumping sound
+			//play pumping sound
 			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/scock1.wav", 1, ATTN_NORM, 0, 95 + Math.RandomLong( 0,0x1f ) );
 
 			m_fPlayPumpSound = false;
@@ -310,7 +310,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	void PrimaryAttack()
 	{
-		// don't fire underwater
+		//don't fire underwater
 		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
 		{
 			self.PlayEmptySound();
@@ -335,7 +335,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		--self.m_iClip;
 
-		// player "shoot" animation
+		//player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
 		Vector vecSrc	 = m_pPlayer.GetGunPosition();
@@ -347,23 +347,23 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		Math.MakeVectors( m_pPlayer.pev.v_angle );
 		
 		Vector	vecShellVelocity = m_pPlayer.pev.velocity 
-							 + g_Engine.v_right * Math.RandomFloat(50, 70) 
-							 + g_Engine.v_up* Math.RandomFloat(100, 150) 
+							 + g_Engine.v_right * Math.RandomFloat( 50, 70) 
+							 + g_Engine.v_up* Math.RandomFloat( 100, 150) 
 							 + g_Engine.v_forward * 25;
 		
-		g_EntityFuncs.EjectBrass(vecSrc + m_pPlayer.pev.view_ofs + g_Engine.v_up * -34 + g_Engine.v_forward * 14 + g_Engine.v_right * 6, vecShellVelocity, m_pPlayer.pev.angles.y, m_iShell, TE_BOUNCE_SHOTSHELL);
+		g_EntityFuncs.EjectBrass( vecSrc + m_pPlayer.pev.view_ofs + g_Engine.v_up * -34 + g_Engine.v_forward * 14 + g_Engine.v_right * 6, vecShellVelocity, m_pPlayer.pev.angles.y, m_iShell, TE_BOUNCE_SHOTSHELL );
 
 		if( self.m_iClip == 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			// HEV suit - indicate out of ammo condition
+			//HEV suit - indicate out of ammo condition
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
 		if( self.m_iClip != 0 )
 			m_flPumpTime = g_Engine.time + 0.5;
 			
-		// difference in model for nextprimaryattack
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		//difference in model for nextprimaryattack
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-		if ( HEV.find(modelName) >= 0 )
+		if( HEV.find( modelName ) >= 0 )
 		{
 			m_pPlayer.pev.punchangle.x = -5.0;
 
@@ -378,7 +378,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		else
 		{
 			m_pPlayer.pev.punchangle.x = -11.0;
-			m_pPlayer.pev.velocity = -64 * g_Engine.v_forward; // Knockback!
+			m_pPlayer.pev.velocity = -64 * g_Engine.v_forward; //Knockback!
 
 			self.m_flNextPrimaryAttack = g_Engine.time + 1.0;
 			self.m_flNextSecondaryAttack = g_Engine.time + 1.0;
@@ -416,11 +416,11 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		if( m_flNextReload > g_Engine.time )
 			return;
 
-		// don't reload until recoil is done
+		//don't reload until recoil is done
 		if( self.m_flNextPrimaryAttack > g_Engine.time && !m_fShotgunReload )
 			return;
 
-		// check to see if we're ready to reload
+		//check to see if we're ready to reload
 		if( !m_fShotgunReload )
 		{
 			self.SendWeaponAnim( SBSHOTGUN_START_RELOAD, 0, GetBodygroup() );
@@ -444,10 +444,10 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 			self.SendWeaponAnim( SBSHOTGUN_RELOAD, 0, GetBodygroup() );
 
-			// difference in model for reload speed
-			string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+			//difference in model for reload speed
+			string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-			if ( HEV.find(modelName) >= 0 )
+			if( HEV.find( modelName ) >= 0 )
 			{
 				m_flNextReload 					= g_Engine.time + 0.5;
 				self.m_flNextPrimaryAttack 		= g_Engine.time + 0.5;
@@ -462,7 +462,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				self.m_flTimeWeaponIdle 		= g_Engine.time + 0.64;
 			}
 				
-			// Add them to the clip
+			//Add them to the clip
 			self.m_iClip += 1;
 			m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
 			
@@ -500,7 +500,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				}
 				else
 				{
-					// reload debounce has timed out
+					//reload debounce has timed out
 					self.SendWeaponAnim( SBSHOTGUN_PUMP, 0, GetBodygroup() );
 
 					g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/scock1.wav", 1, ATTN_NORM, 0, 95 + Math.RandomLong( 0,0x1f ) );
@@ -515,17 +515,17 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				{
 					case 0:
 					iAnim = SBSHOTGUN_IDLE_DEEP;
-					self.m_flTimeWeaponIdle = WeaponTimeBase() + (60.0/12.0);
+					self.m_flTimeWeaponIdle = WeaponTimeBase() + ( 60.0/12.0 );
 					break;
 
 					case 1:
 					iAnim = SBSHOTGUN_IDLE;
-					self.m_flTimeWeaponIdle = WeaponTimeBase() + (20.0/9.0);
+					self.m_flTimeWeaponIdle = WeaponTimeBase() + ( 20.0/9.0 );
 					break;
 
 					case 2:
 					iAnim = SBSHOTGUN_IDLE4;
-					self.m_flTimeWeaponIdle = WeaponTimeBase() + (20.0/9.0);
+					self.m_flTimeWeaponIdle = WeaponTimeBase() + ( 20.0/9.0 );
 					break;
 				}
 
@@ -552,7 +552,7 @@ class ammo_bts_sbshotgun : ScriptBasePlayerAmmoEntity
 
 		iGive = SHOTGUN_MAX_CLIP;
 
-		if( pOther.GiveAmmo( iGive, "buckshot", SHOTGUN_MAX_CARRY ) != -1)
+		if( pOther.GiveAmmo( iGive, "buckshot", SHOTGUN_MAX_CARRY ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;
