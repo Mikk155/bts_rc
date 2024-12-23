@@ -42,38 +42,38 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	dictionary g_Models = 
 	{
-    	{ "bts_barney", 0 }, { "bts_otis", 0 },
+		{ "bts_barney", 0 }, { "bts_otis", 0 },
 		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-    	{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
+		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
 		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
 		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-    	{ "bts_construction", 2 }, { "bts_helmet", 4 }
+		{ "bts_construction", 2 }, { "bts_helmet", 4 }
 	};
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-    	switch( int(g_Models[ modelName ]) )
-    	{
-        	case 0:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-            	break;
-        	case 1:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-            	break;
-        	case 2:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-            	break;
+		switch( int( g_Models[ modelName ]) )
+		{
+			case 0:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
+				break;
+			case 1:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
+				break;
+			case 2:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
+				break;
 			case 3:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
-            	break;
+				break;
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
-            	break;
-    	}
+				break;
+		}
 
-    	return m_iCurBodyConfig;
+		return m_iCurBodyConfig;
 	}
 	
 	void Spawn()
@@ -101,7 +101,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		g_Game.PrecacheModel( "models/grenade.mdl" );
 
 		g_Game.PrecacheModel( "models/w_9mmARclip.mdl" );
-		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );              
+		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );			  
 
 		//These are played by the model, needs changing there
 		g_SoundSystem.PrecacheSound( "hl/items/clipinsert1.wav" );
@@ -159,7 +159,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		bool bResult = self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_9mmARGL.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_9mmARGL.mdl" ), MP5_DEPLOY, "mp5", 0, GetBodygroup() );
 		self.m_flTimeWeaponIdle = WeaponTimeBase() + 1.25;
-        return bResult;
+		return bResult;
 	}
 	
 	float WeaponTimeBase()
@@ -169,7 +169,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	void PrimaryAttack()
 	{
-		// don't fire underwater
+		//don't fire underwater
 		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
 		{
 			self.PlayEmptySound( );
@@ -198,7 +198,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		
 		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_fire1.wav", 1.0, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
-		// player "shoot" animation
+		//player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
 		g_EngineFuncs.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
@@ -209,10 +209,10 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		Vector vecSrc	 = m_pPlayer.GetGunPosition();
 		Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-		// Weapon spread
+		//Weapon spread
 		Vector vecSpread;
 
-		if( !(m_pPlayer.pev.flags & FL_DUCKING != 0 ) )
+		if( !( m_pPlayer.pev.flags & FL_DUCKING != 0 ) )
 		{
 			vecSpread = VECTOR_CONE_1DEGREES; //spread when standing
 		}
@@ -223,17 +223,17 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		vecSpread = vecSpread * 1.0f;
 		
-		// optimized multiplayer. Widened to make it easier to hit a moving player
+		//optimized multiplayer. Widened to make it easier to hit a moving player
 		self.FireBullets( 1, vecSrc, vecAiming, vecSpread, 8192, BULLET_PLAYER_MP5, 4, 0, m_pPlayer.pev );
 
 		if( self.m_iClip == 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			// HEV suit - indicate out of ammo condition
+			//HEV suit - indicate out of ammo condition
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 			
-		// model difference
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		//model difference
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-		if ( HEV.find(modelName) >= 0 )
+		if( HEV.find( modelName ) >= 0 )
 		{
 			m_pPlayer.pev.punchangle.x = -2.0;
 
@@ -243,7 +243,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		}
 		else
 		{
-			// crouching recoil logic
+			//crouching recoil logic
 			if( m_pPlayer.pev.flags & FL_DUCKING != 0 )
 			{
 				m_pPlayer.pev.punchangle.x = Math.RandomLong( -3, 2 ); //recoil when crouching
@@ -285,7 +285,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	void SecondaryAttack()
 	{
-		// don't fire underwater
+		//don't fire underwater
 		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
 		{
 			self.PlayEmptySound();
@@ -293,7 +293,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 			return;
 		}
 		
-		if( m_pPlayer.m_rgAmmo(self.m_iSecondaryAmmoType) <= 0 )
+		if( m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType) <= 0 )
 		{
 			self.PlayEmptySound();
 			return;
@@ -312,23 +312,23 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		self.SendWeaponAnim( MP5_LAUNCH, 0, GetBodygroup() );
 
-		// player "shoot" animation
+		//player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
-		if ( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 1 ) != 0 )
+		if( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 1 ) != 0 )
 		{
-			// play this sound through BODY channel so we can hear it if player didn't stop firing MP3
+			//play this sound through BODY channel so we can hear it if player didn't stop firing MP3
 			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/glauncher.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
 		}
 		else
 		{
-			// play this sound through BODY channel so we can hear it if player didn't stop firing MP3
+			//play this sound through BODY channel so we can hear it if player didn't stop firing MP3
 			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/glauncher2.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
 		}
 	
 		Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
 
-		// we don't add in player velocity anymore.
+		//we don't add in player velocity anymore.
 		if( ( m_pPlayer.pev.button & IN_DUCK ) != 0 )
 		{
 			g_EntityFuncs.ShootContact( m_pPlayer.pev, 
@@ -343,10 +343,10 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		}
 		self.m_flNextPrimaryAttack = WeaponTimeBase() + 2.5;
 		self.m_flNextSecondaryAttack = WeaponTimeBase() + 2.5;
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + 5;// idle pretty soon after shooting.
+		self.m_flTimeWeaponIdle = WeaponTimeBase() + 5;//idle pretty soon after shooting.
 
-		if( m_pPlayer.m_rgAmmo(self.m_iSecondaryAmmoType) <= 0 )
-			// HEV suit - indicate out of ammo condition
+		if( m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType) <= 0 )
+			//HEV suit - indicate out of ammo condition
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 	}
 
@@ -385,7 +385,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
 
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  10, 15 );// how long till we do this again.
+		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  10, 15 );//how long till we do this again.
 	}
 }
 
@@ -406,7 +406,7 @@ class ammo_bts_mp5gl : ScriptBasePlayerAmmoEntity
 
 		iGive = MP5_MAX_CLIP;
 
-		if( pOther.GiveAmmo( iGive, "9mm", MP5_MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "9mm", MP5_MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;
@@ -433,7 +433,7 @@ class ammo_bts_9mmbox : ScriptBasePlayerAmmoEntity
 
 		iGive = Math.RandomLong( 17, 20 );
 
-		if( pOther.GiveAmmo( iGive, "9mm", MP5_MAX_AMMO ) != -1)
+		if( pOther.GiveAmmo( iGive, "9mm", MP5_MAX_AMMO ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
 			return true;

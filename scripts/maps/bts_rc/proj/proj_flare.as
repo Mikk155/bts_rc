@@ -1,5 +1,5 @@
-// Flare Projectile (Counter-Strike 1.6's Grenade Projectile Base Modified)
-// Author: KernCore, Mikk, RaptorSKA
+//Flare Projectile ( Counter-Strike 1.6's Grenade Projectile Base Modified )
+//Author: KernCore, Mikk, RaptorSKA
 
 #include "../hl_utils"
 
@@ -7,24 +7,24 @@ namespace FLARE_PROJ
 {
 
 string DEFAULT_PROJ_NAME 	= "proj_flare";
-string BOUNCE_SOUND      	= "bts_rc/weapons/flare_bounce.wav";
-string FLARE_SOUND          = "bts_rc/weapons/flare_on.wav";
+string BOUNCE_SOUND	  	= "bts_rc/weapons/flare_bounce.wav";
+string FLARE_SOUND		  = "bts_rc/weapons/flare_on.wav";
 
 class CFlare : ScriptBaseMonsterEntity
 {
 	private float m_flBounceTime = 0, m_flNextAttack = 0;
 	private bool m_bRegisteredSound = false;
-	private CScheduledFunction@ SelfFlareLightSchedule = null; // dynamic lighting schedule
-	private CScheduledFunction@ SelfFlareSparkSchedule = null; // env_sparks schedule
+	private CScheduledFunction@ SelfFlareLightSchedule = null; //dynamic lighting schedule
+	private CScheduledFunction@ SelfFlareSparkSchedule = null; //env_sparks schedule
 
 	void FlareSelfThink()
 	{
-		CreateLight( Vector( self.GetOrigin().x, self.GetOrigin().y, self.GetOrigin().z + 20.0f ) ); // flare lighting start appearing after detonate
+		CreateLight( Vector( self.GetOrigin().x, self.GetOrigin().y, self.GetOrigin().z + 20.0f ) ); //flare lighting start appearing after detonate
 	}
 
 	void FlareSparkSelfThink()
 	{
-		CreateSparks( Vector( self.GetOrigin().x, self.GetOrigin().y, self.GetOrigin().z + 0.0f ) ); // env_sparks appear on the flare
+		CreateSparks( Vector( self.GetOrigin().x, self.GetOrigin().y, self.GetOrigin().z + 0.0f ) ); //env_sparks appear on the flare
 	}
 
 	void Spawn()
@@ -48,17 +48,17 @@ class CFlare : ScriptBaseMonsterEntity
 		//Models
 
 		//Sounds
-        g_SoundSystem.PrecacheSound( 'bts_rc/weapons/flare_bounce.wav' );
+		g_SoundSystem.PrecacheSound( 'bts_rc/weapons/flare_bounce.wav' );
 		g_SoundSystem.PrecacheSound( 'bts_rc/weapons/flare_on.wav' );
 	}
 
 	void BounceTouch( CBaseEntity@ pOther )
 	{
-		// don't hit the guy that launched this flare
+		//don't hit the guy that launched this flare
 		if( @pOther.edict() == @self.pev.owner )
 			return;
 
-		// Only do damage if we're moving fairly fast
+		//Only do damage if we're moving fairly fast
 		if( m_flNextAttack < g_Engine.time && self.pev.velocity.Length() > 100 )
 		{
 			entvars_t@ pevOwner = @self.pev.owner.vars;
@@ -69,7 +69,7 @@ class CFlare : ScriptBaseMonsterEntity
 				pOther.TraceAttack( pevOwner, 1, g_Engine.v_forward, tr, DMG_CLUB );
 				g_WeaponFuncs.ApplyMultiDamage( self.pev, pevOwner );
 			}
-			m_flNextAttack = g_Engine.time + 1.0; // debounce
+			m_flNextAttack = g_Engine.time + 1.0; //debounce
 		}
 
 		/*if( pOther.pev.ClassNameIs( "func_breakable" ) && pOther.pev.rendermode != kRenderNormal )
@@ -79,19 +79,19 @@ class CFlare : ScriptBaseMonsterEntity
 		}*/
 
 		Vector vecTestVelocity;
-		// this is my heuristic for modulating the grenade velocity because grenades dropped purely vertical
-		// or thrown very far tend to slow down too quickly for me to always catch just by testing velocity.
-		// trimming the Z velocity a bit seems to help quite a bit.
+		//this is my heuristic for modulating the grenade velocity because grenades dropped purely vertical
+		//or thrown very far tend to slow down too quickly for me to always catch just by testing velocity.
+		//trimming the Z velocity a bit seems to help quite a bit.
 		vecTestVelocity = self.pev.velocity;
 		vecTestVelocity.z *= 0.7f;
 
 		if( m_bRegisteredSound == false && vecTestVelocity.Length() <= 60.0f )
 		{
-			// grenade is moving really slow. It's probably very close to where it will ultimately stop moving.
-			// go ahead and emit the danger sound.
+			//grenade is moving really slow. It's probably very close to where it will ultimately stop moving.
+			//go ahead and emit the danger sound.
 
-			// register a radius louder than the explosion, so we make sure everyone gets out of the way
-			GetSoundEntInstance().InsertSound( bits_SOUND_DANGER, self.pev.origin, int(self.pev.dmg / 0.5), 0.3, self );
+			//register a radius louder than the explosion, so we make sure everyone gets out of the way
+			GetSoundEntInstance().InsertSound( bits_SOUND_DANGER, self.pev.origin, int( self.pev.dmg / 0.5), 0.3, self );
 			//CSoundEnt::InsertSound ( bits_SOUND_DANGER, pev->origin, pev->dmg / 0.5, 0.3, this );
 			m_bRegisteredSound = true;
 		}
@@ -135,7 +135,7 @@ class CFlare : ScriptBaseMonsterEntity
 		}
 	}
 
-    // Flare dropping/bouncing on the floor
+	//Flare dropping/bouncing on the floor
 	void TumbleThink()
 	{
 		if( !self.IsInWorld() )
@@ -164,24 +164,24 @@ class CFlare : ScriptBaseMonsterEntity
 
 	void CreateLight( Vector& in origin )
 	{
-		NetworkMessage flare(MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-		        flare.WriteByte( TE_DLIGHT ); // temp entity you want to implement
-				flare.WriteCoord( origin.x ); // vector x
-				flare.WriteCoord( origin.y ); // vector y
-				flare.WriteCoord( origin.z ); // vector z
-				flare.WriteByte( 18 ); // Radius
-				flare.WriteByte( int(255) ); // R
-				flare.WriteByte( int(21) ); // G
-				flare.WriteByte( int(18) ); // B
-				flare.WriteByte( 1 ); // Life
-				flare.WriteByte( 1 ); // Decay
+		NetworkMessage flare( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+				flare.WriteByte( TE_DLIGHT ); //temp entity you want to implement
+				flare.WriteCoord( origin.x ); //vector x
+				flare.WriteCoord( origin.y ); //vector y
+				flare.WriteCoord( origin.z ); //vector z
+				flare.WriteByte( 18 ); //Radius
+				flare.WriteByte( int( 255 ) ); //R
+				flare.WriteByte( int( 21 ) ); //G
+				flare.WriteByte( int( 18 ) ); //B
+				flare.WriteByte( 1 ); //Life
+				flare.WriteByte( 1 ); //Decay
 			flare.End();
 	}
 
 	void CreateSparks( Vector& in origin )
 	{
-		NetworkMessage flarespark(MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-		        flarespark.WriteByte( TE_SPARKS );
+		NetworkMessage flarespark( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+				flarespark.WriteByte( TE_SPARKS );
 				flarespark.WriteCoord( origin.x );
 				flarespark.WriteCoord( origin.y );
 				flarespark.WriteCoord( origin.z );
@@ -191,13 +191,13 @@ class CFlare : ScriptBaseMonsterEntity
 	void Detonate()
 	{
 		//self.pev.flags &= ~EF_BRIGHTLIGHT;
-	    CreateLight( Vector( self.GetOrigin().x, self.GetOrigin().y, self.GetOrigin().z + 20.0f ) ); // Dynamic lighting implemented around the flare entity
+		CreateLight( Vector( self.GetOrigin().x, self.GetOrigin().y, self.GetOrigin().z + 20.0f ) ); //Dynamic lighting implemented around the flare entity
 
-		g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, FLARE_SOUND, VOL_NORM, ATTN_NORM, 0, PITCH_NORM ); // Flare sound play when detonate
+		g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, FLARE_SOUND, VOL_NORM, ATTN_NORM, 0, PITCH_NORM ); //Flare sound play when detonate
 
-		@SelfFlareLightSchedule = @g_Scheduler.SetInterval( @this, "FlareSelfThink", 0.0125f, 3300.0f ); // How much time the flare will last long
+		@SelfFlareLightSchedule = @g_Scheduler.SetInterval( @this, "FlareSelfThink", 0.0125f, 3300.0f ); //How much time the flare will last long
 
-		@SelfFlareSparkSchedule = @g_Scheduler.SetInterval( @this, "FlareSparkSelfThink", 0.099, 590.0f ); // How long the env_sparks appear on the flare
+		@SelfFlareSparkSchedule = @g_Scheduler.SetInterval( @this, "FlareSparkSelfThink", 0.099, 590.0f ); //How long the env_sparks appear on the flare
 	}
 
 
