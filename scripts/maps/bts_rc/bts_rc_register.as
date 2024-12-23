@@ -2,11 +2,11 @@
 // Credits:-
 // Map Design: RaptorSKA
 // Models: Valve, Gearbox Software, MTB, KernCore, ZikShadow, MiroSklenar, HAPE B, Ixnay, Organic700, DAVLevels, Sven Co-op Teams
-// Scripts: KernCore, Nero0, Rizulix, Mikk155, Outerbeast, RaptorSKA, Valve, Gearbox Software
+// Scripts: KernCore, Nero0, Solokiller, H², Rizulix, Mikk155, Gaftherman, RaptorSKA, Valve, Gearbox Software
 // Sound: Valve, Gearbox Software, MTB, LIL-PIF, KernCore, ZikShadow, TurtleRock Studios, Sven Co-op Teams
 // Sprites: Valve, Gearbox Software, KernCore, KEZÆIV, ZikShadow, MiroSklenar, Ixnay, Organic700, DAVLevels, Sven Co-op Teams
 // Hands Sleeve Difference based on Playermodels code: KernCore & Mikk155
-// Bulet Wallpuff Code: KernCore, Rizulix
+// Bullet Wallpuff Code: KernCore, Rizulix
 
 //#include "entities/randomizer"
 
