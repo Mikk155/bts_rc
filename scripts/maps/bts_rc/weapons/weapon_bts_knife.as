@@ -1,7 +1,7 @@
-// weapon_knife Version 1.3
-// Custom knife weapon from Opposing Force- created using weapon_hlcrowbar and weapon_csknife from the Counter Strike Weapons Pack by KernCore
-// Usage: Primary attack - Normal operation similar to crowbar
-// 		  Secondary attack - Stab, does 3.5x the damage as primary but much slower. It can be delayed to time stabs
+//weapon_knife Version 1.3
+//Custom knife weapon from Opposing Force- created using weapon_hlcrowbar and weapon_csknife from the Counter Strike Weapons Pack by KernCore
+//Usage: Primary attack - Normal operation similar to crowbar
+//		  Secondary attack - Stab, does 3.5x the damage as primary but much slower. It can be delayed to time stabs
 //		  Tertiary attack - Throws knife
 namespace BTS_KNIFE
 {
@@ -67,43 +67,43 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	private CBasePlayer@ m_pPlayer
 	{
 		get const 	{ return cast<CBasePlayer@>( self.m_hPlayer.GetEntity() ); }
-		set       	{ self.m_hPlayer = EHandle( @value ); }
+		set	   	{ self.m_hPlayer = EHandle( @value ); }
 	}
 
 	dictionary g_Models = 
 	{
-    	{ "bts_barney", 0 }, { "bts_otis", 0 },
+		{ "bts_barney", 0 }, { "bts_otis", 0 },
 	{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-    	{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
+		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
 	{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
 	{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-    	{ "bts_construction", 2 }, { "bts_helmet", 4 }
+		{ "bts_construction", 2 }, { "bts_helmet", 4 }
 	};
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-    	switch( int(g_Models[ modelName ]) )
-    	{
-        	case 0:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 0 );
-            	break;
-        	case 1:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 1 );
-            	break;
-        	case 2:
-            	m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 2 );
-            	break;
+		switch( int( g_Models[ modelName ]) )
+		{
+			case 0:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 0 );
+				break;
+			case 1:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 1 );
+				break;
+			case 2:
+				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 2 );
+				break;
 			case 3:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 3 );
 				break;
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 4 );
 				break;
-    	}
+		}
 
-    	return m_iCurBodyConfig;
+		return m_iCurBodyConfig;
 	}
 
 	void Spawn()
@@ -125,7 +125,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		self.m_iClip			= -1;
 		self.m_flCustomDmg		= self.pev.dmg;
 
-		self.FallInit();// get ready to fall down.
+		self.FallInit();//get ready to fall down.
 	}
 
 	void Precache()
@@ -151,7 +151,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		info.iMaxClip 	= WEAPON_NOCLIP;
 		info.iSlot  	= 0;
 		info.iPosition 	= 9;
-		info.iId     	= g_ItemRegistry.GetIdForName( self.pev.classname );
+		info.iId	 	= g_ItemRegistry.GetIdForName( self.pev.classname );
 		info.iFlags 	= 0;
 		info.iWeight 	= 0;
 
@@ -173,9 +173,9 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	}
 
 	float WeaponTimeBase()
-    {
-        return g_Engine.time;
-    }
+	{
+		return g_Engine.time;
+	}
 
 	bool Deploy()
 	{
@@ -252,25 +252,25 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
-		if ( tr.flFraction >= 1.0 )
+		if( tr.flFraction >= 1.0 )
 		{
 			g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, m_pPlayer.edict(), tr );
-			if ( tr.flFraction < 1.0 )
+			if( tr.flFraction < 1.0 )
 			{
-				// Calculate the point of intersection of the line (or hull) and the object we hit
-				// This is and approximation of the "best" intersection
+				//Calculate the point of intersection of the line ( or hull ) and the object we hit
+				//This is and approximation of the "best" intersection
 				CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-				if ( pHit is null || pHit.IsBSPModel() )
+				if( pHit is null || pHit.IsBSPModel() )
 					g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
-				vecEnd = tr.vecEndPos;	// This is the point on the actual surface (the hull could have hit space)
+				vecEnd = tr.vecEndPos;	//This is the point on the actual surface ( the hull could have hit space )
 			}
 		}
 
-		if ( tr.flFraction >= 1.0 )
+		if( tr.flFraction >= 1.0 )
 		{
 			if( fFirst != 0 )
 			{
-				// miss
+				//miss
 				switch( ( m_iSwing++ ) % 3 )
 				{
 					case 0:
@@ -281,16 +281,16 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 						self.SendWeaponAnim( KNIFE_ATTACK3, 0, GetBodygroup() ); break;
 				}
 				self.m_flNextPrimaryAttack = g_Engine.time + 0.5;
-				// play wiff or swish sound
+				//play wiff or swish sound
 				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife3.wav", 1, ATTN_NORM, 0, 94 + Math.RandomLong( 0,0xF ) );
 
-				// player "shoot" animation
+				//player "shoot" animation
 				m_pPlayer.SetAnimation( PLAYER_ATTACK1 ); 
 			}
 		}
 		else
 		{
-			// hit
+			//hit
 			fDidHit = true;
 			
 			CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
@@ -305,40 +305,40 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 					self.SendWeaponAnim( KNIFE_ATTACK3HIT, 0, GetBodygroup() ); break;
 			}
 
-			// player "shoot" animation
+			//player "shoot" animation
 			m_pPlayer.SetAnimation( PLAYER_ATTACK1 ); 
 
-			// AdamR: Custom damage option
+			//AdamR: Custom damage option
 			float flDamage = 18;
-			if ( self.m_flCustomDmg > 0 )
+			if( self.m_flCustomDmg > 0 )
 				flDamage = self.m_flCustomDmg;
-			// AdamR: End
+			//AdamR: End
 
 			g_WeaponFuncs.ClearMultiDamage();
-			if ( self.m_flNextPrimaryAttack + 1 < g_Engine.time )
+			if( self.m_flNextPrimaryAttack + 1 < g_Engine.time )
 			{
-				// first swing does full damage
+				//first swing does full damage
 				pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_CLUB );  
 			}
 			else
 			{
-				// subsequent swings do 50% (Changed -Sniper) (Half)
+				//subsequent swings do 50% ( Changed -Sniper) ( Half )
 				pEntity.TraceAttack( m_pPlayer.pev, self.pev.fuser1, g_Engine.v_forward, tr, DMG_CLUB );  
 			}	
 			g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
 			//m_flNextPrimaryAttack = gpGlobals->time + 0.30; //0.25
 
-			// play thwack, smack, or dong sound
+			//play thwack, smack, or dong sound
 			float flVol = 1.0;
 			bool fHitWorld = true;
 
 			if( pEntity !is null )
 			{
-				// difference in model for nextprimaryattack
-				string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+				//difference in model for nextprimaryattack
+				string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-				if ( HEV.find(modelName) >= 0 )
+				if( HEV.find( modelName ) >= 0 )
 				{
 					self.m_flNextPrimaryAttack = g_Engine.time + 0.25; //0.25
 				}
@@ -349,13 +349,13 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 				if( pEntity.Classify() != CLASS_NONE && pEntity.Classify() != CLASS_MACHINE && pEntity.BloodColor() != DONT_BLEED )
 				{
-	// aone
-					if( pEntity.IsPlayer() )		// lets pull them
+	//aone
+					if( pEntity.IsPlayer() )		//lets pull them
 					{
 						pEntity.pev.velocity = pEntity.pev.velocity + ( self.pev.origin - pEntity.pev.origin ).Normalize() * 120;
 					}
-	// end aone
-					// play thwack or smack sound
+	//end aone
+					//play thwack or smack sound
 					switch( Math.RandomLong( 0, 2 ) )
 					{
 						case 0:
@@ -375,17 +375,17 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				}
 			}
 
-			// play texture hit sound
-			// UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
+			//play texture hit sound
+			//UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
 
 			if( fHitWorld == true )
 			{
 				float fvolbar = g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2, BULLET_PLAYER_CROWBAR );
 				
 				//model difference
-				string modelName = g_EngineFuncs.GetInfoKeyBuffer(m_pPlayer.edict()).GetValue( "model" );
+				string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
 
-				if ( HEV.find(modelName) >= 0 )
+				if( HEV.find( modelName ) >= 0 )
 				{
 					self.m_flNextPrimaryAttack = g_Engine.time + 0.25;
 				}
@@ -394,12 +394,12 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 					self.m_flNextPrimaryAttack = g_Engine.time + 0.35; //0.25
 				}
 				
-				// override the volume here, cause we don't play texture sounds in multiplayer, 
-				// and fvolbar is going to be 0 from the above call.
+				//override the volume here, cause we don't play texture sounds in multiplayer, 
+				//and fvolbar is going to be 0 from the above call.
 
 				fvolbar = 1;
 
-				// also play knife strike
+				//also play knife strike
 				switch( Math.RandomLong( 0, 1 ) )
 				{
 					case 0:
@@ -411,7 +411,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				}
 			}
 
-			// delay the decal a bit
+			//delay the decal a bit
 			m_trHit = tr;
 			SetThink( ThinkFunction( this.Smack ) );
 			self.pev.nextthink = g_Engine.time + 0.2;
@@ -433,7 +433,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		}
 		if( isPullingBack == true && self.m_flTimeWeaponIdle <= g_Engine.time )
 		{
-			// Manually set wrench windup loop animation
+			//Manually set wrench windup loop animation
 			m_pPlayer.m_Activity = ACT_RELOAD;
 			m_pPlayer.pev.frame = 0;
 			m_pPlayer.pev.sequence = 26;
@@ -453,7 +453,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	{
 		Swing( 0 );
 	}
-	// My humble thanks to KernCore for the secondary attack functions from weapon_csknife code- used in the CS weapons pack :D
+	//My humble thanks to KernCore for the secondary attack functions from weapon_csknife code- used in the CS weapons pack :D
 	bool HeavySmack()
 	{
 		bool fDidHit = false;
@@ -508,7 +508,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 			}
 
-			// play thwack, smack, or dong sound
+			//play thwack, smack, or dong sound
 			float flVol = 1.0;
 			bool fHitWorld = true;
 			if( hEntity.GetEntity() !is null )
@@ -516,12 +516,12 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 				self.m_flTimeWeaponIdle = self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + 0.64;
 				if( hEntity.GetEntity().Classify() != CLASS_NONE && hEntity.GetEntity().Classify() != CLASS_MACHINE && hEntity.GetEntity().BloodColor() != DONT_BLEED )
 				{
-					if( hEntity.GetEntity().IsPlayer() ) // lets pull them
+					if( hEntity.GetEntity().IsPlayer() ) //lets pull them
 					{
 						hEntity.GetEntity().pev.velocity = hEntity.GetEntity().pev.velocity + ( self.pev.origin - hEntity.GetEntity().pev.origin ).Normalize() * 120;
 					}
 
-					// play thwack or smack sound
+					//play thwack or smack sound
 					switch( Math.RandomLong( 0, 1 ) )
 					{
 						case 0:
@@ -544,12 +544,12 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 			if( fHitWorld == true )
 			{
-				float fvolbar = g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + (vecEnd - vecSrc) * 2, BULLET_PLAYER_CROWBAR );
+				float fvolbar = g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2, BULLET_PLAYER_CROWBAR );
 
-				// override the volume here, cause we don't play texture sounds in multiplayer, 
-				// and fvolbar is going to be 0 from the above call.
+				//override the volume here, cause we don't play texture sounds in multiplayer, 
+				//and fvolbar is going to be 0 from the above call.
 				fvolbar = 1;
-				// also play crowbar strike
+				//also play crowbar strike
 				switch( Math.RandomLong( 0, 1 ) )
 				{
 					case 0:
@@ -595,12 +595,12 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	}
 }
 
-string GetOP4KnifeName()
+string GetOP4KnifeName( )
 {
 	return "weapon_bts_knife";
 }
 
-void RegisterOP4Knife()
+void RegisterOP4Knife( )
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_KNIFE::weapon_bts_knife", GetOP4KnifeName() );
 	g_ItemRegistry.RegisterWeapon( GetOP4KnifeName(), "bts_rc/weapons" );
@@ -608,4 +608,4 @@ void RegisterOP4Knife()
 
 }
 
-// Credit to KernCore for secondary attack functions
+//Credit to KernCore for secondary attack functions

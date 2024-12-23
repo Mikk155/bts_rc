@@ -1,5 +1,5 @@
-// Selective nightvision
-// Author: Mikk, Nero
+//Selective nightvision
+//Author: Mikk, Nero
 
 CScheduledFunction@ g_pNVThinkFunc = null;
 dictionary g_PlayerNV;
@@ -47,7 +47,6 @@ namespace BTS_NIGHTVISION
 		}
 
 		g_NightVision.nvThink( pPlayer );
-
 		return HOOK_CONTINUE;
 	}
 
@@ -60,7 +59,7 @@ namespace BTS_NIGHTVISION
 
 	class PlayerNVData
 	{
-  		Vector nvColor;
+		Vector nvColor;
 	}
 
 	CNightVision g_NightVision;
@@ -72,49 +71,46 @@ namespace BTS_NIGHTVISION
 			if( pPlayer !is null )
 			{
 				string kv = "$i_btsrc_nightvision";
-
 				int state = pPlayer.GetCustomKeyvalues().GetKeyvalue( kv ).GetInteger();
 
 				if( mode != NV_NONE )
 				{
 					state = mode;
-            		g_EntityFuncs.DispatchKeyValue( pPlayer.edict(), kv, string( state ) );
+					g_EntityFuncs.DispatchKeyValue( pPlayer.edict(), kv, string( state ) );
 				}
 				return state;
 			}
 			return NV_OFF;
-        }
+		}
 
 		void ToggleNV( CBasePlayer@ pPlayer )
 		{
-			if( pPlayer.IsAlive() )	
+			if( pPlayer.IsAlive() )
 			{
-				if ( pPlayer.pev.impulse == 100 )
+				if( pPlayer.pev.impulse == 100 )
 				{
 					string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
 
-					if ( g_PlayerNV.exists( szSteamId ) )
+					if( g_PlayerNV.exists( szSteamId ) )
 					{
 						removeNV( pPlayer );
 					}
 					else
 					{
 						PlayerNVData data;
-						data.nvColor = Vector(250, 200, 20);
-						g_PlayerNV[szSteamId] = data;
-						g_PlayerFuncs.ScreenFade( pPlayer, NV_COLOR, 0.01, 0.01, iBrightness, FFADE_OUT | FFADE_STAYOUT);
+						data.nvColor = Vector( 250, 200, 20 );
+						g_PlayerNV[ szSteamId ] = data;
+						g_PlayerFuncs.ScreenFade( pPlayer, NV_COLOR, 0.01, 0.01, iBrightness, FFADE_OUT | FFADE_STAYOUT );
 						g_SoundSystem.EmitSoundDyn( pPlayer.edict(), CHAN_WEAPON, "player/hud_nightvision.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
 					}
 				}
-			
 			}
 		}
 
 		void nvMsg( CBasePlayer@ pPlayer, const string szSteamId )
 		{
-			PlayerNVData@ data = cast<PlayerNVData@>( g_PlayerNV[szSteamId] );
-
 			Vector vecSrc = pPlayer.EyePosition();
+			PlayerNVData@ data = cast<PlayerNVData@>( g_PlayerNV[ szSteamId ] );
 
 			NetworkMessage nvon( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, pPlayer.edict() );
 				nvon.WriteByte( TE_DLIGHT );
@@ -122,9 +118,9 @@ namespace BTS_NIGHTVISION
 				nvon.WriteCoord( vecSrc.y );
 				nvon.WriteCoord( vecSrc.z );
 				nvon.WriteByte( g_iRadius );
-				nvon.WriteByte( int(NV_COLOR.x) );
-				nvon.WriteByte( int(NV_COLOR.y) );
-				nvon.WriteByte( int(NV_COLOR.z) );
+				nvon.WriteByte( int( NV_COLOR.x ) );
+				nvon.WriteByte( int( NV_COLOR.y ) );
+				nvon.WriteByte( int( NV_COLOR.z ) );
 				nvon.WriteByte( iLife );
 				nvon.WriteByte( iDecay );
 			nvon.End();
@@ -132,56 +128,50 @@ namespace BTS_NIGHTVISION
 
 		void removeNV( CBasePlayer@ pPlayer )
 		{
-			string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
-			
-			g_PlayerFuncs.ScreenFade( pPlayer, NV_COLOR, 0.01, 0.01, iBrightness, FFADE_IN);
+			g_PlayerFuncs.ScreenFade( pPlayer, NV_COLOR, 0.01, 0.01, iBrightness, FFADE_IN );
 			g_SoundSystem.EmitSoundDyn( pPlayer.edict(), CHAN_WEAPON, "items/flashlight2.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
-			
-			if ( g_PlayerNV.exists(szSteamId) )
-				g_PlayerNV.delete(szSteamId);
+
+			string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
+			if( g_PlayerNV.exists( szSteamId ) )
+				g_PlayerNV.delete( szSteamId );
 		}
 
 		HookReturnCode ClientDisconnect( CBasePlayer@ pPlayer )
 		{
 			string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
-			
-			if ( g_PlayerNV.exists(szSteamId) )
+			if( g_PlayerNV.exists( szSteamId ) )
 				removeNV( pPlayer );
-		
+
 			return HOOK_CONTINUE;
 		}
 
 		HookReturnCode ClientPutInServer( CBasePlayer@ pPlayer )
 		{
 			string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
-			
-			if ( g_PlayerNV.exists(szSteamId) )
+			if( g_PlayerNV.exists( szSteamId ) )
 				removeNV( pPlayer );
-		
+
 			return HOOK_CONTINUE;
 		}
 
 		HookReturnCode PlayerKilled( CBasePlayer@ pPlayer, CBaseEntity@ pAttacker, int iGib )
 		{
 			string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
-			
-			if ( g_PlayerNV.exists(szSteamId) )
+			if( g_PlayerNV.exists( szSteamId ) )
 				removeNV( pPlayer );
-		
+
 			return HOOK_CONTINUE;
 		}
 
 		void nvThink( CBasePlayer@ pPlayer )
 		{
-			for ( int i = 1; i <= g_Engine.maxClients; ++i )
+			for( int i = 1; i <= g_Engine.maxClients; ++i )
 			{
-				CBasePlayer@ pPlayer = g_PlayerFuncs.FindPlayerByIndex(i);
-
-				if ( pPlayer !is null && pPlayer.IsConnected() )
+				CBasePlayer@ pPlayer = g_PlayerFuncs.FindPlayerByIndex( i );
+				if( pPlayer !is null && pPlayer.IsConnected() )
 				{
 					string szSteamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
-
-					if ( g_PlayerNV.exists(szSteamId) )
+					if( g_PlayerNV.exists( szSteamId ) )
 						nvMsg( pPlayer, szSteamId );
 				}
 			}
