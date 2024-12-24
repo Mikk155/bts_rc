@@ -36,6 +36,8 @@ void MapActivate()
 
 void MapInit()
 {
+    LoggerLevel = ( Warning | Debug | Info | Critical | Error );
+
     randomizer::register();
 
     RegisterItemTracker();
