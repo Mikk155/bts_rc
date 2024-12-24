@@ -89,7 +89,9 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         *
         ==========================================================================*/
 
-        int state = player.GetCustomKeyvalues().GetKeyvalue( "$i_nightvision_state" ).GetInteger();
+        CustomKeyvalues@ kvd = player.GetCustomKeyvalues();
+
+        int state = kvd.GetKeyvalue( "$i_nightvision_state" ).GetInteger();
 
         if( g_EngineFuncs.GetInfoKeyBuffer( player.edict() ).GetValue( "model" ) == "bts_helmet" )
         {
