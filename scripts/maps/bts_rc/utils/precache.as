@@ -3,9 +3,9 @@ namespace precache
     void sound( const string&in file )
     {
         string generic;
-        snprintf( general, "sound/%1", file );
+        snprintf( generic, "sound/%1", file );
         g_SoundSystem.PrecacheSound( file );
-        g_Game.PrecacheGeneric( file );
+        g_Game.PrecacheGeneric( generic );
     }
 
     void generic( const string&in file )
