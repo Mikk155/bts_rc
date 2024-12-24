@@ -17,7 +17,6 @@
 #include "game_item_tracker"
 #include "list_weapons"
 #include "mappings"
-#include "player_voices/player_voices"
 #include "monsters/npc_ammo"
 #include "point_checkpoint"
 #include "objective_indicator"
@@ -50,18 +49,34 @@ void MapInit()
     g_ClassicMode.ForceItemRemap( true );
     g_ClassicMode.SetItemMappings( @g_AmmoReplacement );
 
-    // Hooks
-    g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PLAYER_VOICES::BTSRC_PlayerSpawn );
-    g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PLAYER_VOICES::BTSRC_PlayerKilled );
-    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @NPC_DROPAMMO::BTSRC_MonsterKilled ); 
+    /*==========================================================================
+    *
+    *   - START OF PRECACHE
+    *
+    ==========================================================================*/
 
     precache::sound( "items/flashlight2.wav" );
     precache::sound( "player/hud_nightvision.wav" );
 
+    /*==========================================================================
+    *
+    *   - END OF PRECACHE
+    *
+    ==========================================================================*/
+
+    /*==========================================================================
+    *
+    *   - START OF HOOKS
+    *
+    ==========================================================================*/
+
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
 
-    // Sound Precache
-    PLAYER_VOICES::BTSRC_PrecachePlayerSounds();
+    /*==========================================================================
+    *
+    *   - END OF HOOKS
+    *
+    ==========================================================================*/
 }
 
 HookReturnCode PlayerThink( CBasePlayer@ player )
@@ -125,8 +140,6 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         *   - END OF NIGHT VISION
         *
         ==========================================================================*/
-
-        PLAYER_VOICES::BTSRC_PlayPlayerPainSounds( EHandle(player) );
     }
 
     return HOOK_CONTINUE;
