@@ -12,6 +12,8 @@
 
 #include "entities/randomizer"
 
+#include "player_voices"
+
 #include "trigger_script/survival"
 
 #include "game_item_tracker"
@@ -23,7 +25,7 @@
 
 void MapStart()
 {
-    g_Log.PrintF( "Max entities: %1\nNumber of entities in bsp: %2", g_Engine.maxEntities, g_EngineFuncs.NumberOfEntities() );
+    g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
 }
 
 void MapActivate()
@@ -40,6 +42,8 @@ void MapInit()
 
     randomizer::register();
 
+    g_VoiceResponse.init();
+
     RegisterItemTracker();
 
     RegisterPointCheckPointEntity();
@@ -52,43 +56,48 @@ void MapInit()
     g_ClassicMode.SetItemMappings( @g_AmmoReplacement );
 
     /*==========================================================================
-    *
-    *   - START OF PRECACHE
-    *
+    *   - Start of precaching
     ==========================================================================*/
-
     precache::sound( "items/flashlight2.wav" );
     precache::sound( "player/hud_nightvision.wav" );
-
     /*==========================================================================
-    *
-    *   - END OF PRECACHE
-    *
+    *   - End
     ==========================================================================*/
 
-    /*==========================================================================
-    *
-    *   - START OF HOOKS
-    *
-    ==========================================================================*/
+    // Size the array to the number of slots
+    for( int i = 0; i < g_Engine.maxClients; i++ )
+    {
+        players_origin.insertLast( g_vecZero );
+    }
 
+    /*==========================================================================
+    *   - Start of hooks
+    ==========================================================================*/
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
-
     /*==========================================================================
-    *
-    *   - END OF HOOKS
-    *
+    *   - End
     ==========================================================================*/
 }
+
+/*==========================================================================
+*   - Start of Voice Responses
+==========================================================================*/
+
+array<Vector> players_origin;
+
+/*==========================================================================
+*   - End
+==========================================================================*/
 
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
+        // Save last origin for interpreting if there's a player nearby
+        players_origin[ player.entindex() -1 ] = player.pev.origin;
+
         /*==========================================================================
-        *
-        *   - START OF NIGHT VISION
-        *
+        *   - Start of Night Vision
         ==========================================================================*/
 
         CustomKeyvalues@ kvd = player.GetCustomKeyvalues();
@@ -140,9 +149,7 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
             g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
         }
         /*==========================================================================
-        *
-        *   - END OF NIGHT VISION
-        *
+        *   - End
         ==========================================================================*/
     }
 
