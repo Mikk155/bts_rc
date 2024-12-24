@@ -8,6 +8,8 @@
 //Hands Sleeve Difference based on Playermodels code: KernCore & Mikk155
 //Bullet Wallpuff Code: KernCore, Rizulix
 
+#include "utils/main"
+
 #include "entities/randomizer"
 
 #include "trigger_script/survival"
@@ -18,7 +20,6 @@
 #include "player_voices/player_voices"
 #include "monsters/npc_ammo"
 #include "point_checkpoint"
-//#include "selective_nvg" < Broken -Sniper's fan
 #include "objective_indicator"
 
 void MapStart()
@@ -54,8 +55,9 @@ void MapInit()
     g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PLAYER_VOICES::BTSRC_PlayerKilled );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @NPC_DROPAMMO::BTSRC_MonsterKilled ); 
 
-    g_SoundSystem.PrecacheSound( "items/flashlight2.wav" );
-    g_SoundSystem.PrecacheSound( "player/hud_nightvision.wav" );
+    precache::sound( "items/flashlight2.wav" );
+    precache::sound( "player/hud_nightvision.wav" );
+
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
 
     // Sound Precache
@@ -66,10 +68,17 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
+        /*==========================================================================
+        *
+        *   - START OF NIGHT VISION
+        *
+        ==========================================================================*/
+
         int state = player.GetCustomKeyvalues().GetKeyvalue( "$i_nightvision_state" ).GetInteger();
 
         if( g_EngineFuncs.GetInfoKeyBuffer( player.edict() ).GetValue( "model" ) == "bts_helmet" )
         {
+            // Catch impulse commands and toggle night vision state
             if( player.pev.impulse == 100 )
             {
                 g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", ( state == 1 ? 0 : 1 ) );
@@ -79,9 +88,11 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                 g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
             }
 
+            // Night vision ON, drain and light
             if( state == 1 )
             {
-                if( player.IsAlive() )
+                // Show even when dead lying.
+                if( !player.GetObserver().IsObserver() )
                 {
                     NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
                         m.WriteByte( TE_DLIGHT );
@@ -96,17 +107,24 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                         m.WriteByte(1);
                     m.End();
                 }
-                else {
+                else
+                {
                     g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
                     g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
                 }
             }
         }
+        // Player changed his model. Turn off night vision.
         else if( state == 1 )
         {
             g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
             g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
         }
+        /*==========================================================================
+        *
+        *   - END OF NIGHT VISION
+        *
+        ==========================================================================*/
 
         PLAYER_VOICES::BTSRC_PlayPlayerPainSounds( EHandle(player) );
     }
