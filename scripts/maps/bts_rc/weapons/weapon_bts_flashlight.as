@@ -1,13 +1,14 @@
-//Flashlight/Torchlight
-//Original Code: Mikk
-//Models: Valve Software, Gearbox Software, dydwk747, ruMpel ( Battery model )
-//Sprites: Patofan05
-//Thanks Mikk for scripting full support
+// Flashlight/Torchlight
+// Original Code: Mikk
+// Models: Valve Software, Gearbox Software, dydwk747, ruMpel ( Battery model )
+// Sprites: Patofan05
+// Thanks Mikk for scripting full support
+// Rewrited by Rizulix (december 2024)
 
 namespace BTS_FLASHLIGHT
 {
 
-enum BTSFlashlightAnimation
+enum btsflashlight_e
 {
 	IDLE = 0,
 	DRAW,
@@ -22,29 +23,65 @@ enum BTSFlashlightAnimation
 	IDLE3
 };
 
-const int MAX_AMMO = 60;														//max flashlight battery amount
-const int DEFAULT_GIVE = 10;													//default ammo given to the player when first acquired flashlight
-const bool g_bShowFlashlightToAll = true;										//flashlight light can be seen by other players
-const float LIGHT_DISTANCE = 3072.0f;											//how far the light could shine from player position
-const string MODEL_AMMO  = "models/bts_rc/furniture/w_flashlightbattery.mdl"; 	//ammo/battery model
-const int DRAIN_RATE = 880;														//rate of flashlight drain
-const int MAX_GIVE   = 5;														//default ammo given to the player when pickup flashlight's battery
+// Models
+string W_MODEL = "models/bts_rc/weapons/w_flashlight.mdl";
+string V_MODEL = "models/bts_rc/weapons/v_flashlight.mdl";
+string P_MODEL = "models/bts_rc/weapons/p_flashlight.mdl";
+string A_MODEL = "models/furniture/w_flashlightbattery.mdl";
+// Sounds
+string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+string MISS_SND = "bts_rc/weapons/flashlight_miss1.wav";
+array<string> HITWORLD_SND = {
+	"bts_rc/weapons/flashlight_hit1.wav",
+	"bts_rc/weapons/flashlight_hit2.wav"
+};
+array<string> HITFLESH_SND = {
+	"bts_rc/weapons/flashlight_hitbod1.wav",
+	"bts_rc/weapons/flashlight_hitbod2.wav",
+	"bts_rc/weapons/flashlight_hitbod3.wav"
+};
+// Weapon info
+int MAX_CARRY = 60;
+int MAX_CLIP = WEAPON_NOCLIP;
+int DEFAULT_GIVE = 10;
+int AMMO_GIVE = 5;
+int AMMO_DROP = 1;
+int WEIGHT = 10;
+int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
+string AMMO_TYPE = "flashlightbattery";
+// Weapon HUD
+int SLOT = 4;
+int POSITION = 4;
+// Vars
+int DAMAGE = 7;
+string FLASHLIGHT = "$i_flashBattery";
 
-const string V_MODEL = "models/bts_rc/weapons/v_flashlight.mdl";
-
-class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
+class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 {
-	//State of the flashlight
-	bool m_bIsFlashlightOn;
+	private CBasePlayer@ m_pPlayer
+	{
+		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
+		set       { self.m_hPlayer = EHandle( @value ); }
+	}
+	private int m_iFlashBattery // saved battery shared between weapons
+	{
+		get const
+		{
+			CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
+			if( pCustom.HasKeyvalue( FLASHLIGHT ) )
+				return pCustom.GetKeyvalue( FLASHLIGHT ).GetInteger();
+			else
+				return m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 ? 0 : m_pPlayer.m_iFlashBattery;
+		}
+		set
+		{
+			g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), FLASHLIGHT, "" + value );
+		}
+	}
+	private int m_iCurBaterry; // for clamping
+	private int m_iShell;
 
-	private TraceResult tr;
-	private float m_flNextFlashlightTime;
-	private int m_iNextDainTime;
-	private CBasePlayer@ m_pPlayer;
-	int m_iSwing;
-	TraceResult m_trHit;
-
-	dictionary g_Models =
+	/*dictionary g_Models =
 	{
 		{ "bts_barney", 0 }, { "bts_otis", 0 },
 		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
@@ -52,11 +89,11 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
 		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
 		{ "bts_construction", 2 }, { "bts_helmet", 4 }
-	};
+	};*/
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
+		/*string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
 
 		switch( int( g_Models[ modelName ]) )
 		{
@@ -75,108 +112,38 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 			case 4:
 				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
 				break;
-		}
+		}*/
 
-		return m_iCurBodyConfig;
-	}
-
-	void ItemPreFrame()
-	{
-		if( g_Engine.time > m_flNextFlashlightTime )
-		{
-			if( m_bIsFlashlightOn )
-			{
-				g_Utility.TraceLine( m_pPlayer.GetGunPosition(), m_pPlayer.GetGunPosition() + g_Engine.v_forward * LIGHT_DISTANCE, dont_ignore_monsters, m_pPlayer.edict(), tr );
-
-				if( g_bShowFlashlightToAll )
-				{
-					NetworkMessage flon( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-						flon.WriteByte( TE_DLIGHT );
-						flon.WriteCoord( tr.vecEndPos.x );
-						flon.WriteCoord( tr.vecEndPos.y );
-						flon.WriteCoord( tr.vecEndPos.z );
-						flon.WriteByte( 9 );
-						flon.WriteByte( 150 );
-						flon.WriteByte( 150 );
-						flon.WriteByte( 150 );
-						flon.WriteByte( 1 );
-						flon.WriteByte( 1 );
-					flon.End();
-				}
-				else
-				{
-					NetworkMessage flon( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, m_pPlayer.edict() );
-						flon.WriteByte( TE_DLIGHT );
-						flon.WriteCoord( tr.vecEndPos.x );
-						flon.WriteCoord( tr.vecEndPos.y );
-						flon.WriteCoord( tr.vecEndPos.z );
-						flon.WriteByte( 9 );
-						flon.WriteByte( 150 );
-						flon.WriteByte( 150 );
-						flon.WriteByte( 150 );
-						flon.WriteByte( 1 );
-						flon.WriteByte( 1 );
-					flon.End();
-				}
-
-				if( m_iNextDainTime > DRAIN_RATE )
-				{
-					m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
-					m_iNextDainTime = 0;
-				}
-				else
-					m_iNextDainTime++;
-
-				if( !HasBattery() )
-					m_bIsFlashlightOn = false;
-			}
-
-			m_flNextFlashlightTime = g_Engine.time + 0.0125f; //torchlight's dynamic light flickering per seconds ( originally 0.1 )
-		}
-
-		BaseClass.ItemPreFrame();
+		return /*m_iCurBodyConfig*/0;
 	}
 
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flashlight.mdl" );
+		g_EntityFuncs.SetModel( self, W_MODEL );
 		self.m_iDefaultAmmo = DEFAULT_GIVE;
-		self.m_flCustomDmg	= self.pev.dmg;
-
+		self.m_flCustomDmg = pev.dmg;
 		self.FallInit();
 	}
 
 	void Precache()
 	{
-		g_Game.PrecacheModel( "models/bts_rc/weapons/v_flashlight.mdl" );
-		g_Game.PrecacheModel( "models/bts_rc/weapons/p_flashlight.mdl" );
-		g_Game.PrecacheModel( "models/bts_rc/weapons/w_flashlight.mdl" );
-		g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
+		self.PrecacheCustomModels();
+		g_Game.PrecacheModel( W_MODEL );
+		g_Game.PrecacheModel( V_MODEL );
+		g_Game.PrecacheModel( P_MODEL );
+		g_Game.PrecacheModel( A_MODEL );
 
-		g_SoundSystem.PrecacheSound( "bts_rc/items/flashlight1.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod1.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod2.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod3.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_miss1.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit1.wav" );
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit2.wav" );
+		g_SoundSystem.PrecacheSound( SWITCH_SND );
+		g_SoundSystem.PrecacheSound( MISS_SND );
+
+		for( uint i = 0; i < HITWORLD_SND.length(); i++ )
+			g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
+
+		for( uint j = 0; j < HITFLESH_SND.length(); j++ )
+			g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
 
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
-	}
-
-	bool GetItemInfo( ItemInfo& out info )
-	{
-		info.iMaxAmmo1 = MAX_AMMO;
-		info.iMaxAmmo2 = -1;
-		info.iAmmo1Drop = MAX_GIVE;
-		info.iMaxClip = WEAPON_NOCLIP;
-		info.iSlot = 4;
-		info.iPosition = 4;
-		info.iWeight = 10;
-		info.iFlags = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
-		return true;
 	}
 
 	bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -184,11 +151,66 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		if( !BaseClass.AddToPlayer( pPlayer ) )
 			return false;
 
-		@m_pPlayer = pPlayer;
-		NetworkMessage message( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
-			message.WriteLong( self.m_iId );
-		message.End();
+		NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
+			weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
+		weapon.End();
 		return true;
+	}
+
+	bool GetItemInfo( ItemInfo& out info )
+	{
+		info.iMaxAmmo1 = MAX_CARRY;
+		info.iAmmo1Drop = AMMO_DROP;
+		info.iMaxAmmo2 = WEAPON_NOCLIP;
+		info.iAmmo2Drop = -1;
+		info.iMaxClip = MAX_CLIP;
+		info.iSlot = SLOT;
+		info.iPosition = POSITION;
+		info.iId = g_ItemRegistry.GetIdForName( pev.classname );
+		info.iFlags = FLAGS;
+		info.iWeight = WEIGHT;
+		return true;
+	}
+
+	bool Deploy()
+	{
+		m_pPlayer.m_iFlashBattery = m_iCurBaterry = m_iFlashBattery;
+		m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
+
+		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "crowbar", 0, GetBodygroup() );
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
+		m_pPlayer.m_flNextAttack = 0.0f;
+		return true;
+	}
+
+	void Holster( int skiplocal = 0 )
+	{
+		if( m_pPlayer.FlashlightIsOn() )
+			m_pPlayer.FlashlightTurnOff();
+
+		m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
+		m_iFlashBattery = m_iCurBaterry;
+
+		BaseClass.Holster( skiplocal );
+	}
+
+	void ItemPostFrame()
+	{
+		if( m_pPlayer.m_iFlashBattery > m_iCurBaterry )
+			m_pPlayer.m_iFlashBattery = m_iCurBaterry;
+
+		if( m_iCurBaterry == 0 )
+		{
+			m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
+			NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
+				msg.WriteByte( 0 );
+				msg.WriteByte( 0 );
+			msg.End();
+		}
+		else
+			m_iCurBaterry = m_pPlayer.m_iFlashBattery;
+
+		BaseClass.ItemPostFrame();
 	}
 
 	bool PlayEmptySound()
@@ -196,25 +218,9 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		if( self.m_bPlayEmptySound )
 		{
 			self.m_bPlayEmptySound = false;
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/flashlight1.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
 		}
 		return false;
-	}
-
-	bool Deploy()
-	{
-		m_bIsFlashlightOn = false;
-		return self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flashlight.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flashlight.mdl" ), DRAW, "hive", 0, GetBodygroup() );
-	}
-
-	bool HasBattery()
-	{
-		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0  )
-		{
-			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-			return false;
-		}
-		return true;
 	}
 
 	void PrimaryAttack()
@@ -222,38 +228,42 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		if( !Swing( 1 ) )
 		{
 			SetThink( ThinkFunction( this.SwingAgain ) );
-			self.pev.nextthink = g_Engine.time + 0.1;
+			self.pev.nextthink = g_Engine.time + 0.1f;
 		}
 
-		self.m_flNextPrimaryAttack = g_Engine.time + 0.375f;
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack  = g_Engine.time + 0.375f;
 	}
 
 	void SecondaryAttack()
 	{
-		if( !HasBattery() )
+		if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
 			return;
 
-		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/flashlight1.wav", 1.0, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
-
-		self.SendWeaponAnim( IDLE2, 0, GetBodygroup() );
-
-		m_bIsFlashlightOn = !m_bIsFlashlightOn;
-
-		self.m_flNextPrimaryAttack = g_Engine.time + 0.3f;
-		self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
+		m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
+		m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
+		// g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
 	}
 
-	void Smack()
+	void WeaponIdle()
 	{
-		g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
+		self.ResetEmptySound();
+		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
+
+		if( self.m_flTimeWeaponIdle > g_Engine.time )
+			return;
+
+		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
+		{
+			case 0:  self.SendWeaponAnim( IDLE3, 0, GetBodygroup() ); break; 
+			case 1:  self.SendWeaponAnim( IDLE2, 0, GetBodygroup() ); break; 
+			default: self.SendWeaponAnim( IDLE, 0, GetBodygroup() ); break;
+		}
+
+		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
 	}
 
-	void SwingAgain()
-	{
-		Swing( 0 );
-	}
-
-	bool Swing( int fFirst )
+	private bool Swing( int fFirst )
 	{
 		bool fDidHit = false;
 
@@ -261,187 +271,140 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		Math.MakeVectors( m_pPlayer.pev.v_angle );
 		Vector vecSrc	= m_pPlayer.GetGunPosition();
-		Vector vecEnd	= vecSrc + g_Engine.v_forward * 32;
+		Vector vecEnd	= vecSrc + g_Engine.v_forward * 32.0f;
 
 		g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
-		if( tr.flFraction >= 1.0 )
+		if( tr.flFraction >= 1.0f )
 		{
 			g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, m_pPlayer.edict(), tr );
-			if( tr.flFraction < 1.0 )
+			if( tr.flFraction < 1.0f )
 			{
-				//Calculate the point of intersection of the line ( or hull ) and the object we hit
-				//This is and approximation of the "best" intersection
+				// Calculate the point of intersection of the line (or hull) and the object we hit
+				// This is and approximation of the "best" intersection
 				CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
 				if( pHit is null || pHit.IsBSPModel() )
 					g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
-				vecEnd = tr.vecEndPos;	//This is the point on the actual surface ( the hull could have hit space )
+				vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
 			}
 		}
 
-		if( tr.flFraction >= 1.0 )
+		if( tr.flFraction >= 1.0f )
 		{
 			if( fFirst != 0 )
 			{
-				//miss
+				// miss
 				switch( ( m_iSwing++ ) % 3 )
 				{
-				case 0:
-					self.SendWeaponAnim( ATTACK1MISS, 0, GetBodygroup() ); break;
-				case 1:
-					self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
-				case 2:
-					self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
+					case 0: self.SendWeaponAnim( ATTACK1MISS, 0, GetBodygroup() ); break;
+					case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
+					case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
 				}
-				self.m_flNextPrimaryAttack = g_Engine.time + 0.5;
-				//play wiff or swish sound
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_miss1.wav", 1, ATTN_NORM, 0, 94 + Math.RandomLong( 0,0xF ) );
+				self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+				self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
-				//player "shoot" animation
+				// play wiff or swish sound
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND, 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+
+				// player "shoot" animation
 				m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 			}
 		}
 		else
 		{
-			//hit
+			// hit
 			fDidHit = true;
 
 			CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
 			switch( ( ( m_iSwing++ ) % 2 ) + 1 )
 			{
-			case 0:
-				self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
-			case 1:
-				self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
-			case 2:
-				self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
+				case 0: self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
+				case 1: self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
+				case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
 			}
 
-			//player "shoot" animation
+			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
+      self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
+
+			// player "shoot" animation
 			m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
-			//AdamR: Custom damage option
-			float flDamage = 7;
-			if( self.m_flCustomDmg > 0 )
+			// AdamR: Custom damage option
+			float flDamage = float( DAMAGE );
+			if( self.m_flCustomDmg > 0.0f )
 				flDamage = self.m_flCustomDmg;
-			//AdamR: End
+			// AdamR: End
 
 			g_WeaponFuncs.ClearMultiDamage();
-			if( self.m_flNextPrimaryAttack + 1 < g_Engine.time )
+			if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
 			{
 				//first swing does full damage
 				pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_CLUB );
 			}
 			else
 			{
-				//subsequent swings do 50% ( Changed -Sniper) ( Half )
-				pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5, g_Engine.v_forward, tr, DMG_CLUB );
+				//subsequent swings do 50% (Changed -Sniper) (Half)
+				pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5f, g_Engine.v_forward, tr, DMG_CLUB );
 			}
 			g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
-			//m_flNextPrimaryAttack = gpGlobals->time + 0.30; //0.25
-
-			//play thwack, smack, or dong sound
-			float flVol = 1.0;
+			// play thwack, smack, or dong sound
+			float flVol = 1.0f;
 			bool fHitWorld = true;
 
-			//for monsters or breakable entity smacking speed function
+			// for monsters or breakable entity smacking speed function
 			if( pEntity !is null )
 			{
-				self.m_flNextPrimaryAttack = g_Engine.time + 0.3; //0.25
-
 				if( pEntity.Classify() != CLASS_NONE && pEntity.Classify() != CLASS_MACHINE && pEntity.BloodColor() != DONT_BLEED )
 				{
-					//aone
-					if( pEntity.IsPlayer() )		//lets pull them
-					{
-						pEntity.pev.velocity = pEntity.pev.velocity + ( self.pev.origin - pEntity.pev.origin ).Normalize() * 120;
-					}
-					//end aone
-					//play thwack or smack sound
-					switch( Math.RandomLong( 0, 2 ) )
-					{
-					case 0:
-						g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod1.wav", 1, ATTN_NORM ); break;
-					case 1:
-						g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod2.wav", 1, ATTN_NORM ); break;
-					case 2:
-						g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod3.wav", 1, ATTN_NORM ); break;
-					}
+					// aone
+					if( pEntity.IsPlayer() ) // lets pull them
+						pEntity.pev.velocity = pEntity.pev.velocity + ( pev.origin - pEntity.pev.origin ).Normalize() * 120.0f;
+					// end aone
+
+					// play thwack or smack sound
+					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM );
 					m_pPlayer.m_iWeaponVolume = 128;
+
 					if( !pEntity.IsAlive() )
 						return true;
 					else
-						flVol = 0.1;
+						flVol = 0.1f;
 
 					fHitWorld = false;
 				}
 			}
 
-			//play texture hit sound
-			//UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
+			// play texture hit sound
+			// UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
 
-			if( fHitWorld == true )
+			if( fHitWorld )
 			{
-				float fvolbar = g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2, BULLET_PLAYER_CROWBAR );
+				g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
-				self.m_flNextPrimaryAttack = g_Engine.time + 0.3; //0.25
-
-				//override the volume here, cause we don't play texture sounds in multiplayer,
-				//and fvolbar is going to be 0 from the above call.
-
-				fvolbar = 1;
-
-				//also play crowbar strike
-				switch( Math.RandomLong( 0, 1 ) )
-				{
-				case 0:
-					g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit1.wav", fvolbar, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-					break;
-				case 1:
-					g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit2.wav", fvolbar, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-					break;
-				}
+				// also play crowbar strike
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 			}
 
 			//delay the decal a bit
 			m_trHit = tr;
 			SetThink( ThinkFunction( this.Smack ) );
-			self.pev.nextthink = g_Engine.time + 0.2;
+			self.pev.nextthink = g_Engine.time + 0.2f;
 
 			m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
 		}
 		return fDidHit;
 	}
 
-	void WeaponIdle()
+	private void SwingAgain()
 	{
-		self.ResetEmptySound();
+		Swing( 0 );
+	}
 
-		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
-
-		if( self.m_flTimeWeaponIdle > g_Engine.time )
-			return;
-
-		int iAnim;
-		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed,  0, 3 ) )
-		{
-		case 0:
-			iAnim = IDLE3;
-			break;
-
-		case 1:
-			iAnim = IDLE2;
-			break;
-
-		default:
-			iAnim = IDLE;
-			break;
-		}
-
-		self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
-		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  6, 8 );//how long till we do this again.
+	private void Smack()
+	{
+		g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
 	}
 }
 
@@ -449,47 +412,47 @@ class ammo_bts_battery : ScriptBasePlayerAmmoEntity
 {
 	void Spawn()
 	{
-		g_EntityFuncs.SetModel( self, MODEL_AMMO );
-
-		pev.scale = 0.75; //1.0
-
+		Precache();
+		g_EntityFuncs.SetModel( self, A_MODEL );
+		pev.scale = 0.75f;
 		BaseClass.Spawn();
+	}
+
+	void Precache()
+	{
+		g_Game.PrecacheModel( A_MODEL );
+		g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
 	}
 
 	bool AddAmmo( CBaseEntity@ pOther )
 	{
-		int iGive;
-
-		iGive = MAX_GIVE;
-
-		if( pOther.GiveAmmo( iGive, "flashlightbattery", MAX_AMMO ) != -1 )
+		if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
 		{
-			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1, ATTN_NORM );
+			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
 			return true;
 		}
-
 		return false;
 	}
 }
 
-string GetFlashlightName()
+string GetName()
 {
 	return "weapon_bts_flashlight";
 }
 
-string GetFlashlightAmmoName()
+string GetAmmoName()
 {
 	return "ammo_bts_battery";
 }
 
-void RegisterBTSFlashlight()
+void Register()
 {
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", GetFlashlightName() );
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", GetFlashlightAmmoName() );
-	g_ItemRegistry.RegisterWeapon( GetFlashlightName(), "bts_rc/weapons", "flashlightbattery", "", GetFlashlightAmmoName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", GetName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", GetAmmoName() );
+	g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }
-//End namespace BTS_FLASHLIGHT
-//if you wanna use this as a sample, go ahead and make sure credit the rightful owner.
-//whoever tryna steal this original work and claimed it to be their own is a fucktard.
+// End namespace BTS_FLASHLIGHT
+// if you wanna use this as a sample, go ahead and make sure credit the rightful owner.
+// whoever tryna steal this original work and claimed it to be their own is a fucktard.
