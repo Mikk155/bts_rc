@@ -1,5 +1,9 @@
+
+// -TODO Refactorize all this without affecting the result and how the map handles the script right now.
 namespace randomizer
 {
+    CLogger@ m_Logger = CLogger( "Randomizer" );
+
     array<string>@ keys = {
         "item",
         "npc",
@@ -17,7 +21,7 @@ namespace randomizer
             if( !vectors.exists( list ) )
                 vectors[ list ] = array<Vector>();
 
-            g_Game.AlertMessage( at_console, "Push ranmdom origin at \"%1\" for \"%1\"\n", self.pev.origin.ToString(), list );
+            m_Logger.debug( "Push ranmdom origin at \"{}\" for \"{}\"", { self.pev.origin.ToString(), list } );
 
             array<Vector>( vectors[ list ] ).insertLast( self.pev.origin );
 
@@ -162,7 +166,7 @@ namespace randomizer
     {
         if( statement )
         {
-            g_Game.AlertMessage( at_error, "WARNING! Not enough \"randomize_%1\" entities for randomizing positions. Shutting down operation...\n", type );
+            m_Logger.critical( "Not enough \"randomize_{}\" entities for randomizing positions. Shutting down operation...", { type } );
         }
         return statement;
     }
@@ -172,6 +176,7 @@ namespace randomizer
         if( psquad !is null )
         {
             const string targetname = psquad.GetTargetname();
+            // -TODO Swap one squad with one random of its same type
         }
     }
 
@@ -208,10 +213,10 @@ namespace randomizer
                     if( exit( index <= 0, type ) )
                         return;
 
-                    g_Game.AlertMessage( at_console, "Setting origin of entity \"%1\" to \"%2\"\n", object[ui2], Vec_position_list[ index - 1 ].ToString() );
+                    m_Logger.info( "Setting origin of entity \"{}\" to \"{}\"", { object[ui2], Vec_position_list[ index - 1 ].ToString() } );
 
                     // -TODO Remove this if Raptor adds it to the map's squadmakers
-                    g_EntityFuncs.DispatchKeyValue( ptr.edict(), "function_name", "randomizer::randomize_squad" )
+                    g_EntityFuncs.DispatchKeyValue( ptr.edict(), "function_name", "randomizer::randomize_squad" );
 
                     g_EntityFuncs.SetOrigin( ptr, Vec_position_list[ index - 1 ] );
 
