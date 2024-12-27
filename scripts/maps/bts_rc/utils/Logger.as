@@ -1,5 +1,5 @@
 /*
-    Logger. This is temporary for testing and should be removed on release
+    Logger. This is temporary for testing and should be removed on release -TODO
 */
 
 enum LoggerLevels
