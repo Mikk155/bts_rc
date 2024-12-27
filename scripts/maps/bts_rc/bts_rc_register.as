@@ -9,8 +9,7 @@
 //Bullet Wallpuff Code: KernCore, Rizulix
 
 #include "entities/randomizer"
-
-#include "trigger_script/survival"
+#include "entities/trigger_script"
 
 #include "game_item_tracker"
 #include "list_weapons"
@@ -18,7 +17,6 @@
 #include "player_voices/player_voices"
 #include "monsters/npc_ammo"
 #include "point_checkpoint"
-//#include "selective_nvg" < Broken -Sniper's fan
 #include "objective_indicator"
 
 void MapStart()
