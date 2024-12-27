@@ -8,24 +8,25 @@
 //Hands Sleeve Difference based on Playermodels code: KernCore & Mikk155
 //Bullet Wallpuff Code: KernCore, Rizulix
 
+// Include utils methods used for various purposes
 #include "utils/main"
 
 #include "entities/randomizer"
-
-#include "player_voices"
 
 #include "trigger_script/survival"
 
 #include "game_item_tracker"
 #include "list_weapons"
 #include "mappings"
+#include "player_voices/player_voices"
 #include "monsters/npc_ammo"
 #include "point_checkpoint"
+//#include "selective_nvg" < Broken -Sniper's fan
 #include "objective_indicator"
 
 void MapStart()
 {
-    g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+    g_Log.PrintF( "Max entities: %1\nNumber of entities in bsp: %2", g_Engine.maxEntities, g_EngineFuncs.NumberOfEntities() );
 }
 
 void MapActivate()
@@ -38,11 +39,7 @@ void MapActivate()
 
 void MapInit()
 {
-    LoggerLevel = ( Warning | Debug | Info | Critical | Error );
-
     randomizer::register();
-
-    g_VoiceResponse.init();
 
     RegisterItemTracker();
 
@@ -55,58 +52,27 @@ void MapInit()
     g_ClassicMode.ForceItemRemap( true );
     g_ClassicMode.SetItemMappings( @g_AmmoReplacement );
 
-    /*==========================================================================
-    *   - Start of precaching
-    ==========================================================================*/
-    precache::sound( "items/flashlight2.wav" );
-    precache::sound( "player/hud_nightvision.wav" );
-    /*==========================================================================
-    *   - End
-    ==========================================================================*/
+    // Hooks
+    g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PLAYER_VOICES::BTSRC_PlayerSpawn );
+    g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PLAYER_VOICES::BTSRC_PlayerKilled );
+    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @NPC_DROPAMMO::BTSRC_MonsterKilled ); 
 
-    // Size the array to the number of slots
-    for( int i = 0; i < g_Engine.maxClients; i++ )
-    {
-        players_origin.insertLast( g_vecZero );
-    }
-
-    /*==========================================================================
-    *   - Start of hooks
-    ==========================================================================*/
+    g_SoundSystem.PrecacheSound( "items/flashlight2.wav" );
+    g_SoundSystem.PrecacheSound( "player/hud_nightvision.wav" );
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
-    /*==========================================================================
-    *   - End
-    ==========================================================================*/
+
+    // Sound Precache
+    PLAYER_VOICES::BTSRC_PrecachePlayerSounds();
 }
-
-/*==========================================================================
-*   - Start of Voice Responses
-==========================================================================*/
-
-array<Vector> players_origin;
-
-/*==========================================================================
-*   - End
-==========================================================================*/
 
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
-        // Save last origin for interpreting if there's a player nearby
-        players_origin[ player.entindex() -1 ] = player.pev.origin;
-
-        /*==========================================================================
-        *   - Start of Night Vision
-        ==========================================================================*/
-
-        CustomKeyvalues@ kvd = player.GetCustomKeyvalues();
-
-        int state = kvd.GetKeyvalue( "$i_nightvision_state" ).GetInteger();
+        int state = player.GetCustomKeyvalues().GetKeyvalue( "$i_nightvision_state" ).GetInteger();
 
         if( g_EngineFuncs.GetInfoKeyBuffer( player.edict() ).GetValue( "model" ) == "bts_helmet" )
         {
-            // Catch impulse commands and toggle night vision state
             if( player.pev.impulse == 100 )
             {
                 g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", ( state == 1 ? 0 : 1 ) );
@@ -116,11 +82,9 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                 g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
             }
 
-            // Night vision ON, drain and light
             if( state == 1 )
             {
-                // Show even when dead lying.
-                if( !player.GetObserver().IsObserver() )
+                if( player.IsAlive() )
                 {
                     NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
                         m.WriteByte( TE_DLIGHT );
@@ -135,22 +99,19 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                         m.WriteByte(1);
                     m.End();
                 }
-                else
-                {
+                else {
                     g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
                     g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
                 }
             }
         }
-        // Player changed his model. Turn off night vision.
         else if( state == 1 )
         {
             g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
             g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
         }
-        /*==========================================================================
-        *   - End
-        ==========================================================================*/
+
+        PLAYER_VOICES::BTSRC_PlayPlayerPainSounds( EHandle(player) );
     }
 
     return HOOK_CONTINUE;
