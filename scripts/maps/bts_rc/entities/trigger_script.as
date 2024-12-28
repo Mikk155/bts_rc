@@ -13,6 +13,17 @@ namespace randomizer
     }
 }
 
+namespace start_game
+{
+    // This is the map telling us that the game as started and player's classes won't be changed anymore
+    bool is_ready = false;
+
+    void all_ready( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    {
+        is_ready = true;
+    }
+}
+
 // Do we really need a script to do this?
 namespace survival
 {

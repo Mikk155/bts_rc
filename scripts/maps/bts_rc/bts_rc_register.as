@@ -88,6 +88,11 @@ array<Vector> players_origin;
 
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
+    if( !start_game::is_ready )
+    {
+        return HOOK_CONTINUE;
+    }
+
     if( player !is null && player.IsConnected() )
     {
         // Save last origin for interpreting if there's a player nearby
