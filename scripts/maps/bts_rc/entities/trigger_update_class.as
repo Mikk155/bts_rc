@@ -1,6 +1,6 @@
 class trigger_update_class : ScriptBaseEntity
 {
-    private PM m_class = PM::UNSET;
+    private PM m_class = PM::SCIENTIST;
 
     void Spawn()
     {
