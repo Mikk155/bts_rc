@@ -1,5 +1,6 @@
-#include "precache"
 #include "Logger"
+#include "precache"
+#include "player_class"
 
 //sven only has 8192 edicts at any given time
 //so assume each player carries exactly 16 weapons, and then leave 100 slots free for various temporary things.

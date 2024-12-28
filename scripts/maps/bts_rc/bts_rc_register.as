@@ -1,16 +1,57 @@
-//Black Mesa Training Simulation - Resonance Cascade
-//Credits:-
-//Map Design: RaptorSKA
-//Models: Valve, Gearbox Software, MTB, KernCore, ZikShadow, MiroSklenar, HAPE B, Ixnay, Organic700, DAVLevels, Sven Co-op Teams
-//Scripts: KernCore, Nero0, Solokiller, H², Rizulix, Mikk155, Gaftherman, RaptorSKA, Valve, Gearbox Software
-//Sound: Valve, Gearbox Software, MTB, LIL-PIF, KernCore, ZikShadow, TurtleRock Studios, Sven Co-op Teams
-//Sprites: Valve, Gearbox Software, KernCore, KEZÆIV, ZikShadow, MiroSklenar, Ixnay, Organic700, DAVLevels, Sven Co-op Teams
-//Hands Sleeve Difference based on Playermodels code: KernCore & Mikk155
-//Bullet Wallpuff Code: KernCore, Rizulix
+/*
+    Black Mesa Training Simulation - Resonance Cascade
+
+    - AraseFiq
+        - Script general and initial idea for these features
+    - Mikk155
+        - Various
+    - Rizulix
+        - Weapons, Item tracker
+    - Gaftherman
+        - Item tracker
+    - KernCore
+        - Various code references
+    - Nero0
+        - Ditto
+    - Solokiller
+        - Help Support
+    - H²
+        - Ditto
+    - Adambean
+        - Objetive indicator
+    - Hezus
+        - Ditto
+    - GeckoN
+        - Ditto
+
+    MIT License Copyright (c)
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+*/
 
 #include "utils/main"
+
+// Entities
 #include "entities/randomizer"
 #include "entities/trigger_script"
+#include "entities/trigger_update_class"
+
 #include "player_voices"
 
 #include "game_item_tracker"
@@ -38,6 +79,8 @@ void MapInit()
     LoggerLevel = ( Warning | Debug | Info | Critical | Error );
 
     randomizer::register();
+
+    g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class", "trigger_update_class" );
 
     g_VoiceResponse.init();
 
@@ -88,11 +131,6 @@ array<Vector> players_origin;
 
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
-    if( !start_game::is_ready )
-    {
-        return HOOK_CONTINUE;
-    }
-
     if( player !is null && player.IsConnected() )
     {
         // Save last origin for interpreting if there's a player nearby
