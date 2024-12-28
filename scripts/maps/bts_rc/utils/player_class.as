@@ -44,7 +44,7 @@ final class PlayerClass
             }
         }
 
-        return PM::UNSET;
+        return PM::SCIENTIST;
     }
 
     void set_class( CBasePlayer@ player, const PM player_class )
@@ -55,7 +55,7 @@ final class PlayerClass
 
         player.SetOverriddenPlayerModel( model );
 
-        m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { player.pev.netname, model, player_class } );
+        m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
     }
 
     // Return a player model for the given class
@@ -80,14 +80,10 @@ final class PlayerClass
                 mdl_barney_last = ( mdl_barney_last >= mdl_barney.length() -1 ) ? 0 : mdl_barney_last + 1;
                 return mdl_barney[ mdl_barney_last ];
             }
-            case PM::UNSET:
-            case PM::SCIENTIST:
-            default:
-            {
-                mdl_scientist_last = ( mdl_scientist_last >= mdl_scientist.length() -1 ) ? 0 : mdl_scientist_last + 1;
-                return mdl_scientist[ mdl_scientist_last ];
-            }
         }
+
+        mdl_scientist_last = ( mdl_scientist_last >= mdl_scientist.length() -1 ) ? 0 : mdl_scientist_last + 1;
+        return mdl_scientist[ mdl_scientist_last ];
     }
 }
 
