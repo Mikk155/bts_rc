@@ -4,3 +4,4 @@ sound/*
 sprites/*
 *.wad
 steam_autocloud.vdf
+src/bts_rc.rmf
