@@ -68,8 +68,6 @@ void MapStart()
 
 void MapActivate()
 {
-    randomizer::unregister();
-
     SetupItemTracker();
     BTS_RC::MapActivate(); //Objective code debug
 }
@@ -77,10 +75,6 @@ void MapActivate()
 void MapInit()
 {
     LoggerLevel = ( Warning | Debug | Info | Critical | Error );
-
-    randomizer::register();
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class", "trigger_update_class" );
 
     g_VoiceResponse.init();
 
