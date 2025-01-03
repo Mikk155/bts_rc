@@ -3,7 +3,9 @@
 // Models: Valve Software, Gearbox Software, dydwk747, ruMpel ( Battery model )
 // Sprites: Patofan05
 // Thanks Mikk for scripting full support
-// Rewrited by Rizulix (december 2024)
+// Rewrited by Rizulix for bts_rc (december 2024)
+
+#include "../utils/player_class"
 
 namespace BTS_FLASHLIGHT
 {
@@ -23,13 +25,19 @@ enum btsflashlight_e
 	IDLE3
 };
 
+enum bodygroups_e
+{
+	STUDIO = 0,
+	HANDS
+};
+
 // Models
 string W_MODEL = "models/bts_rc/weapons/w_flashlight.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_flashlight.mdl";
 string P_MODEL = "models/bts_rc/weapons/p_flashlight.mdl";
 string A_MODEL = "models/furniture/w_flashlightbattery.mdl";
 // Sounds
-string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+// string SWITCH_SND = "bts_rc/items/flashlight1.wav";
 string MISS_SND = "bts_rc/weapons/flashlight_miss1.wav";
 array<string> HITWORLD_SND = {
 	"bts_rc/weapons/flashlight_hit1.wav",
@@ -48,22 +56,29 @@ int AMMO_GIVE = 5;
 int AMMO_DROP = 1;
 int WEIGHT = 10;
 int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
-string AMMO_TYPE = "flashlightbattery";
+string AMMO_TYPE = "bts:battery";
 // Weapon HUD
 int SLOT = 4;
 int POSITION = 4;
 // Vars
-int DAMAGE = 7;
+float RANGE = 32.0f;
+float DAMAGE = 7.0f;
 string FLASHLIGHT = "$i_flashBattery";
+// weapon id
+const int ID = Register();
 
-class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
+class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 {
 	private CBasePlayer@ m_pPlayer
 	{
 		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
 		set       { self.m_hPlayer = EHandle( @value ); }
 	}
-	private int m_iFlashBattery // saved battery shared between weapons
+	// private bool m_fHasHEV
+	// {
+	// 	get const { return g_PlayerClass[m_pPlayer] == HELMET; }
+	// }
+	private int m_iFlashBattery // saved battery shared between weapons -rzlx
 	{
 		get const
 		{
@@ -79,51 +94,23 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		}
 	}
 	private int m_iCurBaterry; // for clamping
-	private int m_iShell;
-
-	/*dictionary g_Models =
-	{
-		{ "bts_barney", 0 }, { "bts_otis", 0 },
-		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
-		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
-		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-		{ "bts_construction", 2 }, { "bts_helmet", 4 }
-	};*/
+	private int m_iSwing;
 
 	int GetBodygroup()
 	{
-		/*string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
-
-		switch( int( g_Models[ modelName ]) )
-		{
-			case 0:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-				break;
-			case 1:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-				break;
-			case 2:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-				break;
-			case 3:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
-				break;
-			case 4:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
-				break;
-		}*/
-
-		return /*m_iCurBodyConfig*/0;
+		pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+		return pev.body;
 	}
 
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel( self, W_MODEL );
-		self.m_iDefaultAmmo = DEFAULT_GIVE;
 		self.m_flCustomDmg = pev.dmg;
+		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+		self.m_iDefaultAmmo = DEFAULT_GIVE;
 		self.FallInit();
+
+		m_iSwing = 0;
 	}
 
 	void Precache()
@@ -134,7 +121,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		g_Game.PrecacheModel( P_MODEL );
 		g_Game.PrecacheModel( A_MODEL );
 
-		g_SoundSystem.PrecacheSound( SWITCH_SND );
+		// g_SoundSystem.PrecacheSound( SWITCH_SND );
 		g_SoundSystem.PrecacheSound( MISS_SND );
 
 		for( uint i = 0; i < HITWORLD_SND.length(); i++ )
@@ -161,7 +148,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 	{
 		info.iMaxAmmo1 = MAX_CARRY;
 		info.iAmmo1Drop = AMMO_DROP;
-		info.iMaxAmmo2 = WEAPON_NOCLIP;
+		info.iMaxAmmo2 = -1;
 		info.iAmmo2Drop = -1;
 		info.iMaxClip = MAX_CLIP;
 		info.iSlot = SLOT;
@@ -191,6 +178,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 		m_iFlashBattery = m_iCurBaterry;
 
+		SetThink( null );
 		BaseClass.Holster( skiplocal );
 	}
 
@@ -213,25 +201,13 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		BaseClass.ItemPostFrame();
 	}
 
-	bool PlayEmptySound()
-	{
-		if( self.m_bPlayEmptySound )
-		{
-			self.m_bPlayEmptySound = false;
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
-		}
-		return false;
-	}
-
 	void PrimaryAttack()
 	{
-		if( !Swing( 1 ) )
+		if( !Swing( true ) )
 		{
 			SetThink( ThinkFunction( this.SwingAgain ) );
-			self.pev.nextthink = g_Engine.time + 0.1f;
+			pev.nextthink = g_Engine.time + 0.1f;
 		}
-
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack  = g_Engine.time + 0.375f;
 	}
 
 	void SecondaryAttack()
@@ -255,23 +231,22 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
 		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
 		{
-			case 0:  self.SendWeaponAnim( IDLE3, 0, GetBodygroup() ); break; 
-			case 1:  self.SendWeaponAnim( IDLE2, 0, GetBodygroup() ); break; 
+			case 0: self.SendWeaponAnim( IDLE3, 0, GetBodygroup() ); break; 
+			case 1: self.SendWeaponAnim( IDLE2, 0, GetBodygroup() ); break; 
 			default: self.SendWeaponAnim( IDLE, 0, GetBodygroup() ); break;
 		}
 
 		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
 	}
 
-	private bool Swing( int fFirst )
+	private bool Swing( bool fFirst )
 	{
-		bool fDidHit = false;
-
 		TraceResult tr;
+		bool fDidHit = false;
 
 		Math.MakeVectors( m_pPlayer.pev.v_angle );
 		Vector vecSrc	= m_pPlayer.GetGunPosition();
-		Vector vecEnd	= vecSrc + g_Engine.v_forward * 32.0f;
+		Vector vecEnd	= vecSrc + g_Engine.v_forward * RANGE;
 
 		g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -291,7 +266,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
 		if( tr.flFraction >= 1.0f )
 		{
-			if( fFirst != 0 )
+			if( fFirst )
 			{
 				// miss
 				switch( ( m_iSwing++ ) % 3 )
@@ -300,7 +275,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 					case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
 					case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
 				}
-				self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+				self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.625f;
 				self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 				// play wiff or swish sound
@@ -324,29 +299,25 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 				case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
 			}
 
-			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
-      self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
+			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.375f;
+			self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 			// player "shoot" animation
 			m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
 			// AdamR: Custom damage option
-			float flDamage = float( DAMAGE );
+			float flDamage = DAMAGE;
 			if( self.m_flCustomDmg > 0.0f )
 				flDamage = self.m_flCustomDmg;
 			// AdamR: End
 
 			g_WeaponFuncs.ClearMultiDamage();
+
 			if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-			{
-				//first swing does full damage
-				pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_CLUB );
-			}
+				pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
 			else
-			{
-				//subsequent swings do 50% (Changed -Sniper) (Half)
-				pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5f, g_Engine.v_forward, tr, DMG_CLUB );
-			}
+				pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
+
 			g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
 			// play thwack, smack, or dong sound
@@ -387,10 +358,10 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 			}
 
-			//delay the decal a bit
+			// delay the decal a bit
 			m_trHit = tr;
 			SetThink( ThinkFunction( this.Smack ) );
-			self.pev.nextthink = g_Engine.time + 0.2f;
+			pev.nextthink = g_Engine.time + 0.2f;
 
 			m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
 		}
@@ -399,7 +370,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
 	private void SwingAgain()
 	{
-		Swing( 0 );
+		Swing( false );
 	}
 
 	private void Smack()
@@ -426,7 +397,7 @@ class ammo_bts_battery : ScriptBasePlayerAmmoEntity
 
 	bool AddAmmo( CBaseEntity@ pOther )
 	{
-		if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+		if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
 			return true;
@@ -445,11 +416,11 @@ string GetAmmoName()
 	return "ammo_bts_battery";
 }
 
-void Register()
+int Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", GetAmmoName() );
-	g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

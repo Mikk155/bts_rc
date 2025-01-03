@@ -8,14 +8,16 @@
 / Misc: Valve, D.N.I.O. 071 ( Player Model Fix )
 / Script: Solokiller, KernCore, original base from Nero
 */
+// Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../proj/proj_flare"
+#include "../proj/flare"
+#include "../utils/player_class"
 
 namespace BTS_FLARE
 {
 
-//Animations
-enum BTS_Flare_Animations
+// Animations
+enum btsflare_e
 {
 	IDLE = 0,
 	PULLPIN,
@@ -23,163 +25,154 @@ enum BTS_Flare_Animations
 	DRAW
 };
 
-//Models
-string W_MODEL  	= "models/bts_rc/weapons/w_flare.mdl";
-string V_MODEL  	= "models/bts_rc/weapons/v_flare.mdl";
-string P_MODEL  	= "models/bts_rc/weapons/p_flare.mdl";
-string TOSS_MODEL   = "models/bts_rc/weapons/flare.mdl";
-//Sounds
-array<string> 		WeaponSoundEvents = {
-					"bts_rc/weapons/flare_pin.wav"
+enum bodygroups_e
+{
+	HANDS = 0 // STUDIO
 };
-//Information
-int MAX_CARRY   	= 5;
-int MAX_CLIP		= WEAPON_NOCLIP;
-int DEFAULT_GIVE 	= 1;
-int WEIGHT	  	= 5;
-int FLAGS	   	= ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
-uint DAMAGE	 	= 0;
-uint SLOT	   	= 4;
-uint POSITION   	= 5;
-string AMMO_TYPE 	= GetFlareName();
-float TIMER	  	= 1.5;
 
-class weapon_bts_flare : ScriptBasePlayerWeaponEntity, HLWeaponUtils, FlareWeaponExplode
+// Models
+string W_MODEL = "models/bts_rc/weapons/w_flare.mdl";
+string V_MODEL = "models/bts_rc/weapons/v_flare.mdl";
+string P_MODEL = "models/bts_rc/weapons/p_flare.mdl";
+string PRJ_MDL = "models/bts_rc/weapons/flare.mdl";
+// Sounds
+array<string> SOUNDS = {
+	"bts_rc/weapons/flare_pin.wav"
+};
+// Weapon info
+int MAX_CARRY = 5;
+int MAX_CLIP = WEAPON_NOCLIP;
+int DEFAULT_GIVE = 1;
+int AMMO_GIVE = DEFAULT_GIVE;
+int AMMO_DROP = AMMO_GIVE;
+int WEIGHT = 5;
+int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
+string AMMO_TYPE = GetName();
+// Weapon HUD
+uint SLOT = 4;
+uint POSITION = 5;
+// Vars
+float TIMER = 1.5f;
+float DAMAGE = 1.0f;
+float DURATION = 60.0f;
+Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
+// weapon id
+const int ID = Register();
+
+class weapon_bts_flare : ScriptBasePlayerWeaponEntity
 {
 	private CBasePlayer@ m_pPlayer
 	{
-		get const 	{ return cast<CBasePlayer@>( self.m_hPlayer.GetEntity() ); }
-		set	   	{ self.m_hPlayer = EHandle( @value ); }
+		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
+		set       { self.m_hPlayer = EHandle( @value ); }
 	}
-	private bool m_bInAttack, m_bThrown;
+	// private bool m_fHasHEV
+	// {
+	// 	get const { return g_PlayerClass[m_pPlayer] == HELMET; }
+	// }
 	private float m_fAttackStart, m_flStartThrow;
-	dictionary g_Models =
-	{
-		{ "bts_barney", 0 }, { "bts_otis", 0 },
-		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
-		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
-		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-		{ "bts_construction", 2 }, { "bts_helmet", 4 }
-	};
+	private bool m_bInAttack, m_bThrown;
+	private int m_iAmmoSave;
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
-
-		switch( int( g_Models[ modelName ]) )
-		{
-			case 0:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 0 );
-				break;
-			case 1:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 1 );
-				break;
-			case 2:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 2 );
-				break;
-			case 3:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 3 );
-				break;
-			case 4:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 0, 4 );
-				break;
-		}
-
-		return m_iCurBodyConfig;
+		pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+		return pev.body;
 	}
 
 	void Spawn()
 	{
 		Precache();
-
-		self.pev.dmg = DAMAGE;
-		CommonSpawn( W_MODEL, DEFAULT_GIVE );
-		self.pev.scale = 1;
+		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+		self.m_iDefaultAmmo = DEFAULT_GIVE;
+		self.FallInit(); // get ready to fall
 	}
 
 	void Precache()
 	{
 		self.PrecacheCustomModels();
-		//Models
 		g_Game.PrecacheModel( W_MODEL );
 		g_Game.PrecacheModel( V_MODEL );
 		g_Game.PrecacheModel( P_MODEL );
-		g_Game.PrecacheModel( TOSS_MODEL );
-		//Entities
-		g_Game.PrecacheOther( FLARE_PROJ::DEFAULT_PROJ_NAME );
-		//Sounds
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_pin.wav" );
-		//Sprites
-		//CommonSpritePrecache();
-		g_Game.PrecacheGeneric('sprites/bts_rc/weapons/' + pev.classname + '.txt');
-	}
+		g_Game.PrecacheModel( PRJ_MDL );
 
-	bool GetItemInfo( ItemInfo& out info )
-	{
-		info.iMaxAmmo1 	= MAX_CARRY;
-		info.iMaxAmmo2 	= WEAPON_NOCLIP;
-		info.iMaxClip 	= MAX_CLIP;
-		info.iSlot  	= SLOT;
-		info.iPosition 	= POSITION;
-		info.iId	 	= g_ItemRegistry.GetIdForName( self.pev.classname );
-		info.iFlags 	= FLAGS;
-		info.iWeight 	= WEIGHT;
+		g_Game.PrecacheOther( FLARE::GetName() );
 
-		return true;
+		// g_SoundSystem.PrecacheSound( SHOOT_SND );
+		// g_SoundSystem.PrecacheSound( EMPTY_SND );
+
+		for( uint i = 0; i < SOUNDS.length(); i++ )
+			g_SoundSystem.PrecacheSound( SOUNDS[i] );
+
+		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
 	bool AddToPlayer( CBasePlayer@ pPlayer )
 	{
-		return CommonAddToPlayer( pPlayer );
+		if( !BaseClass.AddToPlayer( pPlayer ) )
+			return false;
+
+		NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
+			weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
+		weapon.End();
+		return true;
 	}
 
-	//Better ammo extraction --- Anggara_nothing
+	bool GetItemInfo( ItemInfo& out info )
+	{
+		info.iMaxAmmo1 = MAX_CARRY;
+		info.iAmmo1Drop = AMMO_DROP;
+		info.iMaxAmmo2 = -1;
+		info.iAmmo2Drop = -1;
+		info.iMaxClip = MAX_CLIP;
+		info.iSlot = SLOT;
+		info.iPosition = POSITION;
+		info.iId = g_ItemRegistry.GetIdForName( pev.classname );
+		info.iFlags = FLAGS;
+		info.iWeight = WEIGHT;
+		return true;
+	}
+
+	// Better ammo extraction --- Anggara_nothing
 	bool CanHaveDuplicates()
 	{
 		return true;
 	}
 
-	private int m_iAmmoSave;
 	bool Deploy()
 	{
-		m_iAmmoSave = 0; //Zero out the ammo save
-		return Deploy( V_MODEL, P_MODEL, DRAW, "gren", GetBodygroup(), ( 20.0/30.0) );
+		m_iAmmoSave = 0; // Zero out the ammo save
+		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "gren", 0, GetBodygroup() );
+		self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 30.0f / 40.0f );
+		return true;
 	}
 
 	bool CanHolster()
 	{
-		if( m_fAttackStart != 0 )
-			return false;
-
-		return true;
+		return m_fAttackStart == 0.0f;
 	}
 
 	bool CanDeploy()
 	{
-		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) == 0 )
-			return false;
-
-		return true;
+		return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
 	}
 
-	private CBasePlayerItem@ DropItem()
+	CBasePlayerItem@ DropItem()
 	{
-		m_iAmmoSave = m_pPlayer.AmmoInventory( self.m_iPrimaryAmmoType ); //Save the player's ammo pool in case it has any in DropItem
-
+		m_iAmmoSave = m_pPlayer.AmmoInventory( self.m_iPrimaryAmmoType ); // Save the player"s ammo pool in case it has any in DropItem
 		return self;
 	}
 
-	void Holster( int skipLocal = 0 )
+	void Holster( int skiplocal = 0 )
 	{
 		m_bThrown = false;
 		m_bInAttack = false;
-		m_fAttackStart = 0;
-		m_flStartThrow = 0;
+		m_fAttackStart = 0.0f;
+		m_flStartThrow = 0.0f;
 
-		CommonHolster();
+		SetThink( null );
 
-		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 ) //Save the player's ammo pool in case it has any in Holster
+		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 ) // Save the player"s ammo pool in case it has any in Holster
 		{
 			m_iAmmoSave = m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType );
 		}
@@ -187,10 +180,10 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, HLWeaponUtils, FlareWeapo
 		if( m_iAmmoSave <= 0 )
 		{
 			SetThink( ThinkFunction( this.DestroyThink ) );
-			self.pev.nextthink = g_Engine.time + 0.1;
+			pev.nextthink = g_Engine.time + 0.1f;
 		}
 
-		BaseClass.Holster( skipLocal );
+		BaseClass.Holster( skiplocal );
 	}
 
 	void PrimaryAttack()
@@ -198,47 +191,46 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, HLWeaponUtils, FlareWeapo
 		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
 			return;
 
-		if( m_fAttackStart < 0 || m_fAttackStart > 0 )
+		if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
 			return;
 
-		self.m_flNextPrimaryAttack = WeaponTimeBase() + ( 40.0 / 41.0 );
+		self.m_flNextPrimaryAttack = g_Engine.time + ( 25.0f / 30.0f );
 		self.SendWeaponAnim( PULLPIN, 0, GetBodygroup() );
 
 		m_bInAttack = true;
-		m_fAttackStart = g_Engine.time + ( 40.0 / 41.0 );
+		m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
 
-		self.m_flTimeWeaponIdle = g_Engine.time + ( 40.0 / 41.0 ) + ( 23.0 / 30.0 );
+		self.m_flTimeWeaponIdle = g_Engine.time + ( 25.0f / 30.0f ) + ( 23.0f / 30.0f ); // ( 1.0f / 40.0f );
 	}
 
-	void LaunchThink()
+	private void LaunchThink()
 	{
-		//g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_VOICE, SHOOT_S, VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+		// g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_VOICE, SHOOT_S, VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 		Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
 
 		if( angThrow.x < 0 )
-			angThrow.x = -10 + angThrow.x * ( ( 90 - 10) / 90.0 );
+			angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
 		else
-			angThrow.x = -10 + angThrow.x * ( ( 90 + 10) / 90.0 );
+			angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
 
-		float flVel = ( 90.0f - angThrow.x ) * 6;
+		float flVel = ( 90.0f - angThrow.x ) * 6.0f;
 
 		if( flVel > 750.0f )
 			flVel = 750.0f;
 
 		Math.MakeVectors( angThrow );
-
-		Vector vecSrc = m_pPlayer.pev.origin + m_pPlayer.pev.view_ofs + g_Engine.v_forward * 16;
+		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
 		Vector vecThrow = g_Engine.v_forward * flVel + m_pPlayer.pev.velocity;
 
-		FLARE_PROJ::CFlare@ Flare = FLARE_PROJ::TossGrenade( m_pPlayer.pev, vecSrc, vecThrow, TIMER, DAMAGE, TOSS_MODEL );
+		FLARE::Toss( m_pPlayer.pev, vecSrc, vecThrow, DAMAGE, DURATION, TIMER, PRJ_MDL );
 
 		m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
-		m_fAttackStart = 0;
+		m_fAttackStart = 0.0f;
 	}
 
 	void ItemPreFrame()
 	{
-		if( m_fAttackStart == 0 && m_bThrown == true && m_bInAttack == false && self.m_flTimeWeaponIdle - 0.1 < g_Engine.time )
+		if( m_fAttackStart == 0 && m_bThrown == true && m_bInAttack == false && self.m_flTimeWeaponIdle - 0.1f < g_Engine.time )
 		{
 			if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) == 0 )
 			{
@@ -249,62 +241,58 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, HLWeaponUtils, FlareWeapo
 				self.Deploy();
 				m_bThrown = false;
 				m_bInAttack = false;
-				m_fAttackStart = 0;
-				m_flStartThrow = 0;
+				m_fAttackStart = 0.0f;
+				m_flStartThrow = 0.0f;
 			}
 		}
 
 		if( !m_bInAttack || CheckButton() || g_Engine.time < m_fAttackStart )
 			return;
 
-		self.m_flTimeWeaponIdle = self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = WeaponTimeBase() + ( 22.0 / 30.0 );
+		self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f ); // ( 0.0f / 40.0f );
 		self.SendWeaponAnim( THROW, 0, GetBodygroup() );
 		m_bThrown = true;
 		m_bInAttack = false;
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
 		SetThink( ThinkFunction( this.LaunchThink ) );
-		self.pev.nextthink = g_Engine.time + 0.2;
+		pev.nextthink = g_Engine.time + 0.2f;
 
 		BaseClass.ItemPreFrame();
 	}
 
-/*	void SecondaryAttack()
-	{
-		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			return;
-
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + ( 40.0/41.0 );
-		self.SendWeaponAnim( PULLPIN, 0, GetBodygroup() );
-
-		m_fAttackStart = g_Engine.time + ( 40.0/41.0 );
-
-		self.m_flTimeWeaponIdle = g_Engine.time + ( 40.0/41.0) + (23.0/30.0 );
-
-		@SelfFlareLightSchedule = @g_Scheduler.SetInterval( @this, "FlareSelfThink", 0.099f, 1200.0f ); //How much time the flare will last long
-	}
-*/
-
 	void WeaponIdle()
 	{
-		if( self.m_flTimeWeaponIdle > WeaponTimeBase() )
+		if( self.m_flTimeWeaponIdle > g_Engine.time )
 			return;
 
 		self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5, 7 );
+		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 7.0f );
+	}
+
+	private bool CheckButton() // returns which key the player is pressing (that might interrupt the reload)
+	{
+		return m_pPlayer.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) != 0;
+	}
+
+	private void DestroyThink() // destroys the item
+	{
+		SetThink( null );
+		self.DestroyItem();
+		//g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
 	}
 }
 
-string GetFlareName()
+string GetName()
 {
 	return "weapon_bts_flare";
 }
 
-void RegisterFLARE()
+int Register()
 {
-	FLARE_PROJ::Register();
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", GetFlareName() );
-	g_ItemRegistry.RegisterWeapon( GetFlareName(), "bts_rc/weapons", AMMO_TYPE, "", GetFlareName() );
+	FLARE::Register();
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", GetName() );
+	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
 }
 
 }
