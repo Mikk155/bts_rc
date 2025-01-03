@@ -1,465 +1,299 @@
-/* 
+/*
 * The original Half-Life version of the hand grenade
 */
+// Rewrited by Rizulix for bts_rc (january 2024)
+
+#include "../utils/player_class"
 
 namespace BTS_HANDGRENADE
 {
 
-const int HANDGRENADE_DEFAULT_GIVE = 1;
-const int HANDGRENADE_MAX_CARRY = 10;
-const int HANDGRENADE_MAX_CLIP = WEAPON_NOCLIP;
-const int HANDGRENADE_DROP_VALUE = 1;
-const int HANDGRENADE_WEIGHT = 20;
-
-const string V_MODEL = "models/bts_rc/weapons/v_grenade.mdl";
-
 enum handgrenade_e
 {
-	HANDGRENADE_IDLE = 0,
-	HANDGRENADE_FIDGET,
-	HANDGRENADE_PINPULL,
-	HANDGRENADE_THROW1,	//toss
-	HANDGRENADE_THROW2,	//medium
-	HANDGRENADE_THROW3,	//hard
-	HANDGRENADE_HOLSTER,
-	HANDGRENADE_DRAW
+	IDLE = 0,
+	FIDGET,
+	PULLPIN,
+	THROW1,	//toss
+	THROW2,	//medium
+	THROW3,	//hard
+	HOLSTER,
+	DRAW
 };
 
-class BTS_CGrenade : ScriptBaseMonsterEntity
+enum bodygroups_e
 {
-	bool m_fRegisteredSound = false;
-	
-	void Spawn()
-	{
-		Precache();
-		
-		self.pev.movetype = MOVETYPE_BOUNCE;
-		self.pev.solid = SOLID_BBOX;
-		self.m_bloodColor = DONT_BLEED;
-		
-		g_EntityFuncs.SetModel( self, "models/hlclassic/w_grenade.mdl" );
-		g_EntityFuncs.SetSize( self.pev, Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
-		
-		self.pev.dmg = 100;
-		m_fRegisteredSound = false;
-	}
-	
-	void Precache()
-	{
-		g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
-		
-		g_SoundSystem.PrecacheSound( "weapons/grenade_hit1.wav" );
-		g_SoundSystem.PrecacheSound( "weapons/grenade_hit2.wav" );
-		g_SoundSystem.PrecacheSound( "weapons/grenade_hit3.wav" );
-	}
-	
-	void BounceTouch( CBaseEntity@ pOther )
-	{
-		//don't hit the guy that launched this grenade
-		if( pOther.edict() is self.pev.owner )
-			return;
-		
-		//only do damage if we're moving fairly fast
-		if( self.m_flNextAttack < g_Engine.time && self.pev.velocity.Length() > 100 )
-		{
-			entvars_t@ pevOwner = self.pev.owner.vars;
-			if( pevOwner !is null )
-			{
-				TraceResult tr = g_Utility.GetGlobalTrace();
-				g_WeaponFuncs.ClearMultiDamage();
-				pOther.TraceAttack( pevOwner, 1, g_Engine.v_forward, tr, DMG_CLUB );
-				g_WeaponFuncs.ApplyMultiDamage( self.pev, pevOwner );
-			}
-			self.m_flNextAttack = g_Engine.time + 1.0; //debounce
-		}
-		
-		Vector vecTestVelocity;
-		
-		//this is my heuristic for modulating the grenade velocity because grenades dropped purely vertical
-		//or thrown very far tend to slow down too quickly for me to always catch just by testing velocity. 
-		//trimming the Z velocity a bit seems to help quite a bit.
-		vecTestVelocity = self.pev.velocity; 
-		vecTestVelocity.z *= 0.45;
-		
-		if( !m_fRegisteredSound && vecTestVelocity.Length() <= 60 )
-		{
-			//grenade is moving really slow. It's probably very close to where it will ultimately stop moving. 
-			//go ahead and emit the danger sound.
-			
-			//register a radius louder than the explosion, so we make sure everyone gets out of the way
-			CBaseEntity@ pOwner = g_EntityFuncs.Instance( self.pev.owner );
-			CSoundEnt@ soundEnt = GetSoundEntInstance();
-			soundEnt.InsertSound( bits_SOUND_DANGER, self.pev.origin, int( self.pev.dmg / 0.4 ), 0.3, pOwner );
-			m_fRegisteredSound = true;
-		}
-		
-		int bCheck = self.pev.flags;
-		if( ( bCheck &= FL_ONGROUND ) == FL_ONGROUND )
-		{
-			//add a bit of static friction
-			self.pev.velocity = self.pev.velocity * 0.8;
-			
-			self.pev.sequence = Math.RandomLong( 1, 1 ); //Really? Why not just use "1" instead? -Giegue
-		}
-		else
-		{
-			//play bounce sound
-			BounceSound();
-		}
-		
-		self.pev.framerate = self.pev.velocity.Length() / 200.0;
-		if( self.pev.framerate > 1.0 )
-			self.pev.framerate = 1;
-		else if( self.pev.framerate < 0.5 )
-			self.pev.framerate = 0;
-	}
-	
-	void TumbleThink()
-	{
-		if( !self.IsInWorld() )
-		{
-			CBaseEntity@ pThis = g_EntityFuncs.Instance( self.edict() );
-			g_EntityFuncs.Remove( pThis );
-			return;
-		}
-		
-		self.StudioFrameAdvance();
-		self.pev.nextthink = g_Engine.time + 0.1;
-		
-		if( self.pev.dmgtime - 1 < g_Engine.time )
-		{
-			CBaseEntity@ pOwner = g_EntityFuncs.Instance( self.pev.owner );
-			CSoundEnt@ soundEnt = GetSoundEntInstance();
-			soundEnt.InsertSound( bits_SOUND_DANGER, self.pev.origin + self.pev.velocity * ( self.pev.dmgtime - g_Engine.time ), 400, 0.1, pOwner );
-		}
-		
-		if( self.pev.dmgtime <= g_Engine.time )
-		{
-			SetThink( ThinkFunction( Detonate ) );
-		}
-		if( self.pev.waterlevel != 0 )
-		{
-			self.pev.velocity = self.pev.velocity * 0.5;
-			self.pev.framerate = 0.2;
-		}
-	}
-	
-	void Detonate()
-	{
-		CBaseEntity@ pThis = g_EntityFuncs.Instance( self.edict() );
-		
-		TraceResult tr;
-		Vector vecSpot; //trace starts here!
-		
-		vecSpot = self.pev.origin + Vector ( 0, 0, 8 );
-		g_Utility.TraceLine( vecSpot, vecSpot + Vector ( 0, 0, -40 ), ignore_monsters, self.edict(), tr );
-		
-		g_EntityFuncs.CreateExplosion( tr.vecEndPos, Vector( 0, 0, -90 ), self.pev.owner, int( self.pev.dmg ), false ); //Effect
-		g_WeaponFuncs.RadiusDamage( tr.vecEndPos, self.pev, self.pev.owner.vars, self.pev.dmg, ( self.pev.dmg * 3.0 ), CLASS_NONE, DMG_BLAST );
-		
-		g_EntityFuncs.Remove( pThis );
-	}
-	
-	void BounceSound()
-	{
-		switch ( Math.RandomLong( 0, 2 ) )
-		{
-			case 0:	g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "weapons/grenade_hit1.wav", 0.25, ATTN_NORM ); break;
-			case 1:	g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "weapons/grenade_hit2.wav", 0.25, ATTN_NORM ); break;
-			case 2:	g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "weapons/grenade_hit3.wav", 0.25, ATTN_NORM ); break;
-		}
-	}
-	
-	void cSetTouch()
-	{
-		SetTouch( TouchFunction( BounceTouch ) );
-	}
-	
-	void cSetThink()
-	{
-		SetThink( ThinkFunction( TumbleThink ) );
-	}
-}
+	BODY = 0,
+	HANDS
+};
 
-BTS_CGrenade@ ShootTimed( entvars_t@ pevOwner, Vector& in vecStart, Vector& in vecVelocity, float time )
-{
-	CBaseEntity@ pre_pGrenade = g_EntityFuncs.CreateEntity( "btsgrenade", null, false );
-	BTS_CGrenade@ pGrenade = cast<BTS_CGrenade@>( CastToScriptClass( pre_pGrenade ) );
-	
-	pGrenade.Spawn();
-	
-	//g_EntityFuncs.SetOrigin( pGrenade, vecStart );
-	pGrenade.pev.origin = vecStart;
-	pGrenade.pev.velocity = vecVelocity;
-	g_EngineFuncs.VecToAngles( pGrenade.pev.velocity, pGrenade.pev.angles );
-	
-	CBaseEntity@ pOwner = g_EntityFuncs.Instance( pevOwner );
-	@pGrenade.pev.owner = @pOwner.edict();
-	
-	pGrenade.cSetTouch(); //Bounce if touched
-	
-	//Take one second off of the desired detonation time and set the think to PreDetonate. PreDetonate
-	//will insert a DANGER sound into the world sound list and delay detonation for one second so that 
-	//the grenade explodes after the exact amount of time specified in the call to ShootTimed(). 
-	
-	pGrenade.pev.dmgtime = g_Engine.time + time;
-	pGrenade.cSetThink();
-	pGrenade.pev.nextthink = g_Engine.time + 0.1;
-	if( time < 0.1 )
-	{
-		pGrenade.pev.nextthink = g_Engine.time;
-		pGrenade.pev.velocity = Vector( 0, 0, 0 );
-	}
-	
-	pGrenade.pev.sequence = Math.RandomLong( 3, 6 );
-	pGrenade.pev.framerate = 1.0;
-	
-	pGrenade.pev.gravity = 0.5;
-	pGrenade.pev.friction = 0.8;
-	
-	//g_EntityFuncs.SetModel( pGrenade, "models/hl/w_grenade.mdl" );
-	pGrenade.pev.model = string_t( "models/hlclassic/w_grenade.mdl" );
-	pGrenade.pev.dmg = 100;
-	
-	return pGrenade;
-}
+// Models
+string W_MODEL = "models/hlclassic/w_grenade.mdl";
+string V_MODEL = "models/bts_rc/weapons/v_grenade.mdl";
+string P_MODEL = "models/hlclassic/p_grenade.mdl";
+string PRJ_MDL = "models/hlclassic/w_grenade.mdl";
+// Sounds
+array<string> SOUNDS = {
+	"bts_rc/weapons/spas_idle4.wav",
+	"bts_rc/weapons/spas_foley.wav",
+	"bts_rc/weapons/grenade_pinpull.wav",
+	"bts_rc/weapons/grenade_throw1.wav",
+	"bts_rc/weapons/grenade_throw2.wav",
+	"bts_rc/weapons/grenade_draw.wav"
+};
+// Weapon info
+int MAX_CARRY = 10;
+int MAX_CLIP = WEAPON_NOCLIP;
+int DEFAULT_GIVE = 1;
+int AMMO_GIVE = DEFAULT_GIVE;
+int AMMO_DROP = AMMO_GIVE;
+int WEIGHT = 20;
+int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
+string AMMO_TYPE = "Hand Grenade";
+// Weapon HUD
+uint SLOT = 4;
+uint POSITION = 6;
+// Vars
+float TIMER = 3.0f;
+float DAMAGE = 100.0f;
+Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
+// weapon id
+const int ID = Register();
 
 class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 {
-	private CBasePlayer@ m_pPlayer = null;
-	
-	float m_flStartThrow;
-	float m_flReleaseThrow;
-	private int m_iAmmoSave;
-	dictionary g_Models = 
+	private CBasePlayer@ m_pPlayer
 	{
-		{ "bts_barney", 0 }, { "bts_otis", 0 },
-	{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
-	{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
-	{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-		{ "bts_construction", 2 }, { "bts_helmet", 4 }
-	};
+		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
+		set       { self.m_hPlayer = EHandle( @value ); }
+	}
+	// private bool m_fHasHEV
+	// {
+	// 	get const { return g_PlayerClass[m_pPlayer] == HELMET; }
+	// }
+	private float m_flVel, m_fAttackStart, m_flStartThrow;
+	private bool m_bInAttack, m_bThrown;
+	private int m_iAmmoSave;
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
+		pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+		return pev.body;
+	}
 
-		switch( int( g_Models[ modelName ]) )
-		{
-			case 0:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-				break;
-			case 1:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-				break;
-			case 2:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-				break;
-			case 3:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
-				break;
-			case 4:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
-				break;
-		}
-
-	return m_iCurBodyConfig;
-}
-	
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel( self, "models/hlclassic/w_grenade.mdl" );
-		
-		self.m_iDefaultAmmo = HANDGRENADE_DEFAULT_GIVE;
-
-		self.FallInit(); //get ready to fall down.
+		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+		self.m_iDefaultAmmo = DEFAULT_GIVE;
+		self.FallInit(); // get ready to fall
 	}
-	
+
 	void Precache()
 	{
-		g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
-		g_Game.PrecacheModel( "models/bts_rc/weapons/v_grenade.mdl" );
-		g_Game.PrecacheModel( "models/hlclassic/p_grenade.mdl" );
-		
-		g_Game.PrecacheOther( "btsgrenade" );
-		
-		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_handgrenade.txt" );
+		self.PrecacheCustomModels();
+		g_Game.PrecacheModel( W_MODEL );
+		g_Game.PrecacheModel( V_MODEL );
+		g_Game.PrecacheModel( P_MODEL );
+		g_Game.PrecacheModel( PRJ_MDL );
+
+		g_Game.PrecacheOther( "grenade" );
+
+		for( uint i = 0; i < SOUNDS.length(); i++ )
+			g_SoundSystem.PrecacheSound( SOUNDS[i] );
+
+		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
-	
-	//Better ammo extraction --- Anggara_nothing
-	bool CanHaveDuplicates()
-	{
-		return true;
-	}
-	
-	float WeaponTimeBase()
-	{
-		return g_Engine.time; //g_WeaponFuncs.WeaponTimeBase();
-	}
-	
-	bool GetItemInfo( ItemInfo& out info )
-	{
-		info.iMaxAmmo1 	= HANDGRENADE_MAX_CARRY;
-		info.iMaxAmmo2 	= -1;
-		info.iMaxClip 	= HANDGRENADE_MAX_CLIP;
-		info.iAmmo1Drop = HANDGRENADE_DROP_VALUE;
-		info.iSlot 		= 4;
-		info.iPosition 	= 6;
-		info.iFlags 	= ( ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE );
-		info.iWeight 	= HANDGRENADE_WEIGHT;
-		
-		return true;
-	}
-	
+
 	bool AddToPlayer( CBasePlayer@ pPlayer )
 	{
 		if( !BaseClass.AddToPlayer( pPlayer ) )
 			return false;
-		
-		@m_pPlayer = pPlayer;
-		
+
+		NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
+			weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
+		weapon.End();
 		return true;
 	}
-	
-	bool Deploy()
+
+	bool GetItemInfo( ItemInfo& out info )
 	{
-		m_iAmmoSave = 0; //Zero out the ammo save
-		m_flReleaseThrow = -1;
-		return self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_grenade.mdl" ), self.GetP_Model( "models/hlclassic/p_grenade.mdl" ), HANDGRENADE_DRAW, "crowbar", 0, GetBodygroup() );
+		info.iMaxAmmo1 = MAX_CARRY;
+		info.iAmmo1Drop = AMMO_DROP;
+		info.iMaxAmmo2 = -1;
+		info.iAmmo2Drop = -1;
+		info.iMaxClip = MAX_CLIP;
+		info.iSlot = SLOT;
+		info.iPosition = POSITION;
+		info.iId = g_ItemRegistry.GetIdForName( pev.classname );
+		info.iFlags = FLAGS;
+		info.iWeight = WEIGHT;
+		return true;
 	}
 
-	void Holster( int skiplocal /* = 0 */ )
+	// Better ammo extraction --- Anggara_nothing
+	bool CanHaveDuplicates()
 	{
-		m_pPlayer.m_flNextAttack = WeaponTimeBase() + 0.5;
-		self.SendWeaponAnim( HANDGRENADE_HOLSTER, 0, GetBodygroup() );
-		
-		m_flStartThrow = 0;
-		m_flReleaseThrow = -1;
+		return true;
 	}
-	
-	void InactiveItemPostFrame()
+
+	bool Deploy()
 	{
-		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) == 0 )
+		m_iAmmoSave = 0; // Zero out the ammo save
+		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "gren", 0, GetBodygroup() );
+		self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 20.0f / 30.0f );
+		return true;
+	}
+
+	bool CanHolster()
+	{
+		return m_fAttackStart == 0.0f;
+	}
+
+	bool CanDeploy()
+	{
+		return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
+	}
+
+	CBasePlayerItem@ DropItem()
+	{
+		m_iAmmoSave = m_pPlayer.AmmoInventory( self.m_iPrimaryAmmoType ); // Save the player"s ammo pool in case it has any in DropItem
+		return self;
+	}
+
+	void Holster( int skiplocal = 0 )
+	{
+		m_bThrown = false;
+		m_bInAttack = false;
+		m_fAttackStart = 0.0f;
+		m_flStartThrow = 0.0f;
+		m_flVel = 0.0f;
+
+		SetThink( null );
+
+		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 ) // Save the player"s ammo pool in case it has any in Holster
 		{
-			self.DestroyItem();
-			self.pev.nextthink = g_Engine.time + 0.1;
+			m_iAmmoSave = m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType );
 		}
+
+		if( m_iAmmoSave <= 0 )
+		{
+			SetThink( ThinkFunction( this.DestroyThink ) );
+			pev.nextthink = g_Engine.time + 0.1f;
+		}
+
+		BaseClass.Holster( skiplocal );
 	}
-	
+
 	void PrimaryAttack()
 	{
-		if( m_flStartThrow == 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
-		{
-			m_flStartThrow = g_Engine.time;
-			m_flReleaseThrow = 0;
-			
-			self.SendWeaponAnim( HANDGRENADE_PINPULL, 0, GetBodygroup() );
-			self.m_flTimeWeaponIdle = WeaponTimeBase() + 0.5;
-		}
-	}
-	
-	void WeaponIdle()
-	{
-		if( m_flReleaseThrow == 0 && m_flStartThrow > 0 )
-			m_flReleaseThrow = g_Engine.time;
-		
-		if( self.m_flTimeWeaponIdle > WeaponTimeBase() )
+		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
 			return;
-		
-		if( m_flStartThrow > 0 )
+
+		if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
+			return;
+
+		self.m_flNextPrimaryAttack = g_Engine.time + ( 24.0f / 30.0f );
+		self.SendWeaponAnim( PULLPIN, 0, GetBodygroup() );
+
+		m_bInAttack = true;
+		m_fAttackStart = g_Engine.time + ( 24.0f / 30.0f );
+		m_flVel = 0.0f;
+
+		self.m_flTimeWeaponIdle = g_Engine.time + ( 24.0f / 30.0f ) + ( 9.0f / 30.0f );
+	}
+
+	private void LaunchThink()
+	{
+		Math.MakeVectors( angThrow );
+		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
+		Vector vecThrow = g_Engine.v_forward * m_flVel + m_pPlayer.pev.velocity;
+
+		// explode 3 seconds after launch
+		CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecSrc, vecThrow, TIMER );
+		if( pGrenade !is null )
 		{
-			Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
-			
-			if( angThrow.x < 0 )
-				angThrow.x = -10 + angThrow.x * ( ( 90 - 10 ) / 90.0 );
-			else
-				angThrow.x = -10 + angThrow.x * ( ( 90 + 10 ) / 90.0 );
-			
-			float flVel = ( 90 - angThrow.x ) * 4;
-			if( flVel > 500 )
-				flVel = 500;
-			
-			g_EngineFuncs.MakeVectors( angThrow );
-			
-			Vector vecSrc = m_pPlayer.pev.origin + m_pPlayer.pev.view_ofs + g_Engine.v_forward * 16;
-			
-			Vector vecThrow = g_Engine.v_forward * flVel + m_pPlayer.pev.velocity;
-			
-			//explode 3 seconds after launch
-			BTS_CGrenade@ pGrenade = ShootTimed( m_pPlayer.pev, vecSrc, vecThrow, 3.0 );
-			
-			if( flVel < 500 )
-			{
-				self.SendWeaponAnim( HANDGRENADE_THROW1, 0, GetBodygroup() );
-			}
-			else if( flVel < 1000 )
-			{
-				self.SendWeaponAnim( HANDGRENADE_THROW2, 0, GetBodygroup() );
-			}
-			else
-			{
-				self.SendWeaponAnim( HANDGRENADE_THROW3, 0, GetBodygroup() );
-			}
-			
-			//player "shoot" animation
-			m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-			
-			m_flReleaseThrow = 0;
-			m_flStartThrow = 0;
-			self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.5;
-			self.m_flTimeWeaponIdle = WeaponTimeBase() + 0.5;
-			
-			int iAmmo = m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType );
-			m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, --iAmmo );
-			
+			g_EntityFuncs.SetModel( pGrenade, PRJ_MDL );
+			pGrenade.pev.dmg = DAMAGE;
+		}
+
+		m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+		m_fAttackStart = 0.0f;
+		m_flVel = 0.0f;
+	}
+
+	void ItemPreFrame()
+	{
+		if( m_fAttackStart == 0 && m_bThrown == true && m_bInAttack == false && self.m_flTimeWeaponIdle - 0.1f < g_Engine.time )
+		{
 			if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) == 0 )
 			{
-				//just threw last grenade
-				//set attack times in the future, and weapon idle in the future so we can see the whole throw
-				//animation, weapon idle will automatically retire the weapon for us.
-				self.m_flTimeWeaponIdle = self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.5; //ensure that the animation can finish playing
-			}
-			return;
-		}
-		else if( m_flReleaseThrow > 0 )
-		{
-			//we've finished the throw, restart.
-			m_flStartThrow = 0;
-			
-			if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
-			{
-				self.SendWeaponAnim( HANDGRENADE_DRAW, 0, GetBodygroup() );
+				self.Holster();
 			}
 			else
 			{
-				self.RetireWeapon();
-				return;
+				self.Deploy();
+				m_bThrown = false;
+				m_bInAttack = false;
+				m_fAttackStart = 0.0f;
+				m_flStartThrow = 0.0f;
+				m_flVel = 0.0f;
 			}
-			
-			self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10, 15 );
-			m_flReleaseThrow = -1;
+		}
+
+		if( !m_bInAttack || CheckButton() || g_Engine.time < m_fAttackStart )
 			return;
-		}
-		
-		if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
+
+		self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 9.0f / 30.0f );
+
+		Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
+
+		if( angThrow.x < 0 )
+			angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
+		else
+			angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
+
+		m_flVel = ( 90.0f - angThrow.x ) * 4.0f;
+		if( m_flVel > 500.0f )
+			m_flVel = 500.0f;
+
+		if( m_flVel < 500.0f )
+			self.SendWeaponAnim( THROW1, 0, GetBodygroup() );
+		else if( m_flVel < 1000.0f )
+			self.SendWeaponAnim( THROW2, 0, GetBodygroup() );
+		else
+			self.SendWeaponAnim( THROW3, 0, GetBodygroup() );
+
+		m_bThrown = true;
+		m_bInAttack = false;
+		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
+
+		SetThink( ThinkFunction( this.LaunchThink ) );
+		pev.nextthink = g_Engine.time + 0.2f;
+
+		BaseClass.ItemPreFrame();
+	}
+
+	void WeaponIdle()
+	{
+		if( self.m_flTimeWeaponIdle > g_Engine.time )
+			return;
+
+		float flRand = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0.0f, 1.0f );
+		if( flRand <= 0.75f )
 		{
-			int iAnim;
-			float flRand = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0, 1 );
-			if( flRand <= 0.75 )
-			{
-				iAnim = HANDGRENADE_IDLE;
-				self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10, 15 ); //how long till we do this again.
-			}
-			else
-			{
-				iAnim = HANDGRENADE_FIDGET;
-				self.m_flTimeWeaponIdle = WeaponTimeBase() + 75.0 / 30.0;
-			}
-			
-			self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
+			self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
+			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f ); //how long till we do this again.
 		}
+		else
+		{
+			self.SendWeaponAnim( FIDGET, 0, GetBodygroup() );
+			self.m_flTimeWeaponIdle = g_Engine.time + ( 70.0f / 30.0f );
+		}
+	}
+
+	private bool CheckButton() // returns which key the player is pressing (that might interrupt the reload)
+	{
+		return m_pPlayer.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) != 0;
 	}
 }
 
@@ -467,17 +301,10 @@ string GetName()
 {
 	return "weapon_bts_handgrenade";
 }
-
-string GetTossedGrenade()
+int Register()
 {
-	return "btsgrenade";
-}
-
-void Register()
-{
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_HANDGRENADE::BTS_CGrenade", GetTossedGrenade() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_HANDGRENADE::weapon_bts_handgrenade", GetName() );
-	g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", "Hand Grenade", "", GetName() );
+	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
 }
 
 }
