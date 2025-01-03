@@ -10,6 +10,10 @@ namespace randomizer
     void randomize( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
     {
         g_RandomizerHeadcrab.init();
+        g_RandomizerItem.init();
+        g_RandomizerHull.init();
+        g_RandomizerBoss.init();
+        g_RandomizerNpc.init();
     }
 }
 
