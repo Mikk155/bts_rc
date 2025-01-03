@@ -1,0 +1,14 @@
+{
+    "files.exclude":
+    {
+        "maps/soundcache/": true,
+        "src/stuff/": true,
+        "steam_autocloud.vdf": true
+    },
+    "search.exclude":
+    {
+        "maps/soundcache/": true,
+        "src/stuff/": true,
+        "steam_autocloud.vdf": true
+    }
+}
