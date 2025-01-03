@@ -28,7 +28,9 @@ namespace randomizer
         void Spawn()
         {
             m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
-            self.pev.nextthink = g_Engine.time + 0.1;
+
+            if( ( LoggerLevel & LoggerLevels::Info ) != 0 )
+                self.pev.nextthink = g_Engine.time + 0.1;
         }
 
         // -TODO Remove this debug
