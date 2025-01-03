@@ -268,7 +268,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + m_fHasHEV ? 0.3f : 0.325f;
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.3f : 0.325f );
 		self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
 	}
 

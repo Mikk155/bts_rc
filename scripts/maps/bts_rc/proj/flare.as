@@ -235,7 +235,7 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 	void FlareTrail()
 	{
 		// RGBA(180, 10, 10)
-		NetworkMessage flare1( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+		NetworkMessage msg( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
 			msg.WriteByte( TE_BEAMFOLLOW );
 			msg.WriteShort( self.entindex() );
 			msg.WriteShort( m_iBeamSprite );

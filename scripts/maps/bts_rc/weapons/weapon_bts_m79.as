@@ -288,7 +288,7 @@ string GetAmmoName()
 
 int Register()
 {
-	M79_ROCKET::Register()
+	M79_ROCKET::Register();
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GeName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
 	return g_ItemRegistry.RegisterWeapon( GeName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );

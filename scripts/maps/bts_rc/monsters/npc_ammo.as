@@ -4,19 +4,19 @@
 //Ammo type drop ( random )
 const array<string> ZHECUAmmoDrop =
 {
-	HL_MP5::GetHLMP5DAmmoName(),
-	HL_SHOTGUN::GetHLShotgunDAmmoName(),
-	BTS_M16A3::GetAmmoDropName(),
-	CPython::GetAmmoDropName(),
-	BTS_DEAGLE::GetBTSDeagleDAmmoName(),
-	HL_GLOCKSD::GetHLGlockSDDAmmoName(),
-	HL_SHOTGUN::GetHLShotgunAmmoName(),
+	HL_MP5::GetDAmmoName(),
+	HL_SHOTGUN::GetDAmmoName(),
+	BTS_M16A3::GetDAmmoName(),
+	CPython::GetDAmmoName(),
+	BTS_DEAGLE::GetDAmmoName(),
+	HL_GLOCKSD::GetDAmmoName(),
+	HL_SHOTGUN::GetAmmoName(),
 	"item_null",
 	"item_null2",
 	"item_null3",
 	"item_null4",
 	"item_null5",
-	BTS_M4::GetAmmoDropName(),
+	BTS_M4::GetDAmmoName(),
 	BTS_HEVBATTERY::GetName()
 	//HL_SBSHOTGUN::GetSBShotgunAmmoName(),
 	//BTS_HANDGRENADE::GetName(),
@@ -28,10 +28,10 @@ const array<string> ZHECUAmmoDrop =
 
 const array<string> ZBarnAmmoDrop =
 {
-	HL_GLOCKSD::GetHLGlockSDDAmmoName(),
-	BTS_DEAGLE::GetBTSDeagleDAmmoName(),
-	HL_SHOTGUN::GetHLShotgunDAmmoName(),
-	HL_BERETTA::GetHLBerettaAmmoName(),
+	HL_GLOCKSD::GetDAmmoName(),
+	BTS_DEAGLE::GetDAmmoName(),
+	HL_SHOTGUN::GetDAmmoName(),
+	HL_BERETTA::GetAmmoName(),
 	"item_null",
 	"item_null2",
 	"item_null3"
@@ -39,9 +39,9 @@ const array<string> ZBarnAmmoDrop =
 
 const array<string> ZNormalAmmoDrop =
 {
-	BTS_FLASHLIGHT::GetFlashlightAmmoName(),
-	BTS_FLARE::GetFlareName(),
-	HL_GLOCKSD::GetHLGlockSDDAmmoName(),
+	BTS_FLASHLIGHT::GetAmmoName(),
+	BTS_FLARE::GetName(),
+	HL_GLOCKSD::GetDAmmoName(),
 	BTS_SPRAYAID::GetItemName(),
 	"item_null",
 	"item_null2",
@@ -50,7 +50,7 @@ const array<string> ZNormalAmmoDrop =
 
 const array<string> SentryAmmoDrop =
 {
-	HL_MP5GL::GetAmmoDropName(),
+	HL_MP5GL::GetDAmmoName(),
 	"item_null"
 };
 

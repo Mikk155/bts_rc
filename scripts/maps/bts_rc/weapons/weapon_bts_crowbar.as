@@ -68,6 +68,7 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
 	{
 		get const { return g_PlayerClass[m_pPlayer] == HELMET; }
 	}
+	private TraceResult m_trHit;
 	private int m_iSwing;
 
 	int GetBodygroup()
@@ -190,7 +191,7 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
 					case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
 					case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
 				}
-				self.m_flNextPrimaryAttack = g_Engine.time + m_fHasHEV ? 0.5f : 0.75f;
+				self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.75f );
 				self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 				// play wiff or swish sound
@@ -214,7 +215,7 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
 				case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
 			}
 
-			self.m_flNextPrimaryAttack = g_Engine.time + m_fHasHEV ? 0.25f : 0.5f;
+			self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.5f );
 			self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 			// player "shoot" animation
@@ -250,7 +251,7 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
 					// end aone
 
 					// play thwack or smack sound
-					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM );
+					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
 					m_pPlayer.m_iWeaponVolume = 128;
 
 					if( !pEntity.IsAlive() )
@@ -270,7 +271,7 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
 				g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
 				// also play crowbar strike
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 			}
 
 			// delay the decal a bit

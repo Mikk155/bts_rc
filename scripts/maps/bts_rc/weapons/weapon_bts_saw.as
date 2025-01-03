@@ -263,17 +263,16 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 && m_fHasHEV )
 			m_pPlayer.SetSuitUpdate("!HEV_AMO0", false, 0 );
 
-		self.m_flNextPrimaryAttack = g_Engine.time + m_fHasHEV ? 0.099f : 0.1f;
+		self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.099f : 0.1f );
 		self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
 		if( g_M249Knockback.GetBool() )
 		{
 			Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
 
-			const Vector vecVelocity = m_pPlayer.pev.velocity;
 			const float flZVel = m_pPlayer.pev.velocity.z;
 
-			Vector vecInvPushDir = g_Engine.v_forward * m_fHasHEV ? 60.0f : 35.0f;
+			Vector vecInvPushDir = g_Engine.v_forward * ( m_fHasHEV ? 60.0f : 35.0f );
 			float flNewZVel = g_EngineFuncs.CVarGetFloat( "sv_maxspeed" );
 
 			if( vecInvPushDir.z >= 10.0f )
