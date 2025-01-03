@@ -57,6 +57,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 15;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "buckshot";
 // Weapon HUD
 int SLOT = 2;
@@ -67,8 +68,6 @@ int PELLETS = 4;
 Vector SINGLE_CONE( 0.08716f, 0.04362f, 0.0f );
 Vector DOUBLE_CONE( 0.17365f, 0.04362f, 0.0f );
 Vector SHELL( 14.0f, 6.0f, -34.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
 {
@@ -497,12 +496,12 @@ string GetDAmmoName()
 	return "ammo_bts_shotshell";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::weapon_bts_shotgun", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::ammo_bts_shotgun", GetAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::ammo_bts_shotgun", GetDAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

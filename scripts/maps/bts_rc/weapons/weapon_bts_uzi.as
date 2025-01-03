@@ -66,6 +66,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "9mm";
 // Weapon HUD
 int SLOT = 1;
@@ -75,8 +76,6 @@ int DAMAGE = 12;
 Vector HEV_CONE( 0.015f, 0.015f, 0.015f );
 Vector NOHEV_CONE( 0.0175f, 0.0175f, 0.0175f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_uzi : ScriptBasePlayerWeaponEntity
 {
@@ -321,11 +320,11 @@ string GetAmmoName()
 	return "ammo_bts_uzi";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::weapon_bts_uzi", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

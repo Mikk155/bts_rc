@@ -59,6 +59,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 20;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "bts:darts";
 // Weapon HUD
 uint SLOT = 3;
@@ -68,8 +69,6 @@ float DAMAGE = 1.0f;
 float AIR_VELOCITY = 2000.0f;
 float WATER_VELOCITY = 1000.0f;
 Vector OFFSET( 0.0f, 2.0f, -2.0f ); // for projectile
-// weapon id
-const int ID = Register();
 
 class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 {
@@ -184,7 +183,18 @@ class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		// SpinUp();
 
-		SecondaryAttack();
+		// don't fire underwater, or if the clip is empty.
+		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
+		{
+			if( m_iSpinSpeed != STOP )
+				self.m_flTimeWeaponIdle = g_Engine.time + 0.1f;
+
+			self.PlayEmptySound();
+			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+			return;
+		}
+
+		SpinUp();
 
 		if( m_iSpinSpeed > FAST )
 			Fire();
@@ -273,9 +283,6 @@ class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 			case START: case SLOW: case MED: case FAST:
 				m_iSpinSpeed += 1;
 				// g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, SPINLOOP_SND, 1.0f, ATTN_NORM ); // here?
-				break;
-			default:
-				self.SendWeaponAnim( SHOOT1/*, 0, GetBodygroup()*/ );
 				break;
 		}
 
@@ -377,12 +384,12 @@ string GetAmmoName()
 	return "ammo_bts_dartgun";
 }
 
-int Register()
+void Register()
 {
 	DART::Register();
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::weapon_bts_dartgun", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::ammo_bts_dartgun", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 } //End of namespace

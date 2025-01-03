@@ -38,9 +38,9 @@ array<string> HITWORLD_SND = {
 	"debris/wood2.wav"
 };
 array<string> HITFLESH_SND = {
-	"bts_rc/weapons/cbar_hitbod1.wav",
-	"bts_rc/weapons/cbar_hitbod2.wav",
-	"bts_rc/weapons/cbar_hitbod3.wav"
+	"weapons/cbar_hitbod1.wav",
+	"weapons/cbar_hitbod2.wav",
+	"weapons/cbar_hitbod3.wav"
 };
 // Weapon info
 int MAX_CARRY = -1;
@@ -49,14 +49,13 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
+int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 6;
 // Vars
 float RANGE = 48.0f;
 float DAMAGE = 10.0f;
-// weapon id
-const int ID = Register();
 
 class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
 {
@@ -104,6 +103,7 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
 		for( uint j = 0; j < HITFLESH_SND.length(); j++ )
 			g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -301,10 +301,10 @@ string GetName()
 	return "weapon_bts_poolstick";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_POOLSTICK::weapon_bts_poolstick", GetName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
 }
 
 }

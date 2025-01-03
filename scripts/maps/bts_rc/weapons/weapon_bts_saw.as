@@ -49,6 +49,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 20;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "9mm";
 // Weapon HUD
 int SLOT = 5;
@@ -56,8 +57,6 @@ int POSITION = 4;
 // Vars
 int DAMAGE = 15;
 Vector SHELL( 14.0f, 8.0f, -10.0f );
-// weapon id
-const int ID = Register();
 
 // Spread thing
 const CCVar@ g_M249WideSpread = CCVar( "m249_wide_spread", 0, "", ConCommandFlag::AdminOnly ); // as_command m249_wide_spread
@@ -381,12 +380,12 @@ string GetDAmmoName()
 	return "ammo_bts_dsaw";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "CM249::weapon_bts_saw", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", GetAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", GetDAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

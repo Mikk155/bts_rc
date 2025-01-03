@@ -57,6 +57,7 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
+int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 9;
@@ -66,10 +67,8 @@ float DAMAGE = 18.0f;
 // float DAMAGE0 = 10.0f;
 float RANGE2 = 35.0f;
 float DAMAGE2 = 35.0f;
-// weapon id
-const int ID = Register();
 
-class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
+class weapon_bts_knife : ScriptBasePlayerWeaponEntity
 {
 	private CBasePlayer@ m_pPlayer
 	{
@@ -488,10 +487,10 @@ string GetName()
 	return "weapon_bts_knife";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_KNIFE::weapon_bts_knife", GetName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
 }
 
 }

@@ -35,7 +35,7 @@ enum bodygroups_e
 string W_MODEL = "models/bts_rc/weapons/w_flashlight.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_flashlight.mdl";
 string P_MODEL = "models/bts_rc/weapons/p_flashlight.mdl";
-string A_MODEL = "models/furniture/w_flashlightbattery.mdl";
+string A_MODEL = "models/bts_rc/furniture/w_flashlightbattery.mdl";
 // Sounds
 // string SWITCH_SND = "bts_rc/items/flashlight1.wav";
 string MISS_SND = "bts_rc/weapons/flashlight_miss1.wav";
@@ -56,6 +56,7 @@ int AMMO_GIVE = 5;
 int AMMO_DROP = 1;
 int WEIGHT = 10;
 int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
+int ID; // assigned on register
 string AMMO_TYPE = "bts:battery";
 // Weapon HUD
 int SLOT = 4;
@@ -64,8 +65,6 @@ int POSITION = 4;
 float RANGE = 32.0f;
 float DAMAGE = 7.0f;
 string FLASHLIGHT = "$i_flashBattery";
-// weapon id
-const int ID = Register();
 
 class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 {
@@ -86,7 +85,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 			if( pCustom.HasKeyvalue( FLASHLIGHT ) )
 				return pCustom.GetKeyvalue( FLASHLIGHT ).GetInteger();
 			else
-				return m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 ? 0 : m_pPlayer.m_iFlashBattery;
+				return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 ? 0 : m_pPlayer.m_iFlashBattery;
 		}
 		set
 		{
@@ -131,6 +130,8 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 		for( uint j = 0; j < HITFLESH_SND.length(); j++ )
 			g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -213,11 +214,11 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
 	void SecondaryAttack()
 	{
-		if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
+		if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
 			return;
 
 		m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
-		m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
+		m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
 		// g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
 	}
@@ -417,11 +418,11 @@ string GetAmmoName()
 	return "ammo_bts_battery";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }
