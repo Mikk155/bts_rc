@@ -1,14 +1,24 @@
 {
     "files.exclude":
     {
+        "maps/bts_rc*": true,
         "maps/soundcache/": true,
-        "src/stuff/": true,
-        "steam_autocloud.vdf": true
+        "models/": true,
+        "sound/": true,
+        "sprites/": true,
+        "steam_autocloud.vdf": true,
+        "bts_rc.wad": true,
+        "developer_plates-1.wad": true
     },
     "search.exclude":
     {
+        "maps/bts_rc*": true,
         "maps/soundcache/": true,
-        "src/stuff/": true,
-        "steam_autocloud.vdf": true
+        "models/": true,
+        "sound/": true,
+        "sprites/": true,
+        "steam_autocloud.vdf": true,
+        "bts_rc.wad": true,
+        "developer_plates-1.wad": true
     }
 }
