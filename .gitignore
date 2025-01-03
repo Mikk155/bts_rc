@@ -1,14 +1,13 @@
 maps/soundcache/*
-src/stuff/*
-src/bts_rc.rmf
 steam_autocloud.vdf
 
 # Game assets
-maps/bts_rc.*
-maps/bts_rc_skl.cfg
-maps/bts_rc_motd.txt
+maps/bts_rc*
 models/*
 sound/*
 sprites/*
 bts_rc.wad
 developer_plates-1.wad
+
+
+src/stuff/*
