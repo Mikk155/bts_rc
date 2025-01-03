@@ -1,475 +1,352 @@
-//Standard HECU M4A1
-//Models: HAPE B
-//Scripts: Giegue, Rizulix, Valve Software
-//Sounds: TurtleRock Studios, Valve Software, HAPE B, RaptorSKA
-//Sprites: TurtleRock Studios, Valve Software, SV BOY
+// Standard HECU M4A1
+// Models: HAPE B
+// Scripts: Giegue, Rizulix, Valve Software
+// Sounds: TurtleRock Studios, Valve Software, HAPE B, RaptorSKA
+// Sprites: TurtleRock Studios, Valve Software, SV BOY
+// Rewrited by Rizulix for bts_rc (december 2024)
+
+#include "../utils/player_class"
 
 namespace BTS_M4
 {
 
-enum M4Animation
+enum m4_e
 {
 	LONGIDLE = 0,
 	IDLE1,
 	LAUNCH,
 	RELOAD,
-	DEPLOY,
-	FIRE1,
-	FIRE2,
-	FIRE3,
+	DRAW,
+	SHOOT1,
+	SHOOT2,
+	SHOOT3,
 };
 
-enum M4ScopedMode_e
+enum bodygroups_e
 {
-	MODE_UNSCOPE = 0,
-	MODE_SCOPE
+	BODY = 0,
+	HANDS
 };
 
-array<string> HEV =
-{
-	"bts_helmet"
+// Models
+string W_MODEL = "models/bts_rc/weapons/w_m4.mdl";
+string V_MODEL = "models/bts_rc/weapons/v_m4.mdl";
+string P_MODEL = "models/bts_rc/weapons/p_m4.mdl";
+string A_MODEL = "models/bts_rc/weapons/w_9mmarclip.mdl";
+// Sounds
+string SHOOT_SND = "bts_rc/weapons/m4_fire1.wav";
+string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
+array<string> SOUNDS = {
+	"bts_rc/weapons/fidget_3.wav",
+	"bts_rc/weapons/fidget_4.wav",
+	"bts_rc/weapons/fidget_2.wav",
+	"bts_rc/weapons/m4_cliprelease1.wav",
+	"bts_rc/weapons/weapon_holster.wav",
+	"bts_rc/weapons/m4_clipinsert1.wav",
+	"bts_rc/weapons/m4_clic1.wav"
 };
+// Weapon info
+int MAX_CARRY = 150;
+int MAX_CLIP = 30;
+// int DEFAULT_GIVE = Math.RandomLong( 9, 30 );
+int AMMO_GIVE = MAX_CLIP;
+int AMMO_DROP = AMMO_GIVE;
+int WEIGHT = 5;
+int FLAGS = 0;
+string AMMO_TYPE = "556";
+// Weapon HUD
+int SLOT = 2;
+int POSITION = 8;
+// Vars
+int DAMAGE = 15;
+Vector CROUCH_CONE( 0.01f, 0.01f, 0.01f );
+Vector SHELL( 32.0f, 6.0f, -12.0f );
+// weapon id
+const int ID = Register();
 
-const int M4_DEFAULT_GIVE 	= Math.RandomLong( 9, 30 );
-const int M4_MAX_AMMO		= 150;
-const int M4_MAX_CLIP 		= 30;
-const int M4_WEIGHT 		= 5;
-//const int M4_MAX_DMG		= 13;
-
-const string MODEL_AMMO = "models/w_9mmarclip.mdl";
-const string V_MODEL 	= "models/bts_rc/weapons/v_m4.mdl";
-
-class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, HLWeaponUtils
+class weapon_bts_m4 : ScriptBasePlayerWeaponEntity
 {
-	private CBasePlayer@ m_pPlayer = null;
-	
-	float m_flNextAnimTime;
-	int m_iShell;
-	int g_iCurrentMode;
-	int m_iShotsFired;
-	dictionary g_Models = 
+	private CBasePlayer@ m_pPlayer
 	{
-		{ "bts_barney", 0 }, { "bts_otis", 0 },
-		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
-		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
-		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-		{ "bts_construction", 2 }, { "bts_helmet", 4 }
-	};
+		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
+		set       { self.m_hPlayer = EHandle( @value ); }
+	}
+	private bool m_fHasHEV
+	{
+		get const { return g_PlayerClass[m_pPlayer] == HELMET; }
+	}
+	private int m_iTracerCount;
+	private int m_iShell;
 
 	int GetBodygroup()
 	{
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
-
-		switch( int( g_Models[ modelName ]) )
-		{
-			case 0:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-				break;
-			case 1:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-				break;
-			case 2:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-				break;
-			case 3:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
-				break;
-			case 4:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
-				break;
-		}
-
-		return m_iCurBodyConfig;
+		pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+		return pev.body;
 	}
-	
+
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_m4.mdl" );
-
-		self.m_iDefaultAmmo = M4_DEFAULT_GIVE;
-		m_iShotsFired = 0;
-
+		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+		self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
 		self.FallInit();
+
+		m_iTracerCount = 0;
 	}
 
 	void Precache()
 	{
 		self.PrecacheCustomModels();
-		g_Game.PrecacheModel( "models/bts_rc/weapons/v_m4.mdl" );
-		g_Game.PrecacheModel( "models/bts_rc/weapons/w_m4.mdl" );
-		g_Game.PrecacheModel( "models/bts_rc/weapons/p_m4.mdl" );
-		g_Game.PrecacheModel( MODEL_AMMO );
+		g_Game.PrecacheModel( W_MODEL );
+		g_Game.PrecacheModel( V_MODEL );
+		g_Game.PrecacheModel( P_MODEL );
+		g_Game.PrecacheModel( A_MODEL );
 
 		m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
 
-		g_Game.PrecacheModel( "models/w_saw_clip.mdl" );
-		g_SoundSystem.PrecacheSound( "items/9mmclip1.wav" );	   
+		g_Game.PrecacheOther( GetAmmoName() );
+		g_Game.PrecacheOther( GetDAmmoName() );
 
-		//These are played by the model, needs changing there
-		g_SoundSystem.PrecacheSound( "hl/items/clipinsert1.wav" );
-		g_SoundSystem.PrecacheSound( "hl/items/cliprelease1.wav" );
-		g_SoundSystem.PrecacheSound( "hl/items/guncock1.wav" );
+		g_SoundSystem.PrecacheSound( SHOOT_SND );
+		g_SoundSystem.PrecacheSound( EMPTY_SND );
 
-		g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4_fire1.wav" );
+		for( uint i = 0; i < SOUNDS.length(); i++ )
+			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
-		g_SoundSystem.PrecacheSound( "hl/weapons/357_cock1.wav" );
-	}
-
-	bool GetItemInfo( ItemInfo& out info )
-	{
-		info.iMaxAmmo1 	= M4_MAX_AMMO;
-		info.iMaxClip 	= M4_MAX_CLIP;
-		info.iSlot 		= 2;
-		info.iPosition 	= 8;
-		info.iFlags 	= 0;
-		info.iWeight 	= M4_WEIGHT;
-
-		return true;
+		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
 	bool AddToPlayer( CBasePlayer@ pPlayer )
 	{
 		if( !BaseClass.AddToPlayer( pPlayer ) )
 			return false;
-			
-		@m_pPlayer = pPlayer;
-			
-		NetworkMessage message( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
-			message.WriteLong( self.m_iId );
-		message.End();
 
+		NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
+			weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
+		weapon.End();
 		return true;
 	}
-	
+
+	bool GetItemInfo( ItemInfo& out info )
+	{
+		info.iMaxAmmo1 = MAX_CARRY;
+		info.iAmmo1Drop = AMMO_DROP;
+		info.iMaxAmmo2 = -1;
+		info.iAmmo2Drop = -1;
+		info.iMaxClip = MAX_CLIP;
+		info.iSlot = SLOT;
+		info.iPosition = POSITION;
+		info.iId = g_ItemRegistry.GetIdForName( pev.classname );
+		info.iFlags = FLAGS;
+		info.iWeight = WEIGHT;
+		return true;
+	}
+
+	bool Deploy()
+	{
+		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "m16", 0, GetBodygroup() );
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.2f;
+		return true;
+	}
+
+	void Holster( int skiplocal = 0 )
+	{
+		self.SetFOV( 0 );
+		BaseClass.Holster( skiplocal );
+	}
+
 	bool PlayEmptySound()
 	{
 		if( self.m_bPlayEmptySound )
 		{
 			self.m_bPlayEmptySound = false;
-			
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hl/weapons/357_cock1.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
 		}
-		
 		return false;
-	}
-
-	bool Deploy()
-	{
-		bool bResult;
-		{
-			bResult = self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_m4.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_m4.mdl" ), DEPLOY, "m16", 0, GetBodygroup() );
-
-			float deployTime = 1.2;
-			self.m_flTimeWeaponIdle = self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + deployTime;
-			return bResult;
-		}
-	}
-
-	void Holster( int skipLocal = 0 )
-	{
-		self.m_fInReload = false;
-
-		if( g_iCurrentMode == MODE_SCOPE )
-		{
-			g_iCurrentMode = MODE_UNSCOPE;
-		}
-		m_iShotsFired = 0;
-		ToggleZoom( 0 );
-
-		BaseClass.Holster( skipLocal );
-	}
-	
-	float WeaponTimeBase()
-	{
-		return g_Engine.time; //g_WeaponFuncs.WeaponTimeBase();
-	}
-
-	//Setting FOV command for ToggleZoom void call line
-	void SetFOV( int fov )
-	{
-		m_pPlayer.pev.fov = m_pPlayer.m_iFOV = fov;
-	}
-
-	//Utilizing SetFOV function inside this call line
-	void ToggleZoom( int zoomedFOV )
-	{
-		if( self.m_fInZoom == true )
-		{
-			SetFOV( 0 ); //0 means reset to default fov
-		}
-		else if( self.m_fInZoom == false )
-		{
-			SetFOV( zoomedFOV );
-		}
 	}
 
 	void PrimaryAttack()
 	{
-		//don't fire underwater
-		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
-		{
-			self.PlayEmptySound( );
-			self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.12;
-			return;
-		}
-
-		if( self.m_iClip <= 0 )
+		// don't fire underwater
+		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
 		{
 			self.PlayEmptySound();
-			self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.12;
+			self.m_flNextPrimaryAttack = g_Engine.time + 0.12f;
 			return;
 		}
 
 		m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
 		m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
 
-		if( g_iCurrentMode == MODE_SCOPE )
-		{
-			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + 0.13;
-		}
-		else if( g_iCurrentMode == MODE_UNSCOPE )
-		{
-			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = WeaponTimeBase() + 0.124;
-		}
-
 		--self.m_iClip;
-		
-		switch ( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
-		{
-		case 0: self.SendWeaponAnim( FIRE1, 0, GetBodygroup() ); break;
-		case 1: self.SendWeaponAnim( FIRE2, 0, GetBodygroup() ); break;
-		case 2: self.SendWeaponAnim( FIRE3, 0, GetBodygroup() ); break;
-		}
-		
-		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m4_fire1.wav", 1.0, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
-		//player "shoot" animation
+		m_pPlayer.pev.effects |= EF_MUZZLEFLASH;
+		pev.effects |= EF_MUZZLEFLASH;
+
+		// player "shoot" animation
 		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
-		g_EngineFuncs.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
-		
-		Vector vecShellVelocity = m_pPlayer.pev.velocity + g_Engine.v_right * Math.RandomFloat( 50.0, 70.0 ) + g_Engine.v_up * Math.RandomFloat( 100.0, 150.0 ) + g_Engine.v_forward * 25;
-		g_EntityFuncs.EjectBrass( self.pev.origin + m_pPlayer.pev.view_ofs + g_Engine.v_up * -12 + g_Engine.v_forward * 32 + g_Engine.v_right * 6, vecShellVelocity, self.pev.angles.y, m_iShell, TE_BOUNCE_SHELL );
-
-		Vector vecSrc	 = m_pPlayer.GetGunPosition();
+		Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
+		Vector vecSrc = m_pPlayer.GetGunPosition();
 		Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
+		Vector vecSpread = m_pPlayer.pev.FlagBitSet( FL_DUCKING ) ? CROUCH_CONE : VECTOR_CONE_3DEGREES;
 
-		//Weapon spread
-		Vector vecSpread;
-
-		if( !( m_pPlayer.pev.flags & FL_DUCKING != 0 ) )
 		{
-			vecSpread = VECTOR_CONE_3DEGREES; //spread when standing
-		}
-		else
-		{
-			vecSpread = Vector( 0.01, 0.01, 0.01 ); //spread when crouching
-		}
+			float x, y;
+			g_Utility.GetCircularGaussianSpread( x, y );
 
-		vecSpread = vecSpread * 1.0f;
-		
-		//optimized multiplayer. Widened to make it easier to hit a moving player
-		self.FireBullets( 1, vecSrc, vecAiming, vecSpread, 8192, BULLET_PLAYER_SAW, 4, 0, m_pPlayer.pev );
+			Vector vecDir = vecAiming + x * vecSpread.x * g_Engine.v_right + y * vecSpread.y * g_Engine.v_up;
+			Vector vecEnd = vecSrc + vecDir * 8192.0f;
 
-		if( self.m_iClip == 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			//HEV suit - indicate out of ammo condition
-			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+			TraceResult tr;
+			g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
+			self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
 
-		//model difference ( HEV has higher stability for weaponary than the one without it ) - HL Lore
-		string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict()).GetValue( "model" );
-
-		if( HEV.find( modelName ) >= 0 )
-		{
-			m_pPlayer.pev.punchangle.x = -2.75; //recoil
-
-	//		self.m_flNextPrimaryAttack = self.m_flNextPrimaryAttack + 0.125;
-			if( self.m_flNextPrimaryAttack < WeaponTimeBase() )
-				self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.125;
-		}
-		else
-		{
-			//crouching recoil logic
-			if( m_pPlayer.pev.flags & FL_DUCKING != 0 )
+			// each 4 bullets
+			if( ( m_iTracerCount++ % 4 ) == 0 )
 			{
-				m_pPlayer.pev.punchangle.x = Math.RandomLong( -3, 2 ); //recoil when crouching
-			}
-			else
-			{
-				m_pPlayer.pev.punchangle.x = Math.RandomLong( -6, 3 ); //recoil when stand
+				Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
+				NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
+					tracer.WriteByte( TE_TRACER );
+					tracer.WriteCoord( vecTracerSrc.x );
+					tracer.WriteCoord( vecTracerSrc.y );
+					tracer.WriteCoord( vecTracerSrc.z );
+					tracer.WriteCoord( tr.vecEndPos.x );
+					tracer.WriteCoord( tr.vecEndPos.y );
+					tracer.WriteCoord( tr.vecEndPos.z );
+				tracer.End();
 			}
 
-			if( self.m_flNextPrimaryAttack < WeaponTimeBase() )
-				self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.125;
-		}
-
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  10, 15 );
-		
-		TraceResult tr;
-		
-		float x, y;
-		
-		g_Utility.GetCircularGaussianSpread( x, y );
-		
-		Vector vecDir = vecAiming + x * vecSpread.x * g_Engine.v_right + y * vecSpread.y * g_Engine.v_up;
-		Vector vecEnd = vecSrc + vecDir * 4096;
-
-		g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-		
-		if( tr.flFraction < 1.0 )
-		{
-			if( tr.pHit !is null )
+			if( tr.flFraction < 1.0f && tr.pHit !is null )
 			{
 				CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-				
-				if( pHit is null || pHit.IsBSPModel() )
-					g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_MP5 );
+				if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
+					g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
 			}
 		}
+
+		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
+		{
+			case 0: self.SendWeaponAnim( SHOOT1, 0, GetBodygroup() ); break;
+			case 1: self.SendWeaponAnim( SHOOT2, 0, GetBodygroup() ); break;
+			case 2: self.SendWeaponAnim( SHOOT3, 0, GetBodygroup() ); break;
+		}
+
+		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+
+		if( m_fHasHEV )
+		{
+			m_pPlayer.pev.punchangle.x = -2.75f;
+		}
+		else
+		{
+			if( m_pPlayer.pev.FlagBitSet( FL_DUCKING ) )
+				m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 2 ));
+			else
+				m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -6, 3 ));
+		}
+
+
+		Vector vecForward, vecRight, vecUp;
+		g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
+		Vector vecOrigin = m_pPlayer.GetGunPosition() + vecForward * SHELL.x + vecRight * SHELL.y + vecUp * SHELL.z;
+		Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
+		g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
+
+		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + self.m_fInZoom ? 0.13f : 0.124f;
+		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
 	}
 
 	void SecondaryAttack()
 	{
-		self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = WeaponTimeBase() + 0.3f;
-		switch ( g_iCurrentMode )
-		{
-			case MODE_UNSCOPE:
-			{
-				g_iCurrentMode = MODE_SCOPE;
-				ToggleZoom( 45 );
-
-				break;
-			}
-		
-			case MODE_SCOPE:
-			{
-				g_iCurrentMode = MODE_UNSCOPE;
-				ToggleZoom( 0 );
-
-				break;
-			}
-		}
+		self.SetFOV( self.m_fInZoom ? 0 : 45 );
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
 	}
 
 	void Reload()
 	{
-		self.DefaultReload( M4_MAX_CLIP, RELOAD, 3.0, GetBodygroup() );
+		if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+			return;
 
-		g_iCurrentMode = 0;
-		ToggleZoom( 0 );
-		m_iShotsFired = 0;
-
-		//Set 3rd person reloading animation -Sniper
+		self.SetFOV( 0 );
+		self.DefaultReload( MAX_CLIP, RELOAD, 2.75f, GetBodygroup() );
+		self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
 		BaseClass.Reload();
 	}
 
 	void WeaponIdle()
 	{
 		self.ResetEmptySound();
-
 		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-		if( self.m_flTimeWeaponIdle > WeaponTimeBase() )
+		if( self.m_flTimeWeaponIdle > g_Engine.time )
 			return;
 
-		int iAnim;
-		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed,  0, 1 ) )
+		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 1 ) )
 		{
-		case 0:	
-			iAnim = LONGIDLE;	
-			break;
-		
-		case 1:
-			iAnim = IDLE1;
-			break;
-			
-		default:
-			iAnim = LONGIDLE;
-			break;
+			case 0: self.SendWeaponAnim( LONGIDLE, 0, GetBodygroup() ); break;
+			case 1: self.SendWeaponAnim( IDLE1, 0, GetBodygroup() ); break;
 		}
 
-		self.SendWeaponAnim( iAnim, 0, GetBodygroup() );
-
-		self.m_flTimeWeaponIdle = WeaponTimeBase() + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed,  10, 15 );//how long till we do this again.
+		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
 	}
 }
 
 class ammo_bts_m4 : ScriptBasePlayerAmmoEntity
 {
+	private int m_iAmount = AMMO_GIVE;
+
 	void Spawn()
-	{ 
-		g_EntityFuncs.SetModel( self, MODEL_AMMO );
+	{
+		if ( pev.ClassNameIs( GetDAmmoName() ) )
+			m_iAmount = Math.RandomLong( 6, 12 );
 
-		pev.scale = 1.0;
-
+		Precache();
+		g_EntityFuncs.SetModel( self, A_MODEL );
 		BaseClass.Spawn();
 	}
 
+	void Precache()
+	{
+		g_Game.PrecacheModel( A_MODEL );
+		g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
+	}
+
 	bool AddAmmo( CBaseEntity@ pOther )
-	{ 
-		int iGive;
-
-		iGive = M4_MAX_CLIP;
-
-		if( pOther.GiveAmmo( iGive, "556", M4_MAX_AMMO ) != -1 )
+	{
+		if( pOther.GiveAmmo( m_iAmount, AMMO_TYPE, MAX_CARRY ) != -1 )
 		{
-			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
+			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
 			return true;
 		}
-
 		return false;
 	}
 }
 
-class ammo_bts_556mag : ScriptBasePlayerAmmoEntity
-{
-	void Spawn()
-	{ 
-		g_EntityFuncs.SetModel( self, MODEL_AMMO );
-
-		pev.scale = 1.0;
-
-		BaseClass.Spawn();
-	}
-
-	bool AddAmmo( CBaseEntity@ pOther )
-	{ 
-		int iGive;
-
-		iGive = Math.RandomLong( 6, 12 );
-
-		if( pOther.GiveAmmo( iGive, "556", M4_MAX_AMMO ) != -1 )
-		{
-			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
-			return true;
-		}
-
-		return false;
-	}
-}
-
-string GetM4Name()
+string GetName()
 {
 	return "weapon_bts_m4";
 }
 
-string GetM4AmmoName()
+string GetAmmoName()
 {
 	return "ammo_bts_m4";
 }
 
-string GetAmmoDropName()
+string GetDAmmoName()
 {
 	return "ammo_bts_556mag";
 }
 
-void RegisterM4()
+int Register()
 {
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::weapon_bts_m4", GetM4Name() );
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_m4", GetM4AmmoName() );
-	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_556mag", GetAmmoDropName() );
-	g_ItemRegistry.RegisterWeapon( GetM4Name(), "bts_rc/weapons", "556", "", GetM4AmmoName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::weapon_bts_m4", GetName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_m4", GetAmmoName() );
+	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_m4", GetDAmmoName() );
+	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

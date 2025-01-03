@@ -3,7 +3,9 @@
 * Author: Giegue, Mikk
 * Animation: MTB
 */
-// Rewrited by Rizulix (december 2024)
+// Rewrited by Rizulix for bts_rc (december 2024)
+
+#include "../utils/player_class"
 
 namespace HL_BERETTA
 {
@@ -12,15 +14,21 @@ enum hlberetta_e
 {
 	IDLE1 = 0,
 	IDLE2,
-	IDLE3_1,
+	IDLE3,
 	SHOOT,
 	SHOOT_EMPTY,
+	RELOAD_EMPTY,
 	RELOAD,
-	RELOAD_NOT_EMPTY,
 	DRAW,
 	HOLSTER,
-	IDLE3_2
+	ADD_SILENCER // IDLE3_2
 };
+
+enum bodygroups_e
+{
+	STUDIO = 0,
+	HANDS
+}
 
 // Models
 string W_MODEL = "models/bts_rc/weapons/w_beretta.mdl";
@@ -30,7 +38,7 @@ string A_MODEL = "models/hlclassic/w_9mmclip.mdl";
 // Sounds
 string SHOOT_SND = "bts_rc/weapons/beretta_fire1.wav";
 string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
-string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+// string SWITCH_SND = "bts_rc/items/flashlight1.wav";
 array<string> SOUNDS = {
 	"bts_rc/weapons/beretta_draw.wav",
 	"bts_rc/items/9mmclip1.wav",
@@ -49,7 +57,7 @@ int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
 string AMMO_TYPE = "9mm";
-string AMMO_TYPE2 = "flashlightbattery";
+string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 6;
@@ -58,6 +66,8 @@ int DAMAGE = 14;
 string FLASHLIGHT = "$i_flashBattery";
 Vector CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
+// weapon id
+const int ID = Register();
 
 class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 {
@@ -66,7 +76,11 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
 		set       { self.m_hPlayer = EHandle( @value ); }
 	}
-	private int m_iFlashBattery // saved battery shared between weapons
+	private bool m_fHasHEV
+	{
+		get const { return g_PlayerClass[m_pPlayer] == HELMET; }
+	}
+	private int m_iFlashBattery // saved battery shared between weapons -rzlx
 	{
 		get const
 		{
@@ -84,46 +98,16 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 	private int m_iCurBaterry; // for clamping
 	private int m_iShell;
 
-	/*dictionary g_Models =
-	{
-		{ "bts_barney", 0 }, { "bts_otis", 0 },
-		{ "bts_barney2", 0 }, { "bts_barney3", 0 },
-		{ "bts_scientist", 1 }, { "bts_scientist2", 1 },
-		{ "bts_scientist3", 3 }, { "bts_scientist4", 1 },
-		{ "bts_scientist5", 1 }, { "bts_scientist6", 1 },
-		{ "bts_construction", 2 }, { "bts_helmet", 4 }
-	};*/
-
 	int GetBodygroup()
 	{
-		/*string modelName = g_EngineFuncs.GetInfoKeyBuffer( m_pPlayer.edict() ).GetValue( "model" );
-
-		switch( int( g_Models[ modelName ]) )
-		{
-			case 0:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 0 );
-				break;
-			case 1:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 1 );
-				break;
-			case 2:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 2 );
-				break;
-			case 3:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 3 );
-				break;
-			case 4:
-				m_iCurBodyConfig = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), m_iCurBodyConfig, 1, 4 );
-				break;
-		}*/
-
-		return /*m_iCurBodyConfig*/0;
+		pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+		return pev.body;
 	}
 
 	void Spawn()
 	{
 		Precache();
-		g_EntityFuncs.SetModel( self, W_MODEL );
+		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
 		self.m_iDefaultAmmo = Math.RandomLong( 1, MAX_CLIP );
 		self.m_iDefaultSecAmmo = Math.RandomLong( 0, 3 );
 		self.FallInit();
@@ -139,9 +123,11 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
 		m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
+		g_Game.PrecacheOther( GetAmmoName() );
+
 		g_SoundSystem.PrecacheSound( SHOOT_SND );
 		g_SoundSystem.PrecacheSound( EMPTY_SND );
-		g_SoundSystem.PrecacheSound( SWITCH_SND );
+		// g_SoundSystem.PrecacheSound( SWITCH_SND );
 
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
@@ -228,54 +214,6 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
 	void PrimaryAttack()
 	{
-		if( false/*HEV.find( modelName ) >= 0*/ )
-			BerettaFire( 0.30f, -2.0, true );
-		else
-			BerettaFire( 0.325f, -2.5, false );
-	}
-
-	void SecondaryAttack()
-	{
-		if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
-			return;
-
-		m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
-		m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
-		// g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-	}
-
-	void Reload()
-	{
-		if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			return;
-
-		self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD_NOT_EMPTY : RELOAD, 1.5f, GetBodygroup() );
-		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
-		BaseClass.Reload();
-	}
-
-	void WeaponIdle()
-	{
-		self.ResetEmptySound();
-		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
-
-		if( self.m_flTimeWeaponIdle > g_Engine.time )
-			return;
-
-		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
-		{
-			// these 2 are the same but whatever
-			case 0:  self.SendWeaponAnim( IDLE1, 0, GetBodygroup() ); break; 
-			case 1:  self.SendWeaponAnim( IDLE2, 0, GetBodygroup() ); break; 
-			default: self.SendWeaponAnim( IDLE3_1, 0, GetBodygroup() ); break;
-		}
-
-		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
-	}
-
-	private void BerettaFire( float flCycleTime, float flAimPunch, bool m_fHasHEV )
-	{
 		if( self.m_iClip <= 0 )
 		{
 			self.PlayEmptySound();
@@ -312,14 +250,14 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 			if( tr.flFraction < 1.0f && tr.pHit !is null )
 			{
 				CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-				if( pHit !is null && pHit.IsBSPModel() && !pHit.pev.ClassNameIs( "worldspawn" ) )
+				if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
 					g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
 			}
 		}
 
 		self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, GetBodygroup() );
 		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-		m_pPlayer.pev.punchangle.x = flAimPunch;
+		m_pPlayer.pev.punchangle.x = m_fHasHEV ? -2.0f : -2.5f;
 
 		Vector vecForward, vecRight, vecUp;
 		g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -330,8 +268,47 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + flCycleTime;
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + m_fHasHEV ? 0.3f : 0.325f;
 		self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+	}
+
+	void SecondaryAttack()
+	{
+		if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
+			return;
+
+		m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
+		m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
+		// g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+	}
+
+	void Reload()
+	{
+		if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+			return;
+
+		self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_EMPTY, 1.5f, GetBodygroup() );
+		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
+		BaseClass.Reload();
+	}
+
+	void WeaponIdle()
+	{
+		self.ResetEmptySound();
+		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
+
+		if( self.m_flTimeWeaponIdle > g_Engine.time )
+			return;
+
+		switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
+		{
+			case 0: self.SendWeaponAnim( IDLE1, 0, GetBodygroup() ); break; 
+			case 1: self.SendWeaponAnim( IDLE2, 0, GetBodygroup() ); break; 
+			default: self.SendWeaponAnim( IDLE3, 0, GetBodygroup() ); break;
+		}
+
+		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
 	}
 }
 
@@ -352,7 +329,7 @@ class ammo_bts_beretta : ScriptBasePlayerAmmoEntity
 
 	bool AddAmmo( CBaseEntity@ pOther )
 	{
-		if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_GIVE : Math.RandomLong( 2, 15 ), AMMO_TYPE, MAX_CARRY ) != -1 )
+		if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
 		{
 			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
 			return true;
@@ -371,11 +348,11 @@ string GetAmmoName()
 	return "ammo_bts_beretta";
 }
 
-void Register()
+int Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::weapon_bts_beretta", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", GetAmmoName() );
-	g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
+	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
 }
 
 }
