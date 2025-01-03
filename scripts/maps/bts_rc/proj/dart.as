@@ -39,7 +39,7 @@ class CDart : ScriptBaseEntity
 		m_iBeamSprite = g_Game.PrecacheModel( "sprites/laserbeam.spr" );
 
 		g_SoundSystem.PrecacheSound( "weapons/xbow_hitbod1.wav" );
-		g_SoundSystem.PrecacheSound( "weapons/xbow_hitwall2.wav" );
+		g_SoundSystem.PrecacheSound( "weapons/xbow_hit1.wav" );
 	}
 
 	int Classify()
@@ -75,7 +75,7 @@ class CDart : ScriptBaseEntity
 
 			g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
 
-			g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "weapons/xbow_hitbod1", 1.0f, ATTN_NORM );
+			g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "weapons/xbow_hitbod1.wav", 1.0f, ATTN_NORM );
 
 			pev.velocity = g_vecZero;
 
@@ -83,7 +83,7 @@ class CDart : ScriptBaseEntity
 		}
 		else
 		{
-			g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_BODY, "weapons/xbow_hitwall2", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 7 ) );
+			g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_BODY, "weapons/xbow_hit1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 7 ) );
 
 			SetThink( ThinkFunction( this.SUB_Remove ) );
 			pev.nextthink = g_Engine.time;

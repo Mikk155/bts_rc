@@ -56,6 +56,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "9mm";
 string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
@@ -66,8 +67,6 @@ int DAMAGE = 14;
 string FLASHLIGHT = "$i_flashBattery";
 Vector CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 {
@@ -132,6 +131,8 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -348,11 +349,11 @@ string GetAmmoName()
 	return "ammo_bts_beretta";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::weapon_bts_beretta", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
 }
 
 }

@@ -29,9 +29,9 @@ enum bodygroups_e
 };
 
 // Models
-string W_MODEL = "models/bts_rc/weapons/w_m16a2.mdl";
+string W_MODEL = "models/bts_rc/weapons/w_m16.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_m16a2.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_m16a2.mdl";
+string P_MODEL = "models/bts_rc/weapons/p_m16.mdl";
 string A_MODEL = "models/bts_rc/weapons/w_9mmarclip.mdl";
 string G_MODEL = "models/hlclassic/w_argrenade.mdl";
 string PRJ_MDL = "models/hlclassic/grenade.mdl";
@@ -59,6 +59,7 @@ int AMMO_GIVE2 = 2;
 int AMMO_DROP2 = 1;
 int WEIGHT = 5;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "556";
 string AMMO_TYPE2 = "ARgrenades";
 // Weapon HUD
@@ -69,8 +70,6 @@ int DAMAGE = 15;
 float DAMAGE2 = 100.0f;
 Vector CROUCH_CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_m16 : ScriptBasePlayerWeaponEntity
 {
@@ -127,10 +126,9 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
-
-
 		g_Game.PrecacheGeneric( "sprites/SAWFlash.spr" );
 		g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -423,13 +421,13 @@ string GetGLAmmoName()
 	return "ammo_bts_m16_grenade";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::weapon_bts_m16", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", GetAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", GetDAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16_grenade", GetGLAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetGLAmmoName() );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetGLAmmoName() );
 }
 
 }

@@ -37,7 +37,8 @@ string P_MODEL = "models/bts_rc/weapons/p_flare.mdl";
 string PRJ_MDL = "models/bts_rc/weapons/flare.mdl";
 // Sounds
 array<string> SOUNDS = {
-	"bts_rc/weapons/flare_pin.wav"
+	"bts_rc/weapons/flare_pinpull.wav",
+	"bts_rc/weapons/flare_deploy.wav"
 };
 // Weapon info
 int MAX_CARRY = 5;
@@ -47,6 +48,7 @@ int AMMO_GIVE = DEFAULT_GIVE;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
 int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
+int ID; // assigned on register
 string AMMO_TYPE = GetName();
 // Weapon HUD
 uint SLOT = 4;
@@ -56,8 +58,6 @@ float TIMER = 1.5f;
 float DAMAGE = 1.0f;
 float DURATION = 60.0f;
 Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
-// weapon id
-const int ID = Register();
 
 class weapon_bts_flare : ScriptBasePlayerWeaponEntity
 {
@@ -104,6 +104,8 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/flare_selection.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_flare.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -288,11 +290,11 @@ string GetName()
 	return "weapon_bts_flare";
 }
 
-int Register()
+void Register()
 {
 	FLARE::Register();
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", GetName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
 }
 
 }

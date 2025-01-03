@@ -48,14 +48,13 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
+int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 4;
 // Vars
 float RANGE = 32.0f;
 float DAMAGE = 13.0f;
-// weapon id
-const int ID = Register();
 
 class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
 {
@@ -300,10 +299,10 @@ string GetName()
 	return "weapon_bts_crowbar";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_CROWBAR::weapon_bts_crowbar", GetName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
 }
 
 }

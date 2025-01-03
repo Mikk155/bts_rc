@@ -34,7 +34,7 @@ string PRJ_MDL = "models/hlclassic/w_grenade.mdl";
 // Sounds
 array<string> SOUNDS = {
 	"bts_rc/weapons/spas_idle4.wav",
-	"bts_rc/weapons/spas_foley.wav",
+	// "bts_rc/weapons/spas_foley.wav", // no found
 	"bts_rc/weapons/grenade_pinpull.wav",
 	"bts_rc/weapons/grenade_throw1.wav",
 	"bts_rc/weapons/grenade_throw2.wav",
@@ -48,6 +48,7 @@ int AMMO_GIVE = DEFAULT_GIVE;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 20;
 int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
+int ID; // assigned on register
 string AMMO_TYPE = "Hand Grenade";
 // Weapon HUD
 uint SLOT = 4;
@@ -56,8 +57,6 @@ uint POSITION = 6;
 float TIMER = 3.0f;
 float DAMAGE = 100.0f;
 Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
-// weapon id
-const int ID = Register();
 
 class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 {
@@ -310,10 +309,10 @@ string GetName()
 {
 	return "weapon_bts_handgrenade";
 }
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_HANDGRENADE::weapon_bts_handgrenade", GetName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
 }
 
 }
