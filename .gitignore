@@ -1,6 +1,4 @@
-maps/*
-models/*
-sound/*
-sprites/*
-*.wad
+maps/soundcache/*
+src/stuff/*
+src/bts_rc.rmf
 steam_autocloud.vdf
