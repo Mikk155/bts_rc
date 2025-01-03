@@ -127,7 +127,7 @@ class CDart : ScriptBaseEntity
 
 CDart@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, const string& in szModel )
 {
-	CM79Rocket@ pDart = cast<CM79Rocket>( CastToScriptClass( g_EntityFuncs.CreateEntity( GetName() ) ) );
+	CDart@ pDart = cast<CDart>( CastToScriptClass( g_EntityFuncs.CreateEntity( GetName() ) ) );
 	if( pDart is null )
 		return null;
 

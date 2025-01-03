@@ -201,14 +201,11 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity
 		}
 
 		self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
-
 		switch ( Math.RandomLong( 0, 1 ) )
 		{
 			case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND1, Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM ); break;
 			case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND2, Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM ); break;
 		}
-
-		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 		m_pPlayer.pev.punchangle.x = m_fHasHEV ? -10.0f : -16.0f;
 
 		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )

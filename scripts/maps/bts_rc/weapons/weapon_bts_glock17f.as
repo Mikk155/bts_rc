@@ -117,8 +117,9 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity
 		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
 		self.m_iDefaultAmmo = Math.RandomLong( 8, MAX_CLIP );
 		self.m_iDefaultSecAmmo = Math.RandomLong( 0, 3 );
-		m_iFireMode = SEMI_AUTO;
 		self.FallInit();
+
+		m_iFireMode = SEMI_AUTO;
 	}
 
 	void Precache()
@@ -229,7 +230,7 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity
 			return;
 		}
 
-		// if( m_iMode == SEMI_AUTO && (m_pPlayer.m_afButtonPressed & IN_ATTACK) != 0 )
+		// if( m_iFireMode == SEMI_AUTO && (m_pPlayer.m_afButtonPressed & IN_ATTACK) != 0 )
 		// 	return;
 
 		m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
@@ -246,7 +247,7 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity
 		Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
 		Vector vecSrc = m_pPlayer.GetGunPosition();
 		Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
-		Vector vecSpread = ( m_iMode == SEMI_AUTO ) ? SEMI_CONE : FULL_CONE;
+		Vector vecSpread = ( m_iFireMode == SEMI_AUTO ) ? SEMI_CONE : FULL_CONE;
 
 		{
 			float x, y;
@@ -281,9 +282,9 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
 		if( m_fHasHEV )
-			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( m_iMode == SEMI_AUTO ) ? 0.3f : 0.2f;
+			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.3f : 0.2f );
 		else
-			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( m_iMode == SEMI_AUTO ) ? 0.325f : 0.225f;
+			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.325f : 0.225f );
 
 		self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
 	}
