@@ -41,7 +41,7 @@ array<string> SOUNDS = {
 	"bts_rc/weapons/fidget_4.wav",
 	"bts_rc/weapons/fidget_2.wav",
 	"bts_rc/weapons/m4_cliprelease1.wav",
-	"bts_rc/weapons/weapon_holster.wav",
+	// "bts_rc/weapons/weapon_holster.wav", // no found
 	"bts_rc/weapons/m4_clipinsert1.wav",
 	"bts_rc/weapons/m4_clic1.wav"
 };
@@ -53,6 +53,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "556";
 // Weapon HUD
 int SLOT = 2;
@@ -61,8 +62,6 @@ int POSITION = 8;
 int DAMAGE = 15;
 Vector CROUCH_CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_m4 : ScriptBasePlayerWeaponEntity
 {
@@ -113,6 +112,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -246,7 +246,6 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity
 				m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -6, 3 ));
 		}
 
-
 		Vector vecForward, vecRight, vecUp;
 		g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
 		Vector vecOrigin = m_pPlayer.GetGunPosition() + vecForward * SHELL.x + vecRight * SHELL.y + vecUp * SHELL.z;
@@ -341,12 +340,12 @@ string GetDAmmoName()
 	return "ammo_bts_556mag";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::weapon_bts_m4", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_m4", GetAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_m4", GetDAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

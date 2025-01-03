@@ -33,7 +33,8 @@ string W_MODEL = "models/bts_rc/weapons/w_flaregun.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_flaregun.mdl";
 string P_MODEL = "models/bts_rc/weapons/p_flaregun.mdl";
 string A_MODEL = "models/bts_rc/weapons/w_flaregun_clip.mdl";
-string PRJ_MDL = "models/hlclassic/shotgunshell.mdl";
+// string PRJ_MDL = "models/hlclassic/shotgunshell.mdl";
+string PRJ_MDL = "models/bts_rc/weapons/flare.mdl";
 // Sounds
 string SHOOT_SND = "bts_rc/weapons/flaregun_shot1.wav";
 // string SHOOT_SND2 = "bts_rc/weapons/flaregun_shot2.wav";
@@ -51,6 +52,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 15;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "bts:flare";
 // Weapon HUD
 int SLOT = 1;
@@ -60,8 +62,6 @@ float DAMAGE = 20.0f;
 float DURATION = 1200.0f;
 float VELOCITY = 1500.0f;
 Vector OFFSET( 8.0f, 4.0f, -2.0f ); // for projectile
-// weapon id
-const int ID = Register();
 
 // const Vector MUZZLE_ORIGIN		= Vector( 16.0, 4.0, -4.0 ); //forward, right, up
 // const string SPRITE_MUZZLE_GRENADE	= "sprites/bts_rc/muzzleflash12.spr";
@@ -118,6 +118,8 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity
 
 		g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
 		// g_Game.PrecacheGeneric( "events/ .txt" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/w_flare.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -199,7 +201,8 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity
 		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
 		Vector vecVelocity = g_Engine.v_forward * VELOCITY;
 
-		FLARE::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, DURATION, PRJ_MDL );
+		auto flare = FLARE::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, DURATION, PRJ_MDL );
+		flare.pev.scale = 0.5f;
 		// CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
 		// View model animation
@@ -288,14 +291,14 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity
 	void Precache()
 	{
 		g_Game.PrecacheModel( A_MODEL );
-		g_SoundSystem.PrecacheSound( "bts_rc/items/flare_pickup.wav" );
+		g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_pickup.wav" );
 	}
 
 	bool AddAmmo( CBaseEntity@ pOther )
 	{
 		if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
 		{
-			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/flare_pickup.wav", 1.0f, ATTN_NORM );
+			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_pickup.wav", 1.0f, ATTN_NORM );
 			return true;
 		}
 		return false;
@@ -312,12 +315,12 @@ string GetAmmoName()
 	return "ammo_bts_flarebox";
 }
 
-int Register()
+void Register()
 {
 	FLARE::Register();
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAREGUN::weapon_bts_flaregun", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAREGUN::ammo_bts_flarebox", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

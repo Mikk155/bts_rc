@@ -62,8 +62,9 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 15;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "buckshot";
-string AMMO_TYPE2 = "flashlightbattery";
+string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 2;
 int POSITION = 6;
@@ -73,8 +74,6 @@ int PELLETS = 4;
 string FLASHLIGHT = "$i_flashBattery";
 Vector CONE( 0.08716f, 0.04362f, 0.0f );
 Vector SHELL( 14.0f, 6.0f, -34.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
 {
@@ -148,6 +147,8 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
 		g_SoundSystem.PrecacheSound( RELOAD3_S );
 		g_SoundSystem.PrecacheSound( SCOCK1_S );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/w_beretta.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -459,11 +460,11 @@ string GetAmmoName()
 	return "ammo_bts_sbshotgun";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::weapon_bts_sbshotgun", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
 }
 
 }

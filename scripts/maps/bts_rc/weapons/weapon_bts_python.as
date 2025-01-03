@@ -51,6 +51,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "357";
 // Weapon HUD
 int SLOT = 1;
@@ -58,8 +59,6 @@ int POSITION = 8;
 // Vars
 int DAMAGE = 66;
 Vector CONE( 0.01f, 0.01f, 0.01f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_python : ScriptBasePlayerWeaponEntity
 {
@@ -307,12 +306,12 @@ string GetDAmmoName()
 	return "ammo_bts_357cyl";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "CPython::weapon_bts_python", GetName() ); // 357 Colt Python Revolver
 	g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", GetAmmoName() ); // 357 Ammo Rounds
 	g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", GetDAmmoName() ); // 357 Ammo Drop by NPCs
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" ); // Register all of them here
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" ); // Register all of them here
 }
 
 }

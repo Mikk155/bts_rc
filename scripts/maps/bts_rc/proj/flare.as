@@ -13,6 +13,7 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 	private int m_iBounces, m_iBeamSprite;
 
 	bool m_fRemoveAfterHit = false;
+	bool m_fAttachToWorld = false;
 
 	void Spawn()
 	{
@@ -48,15 +49,12 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 
 	void FlareThink()
 	{
-		pev.angles = Math.VecToAngles( pev.velocity );
-
 		if( pev.dmgtime != -1.0f )
 		{
 			if( pev.dmgtime < g_Engine.time )
 			{
 				FlareLight( 2, 64 );
-				self.SUB_StartFadeOut();
-				// g_EntityFuncs.Remove( self );
+				g_EntityFuncs.Remove( self );
 				return;
 			}
 		}
@@ -88,6 +86,9 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 		}
 
 		TraceResult tr = g_Utility.GetGlobalTrace();
+    Vector vecDir = pev.velocity.Normalize();
+		Vector vecNewDir = vecDir - 2.0f * tr.vecPlaneNormal * DotProduct(tr.vecPlaneNormal, vecDir);
+		pev.angles = Math.VecToAngles(vecNewDir);
 
 		if( pOther.pev.takedamage != DAMAGE_NO )
 		{
@@ -122,20 +123,19 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 			{
 				if( pOther.pev.ClassNameIs( "worldspawn" ) )
 				{
-					Vector vecImpactDir = pev.velocity.Normalize();
-					float flSurfDot = DotProduct( tr.vecPlaneNormal, vecImpactDir );
-
-					if( tr.vecPlaneNormal.z > 0.5f && flSurfDot < 0.9f )
+					float flSurfDot = DotProduct( tr.vecPlaneNormal, vecDir );
+					if( m_fAttachToWorld && !( tr.vecPlaneNormal.z < -0.5f && flSurfDot > -0.9f ) )
 					{
-						g_EntityFuncs.SetOrigin( self, tr.vecEndPos + ( tr.vecPlaneNormal * 2.0f ) );
+						// g_EntityFuncs.SetOrigin( self, pev.origin - vecDir * 12.0f );
+
 						pev.velocity = g_vecZero;
-						// pev.avelocity = g_vecZero;
-						pev.angles = Math.VecToAngles( vecImpactDir );
-						pev.angles.z -= 90.0f;
+						pev.avelocity = g_vecZero;
+						pev.angles = Math.VecToAngles( vecDir );
+						// pev.angles.y -= 90.0f;
 						pev.movetype = MOVETYPE_NONE;
 
 						SetTouch( TouchFunction( this.FlareBurnTouch ) );
-						g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 1 ) );
+						// g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 1 ) );
 						g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_BODY, "bts_rc/weapons/flarehit1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 7 ) );
 						return;
 					}
@@ -161,6 +161,8 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 			if( pev.velocity.Length() < 64.0f )
 			{
 				pev.velocity = g_vecZero;
+				pev.angles.x = 0.0f;
+				pev.angles.z = 0.0f;
 				pev.movetype = MOVETYPE_NONE;
 
 				SetTouch( TouchFunction( this.FlareBurnTouch ) );
@@ -311,6 +313,7 @@ CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in 
 	g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
 
 	pFlare.FlareTrail();
+	pFlare.m_fAttachToWorld = true;
 	pFlare.m_fRemoveAfterHit = true;
 
 	pFlare.pev.dmg = flDmg;

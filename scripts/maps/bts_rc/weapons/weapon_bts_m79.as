@@ -62,6 +62,7 @@ int AMMO_GIVE = 2;
 int AMMO_DROP = 1;
 int WEIGHT = 20;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "ARgrenades";
 // Weapon HUD
 int SLOT = 3;
@@ -71,8 +72,6 @@ float DAMAGE = 125.0f;
 float RADIUS = 240.0f;
 float VELOCITY = 1200.0f;
 Vector OFFSET( 8.0f, 4.0f, -2.0f ); // for projectile
-// weapon id
-const int ID = Register();
 
 // string SPRITE_MUZZLE_GRENADE = "sprites/bts_rc/muzzleflash12.spr";
 // Vector MUZZLE_ORIGIN = Vector( 16.0, 4.0, -4.0 ); // forward, right, up
@@ -123,12 +122,11 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
-		g_Game.PrecacheGeneric( "sprites/bts_rc/crosshair.spr" );
-		g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_M79.spr" );
-
 		// Precaches the stuff for download
 		g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
 		// g_Game.PrecacheGeneric( "events/ .txt" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_M79.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/M79_crosshair.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -286,12 +284,12 @@ string GetAmmoName()
 	return "ammo_bts_m79";
 }
 
-int Register()
+void Register()
 {
 	M79_ROCKET::Register();
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GeName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GeName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GeName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 } // Namespace end

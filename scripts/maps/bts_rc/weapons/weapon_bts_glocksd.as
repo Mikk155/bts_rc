@@ -52,6 +52,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "9mm";
 // Weapon HUD
 int SLOT = 1;
@@ -61,8 +62,6 @@ int DAMAGE = 12;
 Vector SEMI_CONE( 0.01f, 0.01f, 0.01f );
 Vector RAPID_CONE( 0.1f, 0.1f, 0.1f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity
 {
@@ -111,6 +110,8 @@ class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity
 		for( uint i = 0; i < SOUNDS.length(); i++ )
 			g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/w_glocksd1.spr" );
+		g_Game.PrecacheGeneric( "sprites/bts_rc/w_glocksd4.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -311,12 +312,12 @@ string GetDAmmoName()
 	return "ammo_bts_dglocksd";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::weapon_bts_glocksd", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", GetAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", GetDAmmoName() ); // ammo drop case
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

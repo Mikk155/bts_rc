@@ -49,14 +49,13 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
+int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 8;
 // Vars
 float RANGE = 32.0f;
 float DAMAGE = 20.0f;
-// weapon id
-const int ID = Register();
 
 class weapon_bts_axe : ScriptBasePlayerWeaponEntity
 {
@@ -104,6 +103,7 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity
 		for( uint j = 0; j < HITFLESH_SND.length(); j++ )
 			g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
 
+		g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
 		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
 	}
 
@@ -301,10 +301,10 @@ string GetName()
 	return "weapon_bts_axe";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_AXE::weapon_bts_axe", GetName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
 }
 
 }

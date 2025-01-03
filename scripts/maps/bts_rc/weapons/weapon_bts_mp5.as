@@ -46,6 +46,7 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
 int FLAGS = 0;
+int ID; // assigned on register
 string AMMO_TYPE = "9mm";
 // Weapon HUD
 int SLOT = 2;
@@ -54,8 +55,6 @@ int POSITION = 4;
 int DAMAGE = 8;
 Vector CROUCH_CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
-// weapon id
-const int ID = Register();
 
 class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
 {
@@ -319,12 +318,12 @@ string GetDAmmoName()
 	return "ammo_bts_dmp5";
 }
 
-int Register()
+void Register()
 {
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5::weapon_bts_mp5", GetName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5::ammo_bts_mp5", GetAmmoName() );
 	g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5::ammo_bts_mp5", GetDAmmoName() );
-	return g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+	ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 }

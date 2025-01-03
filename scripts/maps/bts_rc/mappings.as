@@ -7,7 +7,7 @@ array<ItemMapping@> g_AmmoReplacement =
 	ItemMapping( "weapon_9mmAR", HL_MP5::GetDAmmoName() ),
 	ItemMapping( "weapon_mp5", HL_MP5::GetDAmmoName() ),
 	ItemMapping( "weapon_shotgun", HL_SHOTGUN::GetDAmmoName() ),
-	ItemMapping( "weapon_m16", "item_null" ),
+	ItemMapping( "weapon_m16", "info_null" ),
 	ItemMapping( "weapon_saw", CM249::GetDAmmoName() ),
 	ItemMapping( "weapon_m249", CM249::GetDAmmoName() ),
 	ItemMapping( "weapon_minigun", CM249::GetDAmmoName() )

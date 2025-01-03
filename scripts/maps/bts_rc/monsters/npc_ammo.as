@@ -11,11 +11,11 @@ const array<string> ZHECUAmmoDrop =
 	BTS_DEAGLE::GetDAmmoName(),
 	HL_GLOCKSD::GetDAmmoName(),
 	HL_SHOTGUN::GetAmmoName(),
-	"item_null",
-	"item_null2",
-	"item_null3",
-	"item_null4",
-	"item_null5",
+	"info_null",
+	"info_null",
+	"info_null",
+	"info_null",
+	"info_null",
 	BTS_M4::GetDAmmoName(),
 	BTS_HEVBATTERY::GetName()
 	//HL_SBSHOTGUN::GetSBShotgunAmmoName(),
@@ -32,9 +32,9 @@ const array<string> ZBarnAmmoDrop =
 	BTS_DEAGLE::GetDAmmoName(),
 	HL_SHOTGUN::GetDAmmoName(),
 	HL_BERETTA::GetAmmoName(),
-	"item_null",
-	"item_null2",
-	"item_null3"
+	"info_null",
+	"info_null",
+	"info_null"
 };
 
 const array<string> ZNormalAmmoDrop =
@@ -43,15 +43,15 @@ const array<string> ZNormalAmmoDrop =
 	BTS_FLARE::GetName(),
 	HL_GLOCKSD::GetDAmmoName(),
 	BTS_SPRAYAID::GetItemName(),
-	"item_null",
-	"item_null2",
-	"item_null3"
+	"info_null",
+	"info_null",
+	"info_null"
 };
 
 const array<string> SentryAmmoDrop =
 {
 	HL_MP5GL::GetDAmmoName(),
-	"item_null"
+	"info_null"
 };
 
 dictionary gNPCType =
