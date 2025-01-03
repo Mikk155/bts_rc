@@ -120,7 +120,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
 
 		g_Game.PrecacheOther( "grenade" );
 		g_Game.PrecacheOther( GetAmmoName() );
-		g_Game.PrecacheOther( GetGLName() );
+		g_Game.PrecacheOther( GetGLAmmoName() );
 
 		g_SoundSystem.PrecacheSound( SHOOT_SND );
 		g_SoundSystem.PrecacheSound( SHOOT2_SND );
@@ -265,7 +265,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
 		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-		self.m_flNextPrimaryAttack = g_Engine.time + m_fHasHEV ? 0.12f : 0.124f;
+		self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.12f : 0.124f );
 		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
 	}
 
@@ -292,7 +292,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
 
 		Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
 		Vector vecSrc = m_pPlayer.pev.origin + g_Engine.v_forward * 16.0f + g_Engine.v_right * 6.0f;
-		vecSrc = vecSrc + ( ( m_pPlayer.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( m_pPlayer.pev.view_ofs * 0.5f );
+		vecSrc = vecSrc + ( ( ( m_pPlayer.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( m_pPlayer.pev.view_ofs * 0.5f ) );
 
 		// we don't add in player velocity anymore.
 		CGrenade@ pGrenade = g_EntityFuncs.ShootContact( m_pPlayer.pev, vecSrc, g_Engine.v_forward * 900.0f );

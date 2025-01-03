@@ -36,12 +36,12 @@ string W_MODEL = "models/opfor/w_knife.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_knife.mdl";
 string P_MODEL = "models/opfor/p_knife.mdl";
 // Sounds
-string MISS_SND = {
+array<string> MISS_SND = {
 	"weapons/knife1.wav",
 	"weapons/knife2.wav",
 	"weapons/knife3.wav"
 	// "weapons/cbar_miss1.wav"
-}
+};
 array<string> HITWORLD_SND = {
 	"weapons/knife_hit_wall1.wav",
 	"weapons/knife_hit_wall2.wav"
@@ -80,6 +80,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 	{
 		get const { return g_PlayerClass[m_pPlayer] == HELMET; }
 	}
+	private TraceResult m_trHit;
 	private bool m_fWhack;
 	private int m_iSwing;
 
@@ -262,11 +263,11 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 					case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
 					case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
 				}
-				self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + m_fHasHEV ? 0.5f : 0.6f;
+				self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.6f );
 				self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 				// play wiff or swish sound
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[0, MISS_SND.length() - 1], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[Math.RandomLong( 0, MISS_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
 
 				// player "shoot" animation
 				m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
@@ -286,7 +287,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 				case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
 			}
 
-			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + m_fHasHEV ? 0.25f : 0.35f;
+			self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.35f );
 			self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 			// player "shoot" animation
@@ -322,7 +323,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 					// end aone
 
 					// play thwack or smack sound
-					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM );
+					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
 					m_pPlayer.m_iWeaponVolume = 128;
 
 					if( !pEntity.IsAlive() )
@@ -342,7 +343,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 				g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
 				// also play crowbar strike
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 			}
 
 			//delay the decal a bit
@@ -399,7 +400,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 			self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
 			// play wiff or swish sound
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[0, MISS_SND.length() - 1], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[Math.RandomLong( 0, MISS_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
 
 			// player "shoot" animation
 			m_pPlayer.m_szAnimExtension = "wrench";
@@ -452,11 +453,11 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 					// end aone
 
 					// play thwack or smack sound
-					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM );
+					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
 					m_pPlayer.m_iWeaponVolume = 128;
 
 					if( !pEntity.IsAlive() )
-						return true;
+						return;
 					else
 						flVol = 0.1f;
 
@@ -472,7 +473,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 				g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
 				// also play crowbar strike
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 			}
 
 			// delay the decal a bit

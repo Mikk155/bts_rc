@@ -93,6 +93,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 			g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), FLASHLIGHT, "" + value );
 		}
 	}
+	private TraceResult m_trHit;
 	private int m_iCurBaterry; // for clamping
 	private int m_iSwing;
 
@@ -335,7 +336,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 					// end aone
 
 					// play thwack or smack sound
-					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM );
+					g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
 					m_pPlayer.m_iWeaponVolume = 128;
 
 					if( !pEntity.IsAlive() )
@@ -355,7 +356,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 				g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
 				// also play crowbar strike
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[0, HITFLESH_SND.length() - 1], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 			}
 
 			// delay the decal a bit

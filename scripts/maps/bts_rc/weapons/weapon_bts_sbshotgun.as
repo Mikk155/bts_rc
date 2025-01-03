@@ -306,7 +306,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
 		if( !m_fHasHEV )
 			m_pPlayer.pev.velocity = g_Engine.v_forward * -64.0f; // Knockback!
 
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + m_fHasHEV ? 0.85f : 1.0f;
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.85f : 1.0f );
 		self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
 	}
 
@@ -348,7 +348,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
 				case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, RELOAD1_S, 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
 				case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, RELOAD3_S, 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
 			}
-			m_flTimeWeaponReload = g_Engine.time + m_fHasHEV ? 0.5f : 0.64f;
+			m_flTimeWeaponReload = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.64f );
 			m_fInReloadState = 2;
 			BaseClass.Reload();
 			break;

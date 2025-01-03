@@ -147,9 +147,9 @@ class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	bool Deploy()
 	{
-		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DARTGUN_DEPLOY, "mp5"/*, 0, GetBodygroup()*/ );	//Third person Player won't be having any reload animations. Expect them to see go doing Idle No-Weapon animation when it happens.
+		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "mp5"/*, 0, GetBodygroup()*/ );	//Third person Player won't be having any reload animations. Expect them to see go doing Idle No-Weapon animation when it happens.
 		self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
-		return bResult;
+		return true;
 	}
 
 	void Holster( int skiplocal = 0 )
@@ -312,7 +312,7 @@ class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 		Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
 		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
-		Vector vecVelocity = g_Engine.v_forward * ( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD ) ? WATER_VELOCITY : AIR_VELOCITY;
+		Vector vecVelocity = g_Engine.v_forward * ( ( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD ) ? WATER_VELOCITY : AIR_VELOCITY );
 
 		float flSpread = 32.0f;
 		if( m_pPlayer.pev.FlagBitSet( FL_DUCKING ) )
@@ -326,7 +326,7 @@ class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 		// if( self.m_flCustomDmg > 0 )
 		// 	flDamage = self.m_flCustomDmg;
 
-		DART::ShootDart( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, PRJ_MDL );
+		DART::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, PRJ_MDL );
 
 		self.SendWeaponAnim( SHOOT1/*, 0, GetBodygroup()*/ );
 		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, 1.0f, ATTN_NORM, 0, 100 );

@@ -37,7 +37,6 @@ class CM79Rocket : ScriptBaseEntity
 
 	void Precache()
 	{
-		g_Game.PrecacheModel( MODEL );
 		m_iWExplosionSprite = g_Game.PrecacheModel( "sprites/WXplo1.spr" );
 		m_iExplosionSprite = g_Game.PrecacheModel( "sprites/bts_rc/zerogxplode.spr" );
 		m_iSmokeSprite = g_Game.PrecacheModel( "sprites/steam1.spr" );
@@ -98,7 +97,7 @@ class CM79Rocket : ScriptBaseEntity
 			m1.WriteByte( TE_EXPLFLAG_NONE );
 		m1.End();
 
-		GetSoundEntInstance().InsertSound( bits_SOUND_COMBAT, pev.origin, NORMAL_EXPLOSION_VOLUME, 3.0f );
+		GetSoundEntInstance().InsertSound( bits_SOUND_COMBAT, pev.origin, NORMAL_EXPLOSION_VOLUME, 3.0f, self );
 
 		entvars_t@ pevOwner = pev;
 		if( pev.owner !is null )
@@ -166,7 +165,7 @@ CM79Rocket@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector&
 
 	pRocket.pev.dmg = flDmg;
 	pRocket.pev.fuser1 = flRadius;
-	@pRocket.pev.owner = pOwner;
+	@pRocket.pev.owner = pevOwner.pContainingEntity;
 
 	return pRocket;
 }

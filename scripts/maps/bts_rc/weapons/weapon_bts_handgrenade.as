@@ -204,6 +204,8 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
 	private void LaunchThink()
 	{
+		Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
+
 		Math.MakeVectors( angThrow );
 		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
 		Vector vecThrow = g_Engine.v_forward * m_flVel + m_pPlayer.pev.velocity;
@@ -294,6 +296,13 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 	private bool CheckButton() // returns which key the player is pressing (that might interrupt the reload)
 	{
 		return m_pPlayer.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) != 0;
+	}
+
+	private void DestroyThink() // destroys the item
+	{
+		SetThink( null );
+		self.DestroyItem();
+		//g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
 	}
 }
 

@@ -104,8 +104,8 @@ class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity
 		g_Game.PrecacheOther( GetAmmoName() );
 		g_Game.PrecacheOther( GetDAmmoName() );
 
-		g_SoundSystem.PrecacheSound( SHOOT_SND );
-		g_SoundSystem.PrecacheSound( SHOOT2_SND );
+		g_SoundSystem.PrecacheSound( SHOOT_SND1 );
+		g_SoundSystem.PrecacheSound( SHOOT_SND2 );
 		g_SoundSystem.PrecacheSound( EMPTY_SND );
 
 		for( uint i = 0; i < SOUNDS.length(); i++ )

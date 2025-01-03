@@ -125,7 +125,7 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity
 	{
 		info.iMaxAmmo1 = MAX_CARRY;
 		info.iAmmo1Drop = AMMO_DROP;
-		info.iMaxAmmo2 = MAX_CARRY2;
+		info.iMaxAmmo2 = -1;
 		info.iAmmo2Drop = -1;
 		info.iMaxClip = MAX_CLIP;
 		info.iSlot = SLOT;

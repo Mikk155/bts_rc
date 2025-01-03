@@ -199,7 +199,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity
 		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
 		Vector vecVelocity = g_Engine.v_forward * VELOCITY;
 
-		FLARE::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, DURATION, PROJ_MDL );
+		FLARE::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, DURATION, PRJ_MDL );
 		// CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
 		// View model animation

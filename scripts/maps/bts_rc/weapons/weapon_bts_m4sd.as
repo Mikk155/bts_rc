@@ -15,6 +15,7 @@ enum m4sd_e
 	LONGIDLE = 0,
 	IDLE1,
 	LAUNCH,
+	RELOAD,
 	DRAW,
 	DEPLOY,
 	SHOOT1,
@@ -105,7 +106,6 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity
 		m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
 
 		g_Game.PrecacheOther( GetAmmoName() );
-		g_Game.PrecacheOther( GetDAmmoName() );
 
 		g_SoundSystem.PrecacheSound( SHOOT_SND );
 		g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -255,7 +255,7 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity
 		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
 			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + self.m_fInZoom ? 0.13f : 0.124f;
+		self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( self.m_fInZoom ? 0.13f : 0.124f );
 		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
 	}
 
