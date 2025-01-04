@@ -274,7 +274,7 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GeName()
+string GetName()
 {
     return "weapon_bts_m79";
 }
@@ -287,9 +287,9 @@ string GetAmmoName()
 void Register()
 {
     M79_ROCKET::Register();
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GeName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GeName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 } // Namespace end
