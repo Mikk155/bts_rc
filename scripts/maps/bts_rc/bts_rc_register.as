@@ -50,6 +50,13 @@
 This doesn't work so to enable loggers find all "#if LOGGERS" and replace to "#if SERVER"
 */
 
+#if SERVER
+// All the weapons used in the map.
+array<string> weapons = {
+    "weapon_medkit"
+};
+#endif
+
 #include "utils/main"
 
 // Entities
@@ -121,6 +128,17 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
     if( player !is null && player.IsConnected() )
     {
         dictionary@ user_data = player.GetUserData();
+
+#if SERVER
+        if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+        {
+            for( uint ui = 0; ui < weapons.length(); ui++ )
+            {
+                player.GiveNamedItem( weapons[ui] );
+            }
+            player.pev.impulse = 0;
+        }
+#endif
 
 #if FALSE // -TODO Idk how the fuck do this xd @rizulix
         /*==========================================================================

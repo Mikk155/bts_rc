@@ -303,6 +303,9 @@ string GetName()
 
 void Register()
 {
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_POOLSTICK::weapon_bts_poolstick", GetName() );
     ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
 }

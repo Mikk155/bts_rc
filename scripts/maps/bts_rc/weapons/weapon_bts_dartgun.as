@@ -386,6 +386,9 @@ string GetAmmoName()
 
 void Register()
 {
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
     DART::Register();
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::weapon_bts_dartgun", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::ammo_bts_dartgun", GetAmmoName() );
