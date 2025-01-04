@@ -45,6 +45,11 @@
     THE SOFTWARE.
 */
 
+/*
+#define LOGGERS
+This doesn't work so to enable loggers find all "#if LOGGERS" and replace to "#if SERVER"
+*/
+
 #include "utils/main"
 
 // Entities
