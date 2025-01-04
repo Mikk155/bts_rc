@@ -310,7 +310,7 @@ namespace randomizer
                 { "AU_AMMO_12", null },
                 // PLAYER COUNT AMMO
                 { "GM_AMMO_PC1", null },
-                { "GM_AMMO_PC2", null },GM_BA_
+                { "GM_AMMO_PC2", null },
                 { "GM_AMMO_PC3", null },
                 { "GM_AMMO_PC4", null },
                 { "GM_AMMO_PC5", null },
@@ -539,7 +539,6 @@ namespace randomizer
                 { "HULL2_4", null },
                 { "HULL2_5", null },
                 { "HULL2_6", null }
-
             };
         }
     }
@@ -561,7 +560,6 @@ namespace randomizer
                 { "BS_2", null },
                 { "BS_3", null },
                 { "BS_4", null }
-
             };
         }
     }
