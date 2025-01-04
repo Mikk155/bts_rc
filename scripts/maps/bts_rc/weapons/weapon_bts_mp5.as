@@ -72,7 +72,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
