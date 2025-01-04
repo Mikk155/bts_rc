@@ -60,6 +60,7 @@ array<string> weapons = {
 #include "utils/main"
 
 // Entities
+#include "entities/env_bloodpuddle"
 #include "entities/randomizer"
 #include "entities/trigger_script"
 #include "entities/trigger_update_class"
@@ -110,6 +111,8 @@ void MapInit()
     ==========================================================================*/
     precache::sound( "items/flashlight2.wav" );
     precache::sound( "player/hud_nightvision.wav" );
+
+    precache::model( env_bloodpuddle::model );
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -118,6 +121,7 @@ void MapInit()
     *   - Start of hooks
     ==========================================================================*/
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
+    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -260,6 +264,31 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
             /*==========================================================================
             *   - End
             ==========================================================================*/
+    }
+
+    return HOOK_CONTINUE;
+}
+
+CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0 );
+
+HookReturnCode MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int iGib )
+{
+    if( monster !is null )
+    {
+        dictionary@ user_data = monster.GetUserData();
+
+        // Create a blood puddle if possible
+        if( monster.m_bloodColor != DONT_BLEED && cvar_bloodpuddles.GetInt() == 0 && !user_data.exists( "bloodpuddle" ) && freeedicts( 1 ) )
+        {
+            CBaseEntity@ bloodpuddle = g_EntityFuncs.Create( "env_bloodpuddle", monster.Center() + Vector( 0, 0, 6 ), g_vecZero, false, monster.edict() );
+
+            if( bloodpuddle !is null && monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
+            {
+                bloodpuddle.pev.skin = 1;
+            }
+
+            user_data[ "bloodpuddle" ] = true;
+        }
     }
 
     return HOOK_CONTINUE;
