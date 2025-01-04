@@ -33,7 +33,7 @@ void ToggleLogger( CCVar@ cvar, const string& in szOldValue, float flOldValue )
 {
     if( flOldValue > 0 )
     {
-        float value = int( flOldValue );
+        int value = int( flOldValue );
 
         switch( value )
         {
@@ -59,7 +59,7 @@ void ToggleLogger( CCVar@ cvar, const string& in szOldValue, float flOldValue )
     }
     else if( szOldValue != String::EMPTY_STRING )
     {
-        const string value = szOldValue.ToLowercase();
+        const string value = tolower( szOldValue );
 
         if( value == "warning" )
             LoggerToggle( LoggerLevels::Warning );
