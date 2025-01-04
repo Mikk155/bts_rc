@@ -169,7 +169,7 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         ==========================================================================*/
 #endif
 
-        switch( g_PlayerClass[ player ] )
+        switch( g_PlayerClass[ player, true ] )
         {
             /*==========================================================================
             *   - Start of Helmet night vision
