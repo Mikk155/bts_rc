@@ -17,63 +17,48 @@ enum LoggerLevels
 
 int LoggerLevel = LoggerLevels::None;
 
-void LoggerToggle( const LoggerLevels logger_level )
+const string& LoggerType( int logger_level )
 {
-    if( ( LoggerLevel & logger_level ) != 0 )
+    switch( logger_level )
     {
-        LoggerLevel &= ~LoggerLevel;
-    }
-    else
-    {
-        LoggerLevel |= LoggerLevel;
+        case LoggerLevels::Warning: return "WARNING";
+        case LoggerLevels::Debug: return "DEBUG";
+        case LoggerLevels::Info: return "INFO";
+        case LoggerLevels::Critical: return "CRITICAL";
+        case LoggerLevels::Error: return "ERROR";
+        default: return "Unknown";
     }
 }
 
 void ToggleLogger( CCVar@ cvar, const string& in szOldValue, float flOldValue )
 {
-    if( flOldValue > 0 )
-    {
-        int value = int( flOldValue );
+    const LoggerLevels value = LoggerLevels( g_LoggerSet.GetInt() );
 
-        switch( value )
+    string snprintfm;
+
+    const string mytype = LoggerType( value );
+
+    if( mytype != "Unknown" )
+    {
+        if( ( LoggerLevel & value ) != 0 )
         {
-            case LoggerLevels::Warning:
-                LoggerToggle( LoggerLevels::Warning );
-            break;
-            case LoggerLevels::Debug:
-                LoggerToggle( LoggerLevels::Debug );
-            break;
-            case LoggerLevels::Info:
-                LoggerToggle( LoggerLevels::Info );
-            break;
-            case LoggerLevels::Critical:
-                LoggerToggle( LoggerLevels::Critical );
-            break;
-            case LoggerLevels::Error:
-                LoggerToggle( LoggerLevels::Error );
-            break;
-            default:
-                g_Game.AlertMessage( at_console, "Unknown Logger value \"%1\"\n", value );
-            break;
+            snprintf( snprintfm, "[CLogger] Disabled logger type \"%1\"\n", mytype );
+            g_EngineFuncs.ServerPrint( snprintfm );
+            LoggerLevel &= ~value;
+        }
+        else
+        {
+            snprintf( snprintfm, "[CLogger] Enabled logger type \"%1\"\n", mytype );
+            g_EngineFuncs.ServerPrint( snprintfm );
+            LoggerLevel |= value;
         }
     }
-    else if( szOldValue != String::EMPTY_STRING )
+    else
     {
-        const string value = tolower( szOldValue );
-
-        if( value == "warning" )
-            LoggerToggle( LoggerLevels::Warning );
-        else if( value == "debug" )
-            LoggerToggle( LoggerLevels::Debug );
-        else if( value == "information" )
-            LoggerToggle( LoggerLevels::Info );
-        else if( value == "critical" )
-            LoggerToggle( LoggerLevels::Critical );
-        else if( value == "error" )
-            LoggerToggle( LoggerLevels::Error );
-        else
-            g_Game.AlertMessage( at_console, "Unknown Logger value \"%1\"\n", value );
+        snprintf( snprintfm, "[CLogger] Unknown Logger value \"%1\"\nUse one of:\n1 = Warning\n2 = Debug\n4 = Info\n8 = Critical\n16 = Error\n", g_LoggerSet.GetInt() );
+        g_EngineFuncs.ServerPrint( snprintfm );
     }
+    g_LoggerSet.SetInt( LoggerLevel );
 }
 
 class CLogger
@@ -85,13 +70,13 @@ class CLogger
         __member__ = member;
     }
 
-    private void __printf__( int&in level, const string &in logger, const string &in message, array<string>&in args )
+    private void __printf__( int&in level, const string &in message, array<string>&in args )
     {
         if( ( LoggerLevel & level ) == 0 )
             return;
 
         string str;
-        snprintf( str, "> [%1] [%2] %3\n", __member__, logger, message );
+        snprintf( str, "> [%1] [%2] %3\n", __member__, LoggerType( level ), message );
 
         for( uint ui = 0; ui < args.length(); ui++ )
         {
@@ -106,23 +91,23 @@ class CLogger
     }
 
     void warn( const string &in message, array<string>&in args = {} ) {
-        this.__printf__( Warning, "WARNING", message, args );
+        this.__printf__( Warning, message, args );
     }
 
     void debug( const string &in message, array<string>&in args = {} ) {
-        this.__printf__( Debug, "DEBUG", message, args );
+        this.__printf__( Debug, message, args );
     }
 
     void info( const string &in message, array<string>&in args = {} ) {
-        this.__printf__( Info, "INFO", message, args );
+        this.__printf__( Info, message, args );
     }
 
     void critical( const string &in message, array<string>&in args = {} ) {
-        this.__printf__( Critical, "CRITICAL", message, args );
+        this.__printf__( Critical, message, args );
     }
 
     void error( const string &in message, array<string>&in args = {} ) {
-        this.__printf__( Error, "ERROR", message, args );
+        this.__printf__( Error, message, args );
     }
 }
 
