@@ -1,8 +1,10 @@
 namespace randomizer
 {
+#if SERVER
     CLogger@ m_Logger = CLogger( "Randomizer" );
+#endif
 
-    const array<string> keys(){ return { "item", "npc", "hull", "boss", "headcrab" }; }
+    const array<string> keys(){ return { "item", "npc", "hull", "boss", "headcrab", "wave" }; }
 
     //============================================================================
     // Start of map-entities
@@ -27,10 +29,12 @@ namespace randomizer
     {
         void Spawn()
         {
+#if SERVER
             m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
 
             if( ( LoggerLevel & LoggerLevels::Info ) != 0 )
                 self.pev.nextthink = g_Engine.time + 0.1;
+#endif
         }
 
         // -TODO Remove this debug
@@ -66,6 +70,10 @@ namespace randomizer
     class randomizer_boss : CRandomizerEntity
     {
     }
+    
+    class randomizer_wave : CRandomizerEntity
+    {
+    }
 
     //============================================================================
     // End of map-entities
@@ -97,7 +105,9 @@ namespace randomizer
                 swaps[j] = temp;
             }
             indexes = swaps;
+#if SERVER
             m_Logger.info( "Swapped list {} indexes", { this.name() } );
+#endif
         }
 
         void swap_squad( CBaseMonster@ pSquad_B )
@@ -108,7 +118,9 @@ namespace randomizer
 
             if( pRandomizer_B !is null && pRandomizer_A !is null )
             {
+#if SERVER
                 m_Logger.debug( "{}:swap_squad: \"{}\" Swap position from {} to {}", { this.name(), pSquad_B.GetClassname(), pRandomizer_B.GetOrigin().ToString(), pRandomizer_A.GetOrigin().ToString() } );
+#endif
                 @pSquad_B.pev.owner = pRandomizer_A.edict();
                 @pSquad_A.pev.owner = pRandomizer_B.edict();
                 @pRandomizer_B.pev.owner = pSquad_A.edict();
@@ -123,13 +135,17 @@ namespace randomizer
             const string name = this.name();
             string target;
             snprintf( target, "randomizer_%1", name );
+#if SERVER
             m_Logger.info( "Initializing swappers \"{}\"", { target } );
+#endif
 
             // Find all randomizers and store them in indexes
             CBaseEntity@ pRandomizer = null;
             while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, target ) ) !is null )
             {
+#if SERVER
                 m_Logger.info( "Got entity {} at \"{}\"", { pRandomizer.entindex(), pRandomizer.GetOrigin().ToString() } );
+#endif
                 indexes.insertLast( pRandomizer.entindex() );
             }
 
@@ -147,7 +163,9 @@ namespace randomizer
 
                 @pRandomizer = g_EntityFuncs.Instance( indexes[ index - 1 ] );
 
+#if SERVER
                 m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, ent_name, pRandomizer.GetOrigin().ToString() } );
+#endif
 
                 CBaseEntity@ pTargetEntity = g_EntityFuncs.FindEntityByTargetname( null, ent_name );
 
@@ -296,7 +314,7 @@ namespace randomizer
                 { "AU_AMMO_12", null },
                 // PLAYER COUNT AMMO
                 { "GM_AMMO_PC1", null },
-                { "GM_AMMO_PC2", null },GM_BA_
+                { "GM_AMMO_PC2", null },
                 { "GM_AMMO_PC3", null },
                 { "GM_AMMO_PC4", null },
                 { "GM_AMMO_PC5", null },
@@ -525,7 +543,6 @@ namespace randomizer
                 { "HULL2_4", null },
                 { "HULL2_5", null },
                 { "HULL2_6", null }
-
             };
         }
     }
@@ -547,7 +564,6 @@ namespace randomizer
                 { "BS_2", null },
                 { "BS_3", null },
                 { "BS_4", null }
-
             };
         }
     }
@@ -757,6 +773,87 @@ namespace randomizer
                 { "MS_132", null },
                 { "MS_133", null },
                 { "MS_134", null }
+            };
+        }
+    }
+    
+    CRanomizerWaves g_RandomizerWave;
+    final class CRanomizerWaves : CRandomizer
+    {
+        string name() { return "Wave"; }
+
+        dictionary entities()
+        {
+            return
+            {
+                { "GM_R_SLAVE_S1", null },
+                { "GM_R_SLAVE_S2", null },
+                { "GM_R_SLAVE_S3", null },
+                { "GM_R_SLAVE_S4", null },
+                { "GM_R_SLAVE_S5", null },
+                { "GM_R_SLAVE_S6", null },
+                { "GM_R_SLAVE_S7", null },
+                { "GM_R_SLAVE_S8", null },
+                { "GM_R_HOUND_S1", null },
+                { "GM_R_HOUND_S2", null },
+                { "GM_R_HOUND_S3", null },
+                { "GM_R_HOUND_S4", null },
+                { "GM_R_HOUND_S5", null },
+                { "GM_R_HOUND_S6", null },
+                { "GM_R_SNARK_S1", null },
+                { "GM_R_SNARK_S2", null },
+                { "GM_R_AGRUNT_S1", null },
+                { "GM_R_AGRUNT_S2", null },
+                { "GM_R_PITDRONE_S1", null },
+                { "GM_R_PITDRONE_S2", null },
+                { "GM_R_PITDRONE_S3", null },
+                { "GM_R_CRAB_S1", null },
+                { "GM_R_CRAB_S2", null },
+                { "GM_R_CRAB_S3", null },
+                { "GM_R_CRAB_S4", null },
+                { "GM_R_CRAB_S5", null },
+                // LOCATIONS
+                { "RZ_1", null },
+                { "RZ_2", null },
+                { "RZ_3", null },
+                { "RZ_4", null },
+                { "RZ_5", null },
+                { "RZ_6", null },
+                { "RZ_7", null },
+                { "RZ_8", null },
+                { "RZ_9", null },
+                { "RZ_10", null },
+                { "RZ_11", null },
+                { "RZ_12", null },
+                { "RZ_13", null },
+                { "RZ_14", null },
+                { "RZ_15", null },
+                { "RZ_16", null },
+                { "RZ_17", null },
+                { "RZ_18", null },
+                { "RZ_19", null },
+                { "RZ_20", null },
+                { "RZ_21", null },
+                { "RZ_22", null },
+                { "RZ_23", null },
+                { "RZ_24", null },
+                { "RZ_25", null },
+                { "RZ_26", null },
+                { "RZ_27", null },
+                { "RZ_28", null },
+                { "RZ_29", null },
+                { "RZ_30", null },
+                { "RZ_31", null },
+                { "RZ_32", null },
+                { "RZ_33", null },
+                { "RZ_34", null },
+                { "RZ_35", null },
+                { "RZ_36", null },
+                { "RZ_37", null },
+                { "RZ_38", null },
+                { "RZ_39", null },
+                { "RZ_40", null },
+                { "RZ_41", null }
             };
         }
     }
