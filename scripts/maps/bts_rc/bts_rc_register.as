@@ -122,6 +122,35 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
     {
         dictionary@ user_data = player.GetUserData();
 
+#if FALSE // -TODO Idk how the fuck do this xd @rizulix
+        /*==========================================================================
+        *   - Start of custom arms on vanilla weapons
+        ==========================================================================*/
+        EHandle hActiveItem = player.m_hActiveItem;
+
+        if( hActiveItem.IsValid() )
+        {
+            CBaseEntity@ active_item = hActiveItem.GetEntity();
+
+            if( active_item !is null )
+            {
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
+
+                if( weapon !is null )
+                {
+                    if( weapon.pev.classname == "weapon_medkit" )
+                    {
+                        weapon.pev.body = weapon.SetBodygroup( 1, 3 );
+                        g_Logger.warn( "Active valid? {}", { weapon.pev.body } );
+                    }
+                }
+            }
+        }
+        /*==========================================================================
+        *   - End
+        ==========================================================================*/
+#endif
+
         switch( g_PlayerClass[ player ] )
         {
             /*==========================================================================
