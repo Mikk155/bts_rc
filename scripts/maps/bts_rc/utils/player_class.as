@@ -33,17 +33,21 @@ final class PlayerClass
         "bts_otis"
     };
 
-    const PM opIndex( CBasePlayer@ player ) { return this.GetClass(player); }
-    const PM GetClass( CBasePlayer@ player )
+    const PM opIndex( CBasePlayer@ player, bool DontSet = false )
     {
         if( player !is null )
         {
             dictionary@ data = player.GetUserData();
 
-            if( data.exists( "class" ) )
+            if( !data.exists( "class" ) && !DontSet )
             {
-                return PM( data[ "class" ] );
+#if SERVER
+                m_Logger.info( "Unseted class for {}. Setting as operator", { player.pev.netname } );
+#endif
+                set_class( player, PM( Math.RandomLong( PM::BARNEY, PM::BSCIENTIST ) ) );
             }
+
+            return PM( data[ "class" ] );
         }
 
         return PM::SCIENTIST;
