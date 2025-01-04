@@ -217,6 +217,15 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                 }
                 break;
             }
+            default:
+            {
+                // Deny flashlight on something else than HEV
+                if( player.pev.impulse == 100 )
+                {
+                    player.pev.impulse = 0;
+                }
+                break;
+            }
             /*==========================================================================
             *   - End
             ==========================================================================*/
