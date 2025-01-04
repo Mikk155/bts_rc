@@ -25,17 +25,17 @@ namespace HL_M79
 
 enum hlm79_e
 {
-	IDLE = 0,
-	SHOOT,
-	RELOAD,
-	DRAW,
-	HOLSTER
+    IDLE = 0,
+    SHOOT,
+    RELOAD,
+    DRAW,
+    HOLSTER
 };
 
 enum bodygroups_e
 {
-	M79 = 0,
-	HANDS
+    M79 = 0,
+    HANDS
 };
 
 //Models
@@ -48,11 +48,11 @@ string PRJ_MDL = "models/grenade.mdl"; // Grenade
 string SHOOT_SND = "bts_rc/weapons/m79_fire.wav";
 string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
 array<string> SOUNDS = {
-	"bts_rc/weapons/m79_open.wav",
-	"bts_rc/weapons/m79_shellout.wav",
-	"bts_rc/weapons/m79_shellin.wav",
-	"bts_rc/weapons/m79_close.wav",
-	"bts_rc/weapons/m79_aimon.wav"
+    "bts_rc/weapons/m79_open.wav",
+    "bts_rc/weapons/m79_shellout.wav",
+    "bts_rc/weapons/m79_shellin.wav",
+    "bts_rc/weapons/m79_close.wav",
+    "bts_rc/weapons/m79_aimon.wav"
 };
 // Weapon info
 int MAX_CARRY = 10;
@@ -78,218 +78,218 @@ Vector OFFSET( 8.0f, 4.0f, -2.0f ); // for projectile
 
 class weapon_bts_m79 : ScriptBasePlayerWeaponEntity
 {
-	private CBasePlayer@ m_pPlayer
-	{
-		get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-		set       { self.m_hPlayer = EHandle( @value ); }
-	}
-	private bool m_fHasHEV
-	{
-		get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-	}
+    private CBasePlayer@ m_pPlayer
+    {
+        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
+        set       { self.m_hPlayer = EHandle( @value ); }
+    }
+    private bool m_fHasHEV
+    {
+        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
+    }
 
-	int GetBodygroup()
-	{
-		pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
-		return pev.body;
-	}
+    int GetBodygroup()
+    {
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, Math.min( 0, g_PlayerClass[m_pPlayer] ) );
+        return pev.body;
+    }
 
-	void Spawn()
-	{
-		Precache();
-		g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
-		self.m_iDefaultAmmo = Math.RandomLong( 0, 3 );
-		self.FallInit(); // get ready to fall
-	}
+    void Spawn()
+    {
+        Precache();
+        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        self.m_iDefaultAmmo = Math.RandomLong( 0, 3 );
+        self.FallInit(); // get ready to fall
+    }
 
-	// Always precache the stuff you're going to use
-	void Precache()
-	{
-		self.PrecacheCustomModels();
-		g_Game.PrecacheModel( W_MODEL );
-		g_Game.PrecacheModel( V_MODEL );
-		g_Game.PrecacheModel( P_MODEL );
-		g_Game.PrecacheModel( A_MODEL );
-		g_Game.PrecacheModel( PRJ_MDL );
+    // Always precache the stuff you're going to use
+    void Precache()
+    {
+        self.PrecacheCustomModels();
+        g_Game.PrecacheModel( W_MODEL );
+        g_Game.PrecacheModel( V_MODEL );
+        g_Game.PrecacheModel( P_MODEL );
+        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( PRJ_MDL );
 
-		g_Game.PrecacheOther( GetAmmoName() );
-		g_Game.PrecacheOther( M79_ROCKET::GetName() );
+        g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( M79_ROCKET::GetName() );
 
-		// Precaches the sound for the engine to use
-		g_SoundSystem.PrecacheSound( SHOOT_SND );
-		g_SoundSystem.PrecacheSound( EMPTY_SND );
+        // Precaches the sound for the engine to use
+        g_SoundSystem.PrecacheSound( SHOOT_SND );
+        g_SoundSystem.PrecacheSound( EMPTY_SND );
 
-		for( uint i = 0; i < SOUNDS.length(); i++ )
-			g_SoundSystem.PrecacheSound( SOUNDS[i] );
+        for( uint i = 0; i < SOUNDS.length(); i++ )
+            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
-		// Precaches the stuff for download
-		g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
-		// g_Game.PrecacheGeneric( "events/ .txt" );
-		g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_M79.spr" );
-		g_Game.PrecacheGeneric( "sprites/bts_rc/M79_crosshair.spr" );
-		g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
-	}
+        // Precaches the stuff for download
+        g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
+        // g_Game.PrecacheGeneric( "events/ .txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_M79.spr" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/M79_crosshair.spr" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+    }
 
-	bool AddToPlayer( CBasePlayer@ pPlayer )
-	{
-		if( !BaseClass.AddToPlayer( pPlayer ) )
-			return false;
+    bool AddToPlayer( CBasePlayer@ pPlayer )
+    {
+        if( !BaseClass.AddToPlayer( pPlayer ) )
+            return false;
 
-		NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
-			weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
-		weapon.End();
-		return true;
-	}
+        NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
+            weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
+        weapon.End();
+        return true;
+    }
 
-	bool GetItemInfo( ItemInfo& out info )
-	{
-		info.iMaxAmmo1 = MAX_CARRY;
-		info.iAmmo1Drop = AMMO_DROP;
-		info.iMaxAmmo2 = -1;
-		info.iAmmo2Drop = -1;
-		info.iMaxClip = MAX_CLIP;
-		info.iSlot = SLOT;
-		info.iPosition = POSITION;
-		info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-		info.iFlags = FLAGS;
-		info.iWeight = WEIGHT;
-		return true;
-	}
+    bool GetItemInfo( ItemInfo& out info )
+    {
+        info.iMaxAmmo1 = MAX_CARRY;
+        info.iAmmo1Drop = AMMO_DROP;
+        info.iMaxAmmo2 = -1;
+        info.iAmmo2Drop = -1;
+        info.iMaxClip = MAX_CLIP;
+        info.iSlot = SLOT;
+        info.iPosition = POSITION;
+        info.iId = g_ItemRegistry.GetIdForName( pev.classname );
+        info.iFlags = FLAGS;
+        info.iWeight = WEIGHT;
+        return true;
+    }
 
-	bool Deploy()
-	{
-		self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "bow", 0, GetBodygroup() );
-		self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.03f;
-		return true;
-	}
+    bool Deploy()
+    {
+        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "bow", 0, GetBodygroup() );
+        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.03f;
+        return true;
+    }
 
-	void Holster( int skiplocal = 0 )
-	{
-		BaseClass.Holster( skiplocal );
-	}
+    void Holster( int skiplocal = 0 )
+    {
+        BaseClass.Holster( skiplocal );
+    }
 
-	bool PlayEmptySound()
-	{
-		if( self.m_bPlayEmptySound )
-		{
-			self.m_bPlayEmptySound = false;
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
-		}
-		return false;
-	}
+    bool PlayEmptySound()
+    {
+        if( self.m_bPlayEmptySound )
+        {
+            self.m_bPlayEmptySound = false;
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+        }
+        return false;
+    }
 
-	void PrimaryAttack()
-	{
-		// don't fire underwater/without having ammo loaded
-		if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
-		{
-			self.PlayEmptySound();
-			self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
-			return;
-		}
+    void PrimaryAttack()
+    {
+        // don't fire underwater/without having ammo loaded
+        if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
+        {
+            self.PlayEmptySound();
+            self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
+            return;
+        }
 
-		m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
-		m_pPlayer.m_iWeaponFlash = BRIGHT_GUN_FLASH;
+        m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
+        m_pPlayer.m_iWeaponFlash = BRIGHT_GUN_FLASH;
 
-		// Notify the monsters about the grenade
-		m_pPlayer.m_iExtraSoundTypes = bits_SOUND_DANGER;
-		m_pPlayer.m_flStopExtraSoundTime = g_Engine.time + 0.2f;
+        // Notify the monsters about the grenade
+        m_pPlayer.m_iExtraSoundTypes = bits_SOUND_DANGER;
+        m_pPlayer.m_flStopExtraSoundTime = g_Engine.time + 0.2f;
 
-		--self.m_iClip;
+        --self.m_iClip;
 
-		m_pPlayer.pev.effects |= EF_MUZZLEFLASH; // Add muzzleflash
-		pev.effects |= EF_MUZZLEFLASH;
+        m_pPlayer.pev.effects |= EF_MUZZLEFLASH; // Add muzzleflash
+        pev.effects |= EF_MUZZLEFLASH;
 
-		// player "shoot" animation
-		m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
+        // player "shoot" animation
+        m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
-		Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
-		Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
-		Vector vecVelocity = g_Engine.v_forward * VELOCITY;
+        Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
+        Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
+        Vector vecVelocity = g_Engine.v_forward * VELOCITY;
 
-		M79_ROCKET::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, RADIUS, PRJ_MDL );
-		// CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
+        M79_ROCKET::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, RADIUS, PRJ_MDL );
+        // CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
-		// View model animation
-		self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
-		// Custom Volume and Pitch
-		g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0xf ) );
-		// m_pPlayer.pev.punchangle.x = -10.0; // Recoil
-		m_pPlayer.pev.punchangle.x = Math.RandomFloat( -2.0, -3.0 );
+        // View model animation
+        self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
+        // Custom Volume and Pitch
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0xf ) );
+        // m_pPlayer.pev.punchangle.x = -10.0; // Recoil
+        m_pPlayer.pev.punchangle.x = Math.RandomFloat( -2.0, -3.0 );
 
-		if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
-			m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+            m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-		self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
-		self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // Idle pretty soon after shooting.
-	}
+        self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
+        self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // Idle pretty soon after shooting.
+    }
 
-	void Reload()
-	{
-		// if the mag = the max mag, return
-		if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-			return;
+    void Reload()
+    {
+        // if the mag = the max mag, return
+        if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+            return;
 
-		self.DefaultReload( MAX_CLIP, RELOAD, 3.88f, GetBodygroup() );
-		// Set 3rd person reloading animation -Sniper
-		BaseClass.Reload();
-	}
+        self.DefaultReload( MAX_CLIP, RELOAD, 3.88f, GetBodygroup() );
+        // Set 3rd person reloading animation -Sniper
+        BaseClass.Reload();
+    }
 
-	void WeaponIdle()
-	{
-		self.ResetEmptySound();
-		m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
+    void WeaponIdle()
+    {
+        self.ResetEmptySound();
+        m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-		if( self.m_flTimeWeaponIdle > g_Engine.time )
-			return;
+        if( self.m_flTimeWeaponIdle > g_Engine.time )
+            return;
 
-		self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
-		self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 6.0f ); // How much time to idle again
-	}
+        self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
+        self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 6.0f ); // How much time to idle again
+    }
 }
 
 class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
 {
-	void Spawn()
-	{
-		Precache();
-		g_EntityFuncs.SetModel( self, A_MODEL );
-		BaseClass.Spawn();
-	}
+    void Spawn()
+    {
+        Precache();
+        g_EntityFuncs.SetModel( self, A_MODEL );
+        BaseClass.Spawn();
+    }
 
-	void Precache()
-	{
-		g_Game.PrecacheModel( A_MODEL );
-		g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
-	}
+    void Precache()
+    {
+        g_Game.PrecacheModel( A_MODEL );
+        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
+    }
 
-	bool AddAmmo( CBaseEntity@ pOther )
-	{
-		if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
-		{
-			g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-			return true;
-		}
-		return false;
-	}
+    bool AddAmmo( CBaseEntity@ pOther )
+    {
+        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        {
+            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
+            return true;
+        }
+        return false;
+    }
 }
 
 string GeName()
 {
-	return "weapon_bts_m79";
+    return "weapon_bts_m79";
 }
 
 string GetAmmoName()
 {
-	return "ammo_bts_m79";
+    return "ammo_bts_m79";
 }
 
 void Register()
 {
-	M79_ROCKET::Register();
-	g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GeName() );
-	g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
-	ID = g_ItemRegistry.RegisterWeapon( GeName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    M79_ROCKET::Register();
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GeName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
+    ID = g_ItemRegistry.RegisterWeapon( GeName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
 }
 
 } // Namespace end
