@@ -63,7 +63,9 @@
 
 void MapStart()
 {
+#if SERVER
     g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+#endif
 }
 
 void MapActivate()
@@ -74,7 +76,9 @@ void MapActivate()
 
 void MapInit()
 {
+#if SERVER
     LoggerLevel = ( Warning | Debug | Info | Critical | Error );
+#endif
 
     g_VoiceResponse.init();
 

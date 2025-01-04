@@ -1,4 +1,8 @@
+
+#if SERVER
 #include "Logger"
+#endif
+
 #include "precache"
 #include "player_class"
 
