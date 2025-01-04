@@ -322,6 +322,9 @@ string GetAmmoName()
 
 void Register()
 {
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::weapon_bts_uzi", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", GetAmmoName() );
     ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
