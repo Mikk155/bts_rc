@@ -1,6 +1,8 @@
 namespace randomizer
 {
+#if SERVER
     CLogger@ m_Logger = CLogger( "Randomizer" );
+#endif
 
     const array<string> keys(){ return { "item", "npc", "hull", "boss", "headcrab" }; }
 
@@ -27,10 +29,12 @@ namespace randomizer
     {
         void Spawn()
         {
+#if SERVER
             m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
 
             if( ( LoggerLevel & LoggerLevels::Info ) != 0 )
                 self.pev.nextthink = g_Engine.time + 0.1;
+#endif
         }
 
         // -TODO Remove this debug
@@ -97,7 +101,9 @@ namespace randomizer
                 swaps[j] = temp;
             }
             indexes = swaps;
+#if SERVER
             m_Logger.info( "Swapped list {} indexes", { this.name() } );
+#endif
         }
 
         void swap_squad( CBaseMonster@ pSquad_B )
@@ -108,7 +114,9 @@ namespace randomizer
 
             if( pRandomizer_B !is null && pRandomizer_A !is null )
             {
+#if SERVER
                 m_Logger.debug( "{}:swap_squad: \"{}\" Swap position from {} to {}", { this.name(), pSquad_B.GetClassname(), pRandomizer_B.GetOrigin().ToString(), pRandomizer_A.GetOrigin().ToString() } );
+#endif
                 @pSquad_B.pev.owner = pRandomizer_A.edict();
                 @pSquad_A.pev.owner = pRandomizer_B.edict();
                 @pRandomizer_B.pev.owner = pSquad_A.edict();
@@ -123,13 +131,17 @@ namespace randomizer
             const string name = this.name();
             string target;
             snprintf( target, "randomizer_%1", name );
+#if SERVER
             m_Logger.info( "Initializing swappers \"{}\"", { target } );
+#endif
 
             // Find all randomizers and store them in indexes
             CBaseEntity@ pRandomizer = null;
             while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, target ) ) !is null )
             {
+#if SERVER
                 m_Logger.info( "Got entity {} at \"{}\"", { pRandomizer.entindex(), pRandomizer.GetOrigin().ToString() } );
+#endif
                 indexes.insertLast( pRandomizer.entindex() );
             }
 
@@ -147,7 +159,9 @@ namespace randomizer
 
                 @pRandomizer = g_EntityFuncs.Instance( indexes[ index - 1 ] );
 
+#if SERVER
                 m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, ent_name, pRandomizer.GetOrigin().ToString() } );
+#endif
 
                 CBaseEntity@ pTargetEntity = g_EntityFuncs.FindEntityByTargetname( null, ent_name );
 
