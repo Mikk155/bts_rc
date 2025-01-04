@@ -123,6 +123,8 @@ void MapInit()
     ==========================================================================*/
 }
 
+CCVar@ cvar_hev_battery_drain = CCVar( "bts_rc_hev_drain_time", 4.5 );
+
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
@@ -180,8 +182,23 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
             {
                 int state = int( user_data[ "helmet_nv_state" ] );
 
+                // Not enough power, Shut down
+                if( player.pev.armorvalue <= 0 )
+                {
+                    if( state == 1 )
+                    {
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/flashlight2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                        g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
+                    }
+                    else if( player.pev.impulse == 100 )
+                    {
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/flashlight2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    }
+
+                    user_data[ "helmet_nv_state" ] = state = 0;
+                }
                 // Catch impulse commands and toggle night vision state
-                if( player.pev.impulse == 100 )
+                else if( player.pev.impulse == 100 )
                 {
                     user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
 
@@ -196,6 +213,13 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                     // Show even when dead lying.
                     if( !player.GetObserver().IsObserver() )
                     {
+                        if( float( user_data[ "helmet_nv_drain" ] ) <= g_Engine.time )
+                        {
+                            player.pev.armorvalue--;
+                            user_data[ "helmet_nv_drain" ] = cvar_hev_battery_drain.GetFloat() + g_Engine.time;
+                            g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
+                        }
+
                         NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
                             m.WriteByte( TE_DLIGHT );
                             m.WriteCoord(player.pev.origin.x);
@@ -215,21 +239,27 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                         user_data[ "helmet_nv_state" ] = 0;
                     }
                 }
+
+                player.m_iFlashBattery = int(Math.max( 1, player.pev.armorvalue ));
+
+                // Update HUD
+                NetworkMessage m( MSG_ONE, NetworkMessages::Flashlight, player.edict() );
+                    m.WriteByte( state );
+                    m.WriteByte(player.m_iFlashBattery);
+                m.End();
+
                 break;
             }
-            default:
-            {
-                // Deny flashlight on something else than HEV
-                if( player.pev.impulse == 100 )
-                {
-                    player.pev.impulse = 0;
-                }
-                break;
-            }
+        }
+
+        // Deny flashlight on something else than HEV
+        if( player.pev.impulse == 100 )
+        {
+            player.pev.impulse = 0;
+        }
             /*==========================================================================
             *   - End
             ==========================================================================*/
-        }
     }
 
     return HOOK_CONTINUE;
