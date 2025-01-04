@@ -320,6 +320,9 @@ string GetDAmmoName()
 
 void Register()
 {
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5::weapon_bts_mp5", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5::ammo_bts_mp5", GetAmmoName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5::ammo_bts_mp5", GetDAmmoName() );
