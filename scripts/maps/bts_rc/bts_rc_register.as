@@ -122,78 +122,65 @@ void MapInit()
     ==========================================================================*/
 }
 
-/*==========================================================================
-*   - Start of Voice Responses
-==========================================================================*/
-
-array<Vector> players_origin;
-
-/*==========================================================================
-*   - End
-==========================================================================*/
-
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
-        // Save last origin for interpreting if there's a player nearby
-        players_origin[ player.entindex() -1 ] = player.pev.origin;
+        dictionary@ user_data = player.GetUserData();
 
-        /*==========================================================================
-        *   - Start of Night Vision
-        ==========================================================================*/
-
-        CustomKeyvalues@ kvd = player.GetCustomKeyvalues();
-
-        int state = kvd.GetKeyvalue( "$i_nightvision_state" ).GetInteger();
-
-        if( g_EngineFuncs.GetInfoKeyBuffer( player.edict() ).GetValue( "model" ) == "bts_helmet" )
+        switch( g_PlayerClass[ player ] )
         {
-            // Catch impulse commands and toggle night vision state
-            if( player.pev.impulse == 100 )
+            /*==========================================================================
+            *   - Start of Helmet night vision
+            ==========================================================================*/
+            case PM::HELMET:
             {
-                g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", ( state == 1 ? 0 : 1 ) );
+                if( !user_data.exists( "helmet_nv_state" ) )
+                    break;
 
-                g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+                int state = int( user_data[ "helmet_nv_state" ] );
 
-                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
-            }
-
-            // Night vision ON, drain and light
-            if( state == 1 )
-            {
-                // Show even when dead lying.
-                if( !player.GetObserver().IsObserver() )
+                // Catch impulse commands and toggle night vision state
+                if( player.pev.impulse == 100 )
                 {
-                    NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
-                        m.WriteByte( TE_DLIGHT );
-                        m.WriteCoord(player.pev.origin.x);
-                        m.WriteCoord(player.pev.origin.y);
-                        m.WriteCoord(player.pev.origin.z);
-                        m.WriteByte(40);
-                        m.WriteByte(255);
-                        m.WriteByte(255);
-                        m.WriteByte(255);
-                        m.WriteByte(2);
-                        m.WriteByte(1);
-                    m.End();
+                    user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
+
+                    g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+
+                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
                 }
-                else
+
+                // Night vision ON, drain and light
+                if( state == 1 )
                 {
-                    g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
-                    g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
+                    // Show even when dead lying.
+                    if( !player.GetObserver().IsObserver() )
+                    {
+                        NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
+                            m.WriteByte( TE_DLIGHT );
+                            m.WriteCoord(player.pev.origin.x);
+                            m.WriteCoord(player.pev.origin.y);
+                            m.WriteCoord(player.pev.origin.z);
+                            m.WriteByte(40);
+                            m.WriteByte(255);
+                            m.WriteByte(255);
+                            m.WriteByte(255);
+                            m.WriteByte(2);
+                            m.WriteByte(1);
+                        m.End();
+                    }
+                    else
+                    {
+                        g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
+                        user_data[ "helmet_nv_state" ] = 0;
+                    }
                 }
+                break;
             }
+            /*==========================================================================
+            *   - End
+            ==========================================================================*/
         }
-        // Player changed his model. Turn off night vision.
-        else if( state == 1 )
-        {
-            g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
-            g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
-        }
-        /*==========================================================================
-        *   - End
-        ==========================================================================*/
     }
 
     return HOOK_CONTINUE;

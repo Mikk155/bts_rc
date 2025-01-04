@@ -13,7 +13,6 @@ enum PM
 
 final class PlayerClass
 {
-
 #if SERVER
     CLogger@ m_Logger = CLogger( "Player Class System" );
 #endif
