@@ -3,17 +3,17 @@ namespace randomizer
     // Swap a specific squad to a random location.
     void randomize_squad( CBaseMonster@ psquad, CBaseEntity@ pentity )
     {
-        g_RandomizerHeadcrab.swap_squad(psquad);
+        g_RandomizerWave.swap_squad(psquad);
     }
 
     // Swap all squads to a random and unique location.
     void randomize( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
     {
         g_RandomizerHeadcrab.init();
-        g_RandomizerItem.init();
-        g_RandomizerHull.init();
-        g_RandomizerBoss.init();
         g_RandomizerNpc.init();
+        g_RandomizerBoss.init();
+        g_RandomizerHull.init();
+        g_RandomizerItem.init();
     }
 }
 

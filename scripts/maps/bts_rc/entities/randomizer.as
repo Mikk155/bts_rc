@@ -4,7 +4,7 @@ namespace randomizer
     CLogger@ m_Logger = CLogger( "Randomizer" );
 #endif
 
-    const array<string> keys(){ return { "item", "npc", "hull", "boss", "headcrab" }; }
+    const array<string> keys(){ return { "item", "npc", "hull", "boss", "headcrab", "wave" }; }
 
     //============================================================================
     // Start of map-entities
@@ -68,6 +68,10 @@ namespace randomizer
     }
 
     class randomizer_boss : CRandomizerEntity
+    {
+    }
+    
+    class randomizer_wave : CRandomizerEntity
     {
     }
 
@@ -769,6 +773,87 @@ namespace randomizer
                 { "MS_132", null },
                 { "MS_133", null },
                 { "MS_134", null }
+            };
+        }
+    }
+    
+    CRanomizerWaves g_RandomizerWave;
+    final class CRanomizerWaves : CRandomizer
+    {
+        string name() { return "Wave"; }
+
+        dictionary entities()
+        {
+            return
+            {
+                { "GM_R_SLAVE_S1", null },
+                { "GM_R_SLAVE_S2", null },
+                { "GM_R_SLAVE_S3", null },
+                { "GM_R_SLAVE_S4", null },
+                { "GM_R_SLAVE_S5", null },
+                { "GM_R_SLAVE_S6", null },
+                { "GM_R_SLAVE_S7", null },
+                { "GM_R_SLAVE_S8", null },
+                { "GM_R_HOUND_S1", null },
+                { "GM_R_HOUND_S2", null },
+                { "GM_R_HOUND_S3", null },
+                { "GM_R_HOUND_S4", null },
+                { "GM_R_HOUND_S5", null },
+                { "GM_R_HOUND_S6", null },
+                { "GM_R_SNARK_S1", null },
+                { "GM_R_SNARK_S2", null },
+                { "GM_R_AGRUNT_S1", null },
+                { "GM_R_AGRUNT_S2", null },
+                { "GM_R_PITDRONE_S1", null },
+                { "GM_R_PITDRONE_S2", null },
+                { "GM_R_PITDRONE_S3", null },
+                { "GM_R_CRAB_S1", null },
+                { "GM_R_CRAB_S2", null },
+                { "GM_R_CRAB_S3", null },
+                { "GM_R_CRAB_S4", null },
+                { "GM_R_CRAB_S5", null },
+                // LOCATIONS
+                { "RZ_1", null },
+                { "RZ_2", null },
+                { "RZ_3", null },
+                { "RZ_4", null },
+                { "RZ_5", null },
+                { "RZ_6", null },
+                { "RZ_7", null },
+                { "RZ_8", null },
+                { "RZ_9", null },
+                { "RZ_10", null },
+                { "RZ_11", null },
+                { "RZ_12", null },
+                { "RZ_13", null },
+                { "RZ_14", null },
+                { "RZ_15", null },
+                { "RZ_16", null },
+                { "RZ_17", null },
+                { "RZ_18", null },
+                { "RZ_19", null },
+                { "RZ_20", null },
+                { "RZ_21", null },
+                { "RZ_22", null },
+                { "RZ_23", null },
+                { "RZ_24", null },
+                { "RZ_25", null },
+                { "RZ_26", null },
+                { "RZ_27", null },
+                { "RZ_28", null },
+                { "RZ_29", null },
+                { "RZ_30", null },
+                { "RZ_31", null },
+                { "RZ_32", null },
+                { "RZ_33", null },
+                { "RZ_34", null },
+                { "RZ_35", null },
+                { "RZ_36", null },
+                { "RZ_37", null },
+                { "RZ_38", null },
+                { "RZ_39", null },
+                { "RZ_40", null },
+                { "RZ_41", null }
             };
         }
     }
