@@ -169,16 +169,15 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         ==========================================================================*/
 #endif
 
-        switch( g_PlayerClass[ player, true ] )
+        const PM player_class = g_PlayerClass[ player, true ];
+
+        switch( player_class )
         {
             /*==========================================================================
             *   - Start of Helmet night vision
             ==========================================================================*/
             case PM::HELMET:
             {
-                if( !user_data.exists( "helmet_nv_state" ) )
-                    break;
-
                 int state = int( user_data[ "helmet_nv_state" ] );
 
                 // Catch impulse commands and toggle night vision state
