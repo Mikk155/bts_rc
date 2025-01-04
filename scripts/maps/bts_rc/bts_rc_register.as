@@ -45,6 +45,11 @@
     THE SOFTWARE.
 */
 
+/*
+#define LOGGERS
+This doesn't work so to enable loggers find all "#if LOGGERS" and replace to "#if SERVER"
+*/
+
 #include "utils/main"
 
 // Entities
@@ -63,7 +68,9 @@
 
 void MapStart()
 {
+#if SERVER
     g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+#endif
 }
 
 void MapActivate()
@@ -74,7 +81,9 @@ void MapActivate()
 
 void MapInit()
 {
+#if SERVER
     LoggerLevel = ( Warning | Debug | Info | Critical | Error );
+#endif
 
     g_VoiceResponse.init();
 
@@ -98,12 +107,6 @@ void MapInit()
     *   - End
     ==========================================================================*/
 
-    // Size the array to the number of slots
-    for( int i = 0; i < g_Engine.maxClients; i++ )
-    {
-        players_origin.insertLast( g_vecZero );
-    }
-
     /*==========================================================================
     *   - Start of hooks
     ==========================================================================*/
@@ -113,78 +116,94 @@ void MapInit()
     ==========================================================================*/
 }
 
-/*==========================================================================
-*   - Start of Voice Responses
-==========================================================================*/
-
-array<Vector> players_origin;
-
-/*==========================================================================
-*   - End
-==========================================================================*/
-
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
-        // Save last origin for interpreting if there's a player nearby
-        players_origin[ player.entindex() -1 ] = player.pev.origin;
+        dictionary@ user_data = player.GetUserData();
 
+#if FALSE // -TODO Idk how the fuck do this xd @rizulix
         /*==========================================================================
-        *   - Start of Night Vision
+        *   - Start of custom arms on vanilla weapons
         ==========================================================================*/
+        EHandle hActiveItem = player.m_hActiveItem;
 
-        CustomKeyvalues@ kvd = player.GetCustomKeyvalues();
-
-        int state = kvd.GetKeyvalue( "$i_nightvision_state" ).GetInteger();
-
-        if( g_EngineFuncs.GetInfoKeyBuffer( player.edict() ).GetValue( "model" ) == "bts_helmet" )
+        if( hActiveItem.IsValid() )
         {
-            // Catch impulse commands and toggle night vision state
-            if( player.pev.impulse == 100 )
+            CBaseEntity@ active_item = hActiveItem.GetEntity();
+
+            if( active_item !is null )
             {
-                g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", ( state == 1 ? 0 : 1 ) );
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
 
-                g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
-
-                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
-            }
-
-            // Night vision ON, drain and light
-            if( state == 1 )
-            {
-                // Show even when dead lying.
-                if( !player.GetObserver().IsObserver() )
+                if( weapon !is null )
                 {
-                    NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
-                        m.WriteByte( TE_DLIGHT );
-                        m.WriteCoord(player.pev.origin.x);
-                        m.WriteCoord(player.pev.origin.y);
-                        m.WriteCoord(player.pev.origin.z);
-                        m.WriteByte(40);
-                        m.WriteByte(255);
-                        m.WriteByte(255);
-                        m.WriteByte(255);
-                        m.WriteByte(2);
-                        m.WriteByte(1);
-                    m.End();
-                }
-                else
-                {
-                    g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
-                    g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
+                    if( weapon.pev.classname == "weapon_medkit" )
+                    {
+                        weapon.pev.body = weapon.SetBodygroup( 1, 3 );
+                        g_Logger.warn( "Active valid? {}", { weapon.pev.body } );
+                    }
                 }
             }
-        }
-        // Player changed his model. Turn off night vision.
-        else if( state == 1 )
-        {
-            g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
-            g_EntityFuncs.DispatchKeyValue( player.edict(), "$i_nightvision_state", 0 );
         }
         /*==========================================================================
         *   - End
         ==========================================================================*/
+#endif
+
+        switch( g_PlayerClass[ player ] )
+        {
+            /*==========================================================================
+            *   - Start of Helmet night vision
+            ==========================================================================*/
+            case PM::HELMET:
+            {
+                if( !user_data.exists( "helmet_nv_state" ) )
+                    break;
+
+                int state = int( user_data[ "helmet_nv_state" ] );
+
+                // Catch impulse commands and toggle night vision state
+                if( player.pev.impulse == 100 )
+                {
+                    user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
+
+                    g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+
+                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
+                }
+
+                // Night vision ON, drain and light
+                if( state == 1 )
+                {
+                    // Show even when dead lying.
+                    if( !player.GetObserver().IsObserver() )
+                    {
+                        NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
+                            m.WriteByte( TE_DLIGHT );
+                            m.WriteCoord(player.pev.origin.x);
+                            m.WriteCoord(player.pev.origin.y);
+                            m.WriteCoord(player.pev.origin.z);
+                            m.WriteByte(40);
+                            m.WriteByte(255);
+                            m.WriteByte(255);
+                            m.WriteByte(255);
+                            m.WriteByte(2);
+                            m.WriteByte(1);
+                        m.End();
+                    }
+                    else
+                    {
+                        g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
+                        user_data[ "helmet_nv_state" ] = 0;
+                    }
+                }
+                break;
+            }
+            /*==========================================================================
+            *   - End
+            ==========================================================================*/
+        }
     }
 
     return HOOK_CONTINUE;

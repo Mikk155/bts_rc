@@ -11,7 +11,9 @@ class CVoice
     {
         precache::sound( sound );
         this.voices.insertLast( sound );
+#if SERVER
         g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\"", { sound, this.__owner__ } );
+#endif
     }
 
     CVoice( const string owner )
@@ -26,13 +28,17 @@ class CVoice
 
         if( this.voices.length() <= 0 )
         {
+#if SERVER
             g_VoiceResponse.m_Logger.warn( "Tried to PlaySound on a empty CVoice list for \"{}\"", { __owner__ } );
+#endif
             return false;
         }
 
         const string sound = this.voices[ Math.RandomLong( 0, this.voices.length() - 1 ) ];
 
+#if SERVER
         g_VoiceResponse.m_Logger.info( "PlaySound \"{}\" for {} as \"{}\"", { sound, target.pev.netname, __owner__ } );
+#endif
 
         g_SoundSystem.PlaySound( target.edict(), CHAN_VOICE, sound, volume, ATTN_NORM, flags, pitch, 0, true, target.GetOrigin() );
 
@@ -62,7 +68,9 @@ class CVoices
 
 class CVoiceResponse
 {
+#if SERVER
     CLogger@ m_Logger = CLogger( "Voice Responses" );
+#endif
 
     private array<CVoices@> voices = {};
 

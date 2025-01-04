@@ -13,7 +13,9 @@ enum PM
 
 final class PlayerClass
 {
+#if SERVER
     CLogger@ m_Logger = CLogger( "Player Class System" );
+#endif
 
     // Index of the last used model so we give each player a different one instead of a random one.
     private uint mdl_scientist_last = Math.RandomLong( 0, 3 );
@@ -55,7 +57,10 @@ final class PlayerClass
 
         player.SetOverriddenPlayerModel( model );
 
+#if SERVER
         m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
+#endif
+
     }
 
     // Return a player model for the given class
