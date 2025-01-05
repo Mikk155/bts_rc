@@ -10,6 +10,34 @@
 
 ---
 
+# Developer mode
+
+These scripts does use of preproccesors for testing purposes
+```C#
+#if DEVELOP
+    CLogger@ m_Logger = CLogger( "Randomizer" );
+#endif
+
+void myfn()
+{
+    ...
+
+    #if DEVELOP
+        m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, ent_name, pRandomizer.GetOrigin().ToString() } );
+    #endif
+}
+```
+
+Sadly in AngelScript We can not define them.
+```C#
+#define DEVELOP
+```
+This doesn't work.
+
+So to enable [loggers](scripts/maps/bts_rc/utils/Logger.as) and other features find all "``#if DEVELOP``" in the project with Visual studio code (or any IDE) and replace to "``#if SERVER``"
+
+---
+
 ### General credits:
 | Contributor | Description |
 |---|---|
