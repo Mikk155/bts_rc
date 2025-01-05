@@ -200,6 +200,14 @@ class point_checkpoint : ScriptBaseAnimating
         if( !IsEnabled() || IsActivated() || !pOther.IsPlayer() )
             return;
 
+        if( ( pOther.pev.button & IN_USE ) == 0 )
+        {
+            CBasePlayer@ player = cast<CBasePlayer@>( pOther );
+            if( player !is null )
+                g_PlayerFuncs.PrintKeyBindingString( player, "Press +use to activate\n" );
+            return;
+        }
+
         //Set activated
         self.pev.frags = 1.0f;
 
