@@ -10,6 +10,14 @@ const string CONST_HEV_NIGHTVISION_NO_POWER = "items/suitchargeno1.wav";
 // Blood puddle model
 const string CONST_BLOODPUDDLE = "models/mikk/misc/bloodpuddle.mdl";
 
+// Blood puddle step sounds
+const array<string> CONST_BLOODPUDDLE_SND = {
+    "player/pl_slosh1.wav",
+    "player/pl_slosh2.wav",
+    "player/pl_slosh3.wav",
+    "player/pl_slosh4.wav",
+};
+
 //===============================================
 // Cooldown per-player for playing voices (in seconds)
 //===============================================
