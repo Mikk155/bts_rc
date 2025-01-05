@@ -121,6 +121,7 @@ void MapInit()
     *   - Start of hooks
     ==========================================================================*/
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
+    g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
     /*==========================================================================
     *   - End
@@ -277,6 +278,32 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
             ==========================================================================*/
     }
 
+    return HOOK_CONTINUE;
+}
+
+HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
+{
+    CBaseEntity@ victim = pDamageInfo.pVictim;
+
+    if( victim !is null )
+    {
+        CBasePlayer@ player = cast<CBasePlayer@>( victim );
+
+        if( player !is null )
+        {
+            CVoices@ voices = g_VoiceResponse[ player ];
+
+            if( voices !is null )
+            {
+                CVoice@ voice = voices.takedamage;
+
+                if( voice !is null )
+                {
+                    voice.PlaySound( player );
+                }
+            }
+        }
+    }
     return HOOK_CONTINUE;
 }
 

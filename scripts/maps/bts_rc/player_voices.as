@@ -121,6 +121,37 @@ class CVoiceResponse
         this.voices[ "barney" ] = @barney;
         this.voices[ "construction" ] = @construction;
         this.voices[ "helmet" ] = @helmet;
+
+        // Customize in here the Voices:
+        construction.takedamage.cooldown = 1.0f;
+        construction.takedamage.push_back( "bts_rc/player/construction/co_pain1.wav" );
+        construction.takedamage.push_back( "bts_rc/player/construction/co_pain2.wav" );
+        construction.takedamage.push_back( "bts_rc/player/construction/co_pain3.wav" );
+        construction.takedamage.push_back( "bts_rc/player/construction/co_pain4.wav" );
+
+        barney.takedamage.cooldown = 1.0f;
+        barney.takedamage.push_back( "barney/ba_pain1.wav" );
+        barney.takedamage.push_back( "barney/ba_pain2.wav" );
+        barney.takedamage.push_back( "barney/ba_pain3.wav" );
+
+        helmet.takedamage.cooldown = 1.0f;
+        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain1.wav" );
+        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain2.wav" );
+        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain3.wav" );
+        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain4.wav" );
+        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain5.wav" );
+
+        scientist.takedamage.cooldown = 1.0f;
+        scientist.takedamage.push_back( "scientist/sci_pain1.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain2.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain3.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain4.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain5.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain6.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain7.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain8.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain9.wav" );
+        scientist.takedamage.push_back( "scientist/sci_pain10.wav" );
     }
 }
 
