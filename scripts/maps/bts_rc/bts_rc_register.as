@@ -49,6 +49,8 @@ void MapInit()
     precache::sound( CONST_HEV_NIGHTVISION_OFF );
     precache::sound( CONST_HEV_NIGHTVISION_NO_POWER );
 
+    precache::sounds( CONST_BLOODPUDDLE_SND );
+
     precache::model( CONST_BLOODPUDDLE );
     /*==========================================================================
     *   - End
