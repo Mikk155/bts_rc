@@ -314,9 +314,10 @@ string GetDAmmoName()
 
 void Register()
 {
-#if SERVER
-    weapons.insertLast( GetName() );
-#endif
+    #if SERVER
+        weapons.insertLast( GetName() );
+    #endif
+
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::weapon_bts_glocksd", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", GetAmmoName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", GetDAmmoName() ); // ammo drop case

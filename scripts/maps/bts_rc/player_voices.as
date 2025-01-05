@@ -11,9 +11,10 @@ class CVoice
     {
         precache::sound( sound );
         this.voices.insertLast( sound );
-#if SERVER
-        g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\" as \"{}\"", { sound, this.__owner__, this.__type__ } );
-#endif
+
+        #if SERVER
+            g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\" as \"{}\"", { sound, this.__owner__, this.__type__ } );
+        #endif
     }
 
     CVoice( const string owner, const string type )
@@ -34,17 +35,18 @@ class CVoice
 
         if( this.voices.length() <= 0 )
         {
-#if SERVER
-            g_VoiceResponse.m_Logger.warn( "Tried to PlaySound on a empty CVoice list for \"{}\"", { __owner__ } );
-#endif
+            #if SERVER
+                g_VoiceResponse.m_Logger.warn( "Tried to PlaySound on a empty CVoice list for \"{}\" at \"{}\"", { this.__type__, this.__owner__ } );
+            #endif
+
             return false;
         }
 
         const string sound = this.voices[ Math.RandomLong( 0, this.voices.length() - 1 ) ];
 
-#if SERVER
-        g_VoiceResponse.m_Logger.info( "PlaySound \"{}\" for {} as \"{}\"", { sound, target.pev.netname, __owner__ } );
-#endif
+        #if SERVER
+            g_VoiceResponse.m_Logger.info( "PlaySound \"{}\" for {} as \"{}\" from \"{}\"", { sound, target.pev.netname, this.__type__, this.__owner__ } );
+        #endif
 
         g_SoundSystem.PlaySound( target.edict(), CHAN_VOICE, sound, volume, ATTN_NORM, flags, pitch, 0, true, target.GetOrigin() );
 
@@ -78,9 +80,9 @@ class CVoices
 
 class CVoiceResponse
 {
-#if SERVER
-    CLogger@ m_Logger = CLogger( "Voice Responses" );
-#endif
+    #if SERVER
+        CLogger@ m_Logger = CLogger( "Voice Responses" );
+    #endif
 
     private dictionary@ voices = {
         { "barney", null },

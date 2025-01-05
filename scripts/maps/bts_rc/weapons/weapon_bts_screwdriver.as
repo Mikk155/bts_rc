@@ -302,9 +302,10 @@ string GetName()
 
 void Register()
 {
-#if SERVER
-    weapons.insertLast( GetName() );
-#endif
+    #if SERVER
+        weapons.insertLast( GetName() );
+    #endif
+
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_SCREWDRIVER::weapon_bts_screwdriver", GetName() );
     ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
 }
