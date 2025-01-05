@@ -32,33 +32,11 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     }
                 }
             }
-        }
 
-        // Create a blood puddle if possible.
-        /* Do not create for non-bleedable npcs */
-        if( monster.m_bloodColor != DONT_BLEED
-        /* Check for Server operator's choices */
-        && cvar_bloodpuddles.GetInt() == 0
-        /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles x[ */
-        && !user_data.exists( "bloodpuddle" )
-        /* Do not create if there's not at least 20 free slot */
-        && freeedicts( 20 ) )
-        {
-            CBaseEntity@ bloodpuddle = g_EntityFuncs.Create(
-                "env_bloodpuddle",
-                /* About +6 units should be enough i think */
-                monster.Center() + Vector( 0, 0, 6 ),
-                g_vecZero,
-                false,
-                monster.edict()
-            );
-
-            if( bloodpuddle !is null && monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
+            if( cvar_bloodpuddles.GetInt() == 0 )
             {
-                bloodpuddle.pev.skin = 1;
+                env_bloodpuddle::create(monster, user_data, iGib);
             }
-
-            user_data[ "bloodpuddle" ] = true;
         }
     }
 
