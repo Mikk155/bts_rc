@@ -59,7 +59,7 @@ int SLOT = 1;
 int POSITION = 13;
 // Vars
 float DAMAGE = 20.0f;
-float DURATION = 1200.0f;
+float DURATION = 180.0f;
 float VELOCITY = 1500.0f;
 Vector OFFSET( 8.0f, 4.0f, -2.0f ); // for projectile
 
