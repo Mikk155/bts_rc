@@ -58,7 +58,7 @@ float TIMER = 3.0f;
 float DAMAGE = 100.0f;
 Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
 
-class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, HLWeaponUtils
+class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
 {
     private CBasePlayer@ m_pPlayer
     {
