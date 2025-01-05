@@ -62,7 +62,7 @@ final class PlayerClass
         return PM::SCIENTIST;
     }
 
-    void set_class( CBasePlayer@ player, const PM player_class )
+    void set_class( CBasePlayer@ player, PM player_class )
     {
         const string model = this.model( player_class );
 
