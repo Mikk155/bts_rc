@@ -141,6 +141,17 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
             for( uint ui = 0; ui < weapons.length(); ui++ )
             {
                 player.GiveNamedItem( weapons[ui] );
+                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapons[ui] );
+                
+                if( item !is null )
+                {
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                    if( weapon !is null && weapon.m_iPrimaryAmmoType > 0 )
+                    {
+                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                    }
+                }
             }
             player.pev.impulse = 0;
         }
