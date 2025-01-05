@@ -70,7 +70,7 @@ float AIR_VELOCITY = 2000.0f;
 float WATER_VELOCITY = 1000.0f;
 Vector OFFSET( 0.0f, 2.0f, -2.0f ); // for projectile
 
-class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity, HLWeaponUtils
+class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity
 {
     private CBasePlayer@ m_pPlayer
     {

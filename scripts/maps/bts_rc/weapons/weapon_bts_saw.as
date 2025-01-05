@@ -63,7 +63,7 @@ const CCVar@ g_M249WideSpread = CCVar( "m249_wide_spread", 0, "", ConCommandFlag
 // Knockback thing
 const CCVar@ g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
 
-class weapon_bts_saw : ScriptBasePlayerWeaponEntity, HLWeaponUtils
+class weapon_bts_saw : ScriptBasePlayerWeaponEntity
 {
     private CBasePlayer@ m_pPlayer
     {
@@ -165,10 +165,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, HLWeaponUtils
 
         // Speed up player reload anim
         // Surely no one will change anim_extensions :clueless:
-        if( 
-            m_pPlayer.pev.sequence == m_pPlayer.LookupSequence( "ref_reload_saw" ) || 
-            m_pPlayer.pev.sequence == m_pPlayer.LookupSequence( "crouch_reload_saw" ) 
-        )
+        if( m_pPlayer.pev.sequence == 172 || m_pPlayer.pev.sequence == 176 ) // ref_reload_saw, crouch_reload_saw
             m_pPlayer.pev.framerate = 2.0f;
     }
 
