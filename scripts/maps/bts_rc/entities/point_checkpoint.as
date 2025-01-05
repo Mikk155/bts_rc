@@ -203,10 +203,17 @@ class point_checkpoint : ScriptBaseAnimating
         if( ( pOther.pev.button & IN_USE ) == 0 )
         {
             CBasePlayer@ player = cast<CBasePlayer@>( pOther );
+
             if( player !is null )
-                g_PlayerFuncs.PrintKeyBindingString( player, "Press +use to activate\n" );
+            {
+                g_PlayerFuncs.PrintKeyBindingString( player, "Press the USE key +use to activate\n" );
+            }
             return;
         }
+
+        string message;
+        snprintf( message, "Player %1 reached a checkpoint.\n", string(pOther.pev.netname) );
+        g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, message );
 
         //Set activated
         self.pev.frags = 1.0f;
