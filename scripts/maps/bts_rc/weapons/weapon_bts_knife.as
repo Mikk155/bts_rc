@@ -186,14 +186,12 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
     {
         if( !m_fWhack )
         {
-            m_pPlayer.m_flNextAttack = ( 26.0f / 30.0f );
-            m_pPlayer.m_szAnimExtension = "wrench";
+            m_pPlayer.m_flNextAttack = 0.6f; // ( 26.0f / 30.0f );
             self.SendWeaponAnim( CHARGE, 0, GetBodygroup() );
-
-            m_pPlayer.SetAnimation( PLAYER_ATTACK1, 1 );
+            ForceAnimation( 25, 28 ); // ref_cock_wrench, crouch_cock_wrench
         }
         else
-            m_pPlayer.SetAnimation( PLAYER_ATTACK1, 2 );
+            ForceAnimation( 26, 29 ); // ref_hold_wrench, crouch_hold_wrench
 
         m_fWhack = true;
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.1f;
@@ -402,9 +400,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[Math.RandomLong( 0, MISS_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
 
             // player "shoot" animation
-            m_pPlayer.m_szAnimExtension = "wrench";
-            m_pPlayer.SetAnimation( PLAYER_ATTACK1, 3 );
-            m_pPlayer.m_szAnimExtension = "crowbar";
+            ForceAnimation( 27, 30 ); // ref_shoot_wrench, crouch_shoot_wrench
         }
         else
         {
@@ -418,9 +414,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
             // player "shoot" animation
-            m_pPlayer.m_szAnimExtension = "wrench";
-            m_pPlayer.SetAnimation( PLAYER_ATTACK1, 3 );
-            m_pPlayer.m_szAnimExtension = "crowbar";
+            ForceAnimation( 27, 30 ); // ref_shoot_wrench, crouch_shoot_wrench
 
             // AdamR: Custom damage option
             float flDamage = DAMAGE2;
@@ -478,6 +472,28 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
             // delay the decal a bit
             g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CROWBAR );
             m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
+        }
+    }
+
+    private void ForceAnimation( int iStandSequence, int iDuckSequence )
+    {
+        int iGaitSequence;
+        switch( m_pPlayer.m_Activity )
+        {
+            case ACT_HOVER:
+            case ACT_SWIM:
+            case ACT_HOP:
+            case ACT_LEAP:
+            case ACT_DIESIMPLE:
+                break;
+            default:
+                iGaitSequence = m_pPlayer.pev.gaitsequence;
+                m_pPlayer.m_Activity = ACT_RELOAD;
+                m_pPlayer.pev.sequence = ( ( m_pPlayer.pev.flags & FL_DUCKING ) != 0 ) ? iDuckSequence : iStandSequence;
+                m_pPlayer.pev.gaitsequence = iGaitSequence;
+                m_pPlayer.pev.frame = 0.0f;
+                m_pPlayer.ResetSequenceInfo();
+                break;
         }
     }
 }
