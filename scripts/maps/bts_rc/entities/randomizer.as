@@ -201,29 +201,7 @@ namespace randomizer
                 { "GM_HEAD_S5", null },
                 { "GM_HEAD_S6", null },
                 { "GM_HEAD_S7", null },
-                { "GM_HEAD_S8", null },
-                { "HCS_1", null },
-                { "HCS_2", null },
-                { "HCS_3", null },
-                { "HCS_4", null },
-                { "HCS_5", null },
-                { "HCS_6", null },
-                { "HCS_7", null },
-                { "HCS_8", null },
-                { "HCS_9", null },
-                { "HCS_10", null },
-                { "HCS_11", null },
-                { "HCS_12", null },
-                { "HCS_13", null },
-                { "HCS_14", null },
-                { "HCS_15", null },
-                { "HCS_16", null },
-                { "HCS_17", null },
-                { "HCS_18", null },
-                { "HCS_19", null },
-                { "HCS_20", null },
-                { "HCS_21", null },
-                { "HCS_22", null }
+                { "GM_HEAD_S8", null }
             };
         }
     }
@@ -368,13 +346,7 @@ namespace randomizer
                 { "GM_VOLT_S1", null },
                 { "GM_BULL_S1", null },
                 { "GM_BULL_S2", null },
-                { "GM_BULL_S3", null },
-                { "HULL2_1", null },
-                { "HULL2_2", null },
-                { "HULL2_3", null },
-                { "HULL2_4", null },
-                { "HULL2_5", null },
-                { "HULL2_6", null }
+                { "GM_BULL_S3", null }
             };
         }
     }
@@ -391,11 +363,7 @@ namespace randomizer
                 { "GM_KPIN_S1", null },
                 { "GM_TOR_S1", null },
                 { "GM_VOLT_S2", null },
-                { "GM_BGARG_S1", null },
-                { "BS_1", null },
-                { "BS_2", null },
-                { "BS_3", null },
-                { "BS_4", null }
+                { "GM_BGARG_S1", null }
             };
         }
     }
