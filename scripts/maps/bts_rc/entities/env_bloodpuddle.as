@@ -37,7 +37,7 @@ namespace env_bloodpuddle
                 return;
             }
 
-            self.pev.renderamt -= 5;
+            self.pev.renderamt -= 1;
             self.pev.nextthink = g_Engine.time + 0.1;
         }
 
