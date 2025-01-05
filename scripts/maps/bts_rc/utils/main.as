@@ -1,18 +1,21 @@
+#include "constdef"
 
 #if SERVER
 #include "Logger"
 #endif
 
+#include "cvars"
 #include "precache"
 #include "player_class"
 
 //sven only has 8192 edicts at any given time
-//so assume each player carries exactly 16 weapons, and then leave 100 slots free for various temporary things.
+//so assume each player carries exactly 16 weapons, and then leave 100 slots free for various temporary things. -Zode
 bool freeedicts( int overhead = 1 )
 {
     return ( g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - ( 16 * g_Engine.maxClients ) - 100 - overhead );
 }
 
+// For normal entities as i don't like to call 50 functions -Mikk
 int LINK_ENTITY_TO_CLASS( const string classname, const string Namespace = String::EMPTY_STRING )
 {
     if( Namespace != String::EMPTY_STRING )
@@ -29,3 +32,39 @@ int LINK_ENTITY_TO_CLASS( const string classname, const string Namespace = Strin
 
     return 0;
 }
+
+#if SERVER
+// All the weapons used in the map. These are Inserted in the weapon's Register functions -Mikk
+array<string> weapons = {
+    "weapon_medkit"
+};
+
+void check_impulse_101( CBasePlayer@ player )
+{
+    if( player !is null && player.IsConnected() && player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+    {
+        for( uint ui = 0; ui < weapons.length(); ui++ )
+        {
+            const string weapon_name = weapons[ui];
+
+            player.GiveNamedItem( weapon_name );
+
+            CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+            
+            if( item !is null )
+            {
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                if( weapon !is null )
+                {
+                    if( weapon.m_iPrimaryAmmoType > 0 )
+                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                    if( weapon.m_iSecondaryAmmoType > 0 )
+                        player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                }
+            }
+        }
+        player.pev.impulse = 0;
+    }
+}
+#endif
