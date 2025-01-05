@@ -56,7 +56,7 @@ uint POSITION = 5;
 // Vars
 float TIMER = 1.5f;
 float DAMAGE = 1.0f;
-float DURATION = 60.0f;
+float DURATION = 180.0f;
 Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
 
 class weapon_bts_flare : ScriptBasePlayerWeaponEntity
