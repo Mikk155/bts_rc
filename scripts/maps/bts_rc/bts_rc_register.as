@@ -264,7 +264,7 @@ HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
 
                 if( voices !is null )
                 {
-                    if( player.pev.waterlevel == WATERLEVEL_HEAD )
+                    /*if( player.pev.waterlevel == WATERLEVEL_HEAD )
                     {
                         if( voices.drowndamage !is null )
                         {
@@ -272,12 +272,23 @@ HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
                         }
                     }
                     else
-                    {
-                        if( voices.takedamage !is null )
+                    {*/
+                        // Player will be dead
+                        if( player.pev.health - pDamageInfo.flDamage <= 0 )
                         {
-                            voices.takedamage.PlaySound( player );
+                            if( voices.killed !is null )
+                            {
+                                voices.killed.PlaySound( player );
+                            }
                         }
-                    }
+                        else
+                        {
+                            if( voices.takedamage !is null )
+                            {
+                                voices.takedamage.PlaySound( player );
+                            }
+                        }
+                    //}
                 }
             }
         }
