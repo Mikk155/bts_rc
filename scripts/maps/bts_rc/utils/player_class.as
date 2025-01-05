@@ -39,8 +39,12 @@ final class PlayerClass
         {
             dictionary@ data = player.GetUserData();
 
-            if( !data.exists( "class" ) && !DontSet )
+            if( !data.exists( "class" ) )
             {
+                if( DontSet )
+                {
+                    return PM::UNSET;
+                }
 #if SERVER
                 m_Logger.info( "Unseted class for {}. Setting as operator", { player.pev.netname } );
 #endif
