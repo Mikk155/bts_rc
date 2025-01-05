@@ -286,9 +286,10 @@ string GetAmmoName()
 
 void Register()
 {
-#if SERVER
-    weapons.insertLast( GetName() );
-#endif
+    #if SERVER
+        weapons.insertLast( GetName() );
+    #endif
+
     M79_ROCKET::Register();
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
