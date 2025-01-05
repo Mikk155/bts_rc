@@ -72,9 +72,8 @@ final class PlayerClass
             player_class = PM::BSCIENTIST;
         }
 
+        player.GetUserData()[ "pm" ] = model;
         player.GetUserData()[ "class" ] = player_class;
-
-        player.SetOverriddenPlayerModel( model );
 
         switch( player_class )
         {

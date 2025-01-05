@@ -22,6 +22,8 @@ HookReturnCode player_think( CBasePlayer@ player )
 
         dictionary@ user_data = player.GetUserData();
 
+        player.SetOverriddenPlayerModel( string(user_data[ "pm" ] ) );
+
         switch( player_class )
         {
             /*==========================================================================
