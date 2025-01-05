@@ -134,6 +134,14 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
+        const PM player_class = g_PlayerClass[ player, true ];
+
+        if( player_class == PM::UNSET )
+        {
+            g_Logger.warn( "Unset model");
+            return HOOK_CONTINUE;
+        }
+
         dictionary@ user_data = player.GetUserData();
 
 #if SERVER
@@ -158,7 +166,7 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         }
 #endif
 
-#if FALSE // -TODO Idk how the fuck do this xd @rizulix
+#if SERVER // -TODO Idk how the fuck do this xd @rizulix
         /*==========================================================================
         *   - Start of custom arms on vanilla weapons
         ==========================================================================*/
@@ -176,8 +184,8 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                 {
                     if( weapon.pev.classname == "weapon_medkit" )
                     {
-                        weapon.pev.body = weapon.SetBodygroup( 1, 3 );
-                        g_Logger.warn( "Active valid? {}", { weapon.pev.body } );
+                        weapon.pev.body = player_class;
+                        weapon.SendWeaponAnim( player.pev.weaponanim, 0, player_class );
                     }
                 }
             }
@@ -186,8 +194,6 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         *   - End
         ==========================================================================*/
 #endif
-
-        const PM player_class = g_PlayerClass[ player, true ];
 
         switch( player_class )
         {
