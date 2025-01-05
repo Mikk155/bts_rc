@@ -69,9 +69,9 @@ This doesn't work so to enable loggers and other features find all "#if SERVER" 
 
 void MapStart()
 {
-#if SERVER
-    g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
-#endif
+    #if SERVER
+        g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+    #endif
 }
 
 void MapActivate()
@@ -82,9 +82,9 @@ void MapActivate()
 
 void MapInit()
 {
-#if SERVER
-    LoggerLevel = ( Warning | Debug | Info | Critical | Error );
-#endif
+    #if SERVER
+        LoggerLevel = ( Warning | Debug | Info | Critical | Error );
+    #endif
 
     g_VoiceResponse.init();
 
@@ -125,11 +125,10 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
-
-#if SERVER
-        // Change impulse 101 command with our own weapons.
-        check_impulse_101(player);
-#endif
+        #if SERVER
+            // Change impulse 101 command with our own weapons.
+            check_impulse_101(player);
+        #endif
 
         // Do not update the class here, Only weapons should do that so we assume the game hasn't started yet.
         const PM player_class = g_PlayerClass[ player, true ];
@@ -195,9 +194,10 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                             player.pev.armorvalue--;
                             // -TODO Find a nice drain time
                             user_data[ "helmet_nv_drain" ] = 4.5 + g_Engine.time;
-#if SERVER
-                            g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
-#endif
+
+                            #if SERVER
+                                g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
+                            #endif
                         }
 
                         NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
