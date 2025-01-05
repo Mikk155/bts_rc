@@ -60,6 +60,7 @@ array<string> weapons = {
 #include "utils/main"
 
 // Entities
+#include "entities/env_bloodpuddle"
 #include "entities/randomizer"
 #include "entities/trigger_script"
 #include "entities/trigger_update_class"
@@ -110,6 +111,8 @@ void MapInit()
     ==========================================================================*/
     precache::sound( "items/flashlight2.wav" );
     precache::sound( "player/hud_nightvision.wav" );
+
+    precache::model( env_bloodpuddle::model );
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -118,10 +121,14 @@ void MapInit()
     *   - Start of hooks
     ==========================================================================*/
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
+    g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage );
+    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
     /*==========================================================================
     *   - End
     ==========================================================================*/
 }
+
+CCVar@ cvar_hev_battery_drain = CCVar( "bts_rc_hev_drain_time", 4.5 );
 
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
@@ -135,6 +142,17 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
             for( uint ui = 0; ui < weapons.length(); ui++ )
             {
                 player.GiveNamedItem( weapons[ui] );
+                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapons[ui] );
+                
+                if( item !is null )
+                {
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                    if( weapon !is null && weapon.m_iPrimaryAmmoType > 0 )
+                    {
+                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                    }
+                }
             }
             player.pev.impulse = 0;
         }
@@ -169,20 +187,34 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
         ==========================================================================*/
 #endif
 
-        switch( g_PlayerClass[ player, true ] )
+        const PM player_class = g_PlayerClass[ player, true ];
+
+        switch( player_class )
         {
             /*==========================================================================
             *   - Start of Helmet night vision
             ==========================================================================*/
             case PM::HELMET:
             {
-                if( !user_data.exists( "helmet_nv_state" ) )
-                    break;
-
                 int state = int( user_data[ "helmet_nv_state" ] );
 
+                // Not enough power, Shut down
+                if( player.pev.armorvalue <= 0 )
+                {
+                    if( state == 1 )
+                    {
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/flashlight2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                        g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
+                    }
+                    else if( player.pev.impulse == 100 )
+                    {
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/flashlight2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    }
+
+                    user_data[ "helmet_nv_state" ] = state = 0;
+                }
                 // Catch impulse commands and toggle night vision state
-                if( player.pev.impulse == 100 )
+                else if( player.pev.impulse == 100 )
                 {
                     user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
 
@@ -197,6 +229,13 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                     // Show even when dead lying.
                     if( !player.GetObserver().IsObserver() )
                     {
+                        if( float( user_data[ "helmet_nv_drain" ] ) <= g_Engine.time )
+                        {
+                            player.pev.armorvalue--;
+                            user_data[ "helmet_nv_drain" ] = cvar_hev_battery_drain.GetFloat() + g_Engine.time;
+                            g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
+                        }
+
                         NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
                             m.WriteByte( TE_DLIGHT );
                             m.WriteCoord(player.pev.origin.x);
@@ -216,11 +255,85 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                         user_data[ "helmet_nv_state" ] = 0;
                     }
                 }
+
+                player.m_iFlashBattery = int(Math.max( 1, player.pev.armorvalue ));
+
+                // Update HUD
+                NetworkMessage m( MSG_ONE, NetworkMessages::Flashlight, player.edict() );
+                    m.WriteByte( state );
+                    m.WriteByte(player.m_iFlashBattery);
+                m.End();
+
                 break;
             }
+        }
+
+        // Deny flashlight on something else than HEV
+        if( player.pev.impulse == 100 )
+        {
+            player.pev.impulse = 0;
+        }
             /*==========================================================================
             *   - End
             ==========================================================================*/
+    }
+
+    return HOOK_CONTINUE;
+}
+
+HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
+{
+    CBaseEntity@ victim = pDamageInfo.pVictim;
+
+    if( victim !is null )
+    {
+        CBasePlayer@ player = cast<CBasePlayer@>( victim );
+
+        if( player !is null )
+        {
+            CVoices@ voices = g_VoiceResponse[ player ];
+
+            if( voices !is null )
+            {
+                if( player.pev.waterlevel == WATERLEVEL_HEAD )
+                {
+                    if( voices.drowndamage !is null )
+                    {
+                        voices.drowndamage.PlaySound( player );
+                    }
+                }
+                else
+                {
+                    if( voices.takedamage !is null )
+                    {
+                        voices.takedamage.PlaySound( player );
+                    }
+                }
+            }
+        }
+    }
+    return HOOK_CONTINUE;
+}
+
+CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0 );
+
+HookReturnCode MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int iGib )
+{
+    if( monster !is null )
+    {
+        dictionary@ user_data = monster.GetUserData();
+
+        // Create a blood puddle if possible
+        if( monster.m_bloodColor != DONT_BLEED && cvar_bloodpuddles.GetInt() == 0 && !user_data.exists( "bloodpuddle" ) && freeedicts( 1 ) )
+        {
+            CBaseEntity@ bloodpuddle = g_EntityFuncs.Create( "env_bloodpuddle", monster.Center() + Vector( 0, 0, 6 ), g_vecZero, false, monster.edict() );
+
+            if( bloodpuddle !is null && monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
+            {
+                bloodpuddle.pev.skin = 1;
+            }
+
+            user_data[ "bloodpuddle" ] = true;
         }
     }
 

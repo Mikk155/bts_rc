@@ -61,6 +61,20 @@ final class PlayerClass
 
         player.SetOverriddenPlayerModel( model );
 
+        switch( player_class )
+        {
+            case PM::HELMET:
+            {
+                player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
+            }
+            break;
+
+            default:
+            {
+                player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
+            }
+            break;
+        }
 #if SERVER
         m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
 #endif
