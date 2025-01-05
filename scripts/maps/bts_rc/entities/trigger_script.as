@@ -3,7 +3,7 @@ namespace randomizer
     // Swap a specific squad to a random location.
     void randomize_squad( CBaseMonster@ psquad, CBaseEntity@ pentity )
     {
-        g_RandomizerWave.swap_squad(psquad);
+        g_Randomizer.swap_squad(psquad);
     }
 
     // Swap all squads to a random and unique location.
@@ -14,6 +14,10 @@ namespace randomizer
         g_RandomizerBoss.init();
         g_RandomizerHull.init();
         g_RandomizerItem.init();
+
+        // Free the entity slot.
+        if( pActivator !is null )
+            pActivator.pev.flags != FL_KILLME;
     }
 }
 
