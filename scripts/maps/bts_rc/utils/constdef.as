@@ -18,7 +18,7 @@ const string CONST_BLOODPUDDLE = "models/mikk/misc/bloodpuddle.mdl";
 const float CONST_VOICE_COOLDOWN_TAKEDAMAGE = 1.0;
 
 // Player take damage but his head is underwater
-const float CONST_VOICE_COOLDOWN_DROWNDAMAGE = 1.0;
+//const float CONST_VOICE_COOLDOWN_DROWNDAMAGE = 1.0;
 
 //===============================================
 // End

@@ -5,14 +5,14 @@ class CVoice
 
     private array<string> voices;
 
-    float cooldown = 0.5f;
+    float cooldown = 0.0f;
 
     void push_back( const string& in sound )
     {
         precache::sound( sound );
         this.voices.insertLast( sound );
 #if SERVER
-        g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\"", { sound, this.__owner__ } );
+        g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\" as \"{}\"", { sound, this.__owner__, this.__type__ } );
 #endif
     }
 
@@ -29,7 +29,7 @@ class CVoice
 
         dictionary@ data = target.GetUserData();
 
-        if( g_Engine.time < float( data[ this.__type__] ) )
+        if( g_Engine.time < float( data[ this.__type__ ] ) )
             return false;
 
         if( this.voices.length() <= 0 )
@@ -64,13 +64,15 @@ class CVoices
     }
 
     CVoice@ takedamage;
-    CVoice@ drowndamage;
+//    CVoice@ drowndamage;
+    CVoice@ killed;
 
     CVoices( const string&in name )
     {
         __name__ = name;
         @takedamage = CVoice(this.__name__, "takedamage" );
-        @drowndamage = CVoice(this.__name__, "drowndamage" );
+//        @drowndamage = CVoice(this.__name__, "drowndamage" );
+        @killed = CVoice(this.__name__, "killed" );
     }
 }
 
@@ -154,13 +156,31 @@ class CVoiceResponse
         scientist.takedamage.push_back( "scientist/sci_pain8.wav" );
         scientist.takedamage.push_back( "scientist/sci_pain9.wav" );
         scientist.takedamage.push_back( "scientist/sci_pain10.wav" );
-
+/*
         scientist.takedamage.cooldown = CONST_VOICE_COOLDOWN_DROWNDAMAGE;
         scientist.drowndamage.push_back( "bts_rc/player/pl_drown1.wav" );
         // Same sounds so use the same pointer
         @barney.drowndamage = scientist.drowndamage;
         @construction.drowndamage = scientist.drowndamage;
         @helmet.drowndamage = scientist.drowndamage;
+*/
+        scientist.killed.push_back( "scientist/sci_die1.wav" );
+        scientist.killed.push_back( "scientist/sci_die2.wav" );
+        scientist.killed.push_back( "scientist/sci_die3.wav" );
+
+        barney.killed.push_back( "barney/ba_die1.wav" );
+        barney.killed.push_back( "barney/ba_die2.wav" );
+        barney.killed.push_back( "barney/ba_die3.wav" );
+
+        construction.killed.push_back( "bts_rc/player/construction/co_die1.wav" );
+        construction.killed.push_back( "bts_rc/player/construction/co_die2.wav" );
+        construction.killed.push_back( "bts_rc/player/construction/co_die3.wav" );
+        construction.killed.push_back( "bts_rc/player/construction/co_die4.wav" );
+
+        helmet.killed.push_back( "bts_rc/player/helmet/hm_death1.wav" );
+        helmet.killed.push_back( "bts_rc/player/helmet/hm_death2.wav" );
+        helmet.killed.push_back( "bts_rc/player/helmet/hm_death3.wav" );
+        helmet.killed.push_back( "bts_rc/player/helmet/hm_death4.wav" );
     }
 }
 
