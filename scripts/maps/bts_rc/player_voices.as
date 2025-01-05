@@ -1,7 +1,7 @@
 class CVoice
 {
-    private float __time__ = 0;
     private string __owner__;
+    private string __type__;
 
     private array<string> voices;
 
@@ -16,14 +16,20 @@ class CVoice
 #endif
     }
 
-    CVoice( const string owner )
+    CVoice( const string owner, const string type )
     {
+        this.__type__ = type;
         this.__owner__ = owner;
     }
 
     bool PlaySound( CBaseEntity@ target, const float volume = 1.0, const int pitch = PITCH_NORM, const int flags = 0 )
     {
-        if( target is null || this.__time__ > g_Engine.time )
+        if( target is null )
+            return false;
+
+        dictionary@ data = target.GetUserData();
+
+        if( g_Engine.time < float( data[ this.__type__] ) )
             return false;
 
         if( this.voices.length() <= 0 )
@@ -42,7 +48,7 @@ class CVoice
 
         g_SoundSystem.PlaySound( target.edict(), CHAN_VOICE, sound, volume, ATTN_NORM, flags, pitch, 0, true, target.GetOrigin() );
 
-        this.__time__ = g_Engine.time + this.cooldown;
+        data[ this.__type__] = g_Engine.time + this.cooldown;
 
         return true;
     }
@@ -62,7 +68,7 @@ class CVoices
     CVoices( const string&in name )
     {
         __name__ = name;
-        @takedamage = CVoice(this.__name__);
+        @takedamage = CVoice(this.__name__, "takedamage" );
     }
 }
 
@@ -72,44 +78,49 @@ class CVoiceResponse
     CLogger@ m_Logger = CLogger( "Voice Responses" );
 #endif
 
-    private array<CVoices@> voices = {};
+    private dictionary@ voices = {
+        { "barney", null },
+        { "scientist", null },
+        { "construction", null },
+        { "helmet", null }
+    };
 
-    CVoices@ opIndex( const string&in player_model ) const
+    CVoices@ opIndex( CBasePlayer@ player ) const
     {
-        // scientist is used as a fallback anyway so if there is no match it'll be used regardless, so skip it. -Sam
-        for (uint i = 1; i < this.voices.length(); ++i)
+        if( player is null )
+            return null;
+
+        const PM player_class = g_PlayerClass[ player, true ];
+
+        switch( player_class )
         {
-            if ( player_model.StartsWith( this.voices[i].name() ) )
-            {
-                return this.voices[i];
-            }
-        }
-        
-        return this.voices[0];
-    }
+            case PM::BARNEY:
+                return cast<CVoices@>( this.voices[ "barney" ] );
 
-    CVoices@ get_voice( const string&in player_model ) const
-    {
-        return this[ player_model ];
+            case PM::CONSTRUCTION:
+                return cast<CVoices@>( this.voices[ "construction" ] );
+
+            case PM::HELMET:
+                return cast<CVoices@>( this.voices[ "helmet" ] );
+
+            case PM::SCIENTIST:
+            case PM::BSCIENTIST:
+            default:
+                return cast<CVoices@>( this.voices[ "scientist" ] );
+        }
     }
 
     void init()
     {
-        CVoices@ scientist = CVoices( "bts_scientist" );
-        CVoices@ barney = CVoices( "bts_barney" );
-        CVoices@ construction = CVoices( "bts_construction" );
-        CVoices@ helmet = CVoices( "bts_helmet" );
+        CVoices@ scientist = CVoices( "scientist" );
+        CVoices@ barney = @CVoices( "barney" );
+        CVoices@ construction = @CVoices( "construction" );
+        CVoices@ helmet = @CVoices( "helmet" );
 
-        // scientist goes first so we can get it easily as a fallback -Sam
-        this.voices.insertLast( scientist );
-        this.voices.insertLast( barney );
-        this.voices.insertLast( construction );
-        this.voices.insertLast( helmet );
-
-        // Customize in here the Voices:
-        barney.takedamage.cooldown = 4.0f;
-        barney.takedamage.push_back( "player/hud_nightvision.wav" );
-        barney.takedamage.push_back( "items/flashlight2.wav" );
+        this.voices[ "scientist" ] = @scientist;
+        this.voices[ "barney" ] = @barney;
+        this.voices[ "construction" ] = @construction;
+        this.voices[ "helmet" ] = @helmet;
     }
 }
 
