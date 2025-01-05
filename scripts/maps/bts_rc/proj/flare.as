@@ -113,7 +113,8 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 				// pev.movetype = MOVETYPE_FLY;
 				pev.gravity = 1.0f;
 
-				Die( 0.5f );
+				// Die( 0.5f );
+				g_EntityFuncs.Remove( self );
 				return;
 			}
 		}
@@ -133,6 +134,7 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 						pev.angles = Math.VecToAngles( vecDir );
 						// pev.angles.y -= 90.0f;
 						pev.movetype = MOVETYPE_NONE;
+						pev.effects |= EF_NODRAW;
 
 						SetTouch( TouchFunction( this.FlareBurnTouch ) );
 						// g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 1 ) );
