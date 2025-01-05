@@ -155,6 +155,7 @@ class CVoiceResponse
         scientist.takedamage.push_back( "scientist/sci_pain9.wav" );
         scientist.takedamage.push_back( "scientist/sci_pain10.wav" );
 
+        scientist.takedamage.cooldown = CONST_VOICE_COOLDOWN_DROWNDAMAGE;
         scientist.drowndamage.push_back( "bts_rc/player/pl_drown1.wav" );
         // Same sounds so use the same pointer
         @barney.drowndamage = scientist.drowndamage;
