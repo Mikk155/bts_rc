@@ -1,6 +1,5 @@
 namespace env_bloodpuddle
 {
-    const string model = "models/mikk/misc/bloodpuddle.mdl";
     int register = LINK_ENTITY_TO_CLASS( "env_bloodpuddle", "env_bloodpuddle" );
 
     class env_bloodpuddle : ScriptBaseAnimating
@@ -11,7 +10,7 @@ namespace env_bloodpuddle
             self.pev.solid = SOLID_NOT;
             self.pev.scale = Math.RandomFloat( 1.5, 2.5 );
 
-            g_EntityFuncs.SetModel( self, model );
+            g_EntityFuncs.SetModel( self, CONST_BLOODPUDDLE );
             g_EntityFuncs.SetOrigin( self, self.pev.origin );
             self.pev.sequence = 2;
 

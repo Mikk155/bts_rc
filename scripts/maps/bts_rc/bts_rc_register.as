@@ -46,32 +46,25 @@
 */
 
 /*
-#define LOGGERS
-This doesn't work so to enable loggers find all "#if LOGGERS" and replace to "#if SERVER"
+#define DEVELOP
+This doesn't work so to enable loggers and other features find all "#if SERVER" and replace to "#if SERVER"
 */
-
-#if SERVER
-// All the weapons used in the map.
-array<string> weapons = {
-    "weapon_medkit"
-};
-#endif
 
 #include "utils/main"
 
 // Entities
 #include "entities/env_bloodpuddle"
+#include "entities/game_item_tracker"
+#include "entities/point_checkpoint"
 #include "entities/randomizer"
 #include "entities/trigger_script"
 #include "entities/trigger_update_class"
 
 #include "player_voices"
 
-#include "game_item_tracker"
 #include "list_weapons"
 #include "mappings"
 #include "monsters/npc_ammo"
-#include "point_checkpoint"
 #include "objective_indicator"
 
 void MapStart()
@@ -83,7 +76,7 @@ void MapStart()
 
 void MapActivate()
 {
-    SetupItemTracker();
+    game_item_tracker::SetupItemTracker();
     BTS_RC::MapActivate(); //Objective code debug
 }
 
@@ -94,8 +87,6 @@ void MapInit()
 #endif
 
     g_VoiceResponse.init();
-
-    RegisterItemTracker();
 
     RegisterPointCheckPointEntity();
 
@@ -109,10 +100,11 @@ void MapInit()
     /*==========================================================================
     *   - Start of precaching
     ==========================================================================*/
-    precache::sound( "items/flashlight2.wav" );
-    precache::sound( "player/hud_nightvision.wav" );
+    precache::sound( CONST_HEV_NIGHTVISION_ON );
+    precache::sound( CONST_HEV_NIGHTVISION_OFF );
+    precache::sound( CONST_HEV_NIGHTVISION_NO_POWER );
 
-    precache::model( env_bloodpuddle::model );
+    precache::model( CONST_BLOODPUDDLE );
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -128,72 +120,26 @@ void MapInit()
     ==========================================================================*/
 }
 
-CCVar@ cvar_hev_battery_drain = CCVar( "bts_rc_hev_drain_time", 4.5 );
-
 HookReturnCode PlayerThink( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
+
+#if SERVER
+        // Change impulse 101 command with our own weapons.
+        check_impulse_101(player);
+#endif
+
+        // Do not update the class here, Only weapons should do that so we assume the game hasn't started yet.
         const PM player_class = g_PlayerClass[ player, true ];
 
+        // Clases not yet set? Then there's nothing to do here.
         if( player_class == PM::UNSET )
         {
-            g_Logger.warn( "Unset model");
             return HOOK_CONTINUE;
         }
 
         dictionary@ user_data = player.GetUserData();
-
-#if SERVER
-        if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
-        {
-            for( uint ui = 0; ui < weapons.length(); ui++ )
-            {
-                player.GiveNamedItem( weapons[ui] );
-                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapons[ui] );
-                
-                if( item !is null )
-                {
-                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
-
-                    if( weapon !is null && weapon.m_iPrimaryAmmoType > 0 )
-                    {
-                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
-                    }
-                }
-            }
-            player.pev.impulse = 0;
-        }
-#endif
-
-#if SERVER // -TODO Idk how the fuck do this xd @rizulix
-        /*==========================================================================
-        *   - Start of custom arms on vanilla weapons
-        ==========================================================================*/
-        EHandle hActiveItem = player.m_hActiveItem;
-
-        if( hActiveItem.IsValid() )
-        {
-            CBaseEntity@ active_item = hActiveItem.GetEntity();
-
-            if( active_item !is null )
-            {
-                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
-
-                if( weapon !is null )
-                {
-                    if( weapon.pev.classname == "weapon_medkit" )
-                    {
-                        weapon.pev.body = player_class;
-                        weapon.SendWeaponAnim( player.pev.weaponanim, 0, player_class );
-                    }
-                }
-            }
-        }
-        /*==========================================================================
-        *   - End
-        ==========================================================================*/
-#endif
 
         switch( player_class )
         {
@@ -209,27 +155,35 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                 {
                     if( state == 1 )
                     {
-                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/flashlight2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, CONST_HEV_NIGHTVISION_OFF, 1.0, ATTN_NORM, 0, PITCH_NORM );
                         g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
                     }
                     else if( player.pev.impulse == 100 )
                     {
-                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/flashlight2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, CONST_HEV_NIGHTVISION_NO_POWER, 1.0, ATTN_NORM, 0, PITCH_NORM );
                     }
 
                     user_data[ "helmet_nv_state" ] = state = 0;
                 }
-                // Catch impulse commands and toggle night vision state
+                // Catch impulse command and toggle night vision state
                 else if( player.pev.impulse == 100 )
                 {
                     user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
 
                     g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
 
-                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "items/flashlight2.wav" : "player/hud_nightvision.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    g_SoundSystem.EmitSoundDyn(
+                        player.edict(),
+                        CHAN_WEAPON,
+                        ( state == 1 ? CONST_HEV_NIGHTVISION_OFF : CONST_HEV_NIGHTVISION_ON ),
+                        1.0,
+                        ATTN_NORM,
+                        0,
+                        PITCH_NORM
+                    );
                 }
 
-                // Night vision ON, drain and light
+                // Night vision ON, drain and light.
                 if( state == 1 )
                 {
                     // Show even when dead lying.
@@ -238,8 +192,11 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
                         if( float( user_data[ "helmet_nv_drain" ] ) <= g_Engine.time )
                         {
                             player.pev.armorvalue--;
-                            user_data[ "helmet_nv_drain" ] = cvar_hev_battery_drain.GetFloat() + g_Engine.time;
+                            // -TODO Find a nice drain time
+                            user_data[ "helmet_nv_drain" ] = 4.5 + g_Engine.time;
+#if SERVER
                             g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
+#endif
                         }
 
                         NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
@@ -272,16 +229,16 @@ HookReturnCode PlayerThink( CBasePlayer@ player )
 
                 break;
             }
+            /*==========================================================================
+            *   - End
+            ==========================================================================*/
         }
 
-        // Deny flashlight on something else than HEV
+        // Deny flashlight as we use our own.
         if( player.pev.impulse == 100 )
         {
             player.pev.impulse = 0;
         }
-            /*==========================================================================
-            *   - End
-            ==========================================================================*/
     }
 
     return HOOK_CONTINUE;
@@ -297,22 +254,25 @@ HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
 
         if( player !is null )
         {
-            CVoices@ voices = g_VoiceResponse[ player ];
-
-            if( voices !is null )
+            if( cvar_player_voices.GetInt() == 0 )
             {
-                if( player.pev.waterlevel == WATERLEVEL_HEAD )
+                CVoices@ voices = g_VoiceResponse[ player ];
+
+                if( voices !is null )
                 {
-                    if( voices.drowndamage !is null )
+                    if( player.pev.waterlevel == WATERLEVEL_HEAD )
                     {
-                        voices.drowndamage.PlaySound( player );
+                        if( voices.drowndamage !is null )
+                        {
+                            voices.drowndamage.PlaySound( player );
+                        }
                     }
-                }
-                else
-                {
-                    if( voices.takedamage !is null )
+                    else
                     {
-                        voices.takedamage.PlaySound( player );
+                        if( voices.takedamage !is null )
+                        {
+                            voices.takedamage.PlaySound( player );
+                        }
                     }
                 }
             }
@@ -321,18 +281,30 @@ HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
     return HOOK_CONTINUE;
 }
 
-CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0 );
-
 HookReturnCode MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int iGib )
 {
     if( monster !is null )
     {
         dictionary@ user_data = monster.GetUserData();
 
-        // Create a blood puddle if possible
-        if( monster.m_bloodColor != DONT_BLEED && cvar_bloodpuddles.GetInt() == 0 && !user_data.exists( "bloodpuddle" ) && freeedicts( 1 ) )
+        // Create a blood puddle if possible.
+        /* Do not create for non-bleedable npcs */
+        if( monster.m_bloodColor != DONT_BLEED
+        /* Check for Server operator's choices */
+        && cvar_bloodpuddles.GetInt() == 0
+        /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles x[ */
+        && !user_data.exists( "bloodpuddle" )
+        /* Do not create if there's not a "free" slot */
+        && freeedicts( 1 ) )
         {
-            CBaseEntity@ bloodpuddle = g_EntityFuncs.Create( "env_bloodpuddle", monster.Center() + Vector( 0, 0, 6 ), g_vecZero, false, monster.edict() );
+            CBaseEntity@ bloodpuddle = g_EntityFuncs.Create(
+                "env_bloodpuddle",
+                /* About +6 units should be enough i think */
+                monster.Center() + Vector( 0, 0, 6 ),
+                g_vecZero,
+                false,
+                monster.edict()
+            );
 
             if( bloodpuddle !is null && monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
             {
