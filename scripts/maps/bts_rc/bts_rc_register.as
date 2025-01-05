@@ -295,11 +295,19 @@ HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
 
             if( voices !is null )
             {
-                CVoice@ voice = voices.takedamage;
-
-                if( voice !is null )
+                if( player.pev.waterlevel == WATERLEVEL_HEAD )
                 {
-                    voice.PlaySound( player );
+                    if( voices.drowndamage !is null )
+                    {
+                        voices.drowndamage.PlaySound( player );
+                    }
+                }
+                else
+                {
+                    if( voices.takedamage !is null )
+                    {
+                        voices.takedamage.PlaySound( player );
+                    }
                 }
             }
         }
