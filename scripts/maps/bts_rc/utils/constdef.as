@@ -30,4 +30,18 @@ const float CONST_VOICE_COOLDOWN_TAKEDAMAGE = 1.0;
 
 //===============================================
 // End
-//==============================================
+//===============================================
+
+//===============================================
+// Item Tracker
+//===============================================
+
+// Title of the item tracker motd
+const string CONST_WHO_HAS_WHAT_TITLE = "Who has what?\n";
+
+// How concurrent to re-search for players and track their items? seconds.
+const float CONST_WHO_HAS_WHAT_TIME = 5;
+
+//===============================================
+// End
+//===============================================

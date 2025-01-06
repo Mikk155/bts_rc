@@ -22,6 +22,20 @@ HookReturnCode player_think( CBasePlayer@ player )
 
         dictionary@ user_data = player.GetUserData();
 
+        // New *feature* "No pressing E while shooting" xD
+        if( ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0  )
+        {
+            // Don't call Reload.
+            player.pev.button &= ~IN_RELOAD;
+
+            if( g_Engine.time > float(user_data[ "motd_update" ] ) )
+            {
+                // Individual cooldown players to not spam UserMessages
+                user_data[ "motd_update" ] = g_Engine.time + 1.0f;
+                item_tracker::open(player, user_data);
+            }
+        }
+
         player.SetOverriddenPlayerModel( string(user_data[ "pm" ] ) );
 
         switch( player_class )
