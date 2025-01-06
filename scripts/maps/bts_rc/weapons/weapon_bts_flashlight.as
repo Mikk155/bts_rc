@@ -5,7 +5,7 @@
 // Thanks Mikk for scripting full support
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../utils/player_class"
+#include "../proj/base_flashlight"
 
 namespace BTS_FLASHLIGHT
 {
@@ -65,7 +65,7 @@ int POSITION = 4;
 float RANGE = 32.0f;
 float DAMAGE = 7.0f;
 
-class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
+class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, CBaseFlashLight
 {
     private CBasePlayer@ m_pPlayer
     {
@@ -74,7 +74,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
     }
 
     private TraceResult m_trHit;
-    private int m_battery = 100;
     private int m_iSwing;
 
     int GetBodygroup()
@@ -98,22 +97,26 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
     {
         self.PrecacheCustomModels();
 
-        precache::model( W_MODEL );
-        precache::model( V_MODEL );
-        precache::model( P_MODEL );
-        precache::model( A_MODEL );
+        g_Game.PrecacheModel( W_MODEL );
+        g_Game.PrecacheModel( V_MODEL );
+        g_Game.PrecacheModel( P_MODEL );
+        g_Game.PrecacheModel( A_MODEL );
 
-        precache::sound( MISS_SND );
+        // g_SoundSystem.PrecacheSound( SWITCH_SND );
+        g_SoundSystem.PrecacheSound( MISS_SND );
 
-        precache::sounds( HITWORLD_SND );
-        precache::sounds( HITFLESH_SND );
+        for( uint i = 0; i < HITWORLD_SND.length(); i++ )
+            g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
 
-        precache::generic( "sprites/bts_rc/wepspr.spr" );
-        precache::generic( "sprites/bts_rc/ammo_battery.spr" );
+        for( uint j = 0; j < HITFLESH_SND.length(); j++ )
+            g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
+
+        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
 
         string txt;
         snprintf( txt, "sprites/bts_rc/weapons/%1.txt", pev.classname );
-        precache::generic( txt );
+        g_Game.PrecacheGeneric( txt );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -144,20 +147,16 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
-
         self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "crowbar", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         m_pPlayer.m_flNextAttack = 0.0f;
+        fl_Deploy();
         return true;
     }
 
     void Holster( int skiplocal = 0 )
     {
-        if( m_pPlayer.FlashlightIsOn() )
-            m_pPlayer.FlashlightTurnOff();
-
-        m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
+        fl_Holster();
 
         SetThink( null );
         BaseClass.Holster( skiplocal );
@@ -165,19 +164,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     void ItemPostFrame()
     {
-        m_pPlayer.m_iFlashBattery = m_battery;
-
-        if( m_pPlayer.FlashlightIsOn() )
-        {
-            // -TODO Do a proper deduction time.
-            m_battery -= 0.1f;
-
-            if( m_battery <= 0 )
-            {
-                m_pPlayer.FlashlightTurnOff();
-            }
-        }
-
+        fl_ItemPostFrame();
         BaseClass.ItemPostFrame();
     }
 
@@ -195,20 +182,14 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         if( g_Engine.time <= self.m_flNextSecondaryAttack )
             return;
 
-        if( m_battery > 0 )
+        if( fl_ShouldToggle() )
         {
-            if( m_pPlayer.FlashlightIsOn() )
-            {
-                m_pPlayer.FlashlightTurnOff();
-            }
-            else
-            {
-                m_pPlayer.FlashlightTurnOn();
-            }
         }
         else if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
         {
-            m_pPlayer.m_iFlashBattery = m_battery = 100;
+            // -TODO Play animations holster and then draw?
+            // -TODO Should this weapon use Reload instead/too?
+            m_battery = m_pPlayer.m_iFlashBattery = 100;
             m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
         }
         else
