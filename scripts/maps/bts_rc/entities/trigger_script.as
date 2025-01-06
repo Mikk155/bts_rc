@@ -18,7 +18,7 @@ namespace randomizer
 
         // Free the entity slot.
         if( pActivator !is null )
-            pActivator.pev.flags != FL_KILLME;
+            pActivator.pev.flags |= FL_KILLME;
     }
 }
 
