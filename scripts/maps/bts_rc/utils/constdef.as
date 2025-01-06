@@ -1,11 +1,27 @@
-// Turn on night vision
+
+//===============================================
+// NightVision
+//===============================================
+
+// Turn on night vision sound
 const string CONST_HEV_NIGHTVISION_ON = "bts_rc/items/nvg_on.wav";
 
-// Turn off night vision
+// Turn off night vision sound
 const string CONST_HEV_NIGHTVISION_OFF = "bts_rc/items/nvg_off.wav";
 
-// Player try to use night vision but has no suit power
+// Player try to use night vision but has no suit power.
 const string CONST_HEV_NIGHTVISION_NO_POWER = "items/suitchargeno1.wav";
+
+// Screen Fade RGB
+const Vector CONST_HEV_NIGHTVISION_COLOR = Vector( 250, 200, 20 );
+
+//===============================================
+// End
+//===============================================
+
+//===============================================
+// Blood Puddle
+//===============================================
 
 // Blood puddle model
 const string CONST_BLOODPUDDLE = "models/mikk/misc/bloodpuddle.mdl";
@@ -19,7 +35,11 @@ const array<string> CONST_BLOODPUDDLE_SND = {
 };
 
 //===============================================
-// Cooldown per-player for playing voices (in seconds)
+// End
+//===============================================
+
+//===============================================
+// Voice Responses
 //===============================================
 
 // Player take damage
