@@ -69,7 +69,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
     // {
     //  get const { return g_PlayerClass[m_pPlayer] == HELMET; }
     // }
-    private float m_flVel, m_fAttackStart, m_flStartThrow;
+    private float m_fAttackStart, m_flStartThrow;
     private bool m_bInAttack, m_bThrown;
     private int m_iAmmoSave;
 
@@ -165,7 +165,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
         m_bInAttack = false;
         m_fAttackStart = 0.0f;
         m_flStartThrow = 0.0f;
-        m_flVel = 0.0f;
 
         SetThink( null );
 
@@ -196,7 +195,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
 
         m_bInAttack = true;
         m_fAttackStart = g_Engine.time + ( 24.0f / 30.0f );
-        m_flVel = 0.0f;
 
         self.m_flTimeWeaponIdle = g_Engine.time + ( 24.0f / 30.0f ) + ( 9.0f / 30.0f );
     }
@@ -205,9 +203,19 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
     {
         Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
 
+        if( angThrow.x < 0.0f )
+            angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
+        else
+            angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
+
+        float flVel = ( 90.0f - angThrow.x ) * 4.0f;
+
+        if( flVel > 500.0f )
+            flVel = 500.0f;
+
         Math.MakeVectors( angThrow );
         Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
-        Vector vecThrow = g_Engine.v_forward * m_flVel + m_pPlayer.pev.velocity;
+        Vector vecThrow = g_Engine.v_forward * flVel + m_pPlayer.pev.velocity;
 
         // explode 3 seconds after launch
         CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecSrc, vecThrow, TIMER );
@@ -219,7 +227,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
 
         m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
         m_fAttackStart = 0.0f;
-        m_flVel = 0.0f;
     }
 
     void ItemPreFrame()
@@ -237,7 +244,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
                 m_bInAttack = false;
                 m_fAttackStart = 0.0f;
                 m_flStartThrow = 0.0f;
-                m_flVel = 0.0f;
             }
         }
 
@@ -246,20 +252,14 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
 
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 9.0f / 30.0f );
 
+        // yeah, one here for the correct throw anim, and the other for the proj throw
         Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
+        angThrow.x = -10.0f + angThrow.x * ( angThrow.x < 0.0f ? 0.888889f : 1.11111f );
+        float flVel = Math.min( ( 90.0f - angThrow.x ) * 4.0f, 500.0f );
 
-        if( angThrow.x < 0 )
-            angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
-        else
-            angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
-
-        m_flVel = ( 90.0f - angThrow.x ) * 4.0f;
-        if( m_flVel > 500.0f )
-            m_flVel = 500.0f;
-
-        if( m_flVel < 500.0f )
+        if( flVel < 500.0f )
             self.SendWeaponAnim( THROW1, 0, GetBodygroup() );
-        else if( m_flVel < 1000.0f )
+        else if( flVel < 1000.0f )
             self.SendWeaponAnim( THROW2, 0, GetBodygroup() );
         else
             self.SendWeaponAnim( THROW3, 0, GetBodygroup() );
