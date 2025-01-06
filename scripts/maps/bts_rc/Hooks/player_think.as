@@ -36,6 +36,7 @@ HookReturnCode player_think( CBasePlayer@ player )
             }
         }
 
+        // Prevent players switching models
         player.SetOverriddenPlayerModel( string(user_data[ "pm" ] ) );
 
         switch( player_class )
@@ -53,7 +54,7 @@ HookReturnCode player_think( CBasePlayer@ player )
                     if( state == 1 )
                     {
                         g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, CONST_HEV_NIGHTVISION_OFF, 1.0, ATTN_NORM, 0, PITCH_NORM );
-                        g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
+                        g_PlayerFuncs.ScreenFade( player, CONST_HEV_NIGHTVISION_COLOR, 1.0f, 0.5f, 255.0f, 2 );
                     }
                     else if( player.pev.impulse == 100 )
                     {
@@ -67,7 +68,7 @@ HookReturnCode player_think( CBasePlayer@ player )
                 {
                     user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
 
-                    g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+                    g_PlayerFuncs.ScreenFade( player, CONST_HEV_NIGHTVISION_COLOR, 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
 
                     g_SoundSystem.EmitSoundDyn(
                         player.edict(),
