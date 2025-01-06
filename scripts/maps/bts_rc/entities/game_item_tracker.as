@@ -1,206 +1,128 @@
-/* bts_rc Item Tracker - System to check who is carrying what item via an in-game menu
-Author: Gaftherman - Rizulix
+/*
+    Author: Mikk
+    Original: Gaftherman & Rizulix
+    Motd code: Giegue
 */
 
-namespace game_item_tracker
+namespace item_tracker
 {
-    int register = LINK_ENTITY_TO_CLASS( "game_item_tracker", "game_item_tracker" );
+    dictionary items = {
+        { "RETINA_COMPONENT", "Area 1 - Retina component" },
+        { "VALVE_1", "Area 1 - Override Valve 1" },
+        { "VALVE_1_2", "Area 1 - Override Valve 2" },
+        { "GEAR_1", "Area 3 - Gear 1" },
+        { "GEAR_2", "Area 3 - Gear 2" },
+        { "GEAR_3", "Area 3 - Gear 3" },
+        { "GEAR_4", "Area 3 - Gear" },
+        { "WAREHOUSE_YARDKEY", "Area 2 - Yard managers keycard" },
+        { "DORMS_CARD_101", "Area 1 - A-101 Dorms key 1" },
+        { "DORMS_CARD_101", "Area 1 - A-101 Dorms key 2" },
+        { "DORMS_CARD_106", "Area 1 - A-106 Dorms key 3" },
+        { "DORMS_CARD_201", "Area 1 - B-201 Dorms key 4" },
+        { "CODES_1", "Service Elevator codes" },
+        { "Blackmesa_Maintenance_Clearance_2", "Maintenance Access level 2 keycard" },
+        { "Blackmesa_Maintenance_Clearance_2", "Maintenance Access level 2 keycard Alt" },
+        { "Blackmesa_Maintenance_Clearance_2", "Maintenance Access level 2 keycard X" },
+        { "d5_officekey", "Reception key 1" },
+        { "d5_officekey", "Reception key 2" },
+        { "d5_doctorkey", "Doctors key" },
+        { "Blackmesa_Security_Clearance_3", "Blackmesa Security Clearance level 3" }
+    };
 
-    EHandle hItemTrackerMenu;
+    // Last frame we did an operation.
+    float time;
 
-    // -TODO This should be moved to map, the lest script-dependant the better
-    void SetupItemTracker()
+    // String containing all the information.
+    string buffer;
+
+    void open( CBasePlayer@ player, dictionary@ user_data )
     {
-        array<array<string>> arrMenu = {
-            { "message", "Who has what? - " },
-            { "Area 1 - Retina component", "RETINA_COMPONENT" },
-            { "Area 1 - Override Valve 1", "VALVE_1" },
-            { "Area 1 - Override Valve 2", "VALVE_1"},
-            { "Area 3 - Gear 1", "GEAR_1" },
-            { "Area 3 - Gear 2", "GEAR_2" },
-            { "Area 3 - Gear 3", "GEAR_3" },
-            { "Area 3 - Gear", "GEAR_4" },
-            { "Area 2 - Yard managers keycard", "WAREHOUSE_YARDKEY" },
-            { "Area 1 - A-101 Dorms key 1", "DORMS_CARD_101" },
-            { "Area 1 - A-101 Dorms key 2", "DORMS_CARD_101" },
-            { "Area 1 - A-106 Dorms key 3", "DORMS_CARD_106" },
-            { "Area 1 - B-201 Dorms key 4", "DORMS_CARD_201" },
-            { "Service Elevator codes", "CODES_1" },
-            { "Maintenance Access level 2 keycard", "Blackmesa_Maintenance_Clearance_2" },
-            { "Maintenance Access level 2 keycard Alt", "Blackmesa_Maintenance_Clearance_2" },
-            { "Maintenance Access level 2 keycard X", "Blackmesa_Maintenance_Clearance_2" },
-            { "Reception key 1", "d5_officekey" },
-            { "Reception key 2", "d5_officekey" },
-            { "Doctors key", "d5_doctorkey" },
-            { "Blackmesa Security Clearance level 3", "Blackmesa_Security_Clearance_3" }
-        };
-
-        CBaseEntity@ pEntity = g_EntityFuncs.CreateEntity( "game_item_tracker", null, false );
-
-        for( uint ui = 0; ui < arrMenu.length(); ui++ )
-            g_EntityFuncs.DispatchKeyValue( pEntity.edict(), arrMenu[ ui ][ 0 ], arrMenu[ ui ][ 1 ]);
-
-        g_EntityFuncs.DispatchSpawn( pEntity.edict() );
-        g_Hooks.RegisterHook( Hooks::Player::ClientSay, @game_item_tracker::PlayerOpenTracker );
-
-        hItemTrackerMenu = EHandle( @pEntity );
-    }
-    // -TODO Should we really want a ClientSay?
-    HookReturnCode PlayerOpenTracker( SayParameters@ pParams )
-    {
-        CBasePlayer@ pPlayer = pParams.GetPlayer();
-        const CCommand@ pArgs = pParams.GetArguments();
-
-        if( pArgs.Arg( 0 ).ToLowercase() != "!whw" || !hItemTrackerMenu )
-            return HOOK_CONTINUE;
-
-        pParams.ShouldHide = true;
-        hItemTrackerMenu.GetEntity().Use( pPlayer, pPlayer, USE_ON );
-        return HOOK_CONTINUE;
-    }
-
-    class CItemCarriers
-    {
-        CItemCarriers() { }
-        CItemCarriers( const string& in szDisplayName, const string& in szTargetname )
+        if( player !is null )
         {
-            m_szTargetname = szTargetname;
-            m_szDisplayName = szDisplayName;
-        }
-        void Find( CBasePlayer@ pRequester )
-        {
-            string szCarriers = ";";
-            for( int iPlayer = 1; iPlayer <= g_PlayerFuncs.GetNumPlayers(); iPlayer++ )
+            // The buffer may be old, update it.
+            if( g_Engine.time > time )
             {
-                CBasePlayer@ pPlayer = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
-                if( pPlayer is null || !pPlayer.IsConnected() )
-                    continue;
+                dictionary item_copy = items;
 
-                InventoryList@ pInventory = pPlayer.m_pInventory;
-                while( pInventory !is null )
+                for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
                 {
-                    CItemInventory@ pInventoryItem = cast<CItemInventory@>( pInventory.hItem.GetEntity() );
-                    if( pInventoryItem !is null && pInventoryItem.m_szItemName == m_szTargetname )
-                        szCarriers += "" + pPlayer.pev.netname + ";";
+                    CBasePlayer@ players = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
 
-                    @pInventory = pInventory.pNext;
+                    if( players !is null && players.IsConnected() )
+                    {
+                        InventoryList@ inventory = players.m_pInventory;
+
+                        while( inventory !is null )
+                        {
+                            CItemInventory@ item = cast<CItemInventory@>( inventory.hItem.GetEntity() );
+
+                            if( item !is null && item_copy.exists( item.m_szItemName ))
+                            {
+                                string format;
+
+                                if( "VALVE_1" == item.m_szItemName && item.GetCustomKeyvalues().GetKeyvalue( "$i_valve_2" ).GetInteger() == 1 )
+                                {
+                                    snprintf( format, "%1\n - %2", string( item_copy[ "VALVE_1_2" ] ), players.pev.netname );
+                                    item_copy[ "VALVE_1_2" ] = format;
+                                }
+                                else
+                                {
+                                    snprintf( format, "%1\n - %2", string( item_copy[ item.m_szItemName ] ), players.pev.netname );
+                                    item_copy[ item.m_szItemName ] = format;
+                                }
+                            }
+                            @inventory = inventory.pNext;
+                        }
+                    }
+                }
+
+                array<string> item_names = item_copy.getKeys();
+
+                buffer = CONST_WHO_HAS_WHAT_TITLE;
+
+                for( uint ui = 0; ui < item_names.length(); ui++ )
+                {
+                    snprintf( buffer, "%1\n%2", buffer, string( item_copy[ item_names[ui] ] ) );
+                }
+
+                time = g_Engine.time + CONST_WHO_HAS_WHAT_TIME;
+            }
+
+            // Code by Giegue
+            uint iChars = 0;
+            string szSplitMsg = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+            for( uint uChars = 0; uChars < buffer.Length(); uChars++ )
+            {
+                szSplitMsg.SetCharAt( iChars, char( buffer[ uChars ] ) );
+                iChars++;
+
+                if( iChars == 32 )
+                {
+                    NetworkMessage message( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                    message.WriteByte( 0 );
+                    message.WriteString( szSplitMsg );
+                    message.End();
+
+                    iChars = 0;
                 }
             }
-            szCarriers.SubString( 1 );
 
-            if( szCarriers != "" )
-                g_PlayerFuncs.SayText( pRequester, "Players carrying item '" + m_szDisplayName + "':\n" + szCarriers + "\n" );
-            else
-                g_PlayerFuncs.SayText( pRequester, "Nobody is carrying item '" + m_szDisplayName + "'.\n" );
-        }
-        string m_szTargetname;
-        string m_szDisplayName;
-    }
+            // If we reached the end, send the last letters of the message
+            if( iChars > 0 )
+            {
+                szSplitMsg.Truncate( iChars );
 
-    // -TODO Should we really display a menu and chat or could we be using MOTD?
-    class game_item_tracker : ScriptBaseEntity
-    {
-        //pev.iuser1 -> close_after
-        //pev.iuser2 -> page
-        //pev.iuser3 -> on/off menu -> 1/0
-        //pev.message -> menu_title
-        private array<array<string>> m_pMenuOptions;
-        private CTextMenu@ m_pMenu;
-
-        bool KeyValue( const string& in szKey, const string& in szValue )
-        {
-            if( szKey == "delay" )
-            {
-                pev.iuser1 = Math.clamp( 0, 255, atoi( szValue ) );
-                return true;
-            }
-            else if( szKey == "health" )
-            {
-                pev.iuser2 = atoi( szValue );
-                return true;
-            }
-            else if( szKey == "message" )
-            {
-                pev.message = atoi( szValue );
-                return true;
-            }
-            else
-            {
-                if( szValue == "" )
-                    return false;
-
-                m_pMenuOptions.insertLast( { szKey, szValue } );
-                return true;
-            }
-        }
-
-        void Spawn()
-        {
-            if( m_pMenuOptions.length() == 0 )
-            {
-                g_EntityFuncs.Remove( self );
-                return;
+                NetworkMessage fix( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                fix.WriteByte( 0 );
+                fix.WriteString( szSplitMsg );
+                fix.End();
             }
 
-            @m_pMenu = CTextMenu( TextMenuPlayerSlotCallback( this.MenuCallback ) );
-            m_pMenu.SetTitle( "" + pev.message );
-
-            for( uint i = 0; i < m_pMenuOptions.length(); i++ )
-                m_pMenu.AddItem( m_pMenuOptions[ i ][ 0 ], any( @CItemCarriers( m_pMenuOptions[ i ][ 0 ], m_pMenuOptions[ i ][ 1 ] ) ) );
-
-            m_pMenu.Register();
-        }
-
-        void Use( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
-        {
-            if( !pActivator.IsPlayer() )
-                return;
-
-            if( useType == USE_TOGGLE )
-                useType = USE_TYPE( pev.iuser3 = 1 - pev.iuser3 );
-
-            switch ( useType )
-            {
-                case USE_ON:
-                {
-                    pev.iuser3 = 1;
-
-                    if( pev.SpawnFlagBitSet( 1 << 0 ) )
-                        m_pMenu.Open( pev.iuser1, uint( pev.iuser2 ) );
-                    else
-                        m_pMenu.Open( pev.iuser1, uint( pev.iuser2 ), cast<CBasePlayer@>( pActivator ) );
-
-                    break;
-                }
-                case USE_OFF:
-                {
-                    pev.iuser3 = 0;
-
-                    if( pev.SpawnFlagBitSet( 1 << 0 ) )
-                        m_pMenu.Open( 1, uint( pev.iuser2 ) );
-                    else
-                        m_pMenu.Open( 1, uint( pev.iuser2 ), cast<CBasePlayer@>( pActivator ) );
-
-                    break;
-                }
-                case USE_KILL:
-                {
-                    g_EntityFuncs.Remove( self );
-                    return;
-                }
-            }
-        }
-
-        void MenuCallback( CTextMenu@ pMenu, CBasePlayer@ pPlayer, int iSlot, const CTextMenuItem@ pItem )
-        {
-            if( pItem is null )
-                return;
-
-            CItemCarriers@ pCarriers;
-            pItem.m_pUserData.retrieve( @pCarriers );
-
-            if( pCarriers !is null )
-                pCarriers.Find( @pPlayer );
+            NetworkMessage endMOTD( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+            endMOTD.WriteByte( 1 );
+            endMOTD.WriteString( "\n" );
+            endMOTD.End();
         }
     }
 }

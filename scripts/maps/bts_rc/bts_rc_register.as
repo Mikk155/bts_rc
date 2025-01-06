@@ -21,7 +21,6 @@ void MapStart()
 
 void MapActivate()
 {
-    game_item_tracker::SetupItemTracker();
     BTS_RC::MapActivate(); //Objective code debug
 }
 
