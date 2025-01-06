@@ -64,7 +64,6 @@ int POSITION = 4;
 // Vars
 float RANGE = 32.0f;
 float DAMAGE = 7.0f;
-string FLASHLIGHT = "$i_flashBattery";
 
 class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 {
@@ -73,27 +72,9 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
         set       { self.m_hPlayer = EHandle( @value ); }
     }
-    // private bool m_fHasHEV
-    // {
-    //  get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    // }
-    private int m_iFlashBattery // saved battery shared between weapons -rzlx
-    {
-        get const
-        {
-            CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
-            if( pCustom.HasKeyvalue( FLASHLIGHT ) )
-                return pCustom.GetKeyvalue( FLASHLIGHT ).GetInteger();
-            else
-                return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 ? 0 : m_pPlayer.m_iFlashBattery;
-        }
-        set
-        {
-            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), FLASHLIGHT, "" + value );
-        }
-    }
+
     private TraceResult m_trHit;
-    private int m_iCurBaterry; // for clamping
+    private int m_battery = 100;
     private int m_iSwing;
 
     int GetBodygroup()
@@ -116,23 +97,23 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( A_MODEL );
 
-        // g_SoundSystem.PrecacheSound( SWITCH_SND );
-        g_SoundSystem.PrecacheSound( MISS_SND );
+        precache::model( W_MODEL );
+        precache::model( V_MODEL );
+        precache::model( P_MODEL );
+        precache::model( A_MODEL );
 
-        for( uint i = 0; i < HITWORLD_SND.length(); i++ )
-            g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
+        precache::sound( MISS_SND );
 
-        for( uint j = 0; j < HITFLESH_SND.length(); j++ )
-            g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
+        precache::sounds( HITWORLD_SND );
+        precache::sounds( HITFLESH_SND );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        precache::generic( "sprites/bts_rc/wepspr.spr" );
+        precache::generic( "sprites/bts_rc/ammo_battery.spr" );
+
+        string txt;
+        snprintf( txt, "sprites/bts_rc/weapons/%1.txt", pev.classname );
+        precache::generic( txt );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -163,7 +144,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        m_pPlayer.m_iFlashBattery = m_iCurBaterry = m_iFlashBattery;
         m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
         self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "crowbar", 0, GetBodygroup() );
@@ -178,7 +158,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
             m_pPlayer.FlashlightTurnOff();
 
         m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
-        m_iFlashBattery = m_iCurBaterry;
 
         SetThink( null );
         BaseClass.Holster( skiplocal );
@@ -186,19 +165,18 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     void ItemPostFrame()
     {
-        if( m_pPlayer.m_iFlashBattery > m_iCurBaterry )
-            m_pPlayer.m_iFlashBattery = m_iCurBaterry;
+        m_pPlayer.m_iFlashBattery = m_battery;
 
-        if( m_iCurBaterry == 0 )
+        if( m_pPlayer.FlashlightIsOn() )
         {
-            m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-            NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( 0 );
-            msg.End();
+            // -TODO Do a proper deduction time.
+            m_battery -= 0.1f;
+
+            if( m_battery <= 0 )
+            {
+                m_pPlayer.FlashlightTurnOff();
+            }
         }
-        else
-            m_iCurBaterry = m_pPlayer.m_iFlashBattery;
 
         BaseClass.ItemPostFrame();
     }
@@ -214,11 +192,30 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     void SecondaryAttack()
     {
-        if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        if( g_Engine.time <= self.m_flNextSecondaryAttack )
             return;
 
-        m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
-        m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+        if( m_battery > 0 )
+        {
+            if( m_pPlayer.FlashlightIsOn() )
+            {
+                m_pPlayer.FlashlightTurnOff();
+            }
+            else
+            {
+                m_pPlayer.FlashlightTurnOn();
+            }
+        }
+        else if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
+        {
+            m_pPlayer.m_iFlashBattery = m_battery = 100;
+            m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+        }
+        else
+        {
+            // -TODO Some empty sound?
+        }
+
         // g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
     }
@@ -241,6 +238,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
     }
 
+    // -TODO Store if flashlight was on and turn off momentarly til the swing ends
     private bool Swing( bool fFirst )
     {
         TraceResult tr;
