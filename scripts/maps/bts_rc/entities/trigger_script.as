@@ -13,6 +13,7 @@ namespace randomizer
         g_RandomizerNpc.init();
         g_RandomizerBoss.init();
         g_RandomizerHull.init();
+        g_RandomizerWave.init();
         g_RandomizerItem.init();
 
         // Free the entity slot.
