@@ -1,5 +1,4 @@
 #include "env_bloodpuddle"
-#include "game_item_tracker"
 #include "point_checkpoint"
 #include "randomizer"
 #include "trigger_script"

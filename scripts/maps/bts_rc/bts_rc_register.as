@@ -6,6 +6,7 @@
 #include "entities/main"
 #include "Hooks/main"
 #include "player_voices"
+#include "item_tracker"
 
 #include "list_weapons"
 #include "mappings"
