@@ -19,6 +19,14 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
 
     if( ( pDamageInfo.bitsDamageType & DMG_RADIATION ) != 0 )
     {
+        uint uisize = CONST_GEIGER_SND.length();
+
+        if( uisize > 0 )
+        {
+            const string sound = CONST_GEIGER_SND[ Math.RandomLong( 0, uisize - 1 ) ];
+            g_SoundSystem.PlaySound( player.edict(), CHAN_VOICE, sound, 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, player.GetOrigin() );
+        }
+
         switch( g_PlayerClass[ player, true ] )
         {
             case PM::HELMET:

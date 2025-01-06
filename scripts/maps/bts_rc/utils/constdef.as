@@ -74,6 +74,16 @@ const float CONST_HELMET_RADIATION_MULTIPLIER = 0.0;
 
 const float CONST_CLSUIT_RADIATION_MULTIPLIER = 0.2;
 
+// Geiger damage sound
+const array<string> CONST_GEIGER_SND = {
+    "player/geiger1.wav",
+    "player/geiger2.wav",
+    "player/geiger3.wav",
+    "player/geiger4.wav",
+    "player/geiger5.wav",
+    "player/geiger6.wav",
+};
+
 //===============================================
 // End
 //===============================================
