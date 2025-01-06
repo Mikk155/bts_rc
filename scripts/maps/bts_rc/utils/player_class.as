@@ -1,3 +1,7 @@
+/*
+    Author: Mikk
+*/
+
 enum PM
 {
     UNSET = -1,
@@ -6,8 +10,6 @@ enum PM
     CONSTRUCTION = 2,
     BSCIENTIST = 3,
     HELMET = 4,
-
-    // Scrapped
     CLSUIT = 5
 };
 
@@ -21,6 +23,7 @@ final class PlayerClass
     private uint mdl_scientist_last = Math.RandomLong( 0, 3 );
     private array<string> mdl_scientist = {
         "bts_scientist",
+        "bts_scientist3",
         "bts_scientist4",
         "bts_scientist5",
         "bts_scientist6"
@@ -59,13 +62,18 @@ final class PlayerClass
         return PM::SCIENTIST;
     }
 
-    void set_class( CBasePlayer@ player, const PM player_class )
+    void set_class( CBasePlayer@ player, PM player_class )
     {
-        player.GetUserData()[ "class" ] = player_class;
-
         const string model = this.model( player_class );
 
-        player.SetOverriddenPlayerModel( model );
+        // Update class for bodygroups of view models n
+        if( model == "bts_scientist3" )
+        {
+            player_class = PM::BSCIENTIST;
+        }
+
+        player.GetUserData()[ "pm" ] = model;
+        player.GetUserData()[ "class" ] = player_class;
 
         switch( player_class )
         {
@@ -96,13 +104,17 @@ final class PlayerClass
             {
                 return "bts_construction";
             }
-            case PM::BSCIENTIST:
+            /*case PM::BSCIENTIST:
             {
                 return "bts_scientist3";
-            }
+            }*/
             case PM::HELMET:
             {
                 return "bts_helmet";
+            }
+            case PM::CLSUIT:
+            {
+                return "bts_cleansuit";
             }
             case PM::BARNEY:
             {
