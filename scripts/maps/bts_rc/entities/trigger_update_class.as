@@ -1,3 +1,7 @@
+/*
+    Author: Mikk
+*/
+
 namespace trigger_update_class
 {
     int register = LINK_ENTITY_TO_CLASS( "trigger_update_class", "trigger_update_class" );
