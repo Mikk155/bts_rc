@@ -13,11 +13,12 @@ namespace randomizer
         g_RandomizerNpc.init();
         g_RandomizerBoss.init();
         g_RandomizerHull.init();
+        g_RandomizerWave.init();
         g_RandomizerItem.init();
 
         // Free the entity slot.
         if( pActivator !is null )
-            pActivator.pev.flags != FL_KILLME;
+            pActivator.pev.flags |= FL_KILLME;
     }
 }
 
