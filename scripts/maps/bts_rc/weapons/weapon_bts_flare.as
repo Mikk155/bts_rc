@@ -210,7 +210,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         // g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_VOICE, SHOOT_S, VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
         Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
 
-        if( angThrow.x < 0 )
+        if( angThrow.x < 0.0f )
             angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
         else
             angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
