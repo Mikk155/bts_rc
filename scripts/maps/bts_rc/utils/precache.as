@@ -8,6 +8,14 @@ namespace precache
         g_Game.PrecacheGeneric( generic );
     }
 
+    void sounds( const array<string> files )
+    {
+        for( uint ui = 0; ui < files.length(); ui++ )
+        {
+            precache::sound( files[ui] );
+        }
+    }
+
     void generic( const string file )
     {
         g_Game.PrecacheGeneric( file );

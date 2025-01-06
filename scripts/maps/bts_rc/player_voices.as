@@ -1,3 +1,5 @@
+CCVar@ cvar_player_voices = CCVar( "bts_rc_disable_player_voices", 0 );
+
 class CVoice
 {
     private string __owner__;

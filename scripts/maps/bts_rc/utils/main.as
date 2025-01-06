@@ -4,7 +4,6 @@
 #include "Logger"
 #endif
 
-#include "cvars"
 #include "precache"
 #include "player_class"
 

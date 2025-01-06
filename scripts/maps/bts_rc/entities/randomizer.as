@@ -31,23 +31,7 @@ namespace randomizer
         {
             #if SERVER
                 m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
-
-                if( ( LoggerLevel & LoggerLevels::Info ) != 0 )
-                    self.pev.nextthink = g_Engine.time + 0.1;
             #endif
-        }
-
-        // -TODO Remove this debug
-        void Think()
-        {
-            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-                m.WriteByte( TE_IMPLOSION );
-                m.WriteVector( self.GetOrigin() );
-                m.WriteByte( 30 );
-                m.WriteByte( 10 );
-                m.WriteByte( 10 );
-            m.End();
-            self.pev.nextthink = g_Engine.time + 1.0;
         }
     }
 
