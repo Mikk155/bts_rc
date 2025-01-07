@@ -49,7 +49,7 @@ void MapInit()
     precache::sounds( CONST_BLOODPUDDLE_SND );
 
     #if SERVER
-        g_Game.PrecacheGeneric( "monster_headcrab" );
+        g_Game.PrecacheOther( "monster_headcrab" );
     #endif
 
     /*==========================================================================
