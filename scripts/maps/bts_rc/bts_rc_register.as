@@ -47,13 +47,8 @@ void MapInit()
     precache::sound( CONST_HEV_NIGHTVISION_ON );
     precache::sound( CONST_HEV_NIGHTVISION_OFF );
     precache::sound( CONST_HEV_NIGHTVISION_NO_POWER );
-
     precache::sounds( CONST_BLOODPUDDLE_SND );
 
-    precache::model( CONST_BLOODPUDDLE );
-
-    precache::model( CONST_LASERS_BEAM );
-    precache::model( CONST_LASERS_MODEL );
     /*==========================================================================
     *   - End
     ==========================================================================*/

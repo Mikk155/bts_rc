@@ -15,15 +15,4 @@ namespace precache
             precache::sound( files[ui] );
         }
     }
-
-    void generic( const string file )
-    {
-        g_Game.PrecacheGeneric( file );
-    }
-
-    void model( const string file )
-    {
-        g_Game.PrecacheModel( file );
-        g_Game.PrecacheGeneric( file );
-    }
 }
