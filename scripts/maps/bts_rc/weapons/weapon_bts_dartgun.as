@@ -324,7 +324,7 @@ class weapon_bts_dartgun : ScriptBasePlayerWeaponEntity
         float flSpread = 32.0f;
         if( m_pPlayer.pev.FlagBitSet( FL_DUCKING ) )
             flSpread = 16.0f;
-        // if( self.m_fInZoom )
+        // if( m_pPlayer.m_iFOV != 0 )
         //  flSpread = 8.0f;
 
         vecVelocity = vecVelocity + g_Engine.v_right * Math.RandomFloat( -flSpread, flSpread ) + g_Engine.v_up * Math.RandomFloat( -flSpread, flSpread );
