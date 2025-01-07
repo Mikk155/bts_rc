@@ -88,8 +88,13 @@ namespace item_tracker
                 time = g_Engine.time + CONST_WHO_HAS_WHAT_TIME;
             }
 
-            // Code by Giegue
+            //====================================================
+            //  Shows a MOTD message to the player
+            //
+            //  Code by Giegue. Taken from: https://github.com/JulianR0/TPvP/blob/master/src/plugins/TPvP.as#L7375
+            //====================================================
             uint iChars = 0;
+
             string szSplitMsg = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
             for( uint uChars = 0; uChars < buffer.Length(); uChars++ )
