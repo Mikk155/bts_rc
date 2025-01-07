@@ -11,6 +11,7 @@
 #include "list_weapons"
 #include "mappings"
 #include "monsters/npc_ammo"
+#include "monsters/sentry_laser"
 #include "objective_indicator"
 
 void MapStart()
@@ -32,6 +33,7 @@ void MapInit()
     #endif
 
     g_VoiceResponse.init();
+    g_sentry_laser.turn_on();
 
     RegisterPointCheckPointEntity();
 
@@ -52,6 +54,8 @@ void MapInit()
     precache::sounds( CONST_BLOODPUDDLE_SND );
 
     precache::model( CONST_BLOODPUDDLE );
+    precache::model( CONST_SENTRY_LASER_MODEL );
+    precache::model( CONST_SENTRY_LASER_MODEL2 );
     /*==========================================================================
     *   - End
     ==========================================================================*/
