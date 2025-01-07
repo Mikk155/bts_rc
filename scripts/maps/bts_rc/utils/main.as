@@ -98,7 +98,7 @@ void whatsthat( CBasePlayer@ player )
 
             if( hit !is null && hit.GetCustomKeyvalues().HasKeyvalue( "$s_message" ) )
             {
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue( "$s_message" ).GetString() );
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue( "$s_message" ).GetString() + "\n" );
             }
         }
     }
