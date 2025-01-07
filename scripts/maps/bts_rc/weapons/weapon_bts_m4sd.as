@@ -255,13 +255,13 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( self.m_fInZoom ? 0.13f : 0.124f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_pPlayer.m_iFOV != 0 ? 0.13f : 0.124f );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
     }
 
     void SecondaryAttack()
     {
-        self.SetFOV( self.m_fInZoom ? 0 : 45 );
+        self.SetFOV( m_pPlayer.m_iFOV != 0 ? 0 : 45 );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
     }
 
