@@ -17,7 +17,7 @@ namespace trigger_logger
         {
             if( pOther !is null && pOther.IsPlayer() )
             {
-                g_PlayerFuncs.ClientPrint( cast<CBasePlayer@>(pOther), HUD_PRINTNOTIFY, string( self.pev.message ) );
+                g_PlayerFuncs.ClientPrint( cast<CBasePlayer@>(pOther), HUD_PRINTNOTIFY, string( self.pev.message ) + "\n" );
             }
         }
     }
