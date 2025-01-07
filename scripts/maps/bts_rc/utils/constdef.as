@@ -87,3 +87,15 @@ const array<string> CONST_GEIGER_SND = {
 //===============================================
 // End
 //===============================================
+
+//===============================================
+// Sentry beams
+//===============================================
+
+// Sprite of the laser
+const string CONST_SENTRY_LASER_MODEL = "sprites/laserbeam.spr";
+const string CONST_SENTRY_LASER_MODEL2 = "sprites/glow_red.spr";
+
+//===============================================
+// End
+//===============================================
