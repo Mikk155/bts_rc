@@ -12,6 +12,8 @@ namespace env_bloodpuddle
         CLogger@ m_Logger = CLogger( "Blood Puddle" );
     #endif
 
+    int model_index = g_Game.PrecacheModel( CONST_BLOODPUDDLE );
+
     int register = LINK_ENTITY_TO_CLASS( "env_bloodpuddle", "env_bloodpuddle" );
 
     enum BLOOD_STATE
