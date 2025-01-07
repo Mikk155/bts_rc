@@ -51,8 +51,9 @@ void MapInit()
     precache::sounds( CONST_BLOODPUDDLE_SND );
 
     precache::model( CONST_BLOODPUDDLE );
-    precache::model( CONST_SENTRY_LASER_MODEL );
-    precache::model( CONST_SENTRY_LASER_MODEL2 );
+
+    precache::model( CONST_LASERS_BEAM );
+    precache::model( CONST_LASERS_MODEL );
     /*==========================================================================
     *   - End
     ==========================================================================*/
