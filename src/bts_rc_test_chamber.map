@@ -1,0 +1,1259 @@
+{
+"classname" "worldspawn"
+"scversion2" "526"
+"freeroam" "0"
+"defaultteam" "0"
+"newunit" "1"
+"gametitle" "0"
+"startdark" "0"
+"MaxRange" "32768"
+"sounds" "1"
+"angles" "0 0 0"
+"mapversion" "220"
+"wad" "/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop_addon/bts_rc.wad;/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop_addon/developer_plates-1.wad;/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop/barney.wad;/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop/decals.wad;/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop/halflife.wad;/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop/xeno.wad;/Program Files (x86)/Steam/steamapps/common/Sven Co-op/svencoop/zhlt.wad"
+"_generator" "J.A.C.K. 1.1.3773 (vpHalfLife)"
+{
+( -1024 -2048 0 ) ( -1024 -2048 -32 ) ( -1024 256 0 ) NULL [ 0 1 0 10.6667 ] [ 0 0 -1 0 ] 0 3 1
+( 1024 256 0 ) ( 1024 256 -32 ) ( 1024 -2048 0 ) NULL [ 0 1 0 10.6667 ] [ 0 0 -1 0 ] 0 3 1
+( -1024 256 0 ) ( -1024 256 -32 ) ( 1024 256 0 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 2 1
+( 1024 -2048 0 ) ( 1024 -2048 -32 ) ( -1024 -2048 0 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 2 1
+( -1024 256 -32 ) ( -1024 -2048 -32 ) ( 1024 256 -32 ) NULL [ 1 0 0 0 ] [ 0 -1 0 -10.6667 ] 0 2 3
+( 1024 -2048 0 ) ( -1024 -2048 0 ) ( 1024 256 0 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 -1 0 -42.6667 ] 0 2 3
+}
+{
+( -256 -288 160 ) ( -256 -288 0 ) ( -256 -256 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -32 -256 160 ) ( -32 -256 0 ) ( -32 -288 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -256 0 ) ( -32 -256 0 ) ( -256 -256 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -288 160 ) ( -32 -288 160 ) ( -256 -288 0 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -256 0 ) ( -256 -288 0 ) ( -32 -256 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -256 -288 160 ) ( -256 -256 160 ) ( -32 -288 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -32 -288 160 ) ( -32 -288 96 ) ( -32 -256 160 ) NULL [ -0 -1 -0 0 ] [ 0 0 -1 0 ] 0 1 0.4
+( 32 -256 160 ) ( 32 -256 96 ) ( 32 -288 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 0.4
+( -32 -256 96 ) ( 32 -256 96 ) ( -32 -256 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 80 ] 0 1 0.4
+( -32 -288 160 ) ( 32 -288 160 ) ( -32 -288 96 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -32 -256 96 ) ( -32 -288 96 ) ( 32 -256 96 ) CRETE3_CEIL01 [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -32 -288 160 ) ( -32 -256 160 ) ( 32 -288 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( 256 -256 160 ) ( 256 -256 -0 ) ( 256 -288 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 32 -288 160 ) ( 32 -288 -0 ) ( 32 -256 160 ) C1A0_WX [ 0 -1 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -288 -0 ) ( 32 -288 0 ) ( 256 -288 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -256 160 ) ( 32 -256 160 ) ( 256 -256 -0 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -288 160 ) ( 32 -288 160 ) ( 256 -256 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( 256 -256 0 ) ( 32 -256 0 ) ( 256 -288 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -288 -2048 0 ) ( -288 -576 0 ) ( -288 -2048 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -2048 160 ) ( -256 -576 160 ) ( -256 -2048 0 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -2048 160 ) ( -256 -2048 0 ) ( -288 -2048 160 ) NULL [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( -288 -576 160 ) ( -288 -576 0 ) ( -256 -576 160 ) C1A0_WX [ -1 0 0 -32 ] [ 0 0 -1 0 ] 0 1 1
+( -288 -2048 0 ) ( -256 -2048 0 ) ( -288 -576 0 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+( -256 -2048 160 ) ( -288 -2048 160 ) ( -256 -576 160 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+{
+( -288 256 160 ) ( -288 -512 160 ) ( -288 256 0 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 256 0 ) ( -256 -512 0 ) ( -256 256 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -288 256 160 ) ( -288 256 0 ) ( -256 256 160 ) NULL [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -512 160 ) ( -256 -512 0 ) ( -288 -512 160 ) C1A0_WX [ 1 0 0 32 ] [ 0 0 -1 0 ] 0 1 1
+( -288 256 0 ) ( -288 -512 0 ) ( -256 256 0 ) NULL [ 0 1 0 -10.6667 ] [ 1 0 0 0 ] 0 3.42857 1
+( -256 256 160 ) ( -256 -512 160 ) ( -288 256 160 ) NULL [ 0 1 0 -10.6667 ] [ 1 0 0 0 ] 0 3.42857 1
+}
+{
+( -288 -576 96 ) ( -288 -512 96 ) ( -288 -576 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -576 160 ) ( -256 -512 160 ) ( -256 -576 96 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -576 160 ) ( -256 -576 96 ) ( -288 -576 160 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 0.4
+( -288 -512 160 ) ( -288 -512 96 ) ( -256 -512 160 ) NULL [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 0.4
+( -288 -576 96 ) ( -256 -576 96 ) ( -288 -512 96 ) CRETE3_CEIL01 [ 0 1 0 32 ] [ 1 0 0 32 ] 0 1 1
+( -256 -576 160 ) ( -288 -576 160 ) ( -256 -512 160 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+{
+( 256 -2048 0 ) ( 256 -576 0 ) ( 256 -2048 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -2048 160 ) ( 288 -576 160 ) ( 288 -2048 0 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -2048 160 ) ( 288 -2048 0 ) ( 256 -2048 160 ) NULL [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -576 160 ) ( 256 -576 0 ) ( 288 -576 160 ) C1A0_WX [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -2048 0 ) ( 288 -2048 0 ) ( 256 -576 0 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+( 288 -2048 160 ) ( 256 -2048 160 ) ( 288 -576 160 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+{
+( 256 256 160 ) ( 256 -512 160 ) ( 256 256 0 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 256 0 ) ( 288 -512 0 ) ( 288 256 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -512 160 ) ( 288 -512 0 ) ( 256 -512 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 256 160 ) ( 256 256 0 ) ( 288 256 160 ) NULL [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 256 0 ) ( 256 -512 0 ) ( 288 256 0 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+( 288 256 160 ) ( 288 -512 160 ) ( 256 256 160 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+{
+( 256 -576 96 ) ( 256 -512 96 ) ( 256 -576 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -576 160 ) ( 288 -512 160 ) ( 288 -576 96 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -576 160 ) ( 288 -576 96 ) ( 256 -576 160 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 0.4
+( 256 -512 160 ) ( 256 -512 96 ) ( 288 -512 160 ) NULL [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 0.4
+( 256 -576 96 ) ( 288 -576 96 ) ( 256 -512 96 ) CRETE3_CEIL01 [ 0 1 0 32 ] [ 1 0 0 0 ] 0 1 1
+( 288 -576 160 ) ( 256 -576 160 ) ( 288 -512 160 ) NULL [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+{
+( 1024 288 160 ) ( 1024 288 0 ) ( 1024 256 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 256 160 ) ( -1024 256 0 ) ( -1024 288 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 256 160 ) ( 1024 256 160 ) ( -1024 256 0 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 288 0 ) ( 1024 288 0 ) ( -1024 288 160 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 256 160 ) ( -1024 288 160 ) ( 1024 256 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -1024 288 0 ) ( -1024 256 0 ) ( 1024 288 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -1024 -832 160 ) ( -1024 -832 0 ) ( -1024 -800 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -288 -800 160 ) ( -288 -800 0 ) ( -288 -832 160 ) C1A0_WX [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -800 0 ) ( -288 -800 0 ) ( -1024 -800 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -832 160 ) ( -288 -832 160 ) ( -1024 -832 0 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -800 0 ) ( -1024 -832 0 ) ( -288 -800 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -1024 -832 160 ) ( -1024 -800 160 ) ( -288 -832 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( 1024 -800 160 ) ( 1024 -800 -0 ) ( 1024 -832 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -832 160 ) ( 288 -832 -0 ) ( 288 -800 160 ) C1A0_WX [ -0 -1 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 -832 -0 ) ( 288 -832 0 ) ( 1024 -832 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 -800 160 ) ( 288 -800 160 ) ( 1024 -800 -0 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 -832 160 ) ( 288 -832 160 ) ( 1024 -800 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( 1024 -800 0 ) ( 288 -800 0 ) ( 1024 -832 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( 1024 -2048 160 ) ( 1024 -2048 0 ) ( 1024 -2080 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2080 160 ) ( -1024 -2080 0 ) ( -1024 -2048 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2080 160 ) ( 1024 -2080 160 ) ( -1024 -2080 0 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2048 0 ) ( 1024 -2048 0 ) ( -1024 -2048 160 ) C1A0_WX [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2080 160 ) ( -1024 -2048 160 ) ( 1024 -2080 160 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -1024 -2048 0 ) ( -1024 -2080 0 ) ( 1024 -2048 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( 1056 288 0 ) ( 1056 -2080 0 ) ( 1056 288 160 ) NULL [ -0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 288 160 ) ( 1024 -2080 160 ) ( 1024 288 0 ) C1A0_WX [ -0 -1 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 288 160 ) ( 1024 288 0 ) ( 1056 288 160 ) NULL [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1056 -2080 160 ) ( 1056 -2080 0 ) ( 1024 -2080 160 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1056 288 0 ) ( 1024 288 0 ) ( 1056 -2080 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( 1024 288 160 ) ( 1056 288 160 ) ( 1024 -2080 160 ) NULL [ 1 0 -0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -1056 -2080 0 ) ( -1056 288 0 ) ( -1056 -2080 160 ) NULL [ -0 -1 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2080 160 ) ( -1024 288 160 ) ( -1024 -2080 0 ) C1A0_WX [ -0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2080 160 ) ( -1024 -2080 0 ) ( -1056 -2080 160 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1056 288 160 ) ( -1056 288 0 ) ( -1024 288 160 ) NULL [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1056 -2080 0 ) ( -1024 -2080 0 ) ( -1056 288 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -1024 -2080 160 ) ( -1056 -2080 160 ) ( -1024 288 160 ) NULL [ 1 0 -0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( 1024 256 192 ) ( 1024 256 160 ) ( 1024 -2048 192 ) SKY [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -2048 192 ) ( -256 -2048 160 ) ( -256 256 192 ) SKY [ -0 -1 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 -2048 160 ) ( -256 -2048 160 ) ( 1024 -2048 192 ) SKY [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 256 192 ) ( -256 256 192 ) ( 1024 256 160 ) SKY [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 1024 -2048 192 ) ( -256 -2048 192 ) ( 1024 256 192 ) SKY [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( 1024 256 160 ) ( -256 256 160 ) ( 1024 -2048 160 ) SKY [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -1024 256 192 ) ( -1024 -832 192 ) ( -1024 256 160 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 256 160 ) ( -256 -832 160 ) ( -256 256 192 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -832 192 ) ( -256 -832 160 ) ( -1024 -832 192 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 256 192 ) ( -1024 256 160 ) ( -256 256 192 ) NULL [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -832 192 ) ( -1024 256 192 ) ( -256 -832 192 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -1024 256 160 ) ( -1024 -832 160 ) ( -256 256 160 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 -1 0 -43 ] 0 2 3
+}
+{
+( -256 -2048 192 ) ( -256 -832 192 ) ( -256 -2048 160 ) SKY [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -2048 160 ) ( -1024 -832 160 ) ( -1024 -2048 192 ) SKY [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -2048 192 ) ( -256 -2048 160 ) ( -1024 -2048 192 ) SKY [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -832 192 ) ( -1024 -832 160 ) ( -256 -832 192 ) SKY [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -1024 -832 160 ) ( -1024 -2048 160 ) ( -256 -832 160 ) SKY [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -1024 -2048 192 ) ( -1024 -832 192 ) ( -256 -2048 192 ) SKY [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -256 -704 8 ) ( -256 -704 0 ) ( -256 -696 8 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -696 0 ) ( -64 -696 0 ) ( -256 -696 8 ) XENO_GIRD1 [ -0 0 -1 0 ] [ -1 0 0 -21 ] 90 0.5 1
+( -256 -704 8 ) ( -72 -704 8 ) ( -256 -704 0 ) XENO_GIRD1 [ -0 0 -1 0 ] [ -1 0 0 -21 ] 90 0.5 1
+( -64 -696 8 ) ( -64 -696 0 ) ( -72 -704 8 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -696 0 ) ( -256 -704 0 ) ( -64 -696 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -256 -704 8 ) ( -256 -696 8 ) ( -72 -704 8 ) XENO_GIRD1 [ -0 -1 0 0 ] [ -1 0 0 -21 ] 90 0.5 1
+}
+{
+( -256 -888 0 ) ( -256 -880 0 ) ( -256 -888 8 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -880 8 ) ( -256 -880 0 ) ( -72 -880 8 ) XENO_GIRD1 [ 0 0 -1 0 ] [ 1 0 0 -21 ] 90 0.5 1
+( -64 -888 8 ) ( -64 -888 0 ) ( -256 -888 8 ) XENO_GIRD1 [ -0 0 -1 0 ] [ -1 0 0 -21 ] 90 0.5 1
+( -64 -888 8 ) ( -72 -880 8 ) ( -64 -888 0 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -888 8 ) ( -256 -880 8 ) ( -64 -888 8 ) XENO_GIRD1 [ -0 -1 0 -0 ] [ -1 0 0 -21.3333 ] 90 0.5 1
+( -256 -880 0 ) ( -256 -888 0 ) ( -72 -880 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+{
+( -72 -704 8 ) ( -72 -880 8 ) ( -72 -704 0 ) XENO_GIRD1 [ 0 -0 -1 0 ] [ 0 -1 0 -21 ] 90 0.5 1
+( -64 -696 0 ) ( -64 -888 0 ) ( -64 -696 8 ) XENO_GIRD1 [ 0 -0 -1 0 ] [ 0 -1 0 -21 ] 90 0.5 1
+( -72 -704 8 ) ( -72 -704 0 ) ( -64 -696 8 ) NULL [ -1 -0 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -72 -704 0 ) ( -72 -880 0 ) ( -64 -696 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -72 -880 8 ) ( -72 -704 8 ) ( -64 -888 8 ) XENO_GIRD1 [ -1 0 0 0 ] [ 0 1 0 -21 ] 180 0.5 1
+( -64 -888 8 ) ( -64 -888 0 ) ( -72 -880 8 ) NULL [ 1 0 0 0 ] [ 0 -0 -1 0 ] 0 1 1
+}
+}
+{
+"classname" "info_player_start"
+"angles" "0 0 0"
+"origin" "-192 0 37"
+}
+{
+"classname" "light_environment"
+"_light" "255 255 128 200"
+"pitch" "0"
+"_falloff" "0"
+"_fade" "1.0"
+"angles" "0 0 0"
+"origin" "0 0 128"
+}
+{
+"classname" "item_generic"
+"model" "models/player/bts_barney/bts_barney.mdl"
+"angles" "0 180 0"
+"spawnflags" "0"
+"movetype" "8"
+"origin" "224 128 40"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "set_barney"
+"$s_message" "Security Guard"
+"angles" "0 0 0"
+{
+( 192 120 40 ) ( 192 120 -1 ) ( 192 136 40 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 208 136 48 ) ( 208 136 -1 ) ( 208 120 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 136 40 ) ( 192 136 -1 ) ( 208 136 48 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 208 120 48 ) ( 208 120 -1 ) ( 192 120 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 136 -1 ) ( 192 120 -1 ) ( 208 136 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 192 120 40 ) ( 192 136 40 ) ( 208 120 48 ) +0BUTTON1 [ 0 -1 0 16 ] [ -0.707107 -0 -0.707107 21.3336 ] 0 0.5 0.53033
+}
+}
+{
+"classname" "trigger_update_class"
+"m_class" "0"
+"targetname" "set_barney"
+"angles" "0 0 0"
+"origin" "200 128 40"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "set_scientist"
+"$s_message" "Scientist"
+"angles" "0 0 0"
+{
+( 208 72 48 ) ( 208 72 -1 ) ( 208 56 48 ) C1A0_LABFLRC [ 0 1 0 -64 ] [ 0 0 -1 0 ] 0 1 1
+( 192 56 40 ) ( 192 56 -1 ) ( 192 72 40 ) C1A0_LABFLRC [ 0 1 0 -64 ] [ 0 0 -1 0 ] 0 1 1
+( 208 56 48 ) ( 208 56 -1 ) ( 192 56 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 72 40 ) ( 192 72 -1 ) ( 208 72 48 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 72 -1 ) ( 192 56 -1 ) ( 208 72 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 192 56 40 ) ( 192 72 40 ) ( 208 56 48 ) +0BUTTON1 [ 0 -1 0 16 ] [ -0.707107 -0 -0.707107 21.3336 ] 0 0.5 0.53033
+}
+}
+{
+"classname" "trigger_update_class"
+"m_class" "1"
+"targetname" "set_scientist"
+"angles" "0 0 0"
+"origin" "200 64 40"
+}
+{
+"classname" "item_generic"
+"model" "models/player/bts_scientist/bts_scientist.mdl"
+"angles" "0 180 0"
+"spawnflags" "0"
+"movetype" "8"
+"origin" "224 64 40"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "set_gus"
+"$s_message" "Constructor"
+"angles" "0 0 0"
+{
+( 192 -8 40 ) ( 192 -8 -1 ) ( 192 8 40 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 208 8 48 ) ( 208 8 -1 ) ( 208 -8 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 8 40 ) ( 192 8 -1 ) ( 208 8 48 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 208 -8 48 ) ( 208 -8 -1 ) ( 192 -8 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 8 -1 ) ( 192 -8 -1 ) ( 208 8 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 192 -8 40 ) ( 192 8 40 ) ( 208 -8 48 ) +0BUTTON1 [ 0 -1 0 16 ] [ -0.707107 -0 -0.707107 21.3336 ] 0 0.5 0.53033
+}
+}
+{
+"classname" "trigger_update_class"
+"m_class" "2"
+"targetname" "set_gus"
+"angles" "0 0 0"
+"origin" "200 0 40"
+}
+{
+"classname" "item_generic"
+"model" "models/player/bts_construction/bts_construction.mdl"
+"angles" "0 180 0"
+"spawnflags" "0"
+"movetype" "8"
+"origin" "224 0 40"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "set_bscientist"
+"$s_message" "Cleansuit"
+"angles" "0 0 0"
+{
+( 208 -56 48 ) ( 208 -56 -1 ) ( 208 -72 48 ) C1A0_LABFLRC [ 0 1 0 64 ] [ 0 0 -1 0 ] 0 1 1
+( 192 -72 40 ) ( 192 -72 -1 ) ( 192 -56 40 ) C1A0_LABFLRC [ 0 1 0 64 ] [ 0 0 -1 0 ] 0 1 1
+( 208 -72 48 ) ( 208 -72 -1 ) ( 192 -72 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 -56 40 ) ( 192 -56 -1 ) ( 208 -56 48 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 -56 -1 ) ( 192 -72 -1 ) ( 208 -56 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 -0 ] 0 1 1
+( 192 -72 40 ) ( 192 -56 40 ) ( 208 -72 48 ) +0BUTTON1 [ 0 -1 0 -16 ] [ -0.707107 -0 -0.707107 21.3336 ] 0 0.5 0.53033
+}
+}
+{
+"classname" "trigger_update_class"
+"m_class" "5"
+"targetname" "set_cleansuit"
+"angles" "0 0 0"
+"origin" "200 -64 40"
+}
+{
+"classname" "item_generic"
+"model" "models/player/bts_scientist3/bts_cleansuit.mdl"
+"angles" "0 180 0"
+"spawnflags" "0"
+"movetype" "8"
+"origin" "224 -64 40"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "set_hevsuit"
+"$s_message" "HEV"
+"angles" "0 0 0"
+{
+( 192 -136 40 ) ( 192 -136 -1 ) ( 192 -120 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 208 -120 48 ) ( 208 -120 -1 ) ( 208 -136 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 -120 40 ) ( 192 -120 -1 ) ( 208 -120 48 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 208 -136 48 ) ( 208 -136 -1 ) ( 192 -136 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 192 -120 -1 ) ( 192 -136 -1 ) ( 208 -120 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 -0 ] 0 1 1
+( 192 -136 40 ) ( 192 -120 40 ) ( 208 -136 48 ) +0BUTTON1 [ 0 -1 0 -16 ] [ -0.707107 -0 -0.707107 21.3336 ] 0 0.5 0.53033
+}
+}
+{
+"classname" "trigger_update_class"
+"m_class" "4"
+"targetname" "set_hevsuit"
+"angles" "0 0 0"
+"origin" "200 -128 40"
+}
+{
+"classname" "item_generic"
+"model" "models/player/bts_helmet/bts_helmet.mdl"
+"angles" "0 180 0"
+"spawnflags" "0"
+"movetype" "8"
+"origin" "224 -128 40"
+}
+{
+"classname" "trigger_logger"
+"message" "Select a class."
+"angles" "0 0 0"
+{
+( 256 160 32 ) ( 256 160 0 ) ( 256 -192 32 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 64 -192 32 ) ( 64 -192 0 ) ( 64 160 32 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -192 32 ) ( 256 -192 0 ) ( 64 -192 32 ) AAATRIGGER [ 1 0 0 -5.33334 ] [ 0 0 -1 0 ] 0 0.75 1
+( 64 160 32 ) ( 64 160 0 ) ( 256 160 32 ) AAATRIGGER [ 1 0 0 -5.33334 ] [ 0 0 -1 0 ] 0 0.75 1
+( 64 160 0 ) ( 64 -192 0 ) ( 256 160 0 ) AAATRIGGER [ 1 0 0 -5.33334 ] [ 0 -1 0 0 ] 0 0.75 1
+( 256 -192 32 ) ( 64 -192 32 ) ( 256 160 32 ) AAATRIGGER [ 1 0 0 -5.33334 ] [ 0 -1 0 0 ] 0 0.75 1
+}
+}
+{
+"classname" "func_monsterclip"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( -32 -288 96 ) ( -32 -288 0 ) ( -32 -256 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 32 -256 96 ) ( 32 -256 0 ) ( 32 -288 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -32 -256 96 ) ( -32 -256 0 ) ( 32 -256 96 ) AAATRIGGER [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 32 -288 96 ) ( 32 -288 0 ) ( -32 -288 96 ) AAATRIGGER [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 32 -288 96 ) ( -32 -288 96 ) ( 32 -256 96 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -32 -256 0 ) ( -32 -288 0 ) ( 32 -256 0 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+}
+{
+"classname" "trigger_logger"
+"message" "Class Selection"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( -128 -448 96 ) ( -128 -448 0 ) ( -128 -288 96 ) AAATRIGGER [ 0 1 0 -6.40001 ] [ 0 0 -1 0 ] 0 5 1
+( 128 -288 96 ) ( 128 -288 0 ) ( 128 -448 96 ) AAATRIGGER [ 0 1 0 -6.40001 ] [ 0 0 -1 0 ] 0 5 1
+( -128 -288 96 ) ( -128 -288 0 ) ( 128 -288 96 ) AAATRIGGER [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 4 1
+( 128 -448 96 ) ( 128 -448 0 ) ( -128 -448 96 ) AAATRIGGER [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 4 1
+( 128 -448 96 ) ( -128 -448 96 ) ( 128 -288 96 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 6.40001 ] 0 4 5
+( -128 -288 0 ) ( -128 -448 0 ) ( 128 -288 0 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 6.40001 ] 0 4 5
+}
+}
+{
+"classname" "func_monsterclip"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( -288 -576 96 ) ( -288 -576 0 ) ( -288 -512 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -512 96 ) ( -256 -512 0 ) ( -256 -576 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -576 96 ) ( -256 -576 0 ) ( -288 -576 96 ) AAATRIGGER [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( -288 -512 96 ) ( -288 -512 0 ) ( -256 -512 96 ) AAATRIGGER [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -512 96 ) ( -256 -576 96 ) ( -288 -512 96 ) AAATRIGGER [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+( -288 -576 0 ) ( -256 -576 0 ) ( -288 -512 0 ) AAATRIGGER [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+}
+{
+"classname" "trigger_logger"
+"message" "Class Selection"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( 320 -512 96 ) ( 320 -512 0 ) ( 320 -576 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 224 -576 96 ) ( 224 -576 0 ) ( 224 -512 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 224 -512 96 ) ( 224 -512 0 ) ( 320 -512 96 ) AAATRIGGER [ -1 0 0 -5.33333 ] [ 0 0 -1 0 ] 0 3 1
+( 320 -576 96 ) ( 320 -576 0 ) ( 224 -576 96 ) AAATRIGGER [ -1 0 0 -5.33333 ] [ 0 0 -1 0 ] 0 3 1
+( 224 -576 0 ) ( 320 -576 0 ) ( 224 -512 0 ) AAATRIGGER [ 0 1 0 0 ] [ 1 0 0 5.33333 ] 0 1 3
+( 320 -512 96 ) ( 320 -576 96 ) ( 224 -512 96 ) AAATRIGGER [ 0 1 0 0 ] [ 1 0 0 5.33333 ] 0 1 3
+}
+}
+{
+"classname" "func_monsterclip"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( 256 -576 96 ) ( 256 -576 0 ) ( 256 -512 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -512 96 ) ( 288 -512 0 ) ( 288 -576 96 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -576 96 ) ( 288 -576 0 ) ( 256 -576 96 ) AAATRIGGER [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 256 -512 96 ) ( 256 -512 0 ) ( 288 -512 96 ) AAATRIGGER [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 288 -512 96 ) ( 288 -576 96 ) ( 256 -512 96 ) AAATRIGGER [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+( 256 -576 0 ) ( 288 -576 0 ) ( 256 -512 0 ) AAATRIGGER [ 0 1 0 0 ] [ 1 0 0 0 ] 0 1 1
+}
+}
+{
+"classname" "trigger_logger"
+"message" "Sentry tests"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( -256 -672 96 ) ( -256 -672 0 ) ( -256 -416 96 ) AAATRIGGER [ 0 1 0 -8 ] [ 0 0 -1 0 ] 0 4 1
+( -96 -416 96 ) ( -96 -416 0 ) ( -96 -672 96 ) AAATRIGGER [ 0 1 0 -8 ] [ 0 0 -1 0 ] 0 4 1
+( -96 -672 96 ) ( -96 -672 0 ) ( -256 -672 96 ) AAATRIGGER [ -1 0 0 12.8 ] [ 0 0 -1 0 ] 0 5 1
+( -256 -416 96 ) ( -256 -416 0 ) ( -96 -416 96 ) AAATRIGGER [ -1 0 0 12.8 ] [ 0 0 -1 0 ] 0 5 1
+( -96 -416 96 ) ( -96 -672 96 ) ( -256 -416 96 ) AAATRIGGER [ 0 1 0 -8 ] [ 1 0 0 -12.8 ] 0 4 5
+( -256 -672 0 ) ( -96 -672 0 ) ( -256 -416 0 ) AAATRIGGER [ 0 1 0 -8 ] [ 1 0 0 -12.8 ] 0 4 5
+}
+}
+{
+"classname" "trigger_logger"
+"message" "Test on npc's Attacking"
+"spawnflags" "0"
+"angles" "0 0 0"
+{
+( 96 -672 96 ) ( 96 -672 0 ) ( 96 -416 96 ) AAATRIGGER [ 0 1 0 -8 ] [ 0 0 -1 0 ] 0 4 1
+( 256 -416 96 ) ( 256 -416 0 ) ( 256 -672 96 ) AAATRIGGER [ 0 1 0 -8 ] [ 0 0 -1 0 ] 0 4 1
+( 256 -672 96 ) ( 256 -672 0 ) ( 96 -672 96 ) AAATRIGGER [ -1 0 0 3.19998 ] [ 0 0 -1 0 ] 0 5 1
+( 96 -416 96 ) ( 96 -416 0 ) ( 256 -416 96 ) AAATRIGGER [ -1 0 0 3.19998 ] [ 0 0 -1 0 ] 0 5 1
+( 256 -416 96 ) ( 256 -672 96 ) ( 96 -416 96 ) AAATRIGGER [ 0 1 0 -8 ] [ 1 0 0 -3.19998 ] 0 4 5
+( 96 -672 0 ) ( 256 -672 0 ) ( 96 -416 0 ) AAATRIGGER [ 0 1 0 -8 ] [ 1 0 0 -3.19998 ] 0 4 5
+}
+}
+{
+"classname" "squadmaker"
+"health" "1"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 271 0"
+"targetname" "bloodpuddle_zombie_squad"
+"monstertype" "monster_zombie"
+"netname" "bloodpuddle_zombie"
+"origin" "384 192 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "bloodpuddle_zombie_mm"
+"$s_message" "Kill body"
+"angles" "0 0 0"
+{
+( 392 160 48 ) ( 392 160 -1 ) ( 392 144 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 376 144 40 ) ( 376 144 -1 ) ( 376 160 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 376 160 48 ) ( 376 160 -1 ) ( 392 160 48 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 392 144 40 ) ( 392 144 -1 ) ( 376 144 40 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 376 144 -1 ) ( 392 144 -1 ) ( 376 160 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 392 144 40 ) ( 376 144 40 ) ( 392 160 48 ) +0BUTTON1 [ 1 0 0 -16 ] [ 0 -1 0 0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "multi_manager"
+"targetname" "bloodpuddle_zombie_mm"
+"bloodpuddle_zombie_squad" "0"
+"bloodpuddle_zombie_hurt" "0.5"
+"angles" "0 0 0"
+"origin" "384 152 56"
+}
+{
+"classname" "trigger_hurt_remote"
+"spawnflags" "8"
+"damagetype" "0"
+"delay" "1"
+"armordmg" "0"
+"dmg" "1"
+"targetname" "bloodpuddle_zombie_hurt"
+"target" "bloodpuddle_zombie"
+"angles" "0 0 0"
+"origin" "384 152 72"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "bloodpuddle_zombie_mm_2"
+"$s_message" "Kill GIB"
+"angles" "0 0 0"
+{
+( 440 144 40 ) ( 440 144 -1 ) ( 440 160 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 456 160 48 ) ( 456 160 -1 ) ( 456 144 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 456 144 40 ) ( 456 144 -1 ) ( 440 144 40 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 440 160 48 ) ( 440 160 -1 ) ( 456 160 48 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 440 144 -1 ) ( 456 144 -1 ) ( 440 160 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 456 144 40 ) ( 440 144 40 ) ( 456 160 48 ) +0BUTTON1 [ 1 0 0 -16 ] [ 0 -1 0 0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "multi_manager"
+"targetname" "bloodpuddle_zombie_mm_2"
+"bloodpuddle_zombie_squad_2" "0"
+"bloodpuddle_zombie_hurt_2" "0.5"
+"angles" "0 0 0"
+"origin" "448 152 56"
+}
+{
+"classname" "trigger_hurt_remote"
+"spawnflags" "8"
+"damagetype" "0"
+"delay" "1"
+"armordmg" "0"
+"dmg" "999"
+"targetname" "bloodpuddle_zombie_hurt_2"
+"target" "bloodpuddle_zombie_2"
+"angles" "0 0 0"
+"origin" "448 152 72"
+}
+{
+"classname" "squadmaker"
+"health" "1"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 271 0"
+"targetname" "bloodpuddle_zombie_squad_2"
+"monstertype" "monster_zombie"
+"netname" "bloodpuddle_zombie_2"
+"origin" "448 192 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "bloodpuddle_hound_mm"
+"$s_message" "Kill body\nHoundeye and headcrabs have smaller puddles"
+"angles" "0 0 0"
+{
+( 504 144 40 ) ( 504 144 -1 ) ( 504 160 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 520 160 48 ) ( 520 160 -1 ) ( 520 144 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 520 144 40 ) ( 520 144 -1 ) ( 504 144 40 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 504 160 48 ) ( 504 160 -1 ) ( 520 160 48 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 504 144 -1 ) ( 520 144 -1 ) ( 504 160 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 520 144 40 ) ( 504 144 40 ) ( 520 160 48 ) +0BUTTON1 [ 1 0 0 -16 ] [ 0 -1 0 0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "multi_manager"
+"targetname" "bloodpuddle_hound_mm"
+"bloodpuddle_hound_squad" "0"
+"bloodpuddle_hound_hurt" "0.5"
+"angles" "0 0 0"
+"origin" "512 152 56"
+}
+{
+"classname" "trigger_hurt_remote"
+"spawnflags" "8"
+"damagetype" "0"
+"delay" "1"
+"armordmg" "0"
+"dmg" "1"
+"targetname" "bloodpuddle_hound_hurt"
+"target" "bloodpuddle_hound"
+"angles" "0 0 0"
+"origin" "512 152 72"
+}
+{
+"classname" "squadmaker"
+"health" "1"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 271 0"
+"targetname" "bloodpuddle_hound_squad"
+"monstertype" "monster_houndeye"
+"netname" "bloodpuddle_hound"
+"origin" "512 192 28"
+}
+{
+"classname" "squadmaker"
+"health" "1"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 271 0"
+"targetname" "bloodpuddle_hound_squad_2"
+"monstertype" "monster_houndeye"
+"netname" "bloodpuddle_hound_2"
+"origin" "576 192 28"
+}
+{
+"classname" "trigger_hurt_remote"
+"spawnflags" "8"
+"damagetype" "0"
+"delay" "1"
+"armordmg" "0"
+"dmg" "999"
+"targetname" "bloodpuddle_zombie_hurt_2"
+"target" "bloodpuddle_zombie_2"
+"angles" "0 0 0"
+"origin" "576 152 72"
+}
+{
+"classname" "multi_manager"
+"targetname" "bloodpuddle_hound_mm_2"
+"bloodpuddle_hound_squad_2" "0"
+"bloodpuddle_hound_hurt_2" "0.5"
+"angles" "0 0 0"
+"origin" "576 152 56"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "bloodpuddle_hound_mm_2"
+"$s_message" "Kill GIB\nHoundeye and headcrabs have smaller puddles"
+"angles" "0 0 0"
+{
+( 584 160 48 ) ( 584 160 -1 ) ( 584 144 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 568 144 40 ) ( 568 144 -1 ) ( 568 160 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 568 160 48 ) ( 568 160 -1 ) ( 584 160 48 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 584 144 40 ) ( 584 144 -1 ) ( 568 144 40 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 568 144 -1 ) ( 584 144 -1 ) ( 568 160 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 584 144 40 ) ( 568 144 40 ) ( 584 160 48 ) +0BUTTON1 [ 1 0 0 -16 ] [ 0 -1 0 0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"health" "1"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 271 0"
+"targetname" "bloodpuddle_grunt_squad"
+"monstertype" "monster_human_grunt"
+"netname" "bloodpuddle_grunt"
+"origin" "640 192 28"
+}
+{
+"classname" "trigger_hurt_remote"
+"spawnflags" "8"
+"damagetype" "0"
+"delay" "1"
+"armordmg" "0"
+"dmg" "1"
+"targetname" "bloodpuddle_grunt_hurt"
+"target" "bloodpuddle_grunt"
+"angles" "0 0 0"
+"origin" "640 152 72"
+}
+{
+"classname" "multi_manager"
+"targetname" "bloodpuddle_grunt_mm"
+"bloodpuddle_grunt_squad" "0"
+"bloodpuddle_grunt_hurt" "0.5"
+"angles" "0 0 0"
+"origin" "640 152 56"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "bloodpuddle_grunt_mm"
+"$s_message" "Kill body\nRed"
+"angles" "0 0 0"
+{
+( 648 160 48 ) ( 648 160 -1 ) ( 648 144 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 632 144 40 ) ( 632 144 -1 ) ( 632 160 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 632 160 48 ) ( 632 160 -1 ) ( 648 160 48 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 648 144 40 ) ( 648 144 -1 ) ( 632 144 40 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 632 144 -1 ) ( 648 144 -1 ) ( 632 160 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 648 144 40 ) ( 632 144 40 ) ( 648 160 48 ) +0BUTTON1 [ 1 0 0 -16 ] [ 0 -1 0 0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "bloodpuddle_grunt_mm_2"
+"$s_message" "Kill GIB\nRed"
+"angles" "0 0 0"
+{
+( 696 144 40 ) ( 696 144 -1 ) ( 696 160 48 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 712 160 48 ) ( 712 160 -1 ) ( 712 144 40 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 712 144 40 ) ( 712 144 -1 ) ( 696 144 40 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 696 160 48 ) ( 696 160 -1 ) ( 712 160 48 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 696 144 -1 ) ( 712 144 -1 ) ( 696 160 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 712 144 40 ) ( 696 144 40 ) ( 712 160 48 ) +0BUTTON1 [ 1 0 0 -16 ] [ 0 -1 0 0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "multi_manager"
+"targetname" "bloodpuddle_grunt_mm_2"
+"bloodpuddle_grunt_squad_2" "0"
+"bloodpuddle_grunt_hurt_2" "0.5"
+"angles" "0 0 0"
+"origin" "704 152 56"
+}
+{
+"classname" "trigger_hurt_remote"
+"spawnflags" "8"
+"damagetype" "0"
+"delay" "1"
+"armordmg" "0"
+"dmg" "999"
+"targetname" "bloodpuddle_grunt_hurt_2"
+"target" "bloodpuddle_grunt_2"
+"angles" "0 0 0"
+"origin" "704 152 72"
+}
+{
+"classname" "squadmaker"
+"health" "1"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 271 0"
+"targetname" "bloodpuddle_grunt_squad_2"
+"monstertype" "monster_human_grunt"
+"netname" "bloodpuddle_grunt_2"
+"origin" "704 192 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "sparkles_grunt"
+"$s_message" "Spawn human grunt"
+"angles" "0 0 0"
+{
+( 928 200 48 ) ( 928 200 -1 ) ( 928 184 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 184 40 ) ( 912 184 -1 ) ( 912 200 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 184 48 ) ( 928 184 -1 ) ( 912 184 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 200 40 ) ( 912 200 -1 ) ( 928 200 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 200 -1 ) ( 912 184 -1 ) ( 928 200 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 184 40 ) ( 912 200 40 ) ( 928 184 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "sparkles_grunt"
+"monstertype" "monster_human_grunt"
+"origin" "960 192 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_scientist"
+"$s_message" "Spawn Zombie"
+"angles" "0 0 0"
+{
+( 928 104 48 ) ( 928 104 -1 ) ( 928 88 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 88 40 ) ( 912 88 -1 ) ( 912 104 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 88 48 ) ( 928 88 -1 ) ( 912 88 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 104 40 ) ( 912 104 -1 ) ( 928 104 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 104 -1 ) ( 912 88 -1 ) ( 928 104 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 88 40 ) ( 912 104 40 ) ( 928 88 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_scientist"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie.mdl"
+"origin" "960 96 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_barney"
+"$s_message" "Spawn Zombie barney"
+"angles" "0 0 0"
+{
+( 928 8 48 ) ( 928 8 -1 ) ( 928 -8 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -8 40 ) ( 912 -8 -1 ) ( 912 8 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -8 48 ) ( 928 -8 -1 ) ( 912 -8 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 8 40 ) ( 912 8 -1 ) ( 928 8 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 8 -1 ) ( 912 -8 -1 ) ( 928 8 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -8 40 ) ( 912 8 40 ) ( 928 -8 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_barney"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie_barney.mdl"
+"origin" "960 0 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_blackop"
+"$s_message" "Spawn Zombie blackop"
+"angles" "0 0 0"
+{
+( 912 -104 40 ) ( 912 -104 -1 ) ( 912 -88 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -88 48 ) ( 928 -88 -1 ) ( 928 -104 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -88 40 ) ( 912 -88 -1 ) ( 928 -88 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -104 48 ) ( 928 -104 -1 ) ( 912 -104 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -88 -1 ) ( 912 -104 -1 ) ( 928 -88 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -104 40 ) ( 912 -88 40 ) ( 928 -104 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_blackop"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie_blackops.mdl"
+"origin" "960 -96 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_gus"
+"$s_message" "Spawn Zombie constructor"
+"angles" "0 0 0"
+{
+( 928 -184 48 ) ( 928 -184 -1 ) ( 928 -200 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -200 40 ) ( 912 -200 -1 ) ( 912 -184 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -200 48 ) ( 928 -200 -1 ) ( 912 -200 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -184 40 ) ( 912 -184 -1 ) ( 928 -184 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -184 -1 ) ( 912 -200 -1 ) ( 928 -184 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -200 40 ) ( 912 -184 40 ) ( 928 -200 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 -16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_gus"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie_construction.mdl"
+"origin" "960 -192 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_enginer"
+"$s_message" "Spawn Zombie Soldier"
+"angles" "0 0 0"
+{
+( 912 -296 40 ) ( 912 -296 -1 ) ( 912 -280 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -280 48 ) ( 928 -280 -1 ) ( 928 -296 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -280 40 ) ( 912 -280 -1 ) ( 928 -280 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -296 48 ) ( 928 -296 -1 ) ( 912 -296 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -280 -1 ) ( 912 -296 -1 ) ( 928 -280 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -296 40 ) ( 912 -280 40 ) ( 928 -296 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 -16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_enginer"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie_engineer.mdl"
+"origin" "960 -288 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_hev"
+"$s_message" "Spawn Zombie HEV"
+"angles" "0 0 0"
+{
+( 928 -376 48 ) ( 928 -376 -1 ) ( 928 -392 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -392 40 ) ( 912 -392 -1 ) ( 912 -376 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -392 48 ) ( 928 -392 -1 ) ( 912 -392 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -376 40 ) ( 912 -376 -1 ) ( 928 -376 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -376 -1 ) ( 912 -392 -1 ) ( 928 -376 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -392 40 ) ( 912 -376 40 ) ( 928 -392 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 -16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_hev"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie_hev.mdl"
+"origin" "960 -384 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_worker"
+"$s_message" "Spawn Zombie worker"
+"angles" "0 0 0"
+{
+( 912 -488 40 ) ( 912 -488 -1 ) ( 912 -472 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -472 48 ) ( 928 -472 -1 ) ( 928 -488 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -472 40 ) ( 912 -472 -1 ) ( 928 -472 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -488 48 ) ( 928 -488 -1 ) ( 912 -488 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -472 -1 ) ( 912 -488 -1 ) ( 928 -472 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -488 40 ) ( 912 -472 40 ) ( 928 -488 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 -16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_worker"
+"monstertype" "monster_zombie"
+"new_model" "models/bts_rc/monsters/zombie_worker.mdl"
+"origin" "960 -480 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "headcrab_zombie_gonome"
+"$s_message" "Spawn Zombie Gonome"
+"angles" "0 0 0"
+{
+( 928 -568 48 ) ( 928 -568 -1 ) ( 928 -584 48 ) C1A0_LABFLRC [ 0 1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -584 40 ) ( 912 -584 -1 ) ( 912 -568 40 ) C1A0_LABFLRC [ 0 -1 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 928 -584 48 ) ( 928 -584 -1 ) ( 912 -584 40 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -568 40 ) ( 912 -568 -1 ) ( 928 -568 48 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 912 -568 -1 ) ( 912 -584 -1 ) ( 928 -568 -1 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 912 -584 40 ) ( 912 -568 40 ) ( 928 -584 48 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 -16 ] 0 0.5 0.5
+}
+}
+{
+"classname" "squadmaker"
+"m_imaxlivechildren" "1"
+"monstercount" "-1"
+"spawnflags" "20"
+"angles" "0 181 0"
+"targetname" "headcrab_zombie_gonome"
+"monstertype" "monster_gonome"
+"new_model" "models/bts_rc/monsters/gonome.mdl"
+"origin" "960 -576 28"
+}
+{
+"classname" "func_button"
+"wait" "0.1"
+"spawnflags" "1"
+"target" "impulse101"
+"$s_message" "Give all weapons"
+"angles" "0 0 0"
+{
+( 32 -256 49 ) ( 32 -256 0 ) ( 32 -240 41 ) C1A0_LABFLRC [ 0 -1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 48 -240 41 ) ( 48 -240 0 ) ( 48 -256 49 ) C1A0_LABFLRC [ -0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( 48 -256 49 ) ( 48 -256 0 ) ( 32 -256 49 ) C1A0_LABFLRC [ 1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 32 -240 41 ) ( 32 -240 0 ) ( 48 -240 41 ) C1A0_LABFLRC [ -1 0 0 -0 ] [ 0 0 -1 0 ] 0 1 1
+( 48 -240 0 ) ( 32 -240 0 ) ( 48 -256 0 ) NULL [ 1 0 0 0 ] [ 0 -1 0 16 ] 0 1 1
+( 32 -240 41 ) ( 48 -240 41 ) ( 32 -256 49 ) +0BUTTON1 [ 1 0 0 -0 ] [ 0 -1 0 -0 ] 0 0.5 0.5
+}
+}
+{
+"classname" "trigger_script"
+"m_iMode" "1"
+"delay" "0"
+"targetname" "impulse101"
+"m_iszScriptFunctionName" "trigger_impulse_101"
+"angles" "0 0 0"
+"origin" "40 -248 48"
+}
+{
+"classname" "monster_sentry"
+"attackrange" "1200"
+"freeroam" "0"
+"maxhullsize" "0 0 0"
+"minhullsize" "0 0 0"
+"health" "0"
+"bloodcolor" "0"
+"is_player_ally" "0"
+"skin" "0"
+"body" "0"
+"TriggerCondition" "0"
+"is_not_revivable" "0"
+"classify" "0"
+"angles" "0 270 0"
+"rendercolor" "0 0 0"
+"rendermode" "0"
+"spawnflags" "32"
+"renderfx" "0"
+"origin" "-384 160 -4"
+}
+{
+"classname" "func_recharge"
+"CustomRechargeTime" "1"
+"CustomJuice" "9999"
+"zhlt_lightflags" "0"
+"zhlt_embedlightmapresolution" "4"
+"zhlt_embedlightmap" "0"
+"zhlt_invisible" "0"
+"zhlt_noclip" "0"
+"rendercolor" "0 0 0"
+"rendermode" "0"
+"renderfx" "0"
+{
+( -248 -584 80 ) ( -248 -584 32 ) ( -248 -616 80 ) +0RECHARGE [ 0 1 0 32 ] [ 0 0 -1 128 ] 0 0.25 0.25
+( -256 -616 80 ) ( -256 -616 32 ) ( -256 -584 80 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -248 -616 80 ) ( -248 -616 32 ) ( -256 -616 80 ) RECHARGEEDGE1 [ 1 0 0 0 ] [ 0 0 -1 32 ] 0 0.5 1
+( -256 -584 80 ) ( -256 -584 32 ) ( -248 -584 80 ) RECHARGEEDGE1 [ 1 0 0 0 ] [ 0 0 -1 32 ] 0 0.5 1
+( -256 -584 32 ) ( -256 -616 32 ) ( -248 -584 32 ) RECHARGEEDGE1 [ 1 0 0 0 ] [ 0 -1 0 32 ] 0 0.5 1
+( -248 -616 80 ) ( -256 -616 80 ) ( -248 -584 80 ) RECHARGEEDGE1 [ 1 0 0 0 ] [ 0 -1 0 32 ] 0 0.5 1
+}
+}
+{
+"classname" "light"
+"_falloff" "0"
+"_fade" "1.0"
+"spawnflags" "0"
+"style" "0"
+"_light" "0 255 0 100"
+"angles" "90 0 0"
+"origin" "-164 -792 32"
+}
+{
+"classname" "trigger_hurt"
+"damagetype" "262144"
+"delay" "0"
+"dmg" "3"
+"zhlt_embedlightmapresolution" "4"
+"zhlt_embedlightmap" "0"
+"zhlt_invisible" "0"
+"zhlt_noclip" "0"
+"pass_ignore_destroy_triggers" "0"
+"pass_ignore_return_triggers" "0"
+"pass_ignore_drop_triggers" "0"
+"pass_ignore_use_triggers" "0"
+"item_group_canthave_num" "0"
+"item_group_required_num" "0"
+{
+( -72 -704 0 ) ( -72 -880 0 ) ( -72 -704 8 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -704 8 ) ( -256 -880 8 ) ( -256 -704 0 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -704 8 ) ( -256 -704 0 ) ( -72 -704 8 ) AAATRIGGER [ -1 -0 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -72 -880 8 ) ( -72 -880 0 ) ( -256 -880 8 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -0 -1 0 ] 0 1 1
+( -256 -704 0 ) ( -256 -880 0 ) ( -72 -704 0 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -256 -880 8 ) ( -256 -704 8 ) ( -72 -880 8 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+}
+{
+"classname" "trigger_logger"
+"message" "Radioactivity managed by different classes"
+"angles" "0 0 0"
+{
+( -32 -672 0 ) ( -32 -928 0 ) ( -32 -672 64 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -672 64 ) ( -256 -928 64 ) ( -256 -672 0 ) AAATRIGGER [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -672 64 ) ( -256 -672 0 ) ( -32 -672 64 ) AAATRIGGER [ -1 -0 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -32 -928 64 ) ( -32 -928 0 ) ( -256 -928 64 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -0 -1 0 ] 0 1 1
+( -256 -672 0 ) ( -256 -928 0 ) ( -32 -672 0 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -256 -928 64 ) ( -256 -672 64 ) ( -32 -928 64 ) AAATRIGGER [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+}
+{
+"classname" "func_wall"
+"style" "0"
+"zhlt_lightflags" "0"
+"zhlt_embedlightmapresolution" "4"
+"zhlt_embedlightmap" "0"
+"zhlt_invisible" "0"
+"zhlt_noclip" "0"
+"rendercolor" "0 0 0"
+"rendermode" "2"
+"renderfx" "0"
+"spawnflags" "0"
+"angles" "0 0 0"
+"renderamt" "120"
+{
+( -960 -512 0 ) ( -960 -480 0 ) ( -960 -512 64 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 0 0 -1 -43 ] 0 2 3
+( -288 -512 64 ) ( -288 -480 64 ) ( -288 -512 0 ) NULL [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -288 -512 64 ) ( -288 -512 0 ) ( -960 -512 64 ) C1A0_LABFLRC [ 1 0 0 0 ] [ 0 0 -1 -43 ] 0 2 3
+( -960 -480 64 ) ( -960 -480 0 ) ( -288 -480 64 ) C1A0_LABFLRC [ -1 0 0 0 ] [ 0 0 -1 -43 ] 0 2 3
+( -960 -512 0 ) ( -288 -512 0 ) ( -960 -480 0 ) NULL [ 0 1 0 32 ] [ 1 0 0 32 ] 0 1 1
+( -288 -512 64 ) ( -960 -512 64 ) ( -288 -480 64 ) C1A0_LABFLRC [ 0 1 0 0 ] [ 1 0 0 -43 ] 0 2 3
+}
+}
+{
+"classname" "monster_sentry"
+"attackrange" "1200"
+"freeroam" "0"
+"maxhullsize" "0 0 0"
+"minhullsize" "0 0 0"
+"health" "0"
+"bloodcolor" "0"
+"is_player_ally" "0"
+"skin" "0"
+"body" "0"
+"TriggerCondition" "0"
+"is_not_revivable" "0"
+"classify" "0"
+"angles" "0 270 0"
+"rendercolor" "0 0 0"
+"rendermode" "0"
+"spawnflags" "32"
+"renderfx" "0"
+"origin" "-672 160 -4"
+}
+{
+"classname" "monster_sentry"
+"attackrange" "1200"
+"freeroam" "0"
+"maxhullsize" "0 0 0"
+"minhullsize" "0 0 0"
+"health" "0"
+"bloodcolor" "0"
+"is_player_ally" "0"
+"skin" "0"
+"body" "0"
+"TriggerCondition" "0"
+"is_not_revivable" "0"
+"classify" "0"
+"angles" "0 270 0"
+"rendercolor" "0 0 0"
+"rendermode" "0"
+"spawnflags" "32"
+"renderfx" "0"
+"origin" "-960 160 -4"
+}
+{
+"classname" "light"
+"_falloff" "0"
+"_fade" "1.0"
+"spawnflags" "0"
+"style" "0"
+"_light" "255 255 255 100"
+"angles" "90 0 0"
+"origin" "-964 168 96"
+}
+{
+"classname" "func_water"
+"WaveHeight" "0.2"
+"skin" "-3"
+"zhlt_lightflags" "0"
+"zhlt_embedlightmapresolution" "4"
+"zhlt_embedlightmap" "0"
+"zhlt_invisible" "0"
+"zhlt_noclip" "0"
+"explosivesonly" "0"
+"immunetoclients" "0"
+"showhudinfo" "0"
+"repairable" "0"
+"breakontrigger" "0"
+"onlytrigger" "0"
+"explodemagnitude" "0"
+"explosion" "1"
+"weapon" "1"
+"instantbreak" "0"
+"material" "0"
+"breakable" "0"
+"m_iObeyTriggerMode" "2"
+"m_fIgnoreTargetname" "0"
+"m_iOpenFlags" "0"
+"health" "0"
+"dmg" "0"
+"wait" "4"
+"stopsnd" "0"
+"movesnd_loop" "0"
+"movesnd" "0"
+"speed" "100"
+"fireonclosed_triggerstate" "2"
+"fireonopened_triggerstate" "2"
+"fireonclosing_triggerstate" "2"
+"fireonopening_triggerstate" "2"
+"fireonstop_triggerstate" "2"
+"fireonstart_triggerstate" "2"
+"unlocked_sentence" "0"
+"locked_sentence" "0"
+"unlocked_sound" "0"
+"locked_sound" "0"
+"zhlt_lightflags" "0"
+"zhlt_embedlightmapresolution" "4"
+"zhlt_embedlightmap" "0"
+"zhlt_invisible" "0"
+"zhlt_noclip" "0"
+"angles" "0 0 0"
+"rendercolor" "0 0 0"
+"rendermode" "0"
+"renderfx" "0"
+"classify" "0"
+"pass_ignore_destroy_triggers" "0"
+"pass_ignore_return_triggers" "0"
+"pass_ignore_drop_triggers" "0"
+"pass_ignore_use_triggers" "0"
+"item_group_canthave_num" "0"
+"item_group_required_num" "0"
+"coutfiltertype" "0"
+"toutfiltertype" "0"
+"cinfiltertype" "0"
+"tinfiltertype" "0"
+"delay" "0"
+"spawnflags" "0"
+{
+( -256 -704 1 ) ( -256 -880 1 ) ( -256 -704 0 ) TOXICGRN [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -72 -704 0 ) ( -72 -880 0 ) ( -72 -704 1 ) TOXICGRN [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -72 -880 1 ) ( -72 -880 0 ) ( -256 -880 1 ) TOXICGRN [ 1 0 0 0 ] [ 0 -0 -1 0 ] 0 1 1
+( -256 -704 1 ) ( -256 -704 0 ) ( -72 -704 1 ) TOXICGRN [ -1 -0 -0 0 ] [ 0 0 -1 0 ] 0 1 1
+( -256 -880 1 ) ( -256 -704 1 ) ( -72 -880 1 ) TOXICGRN [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+( -256 -704 0 ) ( -256 -880 0 ) ( -72 -704 0 ) TOXICGRN [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 1 1
+}
+}

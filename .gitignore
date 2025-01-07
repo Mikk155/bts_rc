@@ -2,7 +2,6 @@ maps/soundcache/*
 steam_autocloud.vdf
 
 # Game assets
-maps/bts_rc*
 models/*
 sound/*
 sprites/*
@@ -13,3 +12,13 @@ developer_plates-1.wad
 src/halflife*
 src/stuff/*
 resource/GameMenu.res
+src/bts_rc_test_chamber.max
+src/bts_rc_test_chamber.rmx
+maps/bts_rc.*
+maps/bts_rc_motd.txt
+maps/bts_rc_skl.cfg
+maps/bts_rc_test_chamber.wa_
+maps/bts_rc_test_chamber.prt
+maps/bts_rc_test_chamber.log
+maps/bts_rc_test_chamber.ext
+maps/bts_rc_test_chamber.map

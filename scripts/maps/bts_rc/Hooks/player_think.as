@@ -9,6 +9,7 @@ HookReturnCode player_think( CBasePlayer@ player )
         #if SERVER
             // Change impulse 101 command with our own weapons.
             check_impulse_101(player);
+            whatsthat(player);
         #endif
 
         // Do not update the class here, Only weapons should do that so we assume the game hasn't started yet.
