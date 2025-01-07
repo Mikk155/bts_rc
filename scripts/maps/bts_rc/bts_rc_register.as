@@ -4,15 +4,12 @@
 
 #include "utils/main"
 #include "entities/main"
+#include "gamemodes/main"
 #include "Hooks/main"
-#include "player_voices"
-#include "item_tracker"
 
 #include "list_weapons"
 #include "mappings"
 #include "monsters/npc_ammo"
-#include "monsters/sentry_laser"
-#include "objective_indicator"
 
 void MapStart()
 {

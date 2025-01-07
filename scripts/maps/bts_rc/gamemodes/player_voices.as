@@ -1,3 +1,9 @@
+/*
+    Author: Mikk
+    Help Support: SoloKiller
+    Idea: AraseFiq
+*/
+
 CCVar@ cvar_player_voices = CCVar( "bts_rc_disable_player_voices", 0 );
 
 class CVoice
