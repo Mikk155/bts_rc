@@ -9,7 +9,6 @@
 
 #include "list_weapons"
 #include "mappings"
-#include "monsters/npc_ammo"
 
 void MapStart()
 {
@@ -48,6 +47,10 @@ void MapInit()
     precache::sound( CONST_HEV_NIGHTVISION_OFF );
     precache::sound( CONST_HEV_NIGHTVISION_NO_POWER );
     precache::sounds( CONST_BLOODPUDDLE_SND );
+
+    #if SERVER
+        g_Game.PrecacheGeneric( "monster_headcrab" );
+    #endif
 
     /*==========================================================================
     *   - End
