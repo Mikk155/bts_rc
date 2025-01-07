@@ -4,6 +4,9 @@
 
 class Csentry_laser
 {
+    int beam_index = g_Game.PrecacheModel( CONST_LASERS_BEAM );
+    int model_index = g_Game.PrecacheModel( CONST_LASERS_MODEL );
+
     CScheduledFunction@ scheduler = null;
 
     void turn_off()
@@ -52,7 +55,7 @@ class Csentry_laser
                     m.WriteCoord( tr.vecEndPos.x );
                     m.WriteCoord( tr.vecEndPos.y );
                     m.WriteCoord( tr.vecEndPos.z );
-                    m.WriteShort( g_ModelFuncs.ModelIndex( CONST_LASERS_BEAM ) );
+                    m.WriteShort( beam_index );
                     m.WriteByte( 0 ); // starting frame
                     m.WriteByte( 0 ); // frame rate in 0.1's
                     m.WriteByte( 1 ); // life in 0.1's
