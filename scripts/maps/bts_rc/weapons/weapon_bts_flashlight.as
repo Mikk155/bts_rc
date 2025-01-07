@@ -5,7 +5,7 @@
 // Thanks Mikk for scripting full support
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../utils/player_class"
+#include "../proj/base_flashlight"
 
 namespace BTS_FLASHLIGHT
 {
@@ -64,36 +64,16 @@ int POSITION = 4;
 // Vars
 float RANGE = 32.0f;
 float DAMAGE = 7.0f;
-string FLASHLIGHT = "$i_flashBattery";
 
-class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
+class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, CBaseFlashLight
 {
     private CBasePlayer@ m_pPlayer
     {
         get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
         set       { self.m_hPlayer = EHandle( @value ); }
     }
-    // private bool m_fHasHEV
-    // {
-    //  get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    // }
-    private int m_iFlashBattery // saved battery shared between weapons -rzlx
-    {
-        get const
-        {
-            CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
-            if( pCustom.HasKeyvalue( FLASHLIGHT ) )
-                return pCustom.GetKeyvalue( FLASHLIGHT ).GetInteger();
-            else
-                return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 ? 0 : m_pPlayer.m_iFlashBattery;
-        }
-        set
-        {
-            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), FLASHLIGHT, "" + value );
-        }
-    }
+
     private TraceResult m_trHit;
-    private int m_iCurBaterry; // for clamping
     private int m_iSwing;
 
     int GetBodygroup()
@@ -116,6 +96,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
+
         g_Game.PrecacheModel( W_MODEL );
         g_Game.PrecacheModel( V_MODEL );
         g_Game.PrecacheModel( P_MODEL );
@@ -132,7 +113,10 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+
+        string txt;
+        snprintf( txt, "sprites/bts_rc/weapons/%1.txt", pev.classname );
+        g_Game.PrecacheGeneric( txt );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -163,22 +147,16 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        m_pPlayer.m_iFlashBattery = m_iCurBaterry = m_iFlashBattery;
-        m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
-
         self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "crowbar", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         m_pPlayer.m_flNextAttack = 0.0f;
+        fl_Deploy();
         return true;
     }
 
     void Holster( int skiplocal = 0 )
     {
-        if( m_pPlayer.FlashlightIsOn() )
-            m_pPlayer.FlashlightTurnOff();
-
-        m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
-        m_iFlashBattery = m_iCurBaterry;
+        fl_Holster();
 
         SetThink( null );
         BaseClass.Holster( skiplocal );
@@ -186,20 +164,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     void ItemPostFrame()
     {
-        if( m_pPlayer.m_iFlashBattery > m_iCurBaterry )
-            m_pPlayer.m_iFlashBattery = m_iCurBaterry;
-
-        if( m_iCurBaterry == 0 )
-        {
-            m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-            NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( 0 );
-            msg.End();
-        }
-        else
-            m_iCurBaterry = m_pPlayer.m_iFlashBattery;
-
+        fl_ItemPostFrame();
         BaseClass.ItemPostFrame();
     }
 
@@ -214,11 +179,24 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
 
     void SecondaryAttack()
     {
-        if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        if( g_Engine.time <= self.m_flNextSecondaryAttack )
             return;
 
-        m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
-        m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+        if( fl_ShouldToggle() )
+        {
+        }
+        else if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
+        {
+            // -TODO Play animations holster and then draw?
+            // -TODO Should this weapon use Reload instead/too?
+            m_battery = m_pPlayer.m_iFlashBattery = 100;
+            m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+        }
+        else
+        {
+            // -TODO Some empty sound?
+        }
+
         // g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
     }
@@ -241,6 +219,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
     }
 
+    // -TODO Store if flashlight was on and turn off momentarly til the swing ends
     private bool Swing( bool fFirst )
     {
         TraceResult tr;
