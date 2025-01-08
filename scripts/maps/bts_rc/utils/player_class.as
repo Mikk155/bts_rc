@@ -20,7 +20,7 @@ final class PlayerClass
     #endif
 
     // Index of the last used model so we give each player a different one instead of a random one.
-    private uint mdl_scientist_last = Math.RandomLong( 0, 3 );
+    private uint mdl_scientist_last = Math.RandomLong( 0, 4 );
     private array<string> mdl_scientist = {
         "bts_scientist",
         "bts_scientist3",
@@ -104,22 +104,18 @@ final class PlayerClass
             {
                 return "bts_construction";
             }
-            /*case PM::BSCIENTIST:
+            case PM::BARNEY:
             {
-                return "bts_scientist3";
-            }*/
-            case PM::HELMET:
-            {
-                return "bts_helmet";
+                mdl_barney_last = ( mdl_barney_last >= mdl_barney.length() -1 ) ? 0 : mdl_barney_last + 1;
+                return mdl_barney[ mdl_barney_last ];
             }
             case PM::CLSUIT:
             {
                 return "bts_cleansuit";
             }
-            case PM::BARNEY:
+            case PM::HELMET:
             {
-                mdl_barney_last = ( mdl_barney_last >= mdl_barney.length() -1 ) ? 0 : mdl_barney_last + 1;
-                return mdl_barney[ mdl_barney_last ];
+                return "bts_helmet";
             }
         }
 
