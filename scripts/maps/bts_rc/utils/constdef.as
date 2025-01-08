@@ -34,6 +34,19 @@ const array<string> CONST_BLOODPUDDLE_SND = {
     "player/pl_slosh4.wav",
 };
 
+// small size monsters for puddle's scale
+array<string> CONST_BLOODPUDDLE_SMALL = {
+    "moster_headcrab",
+    "monster_houndeye",
+    "monster_babycrab"
+};
+
+// Min and max size for small puddles
+array<float> CONST_BLOODPUDDLE_SIZE_SMALL = { 0.5, 1.5 };
+
+// Min and max size for big puddles
+array<float> CONST_BLOODPUDDLE_SIZE_BIG = { 1.5, 2.5 };
+
 //===============================================
 // End
 //===============================================

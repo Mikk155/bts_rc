@@ -41,7 +41,7 @@ namespace env_bloodpuddle
         if( !freeedicts( 30 ) )
         {
             #if SERVER
-                m_Logger.info( "Failed to create a blood puddle. Saving edicts for more important stuff." );
+                m_Logger.info( "Failed to create. Saving edicts for more important stuff." );
             #endif
 
             return;
@@ -52,7 +52,7 @@ namespace env_bloodpuddle
         if( entity is null )
         {
             #if SERVER
-                m_Logger.info( "Failed to create a blood puddle for monster {} at {}", { monster.pev.classname, monster.pev.origin.ToString() } );
+                m_Logger.info( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
             #endif
 
             return;
@@ -63,7 +63,7 @@ namespace env_bloodpuddle
         if( bloodpuddle is null )
         {
             #if SERVER
-                m_Logger.info( "Failed to cast blood puddle, Liberating edict." );
+                m_Logger.info( "Failed to cast to class, Liberating edict." );
             #endif
 
             entity.pev.flags |= FL_KILLME;
@@ -76,13 +76,13 @@ namespace env_bloodpuddle
             bloodpuddle.pev.skin = 1;
         }
 
-        if( small_monsters.find( monster.pev.classname ) > 0 )
+        if( CONST_BLOODPUDDLE_SMALL.find( monster.pev.classname ) > 0 )
         {
-            bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
+            bloodpuddle.pev.scale = Math.RandomFloat( CONST_BLOODPUDDLE_SIZE_SMALL[0], CONST_BLOODPUDDLE_SIZE_SMALL[1] );
         }
         else
         {
-            bloodpuddle.pev.scale = Math.RandomFloat( 1.5, 2.5 );
+            bloodpuddle.pev.scale = Math.RandomFloat( CONST_BLOODPUDDLE_SIZE_BIG[0], CONST_BLOODPUDDLE_SIZE_BIG[1] );
         }
 
         /* Monster gibed? Set it to full gib */
@@ -99,19 +99,8 @@ namespace env_bloodpuddle
 
         bloodpuddle.Spawn();
 
-        #if SERVER
-            m_Logger.info( "Created blood puddle for {} at {}", { monster.pev.classname, monster.pev.origin.ToString() } );
-        #endif
-
         user_data[ "bloodpuddle" ] = true;
     }
-
-    // small size monsters for puddle's scale
-    array<string> small_monsters = {
-        "moster_headcrab",
-        "monster_houndeye",
-        "monster_babycrab"
-    };
 
     class env_bloodpuddle : ScriptBaseAnimating
     {
@@ -129,7 +118,7 @@ namespace env_bloodpuddle
             g_EntityFuncs.SetModel( self, CONST_BLOODPUDDLE );
 
             #if SERVER
-                m_Logger.info( "Scale of \"{}\"", { self.pev.scale } );
+                m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
             #endif
 
             switch( state )
@@ -196,10 +185,10 @@ namespace env_bloodpuddle
             }
         }
 
-        // Idk why this is not working x[
+        // -TODO Improve this as may be spamming a lot.
         void touch( CBaseEntity@ other )
         {
-            if( other !is null && other.edict() !is self.pev.owner )
+            if( other !is null && other.IsPlayer() )
             {
                 uint uisize = CONST_BLOODPUDDLE_SND.length();
 
