@@ -201,6 +201,7 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
+            Sparks::Sparks(tr.pHit, tr.iHitgroup, tr.vecEndPos );
 
             // each 4 bullets
             if( ( m_iTracerCount++ % 4 ) == 0 )
