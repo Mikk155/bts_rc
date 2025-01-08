@@ -164,6 +164,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
 
     void Holster( int skiplocal = 0 )
     {
+        SetThink( null );
         m_fInReloadState = 0;
         BaseClass.Holster( skiplocal );
     }
@@ -263,6 +264,12 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.85f : 1.0f );
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
+
+        if( self.m_iClip != 0 )
+        {
+            SetThink( ThinkFunction( PumpWeapon ) );
+            pev.nextthink = g_Engine.time + 0.5f;
+        }
     }
 
     void SecondaryAttack()
@@ -343,6 +350,12 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
         self.m_flTimeWeaponIdle = g_Engine.time + 6.0f;
+
+        if( self.m_iClip != 0 )
+        {
+            SetThink( ThinkFunction( PumpWeapon ) );
+            pev.nextthink = g_Engine.time + 0.95f;
+        }
     }
 
     void Reload()
@@ -418,6 +431,12 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
             self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
             break;
         }
+    }
+
+    private void PumpWeapon()
+    {
+        SetThink( null );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, SCOCK1_S, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
     }
 
     private bool FinishReload( bool fCondition )
