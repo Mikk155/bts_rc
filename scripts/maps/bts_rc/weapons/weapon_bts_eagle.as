@@ -39,30 +39,32 @@ string A_MODEL = "models/hlclassic/w_9mmclip.mdl";
 // Sounds
 string SHOOT_SND = "weapons/desert_eagle_fire.wav";
 string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
-// string SWITCH_SND = "bts_rc/items/flashlight1.wav";
 array<string> SOUNDS = {
     "bts_rc/weapons/desert_eagle_reload.wav"
 };
+string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+// string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 // Weapon info
 int MAX_CARRY = 18;
-int MAX_CARRY2 = 60;
+int MAX_CARRY2 = 2;
 int MAX_CLIP = 9;
 int MAX_CLIP2 = WEAPON_NOCLIP;
 // int DEFAULT_GIVE = Math.RandomLong( 1, 9 );
-// int DEFAULT_GIVE2 = Math.RandomLong( 1, 4 );
+// int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
 int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
 int ID; // assigned on register
 string AMMO_TYPE = "357";
-string AMMO_TYPE2 = "bts:battery";
+string AMMO_TYPE2 = "bts:eagle/battery";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 9;
 // Vars
 int DAMAGE = 56;
-string FLASHLIGHT = "$i_flashBattery";
+float DRAIN_TIME = 0.8f;
+string BATTERY_KV = "$i_eagleBattery";
 Vector CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
 
@@ -77,22 +79,21 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }
     }
-    private int m_iFlashBattery // saved battery shared between weapons -rzlx
+    private int m_iFlashBattery
     {
         get const
         {
             CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
-            if( pCustom.HasKeyvalue( FLASHLIGHT ) )
-                return pCustom.GetKeyvalue( FLASHLIGHT ).GetInteger();
-            else
-                return m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 ? 0 : m_pPlayer.m_iFlashBattery;
+            return pCustom.HasKeyvalue( BATTERY_KV ) ? pCustom.GetKeyvalue( BATTERY_KV ).GetInteger() : 0;
         }
         set
         {
-            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), FLASHLIGHT, "" + value );
+            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), BATTERY_KV, string( value ) );
         }
     }
-    private int m_iCurBaterry; // for clamping
+    private float m_flFlashLightTime;
+    private float m_flRestoreAfter = 0.0f;
+    private int m_iCurrentBaterry; // prevents CustomKeyvalues going brr
     private int m_iShell;
 
     int GetBodygroup()
@@ -106,7 +107,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
         Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
         self.m_iDefaultAmmo = Math.RandomLong( 1, MAX_CLIP );
-        self.m_iDefaultSecAmmo = Math.RandomLong( 1, 4 );
+        self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         self.FallInit();
     }
 
@@ -125,10 +126,12 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
-        // g_SoundSystem.PrecacheSound( SWITCH_SND );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
+
+        g_SoundSystem.PrecacheSound( SWITCH_SND );
+        // g_SoundSystem.PrecacheSound( RELOAD_SND );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/640hudof01.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/640hudof02.spr" );
@@ -164,42 +167,61 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        m_pPlayer.m_iFlashBattery = m_iCurBaterry = m_iFlashBattery;
+        m_iCurrentBaterry = m_iFlashBattery;
+        m_pPlayer.pev.effects &= ~EF_DIMLIGHT; // just to be sure
         m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
+        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
+        msg.End();
+
         self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "onehanded", 0, GetBodygroup() );
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
-        m_pPlayer.m_flNextAttack = 0.0f;
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
 
     void Holster( int skiplocal = 0 )
     {
-        if( m_pPlayer.FlashlightIsOn() )
-            m_pPlayer.FlashlightTurnOff();
+        if ( m_pPlayer.FlashlightIsOn() )
+            FlashlightTurnOff();
 
+        m_flRestoreAfter = 0.0f;
+        m_iFlashBattery = m_iCurrentBaterry;
         m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
-        m_iFlashBattery = m_iCurBaterry;
-
         BaseClass.Holster( skiplocal );
     }
 
     void ItemPostFrame()
     {
-        if( m_pPlayer.m_iFlashBattery > m_iCurBaterry )
-            m_pPlayer.m_iFlashBattery = m_iCurBaterry;
-
-        if( m_iCurBaterry == 0 )
+        if( m_flFlashLightTime != 0.0f && m_flFlashLightTime <= g_Engine.time )
         {
-            m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-            NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( 0 );
+            if( m_pPlayer.FlashlightIsOn() )
+            {
+                if( m_iCurrentBaterry != 0 )
+                {
+                    m_flFlashLightTime = g_Engine.time + DRAIN_TIME;
+                    --m_iCurrentBaterry;
+
+                    if( m_iCurrentBaterry == 0 )
+                        FlashlightTurnOff();
+                }
+            }
+            else
+            {
+                m_flFlashLightTime = 0.0f;
+            }
+
+            NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
+                msg.WriteByte( m_iCurrentBaterry );
             msg.End();
         }
-        else
-            m_iCurBaterry = m_pPlayer.m_iFlashBattery;
 
+        if( m_flRestoreAfter != 0.0f && m_flRestoreAfter <= g_Engine.time )
+        {
+            m_flRestoreAfter = 0.0f;
+            m_pPlayer.pev.effects |= EF_DIMLIGHT;
+        }
         BaseClass.ItemPostFrame();
     }
 
@@ -270,25 +292,49 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.625f;
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.625f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
     void SecondaryAttack()
     {
-        if( m_iCurBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
+        if( m_iCurrentBaterry == 0 || self.m_fInReload )
             return;
 
-        m_pPlayer.m_iFlashBattery = m_iCurBaterry = 100;
+        if( m_pPlayer.FlashlightIsOn() )
+            FlashlightTurnOff();
+        else
+            FlashlightTurnOn();
+
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
+    }
+
+    void TertiaryAttack()
+    {
+        if( m_iCurrentBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
+            return;
+
+        m_iFlashBattery = m_iCurrentBaterry = 100;
+
+        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
+            msg.WriteByte( m_iCurrentBaterry );
+        msg.End();
+
         m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
-        // g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+        // g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
     }
 
     void Reload()
     {
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
+
+        if( m_pPlayer.FlashlightIsOn() )
+        {
+            m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
+            m_flRestoreAfter = g_Engine.time + 1.6f;
+        }
 
         self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_NOSHOT, 1.5f, GetBodygroup() );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
@@ -338,6 +384,30 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
                 }
             }
         }
+    }
+
+    private void FlashlightTurnOn()
+    {
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        m_pPlayer.pev.effects |= EF_DIMLIGHT;
+
+        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
+            msg.WriteByte( 1 );
+            msg.WriteByte( m_iCurrentBaterry );
+        msg.End();
+
+        m_flFlashLightTime = g_Engine.time + DRAIN_TIME;
+    }
+
+    private void FlashlightTurnOff()
+    {
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
+
+        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
+        msg.End();
     }
 }
 
