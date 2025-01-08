@@ -6,6 +6,10 @@
 
 namespace item_tracker
 {
+    #if SERVER
+        CLogger@ m_Logger = CLogger( "Item Tracker" );
+    #endif
+
     dictionary items = {
         { "RETINA_COMPONENT", "Area 1 - Retina component" },
         { "VALVE_1", "Area 1 - Override Valve 1" },
@@ -42,6 +46,10 @@ namespace item_tracker
             // The buffer may be old, update it.
             if( g_Engine.time > time )
             {
+                #if SERVER
+                    m_Logger.info( "Updating global buffer." );
+                #endif
+
                 dictionary item_copy = items;
 
                 for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
@@ -88,11 +96,16 @@ namespace item_tracker
                 time = g_Engine.time + CONST_WHO_HAS_WHAT_TIME;
             }
 
-            //====================================================
+            /*
+            // This player has an outdated motd on his end, Re-Send the buffer else just open it.
+            if( float(user_data[ "motd_updated" ]) < time )
+            Clientdll: Nope.
+            */
+
+            //================================================================================================
             //  Shows a MOTD message to the player
-            //
             //  Code by Giegue. Taken from: https://github.com/JulianR0/TPvP/blob/master/src/plugins/TPvP.as#L7375
-            //====================================================
+            //================================================================================================
             uint iChars = 0;
 
             string szSplitMsg = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
@@ -104,10 +117,10 @@ namespace item_tracker
 
                 if( iChars == 32 )
                 {
-                    NetworkMessage message( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                    message.WriteByte( 0 );
-                    message.WriteString( szSplitMsg );
-                    message.End();
+                    NetworkMessage motd_append( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                        motd_append.WriteByte( 0 );
+                        motd_append.WriteString( szSplitMsg );
+                    motd_append.End();
 
                     iChars = 0;
                 }
@@ -118,16 +131,16 @@ namespace item_tracker
             {
                 szSplitMsg.Truncate( iChars );
 
-                NetworkMessage fix( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                fix.WriteByte( 0 );
-                fix.WriteString( szSplitMsg );
-                fix.End();
+                NetworkMessage motd_fix( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                    motd_fix.WriteByte( 0 );
+                    motd_fix.WriteString( szSplitMsg );
+                motd_fix.End();
             }
 
-            NetworkMessage endMOTD( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-            endMOTD.WriteByte( 1 );
-            endMOTD.WriteString( "\n" );
-            endMOTD.End();
+            NetworkMessage motd_open( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                motd_open.WriteByte( 1 );
+                motd_open.WriteString( "\n" );
+            motd_open.End(); 
         }
     }
 }

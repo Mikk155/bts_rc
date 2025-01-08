@@ -4,7 +4,17 @@ namespace randomizer
         CLogger@ m_Logger = CLogger( "Randomizer" );
     #endif
 
-    const array<string> keys(){ return { "item", "npc", "hull", "boss", "headcrab", "wave" }; }
+    const array<string> keys()
+    {
+        return {
+            "item",
+            "npc",
+            "hull",
+            "boss",
+            "headcrab",
+            "wave"
+        };
+    }
 
     //============================================================================
     // Start of map-entities
@@ -181,24 +191,45 @@ namespace randomizer
         {
             return
             {   // WEAPONS
-                "GM_SG_1", "GM_SG_2", "GM_SG_3", "GM_SG_4", "GM_CB_1", "GM_CB_2", "GM_CB_3", "GM_CB_4",
+                "GM_SG_1",
+                "GM_SG_2",
+                "GM_SG_3",
+                "GM_SG_4",
+                "GM_CB_1",
+                "GM_CB_2",
+                "GM_CB_3",
+                "GM_CB_4",
                 "GM_KN_1",
-                "GM_PIPE_1", "GM_PIPE_2",
+                "GM_PIPE_1",
+                "GM_PIPE_2",
                 "GM_PS_1",
                 "GM_SD_1",
-                "GM_AXE_1", "GM_MAG_1",
+                "GM_AXE_1",
+                "GM_MAG_1",
                 "GM_MAG_2",
-                "GM_DE_1", "GM_DE_2",
-                "GM_HG_1", "GM_HG_2", "GM_HG_3", "GM_HG_4", "GM_HG_5", "GM_HG_6", "GM_HG_7", "GM_HG_8",
+                "GM_DE_1",
+                "GM_DE_2",
+                "GM_HG_1",
+                "GM_HG_2",
+                "GM_HG_3",
+                "GM_HG_4",
+                "GM_HG_5",
+                "GM_HG_6",
+                "GM_HG_7",
+                "GM_HG_8",
                 "GM_G18_1",
-                "GM_PHK_1", "GM_PHK_2",
+                "GM_PHK_1",
+                "GM_PHK_2",
                 "GM_UZI_1",
-                "GM_MP5_1", "GM_MP5_2",
+                "GM_MP5_1",
+                "GM_MP5_2",
                 "GM_M4_1",
                 "GM_M16_1",
                 "GM_SAW_1",
                 // ITEMS
-                "GM_HK_1", "GM_HK_2", "GM_HK_3",
+                "GM_HK_1",
+                "GM_HK_2",
+                "GM_HK_3",
                 // AMMO
                 "GM_AMMO_1",
                 "GM_AMMO_2",

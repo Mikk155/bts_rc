@@ -2,6 +2,13 @@
     Author: Mikk
 */
 
+#if SERVER
+    namespace monster_killed
+    {
+        CLogger@ m_Logger = CLogger( "MonsterKilledHook" );
+    }
+#endif
+
 // Stupid language without Lambdas x[
 void npcdrop( const string &in name, CBaseMonster@ monster )
 {
@@ -11,6 +18,10 @@ void npcdrop( const string &in name, CBaseMonster@ monster )
 
         if( item !is null )
         {
+            #if SERVER
+                monster_killed::m_Logger.info( "Created item \"{}\" for monster \"{}\" at \"{}\"", { name, monster.pev.classname, monster.Center().ToString() } );
+            #endif
+
             item.pev.spawnflags |= 1024; // no more respawn
         }
     }
@@ -28,17 +39,27 @@ void zombie_crab( CBaseMonster@ monster, int iGib, dictionary@ user_data )
         if( headcrab_damage < headcrab_health )
         {
             monster.SetBodygroup( 1, 1 );
-        }
 
-        // This model does have an extra bodygroup for the headcrab or was gibbed
-        if( monster.GetBodygroup( 1 ) == 1 || iGib == GIB_ALWAYS )
-        {
-            CBaseEntity@ headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
-
-            if( headcrab !is null )
+            // This model does have an extra bodygroup for the headcrab or was gibbed
+            if( monster.GetBodygroup( 1 ) == 1 || iGib == GIB_ALWAYS )
             {
-                headcrab.pev.health = headcrab_health - headcrab_damage;
+                CBaseEntity@ headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
+
+                if( headcrab !is null )
+                {
+                    headcrab.pev.health = headcrab_health - headcrab_damage;
+
+                    #if SERVER
+                        monster_killed::m_Logger.info( "Created Headcrab for \"{}\" at \"{}\" with \"{}\" HP", { monster.pev.classname, headcrab.pev.origin.ToString(), headcrab.pev.health } );
+                    #endif
+                }
             }
+            #if SERVER
+            else
+            {
+                monster_killed::m_Logger.info( "Monster \"{}\" doesn't have a headcrab hitgroup for model \"{}\"", { monster.pev.classname, monster.pev.model } );
+            }
+            #endif
         }
     }
 }

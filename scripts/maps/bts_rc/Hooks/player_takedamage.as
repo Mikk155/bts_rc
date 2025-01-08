@@ -48,7 +48,8 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
 
         if( voices !is null )
         {
-            /*if( player.pev.waterlevel == WATERLEVEL_HEAD )
+#if DISCARTED
+            if( player.pev.waterlevel == WATERLEVEL_HEAD )
             {
                 if( voices.drowndamage !is null )
                 {
@@ -56,23 +57,26 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
                 }
             }
             else
-            {*/
-                // Player will be dead
-                if( player.pev.health - pDamageInfo.flDamage <= 0 )
+            {
+#endif
+            // Player will be dead
+            if( player.pev.health - pDamageInfo.flDamage <= 0 )
+            {
+                if( voices.killed !is null )
                 {
-                    if( voices.killed !is null )
-                    {
-                        voices.killed.PlaySound( player );
-                    }
+                    voices.killed.PlaySound( player );
                 }
-                else
+            }
+            else
+            {
+                if( voices.takedamage !is null )
                 {
-                    if( voices.takedamage !is null )
-                    {
-                        voices.takedamage.PlaySound( player );
-                    }
+                    voices.takedamage.PlaySound( player );
                 }
-            //}
+            }
+#if DISCARTED
+            }
+#endif
         }
     }
 
