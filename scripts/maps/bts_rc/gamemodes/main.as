@@ -2,3 +2,4 @@
 #include "lasers"
 #include "objective_indicator"
 #include "player_voices"
+#include "Sparks"
