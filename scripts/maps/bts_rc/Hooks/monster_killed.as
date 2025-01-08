@@ -115,8 +115,6 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
             }
             else if( monster.pev.classname == "monster_zombie_soldier" || monster.pev.classname == "monster_gonome" )
             {
-                zombie_crab(monster, iGib, user_data);
-
                 switch( Math.RandomLong( 1, 15 ) )
                 {
                     case 1:
