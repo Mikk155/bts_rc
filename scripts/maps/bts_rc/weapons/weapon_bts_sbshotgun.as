@@ -236,7 +236,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             msg.End();
         }
 
-        if( m_flRestoreAfter != 0.0f && m_flRestoreAfter <= g_Engine.time )
+        if( m_flRestoreAfter > 0.0f && m_flRestoreAfter <= g_Engine.time )
         {
             m_flRestoreAfter = 0.0f;
             m_pPlayer.pev.effects |= EF_DIMLIGHT;
@@ -384,7 +384,10 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             return;
 
         if( m_pPlayer.FlashlightIsOn() )
+        {
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
+            m_flRestoreAfter = -1.0f;
+        }
 
         switch( m_fInReloadState )
         {
@@ -487,13 +490,15 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             {
                 if ( fCondition )
                 {
+                    if( m_flRestoreAfter == -1.0f )
+                        m_flRestoreAfter = g_Engine.time + 1.0f;
+
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
                     self.SendWeaponAnim( PUMP, 0, GetBodygroup() );
                     g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, SCOCK1_S, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f; // pump after
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
-                    m_flRestoreAfter = g_Engine.time + ( m_pPlayer.FlashlightIsOn() ? 1.0f : 0.0f );
                     return true;
                 }
             }
