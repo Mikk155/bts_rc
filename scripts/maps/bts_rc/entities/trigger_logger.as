@@ -1,5 +1,7 @@
 namespace trigger_logger
 {
+    HUDTextParams HudParams;
+
     int register = LINK_ENTITY_TO_CLASS( "trigger_logger", "trigger_logger" );
 
     class trigger_logger : ScriptBaseEntity
@@ -17,7 +19,24 @@ namespace trigger_logger
         {
             if( pOther !is null && pOther.IsPlayer() )
             {
-                g_PlayerFuncs.ClientPrint( cast<CBasePlayer@>(pOther), HUD_PRINTNOTIFY, string( self.pev.message ) + "\n" );
+                HudParams.x = -1;
+                HudParams.effect = 0;
+                HudParams.r1 = RGBA_SVENCOOP.r;
+                HudParams.g1 = RGBA_SVENCOOP.g;
+                HudParams.b1 = RGBA_SVENCOOP.b;
+                HudParams.a1 = 0;
+                HudParams.r2 = RGBA_SVENCOOP.r;
+                HudParams.g2 = RGBA_SVENCOOP.g;
+                HudParams.b2 = RGBA_SVENCOOP.b;
+                HudParams.a2 = 0;
+                HudParams.fadeinTime = 0; 
+                HudParams.fadeoutTime = 0.25;
+                HudParams.fxTime = 0;
+                HudParams.holdTime = 2;
+                HudParams.channel = 3;
+                HudParams.y = 0.90;
+
+                g_PlayerFuncs.HudMessage( cast<CBasePlayer@>(pOther), HudParams, string( self.pev.message ) + "\n" );
             }
         }
     }
