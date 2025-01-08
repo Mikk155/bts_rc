@@ -145,7 +145,11 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                         npcdrop( BTS_HEVBATTERY::GetName(), monster );
                     break;
                     case 10:
-                        npcdrop( BTS_HEVBATTERY::GetName(), monster );
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
                         g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
                     break;
                 }
