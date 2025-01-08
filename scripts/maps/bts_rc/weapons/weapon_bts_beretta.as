@@ -83,19 +83,12 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
     }
     private int m_iFlashBattery
     {
-        get const
-        {
-            CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
-            return pCustom.HasKeyvalue( BATTERY_KV ) ? pCustom.GetKeyvalue( BATTERY_KV ).GetInteger() : 0;
-        }
-        set
-        {
-            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), BATTERY_KV, string( value ) );
-        }
+        get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
+        set       { m_pPlayer.GetUserData()[ BATTERY_KV ] = value; }
     }
     private float m_flFlashLightTime;
     private float m_flRestoreAfter = 0.0f;
-    private int m_iCurrentBaterry; // prevents CustomKeyvalues going brr
+    private int m_iCurrentBaterry;
     private int m_iShell;
 
     int GetBodygroup()
@@ -169,13 +162,12 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
     {
         m_iCurrentBaterry = m_iFlashBattery;
         m_pPlayer.pev.effects &= ~EF_DIMLIGHT; // just to be sure
+        m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
         NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
             msg.WriteByte( 0 );
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
-
-        m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
         self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "onehanded", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
