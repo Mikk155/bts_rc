@@ -4,7 +4,6 @@
 #include "Logger"
 #endif
 
-#include "precache"
 #include "player_class"
 
 //sven only has 8192 edicts at any given time

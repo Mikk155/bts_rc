@@ -17,7 +17,8 @@ class CVoice
 
     void push_back( const string& in sound )
     {
-        precache::sound( sound );
+        g_SoundSystem.PrecacheSound( sound );
+
         this.voices.insertLast( sound );
 
         #if SERVER
