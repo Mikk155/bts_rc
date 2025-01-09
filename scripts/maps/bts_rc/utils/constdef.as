@@ -80,12 +80,10 @@ const float CONST_WHO_HAS_WHAT_TIME = 5;
 //===============================================
 
 //===============================================
-// Damage Deductions on players
+// Damage reaction to DMG_RADIOACTIVE
 //===============================================
 
-const float CONST_HELMET_RADIATION_MULTIPLIER = 0.0;
-
-const float CONST_CLSUIT_RADIATION_MULTIPLIER = 0.2;
+const float CONST_CLSUIT_RADIATION_MULTIPLIER = 0.3;
 
 // Geiger damage sound
 const array<string> CONST_GEIGER_SND = {
