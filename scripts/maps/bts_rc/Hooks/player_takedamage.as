@@ -50,7 +50,7 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
 
         if( voices !is null )
         {
-#if DISCARTED
+#if DISCARDED
             if( player.pev.waterlevel == WATERLEVEL_HEAD )
             {
                 if( voices.drowndamage !is null )
@@ -76,7 +76,7 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
                     voices.takedamage.PlaySound( player );
                 }
             }
-#if DISCARTED
+#if DISCARDED
             }
 #endif
         }
