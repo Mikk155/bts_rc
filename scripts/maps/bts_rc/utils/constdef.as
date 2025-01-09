@@ -98,30 +98,3 @@ const array<string> CONST_GEIGER_SND = {
 //===============================================
 // End
 //===============================================
-
-//===============================================
-// Lasers
-//===============================================
-
-const array<string> CONST_LASERS_MONSTERS = {
-    "monster_sentry",
-    "monster_turret",
-    "monster_miniturret"
-};
-
-// Sprite of the laser
-const string CONST_LASERS_BEAM = "sprites/laserbeam.spr";
-const string CONST_LASERS_MODEL = "sprites/glow_red.spr";
-
-// renderamt of the glow at the turret
-const float CONST_LASERS_GRENDERAMT = 255;
-
-// renderamt of the glow at the target
-const float CONST_LASERS_SRENDERAMT = 80;
-
-// Offset down from the target's enemy EyePosition
-const float CONST_LASERS_TARGET_OFFSET = 10;
-
-//===============================================
-// End
-//===============================================
