@@ -52,8 +52,10 @@ void MapInit()
     g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_OFF );
     g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_NO_POWER );
 
+#if DISCARDED
     for( uint ui = 0; ui < CONST_BLOODPUDDLE_SND.length(); ui++ )
         g_SoundSystem.PrecacheSound( CONST_BLOODPUDDLE_SND[ui] );
+#endif
 
     for( uint ui = 0; ui < BloodSplash::Red.length(); ui++ )
         g_Game.PrecacheModel( BloodSplash::Red[ui] );

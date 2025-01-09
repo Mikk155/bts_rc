@@ -26,6 +26,7 @@ const Vector CONST_HEV_NIGHTVISION_COLOR = Vector( 250, 200, 20 );
 // Blood puddle model
 const string CONST_BLOODPUDDLE = "models/mikk/misc/bloodpuddle.mdl";
 
+#if DISCARDED
 // Blood puddle step sounds
 const array<string>@ CONST_BLOODPUDDLE_SND = {
     "player/pl_slosh1.wav",
@@ -33,6 +34,7 @@ const array<string>@ CONST_BLOODPUDDLE_SND = {
     "player/pl_slosh3.wav",
     "player/pl_slosh4.wav",
 };
+#endif
 
 // small size monsters for puddle's scale
 array<string>@ CONST_BLOODPUDDLE_SMALL = {
