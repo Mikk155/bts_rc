@@ -20,15 +20,15 @@ namespace item_tracker
         { "GEAR_4", "Area 3 - Gear" },
         { "WAREHOUSE_YARDKEY", "Area 2 - Yard managers keycard" },
         { "DORMS_CARD_101", "Area 1 - A-101 Dorms key 1" },
-        { "DORMS_CARD_101", "Area 1 - A-101 Dorms key 2" },
+        { "DORMS_CARD_101_2", "Area 1 - A-101 Dorms key 2" },
         { "DORMS_CARD_106", "Area 1 - A-106 Dorms key 3" },
         { "DORMS_CARD_201", "Area 1 - B-201 Dorms key 4" },
         { "CODES_1", "Service Elevator codes" },
         { "Blackmesa_Maintenance_Clearance_2", "Maintenance Access level 2 keycard" },
-        { "Blackmesa_Maintenance_Clearance_2", "Maintenance Access level 2 keycard Alt" },
-        { "Blackmesa_Maintenance_Clearance_2", "Maintenance Access level 2 keycard X" },
+        { "Blackmesa_Maintenance_Clearance_2_2", "Maintenance Access level 2 keycard Alt" },
+        { "Blackmesa_Maintenance_Clearance_2_1", "Maintenance Access level 2 keycard X" },
         { "d5_officekey", "Reception key 1" },
-        { "d5_officekey", "Reception key 2" },
+        { "d5_officekey_1", "Reception key 2" },
         { "d5_doctorkey", "Doctors key" },
         { "Blackmesa_Security_Clearance_3", "Blackmesa Security Clearance level 3" }
     };
@@ -67,17 +67,15 @@ namespace item_tracker
                             if( item !is null && item_copy.exists( item.m_szItemName ))
                             {
                                 string format;
+                                string name = item.m_szItemName;
 
-                                if( "VALVE_1" == item.m_szItemName && item.GetCustomKeyvalues().GetKeyvalue( "$i_valve_2" ).GetInteger() == 1 )
+                                if( item.GetCustomKeyvalues().HasKeyvalue( "$i_secondary" ) )
                                 {
-                                    snprintf( format, "%1\n - %2", string( item_copy[ "VALVE_1_2" ] ), players.pev.netname );
-                                    item_copy[ "VALVE_1_2" ] = format;
+                                    snprintf( name, "%1_%2", item.m_szItemName, item.GetCustomKeyvalues().GetKeyvalue( "$i_secondary" ).GetInteger() );
                                 }
-                                else
-                                {
-                                    snprintf( format, "%1\n - %2", string( item_copy[ item.m_szItemName ] ), players.pev.netname );
-                                    item_copy[ item.m_szItemName ] = format;
-                                }
+
+                                snprintf( format, "%1\n - %2", string( item_copy[ name ] ), players.pev.netname );
+                                item_copy[ name ] = format;
                             }
                             @inventory = inventory.pNext;
                         }
