@@ -13,12 +13,16 @@
 void MapStart()
 {
     #if SERVER
-        g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+        BTS_MEDKIT::MapStart();
     #endif
 }
 
 void MapActivate()
 {
+    #if SERVER
+        g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+    #endif
+
     BTS_RC::MapActivate(); //Objective code debug
 }
 
