@@ -115,8 +115,10 @@ class CVoiceResponse
                 return cast<CVoices@>( this.voices[ "construction" ] );
 
             case PM::HELMET:
-            case PM::CLSUIT:
                 return cast<CVoices@>( this.voices[ "helmet" ] );
+
+            case PM::CLSUIT:
+                return cast<CVoices@>( this.voices[ "cleansuit" ] );
 
             case PM::SCIENTIST:
             case PM::BSCIENTIST:
@@ -131,11 +133,13 @@ class CVoiceResponse
         CVoices@ barney = @CVoices( "barney" );
         CVoices@ construction = @CVoices( "construction" );
         CVoices@ helmet = @CVoices( "helmet" );
+        CVoices@ cleansuit = @CVoices( "cleansuit" );
 
         this.voices[ "scientist" ] = @scientist;
         this.voices[ "barney" ] = @barney;
         this.voices[ "construction" ] = @construction;
         this.voices[ "helmet" ] = @helmet;
+        this.voices[ "cleansuit" ] = @cleansuit;
 
         // Customize in here the Voices:
         construction.takedamage.cooldown = CONST_VOICE_COOLDOWN_TAKEDAMAGE;
@@ -155,6 +159,9 @@ class CVoiceResponse
         helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain3.wav" );
         helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain4.wav" );
         helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain5.wav" );
+
+        @cleansuit.takedamage = helmet.takedamage;
+        @cleansuit.killed = helmet.takedamage;
 
         scientist.takedamage.cooldown = CONST_VOICE_COOLDOWN_TAKEDAMAGE;
         scientist.takedamage.push_back( "scientist/sci_pain1.wav" );
