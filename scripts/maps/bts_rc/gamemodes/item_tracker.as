@@ -52,6 +52,7 @@ namespace item_tracker
 
                 dictionary item_copy = items;
 
+                // Iterate over all clients, some player's indexes will be above GetNumPlayers, i have no proofs but neither doubts.
                 for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
                 {
                     CBasePlayer@ players = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
@@ -67,15 +68,22 @@ namespace item_tracker
                             if( item !is null && item_copy.exists( item.m_szItemName ))
                             {
                                 string format;
-                                string name = item.m_szItemName;
 
-                                if( item.GetCustomKeyvalues().HasKeyvalue( "$i_secondary" ) )
+                                CustomKeyvalues@ doubles = item.GetCustomKeyvalues();
+
+                                // These are duplicated "item_name" So to identify to which "Display name" it belongs we use a custom keyvalue.
+                                if( doubles !is null && doubles.HasKeyvalue( "$i_secondary" ) )
                                 {
-                                    snprintf( name, "%1_%2", item.m_szItemName, item.GetCustomKeyvalues().GetKeyvalue( "$i_secondary" ).GetInteger() );
+                                    string name;
+                                    snprintf( name, "%1_%2", item.m_szItemName, doubles.GetKeyvalue( "$i_secondary" ).GetInteger() );
+                                    snprintf( format, "%1\n - %2", string( item_copy[ name ] ), players.pev.netname );
+                                    item_copy[ name ] = format;
                                 }
-
-                                snprintf( format, "%1\n - %2", string( item_copy[ name ] ), players.pev.netname );
-                                item_copy[ name ] = format;
+                                else
+                                {
+                                    snprintf( format, "%1\n - %2", string( item_copy[ string( item.m_szItemName ) ] ), players.pev.netname );
+                                    item_copy[ string( item.m_szItemName ) ] = format;
+                                }
                             }
                             @inventory = inventory.pNext;
                         }
@@ -93,12 +101,6 @@ namespace item_tracker
 
                 time = g_Engine.time + CONST_WHO_HAS_WHAT_TIME;
             }
-
-            /*
-            // This player has an outdated motd on his end, Re-Send the buffer else just open it.
-            if( float(user_data[ "motd_updated" ]) < time )
-            Clientdll: Nope.
-            */
 
             //================================================================================================
             //  Shows a MOTD message to the player
