@@ -63,16 +63,12 @@ namespace Sparks
                 {
                     if( hit.vars.model == "models/bts_rc/monsters/zombie_hev.mdl" )
                     {
-                        Sparks::Sparks(hit, destination, 3);
+                        Sparks::Sparks(hit, destination, 7);
                     }
                 }
                 else if( classname == "monster_alien_grunt" )
                 {
                     Sparks::Sparks(hit, destination, 0);
-                }
-                else if( classname == "monster_barney" )
-                {
-                    Sparks::Sparks(hit, destination, 7);
                 }
             }
             else if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
