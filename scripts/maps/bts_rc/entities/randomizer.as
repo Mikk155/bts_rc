@@ -4,6 +4,7 @@ namespace randomizer
         CLogger@ m_Logger = CLogger( "Randomizer" );
     #endif
 
+#if DISCARDED
     const array<string> keys()
     {
         return {
@@ -34,6 +35,7 @@ namespace randomizer
 
         return 0;
     }
+#endif
 
     class CRandomizerEntity : ScriptBaseEntity
     {
@@ -45,11 +47,17 @@ namespace randomizer
         }
     }
 
+    int reirandomizer_npc = LINK_ENTITY_TO_CLASS( "randomizer_npc", "randomizer" );
     class randomizer_npc : CRandomizerEntity { }
+    int reirandomizer_item = LINK_ENTITY_TO_CLASS( "randomizer_item", "randomizer" );
     class randomizer_item : CRandomizerEntity { }
+    int reirandomizer_hull = LINK_ENTITY_TO_CLASS( "randomizer_hull", "randomizer" );
     class randomizer_hull : CRandomizerEntity { }
+    int reirandomizer_boss = LINK_ENTITY_TO_CLASS( "randomizer_boss", "randomizer" );
     class randomizer_boss : CRandomizerEntity { }
+    int reirandomizer_wave = LINK_ENTITY_TO_CLASS( "randomizer_wave", "randomizer" );
     class randomizer_wave : CRandomizerEntity { }
+    int reirandomizer_headcrab = LINK_ENTITY_TO_CLASS( "randomizer_headcrab", "randomizer" );
     class randomizer_headcrab : CRandomizerEntity { }
 
     //============================================================================
@@ -70,9 +78,10 @@ namespace randomizer
         array<string>@ entities() { return {}; }
 
         // Indexes of randomizer entities
-        array<int> indexes;
+        array<int>@ indexes;
 
-        void swap_list()
+        // Swaps a list for initial result of Vectors.
+        private void swap_list()
         {
             array<int> swaps = indexes;
             for( int i = swaps.length() - 1; i > 0; i-- )
@@ -161,7 +170,6 @@ namespace randomizer
         }
     }
 
-    CRanomizerHeadcrabs g_RandomizerHeadcrab;
     final class CRanomizerHeadcrabs : CRandomizer
     {
         string name() { return "headcrab"; }
@@ -181,8 +189,8 @@ namespace randomizer
             };
         }
     }
+    CRanomizerHeadcrabs g_RandomizerHeadcrab;
 
-    CRanomizerItems g_RandomizerItem;
     final class CRanomizerItems : CRandomizer
     {
         string name() { return "item"; }
@@ -190,7 +198,8 @@ namespace randomizer
         array<string>@ entities()
         {
             return
-            {   // WEAPONS
+            {
+                // WEAPONS
                 "GM_SG_1",
                 "GM_SG_2",
                 "GM_SG_3",
@@ -309,8 +318,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerHulls g_RandomizerHull;
+    CRanomizerItems g_RandomizerItem;
+
     final class CRanomizerHulls : CRandomizer
     {
         string name() { return "hull"; }
@@ -327,8 +336,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerBosss g_RandomizerBoss;
+    CRanomizerHulls g_RandomizerHull;
+
     final class CRanomizerBosss : CRandomizer
     {
         string name() { return "boss"; }
@@ -344,8 +353,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerNpcs g_RandomizerNpc;
+    CRanomizerBosss g_RandomizerBoss;
+
     final class CRanomizerNpcs : CRandomizer
     {
         string name() { return "npc"; }
@@ -418,8 +427,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerWaves g_RandomizerWave;
+    CRanomizerNpcs g_RandomizerNpc;
+
     final class CRanomizerWaves : CRandomizer
     {
         string name() { return "wave"; }
@@ -457,4 +466,5 @@ namespace randomizer
             };
         }
     }
+    CRanomizerWaves g_RandomizerWave;
 }
