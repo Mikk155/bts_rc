@@ -48,7 +48,7 @@ class item_bts_hevbattery : ScriptBasePlayerItemEntity
         string modelName = g_EngineFuncs.GetInfoKeyBuffer( pPlayer.edict() ).GetValue( "model" );
 
         //non-HEV user won't get this battery as their armor
-        if( g_PlayerClass[ player, true ] != PM::HELMET )
+        if( g_PlayerClass[ pPlayer, true ] != PM::HELMET )
             return;
 
         //player that has 100 AP, doesn't have suit ( in general ) and they existed, won't get the battery anymore
