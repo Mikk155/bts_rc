@@ -294,7 +294,11 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
     void SecondaryAttack()
     {
         if( m_iCurrentBaterry == 0 )
+        {
+            self.PlayEmptySound();
+            self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;
+        }
 
         if( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
