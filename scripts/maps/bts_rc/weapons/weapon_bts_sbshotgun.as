@@ -90,20 +90,13 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
     }
     private int m_iFlashBattery
     {
-        get const
-        {
-            CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
-            return pCustom.HasKeyvalue( BATTERY_KV ) ? pCustom.GetKeyvalue( BATTERY_KV ).GetInteger() : 0;
-        }
-        set
-        {
-            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), BATTERY_KV, string( value ) );
-        }
+        get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
+        set       { m_pPlayer.GetUserData()[ BATTERY_KV ] = value; }
     }
+    private float m_flTimeWeaponReload;
     private float m_flFlashLightTime;
     private float m_flRestoreAfter = 0.0f;
-    private int m_iCurrentBaterry; // prevents CustomKeyvalues going brr
-    private float m_flTimeWeaponReload;
+    private int m_iCurrentBaterry;
     private int m_fInReloadState;
     private int m_iShell;
 
@@ -236,7 +229,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             msg.End();
         }
 
-        if( m_flRestoreAfter != 0.0f && m_flRestoreAfter <= g_Engine.time )
+        if( m_flRestoreAfter > 0.0f && m_flRestoreAfter <= g_Engine.time )
         {
             m_flRestoreAfter = 0.0f;
             m_pPlayer.pev.effects |= EF_DIMLIGHT;
@@ -384,7 +377,10 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             return;
 
         if( m_pPlayer.FlashlightIsOn() )
+        {
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
+            m_flRestoreAfter = -1.0f;
+        }
 
         switch( m_fInReloadState )
         {
@@ -487,13 +483,15 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             {
                 if ( fCondition )
                 {
+                    if( m_flRestoreAfter == -1.0f )
+                        m_flRestoreAfter = g_Engine.time + 1.0f;
+
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
                     self.SendWeaponAnim( PUMP, 0, GetBodygroup() );
                     g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, SCOCK1_S, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f; // pump after
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
-                    m_flRestoreAfter = g_Engine.time + ( m_pPlayer.FlashlightIsOn() ? 1.0f : 0.0f );
                     return true;
                 }
             }
