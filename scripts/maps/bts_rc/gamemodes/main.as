@@ -1,3 +1,4 @@
+#include "BloodSplash"
 #include "item_tracker"
 #include "lasers"
 #include "objective_indicator"

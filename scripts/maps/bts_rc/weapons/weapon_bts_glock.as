@@ -229,7 +229,8 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            Sparks::Sparks(tr.pHit, tr.iHitgroup, tr.vecEndPos );
+            Sparks::Sparks( tr.pHit, tr.iHitgroup, tr.vecEndPos );
+            BloodSplash::Create( tr.pHit, tr.iHitgroup, tr.vecEndPos );
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {

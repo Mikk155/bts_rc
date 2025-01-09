@@ -55,6 +55,12 @@ void MapInit()
     for( uint ui = 0; ui < CONST_BLOODPUDDLE_SND.length(); ui++ )
         g_SoundSystem.PrecacheSound( CONST_BLOODPUDDLE_SND[ui] );
 
+    for( uint ui = 0; ui < BloodSplash::Red.length(); ui++ )
+        g_Game.PrecacheModel( BloodSplash::Red[ui] );
+
+    for( uint ui = 0; ui < BloodSplash::Yellow.length(); ui++ )
+        g_Game.PrecacheModel( BloodSplash::Yellow[ui] );
+
     #if SERVER
         g_Game.PrecacheOther( "monster_headcrab" );
     #endif
