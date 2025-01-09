@@ -88,19 +88,12 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity
     }
     private int m_iFlashBattery
     {
-        get const
-        {
-            CustomKeyvalues@ pCustom = m_pPlayer.GetCustomKeyvalues();
-            return pCustom.HasKeyvalue( BATTERY_KV ) ? pCustom.GetKeyvalue( BATTERY_KV ).GetInteger() : 0;
-        }
-        set
-        {
-            g_EntityFuncs.DispatchKeyValue( m_pPlayer.edict(), BATTERY_KV, string( value ) );
-        }
+        get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
+        set       { m_pPlayer.GetUserData()[ BATTERY_KV ] = value; }
     }
     private float m_flFlashLightTime;
     private float m_flRestoreAfter = 0.0f;
-    private int m_iCurrentBaterry; // prevents CustomKeyvalues going brr
+    private int m_iCurrentBaterry;
     private int m_iShell;
 
     int GetBodygroup()
