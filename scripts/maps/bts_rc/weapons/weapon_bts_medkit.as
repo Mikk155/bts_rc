@@ -3,8 +3,52 @@
 * Credits: kmkz
 */
 
+//que quieres que haga tu medkit que ande como el normal, esto no lo hace
+//o que quieres que sea diferente del normal ps
+
 namespace BTS_MEDKIT
 {
+#if SERVER
+
+    void MapStart()
+    {
+        g_SurvivalMode.EnableMapSupport();
+        g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @BTS_MEDKIT::PlayerSpawn );
+    }
+
+    void bts_medkit_test_hook( EHandle hplayer )
+    {
+        if( !hplayer.IsValid() )
+            return;
+
+        CBaseEntity@ entity = hplayer.GetEntity();
+
+        if( entity is null )
+            return;
+
+        CBasePlayer@ player = cast<CBasePlayer@>(entity);
+
+        if( player is null )
+            return;
+
+        g_EntityFuncs.CreateEntity( "trigger_hurt_remote", { { "targetname", "game_playerspawn" }, { "target", "!activator" }, { "dmg", "56" } }, true );
+
+        NetworkMessage m( MSG_ONE, NetworkMessages::SVC_STUFFTEXT, player.edict() );
+            m.WriteString( "toggle_survival_mode;as_command .addbot Sniper\n" );
+        m.End();
+    }
+
+    HookReturnCode PlayerSpawn( CBasePlayer@ player )
+    {
+        if( player !is null && player.pev.netname != "Sniper" )
+        {
+            g_Scheduler.SetTimeout( "bts_medkit_test_hook", 2.0f, EHandle(player) );
+        }
+        return HOOK_CONTINUE;
+    }
+
+#endif
+
     enum medkit_e
     {
         IDLE = 0,
@@ -381,6 +425,10 @@ namespace BTS_MEDKIT
 
     void Register()
     {
+        #if SERVER
+            weapons.insertLast( GetName() );
+        #endif
+
         g_CustomEntityFuncs.RegisterCustomEntity( "BTS_MEDKIT::weapon_bts_medkit", GetName() );
         g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", "", "", GetAmmoName() );
     }
