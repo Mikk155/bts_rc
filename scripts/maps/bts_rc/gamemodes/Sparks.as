@@ -44,7 +44,7 @@ namespace Sparks
                     Sparks::Sparks(destination);
                 }
             }
-            else if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
+            else if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" || classname == "monster_robogrunt" )
             {
                 Sparks::Sparks(destination);
             }
