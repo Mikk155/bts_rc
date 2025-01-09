@@ -29,15 +29,17 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
 
         switch( g_PlayerClass[ player, true ] )
         {
-            case PM::HELMET:
-            {
-                pDamageInfo.flDamage *= CONST_HELMET_RADIATION_MULTIPLIER;
-                break;
-            }
             case PM::CLSUIT:
             {
-                pDamageInfo.flDamage *= CONST_CLSUIT_RADIATION_MULTIPLIER;
+                float dmg = pDamageInfo.flDamage * CONST_CLSUIT_RADIATION_MULTIPLIER;
+                if( dmg > 1.0 )
+                    pDamageInfo.flDamage = dmg;
                 break;
+            }
+            case PM::HELMET:
+            {
+                pDamageInfo.flDamage = 0;
+                return HOOK_CONTINUE;
             }
         }
     }
