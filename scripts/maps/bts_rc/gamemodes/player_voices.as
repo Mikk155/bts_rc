@@ -115,6 +115,7 @@ class CVoiceResponse
                 return cast<CVoices@>( this.voices[ "construction" ] );
 
             case PM::HELMET:
+            case PM::CLSUIT:
                 return cast<CVoices@>( this.voices[ "helmet" ] );
 
             case PM::SCIENTIST:
