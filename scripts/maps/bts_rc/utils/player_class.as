@@ -80,14 +80,14 @@ final class PlayerClass
             case PM::HELMET:
             {
                 player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
+                break;
             }
-            break;
 
             default:
             {
                 player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
+                break;
             }
-            break;
         }
 
         #if SERVER
