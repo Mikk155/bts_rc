@@ -48,7 +48,7 @@ class item_bts_helmet : ScriptBasePlayerItemEntity
         string modelName = g_EngineFuncs.GetInfoKeyBuffer( pPlayer.edict() ).GetValue( "model" );
 
         //non-HEV user get this as their armour
-        if( g_PlayerClass[ player, true ] != PM::HELMET )
+        if( g_PlayerClass[ pPlayer, true ] != PM::HELMET )
             return;
 
         if( pPlayer is null || pPlayer.pev.armorvalue >= 50 && pPlayer.HasSuit() || !pPlayer.HasSuit() || g_MaxPlayers.exists( steamId ) )
