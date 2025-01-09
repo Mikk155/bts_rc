@@ -59,7 +59,7 @@ class CLasers
             m2.WriteCoord( VecPos.y );
             m2.WriteCoord( VecPos.z );
             m2.WriteByte( 8 ); // radius
-            m2.WriteByte( 255 ); // R
+            m2.WriteByte( 100 ); // R
             m2.WriteByte( 0 ); // G
             m2.WriteByte( 0 ); // B
             m2.WriteByte( 1 ); // life in 0.1's
@@ -106,22 +106,23 @@ class CLasers
             Vector VecStart = sentry.EyePosition();
 
             TraceResult tr;
+            // Offset of 10 units bellow the eye position
             g_Utility.TraceLine( VecStart, sentry.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, sentry.edict(), tr );
 
             CSprite@ spr_1 = this.sprite( VecStart );
             if( spr_1 !is null )
             {
-                spr_1.pev.rendermode = kRenderGlow;
-                spr_1.pev.renderamt = 255;
-                spr_1.pev.rendercolor = Vector( 255, 0, 0 );
+                spr_1.pev.rendermode = kRenderGlow; // Glow
+                spr_1.pev.renderamt = 255; // Amt of glow
+                spr_1.pev.rendercolor = Vector( 255, 0, 0 ); // Color of glow
             }
 
             CSprite@ spr_2 = this.sprite( tr.vecEndPos );
             if( spr_2 !is null )
             {
-                spr_2.pev.rendermode = kRenderTransAdd;
-                spr_2.pev.renderamt = 80;
-                spr_2.pev.rendercolor = Vector( 255, 0, 0 );
+                spr_2.pev.rendermode = kRenderTransAdd; // Additive
+                spr_2.pev.renderamt = 80;   // Amt of target's sprite
+                spr_2.pev.rendercolor = Vector( 255, 0, 0 ); // Color of target's sprite
             }
 
             NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
