@@ -23,6 +23,7 @@ namespace trigger_update_class
             {
                 m_class = PM( atoi( szValue ) );
             }
+            // We don't want anything else so just return false
             return false;
         }
 
@@ -30,9 +31,9 @@ namespace trigger_update_class
         {
             if( pActivator !is null )
             {
-                CBasePlayer@ player = cast<CBasePlayer@>( pActivator );
+                CBasePlayer@ player = null;
 
-                if( player !is null )
+                if( pActivator.IsPlayer() && ( @player = cast<CBasePlayer@>( pActivator ) ) !is null )
                 {
                     g_PlayerClass.set_class( player, m_class );
                 }
