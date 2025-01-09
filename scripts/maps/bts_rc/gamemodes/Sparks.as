@@ -4,9 +4,19 @@
 
 namespace Sparks
 {
-    // -TODO Ricochet sounds?
-    void Sparks( Vector &in destination, const int &in color)
+    array<string>@ ricochets = {
+        "weapons/ric1.wav",
+        "weapons/ric2.wav",
+        "weapons/ric3.wav",
+        "weapons/ric4.wav",
+        "weapons/ric5.wav"
+    };
+
+    void Sparks( edict_t@ hit, Vector &in destination, const int &in color)
     {
+        if( g_EntityFuncs.IsValidEntity( hit ) )
+            g_SoundSystem.EmitSoundDyn( hit, CHAN_AUTO, ricochets[ Math.RandomLong( 0, ricochets.length() - 1 ) ], 1.0, ATTN_NONE, 0, PITCH_NORM );
+
         NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
             m.WriteByte( TE_STREAK_SPLASH );
             m.WriteCoord( destination.x );
@@ -45,7 +55,7 @@ namespace Sparks
 
             if( classname == "monster_robogrunt" )
             {
-                Sparks::Sparks(destination, 5);
+                Sparks::Sparks(hit, destination, 5);
             }
             if( group == 10 )
             {
@@ -53,21 +63,21 @@ namespace Sparks
                 {
                     if( hit.vars.model == "models/bts_rc/monsters/zombie_hev.mdl" )
                     {
-                        Sparks::Sparks(destination, 3);
+                        Sparks::Sparks(hit, destination, 3);
                     }
                 }
                 else if( classname == "monster_alien_grunt" )
                 {
-                    Sparks::Sparks(destination, 0);
+                    Sparks::Sparks(hit, destination, 0);
                 }
                 else if( classname == "monster_barney" )
                 {
-                    Sparks::Sparks(destination, 7);
+                    Sparks::Sparks(hit, destination, 7);
                 }
             }
             else if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
             {
-                Sparks::Sparks(destination, 4);
+                Sparks::Sparks(hit, destination, 4);
             }
         }
     }
