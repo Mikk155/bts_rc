@@ -340,7 +340,11 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
     void SecondaryAttack()
     {
         if( m_iCurrentBaterry == 0 || self.m_fInReload )
+        {
+            self.PlayEmptySound();
+            self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;
+        }
 
         if( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
