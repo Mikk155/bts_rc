@@ -48,7 +48,7 @@ array<string> SOUNDS = {
     "bts_rc/weapons/fidget_4.wav",
 };
 string SWITCH_SND = "bts_rc/items/flashlight1.wav";
-// string RELOAD_SND = "bts_rc/items/battery_reload.wav";
+string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 string RELOAD1_S = "bts_rc/weapons/reload1.wav";
 string RELOAD3_S = "bts_rc/weapons/reload3.wav";
 string SCOCK1_S = "bts_rc/weapons/scock1.wav";
@@ -137,7 +137,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_SoundSystem.PrecacheSound( SWITCH_SND );
-        // g_SoundSystem.PrecacheSound( RELOAD_SND );
+        g_SoundSystem.PrecacheSound( RELOAD_SND );
 
         g_SoundSystem.PrecacheSound( RELOAD1_S );
         g_SoundSystem.PrecacheSound( RELOAD3_S );
@@ -193,12 +193,13 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
     void Holster( int skiplocal = 0 )
     {
         SetThink( null );
-        m_fInReloadState = 0;
 
         if ( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
 
+        m_fInReloadState = 0;
         m_flRestoreAfter = 0.0f;
+        self.m_fInReload = false;
         m_iFlashBattery = m_iCurrentBaterry;
         m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
         BaseClass.Holster( skiplocal );
@@ -268,6 +269,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             return;
         }
 
+        // force reload end (PUMP)
         if( FinishReload( true ) )
             return;
 
@@ -353,15 +355,21 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
         if( m_iCurrentBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
             return;
 
-        m_iFlashBattery = m_iCurrentBaterry = 100;
+        // force reload end (PUMP)
+        if( FinishReload( true ) )
+            return;
 
-        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-            msg.WriteByte( m_iCurrentBaterry );
-        msg.End();
+        SetThink( null );
+        m_fInReloadState = 0;
+        m_flRestoreAfter = 0.0f;
+        self.m_fInReload = false;
+        m_flFlashLightTime = 0.0f;
 
-        m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
-        // g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
+        SetThink( ThinkFunction( BaterryRechargeStart ) );
+        pev.nextthink = g_Engine.time + ( 10.0f / 30.0f );
+
+        self.SendWeaponAnim( HOLSTER, 0, GetBodygroup() );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
     }
 
     void Reload()
@@ -449,6 +457,30 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
     {
         SetThink( null );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, SCOCK1_S, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
+    }
+
+    private void BaterryRechargeStart()
+    {
+        SetThink( ThinkFunction( BaterryRechargeEnd ) );
+        pev.nextthink = g_Engine.time + 4.0f;
+
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+    }
+
+    private void BaterryRechargeEnd()
+    {
+        SetThink( null );
+
+        self.SendWeaponAnim( DRAW, 0, GetBodygroup() );
+        m_iFlashBattery = m_iCurrentBaterry = 100;
+
+        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
+            msg.WriteByte( m_iCurrentBaterry );
+        msg.End();
+
+        m_pPlayer.m_flNextAttack = 0.5f;
+        m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 12.0f / 24.0f );
     }
 
     private void FlashlightTurnOn()
