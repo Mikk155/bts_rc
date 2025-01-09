@@ -27,7 +27,7 @@ const Vector CONST_HEV_NIGHTVISION_COLOR = Vector( 250, 200, 20 );
 const string CONST_BLOODPUDDLE = "models/mikk/misc/bloodpuddle.mdl";
 
 // Blood puddle step sounds
-const array<string> CONST_BLOODPUDDLE_SND = {
+const array<string>@ CONST_BLOODPUDDLE_SND = {
     "player/pl_slosh1.wav",
     "player/pl_slosh2.wav",
     "player/pl_slosh3.wav",
@@ -35,17 +35,17 @@ const array<string> CONST_BLOODPUDDLE_SND = {
 };
 
 // small size monsters for puddle's scale
-array<string> CONST_BLOODPUDDLE_SMALL = {
+array<string>@ CONST_BLOODPUDDLE_SMALL = {
     "moster_headcrab",
     "monster_houndeye",
     "monster_babycrab"
 };
 
 // Min and max size for small puddles
-array<float> CONST_BLOODPUDDLE_SIZE_SMALL = { 0.5, 1.5 };
+const array<float>@ CONST_BLOODPUDDLE_SIZE_SMALL = { 0.5, 1.5 };
 
 // Min and max size for big puddles
-array<float> CONST_BLOODPUDDLE_SIZE_BIG = { 1.5, 2.5 };
+const array<float>@ CONST_BLOODPUDDLE_SIZE_BIG = { 1.5, 2.5 };
 
 //===============================================
 // End

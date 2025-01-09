@@ -24,7 +24,7 @@ namespace env_bloodpuddle
     };
 
     // Create a blood puddle if possible.
-    void create( CBaseMonster@ monster, dictionary@ user_data, int gib )
+    void create( CBaseMonster@ monster, dictionary@ user_data, const int &in gib )
     {
         if( monster is null )
             return;
@@ -41,7 +41,7 @@ namespace env_bloodpuddle
         if( !freeedicts( 30 ) )
         {
             #if SERVER
-                m_Logger.info( "Failed to create. Saving edicts for more important stuff." );
+                m_Logger.warn( "Failed to create. Saving edicts for more important stuff." );
             #endif
 
             return;
@@ -52,7 +52,7 @@ namespace env_bloodpuddle
         if( entity is null )
         {
             #if SERVER
-                m_Logger.info( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
+                m_Logger.error( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
             #endif
 
             return;
@@ -63,7 +63,7 @@ namespace env_bloodpuddle
         if( bloodpuddle is null )
         {
             #if SERVER
-                m_Logger.info( "Failed to cast to class, Liberating edict." );
+                m_Logger.error( "Failed to cast to class, Liberating edict." );
             #endif
 
             entity.pev.flags |= FL_KILLME;
@@ -105,6 +105,8 @@ namespace env_bloodpuddle
     class env_bloodpuddle : ScriptBaseAnimating
     {
         BLOOD_STATE state = BLOOD_STATE::IDLE;
+        private float last_time = 0;
+        private uint uisize = 0;
 
         void Spawn()
         {
@@ -112,14 +114,16 @@ namespace env_bloodpuddle
             self.pev.solid = SOLID_BBOX;
             g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
 
-            SetTouch( TouchFunction( this.touch ) );
+            uisize = CONST_BLOODPUDDLE_SND.length();
+
+            if( uisize > 0 )
+            {
+                SetTouch( TouchFunction( this.touch ) );
+            }
+
             SetThink( ThinkFunction( this.think ) );
 
             g_EntityFuncs.SetModel( self, CONST_BLOODPUDDLE );
-
-            #if SERVER
-                m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
-            #endif
 
             switch( state )
             {
@@ -128,6 +132,11 @@ namespace env_bloodpuddle
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
                     self.pev.sequence = 0;
+
+                    #if SERVER
+                        m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
+                    #endif
+
                     break;
                 }
 
@@ -139,10 +148,11 @@ namespace env_bloodpuddle
                     self.pev.frame = 0;
 
                     #if SERVER
-                        m_Logger.info( "Expadig at a framerate of \"{}\"", { self.pev.framerate } );
+                        m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\" at framerate of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale, self.pev.framerate } );
                     #endif
+
+                    break;
                 }
-                break;
             }
 
             self.ResetSequenceInfo();
@@ -169,7 +179,7 @@ namespace env_bloodpuddle
                 case BLOOD_STATE::EXPANDING:
                 default:
                 {
-                    if( g_EntityFuncs.IsValidEntity( self.pev.owner ) && g_EntityFuncs.Instance( self.pev.owner ) !is null )
+                    if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
                     {
                         self.StudioFrameAdvance();
                     }
@@ -185,18 +195,13 @@ namespace env_bloodpuddle
             }
         }
 
-        // -TODO Improve this as may be spamming a lot.
         void touch( CBaseEntity@ other )
         {
-            if( other !is null && other.IsPlayer() )
+            if( g_Engine.time > last_time && other !is null && other.IsPlayer() )
             {
-                uint uisize = CONST_BLOODPUDDLE_SND.length();
+                g_SoundSystem.PlaySound( self.edict(), CHAN_BODY, CONST_BLOODPUDDLE_SND[ Math.RandomLong( 0, uisize - 1 ) ], 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, self.GetOrigin() );
 
-                if( uisize > 0 )
-                {
-                    const string sound = CONST_BLOODPUDDLE_SND[ Math.RandomLong( 0, uisize - 1 ) ];
-                    g_SoundSystem.PlaySound( self.edict(), CHAN_BODY, sound, 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, self.GetOrigin() );
-                }
+                last_time = g_Engine.time + 0.3f;
             }
         }
     }
