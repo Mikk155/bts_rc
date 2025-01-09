@@ -43,10 +43,12 @@ void MapInit()
     /*==========================================================================
     *   - Start of precaching
     ==========================================================================*/
-    precache::sound( CONST_HEV_NIGHTVISION_ON );
-    precache::sound( CONST_HEV_NIGHTVISION_OFF );
-    precache::sound( CONST_HEV_NIGHTVISION_NO_POWER );
-    precache::sounds( CONST_BLOODPUDDLE_SND );
+    g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_ON );
+    g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_OFF );
+    g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_NO_POWER );
+
+    for( uint ui = 0; ui < CONST_BLOODPUDDLE_SND.length(); ui++ )
+        g_SoundSystem.PrecacheSound( CONST_BLOODPUDDLE_SND[ui] );
 
     #if SERVER
         g_Game.PrecacheOther( "monster_headcrab" );
