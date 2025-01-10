@@ -6,7 +6,7 @@
 
 namespace item_tracker
 {
-#if SERVER
+#if DEVELOP
     CLogger@ m_Logger = CLogger( "Item Tracker" );
 #endif
 
@@ -46,7 +46,7 @@ namespace item_tracker
             // The buffer may be old, update it.
             if( g_Engine.time > time )
             {
-#if SERVER
+#if DEVELOP
                 m_Logger.info( "Updating global buffer." );
 #endif
 
