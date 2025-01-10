@@ -5,17 +5,17 @@
 namespace BloodSplash
 {
     array<string>@ Red = {
-        "sprites/test/hblood_1.spr",
-        "sprites/test/hblood_2.spr",
-        "sprites/test/hblood_3.spr"
+        "sprites/bts_rc/hblood_1.spr",
+        "sprites/bts_rc/hblood_2.spr",
+        "sprites/bts_rc/hblood_3.spr"
     };
 
     array<string>@ Yellow = {
-        "sprites/test/ablood_1.spr",
-        "sprites/test/ablood_2.spr",
-        "sprites/test/ablood_3.spr",
-        "sprites/test/ablood_4.spr",
-        "sprites/test/ablood_5.spr"
+        "sprites/bts_rc/ablood_1.spr",
+        "sprites/bts_rc/ablood_2.spr",
+        "sprites/bts_rc/ablood_3.spr",
+        "sprites/bts_rc/ablood_4.spr",
+        "sprites/bts_rc/ablood_5.spr"
     };
 
     void Create(edict_t@ hit, const int &in group, Vector &in destination )
@@ -47,7 +47,7 @@ namespace BloodSplash
                     if( spr !is null )
                     {
                         spr.AnimateAndDie( 60.0f );
-                        spr.pev.scale = 0.4;
+                        spr.pev.scale = 0.2;
                     }
                 }
             }
