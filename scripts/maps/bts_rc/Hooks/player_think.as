@@ -91,7 +91,6 @@ HookReturnCode player_think( CBasePlayer@ player )
                         if( float( user_data[ "helmet_nv_drain" ] ) <= g_Engine.time )
                         {
                             player.pev.armorvalue--;
-                            // -TODO Find a nice drain time
                             user_data[ "helmet_nv_drain" ] = 4.5 + g_Engine.time;
 
 #if SERVER
