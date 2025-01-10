@@ -53,7 +53,7 @@ final class PlayerClass
                     m_Logger.info( "Unseted class for {}. Setting as operator", { player.pev.netname } );
                 #endif
 
-                set_class( player, PM( Math.RandomLong( PM::BARNEY, PM::BSCIENTIST ) ) );
+                set_class( player, PM( Math.RandomLong( PM::BARNEY, PM::CONSTRUCTION ) ) );
             }
 
             return PM( data[ "class" ] );
