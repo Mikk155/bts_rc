@@ -1,9 +1,35 @@
 namespace randomizer
 {
     // Swap a specific squad to a random location.
-    void randomize_squad( CBaseMonster@ psquad, CBaseEntity@ pentity )
+    void randomize_squad( CBaseMonster@ squad, CBaseEntity@ entity )
     {
-        g_Randomizer.swap_squad(psquad);
+        // Sentries are spawned via squadmaker so g_sentry_laser can't find them.
+        if( entity !is null && "monster_sentry" == entity.pev.classname )
+        {
+            g_sentry_laser.handles.insertLast( EHandle( entity ) );
+        }
+
+        if( squad !is null && g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
+        {
+            CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
+
+            if( owner_spot !is null )
+            {
+                owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
+            }
+            #if SERVER
+            else
+            {
+                randomizer::m_Logger.warn( "Failed to swap a squad. null owner for squad" );
+            }
+            #endif
+        }
+        #if SERVER
+        else
+        {
+            randomizer::m_Logger.warn( "Failed to swap a squad: {}", { ( squad is null ? "null squad" : "null owner for squad" ) } );
+        }
+        #endif
     }
 
     // Swap all squads to a random and unique location.

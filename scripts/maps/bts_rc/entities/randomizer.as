@@ -4,6 +4,7 @@ namespace randomizer
         CLogger@ m_Logger = CLogger( "Randomizer" );
     #endif
 
+#if DISCARDED
     const array<string> keys()
     {
         return {
@@ -34,23 +35,121 @@ namespace randomizer
 
         return 0;
     }
+#endif
 
     class CRandomizerEntity : ScriptBaseEntity
     {
+        int type() { return 0; }
+
+        // Get a entity index from the proper randomizer.
+        int GetRandomizerIndex()
+        {
+            switch( this.type() )
+            {
+                case 1:
+                    return g_RandomizerNpc.indexes[ Math.RandomLong( 0, g_RandomizerNpc.indexes.length() ) ];
+                case 2:
+                    return g_RandomizerItem.indexes[ Math.RandomLong( 0, g_RandomizerItem.indexes.length() ) ];
+                case 3:
+                    return g_RandomizerHull.indexes[ Math.RandomLong( 0, g_RandomizerHull.indexes.length() ) ];
+                case 4:
+                    return g_RandomizerBoss.indexes[ Math.RandomLong( 0, g_RandomizerBoss.indexes.length() ) ];
+                case 5:
+                    return g_RandomizerWave.indexes[ Math.RandomLong( 0, g_RandomizerWave.indexes.length() ) ];
+                case 6:
+                    return g_RandomizerHeadcrab.indexes[ Math.RandomLong( 0, g_RandomizerHeadcrab.indexes.length() ) ];
+            }
+
+            return self.entindex();
+        }
+
+
+
         void Spawn()
         {
             #if SERVER
                 m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
             #endif
         }
+
+        // Swap the given squadmaker with the given randomizer position.
+        void Use( CBaseEntity@ squad, CBaseEntity@ randomizer, USE_TYPE use, float value )
+        {
+            switch( use )
+            {
+                case USE_TOGGLE:
+                {
+                    // Repeat in case we matched this same entity
+                    for( int i = 0; i < 5; i++ )
+                    {
+                        // Pick a random randomizer from the list of indexes.
+                        @randomizer = g_EntityFuncs.Instance( this.GetRandomizerIndex() );
+
+                        if( randomizer !is null && randomizer !is self )
+                        {
+                            // Swap owners
+                            self.Use( g_EntityFuncs.Instance( self.pev.owner ), self, USE_SET );
+                            self.Use( ( randomizer !is null ? g_EntityFuncs.Instance( randomizer.pev.owner ) : null ), randomizer, USE_SET );
+
+                            #if SERVER
+                                m_Logger.debug( "{}: \"{}\" <-> \"{}\"", { self.pev.classname, self.entindex(), randomizer.entindex() } );
+                            #endif
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+
+                case USE_SET:
+                {
+                    if( squad !is null && randomizer !is null )
+                    {
+                        @randomizer.pev.owner = @squad.edict();
+                        @squad.pev.owner = @randomizer.edict();
+                        g_EntityFuncs.SetOrigin( squad, randomizer.GetOrigin() );
+                    }
+                    break;
+                }
+            }
+        }
     }
 
-    class randomizer_npc : CRandomizerEntity { }
-    class randomizer_item : CRandomizerEntity { }
-    class randomizer_hull : CRandomizerEntity { }
-    class randomizer_boss : CRandomizerEntity { }
-    class randomizer_wave : CRandomizerEntity { }
-    class randomizer_headcrab : CRandomizerEntity { }
+    int reirandomizer_npc = LINK_ENTITY_TO_CLASS( "randomizer_npc", "randomizer" );
+    class randomizer_npc : CRandomizerEntity
+    {
+        int type() { return 1; }
+    }
+
+    int reirandomizer_item = LINK_ENTITY_TO_CLASS( "randomizer_item", "randomizer" );
+    class randomizer_item : CRandomizerEntity
+    {
+        int type() { return 2; }
+    }
+
+    int reirandomizer_hull = LINK_ENTITY_TO_CLASS( "randomizer_hull", "randomizer" );
+    class randomizer_hull : CRandomizerEntity
+    {
+        int type() { return 3; }
+    }
+
+    int reirandomizer_boss = LINK_ENTITY_TO_CLASS( "randomizer_boss", "randomizer" );
+    class randomizer_boss : CRandomizerEntity
+    {
+        int type() { return 4; }
+    }
+
+    int reirandomizer_wave = LINK_ENTITY_TO_CLASS( "randomizer_wave", "randomizer" );
+    class randomizer_wave : CRandomizerEntity
+    {
+        int type() { return 5; }
+    }
+
+    int reirandomizer_headcrab = LINK_ENTITY_TO_CLASS( "randomizer_headcrab", "randomizer" );
+    class randomizer_headcrab : CRandomizerEntity
+    {
+        int type() { return 6; }
+    }
 
     //============================================================================
     // End of map-entities
@@ -60,7 +159,6 @@ namespace randomizer
     // Start of swap logic
     //============================================================================
 
-    CRandomizer g_Randomizer;
     class CRandomizer
     {
         // Identifier name for this class
@@ -70,9 +168,10 @@ namespace randomizer
         array<string>@ entities() { return {}; }
 
         // Indexes of randomizer entities
-        array<int> indexes;
+        array<int>@ indexes;
 
-        void swap_list()
+        // Swaps a list for initial result of Vectors.
+        private void swap_list()
         {
             array<int> swaps = indexes;
             for( int i = swaps.length() - 1; i > 0; i-- )
@@ -87,28 +186,6 @@ namespace randomizer
             #if SERVER
                 m_Logger.info( "Swapped list {} indexes", { this.name() } );
             #endif
-        }
-
-        // -TODO Improve this shit swapping
-        void swap_squad( CBaseMonster@ pSquad_B )
-        {
-            CBaseEntity@ pRandomizer_A = g_EntityFuncs.Instance( indexes[ Math.RandomLong( 0, indexes.length() ) ] );
-            CBaseEntity@ pRandomizer_B = g_EntityFuncs.Instance( pSquad_B.pev.owner );
-            CBaseEntity@ pSquad_A = g_EntityFuncs.Instance( pRandomizer_B.pev.owner );
-
-            if( pRandomizer_B !is null && pRandomizer_A !is null )
-            {
-                #if SERVER
-                    m_Logger.debug( "{}:swap_squad: \"{}\" Swap position from {} to {}", { this.name(), pSquad_B.GetClassname(), pRandomizer_B.GetOrigin().ToString(), pRandomizer_A.GetOrigin().ToString() } );
-                #endif
-
-                @pSquad_B.pev.owner = pRandomizer_A.edict();
-                @pSquad_A.pev.owner = pRandomizer_B.edict();
-                @pRandomizer_B.pev.owner = pSquad_A.edict();
-                @pRandomizer_A.pev.owner = pSquad_B.edict();
-                g_EntityFuncs.SetOrigin( pSquad_A, pRandomizer_B.GetOrigin() );
-                g_EntityFuncs.SetOrigin( pSquad_B, pRandomizer_A.GetOrigin() );
-            }
         }
 
         void init()
@@ -141,27 +218,18 @@ namespace randomizer
 
             for( uint ui = 0; ui < entities_names.length(); ui++, index-- )
             {
-                const string ent_name = entities_names[ui];
-
-                @pRandomizer = g_EntityFuncs.Instance( indexes[ index - 1 ] );
-
-                #if SERVER
-                    m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, ent_name, pRandomizer.GetOrigin().ToString() } );
-                #endif
-
-                CBaseEntity@ pTargetEntity = g_EntityFuncs.FindEntityByTargetname( null, ent_name );
-
-                if( pTargetEntity !is null && pRandomizer !is null )
+                if( ( @pRandomizer = g_EntityFuncs.Instance( indexes[ index - 1 ] ) ) !is null )
                 {
-                    @pRandomizer.pev.owner = pTargetEntity.edict();
-                    @pTargetEntity.pev.owner = pRandomizer.edict();
-                    g_EntityFuncs.SetOrigin( pTargetEntity, pRandomizer.GetOrigin() );
+                    #if SERVER
+                        m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, entities_names[ui], pRandomizer.GetOrigin().ToString() } );
+                    #endif
+
+                    pRandomizer.Use( g_EntityFuncs.FindEntityByTargetname( null, entities_names[ui] ), pRandomizer, USE_SET );
                 }
             }
         }
     }
 
-    CRanomizerHeadcrabs g_RandomizerHeadcrab;
     final class CRanomizerHeadcrabs : CRandomizer
     {
         string name() { return "headcrab"; }
@@ -181,8 +249,8 @@ namespace randomizer
             };
         }
     }
+    CRanomizerHeadcrabs g_RandomizerHeadcrab;
 
-    CRanomizerItems g_RandomizerItem;
     final class CRanomizerItems : CRandomizer
     {
         string name() { return "item"; }
@@ -190,7 +258,8 @@ namespace randomizer
         array<string>@ entities()
         {
             return
-            {   // WEAPONS
+            {
+                // WEAPONS
                 "GM_SG_1",
                 "GM_SG_2",
                 "GM_SG_3",
@@ -309,8 +378,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerHulls g_RandomizerHull;
+    CRanomizerItems g_RandomizerItem;
+
     final class CRanomizerHulls : CRandomizer
     {
         string name() { return "hull"; }
@@ -327,8 +396,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerBosss g_RandomizerBoss;
+    CRanomizerHulls g_RandomizerHull;
+
     final class CRanomizerBosss : CRandomizer
     {
         string name() { return "boss"; }
@@ -344,8 +413,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerNpcs g_RandomizerNpc;
+    CRanomizerBosss g_RandomizerBoss;
+
     final class CRanomizerNpcs : CRandomizer
     {
         string name() { return "npc"; }
@@ -418,8 +487,8 @@ namespace randomizer
             };
         }
     }
-    
-    CRanomizerWaves g_RandomizerWave;
+    CRanomizerNpcs g_RandomizerNpc;
+
     final class CRanomizerWaves : CRandomizer
     {
         string name() { return "wave"; }
@@ -457,4 +526,5 @@ namespace randomizer
             };
         }
     }
+    CRanomizerWaves g_RandomizerWave;
 }
