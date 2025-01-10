@@ -2,6 +2,8 @@
     Author: Mikk
 */
 
+CCVar@ cvar_trace_blood = CCVar( "bts_rc_disable_bloodsplash", 0 );
+
 namespace BloodSplash
 {
     array<string>@ Red = {
@@ -20,6 +22,9 @@ namespace BloodSplash
 
     void Create(edict_t@ hit, const int &in group, Vector &in destination )
     {
+        if( cvar_trace_blood.GetInt() == 1 )
+            return;
+
         if( group == 10 )
             return;
 
