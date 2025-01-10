@@ -35,6 +35,7 @@ string W_MODEL = "models/bts_rc/weapons/w_beretta.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_beretta.mdl";
 string P_MODEL = "models/bts_rc/weapons/p_beretta.mdl";
 string A_MODEL = "models/hlclassic/w_9mmclip.mdl";
+string B_MODEL = "models/bts_rc/furniture/w_flashlightbattery.mdl";
 // Sounds
 string SHOOT_SND = "bts_rc/weapons/beretta_fire1.wav";
 string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
@@ -48,18 +49,20 @@ string SWITCH_SND = "bts_rc/items/flashlight1.wav";
 string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 // Weapon info
 int MAX_CARRY = 120;
-int MAX_CARRY2 = 2;
+int MAX_CARRY2 = 10;
 int MAX_CLIP = 15;
 int MAX_CLIP2 = WEAPON_NOCLIP;
 // int DEFAULT_GIVE = Math.RandomLong( 1, 15 );
 // int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
 int AMMO_GIVE = MAX_CLIP;
+int AMMO_GIVE2 = 1;
 int AMMO_DROP = AMMO_GIVE;
+int AMMO_DROP2 = AMMO_GIVE2;
 int WEIGHT = 10;
-int FLAGS = 0;
+int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
 int ID; // assigned on register
 string AMMO_TYPE = "9mm";
-string AMMO_TYPE2 = "bts:beretta/baterry";
+string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 6;
@@ -113,10 +116,12 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( V_MODEL );
         g_Game.PrecacheModel( P_MODEL );
         g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( B_MODEL );
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
         g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( GetBatteryName() );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -148,13 +153,18 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
         info.iMaxAmmo1 = MAX_CARRY;
         info.iAmmo1Drop = AMMO_DROP;
         info.iMaxAmmo2 = MAX_CARRY2;
-        info.iAmmo2Drop = -1;
+        info.iAmmo2Drop = AMMO_DROP2;
         info.iMaxClip = MAX_CLIP;
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
         info.iFlags = FLAGS;
         info.iWeight = WEIGHT;
+        return true;
+    }
+
+    bool CanDeploy()
+    {
         return true;
     }
 
@@ -177,6 +187,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
     void Holster( int skiplocal = 0 )
     {
         SetThink( null );
+        g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND );
 
         if ( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
@@ -410,6 +421,8 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
             msg.WriteByte( 0 );
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
+
+        m_flFlashLightTime = 0.0f;
     }
 }
 
@@ -439,6 +452,32 @@ class ammo_bts_beretta : ScriptBasePlayerAmmoEntity
     }
 }
 
+class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity
+{
+    void Spawn()
+    {
+        Precache();
+        g_EntityFuncs.SetModel( self, B_MODEL );
+        BaseClass.Spawn();
+    }
+
+    void Precache()
+    {
+        g_Game.PrecacheModel( B_MODEL );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
+    }
+
+    bool AddAmmo( CBaseEntity@ pOther )
+    {
+        if( pOther.GiveAmmo( AMMO_GIVE2, AMMO_TYPE2, MAX_CARRY2 ) != -1 )
+        {
+            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
+            return true;
+        }
+        return false;
+    }
+}
+
 string GetName()
 {
     return "weapon_bts_beretta";
@@ -449,6 +488,11 @@ string GetAmmoName()
     return "ammo_bts_beretta";
 }
 
+string GetBatteryName()
+{
+    return "ammo_bts_beretta_battery";
+}
+
 void Register()
 {
     #if SERVER
@@ -457,7 +501,8 @@ void Register()
 
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::weapon_bts_beretta", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta_battery", GetBatteryName() );
+    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetBatteryName() );
 }
 
 }
