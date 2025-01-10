@@ -310,9 +310,9 @@ string GetDAmmoName()
 
 void Register()
 {
-    #if SERVER
-        weapons.insertLast( GetName() );
-    #endif
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
 
     g_CustomEntityFuncs.RegisterCustomEntity( "CPython::weapon_bts_python", GetName() ); // 357 Colt Python Revolver
     g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", GetAmmoName() ); // 357 Ammo Rounds

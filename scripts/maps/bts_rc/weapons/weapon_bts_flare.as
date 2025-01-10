@@ -292,9 +292,9 @@ string GetName()
 
 void Register()
 {
-    #if SERVER
-        weapons.insertLast( GetName() );
-    #endif
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
 
     FLARE::Register();
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", GetName() );

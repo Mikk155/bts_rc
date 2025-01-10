@@ -505,9 +505,9 @@ string GetName()
 
 void Register()
 {
-    #if SERVER
-        weapons.insertLast( GetName() );
-    #endif
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
 
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_PIPE::weapon_bts_pipe", GetName() );
     ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );

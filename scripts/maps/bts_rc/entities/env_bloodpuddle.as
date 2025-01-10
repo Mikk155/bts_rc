@@ -8,9 +8,9 @@ CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0 );
 
 namespace env_bloodpuddle
 {
-    #if SERVER
-        CLogger@ m_Logger = CLogger( "Blood Puddle" );
-    #endif
+#if SERVER
+    CLogger@ m_Logger = CLogger( "Blood Puddle" );
+#endif
 
     int model_index = g_Game.PrecacheModel( CONST_BLOODPUDDLE );
 
@@ -40,10 +40,9 @@ namespace env_bloodpuddle
         /* Do not create if there's not at least these free slot, let's save them for more important stuff. */
         if( !freeedicts( 30 ) )
         {
-            #if SERVER
-                m_Logger.warn( "Failed to create. Saving edicts for more important stuff." );
-            #endif
-
+#if SERVER
+            m_Logger.warn( "Failed to create. Saving edicts for more important stuff." );
+#endif
             return;
         }
 
@@ -51,10 +50,9 @@ namespace env_bloodpuddle
 
         if( entity is null )
         {
-            #if SERVER
-                m_Logger.error( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
-            #endif
-
+#if SERVER
+            m_Logger.error( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
+#endif
             return;
         }
 
@@ -62,10 +60,9 @@ namespace env_bloodpuddle
 
         if( bloodpuddle is null )
         {
-            #if SERVER
-                m_Logger.error( "Failed to cast to class, Liberating edict." );
-            #endif
-
+#if SERVER
+            m_Logger.error( "Failed to cast to class, Liberating edict." );
+#endif
             entity.pev.flags |= FL_KILLME;
 
             return;
@@ -133,11 +130,9 @@ namespace env_bloodpuddle
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
                     self.pev.sequence = 0;
-
-                    #if SERVER
-                        m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
-                    #endif
-
+#if SERVER
+                    m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
+#endif
                     break;
                 }
 
@@ -147,11 +142,9 @@ namespace env_bloodpuddle
                     self.pev.sequence = 1;
                     self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );  
                     self.pev.frame = 0;
-
-                    #if SERVER
-                        m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\" at framerate of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale, self.pev.framerate } );
-                    #endif
-
+#if SERVER
+                    m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\" at framerate of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale, self.pev.framerate } );
+#endif
                     break;
                 }
             }

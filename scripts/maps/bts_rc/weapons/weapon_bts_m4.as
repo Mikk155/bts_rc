@@ -344,9 +344,9 @@ string GetDAmmoName()
 
 void Register()
 {
-    #if SERVER
-        weapons.insertLast( GetName() );
-    #endif
+#if SERVER
+    weapons.insertLast( GetName() );
+#endif
 
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::weapon_bts_m4", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4::ammo_bts_m4", GetAmmoName() );

@@ -6,11 +6,11 @@ HookReturnCode player_think( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
-        #if SERVER
-            // Change impulse 101 command with our own weapons.
-            check_impulse_101(player);
-            whatsthat(player);
-        #endif
+#if SERVER
+        // Change impulse 101 command with our own weapons.
+        check_impulse_101(player);
+        whatsthat(player);
+#endif
 
         // Do not update the class here, Only weapons should do that so we assume the game hasn't started yet.
         const PM player_class = g_PlayerClass[ player, true ];
@@ -94,9 +94,9 @@ HookReturnCode player_think( CBasePlayer@ player )
                             // -TODO Find a nice drain time
                             user_data[ "helmet_nv_drain" ] = 4.5 + g_Engine.time;
 
-                            #if SERVER
-                                g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
-                            #endif
+#if SERVER
+                            g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
+#endif
                         }
 
                         NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
