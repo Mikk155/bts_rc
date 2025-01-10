@@ -44,7 +44,7 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
         }
     }
 
-    if( cvar_player_voices.GetInt() == 0 )
+    if( cvar_player_voices.GetInt() == 0 && ( pDamageInfo.pAttacker is null || player.Classify() != pDamageInfo.pAttacker.Classify() ) )
     {
         CVoices@ voices = g_VoiceResponse[ player ];
 
