@@ -17,7 +17,7 @@ class CLasers
     {
         const array<string> turrets = {
 #if SERVER
-                "monster_sentry",
+            "monster_sentry",
 #endif
             "monster_turret",
             "monster_miniturret"
@@ -120,14 +120,11 @@ class CLasers
 #if DISCARDED
             Vector vecEnd = VecStart + VecAngles * 1200;
             // VecAngles seems to be veczero.
+            g_Utility.TraceLine( VecStart, vecEnd, dont_ignore_monsters, sentry.edict(), tr );
 #endif
 
             // Offset of 10 units bellow the eye position
             g_Utility.TraceLine( VecStart, sentry.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, sentry.edict(), tr );
-
-#if DISCARDED
-            g_Utility.TraceLine( VecStart, vecEnd, dont_ignore_monsters, sentry.edict(), tr );
-#endif
 
             CSprite@ spr_1 = this.sprite( VecStart );
             if( spr_1 !is null )

@@ -12,16 +12,16 @@
 
 void MapStart()
 {
-    #if TEST
-        BTS_MEDKIT::MapStart();
-    #endif
+#if TEST
+    BTS_MEDKIT::MapStart();
+#endif
 }
 
 void MapActivate()
 {
-    #if SERVER
-        g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
-    #endif
+#if SERVER
+    g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+#endif
 
     g_sentry_laser.map_activate();
 
@@ -30,9 +30,9 @@ void MapActivate()
 
 void MapInit()
 {
-    #if SERVER
-        LoggerLevel = ( Warning | Debug | Info | Critical | Error );
-    #endif
+#if SERVER
+    LoggerLevel = ( Warning | Debug | Info | Critical | Error );
+#endif
 
     g_VoiceResponse.init();
 
@@ -63,9 +63,9 @@ void MapInit()
     for( uint ui = 0; ui < BloodSplash::Yellow.length(); ui++ )
         g_Game.PrecacheModel( BloodSplash::Yellow[ui] );
 
-    #if SERVER
-        g_Game.PrecacheOther( "monster_headcrab" );
-    #endif
+#if SERVER
+    g_Game.PrecacheOther( "monster_headcrab" );
+#endif
 
     /*==========================================================================
     *   - End

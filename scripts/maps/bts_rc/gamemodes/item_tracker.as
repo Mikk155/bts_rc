@@ -6,9 +6,9 @@
 
 namespace item_tracker
 {
-    #if SERVER
-        CLogger@ m_Logger = CLogger( "Item Tracker" );
-    #endif
+#if SERVER
+    CLogger@ m_Logger = CLogger( "Item Tracker" );
+#endif
 
     dictionary items = {
         { "RETINA_COMPONENT", "Area 1 - Retina component" },
@@ -46,9 +46,9 @@ namespace item_tracker
             // The buffer may be old, update it.
             if( g_Engine.time > time )
             {
-                #if SERVER
-                    m_Logger.info( "Updating global buffer." );
-                #endif
+#if SERVER
+                m_Logger.info( "Updating global buffer." );
+#endif
 
                 dictionary item_copy = items;
 
