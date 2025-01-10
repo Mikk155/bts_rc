@@ -425,7 +425,7 @@ namespace BTS_MEDKIT
 
     void Register()
     {
-        #if SERVER
+        #if DEVELOP
             weapons.insertLast( GetName() );
         #endif
 

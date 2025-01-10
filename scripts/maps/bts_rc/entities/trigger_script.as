@@ -17,14 +17,14 @@ namespace randomizer
             {
                 owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
             }
-#if SERVER
+#if DEVELOP
             else
             {
                 randomizer::m_Logger.warn( "Failed to swap a squad. null owner for squad" );
             }
 #endif
         }
-#if SERVER
+#if DEVELOP
         else
         {
             randomizer::m_Logger.warn( "Failed to swap a squad: {}", { ( squad is null ? "null squad" : "null owner for squad" ) } );
