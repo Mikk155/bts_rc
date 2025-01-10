@@ -168,7 +168,7 @@ namespace randomizer
         array<string>@ entities() { return {}; }
 
         // Indexes of randomizer entities
-        array<int>@ indexes;
+        array<int> indexes;
 
         // Swaps a list for initial result of Vectors.
         private void swap_list()
