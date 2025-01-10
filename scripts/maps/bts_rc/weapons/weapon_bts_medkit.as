@@ -8,7 +8,7 @@
 
 namespace BTS_MEDKIT
 {
-#if SERVER
+#if TEST
 
     void MapStart()
     {
