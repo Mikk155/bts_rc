@@ -187,6 +187,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
     void Holster( int skiplocal = 0 )
     {
         SetThink( null );
+        g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND );
 
         if ( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
