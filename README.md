@@ -30,6 +30,18 @@
     - ``0``
         - Sentry and turrets have laser indicators. Default.
 
+- ``as_command bts_rc_disable_sparks`` (value)
+    - ``1``
+        - Disables armored monsters from droping visual Sparks effects.
+    - ``0``
+        - Armored monsters drops visual Sparks effects on getting damage. Default.
+
+- ``as_command bts_rc_disable_bloodsplash`` (value)
+    - ``1``
+        - Disables armored monsters from droping visual Blood effects.
+    - ``0``
+        - Armored monsters drops visual Blood effects on getting damage. Default.
+
 ---
 
 # Developer mode
