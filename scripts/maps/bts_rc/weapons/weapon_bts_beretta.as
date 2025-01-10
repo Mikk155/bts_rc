@@ -62,7 +62,7 @@ int WEIGHT = 10;
 int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
 int ID; // assigned on register
 string AMMO_TYPE = "9mm";
-string AMMO_TYPE2 = "bts:baterry";
+string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 6;
