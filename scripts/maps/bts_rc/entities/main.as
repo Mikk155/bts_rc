@@ -4,6 +4,6 @@
 #include "trigger_script"
 #include "trigger_update_class"
 
-#if SERVER
+#if DEVELOP
 #include "trigger_logger"
 #endif
