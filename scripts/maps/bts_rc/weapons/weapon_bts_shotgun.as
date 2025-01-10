@@ -260,7 +260,11 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
         if( !m_fHasHEV )
-            m_pPlayer.pev.velocity = g_Engine.v_forward * -64.0f; // Knockback!
+        {
+            const float flZVel = m_pPlayer.pev.velocity.z;
+            m_pPlayer.pev.velocity = m_pPlayer.pev.velocity + g_Engine.v_forward * -64.0f; // Knockback!
+            m_pPlayer.pev.velocity.z = flZVel;
+        }
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.85f : 1.0f );
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
@@ -345,11 +349,15 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        if( !m_fHasHEV )
-            m_pPlayer.pev.velocity = g_Engine.v_forward * -128.0f; // Knockback!
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
         self.m_flTimeWeaponIdle = g_Engine.time + 6.0f;
+
+        if( !m_fHasHEV )
+        {
+            const float flZVel = m_pPlayer.pev.velocity.z;
+            m_pPlayer.pev.velocity = m_pPlayer.pev.velocity + g_Engine.v_forward * -128.0f; // Knockback!
+            m_pPlayer.pev.velocity.z = flZVel;
+        }
 
         if( self.m_iClip != 0 )
         {
