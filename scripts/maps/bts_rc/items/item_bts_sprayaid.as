@@ -38,7 +38,7 @@ namespace bts_items
             player.TakeHealth( Math.RandomFloat( 10, 12 ), DMG_GENERIC );
 
             NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-                m.WriteString( "item_healthkit" ); // -TODO Should we display a custom sprite?
+                m.WriteString( "item_healthkit" );
             m.End();
 
             g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
