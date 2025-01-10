@@ -12,7 +12,7 @@
 
 void MapStart()
 {
-    #if SERVER
+    #if TEST
         BTS_MEDKIT::MapStart();
     #endif
 }
