@@ -100,14 +100,34 @@ class CLasers
 
             CBaseMonster@ sentry = cast<CBaseMonster>( entity );
 
-            if( sentry is null || !sentry.IsAlive() || !sentry.m_hEnemy.IsValid() )
+            if( sentry is null || sentry.pev.sequence == 0 || !sentry.IsAlive() )
                 continue;
 
-            Vector VecStart = sentry.EyePosition();
+            if( !sentry.m_hEnemy.IsValid() )
+                continue;
 
             TraceResult tr;
+            Vector VecStart;
+            Vector VecAngles;
+
+            if( "monster_sentry" == sentry.pev.classname )
+                sentry.GetBonePosition( 5, VecStart, VecAngles );
+            else if( "monster_turret" == sentry.pev.classname )
+                sentry.GetBonePosition( 9, VecStart, VecAngles );
+            else if( "monster_miniturret" == sentry.pev.classname )
+                sentry.GetBonePosition( 3, VecStart, VecAngles );
+
+#if DISCARDED
+            Vector vecEnd = VecStart + VecAngles * 1200;
+            // VecAngles seems to be veczero.
+#endif
+
             // Offset of 10 units bellow the eye position
             g_Utility.TraceLine( VecStart, sentry.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, sentry.edict(), tr );
+
+#if DISCARDED
+            g_Utility.TraceLine( VecStart, vecEnd, dont_ignore_monsters, sentry.edict(), tr );
+#endif
 
             CSprite@ spr_1 = this.sprite( VecStart );
             if( spr_1 !is null )
