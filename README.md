@@ -78,13 +78,13 @@ So to enable [loggers](scripts/maps/bts_rc/utils/Logger.as) and other features f
 | [AraseFiq](https://github.com/AraseFiq) | Script general and initial idea for these | features
 | [Mikk155](https://github.com/Mikk155) | Various |
 | [Rizulix](https://github.com/Rizulix) | Weapons, Item tracker |
-| [Gaftherman](https://github.com/Gaftherman) | Item tracker |
+| [Gaftherman](https://github.com/Gaftherman) | Item tracker, medkit |
 | [KernCore](https://github.com/KernCore91) | Various code references |
 | [Nero0](https://github.com/Neyami) | Various code references |
 | [Solokiller](https://github.com/SamVanheer) | Help Support |
 | [H²](https://github.com/h2whoa) | Help Support |
 | [Zode](https://github.com/Zode) | Utility [freeedicts](scripts/maps/bts_rc/utils/main.as) |
 | [Giegue](https://github.com/JulianR0) | [Motd NetworkMessage](scripts/maps/bts_rc/gamemodes/item_tracker.as) |
-| Adambean | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
-| Hezus | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
-| GeckoN | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
+| [Adambean](https://github.com/Adambean) | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
+| [Hezus](http://scmapdb.wikidot.com/mapper:hezus) | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
+| [GeckoN](https://github.com/baso88) | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
