@@ -83,7 +83,7 @@ void MapInit()
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @monster_killed );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @monster_takedamage );
 
-    // -TODO Remove this shit in 5.27.
+    // Remove this shit in 5.27.
     if( g_Game.GetGameVersion() == 526 )
     {
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );

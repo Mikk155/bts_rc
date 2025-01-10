@@ -45,7 +45,7 @@ namespace bts_items
 
             // From CItemBattery at items.cpp
             NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-                m.WriteString( "item_battery" ); // -TODO Should we display a custom sprite?
+                m.WriteString( "item_battery" );
             m.End();
 
             g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "bts_rc/items/armor_pickup1.wav", 1, ATTN_NORM );
