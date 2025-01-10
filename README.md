@@ -56,9 +56,9 @@ void myfn()
 {
     ...
 
-    #if DEVELOP
+#if DEVELOP
         m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, ent_name, pRandomizer.GetOrigin().ToString() } );
-    #endif
+#endif
 }
 ```
 
