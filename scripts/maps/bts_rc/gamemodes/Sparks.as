@@ -2,6 +2,8 @@
     Author: Sparks
 */
 
+CCVar@ cvar_trace_sparks = CCVar( "bts_rc_disable_sparks", 0 );
+
 namespace Sparks
 {
     array<string>@ ricochets = {
@@ -49,6 +51,9 @@ namespace Sparks
 
     void Sparks(edict_t@ hit, const int &in group, Vector &in destination )
     {
+        if( cvar_trace_sparks.GetInt() == 1 )
+            return;
+
         if( g_EntityFuncs.IsValidEntity( hit ) && freeedicts( 17 ) )
         {
             const string classname = hit.vars.classname;
