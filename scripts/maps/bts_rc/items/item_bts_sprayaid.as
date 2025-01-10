@@ -1,102 +1,65 @@
-//Spray Aid with Bandages
-//Author: Mikk
-
-namespace BTS_SPRAYAID
+namespace bts_items
 {
-
-//model
-const string W_SPRAYAID = "models/bts_rc/items/w_medkits.mdl";
-//sound
-const string SPRAYAID_PICKUP_SND = "bts_rc/items/sprayaid1.wav";
-
-class item_bts_sprayaid : ScriptBasePlayerItemEntity
-{
-    private bool Activated = true;
-    dictionary g_MaxPlayers;
-
-    void Spawn()
+    class item_bts_sprayaid : ScriptBasePlayerItemEntity
     {
-        Precache();
-
-        if( self.SetupModel() == false )
-            g_EntityFuncs.SetModel( self, W_SPRAYAID );
-        else //Custom model
-            g_EntityFuncs.SetModel( self, self.pev.model );
-
-        if( self.pev.SpawnFlagBitSet( 384 ) )
+        void Precache()
         {
-            Activated = false;
+            pev.model = ( pev.model != "" ? pev.model : string_t( "models/bts_rc/items/w_medkits.mdl" ) );
+
+            g_Game.PrecacheModel( self, string( pev.model ) );
+
+            g_SoundSystem.PrecacheSound( "bts_rc/items/sprayaid1.wav" );
+
+            BaseClass.Precache();
         }
 
-        BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        BaseClass.Precache();
-
-        if( string( self.pev.model ).IsEmpty() )
-            g_Game.PrecacheModel( W_SPRAYAID );
-        else //Custom model
-            g_Game.PrecacheModel( self.pev.model );
-
-        g_SoundSystem.PrecacheSound( SPRAYAID_PICKUP_SND );
-    }
-
-    void AddHealth( CBasePlayer@ pPlayer )
-    {
-        string steamId = g_EngineFuncs.GetPlayerAuthId( pPlayer.edict() );
-
-        if( pPlayer is null || pPlayer.pev.health == pPlayer.pev.max_health || g_MaxPlayers.exists( steamId ) )
-            return;
-
-        pPlayer.TakeHealth( Math.RandomFloat( 10, 12 ), DMG_GENERIC ); //pPlayer.TakeHealth( g_EngineFuncs.CVarGetFloat( "sk_healthkit" ), DMG_GENERIC );
-
-        g_MaxPlayers[ steamId ] = @pPlayer;
-
-        NetworkMessage message( MSG_ONE, NetworkMessages::ItemPickup, pPlayer.edict() );
-            message.WriteString( self.m_iId );
-        message.End();
-
-        g_SoundSystem.EmitSound( pPlayer.edict(), CHAN_ITEM, SPRAYAID_PICKUP_SND, 1, ATTN_NORM );
-
-        //Trigger targets
-        self.SUB_UseTargets( pPlayer, USE_TOGGLE, 0 );
-
-        g_EntityFuncs.Remove( self );
-    }
-
-    void Touch( CBaseEntity@ pOther )
-    {
-        if( pOther is null || !pOther.IsPlayer() || !pOther.IsAlive() || !Activated || self.pev.SpawnFlagBitSet( 256 ) )
-            return;
-
-        AddHealth( cast<CBasePlayer@>( pOther ) );
-    }
-
-    void Use( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
-    {
-        if( self.pev.SpawnFlagBitSet( 384 ) && !Activated )
+        void Spawn()
         {
-            Activated = !Activated;
+            Precache();
+
+            g_EntityFuncs.SetModel( self, string( pev.model ) );
+
+            BaseClass.Spawn();
         }
 
-        if( pActivator.IsPlayer() && Activated )
+        bool AddAmmo( CBaseEntity@ other )
         {
-            AddHealth( cast<CBasePlayer@>( pActivator ) );
+            if( other is null || !other.IsPlayer() || !other.IsAlive() )
+                return false;
+
+            CBasePlayer@ player = cast<CBasePlayer@>( other );
+
+            if( player is null )
+                return false;
+
+            if( player.pev.health >= player.pev.max_health )
+                return false;
+
+            player.TakeHealth( Math.RandomFloat( 10, 12 ), DMG_GENERIC );
+
+            NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
+                m.WriteString( "item_healthkit" ); // -TODO Should we display a custom sprite?
+            m.End();
+
+            g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+
+            self.UpdateOnRemove();
+            pev.flags |= FL_KILLME;
+            pev.targetname = String::EMPTY_STRING;
+
+            return true;
+        }
+
+        void Touch( CBaseEntity@ other )
+        {
+            if( ( pev.spawnflags & item_f::TouchOnly ) == 0 )
+                AddAmmo(other);
+        }
+
+        void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE usetype, float value )
+        {
+            if( ( pev.spawnflags & item_f::UseOnly ) == 0 )
+                AddAmmo(activator);
         }
     }
-}
-
-string GetItemName()
-{
-    return "item_bts_sprayaid";
-}
-
-void Register()
-{
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_SPRAYAID::item_bts_sprayaid", GetItemName() ); //register class entity
-    g_ItemRegistry.RegisterItem( GetItemName(), "bts_rc/items" );
-}
-
 }

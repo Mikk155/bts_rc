@@ -32,7 +32,6 @@
 //Item( s )
 #include "items/item_bts_sprayaid"
 #include "items/item_bts_hevbattery"
-#include "items/item_bts_armorvest"
 #include "items/item_bts_helmet"
 
 //Base( s )
@@ -70,10 +69,4 @@ void RegisterBTSRCWeapons()
     BTS_HANDGRENADE::Register(); //Custom Hand Grenade
     BTS_UZI::Register(); //Custom Single Uzi
     BTS_GLOCK17F::Register(); //Glock 17 w/ Torchlight variant
-
-    // //Register Items
-    BTS_SPRAYAID::Register(); //First Aid Spray Register
-    BTS_HEVBATTERY::Register(); //Custom HEV Battery Register
-    BTS_SECURITYKEVLAR::Register(); //Custom Security Kevlar Register
-    BTS_SECURITYHELMET::Register(); //Custom Security Helmet Register
 }

@@ -6,6 +6,7 @@
 #include "entities/main"
 #include "gamemodes/main"
 #include "Hooks/main"
+#include "items/main"
 
 #include "list_weapons"
 #include "mappings"
@@ -36,6 +37,8 @@ void MapInit()
 
     g_VoiceResponse.init();
 
+    bts_items::register();
+
     RegisterPointCheckPointEntity();
 
     RegisterBTSRCWeapons(); //Custom weapons registered
@@ -65,6 +68,7 @@ void MapInit()
 
 #if SERVER
     g_Game.PrecacheOther( "monster_headcrab" );
+    g_Game.PrecacheOther( "item_bts_armorvest" );
 #endif
 
     /*==========================================================================

@@ -88,7 +88,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                         npcdrop( HL_GLOCKSD::GetDAmmoName(), monster );
                     break;
                     case 4:
-                        npcdrop( BTS_SPRAYAID::GetItemName(), monster );
+                        npcdrop( "item_bts_sprayaid", monster );
                     break;
                 }
             }
@@ -139,7 +139,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                         npcdrop( BTS_M4::GetDAmmoName(), monster );
                     break;
                     case 9:
-                        npcdrop( BTS_HEVBATTERY::GetName(), monster );
+                        npcdrop( "item_bts_hevbattery", monster );
                     break;
                     case 10:
                     case 11:
