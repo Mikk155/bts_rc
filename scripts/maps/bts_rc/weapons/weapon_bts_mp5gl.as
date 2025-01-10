@@ -51,14 +51,14 @@ array<string> SOUNDS = {
 };
 // Weapon info
 int MAX_CARRY = 120;
-int MAX_CLIP = 30;
 int MAX_CARRY2 = 10;
+int MAX_CLIP = 30;
 int MAX_CLIP2 = WEAPON_NOCLIP;
 // int DEFAULT_GIVE = Math.RandomLong( 9, 30 );
 // int DEFAULT_GIVE2 = Math.RandomLong( 0, 1 );
 int AMMO_GIVE = MAX_CLIP;
-int AMMO_DROP = AMMO_GIVE;
 int AMMO_GIVE2 = 2;
+int AMMO_DROP = AMMO_GIVE;
 int AMMO_DROP2 = 1;
 int WEIGHT = 5;
 int FLAGS = 0;

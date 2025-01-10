@@ -38,6 +38,7 @@ string W_MODEL = "models/bts_rc/weapons/w_sbshotgun.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_sbshotgun.mdl";
 string P_MODEL = "models/bts_rc/weapons/p_sbshotgun.mdl";
 string A_MODEL = "models/hlclassic/w_shotbox.mdl";
+string B_MODEL = "models/bts_rc/furniture/w_flashlightbattery.mdl";
 // Sounds
 string SHOOT_SND = "bts_rc/weapons/sbshotgun_fire1.wav";
 string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
@@ -54,18 +55,20 @@ string RELOAD3_S = "bts_rc/weapons/reload3.wav";
 string SCOCK1_S = "bts_rc/weapons/scock1.wav";
 // Weapon info
 int MAX_CARRY = 30;
-int MAX_CARRY2 = 2;
+int MAX_CARRY2 = 10;
 int MAX_CLIP = 6;
 int MAX_CLIP2 = WEAPON_NOCLIP;
 // int DEFAULT_GIVE = Math.RandomLong( 1, 6 );
 // int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
 int AMMO_GIVE = MAX_CLIP;
+int AMMO_GIVE2 = 1;
 int AMMO_DROP = AMMO_GIVE;
+int AMMO_DROP2 = AMMO_GIVE2;
 int WEIGHT = 15;
-int FLAGS = 0;
+int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
 int ID; // assigned on register
 string AMMO_TYPE = "buckshot";
-string AMMO_TYPE2 = "bts:sbshotty/battery";
+string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 2;
 int POSITION = 6;
@@ -129,6 +132,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
 
         g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( GetBatteryName() );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -164,13 +168,18 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
         info.iMaxAmmo1 = MAX_CARRY;
         info.iAmmo1Drop = AMMO_DROP;
         info.iMaxAmmo2 = MAX_CARRY2;
-        info.iAmmo2Drop = -1;
+        info.iAmmo2Drop = AMMO_DROP2;
         info.iMaxClip = MAX_CLIP;
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
         info.iFlags = FLAGS;
         info.iWeight = WEIGHT;
+        return true;
+    }
+
+    bool CanDeploy()
+    {
         return true;
     }
 
@@ -193,6 +202,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
     void Holster( int skiplocal = 0 )
     {
         SetThink( null );
+        g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND );
 
         if ( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
@@ -325,11 +335,15 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        if( !m_fHasHEV )
-            m_pPlayer.pev.velocity = g_Engine.v_forward * -64.0f; // Knockback!
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( m_fHasHEV ? 0.85f : 1.0f );
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
+
+        if( !m_fHasHEV )
+        {
+            const float flZVel = m_pPlayer.pev.velocity.z;
+            m_pPlayer.pev.velocity = m_pPlayer.pev.velocity + g_Engine.v_forward * -64.0f; // Knockback!
+            m_pPlayer.pev.velocity.z = flZVel;
+        }
 
         if( self.m_iClip != 0 )
         {
@@ -340,7 +354,10 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
 
     void SecondaryAttack()
     {
-        if( m_iCurrentBaterry == 0 || self.m_fInReload )
+        if( self.m_fInReload )
+            return;
+
+        if( m_iCurrentBaterry == 0 )
         {
             self.PlayEmptySound();
             self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
@@ -510,6 +527,8 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
             msg.WriteByte( 0 );
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
+
+        m_flFlashLightTime = 0.0f;
     }
 
     private bool FinishReload( bool fCondition )
@@ -568,6 +587,32 @@ class ammo_bts_sbshotgun : ScriptBasePlayerAmmoEntity
     }
 }
 
+class ammo_bts_sbshotgun_battery : ScriptBasePlayerAmmoEntity
+{
+    void Spawn()
+    {
+        Precache();
+        g_EntityFuncs.SetModel( self, B_MODEL );
+        BaseClass.Spawn();
+    }
+
+    void Precache()
+    {
+        g_Game.PrecacheModel( B_MODEL );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
+    }
+
+    bool AddAmmo( CBaseEntity@ pOther )
+    {
+        if( pOther.GiveAmmo( AMMO_GIVE2, AMMO_TYPE2, MAX_CARRY2 ) != -1 )
+        {
+            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
+            return true;
+        }
+        return false;
+    }
+}
+
 string GetName()
 {
     return "weapon_bts_sbshotgun";
@@ -578,6 +623,11 @@ string GetAmmoName()
     return "ammo_bts_sbshotgun";
 }
 
+string GetBatteryName()
+{
+    return "ammo_bts_sbshotgun_battery";
+}
+
 void Register()
 {
     #if SERVER
@@ -586,7 +636,8 @@ void Register()
 
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::weapon_bts_sbshotgun", GetName() );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun_battery", GetBatteryName() );
+    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetBatteryName() );
 }
 
 }

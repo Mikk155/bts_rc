@@ -52,7 +52,6 @@ array<string> SOUNDS = {
 };
 // Weapon info
 int MAX_CARRY = 120;
-int MAX_CARRY2 = 60;
 int MAX_CLIP = 19;
 // int DEFAULT_GIVE = Math.RandomLong( 9, 19 );
 int AMMO_GIVE = MAX_CLIP;
