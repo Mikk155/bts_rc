@@ -23,6 +23,8 @@ void MapActivate()
         g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
     #endif
 
+    g_sentry_laser.map_activate();
+
     BTS_RC::MapActivate(); //Objective code debug
 }
 
@@ -33,7 +35,6 @@ void MapInit()
     #endif
 
     g_VoiceResponse.init();
-    g_sentry_laser.turn_on();
 
     RegisterPointCheckPointEntity();
 
