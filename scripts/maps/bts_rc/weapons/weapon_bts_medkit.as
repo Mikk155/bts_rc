@@ -1,9 +1,12 @@
 /* 
-* Custom Player Medkit 
-* Credits: Gafthermman
-* Base: https://github.com/wootguy/SevenKewp/blob/0fd4ca7d7598712e122aeef83e8a4f88150301c4/dlls/weapon/CMedkit.cpp  
-*       && kmkz
+* Custom Player Medkit for bts_rc (january 2025)
+* Credits: Gaftherman
+* Ref: https://github.com/wootguy/SevenKewp/blob/0fd4ca7d7598712e122aeef83e8a4f88150301c4/dlls/weapon/CMedkit.cpp
+*      https://github.com/Rizulix/Classic-Weapons/blob/main/scripts/maps/opfor/weapon_ofshockrifle.as
+*      && kmkz && Rizulix
 */
+
+#include "../utils/player_class"
 
 namespace BTS_MEDKIT
 {
@@ -17,10 +20,16 @@ namespace BTS_MEDKIT
         DRAW,
     };
 
+    enum bodygroups_e
+    {
+        STUDIO = 0,
+        HANDS
+    };
+
     // Models
-    const string W_MODEL = "models/w_medkit.mdl";
-    const string V_MODEL = "models/v_medkit.mdl";
-    const string P_MODEL = "models/p_medkit.mdl";
+    const string W_MODEL = "models/bts_rc/weapons/w_medkit.mdl";
+    const string V_MODEL = "models/bts_rc/weapons/v_medkit.mdl";
+    const string P_MODEL = "models/bts_rc/weapons/p_medkit.mdl";
 
     // Weapon info
     const int MAX_CARRY = 100;
@@ -36,13 +45,14 @@ namespace BTS_MEDKIT
 
     // Weapon HUD
     const int SLOT = 0;
-    const int POSITION = 10;
+    const int POSITION = 12;
 
     // Vars
     const int HEAL_AMMOUNT = 10;
     const int REVIVE_COST = 50;
     const int VOLUME = 128;
     const int REVIVE_RADIUS = 64;
+    const int RECHARGE_AMOUNT = 1;
     const float RECHARGE_DELAY = 0.6f;
 
     // Sounds
@@ -58,9 +68,14 @@ namespace BTS_MEDKIT
             get const	{ return cast<CBasePlayer@>( self.m_hPlayer.GetEntity() ); }
             set		    { self.m_hPlayer = EHandle( @value ); }
         }
-
         private float m_reviveChargedTime; // time when target will be revive charge will complete
 	    private float m_rechargeTime; // time until regenerating ammo
+
+        int GetBodygroup()
+        {
+            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+            return pev.body;
+        }
 
         void Spawn()
         {
@@ -116,27 +131,45 @@ namespace BTS_MEDKIT
             return true;
         }
 
+        bool CanDeploy()
+        {
+            return true;
+        }
+
         bool Deploy()
         {
-            if( self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "trip", 0, 0 ) )
-            {
-                RechargeAmmo();
-                return true;
-            }
-            return false;
+            return self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "trip", 0, GetBodygroup() );
         }
 
         void Holster( int skiplocal /*= 0*/ )
         {
             m_pPlayer.m_flNextAttack = g_Engine.time + 0.5f;
             self.SendWeaponAnim( HOLSTER );
-            // BaseClass.Holster( skiplocal );
+            BaseClass.Holster( skiplocal );
+        }
+
+        void AttachToPlayer(CBasePlayer@ pPlayer)
+        {
+            if (self.m_iDefaultAmmo == 0)
+            self.m_iDefaultAmmo = 1;
+
+            BaseClass.AttachToPlayer(pPlayer);
+        }
+
+        void ItemPostFrame()
+        {
+            RechargeAmmo();
+            BaseClass.ItemPostFrame();
+        }
+
+        void InactiveItemPostFrame()
+        {
+            RechargeAmmo();
+            BaseClass.InactiveItemPostFrame();
         }
 
         void WeaponIdle()
         {
-            RechargeAmmo();
-
             if(m_reviveChargedTime != 0.0f)
             {
                 m_reviveChargedTime = 0.0f;
@@ -161,19 +194,17 @@ namespace BTS_MEDKIT
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.4*2;
             }
 
-            self.SendWeaponAnim(iAnim);
+            self.SendWeaponAnim(iAnim, 0, GetBodygroup());
         }
 
         // void GiveScorePoints(entvars_t@ pevAttacker, entvars_t@ pevInflictor, const float &in flDamage)
         // {
-        //     float flFrags = Math.min( 4, (flDamage / pevAttacker.pev.max_health) * (4 * (pevAttacker.pev.max_health / cnpc_rgrunt::CNPC_HEALTH)) );
+        //     float flFrags = Math.min( 4, (flDamage / pevAttacker.pev.max_health) * (4 * (pevAttacker.pev.max_health / pevInflictor.pev.max_health)) );
         //     pevAttacker.frags += flFrags;
         // }
 
         void PrimaryAttack()
         {
-            RechargeAmmo();
-
             TraceResult tr;
             Math.MakeVectors(m_pPlayer.pev.v_angle);
             Vector vecSrc = m_pPlayer.GetGunPosition();
@@ -209,11 +240,11 @@ namespace BTS_MEDKIT
             if(pMonster.IsAlive() && pMonster.IsPlayerAlly() && CanHealTarget(pMonster) && flHealthAmount > 0)
             {
                 m_pPlayer.SetAnimation(PLAYER_ATTACK1);
-                self.SendWeaponAnim(SHORTUSE);
+                self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
                 m_pPlayer.m_iWeaponVolume = VOLUME;
 
                 pMonster.TakeHealth(flHealthAmount, DMG_MEDKITHEAL);
-                m_pPlayer.GetPointsForDamage(-flHealthAmount);
+                // m_pPlayer.GetPointsForDamage(-flHealthAmount);
 
                 //https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
 				pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
@@ -236,8 +267,6 @@ namespace BTS_MEDKIT
 
         void SecondaryAttack()
         {
-            RechargeAmmo();
-
             if (m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) <= REVIVE_COST) 
             {
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, MED_SHOT_MISS, 1.0f, ATTN_NORM);
@@ -296,7 +325,7 @@ namespace BTS_MEDKIT
 
             if (m_reviveChargedTime == 0.0f) 
             {
-                self.SendWeaponAnim(LONGUSE);
+                self.SendWeaponAnim(LONGUSE, 0, GetBodygroup());
                 m_reviveChargedTime = g_Engine.time + 2.0f;
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_ERROR, 1.0f, ATTN_NORM);
                 return;
@@ -306,14 +335,14 @@ namespace BTS_MEDKIT
             {
                 m_reviveChargedTime = 0;
                 m_pPlayer.SetAnimation(PLAYER_ATTACK1);
-                self.SendWeaponAnim(SHORTUSE);
+                self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_REVIVE, 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
 
                 pBestTarget.Revive();
                 pBestTarget.pev.health = (pBestTarget.pev.max_health / 2);
 
-                m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
+                // m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
 
                 //https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
 				pBestTarget.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
@@ -342,7 +371,7 @@ namespace BTS_MEDKIT
             {
                 while(m_rechargeTime < g_Engine.time)
                 {   
-                    m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) + 1);
+                    m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) + RECHARGE_AMOUNT);
 
                     if(m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) > MAX_CARRY)
                     {
