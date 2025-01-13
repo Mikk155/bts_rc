@@ -38,8 +38,6 @@ void MapInit()
 
     bts_items::register();
 
-    BTS_RC_ERTY::MapInit(); 
-
     RegisterPointCheckPointEntity();
 
     RegisterBTSRCWeapons(); //Custom weapons registered
@@ -53,6 +51,17 @@ void MapInit()
     g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_ON );
     g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_OFF );
     g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_NO_POWER );
+    g_SoundSystem.PrecacheSound("vox/user.wav");
+    g_SoundSystem.PrecacheSound("vox/security.wav");
+    g_SoundSystem.PrecacheSound("vox/research.wav");
+    g_SoundSystem.PrecacheSound("vox/maintenance.wav");
+    g_SoundSystem.PrecacheSound("vox/authorized.wav");
+
+    g_Game.PrecacheModel("models/w_security.mdl");
+    g_Game.PrecacheModel("models/tool_box.mdl");
+    g_Game.PrecacheModel("sprites/bts_rc/inv_card_security.spr");
+    g_Game.PrecacheModel("sprites/bts_rc/inv_card_research.spr");
+    g_Game.PrecacheModel("sprites/bts_rc/inv_card_maint.spr");
 
 #if DISCARDED
     for( uint ui = 0; ui < CONST_BLOODPUDDLE_SND.length(); ui++ )
