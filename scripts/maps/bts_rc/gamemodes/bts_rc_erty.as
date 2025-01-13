@@ -1,6 +1,3 @@
-#include "list_weapons"
-#include "mappings"
-
 /**
 * Map initialisation handler.
 * @return void
@@ -82,26 +79,6 @@ namespace BTS_RC_ERTY
 
 
 // Utility functions
-
-    /**
-    * Map initialisation handler.
-    * @return void
-    */
-    void MapInit()
-    {
-        // g_Module.ScriptInfo.SetAuthor("Erty");
-        g_Game.PrecacheModel("models/w_security.mdl");
-        g_Game.PrecacheModel("models/tool_box.mdl");
-        g_Game.PrecacheModel("sprites/bts_rc/inv_card_security.spr");
-        g_Game.PrecacheModel("sprites/bts_rc/inv_card_research.spr");
-        g_Game.PrecacheModel("sprites/bts_rc/inv_card_maint.spr");
-
-        g_SoundSystem.PrecacheSound("vox/user.wav");
-        g_SoundSystem.PrecacheSound("vox/security.wav");
-        g_SoundSystem.PrecacheSound("vox/research.wav");
-        g_SoundSystem.PrecacheSound("vox/maintenance.wav");
-        g_SoundSystem.PrecacheSound("vox/authorized.wav");
-    }
 
     /**
     * Map activation handler.
