@@ -1,4 +1,5 @@
 #include "env_bloodpuddle"
+#include "func_bts_recharger"
 #include "point_checkpoint"
 #include "randomizer"
 #include "trigger_script"

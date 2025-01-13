@@ -5,7 +5,9 @@
 
 namespace func_bts_recharger
 {
-    class CRecharge : ScriptBaseEntity
+    int register = LINK_ENTITY_TO_CLASS( "func_bts_recharger", "func_bts_recharger" );
+
+    class func_bts_recharger : ScriptBaseEntity
     {
         float m_flNextCharge; 
         int m_iReactivate; // DeathMatch Delay until reactvated
@@ -128,15 +130,5 @@ namespace func_bts_recharger
         {
             // Dummy
         }
-    }
-
-    string GetHLAPChargerName()
-    {
-        return "func_hlrecharge";
-    }
-
-    void RegisterHLAPCharger()
-    {
-        g_CustomEntityFuncs.RegisterCustomEntity( "CRecharge", GetHLAPChargerName() );
     }
 }
