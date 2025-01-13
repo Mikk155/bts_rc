@@ -1,6 +1,6 @@
 #include "constdef"
 
-#if SERVER
+#if DEVELOP
 #include "Logger"
 #endif
 
@@ -31,7 +31,7 @@ int LINK_ENTITY_TO_CLASS( const string classname, const string Namespace = Strin
     return 0;
 }
 
-#if SERVER
+#if DEVELOP
 // All the weapons used in the map. These are Inserted in the weapon's Register functions -Mikk
 array<string> weapons = {
     "weapon_medkit"
