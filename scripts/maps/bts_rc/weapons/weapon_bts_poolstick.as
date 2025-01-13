@@ -185,13 +185,8 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
         {
             if( fFirst )
             {
-                // miss
-                switch( ( m_iSwing++ ) % 3 )
-                {
-                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, GetBodygroup() ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
-                }
+                self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() );
+
                 self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.65f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
@@ -209,11 +204,10 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
 
             CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
-            switch( ( ( m_iSwing++ ) % 2 ) + 1 )
+            switch( ( ( m_iSwing++ ) % 2 ) )
             {
                 case 0: self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
                 case 1: self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
-                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
             }
 
             self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.4f );
