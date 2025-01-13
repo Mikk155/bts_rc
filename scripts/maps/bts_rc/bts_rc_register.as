@@ -25,6 +25,7 @@ void MapActivate()
 #endif
 
     g_sentry_laser.map_activate();
+    BTS_RC_ERTY::MapActivate();
 }
 
 void MapInit()
@@ -36,6 +37,8 @@ void MapInit()
     g_VoiceResponse.init();
 
     bts_items::register();
+
+    BTS_RC_ERTY::MapInit(); 
 
     RegisterPointCheckPointEntity();
 
