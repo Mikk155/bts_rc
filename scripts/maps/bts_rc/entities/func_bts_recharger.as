@@ -11,9 +11,12 @@ namespace func_bts_recharger
     {
         float m_flNextCharge; 
         int m_iReactivate; // DeathMatch Delay until reactvated
-        int m_iJuice;
+        int m_iJuice = 30;
+        int CustomRechargeTime = -1;
         int m_iOn; // 0 = off, 1 = startup, 2 = going
         float m_flSoundTime;
+        string_t fire_on_empty;
+        string_t fire_on_refilled;
         
         void Spawn()
         {
@@ -26,10 +29,34 @@ namespace func_bts_recharger
             g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
             g_EntityFuncs.SetModel( self, self.pev.model );
             
-            m_iJuice = 30;
             self.pev.frame = 0; 
         }
         
+        bool KeyValue( const string& in szKeyName, const string& in szValue )
+        {
+            if( "CustomJuice" == szKeyName )
+            {
+                m_iJuice = atoi( szValue );
+            }
+            else if( "CustomRechargeTime" == szKeyName )
+            {
+                CustomRechargeTime = atoi( szValue );
+            }
+            else if( "TriggerOnEmpty" == szKeyName )
+            {
+                fire_on_empty = string_t(szValue);
+            }
+            else if( "TriggerOnRecharged" == szKeyName )
+            {
+                fire_on_refilled = string_t(szValue);
+            }
+            else
+            {
+                return BaseClass.KeyValue( szKeyName, szValue );
+            }
+            return true;
+        }
+
         void Precache()
         {
             g_SoundSystem.PrecacheSound( "items/suitcharge1.wav" );
