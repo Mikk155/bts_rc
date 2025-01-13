@@ -25,8 +25,6 @@ void MapActivate()
 #endif
 
     g_sentry_laser.map_activate();
-
-    BTS_RC::MapActivate(); //Objective code debug
 }
 
 void MapInit()
@@ -42,8 +40,6 @@ void MapInit()
     RegisterPointCheckPointEntity();
 
     RegisterBTSRCWeapons(); //Custom weapons registered
-
-    BTS_RC::ObjectiveInit(); //Objective indicator registered
 
     g_ClassicMode.ForceItemRemap( true );
     g_ClassicMode.SetItemMappings( @g_AmmoReplacement );
