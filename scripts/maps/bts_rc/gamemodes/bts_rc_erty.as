@@ -127,7 +127,7 @@ namespace BTS_RC_ERTY
     string GetNextPlayermodelSolo() { return rgPlayermodelSolo[0]; }
     string GetNextPlayermodelSecurity()
     {
-        if ((uiPlayermodelIndexSecurity + 1) >= rgPlayermodelSecurity.length()) {
+        if ( uint(uiPlayermodelIndexSecurity + 1) >= rgPlayermodelSecurity.length()) {
             ShuffleArray(rgPlayermodelSecurity);
             uiPlayermodelIndexSecurity = 0;
         }
@@ -190,8 +190,8 @@ namespace BTS_RC_ERTY
         pPlayer.SetOverriddenPlayerModel(playermodel);
 
         uint size = loadout.length();
-        for (int i = 0; i < size; i++) {
-            pPlayer.GiveNamedItem(loadout[i]);
+        for (uint ui = 0; ui < size; ui++) {
+            pPlayer.GiveNamedItem(loadout[ui]);
         }
 
         PlayerFade(pPlayer, fadeColor, FFADE_IN);
