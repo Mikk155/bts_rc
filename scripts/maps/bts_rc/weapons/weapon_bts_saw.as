@@ -50,7 +50,7 @@ int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 20;
 int FLAGS = 0;
 int ID; // assigned on register
-string AMMO_TYPE = "9mm";
+string AMMO_TYPE = "556";
 // Weapon HUD
 int SLOT = 5;
 int POSITION = 4;
@@ -381,7 +381,7 @@ string GetDAmmoName()
 
 void Register()
 {
-#if SERVER
+#if DEVELOP
     weapons.insertLast( GetName() );
 #endif
 
