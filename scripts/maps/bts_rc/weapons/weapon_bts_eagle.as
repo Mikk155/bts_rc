@@ -532,7 +532,7 @@ string GetDAmmoName()
 
 void Register()
 {
-#if SERVER
+#if DEVELOP
     weapons.insertLast( GetName() );
 #endif
 
