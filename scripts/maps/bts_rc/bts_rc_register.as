@@ -48,9 +48,9 @@ void MapInit()
     /*==========================================================================
     *   - Start of precaching
     ==========================================================================*/
-    g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_ON );
-    g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_OFF );
-    g_SoundSystem.PrecacheSound( CONST_HEV_NIGHTVISION_NO_POWER );
+    g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
+    g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
     g_SoundSystem.PrecacheSound("vox/user.wav");
     g_SoundSystem.PrecacheSound("vox/security.wav");
     g_SoundSystem.PrecacheSound("vox/research.wav");

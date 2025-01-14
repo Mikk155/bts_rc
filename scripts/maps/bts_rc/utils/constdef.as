@@ -32,7 +32,7 @@ const array<string>@ CONST_BLOODPUDDLE_SND = {
     "player/pl_slosh1.wav",
     "player/pl_slosh2.wav",
     "player/pl_slosh3.wav",
-    "player/pl_slosh4.wav"
+    "player/pl_slosh4.wav",
 };
 #endif
 
@@ -94,7 +94,7 @@ const array<string> CONST_GEIGER_SND = {
     "player/geiger3.wav",
     "player/geiger4.wav",
     "player/geiger5.wav",
-    "player/geiger6.wav"
+    "player/geiger6.wav",
 };
 
 //===============================================
