@@ -85,6 +85,3 @@ So to enable [loggers](scripts/maps/bts_rc/utils/Logger.as) and other features f
 | [H²](https://github.com/h2whoa) | Help Support |
 | [Zode](https://github.com/Zode) | Utility [freeedicts](scripts/maps/bts_rc/utils/main.as) |
 | [Giegue](https://github.com/JulianR0) | [Motd NetworkMessage](scripts/maps/bts_rc/gamemodes/item_tracker.as) |
-| [Adambean](https://github.com/Adambean) | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
-| [Hezus](http://scmapdb.wikidot.com/mapper:hezus) | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |
-| [GeckoN](https://github.com/baso88) | [Objetive indicator](scripts/maps/bts_rc/objective_indicator.as) |

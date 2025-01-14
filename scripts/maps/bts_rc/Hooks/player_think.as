@@ -54,12 +54,12 @@ HookReturnCode player_think( CBasePlayer@ player )
                 {
                     if( state == 1 )
                     {
-                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, CONST_HEV_NIGHTVISION_OFF, 1.0, ATTN_NORM, 0, PITCH_NORM );
-                        g_PlayerFuncs.ScreenFade( player, CONST_HEV_NIGHTVISION_COLOR, 1.0f, 0.5f, 255.0f, 2 );
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/nvg_off.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                        g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
                     }
                     else if( player.pev.impulse == 100 )
                     {
-                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, CONST_HEV_NIGHTVISION_NO_POWER, 1.0, ATTN_NORM, 0, PITCH_NORM );
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
                     }
 
                     user_data[ "helmet_nv_state" ] = state = 0;
@@ -69,12 +69,12 @@ HookReturnCode player_think( CBasePlayer@ player )
                 {
                     user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
 
-                    g_PlayerFuncs.ScreenFade( player, CONST_HEV_NIGHTVISION_COLOR, 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+                    g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
 
                     g_SoundSystem.EmitSoundDyn(
                         player.edict(),
                         CHAN_WEAPON,
-                        ( state == 1 ? CONST_HEV_NIGHTVISION_OFF : CONST_HEV_NIGHTVISION_ON ),
+                        ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ),
                         1.0,
                         ATTN_NORM,
                         0,

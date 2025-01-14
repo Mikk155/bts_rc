@@ -12,7 +12,7 @@ namespace env_bloodpuddle
     CLogger@ m_Logger = CLogger( "Blood Puddle" );
 #endif
 
-    int model_index = g_Game.PrecacheModel( CONST_BLOODPUDDLE );
+    int model_index = g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
 
     int register = LINK_ENTITY_TO_CLASS( "env_bloodpuddle", "env_bloodpuddle" );
 
@@ -73,13 +73,13 @@ namespace env_bloodpuddle
             bloodpuddle.pev.skin = 1;
         }
 
-        if( CONST_BLOODPUDDLE_SMALL.find( monster.pev.classname ) > 0 )
+        if( monster.pev.classname == "moster_headcrab" || monster.pev.classname == "monster_houndeye" || monster.pev.classname == "monster_babycrab" )
         {
-            bloodpuddle.pev.scale = Math.RandomFloat( CONST_BLOODPUDDLE_SIZE_SMALL[0], CONST_BLOODPUDDLE_SIZE_SMALL[1] );
+            bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
         }
         else
         {
-            bloodpuddle.pev.scale = Math.RandomFloat( CONST_BLOODPUDDLE_SIZE_BIG[0], CONST_BLOODPUDDLE_SIZE_BIG[1] );
+            bloodpuddle.pev.scale = Math.RandomFloat( 1.5, 2.5 );
         }
 
         /* Monster gibed? Set it to full gib */
@@ -121,7 +121,7 @@ namespace env_bloodpuddle
 #endif
             SetThink( ThinkFunction( this.think ) );
 
-            g_EntityFuncs.SetModel( self, CONST_BLOODPUDDLE );
+            g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
 
             switch( state )
             {
