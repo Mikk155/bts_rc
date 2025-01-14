@@ -87,21 +87,15 @@ namespace func_bts_recharger
             if( player is null )
                 return;
 
-            if( PM::HELMET == g_PlayerClass[ player, true ] )
-                return;
-
-            if( player.pev.armorvalue >= player.pev.armortype )
-                return;
-
             // if there is no juice left, turn it off
             if ( m_juice <= 0 )
             {
-                self.pev.frame = 1;         
+                self.pev.frame = 1;
                 Off();
             }
 
             // if there is no juice left, make the deny noise
-            if ( m_juice <= 0 )
+            if ( m_juice <= 0 || PM::HELMET != g_PlayerClass[ player, true ] )
             {
                 if ( m_flSoundTime <= g_Engine.time )
                 {
@@ -111,7 +105,7 @@ namespace func_bts_recharger
                 return;
             }
 
-            self.pev.nextthink = self.pev.ltime + 0.25;
+            self.pev.nextthink = g_Engine.time + 0.25;
             SetThink( ThinkFunction( Off ) );
 
             // Time to recharge yet?
@@ -135,21 +129,11 @@ namespace func_bts_recharger
             if ( activator.TakeArmor( 1, DMG_GENERIC ) )
             {
                 m_juice--;
-            }
 
-            if( m_juice <= 0 )
-            {
-                if( m_recharge_time > -1 )
+                if( m_juice <= 0 )
                 {
-                    SetThink( ThinkFunction( Recharge ) );
-                    self.pev.nextthink = g_Engine.time + m_recharge_time;
+                    g_EntityFuncs.FireTargets( fire_on_empty, activator, self, USE_TOGGLE );
                 }
-                else
-                {
-                    SetThink( null );
-                }
-
-                g_EntityFuncs.FireTargets( fire_on_empty, activator, self, USE_TOGGLE );
             }
 
             // govern the rate of charge
@@ -167,12 +151,25 @@ namespace func_bts_recharger
 
         void Off()
         {
+            if( m_juice <= 0 )
+            {
+                if( m_recharge_time > -1 )
+                {
+                    SetThink( ThinkFunction( Recharge ) );
+                    self.pev.nextthink = g_Engine.time + m_recharge_time;
+                }
+                else
+                {
+                    SetThink( null );
+                }
+            }
+
             // Stop looping sound.
             if ( m_sound_status >= sound_status::LOOP )
             {
                 g_SoundSystem.StopSound( self.edict(), CHAN_STATIC, "items/suitcharge1.wav" );
             }
-            m_sound_status = 0;
+            m_sound_status = sound_status::OFF;
         }
     }
 }
