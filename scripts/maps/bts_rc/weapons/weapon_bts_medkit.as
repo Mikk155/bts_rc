@@ -401,9 +401,5 @@ namespace BTS_MEDKIT
     {
         g_CustomEntityFuncs.RegisterCustomEntity( "BTS_MEDKIT::weapon_bts_medkit", GetName() );
         g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", "health", "", GetAmmoName() );
-
-
-        g_CustomEntityFuncs.RegisterCustomEntity( "A", "A" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "B", "B" );
     }
 }
