@@ -32,7 +32,7 @@ namespace bts_items
             if( player is null )
                 return false;
 
-            if( PM::HELMET != g_PlayerClass[ player, true ] && PM::CLSUIT != g_PlayerClass[ player, true ] )
+            if( PM::HELMET != g_PlayerClass[ player, true ] )
                 return false;
 
             if( player.pev.armorvalue >= player.pev.armortype )
