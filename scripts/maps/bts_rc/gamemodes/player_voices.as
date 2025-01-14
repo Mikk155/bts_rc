@@ -143,18 +143,18 @@ class CVoiceResponse
         this.voices[ "cleansuit" ] = @cleansuit;
 
         // Customize in here the Voices:
-        construction.takedamage.cooldown = CONST_VOICE_COOLDOWN_TAKEDAMAGE;
+        construction.takedamage.cooldown = 1.0;
         construction.takedamage.push_back( "bts_rc/player/construction/co_pain1.wav" );
         construction.takedamage.push_back( "bts_rc/player/construction/co_pain2.wav" );
         construction.takedamage.push_back( "bts_rc/player/construction/co_pain3.wav" );
         construction.takedamage.push_back( "bts_rc/player/construction/co_pain4.wav" );
 
-        barney.takedamage.cooldown = CONST_VOICE_COOLDOWN_TAKEDAMAGE;
+        barney.takedamage.cooldown = 1.0;
         barney.takedamage.push_back( "barney/ba_pain1.wav" );
         barney.takedamage.push_back( "barney/ba_pain2.wav" );
         barney.takedamage.push_back( "barney/ba_pain3.wav" );
 
-        helmet.takedamage.cooldown = CONST_VOICE_COOLDOWN_TAKEDAMAGE;
+        helmet.takedamage.cooldown = 1.0;
         helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain1.wav" );
         helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain2.wav" );
         helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain3.wav" );
@@ -164,7 +164,7 @@ class CVoiceResponse
         @cleansuit.takedamage = helmet.takedamage;
         @cleansuit.killed = helmet.takedamage;
 
-        scientist.takedamage.cooldown = CONST_VOICE_COOLDOWN_TAKEDAMAGE;
+        scientist.takedamage.cooldown = 1.0;
         scientist.takedamage.push_back( "scientist/sci_pain1.wav" );
         scientist.takedamage.push_back( "scientist/sci_pain2.wav" );
         scientist.takedamage.push_back( "scientist/sci_pain3.wav" );
