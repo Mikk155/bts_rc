@@ -92,14 +92,14 @@ namespace item_tracker
 
                 array<string> item_names = item_copy.getKeys();
 
-                buffer = CONST_WHO_HAS_WHAT_TITLE;
+                buffer = "Who has what?\n";
 
                 for( uint ui = 0; ui < item_names.length(); ui++ )
                 {
                     snprintf( buffer, "%1\n%2", buffer, string( item_copy[ item_names[ui] ] ) );
                 }
 
-                time = g_Engine.time + CONST_WHO_HAS_WHAT_TIME;
+                time = g_Engine.time + 5.0; // Cooldown time for refreshing.
             }
 
             //================================================================================================
