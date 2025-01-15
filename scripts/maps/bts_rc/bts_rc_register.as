@@ -9,7 +9,6 @@
 #include "items/main"
 
 #include "list_weapons"
-#include "mappings"
 
 void MapStart()
 {
@@ -35,8 +34,6 @@ void MapInit()
 #endif
 
     g_VoiceResponse.init();
-
-    bts_items::register();
 
     RegisterPointCheckPointEntity();
 
@@ -78,7 +75,6 @@ void MapInit()
     g_Game.PrecacheOther( "monster_headcrab" );
     g_Game.PrecacheOther( "item_bts_armorvest" );
 #endif
-
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -95,10 +91,13 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_wave", "randomizer_wave" );
     g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_headcrab", "randomizer_headcrab" );
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_armorvest", "item_bts_armorvest" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_helmet", "item_bts_helmet" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_hevbattery", "item_bts_hevbattery" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_sprayaid", "item_bts_sprayaid" );
 #if SERVER
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_logger::trigger_logger", "trigger_logger" );
 #endif
-
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -116,7 +115,6 @@ void MapInit()
     {
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
     }
-
     /*==========================================================================
     *   - End
     ==========================================================================*/
