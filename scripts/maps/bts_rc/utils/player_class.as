@@ -78,6 +78,8 @@ final class PlayerClass
         // Hide flashlight icon.
         player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
+        player.pev.armortype = ( player_class == PM::HELMET ? 100 : 50 );
+
 #if SERVER
         m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
 #endif
