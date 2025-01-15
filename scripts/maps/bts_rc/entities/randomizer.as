@@ -113,37 +113,31 @@ namespace randomizer
         }
     }
 
-    int reirandomizer_npc = LINK_ENTITY_TO_CLASS( "randomizer_npc", "randomizer" );
     class randomizer_npc : CRandomizerEntity
     {
         int type() { return 1; }
     }
 
-    int reirandomizer_item = LINK_ENTITY_TO_CLASS( "randomizer_item", "randomizer" );
     class randomizer_item : CRandomizerEntity
     {
         int type() { return 2; }
     }
 
-    int reirandomizer_hull = LINK_ENTITY_TO_CLASS( "randomizer_hull", "randomizer" );
     class randomizer_hull : CRandomizerEntity
     {
         int type() { return 3; }
     }
 
-    int reirandomizer_boss = LINK_ENTITY_TO_CLASS( "randomizer_boss", "randomizer" );
     class randomizer_boss : CRandomizerEntity
     {
         int type() { return 4; }
     }
 
-    int reirandomizer_wave = LINK_ENTITY_TO_CLASS( "randomizer_wave", "randomizer" );
     class randomizer_wave : CRandomizerEntity
     {
         int type() { return 5; }
     }
 
-    int reirandomizer_headcrab = LINK_ENTITY_TO_CLASS( "randomizer_headcrab", "randomizer" );
     class randomizer_headcrab : CRandomizerEntity
     {
         int type() { return 6; }

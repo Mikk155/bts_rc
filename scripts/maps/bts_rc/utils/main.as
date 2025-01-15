@@ -11,6 +11,7 @@ bool freeedicts( int overhead = 1 )
     return ( g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - ( 16 * g_Engine.maxClients ) - 100 - overhead );
 }
 
+#if DISCARDED
 // For normal entities as i don't like to call 50 functions -Mikk
 int LINK_ENTITY_TO_CLASS( const string classname, const string Namespace = String::EMPTY_STRING )
 {
@@ -28,6 +29,7 @@ int LINK_ENTITY_TO_CLASS( const string classname, const string Namespace = Strin
 
     return 0;
 }
+#endif
 
 #if SERVER
 // All the weapons used in the map. These are Inserted in the weapon's Register functions -Mikk
