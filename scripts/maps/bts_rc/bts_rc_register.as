@@ -51,17 +51,17 @@ void MapInit()
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
     g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-    g_SoundSystem.PrecacheSound("vox/user.wav");
-    g_SoundSystem.PrecacheSound("vox/security.wav");
-    g_SoundSystem.PrecacheSound("vox/research.wav");
-    g_SoundSystem.PrecacheSound("vox/maintenance.wav");
-    g_SoundSystem.PrecacheSound("vox/authorized.wav");
+    g_SoundSystem.PrecacheSound( "vox/user.wav" );
+    g_SoundSystem.PrecacheSound( "vox/security.wav" );
+    g_SoundSystem.PrecacheSound( "vox/research.wav" );
+    g_SoundSystem.PrecacheSound( "vox/maintenance.wav" );
+    g_SoundSystem.PrecacheSound( "vox/authorized.wav" );
 
-    g_Game.PrecacheModel("models/w_security.mdl");
-    g_Game.PrecacheModel("models/tool_box.mdl");
-    g_Game.PrecacheModel("sprites/bts_rc/inv_card_security.spr");
-    g_Game.PrecacheModel("sprites/bts_rc/inv_card_research.spr");
-    g_Game.PrecacheModel("sprites/bts_rc/inv_card_maint.spr");
+    g_Game.PrecacheModel( "models/w_security.mdl" );
+    g_Game.PrecacheModel( "models/tool_box.mdl" );
+    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_security.spr" );
+    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_research.spr" );
+    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
 
 #if DISCARDED
     for( uint ui = 0; ui < CONST_BLOODPUDDLE_SND.length(); ui++ )
