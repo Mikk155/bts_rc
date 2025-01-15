@@ -168,23 +168,6 @@ namespace randomizer
         // Indexes of randomizer entities
         array<int> indexes;
 
-        // Swaps a list for initial result of Vectors.
-        private void swap_list()
-        {
-            array<int> swaps = indexes;
-            for( int i = swaps.length() - 1; i > 0; i-- )
-            {
-                int j = Math.RandomLong( 0, i );
-                int temp = swaps[i];
-                swaps[i] = swaps[j];
-                swaps[j] = temp;
-            }
-            indexes = swaps;
-#if SERVER
-            m_Logger.info( "Swapped list {} indexes", { this.name() } );
-#endif
-        }
-
         void init()
         {
             const string name = this.name();
@@ -201,19 +184,30 @@ namespace randomizer
                 m_Logger.info( "Got entity {} at \"{}\"", { pRandomizer.entindex(), pRandomizer.GetOrigin().ToString() } );
 #endif
 
-                indexes.insertLast( pRandomizer.entindex() );
+                this.indexes.insertLast( pRandomizer.entindex() );
             }
 
-            // Randomize and swap the list
-            this.swap_list();
+            // Swaps a list for initial result of Vectors.
+            array<int> swaps = this.indexes;
+            for( int i = swaps.length() - 1; i > 0; i-- )
+            {
+                int j = Math.RandomLong( 0, i );
+                int temp = swaps[i];
+                swaps[i] = swaps[j];
+                swaps[j] = temp;
+            }
+            this.indexes = swaps;
+#if SERVER
+            m_Logger.info( "Swapped list {} indexes", { this.name() } );
+#endif
 
             array<string> entities_names = this.entities();
 
-            int index = indexes.length();
+            int index = this.indexes.length();
 
             for( uint ui = 0; ui < entities_names.length(); ui++, index-- )
             {
-                if( ( @pRandomizer = g_EntityFuncs.Instance( indexes[ index - 1 ] ) ) !is null )
+                if( ( @pRandomizer = g_EntityFuncs.Instance( this.indexes[ index - 1 ] ) ) !is null )
                 {
 #if SERVER
                     m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, entities_names[ui], pRandomizer.GetOrigin().ToString() } );
