@@ -37,14 +37,14 @@ namespace trigger_update_class
                 {
                     g_PlayerClass.set_class( player, m_class );
                 }
-#if DEVELOP
+#if SERVER
                 else
                 {
                     g_PlayerClass.m_Logger.error( "Entity \"{}\" origin {} got an !activator that is not a player!", { self.GetTargetname(), self.GetOrigin().ToString() } );
                 }
                 #endif
             }
-#if DEVELOP
+#if SERVER
             else
             {
                 g_PlayerClass.m_Logger.error( "Entity \"{}\" origin {} got no !activator!", { self.GetTargetname(), self.GetOrigin().ToString() } );
