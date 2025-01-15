@@ -4,158 +4,154 @@ namespace DART
 
 class CDart : ScriptBaseEntity
 {
-	private int m_iBeamSprite;
+    void Spawn()
+    {
+        Precache();
+        g_EntityFuncs.SetSize( pev, g_vecZero, g_vecZero );
 
-	void Spawn()
-	{
-		Precache();
-		g_EntityFuncs.SetSize( pev, g_vecZero, g_vecZero );
+        pev.movetype = MOVETYPE_FLY;
+        pev.solid   = SOLID_BBOX;
+        pev.gravity = 0.5f;
+        pev.dmg = 1.0f;
 
-		pev.movetype = MOVETYPE_FLY;
-		pev.solid	= SOLID_BBOX;
-		pev.gravity = 0.5f;
-		pev.dmg = 1.0f;
+        // RGBA(160, 32, 240)
+        NetworkMessage msg( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+            msg.WriteByte( TE_BEAMFOLLOW );
+            msg.WriteShort( self.entindex() );
+            msg.WriteShort( models::laserbeam );
+            msg.WriteByte( 2 ); // life
+            msg.WriteByte( 1 ); // width
+            msg.WriteByte( 160 ); // r
+            msg.WriteByte( 32 ); // g
+            msg.WriteByte( 240 ); // b
+            msg.WriteByte( 100 ); // brightness
+        msg.End();
 
-		// RGBA(160, 32, 240)
-		NetworkMessage msg( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-			msg.WriteByte( TE_BEAMFOLLOW );
-			msg.WriteShort( self.entindex() );
-			msg.WriteShort( m_iBeamSprite );
-			msg.WriteByte( 2 ); // life
-			msg.WriteByte( 1 ); // width
-			msg.WriteByte( 160 ); // r
-			msg.WriteByte( 32 ); // g
-			msg.WriteByte( 240 ); // b
-			msg.WriteByte( 100 ); // brightness
-		msg.End();
+        SetThink( ThinkFunction( this.BubbleThink ) );
+        pev.nextthink = g_Engine.time + 0.2f;
+        SetTouch( TouchFunction( this.DartTouch ) );
+    }
 
-		SetThink( ThinkFunction( this.BubbleThink ) );
-		pev.nextthink = g_Engine.time + 0.2f;
-		SetTouch( TouchFunction( this.DartTouch ) );
-	}
+    void Precache()
+    {
+        g_SoundSystem.PrecacheSound( "weapons/xbow_hitbod1.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/xbow_hit1.wav" );
+    }
 
-	void Precache()
-	{
-		m_iBeamSprite = g_Game.PrecacheModel( "sprites/laserbeam.spr" );
+    int Classify()
+    {
+        return CLASS_NONE;
+    }
 
-		g_SoundSystem.PrecacheSound( "weapons/xbow_hitbod1.wav" );
-		g_SoundSystem.PrecacheSound( "weapons/xbow_hit1.wav" );
-	}
+    void DartTouch( CBaseEntity@ pOther )
+    {
+        if( g_EngineFuncs.PointContents( pev.origin ) == CONTENTS_SKY )
+        {
+            g_EntityFuncs.Remove( self );
+            return;
+        }
 
-	int Classify()
-	{
-		return CLASS_NONE;
-	}
+        SetTouch( null );
+        SetThink( null );
 
-	void DartTouch( CBaseEntity@ pOther )
-	{
-		if( g_EngineFuncs.PointContents( pev.origin ) == CONTENTS_SKY )
-		{
-			g_EntityFuncs.Remove( self );
-			return;
-		}
+        if( pOther.pev.takedamage != DAMAGE_NO )
+        {
+            TraceResult tr = g_Utility.GetGlobalTrace();
 
-		SetTouch( null );
-		SetThink( null );
+            entvars_t@ pevOwner = pev;
+            if( pev.owner !is null )
+                @pevOwner = pev.owner.vars;
 
-		if( pOther.pev.takedamage != DAMAGE_NO )
-		{
-			TraceResult tr = g_Utility.GetGlobalTrace();
+            g_WeaponFuncs.ClearMultiDamage();
 
-			entvars_t@ pevOwner = pev;
-			if( pev.owner !is null )
-				@pevOwner = pev.owner.vars;
+            if( pOther.IsPlayer() )
+                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_NEVERGIB );
+            else
+                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_BULLET | DMG_NEVERGIB );
 
-			g_WeaponFuncs.ClearMultiDamage();
+            g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
 
-			if( pOther.IsPlayer() )
-				pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_NEVERGIB );
-			else
-				pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_BULLET | DMG_NEVERGIB );
+            g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "weapons/xbow_hitbod1.wav", 1.0f, ATTN_NORM );
 
-			g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
+            pev.velocity = g_vecZero;
 
-			g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "weapons/xbow_hitbod1.wav", 1.0f, ATTN_NORM );
+            self.Killed( pev, GIB_NEVER );
+        }
+        else
+        {
+            g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_BODY, "weapons/xbow_hit1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 7 ) );
 
-			pev.velocity = g_vecZero;
+            SetThink( ThinkFunction( this.SUB_Remove ) );
+            pev.nextthink = g_Engine.time;
 
-			self.Killed( pev, GIB_NEVER );
-		}
-		else
-		{
-			g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_BODY, "weapons/xbow_hit1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 7 ) );
+            if( pOther.pev.ClassNameIs("worldspawn") )
+            {
+                Vector vecDir = pev.velocity.Normalize();
+                g_EntityFuncs.SetOrigin( self, pev.origin - vecDir ); //Pull out of the wall a bit
+                pev.angles = Math.VecToAngles( vecDir );
+                pev.solid = SOLID_NOT;
+                pev.movetype = MOVETYPE_FLY;
+                pev.velocity = g_vecZero;
+                pev.avelocity.z = 0.0f;
+                pev.angles.z = float( Math.RandomLong( 0, 360 ) );
+                pev.nextthink = g_Engine.time + 10.0f;
 
-			SetThink( ThinkFunction( this.SUB_Remove ) );
-			pev.nextthink = g_Engine.time;
+                TraceResult tr = g_Utility.GetGlobalTrace();
+                g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_9MM );
+            }
 
-			if( pOther.pev.ClassNameIs("worldspawn") )
-			{
-				Vector vecDir = pev.velocity.Normalize();
-				g_EntityFuncs.SetOrigin( self, pev.origin - vecDir ); //Pull out of the wall a bit
-				pev.angles = Math.VecToAngles( vecDir );
-				pev.solid = SOLID_NOT;
-				pev.movetype = MOVETYPE_FLY;
-				pev.velocity = g_vecZero;
-				pev.avelocity.z = 0.0f;
-				pev.angles.z = float( Math.RandomLong( 0, 360 ) );
-				pev.nextthink = g_Engine.time + 10.0f;
+            if( g_EngineFuncs.PointContents( pev.origin ) != CONTENTS_WATER )
+                g_Utility.Sparks( pev.origin );
+        }
+    }
 
-				TraceResult tr = g_Utility.GetGlobalTrace();
-				g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_9MM );
-			}
+    void BubbleThink()
+    {
+        pev.nextthink = g_Engine.time + 0.1f;
 
-			if( g_EngineFuncs.PointContents( pev.origin ) != CONTENTS_WATER )
-				g_Utility.Sparks( pev.origin );
-		}
-	}
+        if( pev.waterlevel == WATERLEVEL_DRY )
+            return;
 
-	void BubbleThink()
-	{
-		pev.nextthink = g_Engine.time + 0.1f;
+        g_Utility.BubbleTrail( pev.origin - pev.velocity * 0.1f, pev.origin, 1 );
+    }
 
-		if( pev.waterlevel == WATERLEVEL_DRY )
-			return;
-
-		g_Utility.BubbleTrail( pev.origin - pev.velocity * 0.1f, pev.origin, 1 );
-	}
-
-	void SUB_Remove()
-	{
-		self.SUB_Remove();
-	}
+    void SUB_Remove()
+    {
+        self.SUB_Remove();
+    }
 }
 
 CDart@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, const string& in szModel )
 {
-	CDart@ pDart = cast<CDart>( CastToScriptClass( g_EntityFuncs.CreateEntity( GetName() ) ) );
-	if( pDart is null )
-		return null;
+    CDart@ pDart = cast<CDart>( CastToScriptClass( g_EntityFuncs.CreateEntity( GetName() ) ) );
+    if( pDart is null )
+        return null;
 
-	g_EntityFuncs.SetModel( pDart.self, szModel );
-	g_EntityFuncs.SetOrigin( pDart.self, vecStart );
-	g_EntityFuncs.DispatchSpawn( pDart.self.edict() );
+    g_EntityFuncs.SetModel( pDart.self, szModel );
+    g_EntityFuncs.SetOrigin( pDart.self, vecStart );
+    g_EntityFuncs.DispatchSpawn( pDart.self.edict() );
 
-	pDart.pev.velocity = vecVelocity;
-	pDart.pev.angles = Math.VecToAngles( pDart.pev.velocity );
+    pDart.pev.velocity = vecVelocity;
+    pDart.pev.angles = Math.VecToAngles( pDart.pev.velocity );
 
-	pDart.pev.dmg = flDmg;
-	@pDart.pev.owner = pevOwner.pContainingEntity;
+    pDart.pev.dmg = flDmg;
+    @pDart.pev.owner = pevOwner.pContainingEntity;
 
-	return pDart;
+    return pDart;
 }
 
 string GetName()
 {
-	return "gun_dart";
+    return "gun_dart";
 }
 
 void Register()
 {
-	if( g_CustomEntityFuncs.IsCustomEntity( GetName() ) )
-		return;
+    if( g_CustomEntityFuncs.IsCustomEntity( GetName() ) )
+        return;
 
-	g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", GetName() );
-	g_Game.PrecacheOther( GetName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", GetName() );
+    g_Game.PrecacheOther( GetName() );
 }
 
 }
