@@ -8,7 +8,6 @@ class CLasers
 {
     array<EHandle>@ handles = {};
 
-    int beam_index = g_Game.PrecacheModel( "sprites/laserbeam.spr" );
     int model_index = g_Game.PrecacheModel( "sprites/glow01.spr" );
 
     CScheduledFunction@ scheduler;
@@ -150,7 +149,7 @@ class CLasers
                 m.WriteCoord( tr.vecEndPos.x );
                 m.WriteCoord( tr.vecEndPos.y );
                 m.WriteCoord( tr.vecEndPos.z );
-                m.WriteShort( beam_index );
+                m.WriteShort( models::laserbeam );
                 m.WriteByte( 0 ); // starting frame
                 m.WriteByte( 0 ); // frame rate in 0.1's
                 m.WriteByte( 1 ); // life in 0.1's
