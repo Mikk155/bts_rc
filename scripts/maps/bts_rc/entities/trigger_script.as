@@ -3,12 +3,6 @@ namespace randomizer
     // Swap a specific squad to a random location.
     void randomize_squad( CBaseMonster@ squad, CBaseEntity@ entity )
     {
-        // Sentries are spawned via squadmaker so g_sentry_laser can't find them.
-        if( entity !is null && "monster_sentry" == entity.pev.classname )
-        {
-            g_sentry_laser.handles.insertLast( EHandle( entity ) );
-        }
-
         if( squad !is null && g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
         {
             CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
@@ -45,6 +39,18 @@ namespace randomizer
         // Free the entity slot.
         if( pActivator !is null )
             pActivator.pev.flags |= FL_KILLME;
+    }
+}
+
+namespace lasers
+{
+    void add_sentry( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    {
+        // Sentries are spawned via squadmaker so g_sentry_laser can't find them.
+        if( entity !is null )
+        {
+            g_sentry_laser.handles.insertLast( EHandle( entity ) );
+        }
     }
 }
 
