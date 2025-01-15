@@ -75,20 +75,8 @@ final class PlayerClass
         player.GetUserData()[ "pm" ] = model;
         player.GetUserData()[ "class" ] = player_class;
 
-        switch( player_class )
-        {
-            case PM::HELMET:
-            {
-                player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
-                break;
-            }
-
-            default:
-            {
-                player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
-                break;
-            }
-        }
+        // Hide flashlight icon.
+        player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
 #if SERVER
         m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
