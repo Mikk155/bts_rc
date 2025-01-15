@@ -44,7 +44,7 @@ namespace randomizer
 
 namespace lasers
 {
-    void add_sentry( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    void add_sentry( CBaseMonster@ squad, CBaseEntity@ entity )
     {
         // Sentries are spawned via squadmaker so g_sentry_laser can't find them.
         if( entity !is null )
