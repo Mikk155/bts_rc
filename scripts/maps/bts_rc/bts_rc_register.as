@@ -71,9 +71,13 @@ void MapInit()
     for( uint ui = 0; ui < BloodSplash::Yellow.length(); ui++ )
         g_Game.PrecacheModel( BloodSplash::Yellow[ui] );
 
+    g_Game.PrecacheOther( "item_bts_armorvest" );
+    g_Game.PrecacheOther( "item_bts_helmet" );
+    g_Game.PrecacheOther( "item_bts_hevbattery" );
+    g_Game.PrecacheOther( "item_bts_sprayaid" );
+
 #if SERVER
     g_Game.PrecacheOther( "monster_headcrab" );
-    g_Game.PrecacheOther( "item_bts_armorvest" );
 #endif
     /*==========================================================================
     *   - End
