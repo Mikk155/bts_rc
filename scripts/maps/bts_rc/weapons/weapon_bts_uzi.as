@@ -153,7 +153,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "onehanded", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "mp5", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 1.25f;
         return true;
