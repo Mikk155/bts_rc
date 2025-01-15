@@ -4,39 +4,6 @@ namespace randomizer
     CLogger@ m_Logger = CLogger( "Randomizer" );
 #endif
 
-#if DISCARDED
-    const array<string> keys()
-    {
-        return {
-            "item",
-            "npc",
-            "hull",
-            "boss",
-            "headcrab",
-            "wave"
-        };
-    }
-
-    //============================================================================
-    // Start of map-entities
-    //============================================================================
-
-    int register = register_all();
-    int register_all()
-    {
-        const array<string> list = keys();
-
-        for( uint ui = 0; ui < list.length(); ui++ )
-        {
-            string ent;
-            snprintf( ent, "randomizer_%1", list[ui] );
-            LINK_ENTITY_TO_CLASS( ent, "randomizer" );
-        }
-
-        return 0;
-    }
-#endif
-
     class CRandomizerEntity : ScriptBaseEntity
     {
         int type() { return 0; }
@@ -63,11 +30,9 @@ namespace randomizer
             return self.entindex();
         }
 
-
-
         void Spawn()
         {
-#if SERVER
+#if TEST
             m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
 #endif
         }
@@ -174,7 +139,7 @@ namespace randomizer
             CBaseEntity@ pRandomizer = null;
             while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, target ) ) !is null )
             {
-#if SERVER
+#if TEST
                 m_Logger.info( "Got entity {} at \"{}\"", { pRandomizer.entindex(), pRandomizer.GetOrigin().ToString() } );
 #endif
 
@@ -191,7 +156,7 @@ namespace randomizer
                 swaps[j] = temp;
             }
             this.indexes = swaps;
-#if SERVER
+#if TEST
             m_Logger.info( "Swapped list {} indexes", { this.name() } );
 #endif
 
@@ -203,7 +168,7 @@ namespace randomizer
             {
                 if( ( @pRandomizer = g_EntityFuncs.Instance( this.indexes[ index - 1 ] ) ) !is null )
                 {
-#if SERVER
+#if TEST
                     m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, entities_names[ui], pRandomizer.GetOrigin().ToString() } );
 #endif
                     pRandomizer.Use( g_EntityFuncs.FindEntityByTargetname( null, entities_names[ui] ), pRandomizer, USE_SET );
@@ -374,7 +339,9 @@ namespace randomizer
                 "GM_VOLT_S1",
                 "GM_BULL_S1",
                 "GM_BULL_S2",
-                "GM_BULL_S3"
+                "GM_BULL_S3",
+                "GM_BABYVOLT_S1",
+                "GM_BABYVOLT_S2"
             };
         }
     }
@@ -504,7 +471,8 @@ namespace randomizer
                 "GM_R_CRAB_S2",
                 "GM_R_CRAB_S3",
                 "GM_R_CRAB_S4",
-                "GM_R_CRAB_S5"
+                "GM_R_CRAB_S5",
+                "GM_CHUM_S1"
             };
         }
     }
