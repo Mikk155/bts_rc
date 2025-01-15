@@ -15,7 +15,7 @@ enum PM
 
 final class PlayerClass
 {
-#if DEVELOP
+#if SERVER
     CLogger@ m_Logger = CLogger( "Player Class System" );
 #endif
 
@@ -49,7 +49,7 @@ final class PlayerClass
                     return PM::UNSET;
                 }
 
-#if DEVELOP
+#if SERVER
                 m_Logger.info( "Unseted class for {}. Setting as operator", { player.pev.netname } );
 #endif
 
@@ -90,7 +90,7 @@ final class PlayerClass
             }
         }
 
-#if DEVELOP
+#if SERVER
         m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
 #endif
     }

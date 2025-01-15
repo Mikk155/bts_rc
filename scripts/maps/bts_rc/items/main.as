@@ -29,7 +29,7 @@ namespace bts_items
         snprintf( classspace, "bts_items::%1", classname );
         g_CustomEntityFuncs.RegisterCustomEntity( classspace, classname );
         g_ItemRegistry.RegisterItem( classname, "bts_rc/items" );
-#if DEVELOP
+#if SERVER
         g_Game.PrecacheOther( classname );
 #endif
     }

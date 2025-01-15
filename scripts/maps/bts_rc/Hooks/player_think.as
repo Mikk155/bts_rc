@@ -6,7 +6,7 @@ HookReturnCode player_think( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
-#if DEVELOP
+#if SERVER
         // Change impulse 101 command with our own weapons.
         check_impulse_101(player);
         whatsthat(player);
@@ -93,7 +93,7 @@ HookReturnCode player_think( CBasePlayer@ player )
                             player.pev.armorvalue--;
                             user_data[ "helmet_nv_drain" ] = 4.5 + g_Engine.time;
 
-#if DEVELOP
+#if SERVER
                             g_Logger.debug( "HEV Battery of {} at {}", { player.pev.netname, player.pev.armorvalue } );
 #endif
                         }
