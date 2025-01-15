@@ -14,8 +14,6 @@ namespace env_bloodpuddle
 
     int model_index = g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
 
-    int register = LINK_ENTITY_TO_CLASS( "env_bloodpuddle", "env_bloodpuddle" );
-
     enum BLOOD_STATE
     {
         IDLE = 0,
