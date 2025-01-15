@@ -36,9 +36,6 @@
 #include "items/item_bts_hevbattery"
 #include "items/item_bts_helmet"
 
-//Base( s )
-#include "hl_utils"
-
 array<ItemMapping@> g_AmmoReplacement =
 {
     ItemMapping( "weapon_9mmhandgun", HL_GLOCKSD::GetDAmmoName() ),
