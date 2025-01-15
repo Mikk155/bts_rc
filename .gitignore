@@ -22,3 +22,6 @@ maps/bts_rc_test_chamber.prt
 maps/bts_rc_test_chamber.log
 maps/bts_rc_test_chamber.ext
 maps/bts_rc_test_chamber.map
+
+Release*
+Debug*
