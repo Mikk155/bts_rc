@@ -2,8 +2,6 @@ namespace trigger_logger
 {
     HUDTextParams HudParams;
 
-    int register = LINK_ENTITY_TO_CLASS( "trigger_logger", "trigger_logger" );
-
     class trigger_logger : ScriptBaseEntity
     {
         void Spawn()

@@ -5,8 +5,6 @@
 
 namespace func_bts_recharger
 {
-    int register = LINK_ENTITY_TO_CLASS( "func_bts_recharger", "func_bts_recharger" );
-
     enum sound_status
     {
         OFF = 0,
