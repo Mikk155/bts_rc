@@ -117,7 +117,7 @@ HookReturnCode player_think( CBasePlayer@ player )
                         user_data[ "helmet_nv_state" ] = 0;
                     }
                 }
-
+#if DISCARDED
                 player.m_iFlashBattery = int(Math.max( 1, player.pev.armorvalue ));
 
                 // Update HUD
@@ -125,7 +125,7 @@ HookReturnCode player_think( CBasePlayer@ player )
                     m.WriteByte( state );
                     m.WriteByte(player.m_iFlashBattery);
                 m.End();
-
+#endif
                 break;
             }
             /*==========================================================================
