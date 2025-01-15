@@ -22,8 +22,7 @@ namespace BTS_MEDKIT
 
     enum bodygroups_e
     {
-        STUDIO = 0,
-        HANDS
+        HANDS = 0
     };
 
     // Models
@@ -237,7 +236,7 @@ namespace BTS_MEDKIT
 
             flHealthAmount = int(Math.Ceil(Math.min(float(iAmmoLeft), flHealthAmount)));
 
-            if(pMonster.IsAlive() && pMonster.IsPlayerAlly() && CanHealTarget(pMonster) && flHealthAmount > 0)
+            if(pMonster.IsAlive() && pMonster.IRelationship( m_pPlayer ) == R_AL && CanHealTarget(pMonster) && flHealthAmount > 0)
             {
                 m_pPlayer.SetAnimation(PLAYER_ATTACK1);
                 self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
@@ -283,7 +282,7 @@ namespace BTS_MEDKIT
             {
                 CBaseMonster@ pMonster = (pEntity !is null) ? pEntity.MyMonsterPointer() : null;
 
-                if(pMonster is null || !pMonster.IsPlayerAlly() || pMonster.IsAlive() || (!pMonster.IsMonster() && !pMonster.IsPlayer()) || pMonster.IsMachine())
+                if(pMonster is null || pMonster.IRelationship( m_pPlayer ) >= R_NO || pMonster.IsAlive() || (!pMonster.IsMonster() && !pMonster.IsPlayer()) || pMonster.IsMachine())
                     continue;
 
                 if(pMonster.IsPlayer() && pMonster.pev.iuser1 == 1)
@@ -350,6 +349,8 @@ namespace BTS_MEDKIT
 
                 m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) - REVIVE_COST);
             }
+
+            self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
         }
 
         bool CanHealTarget(CBaseEntity@ pEntity)
