@@ -65,11 +65,11 @@ namespace BTS_MEDKIT
     {
         private CBasePlayer@ m_pPlayer
         {
-            get const	{ return cast<CBasePlayer@>( self.m_hPlayer.GetEntity() ); }
-            set		    { self.m_hPlayer = EHandle( @value ); }
+            get const   { return cast<CBasePlayer@>( self.m_hPlayer.GetEntity() ); }
+            set         { self.m_hPlayer = EHandle( @value ); }
         }
         private float m_reviveChargedTime; // time when target will be revive charge will complete
-	    private float m_rechargeTime; // time until regenerating ammo
+        private float m_rechargeTime; // time until regenerating ammo
 
         int GetBodygroup()
         {
@@ -247,8 +247,8 @@ namespace BTS_MEDKIT
                 // m_pPlayer.GetPointsForDamage(-flHealthAmount);
 
                 //https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
-				pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
-				pMonster.ClearSchedule();
+                pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
+                pMonster.ClearSchedule();
 
                 m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, int(Math.Ceil(iAmmoLeft - flHealthAmount)));
             
@@ -276,7 +276,7 @@ namespace BTS_MEDKIT
             }
 
             CBaseMonster@ pBestTarget = null;
-	        float flBestDist = 1000000.0f;
+            float flBestDist = 1000000.0f;
 
             CBaseEntity@ pEntity;
             while((@pEntity = g_EntityFuncs.FindEntityInSphere(pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname")) !is null)
@@ -345,8 +345,8 @@ namespace BTS_MEDKIT
                 // m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
 
                 //https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
-				pBestTarget.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
-				pBestTarget.ClearSchedule();
+                pBestTarget.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
+                pBestTarget.ClearSchedule();
 
                 m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) - REVIVE_COST);
             }
@@ -398,6 +398,10 @@ namespace BTS_MEDKIT
 
     void Register()
     {
+        #if SERVER
+            weapons.insertLast( GetName() );
+        #endif
+
         g_CustomEntityFuncs.RegisterCustomEntity( "BTS_MEDKIT::weapon_bts_medkit", GetName() );
         g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", "health", "", GetAmmoName() );
     }

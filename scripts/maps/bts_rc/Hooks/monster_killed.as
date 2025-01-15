@@ -2,7 +2,7 @@
     Author: Mikk
 */
 
-#if DEVELOP
+#if SERVER
     namespace monster_killed
     {
         CLogger@ m_Logger = CLogger( "MonsterKilledHook" );
@@ -18,7 +18,7 @@ void npcdrop( const string &in name, CBaseMonster@ monster )
 
         if( item !is null )
         {
-#if DEVELOP
+#if SERVER
             monster_killed::m_Logger.info( "Created item \"{}\" for monster \"{}\" at \"{}\"", { name, monster.pev.classname, monster.Center().ToString() } );
 #endif
             item.pev.spawnflags |= 1024; // no more respawn
@@ -48,12 +48,12 @@ void zombie_crab( CBaseMonster@ monster, int iGib, dictionary@ user_data )
                 {
                     headcrab.pev.health = headcrab_health - headcrab_damage;
 
-#if DEVELOP
+#if SERVER
                     monster_killed::m_Logger.info( "Created Headcrab for \"{}\" at \"{}\" with \"{}\" HP", { monster.pev.classname, headcrab.pev.origin.ToString(), headcrab.pev.health } );
 #endif
                 }
             }
-#if DEVELOP
+#if SERVER
             else
             {
                 monster_killed::m_Logger.info( "Monster \"{}\" doesn't have a headcrab hitgroup for model \"{}\"", { monster.pev.classname, monster.pev.model } );

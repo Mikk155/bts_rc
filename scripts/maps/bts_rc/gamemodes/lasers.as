@@ -16,7 +16,7 @@ class CLasers
     void map_activate()
     {
         const array<string> turrets = {
-#if DEVELOP
+#if SERVER
             "monster_sentry",
 #endif
             "monster_turret",

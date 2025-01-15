@@ -20,7 +20,7 @@ void MapStart()
 
 void MapActivate()
 {
-#if DEVELOP
+#if SERVER
     g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
 #endif
 
@@ -30,7 +30,7 @@ void MapActivate()
 
 void MapInit()
 {
-#if DEVELOP
+#if SERVER
     LoggerLevel = ( Warning | Debug | Info | Critical | Error );
 #endif
 
@@ -74,7 +74,7 @@ void MapInit()
     for( uint ui = 0; ui < BloodSplash::Yellow.length(); ui++ )
         g_Game.PrecacheModel( BloodSplash::Yellow[ui] );
 
-#if DEVELOP
+#if SERVER
     g_Game.PrecacheOther( "monster_headcrab" );
     g_Game.PrecacheOther( "item_bts_armorvest" );
 #endif

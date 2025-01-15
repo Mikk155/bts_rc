@@ -427,7 +427,7 @@ string GetGLAmmoName()
 
 void Register()
 {
-#if DEVELOP
+#if SERVER
     weapons.insertLast( GetName() );
 #endif
 
