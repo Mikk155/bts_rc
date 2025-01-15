@@ -113,7 +113,6 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( PRJ_MDL );
 
         g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( M79_ROCKET::GetName() );
 
         // Precaches the sound for the engine to use
         g_SoundSystem.PrecacheSound( SHOOT_SND );

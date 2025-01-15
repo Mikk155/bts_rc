@@ -1,9 +1,7 @@
-//#include "constdef"
-
 #if SERVER
 #include "Logger"
 #endif
-
+#include "models"
 #include "player_class"
 
 //sven only has 8192 edicts at any given time
