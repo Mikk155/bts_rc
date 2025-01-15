@@ -2,7 +2,9 @@
 #include "weapons/weapon_bts_axe"
 #include "weapons/weapon_bts_beretta"
 #include "weapons/weapon_bts_crowbar"
+#if DISCARDED
 #include "weapons/weapon_bts_dartgun"
+#endif
 #include "weapons/weapon_bts_eagle"
 #include "weapons/weapon_bts_flare"
 #include "weapons/weapon_bts_flaregun"
@@ -64,7 +66,9 @@ void RegisterBTSRCWeapons()
     BTS_FLASHLIGHT::Register(); //Black Mesa Staff Flashlight
     HL_GLOCKSD::Register(); //HL Suppressed/Silenced Glock Register
     BTS_FLAREGUN::Register(); //Emergency Flare Gun
+#if DISCARDED
     BTS_DARTGUN::Register(); //Dartgun ( Secret Weapon )
+#endif
     BTS_GLOCK18::Register(); //Glock 18 ( Toggleable Mode )
     BTS_HANDGRENADE::Register(); //Custom Hand Grenade
     BTS_UZI::Register(); //Custom Single Uzi
