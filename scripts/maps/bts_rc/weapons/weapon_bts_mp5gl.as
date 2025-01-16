@@ -116,8 +116,8 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
         g_Game.PrecacheOther( "grenade" );
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetGLAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_mp5gl" );
+        g_Game.PrecacheOther( "ammo_bts_mp5gl_grenade" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( SHOOT2_SND );
@@ -352,7 +352,7 @@ class ammo_bts_mp5gl : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_9mmbox" ) )
             m_iAmount = Math.RandomLong( 17, 20 );
 
         Precache();
@@ -403,37 +403,17 @@ class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_mp5gl";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_mp5gl";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_9mmbox";
-}
-
-string GetGLAmmoName()
-{
-    return "ammo_bts_mp5gl_grenade";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_mp5gl" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::weapon_bts_mp5gl", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::ammo_bts_mp5gl", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::ammo_bts_mp5gl", GetDAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::ammo_bts_mp5gl_grenade", GetGLAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetGLAmmoName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::weapon_bts_mp5gl", "weapon_bts_mp5gl" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::ammo_bts_mp5gl", "ammo_bts_mp5gl" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::ammo_bts_mp5gl", "ammo_bts_9mmbox" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_MP5GL::ammo_bts_mp5gl_grenade", "ammo_bts_mp5gl_grenade" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_mp5gl", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_mp5gl", "ammo_bts_mp5gl_grenade" );
 }
 
 }

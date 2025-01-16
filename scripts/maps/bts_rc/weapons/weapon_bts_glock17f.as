@@ -123,8 +123,8 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetBatteryName() );
+        g_Game.PrecacheOther( "ammo_bts_glock17f" );
+        g_Game.PrecacheOther( "ammo_bts_glock17f_battery" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -480,31 +480,16 @@ class ammo_bts_glock17f_battery : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_glock17f";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_glock17f";
-}
-
-string GetBatteryName()
-{
-    return "ammo_bts_glock17f_battery";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_glock17f" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_GLOCK17F::weapon_bts_glock17f", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_GLOCK17F::ammo_bts_glock17f", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_GLOCK17F::ammo_bts_glock17f_battery", GetBatteryName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetBatteryName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_GLOCK17F::weapon_bts_glock17f", "weapon_bts_glock17f" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_GLOCK17F::ammo_bts_glock17f", "ammo_bts_glock17f" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_GLOCK17F::ammo_bts_glock17f_battery", "ammo_bts_glock17f_battery" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_glock17f", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_glock17f", "ammo_bts_glock17f_battery" );
 }
 
 }

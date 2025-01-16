@@ -294,19 +294,14 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_axe";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_axe" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_AXE::weapon_bts_axe", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_AXE::weapon_bts_axe", "weapon_bts_axe" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_axe", "bts_rc/weapons" );
 }
 
 }

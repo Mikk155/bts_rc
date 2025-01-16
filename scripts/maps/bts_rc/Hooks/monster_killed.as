@@ -28,13 +28,13 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 switch( Math.RandomLong( 1, 7 ) )
                 {
                     case 1:
-                        drop_item = BTS_FLASHLIGHT::GetAmmoName();
+                        drop_item = "ammo_bts_battery";
                     break;
                     case 2:
-                        drop_item = BTS_FLARE::GetName();
+                        drop_item = "flare";
                     break;
                     case 3:
-                        drop_item = HL_GLOCKSD::GetDAmmoName();
+                        drop_item = "ammo_bts_dglocksd";
                     break;
                     case 4:
                         drop_item = "item_bts_sprayaid";
@@ -48,16 +48,16 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 switch( Math.RandomLong( 1, 7 ) )
                 {
                     case 1:
-                        drop_item = HL_GLOCKSD::GetDAmmoName();
+                        drop_item = "ammo_bts_dglocksd";
                     break;
                     case 2:
-                        drop_item = BTS_DEAGLE::GetDAmmoName();
+                        drop_item = "ammo_bts_dreagle";
                     break;
                     case 3:
-                        drop_item = HL_SHOTGUN::GetDAmmoName();
+                        drop_item = "ammo_bts_shotshell";
                     break;
                     case 4:
-                        drop_item = HL_BERETTA::GetAmmoName();
+                        drop_item = "ammo_bts_beretta";
                     break;
                 }
             }
@@ -69,25 +69,25 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 {
                     case 1:
                     case 2:
-                        drop_item = HL_SHOTGUN::GetDAmmoName();
+                        drop_item = "ammo_bts_shotshell";
                     break;
                     case 3:
-                        drop_item = HL_MP5::GetDAmmoName();
+                        drop_item = "ammo_bts_9mmbox";
                     break;
                     case 4:
-                        drop_item = BTS_M16A3::GetDAmmoName();
+                        drop_item = "ammo_bts_556round";
                     break;
                     case 5:
-                        drop_item = CPython::GetDAmmoName();
+                        drop_item = "ammo_bts_357cyl";
                     break;
                     case 6:
-                        drop_item = BTS_DEAGLE::GetDAmmoName();
+                        drop_item = "ammo_bts_dreagle";
                     break;
                     case 7:
-                        drop_item = HL_GLOCKSD::GetDAmmoName();
+                        drop_item = "ammo_bts_dglocksd";
                     break;
                     case 8:
-                        drop_item = BTS_M4::GetDAmmoName();
+                        drop_item = "ammo_bts_556mag";
                     break;
                     case 9:
                         drop_item = "item_bts_hevbattery";
@@ -106,7 +106,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
             {
                 if( Math.RandomLong( 1, 2 ) == 1 )
                 {
-                    drop_item = HL_MP5GL::GetDAmmoName();
+                    drop_item = "ammo_bts_9mmbox";
                 }
             }
 

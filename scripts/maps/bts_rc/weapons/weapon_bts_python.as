@@ -93,8 +93,8 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( A_MODEL );
         g_Game.PrecacheModel( D_MODEL );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetDAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_python" );
+        g_Game.PrecacheOther( "ammo_bts_357cyl" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND1 );
         g_SoundSystem.PrecacheSound( SHOOT_SND2 );
@@ -263,7 +263,7 @@ class ammo_bts_python : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_357cyl" ) )
         {
             m_szModel = D_MODEL;
             m_iAmount = Math.RandomLong( 2, 4 );
@@ -291,31 +291,16 @@ class ammo_bts_python : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_python";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_python";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_357cyl";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_python" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "CPython::weapon_bts_python", GetName() ); // 357 Colt Python Revolver
-    g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", GetAmmoName() ); // 357 Ammo Rounds
-    g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", GetDAmmoName() ); // 357 Ammo Drop by NPCs
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" ); // Register all of them here
+    g_CustomEntityFuncs.RegisterCustomEntity( "CPython::weapon_bts_python", "weapon_bts_python" ); // 357 Colt Python Revolver
+    g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", "ammo_bts_python" ); // 357 Ammo Rounds
+    g_CustomEntityFuncs.RegisterCustomEntity( "CPython::ammo_bts_python", "ammo_bts_357cyl" ); // 357 Ammo Drop by NPCs
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_python", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_python", "" ); // Register all of them here
 }
 
 }

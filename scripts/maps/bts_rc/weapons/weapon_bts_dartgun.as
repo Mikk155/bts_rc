@@ -371,26 +371,16 @@ class ammo_bts_dartgun : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_dartgun";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_dartgun";
-}
-
 void Register()
 {
     #if SERVER
-        weapons.insertLast( GetName() );
+        weapons.insertLast( "weapon_bts_dartgun" );
     #endif
 
     DART::Register();
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::weapon_bts_dartgun", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::ammo_bts_dartgun", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::weapon_bts_dartgun", "weapon_bts_dartgun" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::ammo_bts_dartgun", "ammo_bts_dartgun" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_dartgun", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_dartgun", "" );
 }
 
 } //End of namespace

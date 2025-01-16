@@ -116,9 +116,9 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetBatteryName() );
-        g_Game.PrecacheOther( GetDAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_eagle" );
+        g_Game.PrecacheOther( "ammo_bts_eagle_battery" );
+        g_Game.PrecacheOther( "ammo_bts_dreagle" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -457,7 +457,7 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_dreagle" ) )
             m_iAmount = Math.RandomLong( 1, 4 );
 
         Precache();
@@ -508,37 +508,17 @@ class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_eagle";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_eagle";
-}
-
-string GetBatteryName()
-{
-    return "ammo_bts_eagle_battery";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_dreagle";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_eagle" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::weapon_bts_eagle", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle_battery", GetBatteryName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", GetDAmmoName() ); 
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetBatteryName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::weapon_bts_eagle", "weapon_bts_eagle" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", "ammo_bts_eagle" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle_battery", "ammo_bts_eagle_battery" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", "ammo_bts_dreagle" ); 
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_eagle", "ammo_bts_eagle_battery" );
 }
 
 }

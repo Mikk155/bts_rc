@@ -96,7 +96,7 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_glock" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -282,25 +282,15 @@ class ammo_bts_glock : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_glock";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_glock";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_glock" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCK::weapon_bts_glock", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCK::ammo_bts_glock", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCK::weapon_bts_glock", "weapon_bts_glock" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCK::ammo_bts_glock", "ammo_bts_glock" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_glock", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_glock", "" );
 }
 
 }
