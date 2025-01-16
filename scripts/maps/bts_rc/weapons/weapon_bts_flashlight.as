@@ -113,8 +113,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( P_MODEL );
         g_Game.PrecacheModel( A_MODEL );
 
-        g_Game.PrecacheOther( "ammo_bts_battery" );
-
         g_SoundSystem.PrecacheSound( EMPTY_SND );
         g_SoundSystem.PrecacheSound( MISS_SND );
 

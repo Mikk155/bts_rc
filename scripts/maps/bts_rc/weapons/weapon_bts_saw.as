@@ -107,7 +107,6 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
         m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_saw" );
-        g_Game.PrecacheOther( "ammo_bts_dsaw" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );

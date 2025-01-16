@@ -99,7 +99,6 @@ class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_glocksd" );
-        g_Game.PrecacheOther( "ammo_bts_dglocksd" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND1 );
         g_SoundSystem.PrecacheSound( SHOOT_SND2 );

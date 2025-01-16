@@ -89,8 +89,6 @@ namespace BTS_MEDKIT
             g_Game.PrecacheModel( V_MODEL );
             g_Game.PrecacheModel( P_MODEL );
 
-            g_Game.PrecacheOther( "ammo_medkit" );
-
             g_SoundSystem.PrecacheSound( MED_SHOT_MISS );
             g_SoundSystem.PrecacheSound( MED_SHOT_HEAL );
             g_SoundSystem.PrecacheSound( MED_SHOT_ERROR );

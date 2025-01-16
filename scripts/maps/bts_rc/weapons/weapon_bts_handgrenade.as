@@ -93,8 +93,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( P_MODEL );
         g_Game.PrecacheModel( PRJ_MDL );
 
-        g_Game.PrecacheOther( "grenade" );
-
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
 

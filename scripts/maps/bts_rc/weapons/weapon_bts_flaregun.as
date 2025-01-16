@@ -101,7 +101,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( PRJ_MDL );
 
         g_Game.PrecacheOther( "ammo_bts_flarebox" );
-        g_Game.PrecacheOther( "flare" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         // g_SoundSystem.PrecacheSound( SHOOT_SND2 );

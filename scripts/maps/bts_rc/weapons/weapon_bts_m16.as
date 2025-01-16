@@ -112,7 +112,6 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
 
-        g_Game.PrecacheOther( "grenade" );
         g_Game.PrecacheOther( "ammo_bts_m16" );
         g_Game.PrecacheOther( "ammo_bts_m16_grenade" );
 

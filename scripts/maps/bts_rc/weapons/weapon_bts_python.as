@@ -94,7 +94,6 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( D_MODEL );
 
         g_Game.PrecacheOther( "ammo_bts_python" );
-        g_Game.PrecacheOther( "ammo_bts_357cyl" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND1 );
         g_SoundSystem.PrecacheSound( SHOOT_SND2 );
