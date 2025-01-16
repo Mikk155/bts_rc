@@ -57,7 +57,6 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
-int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 5;
@@ -495,15 +494,4 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
         }
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_pipe" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_PIPE::weapon_bts_pipe", "weapon_bts_pipe" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_pipe", "bts_rc/weapons" );
-}
-
 }

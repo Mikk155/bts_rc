@@ -59,7 +59,10 @@ array<string> weapons = {
     "weapon_bts_m4sd",
     "weapon_bts_glock18",
     "weapon_bts_m79",
-    "weapon_bts_m16"
+    "weapon_bts_m16",
+    "weapon_bts_screwdriver",
+    "weapon_bts_saw",
+    "weapon_bts_sbshotgun"
 };
 
 void pass_impulse_101( CBasePlayer@ player )

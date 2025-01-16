@@ -47,8 +47,6 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 20;
 int FLAGS = 0;
-int ID; // assigned on register
-string AMMO_TYPE = "556";
 // Weapon HUD
 int SLOT = 5;
 int POSITION = 4;
@@ -351,7 +349,7 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( m_iAmount, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( m_iAmount, "556", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -360,17 +358,4 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_saw" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::weapon_bts_saw", "weapon_bts_saw" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", "ammo_bts_saw" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", "ammo_bts_dsaw" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_saw", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_saw", "" );
-}
-
 }

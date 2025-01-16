@@ -52,8 +52,6 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
 int FLAGS = 0;
-int ID; // assigned on register
-string AMMO_TYPE = "556";
 // Weapon HUD
 int SLOT = 2;
 int POSITION = 9;
@@ -311,7 +309,7 @@ class ammo_bts_m4sd : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( AMMO_GIVE, "556", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -319,16 +317,4 @@ class ammo_bts_m4sd : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_m4sd" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4SD::weapon_bts_m4sd", "weapon_bts_m4sd" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4SD::ammo_bts_m4sd", "ammo_bts_m4sd" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m4sd", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_m4sd", "" );
-}
-
 }

@@ -46,8 +46,6 @@ int AMMO_GIVE = DEFAULT_GIVE;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 20;
 int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
-int ID; // assigned on register
-string AMMO_TYPE = "Hand Grenade";
 // Weapon HUD
 uint SLOT = 4;
 uint POSITION = 6;
@@ -300,15 +298,4 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
         //g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_handgrenade" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_HANDGRENADE::weapon_bts_handgrenade", "weapon_bts_handgrenade" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_handgrenade", "bts_rc/weapons", AMMO_TYPE, "", "weapon_bts_handgrenade", "" );
-}
-
 }

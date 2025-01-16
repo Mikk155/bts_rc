@@ -45,8 +45,6 @@ int AMMO_GIVE = DEFAULT_GIVE;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
 int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
-int ID; // assigned on register
-string AMMO_TYPE = "weapon_bts_flare";
 // Weapon HUD
 uint SLOT = 4;
 uint POSITION = 5;
@@ -279,15 +277,4 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         //g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_flare" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", "weapon_bts_flare" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_flare", "bts_rc/weapons", AMMO_TYPE, "", "weapon_bts_flare", "" );
-}
-
 }

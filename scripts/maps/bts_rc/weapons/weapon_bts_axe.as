@@ -47,7 +47,6 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
-int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 8;
@@ -293,15 +292,4 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity
         g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_axe" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_AXE::weapon_bts_axe", "weapon_bts_axe" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_axe", "bts_rc/weapons" );
-}
-
 }
