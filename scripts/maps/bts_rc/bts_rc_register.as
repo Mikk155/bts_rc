@@ -49,6 +49,9 @@ void MapInit()
 #if SERVER
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_logger::trigger_logger", "trigger_logger" );
 #endif
+    g_CustomEntityFuncs.RegisterCustomEntity( "M79_ROCKET::CM79Rocket", "m79_rocket" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "FLARE::CFlare", "flare" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", "gun_dart" );
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -89,6 +92,9 @@ void MapInit()
     g_Game.PrecacheOther( "item_bts_helmet" );
     g_Game.PrecacheOther( "item_bts_hevbattery" );
     g_Game.PrecacheOther( "item_bts_sprayaid" );
+    g_Game.PrecacheOther( "m79_rocket" );
+    g_Game.PrecacheOther( "flare" );
+    g_Game.PrecacheOther( "gun_dart" );
 
 #if SERVER
     g_Game.PrecacheOther( "monster_headcrab" );
