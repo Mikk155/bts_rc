@@ -49,8 +49,6 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 15;
 int FLAGS = 0;
-int ID; // assigned on register
-string AMMO_TYPE = "bts:flare";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 13;
@@ -292,7 +290,7 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( AMMO_GIVE, "bts:flare", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_pickup.wav", 1.0f, ATTN_NORM );
             return true;
@@ -300,16 +298,4 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_flaregun" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAREGUN::weapon_bts_flaregun", "weapon_bts_flaregun" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAREGUN::ammo_bts_flarebox", "ammo_bts_flarebox" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_flaregun", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_flarebox", "" );
-}
-
 }

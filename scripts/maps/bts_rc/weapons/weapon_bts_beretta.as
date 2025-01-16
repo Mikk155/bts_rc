@@ -58,9 +58,6 @@ int AMMO_DROP = AMMO_GIVE;
 int AMMO_DROP2 = AMMO_GIVE2;
 int WEIGHT = 10;
 int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
-int ID; // assigned on register
-string AMMO_TYPE = "9mm";
-string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 6;
@@ -441,7 +438,7 @@ class ammo_bts_beretta : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( AMMO_GIVE, "9mm", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -467,7 +464,7 @@ class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( AMMO_GIVE2, AMMO_TYPE2, MAX_CARRY2 ) != -1 )
+        if( pOther.GiveAmmo( AMMO_GIVE2, "bts:battery", MAX_CARRY2 ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -475,17 +472,4 @@ class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_beretta" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::weapon_bts_beretta", "weapon_bts_beretta" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", "ammo_bts_beretta" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta_battery", "ammo_bts_beretta_battery" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_beretta", "ammo_bts_beretta_battery" );
-}
-
 }

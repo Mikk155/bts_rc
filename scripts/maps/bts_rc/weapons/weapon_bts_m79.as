@@ -59,8 +59,6 @@ int AMMO_GIVE = 2;
 int AMMO_DROP = 1;
 int WEIGHT = 20;
 int FLAGS = 0;
-int ID; // assigned on register
-string AMMO_TYPE = "ARgrenades";
 // Weapon HUD
 int SLOT = 3;
 int POSITION = 4;
@@ -261,7 +259,7 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, "ARgrenades", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -269,16 +267,4 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_m79" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", "weapon_bts_m79" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", "ammo_bts_m79" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m79", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_m79", "" );
-}
-
 } // Namespace end

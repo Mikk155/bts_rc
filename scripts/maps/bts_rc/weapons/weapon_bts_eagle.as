@@ -56,9 +56,6 @@ int AMMO_DROP = AMMO_GIVE;
 int AMMO_DROP2 = AMMO_GIVE2;
 int WEIGHT = 10;
 int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
-int ID; // assigned on register
-string AMMO_TYPE = "357";
-string AMMO_TYPE2 = "bts:battery";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 9;
@@ -472,7 +469,7 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( m_iAmount, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( m_iAmount, "357", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -498,7 +495,7 @@ class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( AMMO_GIVE2, AMMO_TYPE2, MAX_CARRY2 ) != -1 )
+        if( pOther.GiveAmmo( AMMO_GIVE2, "bts:battery", MAX_CARRY2 ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -506,18 +503,4 @@ class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_eagle" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::weapon_bts_eagle", "weapon_bts_eagle" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", "ammo_bts_eagle" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle_battery", "ammo_bts_eagle_battery" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", "ammo_bts_dreagle" ); 
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_eagle", "ammo_bts_eagle_battery" );
-}
-
 }

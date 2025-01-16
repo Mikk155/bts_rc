@@ -47,7 +47,6 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
-int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 6;
@@ -287,15 +286,4 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
         g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_poolstick" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_POOLSTICK::weapon_bts_poolstick", "weapon_bts_poolstick" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_poolstick", "bts_rc/weapons" );
-}
-
 }

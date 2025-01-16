@@ -57,9 +57,6 @@ int AMMO_DROP = AMMO_GIVE;
 int AMMO_DROP2 = 1;
 int WEIGHT = 5;
 int FLAGS = 0;
-int ID; // assigned on register
-string AMMO_TYPE = "556";
-string AMMO_TYPE2 = "ARgrenades";
 // Weapon HUD
 int SLOT = 2;
 int POSITION = 10;
@@ -365,7 +362,7 @@ class ammo_bts_m16 : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( m_iAmount, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( m_iAmount, "556", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -391,7 +388,7 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP2 : AMMO_GIVE2, AMMO_TYPE2, MAX_CARRY2 ) != -1 )
+        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP2 : AMMO_GIVE2, "ARgrenades", MAX_CARRY2 ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -399,18 +396,4 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_m16" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::weapon_bts_m16", "weapon_bts_m16" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", "ammo_bts_m16" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", "ammo_bts_556round" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16_grenade", "ammo_bts_m16_grenade" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m16", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_m16", "ammo_bts_m16_grenade" );
-}
-
 }
