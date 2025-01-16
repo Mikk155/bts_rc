@@ -115,7 +115,6 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( "grenade" );
         g_Game.PrecacheOther( "ammo_bts_mp5gl" );
         g_Game.PrecacheOther( "ammo_bts_mp5gl_grenade" );
 

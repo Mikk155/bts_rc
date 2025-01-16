@@ -93,8 +93,6 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( P_MODEL );
         g_Game.PrecacheModel( PRJ_MDL );
 
-        g_Game.PrecacheOther( "flare" );
-
         // g_SoundSystem.PrecacheSound( SHOOT_SND );
         // g_SoundSystem.PrecacheSound( EMPTY_SND );
 

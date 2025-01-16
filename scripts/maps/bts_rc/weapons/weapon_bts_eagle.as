@@ -118,7 +118,6 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
         g_Game.PrecacheOther( "ammo_bts_eagle" );
         g_Game.PrecacheOther( "ammo_bts_eagle_battery" );
-        g_Game.PrecacheOther( "ammo_bts_dreagle" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );

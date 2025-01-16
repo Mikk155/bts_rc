@@ -111,7 +111,6 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_shotgun" );
-        g_Game.PrecacheOther( "ammo_bts_shotshell" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( SHOOT2_SND );
