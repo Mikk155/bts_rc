@@ -106,8 +106,8 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
         m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
         m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetDAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_saw" );
+        g_Game.PrecacheOther( "ammo_bts_dsaw" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -336,7 +336,7 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_dsaw" ) )
             m_iAmount = Math.RandomLong( 25, 30 );
 
         Precache();
@@ -362,31 +362,16 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_saw";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_saw";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_dsaw";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_saw" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::weapon_bts_saw", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", GetDAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::weapon_bts_saw", "weapon_bts_saw" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", "ammo_bts_saw" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "CM249::ammo_bts_saw", "ammo_bts_dsaw" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_saw", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_saw", "" );
 }
 
 }

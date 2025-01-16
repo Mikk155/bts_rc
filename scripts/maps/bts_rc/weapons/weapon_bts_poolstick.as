@@ -288,19 +288,14 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_poolstick";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_poolstick" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_POOLSTICK::weapon_bts_poolstick", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_POOLSTICK::weapon_bts_poolstick", "weapon_bts_poolstick" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_poolstick", "bts_rc/weapons" );
 }
 
 }

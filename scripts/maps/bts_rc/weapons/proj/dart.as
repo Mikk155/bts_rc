@@ -123,7 +123,7 @@ class CDart : ScriptBaseEntity
 
 CDart@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, const string& in szModel )
 {
-    CDart@ pDart = cast<CDart>( CastToScriptClass( g_EntityFuncs.CreateEntity( GetName() ) ) );
+    CDart@ pDart = cast<CDart>( CastToScriptClass( g_EntityFuncs.CreateEntity( "gun_dart" ) ) );
     if( pDart is null )
         return null;
 
@@ -140,18 +140,13 @@ CDart@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in v
     return pDart;
 }
 
-string GetName()
-{
-    return "gun_dart";
-}
-
 void Register()
 {
-    if( g_CustomEntityFuncs.IsCustomEntity( GetName() ) )
+    if( g_CustomEntityFuncs.IsCustomEntity( "gun_dart" ) )
         return;
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", GetName() );
-    g_Game.PrecacheOther( GetName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", "gun_dart" );
+    g_Game.PrecacheOther( "gun_dart" );
 }
 
 }

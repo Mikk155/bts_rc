@@ -113,7 +113,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( P_MODEL );
         g_Game.PrecacheModel( A_MODEL );
 
-        g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_battery" );
 
         g_SoundSystem.PrecacheSound( EMPTY_SND );
         g_SoundSystem.PrecacheSound( MISS_SND );
@@ -505,25 +505,15 @@ class ammo_bts_battery : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_flashlight";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_battery";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_flashlight" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", "weapon_bts_flashlight" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", "ammo_bts_battery" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_flashlight", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_battery", "" );
 }
 
 }

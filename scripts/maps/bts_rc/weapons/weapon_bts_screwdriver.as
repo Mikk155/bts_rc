@@ -293,19 +293,14 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_screwdriver";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_screwdriver" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SCREWDRIVER::weapon_bts_screwdriver", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SCREWDRIVER::weapon_bts_screwdriver", "weapon_bts_screwdriver" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_screwdriver", "bts_rc/weapons" );
 }
 
 }

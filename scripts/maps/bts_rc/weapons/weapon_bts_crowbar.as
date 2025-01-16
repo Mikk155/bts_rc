@@ -292,19 +292,14 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_crowbar";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_crowbar" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_CROWBAR::weapon_bts_crowbar", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_CROWBAR::weapon_bts_crowbar", "weapon_bts_crowbar" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_crowbar", "bts_rc/weapons" );
 }
 
 }

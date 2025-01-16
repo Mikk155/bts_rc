@@ -46,7 +46,7 @@ int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
 int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
 int ID; // assigned on register
-string AMMO_TYPE = GetName();
+string AMMO_TYPE = "weapon_bts_flare";
 // Weapon HUD
 uint SLOT = 4;
 uint POSITION = 5;
@@ -93,7 +93,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( P_MODEL );
         g_Game.PrecacheModel( PRJ_MDL );
 
-        g_Game.PrecacheOther( FLARE::GetName() );
+        g_Game.PrecacheOther( "flare" );
 
         // g_SoundSystem.PrecacheSound( SHOOT_SND );
         // g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -282,20 +282,15 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_flare";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_flare" );
 #endif
 
     FLARE::Register();
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLARE::weapon_bts_flare", "weapon_bts_flare" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_flare", "bts_rc/weapons", AMMO_TYPE, "", "weapon_bts_flare", "" );
 }
 
 }

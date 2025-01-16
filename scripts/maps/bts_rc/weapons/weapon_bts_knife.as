@@ -498,19 +498,14 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_knife";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_knife" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_KNIFE::weapon_bts_knife", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_KNIFE::weapon_bts_knife", "weapon_bts_knife" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_knife", "bts_rc/weapons" );
 }
 
 }

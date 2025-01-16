@@ -98,8 +98,8 @@ class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetDAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_glocksd" );
+        g_Game.PrecacheOther( "ammo_bts_dglocksd" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND1 );
         g_SoundSystem.PrecacheSound( SHOOT_SND2 );
@@ -272,7 +272,7 @@ class ammo_bts_glocksd : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_dglocksd" ) )
             m_iAmount = Math.RandomLong( 8, 13 );
 
         Precache();
@@ -297,31 +297,16 @@ class ammo_bts_glocksd : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_glocksd";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_glocksd";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_dglocksd";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_glocksd" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::weapon_bts_glocksd", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", GetDAmmoName() ); // ammo drop case
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::weapon_bts_glocksd", "weapon_bts_glocksd" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", "ammo_bts_glocksd" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_GLOCKSD::ammo_bts_glocksd", "ammo_bts_dglocksd" ); // ammo drop case
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_glocksd", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_glocksd", "" );
 }
 
 }

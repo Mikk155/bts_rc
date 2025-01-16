@@ -129,8 +129,8 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetBatteryName() );
+        g_Game.PrecacheOther( "ammo_bts_sbshotgun" );
+        g_Game.PrecacheOther( "ammo_bts_sbshotgun_battery" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -611,31 +611,16 @@ class ammo_bts_sbshotgun_battery : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_sbshotgun";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_sbshotgun";
-}
-
-string GetBatteryName()
-{
-    return "ammo_bts_sbshotgun_battery";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_sbshotgun" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::weapon_bts_sbshotgun", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun_battery", GetBatteryName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetBatteryName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::weapon_bts_sbshotgun", "weapon_bts_sbshotgun" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun", "ammo_bts_sbshotgun" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SBSHOTGUN::ammo_bts_sbshotgun_battery", "ammo_bts_sbshotgun_battery" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_sbshotgun", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_sbshotgun", "ammo_bts_sbshotgun_battery" );
 }
 
 }

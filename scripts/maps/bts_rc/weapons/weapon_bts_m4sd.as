@@ -102,7 +102,7 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_m4sd" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -320,25 +320,15 @@ class ammo_bts_m4sd : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_m4sd";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_m4sd";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_m4sd" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4SD::weapon_bts_m4sd", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4SD::ammo_bts_m4sd", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4SD::weapon_bts_m4sd", "weapon_bts_m4sd" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M4SD::ammo_bts_m4sd", "ammo_bts_m4sd" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m4sd", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_m4sd", "" );
 }
 
 }
