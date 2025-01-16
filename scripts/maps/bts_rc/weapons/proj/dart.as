@@ -139,14 +139,4 @@ CDart@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in v
 
     return pDart;
 }
-
-void Register()
-{
-    if( g_CustomEntityFuncs.IsCustomEntity( "gun_dart" ) )
-        return;
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", "gun_dart" );
-    g_Game.PrecacheOther( "gun_dart" );
-}
-
 }

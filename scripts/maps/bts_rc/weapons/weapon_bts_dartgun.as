@@ -377,7 +377,6 @@ void Register()
         weapons.insertLast( "weapon_bts_dartgun" );
     #endif
 
-    DART::Register();
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::weapon_bts_dartgun", "weapon_bts_dartgun" );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DARTGUN::ammo_bts_dartgun", "ammo_bts_dartgun" );
     ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_dartgun", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_dartgun", "" );

@@ -276,7 +276,6 @@ void Register()
     weapons.insertLast( "weapon_bts_m79" );
 #endif
 
-    M79_ROCKET::Register();
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", "weapon_bts_m79" );
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", "ammo_bts_m79" );
     ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m79", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_m79", "" );

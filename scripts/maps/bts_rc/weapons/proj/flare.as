@@ -334,14 +334,4 @@ CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in 
 
     return pFlare;
 }
-
-void Register()
-{
-    if( g_CustomEntityFuncs.IsCustomEntity( "flare" ) )
-        return;
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "FLARE::CFlare", "flare" );
-    g_Game.PrecacheOther( "flare" );
-}
-
 }

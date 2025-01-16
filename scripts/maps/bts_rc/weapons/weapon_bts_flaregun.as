@@ -308,7 +308,6 @@ void Register()
     weapons.insertLast( "weapon_bts_flaregun" );
 #endif
 
-    FLARE::Register();
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAREGUN::weapon_bts_flaregun", "weapon_bts_flaregun" );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAREGUN::ammo_bts_flarebox", "ammo_bts_flarebox" );
     ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_flaregun", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_flarebox", "" );
