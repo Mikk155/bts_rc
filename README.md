@@ -56,4 +56,4 @@
 | [Solokiller](https://github.com/SamVanheer) | Help Support |
 | [H²](https://github.com/h2whoa) | Help Support |
 | [Zode](https://github.com/Zode) | Utility [freeedicts](scripts/maps/bts_rc/utils/main.as) |
-| [Giegue](https://github.com/JulianR0) | [Motd NetworkMessage](scripts/maps/bts_rc/gamemodes/item_tracker.as) |
+| [Giegue](https://github.com/JulianR0) | [Motd NetworkMessage](scripts/maps/bts_rc/gamemodes/item_tracker.as), [func_recharge](scripts/maps/bts_rc/entities/func_bts_recharger.as) |
