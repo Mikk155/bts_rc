@@ -17,9 +17,6 @@
 **/
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../proj/m79_rocket"
-#include "../utils/player_class"
-
 namespace HL_M79
 {
 

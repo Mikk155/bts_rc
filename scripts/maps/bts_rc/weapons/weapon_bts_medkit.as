@@ -6,8 +6,6 @@
 *      && kmkz && Rizulix
 */
 
-#include "../utils/player_class"
-
 namespace BTS_MEDKIT
 {
     enum medkit_e

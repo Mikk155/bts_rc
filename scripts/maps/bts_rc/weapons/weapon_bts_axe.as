@@ -3,8 +3,6 @@
 */
 // Rewrited by Rizulix for bts_rc (january 2025)
 
-#include "../utils/player_class"
-
 namespace HL_AXE
 {
 
