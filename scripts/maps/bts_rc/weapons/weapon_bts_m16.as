@@ -113,8 +113,8 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity
         m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
 
         g_Game.PrecacheOther( "grenade" );
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetGLAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_m16" );
+        g_Game.PrecacheOther( "ammo_bts_m16_grenade" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( SHOOT2_SND );
@@ -350,7 +350,7 @@ class ammo_bts_m16 : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_556round" ) )
             m_iAmount = Math.RandomLong( 9, 23 );
 
         Precache();
@@ -401,37 +401,17 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_m16";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_m16";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_556round";
-}
-
-string GetGLAmmoName()
-{
-    return "ammo_bts_m16_grenade";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_m16" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::weapon_bts_m16", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", GetDAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16_grenade", GetGLAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetGLAmmoName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::weapon_bts_m16", "weapon_bts_m16" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", "ammo_bts_m16" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16", "ammo_bts_556round" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_M16A3::ammo_bts_m16_grenade", "ammo_bts_m16_grenade" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m16", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_m16", "ammo_bts_m16_grenade" );
 }
 
 }

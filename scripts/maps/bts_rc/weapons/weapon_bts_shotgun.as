@@ -110,8 +110,8 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetDAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_shotgun" );
+        g_Game.PrecacheOther( "ammo_bts_shotshell" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( SHOOT2_SND );
@@ -480,7 +480,7 @@ class ammo_bts_shotgun : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
-        if( pev.ClassNameIs( GetDAmmoName() ) )
+        if( pev.ClassNameIs( "ammo_bts_shotshell" ) )
         {
             m_szModel = D_MODEL;
             m_iAmount = 3;
@@ -508,31 +508,16 @@ class ammo_bts_shotgun : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_shotgun";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_shotgun";
-}
-
-string GetDAmmoName()
-{
-    return "ammo_bts_shotshell";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_shotgun" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::weapon_bts_shotgun", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::ammo_bts_shotgun", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::ammo_bts_shotgun", GetDAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::weapon_bts_shotgun", "weapon_bts_shotgun" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::ammo_bts_shotgun", "ammo_bts_shotgun" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_SHOTGUN::ammo_bts_shotgun", "ammo_bts_shotshell" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_shotgun", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_shotgun", "" );
 }
 
 }

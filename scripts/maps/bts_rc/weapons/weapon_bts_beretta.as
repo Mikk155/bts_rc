@@ -118,8 +118,8 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
-        g_Game.PrecacheOther( GetBatteryName() );
+        g_Game.PrecacheOther( "ammo_bts_beretta" );
+        g_Game.PrecacheOther( "ammo_bts_beretta_battery" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -476,31 +476,16 @@ class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_beretta";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_beretta";
-}
-
-string GetBatteryName()
-{
-    return "ammo_bts_beretta_battery";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_beretta" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::weapon_bts_beretta", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", GetAmmoName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta_battery", GetBatteryName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, GetAmmoName(), GetBatteryName() );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::weapon_bts_beretta", "weapon_bts_beretta" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", "ammo_bts_beretta" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta_battery", "ammo_bts_beretta_battery" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", AMMO_TYPE, AMMO_TYPE2, "ammo_bts_beretta", "ammo_bts_beretta_battery" );
 }
 
 }

@@ -303,18 +303,14 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_handgrenade";
-}
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_handgrenade" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_HANDGRENADE::weapon_bts_handgrenade", GetName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_HANDGRENADE::weapon_bts_handgrenade", "weapon_bts_handgrenade" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_handgrenade", "bts_rc/weapons", AMMO_TYPE, "", "weapon_bts_handgrenade", "" );
 }
 
 }

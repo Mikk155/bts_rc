@@ -89,7 +89,7 @@ namespace BTS_MEDKIT
             g_Game.PrecacheModel( V_MODEL );
             g_Game.PrecacheModel( P_MODEL );
 
-            g_Game.PrecacheOther( GetAmmoName() );
+            g_Game.PrecacheOther( "ammo_medkit" );
 
             g_SoundSystem.PrecacheSound( MED_SHOT_MISS );
             g_SoundSystem.PrecacheSound( MED_SHOT_HEAL );
@@ -385,23 +385,13 @@ namespace BTS_MEDKIT
         }
     }
 
-    string GetName()
-    {
-        return "weapon_bts_medkit";
-    }
-
-    string GetAmmoName()
-    {
-        return "ammo_medkit";
-    }
-
     void Register()
     {
         #if SERVER
-            weapons.insertLast( GetName() );
+            weapons.insertLast( "weapon_bts_medkit" );
         #endif
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "BTS_MEDKIT::weapon_bts_medkit", GetName() );
-        g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", "health", "", GetAmmoName() );
+        g_CustomEntityFuncs.RegisterCustomEntity( "BTS_MEDKIT::weapon_bts_medkit", "weapon_bts_medkit" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_medkit", "bts_rc/weapons", "health", "", "ammo_medkit" );
     }
 }

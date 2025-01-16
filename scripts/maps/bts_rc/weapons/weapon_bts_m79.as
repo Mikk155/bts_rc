@@ -109,7 +109,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( A_MODEL );
         g_Game.PrecacheModel( PRJ_MDL );
 
-        g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_m79" );
 
         // Precaches the sound for the engine to use
         g_SoundSystem.PrecacheSound( SHOOT_SND );
@@ -270,26 +270,16 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_m79";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_m79";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_m79" );
 #endif
 
     M79_ROCKET::Register();
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::weapon_bts_m79", "weapon_bts_m79" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "HL_M79::ammo_bts_m79", "ammo_bts_m79" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_m79", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_m79", "" );
 }
 
 } // Namespace end

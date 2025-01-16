@@ -112,7 +112,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
-        g_Game.PrecacheOther( GetAmmoName() );
+        g_Game.PrecacheOther( "ammo_bts_uzi" );
 
         g_SoundSystem.PrecacheSound( SHOOT_SND );
         g_SoundSystem.PrecacheSound( EMPTY_SND );
@@ -310,25 +310,15 @@ class ammo_bts_uzi : ScriptBasePlayerAmmoEntity
     }
 }
 
-string GetName()
-{
-    return "weapon_bts_uzi";
-}
-
-string GetAmmoName()
-{
-    return "ammo_bts_uzi";
-}
-
 void Register()
 {
 #if SERVER
-    weapons.insertLast( GetName() );
+    weapons.insertLast( "weapon_bts_uzi" );
 #endif
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::weapon_bts_uzi", GetName() );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", GetAmmoName() );
-    ID = g_ItemRegistry.RegisterWeapon( GetName(), "bts_rc/weapons", AMMO_TYPE, "", GetAmmoName(), "" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::weapon_bts_uzi", "weapon_bts_uzi" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", "ammo_bts_uzi" );
+    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_uzi", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_uzi", "" );
 }
 
 }
