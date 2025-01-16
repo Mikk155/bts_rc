@@ -5,8 +5,6 @@
 // Sprites: Valve Software, TurtleRock Studios, SV BOY
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../utils/player_class"
-
 namespace HL_GLOCKSD
 {
 

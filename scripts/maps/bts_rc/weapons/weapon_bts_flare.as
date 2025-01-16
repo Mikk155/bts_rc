@@ -10,9 +10,6 @@
 */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../proj/flare"
-#include "../utils/player_class"
-
 namespace BTS_FLARE
 {
 

@@ -2,9 +2,6 @@
 // Author: Nevermore2790, Nero0
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../proj/dart"
-#include "../utils/player_class"
-
 namespace BTS_DARTGUN
 {
 

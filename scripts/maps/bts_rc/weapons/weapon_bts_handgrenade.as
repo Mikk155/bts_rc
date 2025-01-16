@@ -3,8 +3,6 @@
 */
 // Rewrited by Rizulix for bts_rc (january 2024)
 
-#include "../utils/player_class"
-
 namespace BTS_HANDGRENADE
 {
 

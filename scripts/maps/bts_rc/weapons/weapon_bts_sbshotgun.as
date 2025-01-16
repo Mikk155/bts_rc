@@ -7,8 +7,6 @@
 */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../utils/player_class"
-
 namespace HL_SBSHOTGUN
 {
 

@@ -5,8 +5,6 @@
 // Sprites: TurtleRock Studios, Valve Software, SV BOY
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-#include "../utils/player_class"
-
 namespace BTS_M4SD
 {
 
