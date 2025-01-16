@@ -38,7 +38,6 @@ namespace BTS_MEDKIT
     const int AMMO_DROP2 = WEAPON_NOCLIP;
     const int WEIGHT = 0;
     const int FLAGS = ITEM_FLAG_NOAUTORELOAD | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_SELECTONEMPTY;
-    const string AMMO_TYPE = "health";
 
     // Weapon HUD
     const int SLOT = 0;
@@ -381,15 +380,5 @@ namespace BTS_MEDKIT
                 }
             }
         }
-    }
-
-    void Register()
-    {
-        #if SERVER
-            weapons.insertLast( "weapon_bts_medkit" );
-        #endif
-
-        g_CustomEntityFuncs.RegisterCustomEntity( "BTS_MEDKIT::weapon_bts_medkit", "weapon_bts_medkit" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_medkit", "bts_rc/weapons", "health", "", "ammo_medkit" );
     }
 }

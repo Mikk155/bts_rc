@@ -46,7 +46,6 @@ int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
 int FLAGS = -1;
-int ID; // assigned on register
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 4;
@@ -291,15 +290,4 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
         g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_crowbar" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_CROWBAR::weapon_bts_crowbar", "weapon_bts_crowbar" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_crowbar", "bts_rc/weapons" );
-}
-
 }

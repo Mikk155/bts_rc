@@ -64,8 +64,6 @@ int AMMO_GIVE = MAX_CLIP;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 10;
 int FLAGS = 0;
-int ID; // assigned on register
-string AMMO_TYPE = "9mm";
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 11;
@@ -301,7 +299,7 @@ class ammo_bts_uzi : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( AMMO_GIVE, "9mm", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -309,16 +307,4 @@ class ammo_bts_uzi : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_uzi" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::weapon_bts_uzi", "weapon_bts_uzi" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_UZI::ammo_bts_uzi", "ammo_bts_uzi" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_uzi", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_uzi", "" );
-}
-
 }

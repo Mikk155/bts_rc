@@ -56,8 +56,6 @@ int AMMO_GIVE = 5;
 int AMMO_DROP = 1;
 int WEIGHT = 10;
 int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
-int ID; // assigned on register
-string AMMO_TYPE = "bts:battery";
 // Weapon HUD
 int SLOT = 4;
 int POSITION = 4;
@@ -494,7 +492,7 @@ class ammo_bts_battery : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, AMMO_TYPE, MAX_CARRY ) != -1 )
+        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, "bts:battery", MAX_CARRY ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
             return true;
@@ -502,18 +500,6 @@ class ammo_bts_battery : ScriptBasePlayerAmmoEntity
         return false;
     }
 }
-
-void Register()
-{
-#if SERVER
-    weapons.insertLast( "weapon_bts_flashlight" );
-#endif
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::weapon_bts_flashlight", "weapon_bts_flashlight" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLASHLIGHT::ammo_bts_battery", "ammo_bts_battery" );
-    ID = g_ItemRegistry.RegisterWeapon( "weapon_bts_flashlight", "bts_rc/weapons", AMMO_TYPE, "", "ammo_bts_battery", "" );
-}
-
 }
 // End namespace BTS_FLASHLIGHT
 // if you wanna use this as a sample, go ahead and make sure credit the rightful owner.
