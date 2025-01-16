@@ -34,7 +34,32 @@ int LINK_ENTITY_TO_CLASS( const string classname, const string Namespace = Strin
 #if SERVER
 // All the weapons used in the map. These are Inserted in the weapon's Register functions -Mikk
 array<string> weapons = {
-    "weapon_medkit"
+    "weapon_bts_axe",
+    "weapon_bts_beretta",
+    "weapon_bts_crowbar",
+    "weapon_bts_dartgun",
+    "weapon_bts_eagle",
+    "weapon_bts_flare",
+    "weapon_bts_flaregun",
+    "weapon_bts_flashlight",
+    "weapon_bts_glock",
+    "weapon_bts_glock17f",
+    "weapon_bts_uzi",
+    "weapon_bts_shotgun",
+    "weapon_bts_python",
+    "weapon_bts_poolstick",
+    "weapon_bts_pipe",
+    "weapon_bts_mp5",
+    "weapon_bts_medkit",
+    "weapon_bts_mp5gl",
+    "weapon_bts_m4",
+    "weapon_bts_glocksd",
+    "weapon_bts_handgrenade",
+    "weapon_bts_knife",
+    "weapon_bts_m4sd",
+    "weapon_bts_glock18",
+    "weapon_bts_m79",
+    "weapon_bts_m16"
 };
 
 void pass_impulse_101( CBasePlayer@ player )
