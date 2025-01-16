@@ -152,10 +152,4 @@ namespace M79_ROCKET
 
         return pRocket;
     }
-
-    void Register()
-    {
-        g_CustomEntityFuncs.RegisterCustomEntity( "M79_ROCKET::CM79Rocket", "m79_rocket" );
-        g_Game.PrecacheOther( "m79_rocket" );
-    }
 }
