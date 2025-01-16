@@ -2,7 +2,10 @@
     Author: Mikk
 */
 
-#include "utils/main"
+#if SERVER
+#include "Logger"
+#endif
+
 #include "entities/main"
 #include "gamemodes/main"
 #include "Hooks/main"
@@ -27,8 +30,6 @@ void MapInit()
     g_VoiceResponse.init();
 
     RegisterPointCheckPointEntity();
-
-    RegisterBTSRCWeapons(); //Custom weapons registered
 
     /*==========================================================================
     *   - Start of custom entities
@@ -247,3 +248,237 @@ void MapInit()
     *   - End
     ==========================================================================*/
 }
+
+// Model indexes
+namespace models
+{
+    int WXplo1 = g_Game.PrecacheModel( "sprites/WXplo1.spr" );
+    int zerogxplode = g_Game.PrecacheModel( "sprites/zerogxplode.spr" );
+    int steam1 = g_Game.PrecacheModel( "sprites/steam1.spr" );
+    int laserbeam = g_Game .PrecacheModel( "sprites/laserbeam.spr" );
+}
+
+//sven only has 8192 edicts at any given time
+//so assume each player carries exactly 16 weapons, and then leave 100 slots free for various temporary things. -Zode
+bool freeedicts( int overhead = 1 )
+{
+    return ( g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - ( 16 * g_Engine.maxClients ) - 100 - overhead );
+}
+
+#if SERVER
+// All the weapons used in the map. These are Inserted in the weapon's Register functions -Mikk
+array<string> weapons = {
+    "weapon_bts_axe",
+    "weapon_bts_beretta",
+    "weapon_bts_crowbar",
+    "weapon_bts_eagle",
+    "weapon_bts_flare",
+    "weapon_bts_flaregun",
+    "weapon_bts_flashlight",
+    "weapon_bts_glock",
+    "weapon_bts_glock17f",
+    "weapon_bts_uzi",
+    "weapon_bts_shotgun",
+    "weapon_bts_python",
+    "weapon_bts_poolstick",
+    "weapon_bts_pipe",
+    "weapon_bts_mp5",
+    "weapon_bts_medkit",
+    "weapon_bts_mp5gl",
+    "weapon_bts_m4",
+    "weapon_bts_glocksd",
+    "weapon_bts_handgrenade",
+    "weapon_bts_knife",
+    "weapon_bts_m4sd",
+    "weapon_bts_glock18",
+    "weapon_bts_m79",
+    "weapon_bts_m16",
+    "weapon_bts_screwdriver",
+    "weapon_bts_saw",
+    "weapon_bts_sbshotgun"
+};
+
+void pass_impulse_101( CBasePlayer@ player )
+{
+    if( player !is null && player.IsConnected() )
+    {
+        for( uint ui = 0; ui < weapons.length(); ui++ )
+        {
+            const string weapon_name = weapons[ui];
+
+            player.GiveNamedItem( weapon_name );
+
+            CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+            
+            if( item !is null )
+            {
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                if( weapon !is null )
+                {
+                    if( weapon.m_iPrimaryAmmoType > 0 )
+                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                    if( weapon.m_iSecondaryAmmoType > 0 )
+                        player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                }
+            }
+        }
+    }
+}
+
+void trigger_impulse_101( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+{
+    if( pActivator !is null && pActivator.IsPlayer() )
+    {
+        pass_impulse_101(cast<CBasePlayer@>(pActivator));
+    }
+}
+
+void check_impulse_101( CBasePlayer@ player )
+{
+    if( player !is null && player.IsConnected() && player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+    {
+        pass_impulse_101(player);
+        player.pev.impulse = 0;
+    }
+}
+
+// Should we display info of aiming entity?
+void whatsthat( CBasePlayer@ player )
+{
+    if( player !is null && player.IsConnected() )
+    {
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.EyePosition(), player.EyePosition() + player.GetAutoaimVector( 1.0 ) * 500.0f, dont_ignore_monsters, player.edict(), tr );
+
+        if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
+        {
+            CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
+
+            if( hit !is null && hit.GetCustomKeyvalues().HasKeyvalue( "$s_message" ) )
+            {
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue( "$s_message" ).GetString() + "\n" );
+            }
+        }
+    }
+}
+#endif
+
+/*
+    Author: Mikk
+*/
+
+enum PM
+{
+    UNSET = -1,
+    BARNEY = 0,
+    SCIENTIST = 1,
+    CONSTRUCTION = 2,
+    BSCIENTIST = 3,
+    HELMET = 4,
+    CLSUIT = 5
+};
+
+final class PlayerClass
+{
+#if SERVER
+    CLogger@ m_Logger = CLogger( "Player Class System" );
+#endif
+
+    // Index of the last used model so we give each player a different one instead of a random one.
+    private uint mdl_scientist_last = Math.RandomLong( 0, 4 );
+    private array<string> mdl_scientist = {
+        "bts_scientist",
+        "bts_scientist3",
+        "bts_scientist4",
+        "bts_scientist5",
+        "bts_scientist6"
+    };
+    private uint mdl_barney_last = Math.RandomLong( 0, 3 );
+    private array<string> mdl_barney = {
+        "bts_barney",
+        "bts_barney2",
+        "bts_barney3",
+        "bts_otis"
+    };
+
+    const PM opIndex( CBasePlayer@ player, bool DontSet = false )
+    {
+        if( player !is null )
+        {
+            dictionary@ data = player.GetUserData();
+
+            if( !data.exists( "class" ) )
+            {
+                if( DontSet )
+                {
+                    return PM::UNSET;
+                }
+
+#if SERVER
+                m_Logger.info( "Unseted class for {}. Setting as operator", { player.pev.netname } );
+#endif
+
+                set_class( player, PM( Math.RandomLong( PM::BARNEY, PM::CONSTRUCTION ) ) );
+            }
+
+            return PM( data[ "class" ] );
+        }
+
+        return PM::SCIENTIST;
+    }
+
+    void set_class( CBasePlayer@ player, PM player_class )
+    {
+        const string model = this.model( player_class );
+
+        // Update class for bodygroups of view models n
+        if( model == "bts_scientist3" )
+        {
+            player_class = PM::BSCIENTIST;
+        }
+
+        player.GetUserData()[ "pm" ] = model;
+        player.GetUserData()[ "class" ] = player_class;
+
+        // Hide flashlight icon.
+        player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
+
+        player.pev.armortype = ( player_class == PM::HELMET ? 100 : 50 );
+
+#if SERVER
+        m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
+#endif
+    }
+
+    // Return a player model for the given class
+    const string& model( const PM player_class )
+    {
+        switch( player_class )
+        {
+            case PM::CONSTRUCTION:
+            {
+                return "bts_construction";
+            }
+            case PM::BARNEY:
+            {
+                mdl_barney_last = ( mdl_barney_last >= mdl_barney.length() -1 ) ? 0 : mdl_barney_last + 1;
+                return mdl_barney[ mdl_barney_last ];
+            }
+            case PM::CLSUIT:
+            {
+                return "bts_cleansuit";
+            }
+            case PM::HELMET:
+            {
+                return "bts_helmet";
+            }
+        }
+
+        mdl_scientist_last = ( mdl_scientist_last >= mdl_scientist.length() -1 ) ? 0 : mdl_scientist_last + 1;
+        return mdl_scientist[ mdl_scientist_last ];
+    }
+}
+
+PlayerClass g_PlayerClass;
