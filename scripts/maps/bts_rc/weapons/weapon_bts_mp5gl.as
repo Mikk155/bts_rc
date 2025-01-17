@@ -25,7 +25,7 @@ enum bodygroups_e
 };
 
 // Models
-string W_MODEL = "models/bts_rc/weapons/v_9mmARGL.mdl";
+string W_MODEL = "models/bts_rc/weapons/w_9mmARGL.mdl";
 string V_MODEL = "models/bts_rc/weapons/v_9mmARGL.mdl";
 string P_MODEL = "models/bts_rc/weapons/p_9mmARGL.mdl";
 string A_MODEL = "models/hlclassic/w_9mmarclip.mdl";
