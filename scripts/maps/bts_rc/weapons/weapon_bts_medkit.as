@@ -324,7 +324,7 @@ namespace BTS_MEDKIT
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_REVIVE, 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
                 
-                CBaseMonster@ pMonster = (pBestTarget.GetClassname() == "deadplayer") ? cast<CBaseMonster@>(g_EntityFuncs.Instance(pBestTarget.pev.renderamt)) : pBestTarget.MyMonsterPointer();
+                CBaseMonster@ pMonster = (pBestTarget.GetClassname() == "deadplayer") ? cast<CBaseMonster@>(g_EntityFuncs.Instance(int(pBestTarget.pev.renderamt))) : pBestTarget.MyMonsterPointer();
                 pMonster.Revive();
                 pMonster.pev.health = (pMonster.pev.max_health / 2);
 

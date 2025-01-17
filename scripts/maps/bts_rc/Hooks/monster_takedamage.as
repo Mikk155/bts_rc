@@ -19,8 +19,7 @@ HookReturnCode monster_takedamage( DamageInfo@ pDamageInfo )
                 monster.pev.classname == "monster_zombie" ||
                 monster.pev.classname == "monster_zombie_soldier" ||
                 monster.pev.classname == "monster_zombie_barney" ||
-                monster.pev.classname == "monster_gonome" ||
-
+                monster.pev.classname == "monster_gonome"
             ) )
             {
                 dictionary@ user_data = monster.GetUserData();
