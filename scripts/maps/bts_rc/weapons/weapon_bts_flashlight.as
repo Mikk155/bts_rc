@@ -46,7 +46,7 @@ array<string> HITFLESH_SND = {
     "bts_rc/weapons/flashlight_hitbod2.wav",
     "bts_rc/weapons/flashlight_hitbod3.wav"
 };
-string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+string SWITCH_SND = "items/flashlight1.wav";
 string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 // Weapon info
 int MAX_CARRY = 10;
