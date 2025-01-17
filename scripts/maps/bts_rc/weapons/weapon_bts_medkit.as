@@ -269,37 +269,28 @@ namespace BTS_MEDKIT
                 return;
             }
 
-            CBaseMonster@ pBestTarget = null;
-            float flBestDist = 1000000.0f;
+            CBaseEntity@ pBestTarget = null;
+            float flBestDist = REVIVE_RADIUS;
 
             CBaseEntity@ pEntity;
-            while((@pEntity = g_EntityFuncs.FindEntityInSphere(pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname")) !is null)
+            while ((@pEntity = g_EntityFuncs.FindEntityInSphere(pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname")) !is null)
             {
-                CBaseMonster@ pMonster = (pEntity !is null) ? pEntity.MyMonsterPointer() : null;
-
-                if(pMonster is null || pMonster.IRelationship( m_pPlayer ) >= R_NO || pMonster.IsAlive() || (!pMonster.IsMonster() && !pMonster.IsPlayer()) || pMonster.IsMachine())
+                if (pEntity is null || !IsValidReviveTarget(pEntity))
                     continue;
 
-                if(pMonster.IsPlayer() && pMonster.pev.iuser1 == 1)
-                    continue; // don't revive spectators
+                float flDist = (pEntity.pev.origin - m_pPlayer.pev.origin).Length();
 
-                float flDist = (pMonster.pev.origin - m_pPlayer.pev.origin).Length();
-
-                if(pBestTarget is null)
+                if (pBestTarget is null)
                 {
                     flBestDist = flDist;
-                    @pBestTarget = pMonster;
+                    @pBestTarget = pEntity;
                     continue;
                 }
 
-                // prefer reviving players over monsters, which sometimes have death poses far from where they died
-                bool isBetterClass = pMonster.IsPlayer() && !pBestTarget.IsPlayer();
-                bool isWorseClass = !pMonster.IsPlayer() && pBestTarget.IsPlayer();
-
-                if ((flDist < flBestDist && !isWorseClass) || isBetterClass) 
+                if (IsBetterReviveTarget(pEntity, pBestTarget, flDist, flBestDist))
                 {
                     flBestDist = flDist;
-                    @pBestTarget = pMonster;
+                    @pBestTarget = pEntity;
                 }
             }
 
@@ -332,15 +323,16 @@ namespace BTS_MEDKIT
                 self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_REVIVE, 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
-
-                pBestTarget.Revive();
-                pBestTarget.pev.health = (pBestTarget.pev.max_health / 2);
+                
+                CBaseMonster@ pMonster = (pBestTarget.GetClassname() == "deadplayer") ? cast<CBaseMonster@>(g_EntityFuncs.Instance(pBestTarget.pev.renderamt)) : pBestTarget.MyMonsterPointer();
+                pMonster.Revive();
+                pMonster.pev.health = (pMonster.pev.max_health / 2);
 
                 // m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
 
                 //https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
-                pBestTarget.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
-                pBestTarget.ClearSchedule();
+                pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
+                pMonster.ClearSchedule();
 
                 m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) - REVIVE_COST);
             }
@@ -359,6 +351,35 @@ namespace BTS_MEDKIT
                 return false;
 
             return true;
+        }
+
+        bool IsValidReviveTarget(CBaseEntity@ pEntity)
+        {
+            // if (pEntity.IRelationship(m_pPlayer) >= R_NO || pEntity.IsAlive() || pEntity.IsMachine())
+            //     return false;
+
+            // if(pEntity.IsPlayer() && cast<CBasePlayer@>(pEntity).GetObserver().HasCorpse())
+            //     return true;
+
+            // if(pEntity.GetClassname() == "deadplayer")
+            //     return true;
+
+            // if(pEntity.IsMonster() && !pEntity.IsPlayer())
+            //     return true;
+
+            // return (pEntity.IsPlayer() && (pEntity.pev.deadflag != DEAD_NO && cast<CBasePlayer@>(pEntity).GetObserver().HasCorpse()) && pEntity.pev.iuser1 == 0) ||
+            //        (pEntity.GetClassname() == "deadplayer") ||
+            //        (pEntity.IsMonster() && !pEntity.IsPlayer());
+
+            return pEntity.IsRevivable();
+        }
+
+        bool IsBetterReviveTarget(CBaseEntity@ pEntity, CBaseEntity@ pBestTarget, float flDist, float flBestDist)
+        {
+            bool isBetterClass = pEntity.IsPlayer() && !pBestTarget.IsPlayer();
+            bool isWorseClass = !pEntity.IsPlayer() && pBestTarget.IsPlayer();
+
+            return (flDist < flBestDist && !isWorseClass) || isBetterClass;
         }
 
         void RechargeAmmo()
