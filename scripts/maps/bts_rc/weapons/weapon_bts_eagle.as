@@ -41,7 +41,7 @@ string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
 array<string> SOUNDS = {
     "bts_rc/weapons/desert_eagle_reload.wav"
 };
-string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+string SWITCH_SND = "items/flashlight1.wav";
 string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 // Weapon info
 int MAX_CARRY = 18;

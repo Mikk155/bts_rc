@@ -46,7 +46,7 @@ array<string> SOUNDS = {
     "bts_rc/weapons/fidget_3.wav",
     "bts_rc/weapons/fidget_4.wav",
 };
-string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+string SWITCH_SND = "items/flashlight1.wav";
 string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 string RELOAD1_S = "bts_rc/weapons/reload1.wav";
 string RELOAD3_S = "bts_rc/weapons/reload3.wav";

@@ -48,7 +48,7 @@ array<string> SOUNDS = {
     "hlclassic/items/9mmclip1.wav",
     "hlclassic/items/9mmclip2.wav"
 };
-string SWITCH_SND = "bts_rc/items/flashlight1.wav";
+string SWITCH_SND = "items/flashlight1.wav";
 string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 // Weapon info
 int MAX_CARRY = 120;
