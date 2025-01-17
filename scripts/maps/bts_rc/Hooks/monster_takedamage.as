@@ -13,11 +13,17 @@ HookReturnCode monster_takedamage( DamageInfo@ pDamageInfo )
 
         if( monster !is null )
         {
-            dictionary@ user_data = monster.GetUserData();
-
             // Got hit on the headcrab. store damage
-            if( monster.m_LastHitGroup == 1 && monster.pev.classname == "monster_zombie" )
+            if( monster.m_LastHitGroup == 1 && 
+            (
+                monster.pev.classname == "monster_zombie" ||
+                monster.pev.classname == "monster_zombie_soldier" ||
+                monster.pev.classname == "monster_zombie_barney" ||
+                monster.pev.classname == "monster_gonome" ||
+
+            ) )
             {
+                dictionary@ user_data = monster.GetUserData();
                 user_data[ "headcrab_damage" ] = int(user_data[ "headcrab_damage" ]) + pDamageInfo.flDamage;
             }
         }
