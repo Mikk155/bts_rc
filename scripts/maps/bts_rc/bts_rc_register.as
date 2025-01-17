@@ -482,3 +482,15 @@ final class PlayerClass
 }
 
 PlayerClass g_PlayerClass;
+
+namespace item_tracker
+{
+#if SERVER
+    CLogger@ m_Logger = CLogger( "Item Tracker" );
+#endif
+    // Last frame we did an operation.
+    float time;
+
+    // String containing all the information.
+    string buffer;
+}
