@@ -36,7 +36,6 @@ int MAX_CLIP = WEAPON_NOCLIP;
 int AMMO_GIVE = 5;
 int AMMO_DROP = 1;
 int WEIGHT = 10;
-int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
 // Weapon HUD
 int SLOT = 4;
 int POSITION = 4;
@@ -131,7 +130,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = FLAGS;
+        info.iFlags = WEAPON_DEFAULT_FLAGS;
         info.iWeight = WEIGHT;
         return true;
     }

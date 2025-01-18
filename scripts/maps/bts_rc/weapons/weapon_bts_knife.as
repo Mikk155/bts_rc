@@ -37,7 +37,6 @@ int MAX_CLIP = WEAPON_NOCLIP;
 int DEFAULT_GIVE = 0;
 int AMMO_DROP = MAX_CLIP;
 int WEIGHT = 10;
-int FLAGS = -1;
 // Weapon HUD
 int SLOT = 0;
 int POSITION = 9;
@@ -122,7 +121,7 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = FLAGS;
+        info.iFlags = WEAPON_DEFAULT_FLAGS;
         info.iWeight = WEIGHT;
         return true;
     }

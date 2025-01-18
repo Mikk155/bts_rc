@@ -34,7 +34,6 @@ int DEFAULT_GIVE = 1;
 int AMMO_GIVE = DEFAULT_GIVE;
 int AMMO_DROP = AMMO_GIVE;
 int WEIGHT = 5;
-int FLAGS = ITEM_FLAG_LIMITINWORLD | ITEM_FLAG_EXHAUSTIBLE;
 // Weapon HUD
 uint SLOT = 4;
 uint POSITION = 5;
@@ -107,7 +106,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = FLAGS;
+        info.iFlags = WEAPON_DEFAULT_FLAGS;
         info.iWeight = WEIGHT;
         return true;
     }

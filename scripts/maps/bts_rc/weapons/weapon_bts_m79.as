@@ -42,7 +42,6 @@ int MAX_CLIP = 1;
 int AMMO_GIVE = 2;
 int AMMO_DROP = 1;
 int WEIGHT = 20;
-int FLAGS = 0;
 // Weapon HUD
 int SLOT = 3;
 int POSITION = 4;
@@ -126,7 +125,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = FLAGS;
+        info.iFlags = WEAPON_DEFAULT_FLAGS;
         info.iWeight = WEIGHT;
         return true;
     }

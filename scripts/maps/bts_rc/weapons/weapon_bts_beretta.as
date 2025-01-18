@@ -40,7 +40,6 @@ int AMMO_GIVE2 = 1;
 int AMMO_DROP = AMMO_GIVE;
 int AMMO_DROP2 = AMMO_GIVE2;
 int WEIGHT = 10;
-int FLAGS = ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY;
 // Weapon HUD
 int SLOT = 1;
 int POSITION = 6;
@@ -133,7 +132,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = FLAGS;
+        info.iFlags = WEAPON_DEFAULT_FLAGS;
         info.iWeight = WEIGHT;
         return true;
     }

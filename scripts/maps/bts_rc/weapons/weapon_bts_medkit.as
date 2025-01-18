@@ -32,7 +32,6 @@ namespace BTS_MEDKIT
     const int AMMO_DROP = 10;
     const int AMMO_DROP2 = WEAPON_NOCLIP;
     const int WEIGHT = 0;
-    const int FLAGS = ITEM_FLAG_NOAUTORELOAD | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_SELECTONEMPTY;
 
     // Weapon HUD
     const int SLOT = 0;
@@ -109,7 +108,7 @@ namespace BTS_MEDKIT
             info.iSlot = SLOT;
             info.iPosition = POSITION;
             info.iId = g_ItemRegistry.GetIdForName( self.GetClassname() );
-            info.iFlags = FLAGS;
+            info.iFlags = WEAPON_DEFAULT_FLAGS;
             info.iWeight = WEIGHT;
             return true;
         }

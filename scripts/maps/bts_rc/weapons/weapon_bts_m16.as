@@ -38,7 +38,6 @@ int AMMO_GIVE2 = 2;
 int AMMO_DROP = AMMO_GIVE;
 int AMMO_DROP2 = 1;
 int WEIGHT = 5;
-int FLAGS = 0;
 // Weapon HUD
 int SLOT = 2;
 int POSITION = 10;
@@ -126,7 +125,7 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = FLAGS;
+        info.iFlags = WEAPON_DEFAULT_FLAGS;
         info.iWeight = WEIGHT;
         return true;
     }
