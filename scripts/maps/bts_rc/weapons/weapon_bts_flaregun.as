@@ -25,9 +25,6 @@ enum bodygroups_e
     HANDS
 };
 
-array<string> SOUNDS = {
-    "bts_rc/weapons/flaregun_draw.wav"
-};
 // Weapon info
 int MAX_CARRY = 6;
 int MAX_CLIP = 1;
@@ -89,9 +86,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_shot1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload2.wav" );
