@@ -55,36 +55,12 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_m16.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 15, MAX_CLIP );
         self.m_iDefaultSecAmmo = Math.RandomLong( 0, 1 );
         self.FallInit();
 
         m_iTracerCount = 0;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_m16.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_m16a2.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_m16.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmarclip.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/w_argrenade.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/grenade.mdl" );
-
-        g_Game.PrecacheOther( "ammo_bts_m16" );
-        g_Game.PrecacheOther( "ammo_bts_m16_grenade" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m16_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher2.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/SAWFlash.spr" );
-        g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m16.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -311,15 +287,8 @@ class ammo_bts_m16 : ScriptBasePlayerAmmoEntity
         if( pev.ClassNameIs( "ammo_bts_556round" ) )
             m_iAmount = Math.RandomLong( 9, 23 );
 
-        Precache();
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_9mmarclip.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmarclip.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )
@@ -337,15 +306,8 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/hlclassic/w_argrenade.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/hlclassic/w_argrenade.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

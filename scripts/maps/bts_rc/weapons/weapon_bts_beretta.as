@@ -65,29 +65,10 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_beretta.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 1, MAX_CLIP );
         self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         self.FallInit();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_beretta.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_beretta.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_beretta.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/beretta_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_beretta.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -384,15 +365,8 @@ class ammo_bts_beretta : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmclip.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )
@@ -410,15 +384,8 @@ class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

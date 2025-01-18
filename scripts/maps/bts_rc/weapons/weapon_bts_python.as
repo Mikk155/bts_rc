@@ -48,25 +48,9 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/hlclassic/w_357.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 3, MAX_CLIP );
         self.FallInit();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/hlclassic/w_357.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_357.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/p_357.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/w_357ammobox.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/w_357ammo.mdl" );
-
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot2.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_python.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -220,26 +204,20 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
 class ammo_bts_python : ScriptBasePlayerAmmoEntity
 {
-    private string m_szModel = "models/hlclassic/w_357ammobox.mdl";
     private int m_iAmount = AMMO_GIVE;
 
     void Spawn()
     {
         if( pev.ClassNameIs( "ammo_bts_357cyl" ) )
         {
-            m_szModel = "models/hlclassic/w_357ammo.mdl";
+            g_EntityFuncs.SetModel( self, "models/hlclassic/w_357ammo.mdl" );
             m_iAmount = Math.RandomLong( 2, 4 );
         }
-
-        Precache();
-        g_EntityFuncs.SetModel( self, m_szModel );
+        else
+        {
+            g_EntityFuncs.SetModel( self, "models/hlclassic/w_357ammobox.mdl" );
+        }
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( m_szModel );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

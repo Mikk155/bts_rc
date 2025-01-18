@@ -50,25 +50,11 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_m4sd.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
         self.FallInit();
 
         m_iTracerCount = 0;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_m4sd.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_m4sd.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_m4sd.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_556nato.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4sd_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m4sd.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -254,15 +240,8 @@ class ammo_bts_m4sd : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_556nato.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_556nato.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

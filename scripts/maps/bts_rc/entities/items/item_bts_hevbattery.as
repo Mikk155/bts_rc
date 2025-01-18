@@ -2,23 +2,9 @@ namespace bts_items
 {
     class item_bts_hevbattery : ScriptBasePlayerItemEntity
     {
-        void Precache()
-        {
-            pev.model = ( pev.model != "" ? pev.model : string_t( "models/hlclassic/w_battery.mdl" ) );
-
-            g_Game.PrecacheModel( self, string( pev.model ) );
-
-            g_SoundSystem.PrecacheSound( "items/gunpickup2.wav" );
-
-            BaseClass.Precache();
-        }
-
         void Spawn()
         {
-            Precache();
-
-            g_EntityFuncs.SetModel( self, string( pev.model ) );
-
+            g_EntityFuncs.SetModel( self, "models/hlclassic/w_battery.mdl" );
             BaseClass.Spawn();
         }
 

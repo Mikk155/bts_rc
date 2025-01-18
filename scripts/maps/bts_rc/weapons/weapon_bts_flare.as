@@ -53,22 +53,9 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model(  "models/bts_rc/weapons/w_flare.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit(); // get ready to fall
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel(  "models/bts_rc/weapons/w_flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/flare_selection.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_flare.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flare.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -185,7 +172,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
         Vector vecThrow = g_Engine.v_forward * flVel + m_pPlayer.pev.velocity;
 
-        FLARE::Toss( m_pPlayer.pev, vecSrc, vecThrow, DAMAGE, DURATION, TIMER, "models/bts_rc/weapons/flare.mdl" );
+        FLARE::Toss( m_pPlayer.pev, vecSrc, vecThrow, DAMAGE, DURATION, TIMER );
 
         m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
         m_fAttackStart = 0.0f;
