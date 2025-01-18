@@ -50,10 +50,6 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private int m_iFireMode;
     private int m_iShell;
 
@@ -183,10 +179,12 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/glock18_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
         if( m_iFireMode == SEMI_AUTO )
-            m_pPlayer.pev.punchangle.x = m_fHasHEV ? -2.0f : -4.0f;
+            m_pPlayer.pev.punchangle.x = is_trained_personal ? -2.0f : -4.0f;
         else
-            m_pPlayer.pev.punchangle.x = m_fHasHEV ? -2.0f : float( Math.RandomLong( -6, 3 ) );
+            m_pPlayer.pev.punchangle.x = is_trained_personal ? -2.0f : float( Math.RandomLong( -6, 3 ) );
 
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -194,10 +192,10 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        if( m_fHasHEV )
+        if( is_trained_personal )
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.3f : 0.0625f );
         else
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.325f : 0.0755f );

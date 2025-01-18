@@ -49,10 +49,6 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private float m_flTimeWeaponReload = 0.0f;
     private int m_fInReloadState = 0;
     private int m_iShell;
@@ -209,9 +205,11 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
         self.SendWeaponAnim( SHOOT, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0x1f ) );
-        m_pPlayer.pev.punchangle.x = m_fHasHEV ? -5.0f : -11.0f;
+        m_pPlayer.pev.punchangle.x = is_trained_personal ? -5.0f : -11.0f;
 
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -219,17 +217,17 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHOTSHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        if( !m_fHasHEV )
+        if( !is_trained_personal )
         {
             const float flZVel = m_pPlayer.pev.velocity.z;
             m_pPlayer.pev.velocity = m_pPlayer.pev.velocity + g_Engine.v_forward * -64.0f; // Knockback!
             m_pPlayer.pev.velocity.z = flZVel;
         }
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.85f : 1.0f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.85f : 1.0f );
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
 
         if( self.m_iClip != 0 )
@@ -297,9 +295,11 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
         self.SendWeaponAnim( SHOOT2, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) );
-        m_pPlayer.pev.punchangle.x = m_fHasHEV ? -10.0f : -24.0f;
+        m_pPlayer.pev.punchangle.x = is_trained_personal ? -10.0f : -24.0f;
 
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -309,13 +309,13 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHOTSHELL );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity2, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHOTSHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
         self.m_flTimeWeaponIdle = g_Engine.time + 6.0f;
 
-        if( !m_fHasHEV )
+        if( !is_trained_personal )
         {
             const float flZVel = m_pPlayer.pev.velocity.z;
             m_pPlayer.pev.velocity = m_pPlayer.pev.velocity + g_Engine.v_forward * -128.0f; // Knockback!
@@ -356,7 +356,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload1.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
                 case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "hlclassic/weapons/reload3.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
             }
-            m_flTimeWeaponReload = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.64f );
+            m_flTimeWeaponReload = g_Engine.time + ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.5f : 0.64f );
             m_fInReloadState = 2;
             BaseClass.Reload();
             break;
