@@ -50,10 +50,6 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private bool m_bAlternatingEject;
     private int m_iTracerCount;
     private int m_iShell;
@@ -215,10 +211,12 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
         self.SendWeaponAnim( Math.RandomLong( SHOOT1, SHOOT3 ), 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/gun_fire4.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
-        m_pPlayer.pev.punchangle.x = m_fHasHEV ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
-        m_pPlayer.pev.punchangle.y = m_fHasHEV ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
+        m_pPlayer.pev.punchangle.x = is_trained_personal ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
+        m_pPlayer.pev.punchangle.y = is_trained_personal ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
 
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -226,10 +224,10 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_bAlternatingEject ? m_iLink : m_iShell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate("!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.099f : 0.1f );
+        self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.099f : 0.1f );
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
         if( g_M249Knockback.GetBool() )
@@ -238,7 +236,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             const float flZVel = m_pPlayer.pev.velocity.z;
 
-            Vector vecInvPushDir = g_Engine.v_forward * ( m_fHasHEV ? 60.0f : 35.0f );
+            Vector vecInvPushDir = g_Engine.v_forward * ( is_trained_personal ? 60.0f : 35.0f );
             float flNewZVel = g_EngineFuncs.CVarGetFloat( "sv_maxspeed" );
 
             if( vecInvPushDir.z >= 10.0f )

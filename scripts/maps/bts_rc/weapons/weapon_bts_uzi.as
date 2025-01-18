@@ -53,10 +53,6 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private int m_iShell;
 
     void Spawn()
@@ -135,7 +131,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void PrimaryAttack()
     {
-        Fire( m_fHasHEV ? HEV_CONE : NOHEV_CONE, 0.07f );
+        Fire( g_PlayerClass.is_trained_personal(m_pPlayer) ? HEV_CONE : NOHEV_CONE, 0.07f );
     }
 
     void Reload()
@@ -215,7 +211,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.SendWeaponAnim( SHOOT, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/uzi_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 
-        if( m_fHasHEV )
+        if( g_PlayerClass.is_trained_personal(m_pPlayer) )
         {
             m_pPlayer.pev.punchangle.x = -2.25f;
         }
@@ -237,7 +233,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
         self.m_flNextPrimaryAttack = g_Engine.time + flCycleTime;

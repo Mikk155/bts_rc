@@ -429,6 +429,11 @@ final class PlayerClass
         return PM::SCIENTIST;
     }
 
+    bool is_trained_personal( CBasePlayer@ player )
+    {
+        return ( g_PlayerClass[player] == PM::BARNEY || g_PlayerClass[player] == PM::HELMET );
+    }
+
     void set_class( CBasePlayer@ player, PM player_class )
     {
         const string model = this.model( player_class );

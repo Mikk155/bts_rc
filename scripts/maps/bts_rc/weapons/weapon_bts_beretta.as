@@ -54,10 +54,6 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private int m_iFlashBattery
     {
         get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
@@ -250,9 +246,11 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
         self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/beretta_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-        m_pPlayer.pev.punchangle.x = m_fHasHEV ? -2.0f : -2.5f;
+        m_pPlayer.pev.punchangle.x = is_trained_personal ? -2.0f : -2.5f;
 
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -260,10 +258,10 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( m_fHasHEV ? 0.3f : 0.325f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( is_trained_personal ? 0.3f : 0.325f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
@@ -306,7 +304,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        float flNextAttack = self.m_flNextPrimaryAttack - ( m_fHasHEV ? 0.3f : 0.325f );
+        float flNextAttack = self.m_flNextPrimaryAttack - ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.3f : 0.325f );
         if( flNextAttack > g_Engine.time ) // uggly hax
             return;
 
