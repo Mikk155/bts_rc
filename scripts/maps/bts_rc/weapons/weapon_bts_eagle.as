@@ -29,10 +29,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/desert_eagle_reload.wav"
-};
 // Weapon info
 int MAX_CARRY = 18;
 int MAX_CARRY2 = 10;
@@ -108,9 +104,6 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
