@@ -169,7 +169,7 @@ namespace BTS_MEDKIT
 
             int iFloor = int(Math.Floor( m_pPlayer.pev.health ));
             pEntity.Use(m_pPlayer, m_pPlayer, USE_ON);
-            iFloor = m_pPlayer.pev.health - iFloor;
+            iFloor = int(m_pPlayer.pev.health - iFloor);
 
             if(iFloor > 0)
             {
