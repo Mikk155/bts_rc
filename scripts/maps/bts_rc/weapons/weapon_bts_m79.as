@@ -63,12 +63,6 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }
     }
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_m79.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -129,7 +123,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_m79.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_m79.mdl" ), DRAW, "bow", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_m79.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_m79.mdl" ), DRAW, "bow", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.03f;
         return true;
     }
@@ -182,7 +176,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         // CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
         // View model animation
-        self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
+        self.SendWeaponAnim( SHOOT, 0, pev.body );
         // Custom Volume and Pitch
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m79_fire.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0xf ) );
         // m_pPlayer.pev.punchangle.x = -10.0; // Recoil
@@ -201,7 +195,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        self.DefaultReload( MAX_CLIP, RELOAD, 3.88f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, RELOAD, 3.88f, pev.body );
         // Set 3rd person reloading animation -Sniper
         BaseClass.Reload();
     }
@@ -214,7 +208,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_flTimeWeaponIdle > g_Engine.time )
             return;
 
-        self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
+        self.SendWeaponAnim( IDLE, 0, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 6.0f ); // How much time to idle again
     }
 }

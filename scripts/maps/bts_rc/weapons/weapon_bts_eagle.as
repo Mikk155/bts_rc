@@ -69,12 +69,6 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private int m_iCurrentBaterry;
     private int m_iShell;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_desert_eagle.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -152,7 +146,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_desert_eagle.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_desert_eagle.mdl" ), DRAW, "onehanded", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_desert_eagle.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_desert_eagle.mdl" ), DRAW, "onehanded", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -259,7 +253,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
-        self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, GetBodygroup() );
+        self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_fire.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
         m_pPlayer.pev.punchangle.x = m_fHasHEV ? -4.0f : -11.0f;
 
@@ -306,7 +300,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         SetThink( ThinkFunction( BaterryRechargeStart ) );
         pev.nextthink = g_Engine.time + ( 15.0f / 22.0f );
 
-        self.SendWeaponAnim( HOLSTER, 0, GetBodygroup() );
+        self.SendWeaponAnim( HOLSTER, 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
     }
 
@@ -325,7 +319,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             m_flRestoreAfter = g_Engine.time + 1.6f;
         }
 
-        self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_NOSHOT, 1.5f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_NOSHOT, 1.5f, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
         BaseClass.Reload();
     }
@@ -343,12 +337,12 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         {
             if( flNextIdle > 0.5f )
             {
-                self.SendWeaponAnim( IDLE5, 0, GetBodygroup() );
+                self.SendWeaponAnim( IDLE5, 0, pev.body );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
             }
             else
             {
-                self.SendWeaponAnim( IDLE4, 0, GetBodygroup() );
+                self.SendWeaponAnim( IDLE4, 0, pev.body );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.5f;
             }
         }
@@ -356,19 +350,19 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         {
             if( flNextIdle <= 0.3f )
             {
-                self.SendWeaponAnim( IDLE1, 0, GetBodygroup() );
+                self.SendWeaponAnim( IDLE1, 0, pev.body );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.5f;
             }
             else
             {
                 if( flNextIdle > 0.6f )
                 {
-                    self.SendWeaponAnim( IDLE3, 0, GetBodygroup() );
+                    self.SendWeaponAnim( IDLE3, 0, pev.body );
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.633f;
                 }
                 else
                 {
-                    self.SendWeaponAnim( IDLE2, 0, GetBodygroup() );
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.5f;
                 }
             }
@@ -387,7 +381,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     {
         SetThink( null );
 
-        self.SendWeaponAnim( DRAW, 0, GetBodygroup() );
+        self.SendWeaponAnim( DRAW, 0, pev.body );
         m_iFlashBattery = m_iCurrentBaterry = 100;
 
         NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );

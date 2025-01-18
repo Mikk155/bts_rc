@@ -51,12 +51,6 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }
     }
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_357.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -111,7 +105,7 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_357.mdl" ), self.GetP_Model( "models/hlclassic/p_357.mdl" ), DRAW, "python", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_357.mdl" ), self.GetP_Model( "models/hlclassic/p_357.mdl" ), DRAW, "python", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -176,7 +170,7 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
-        self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
+        self.SendWeaponAnim( SHOOT, 0, pev.body );
         switch ( Math.RandomLong( 0, 1 ) )
         {
             case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_shot1.wav", Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM ); break;
@@ -196,7 +190,7 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        self.DefaultReload( MAX_CLIP, RELOAD, 2.0f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, RELOAD, 2.0f, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
         BaseClass.Reload();
     }
@@ -212,22 +206,22 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         float flRand = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0.0f, 1.0f );
         if( flRand <= 0.5f )
         {
-            self.SendWeaponAnim( IDLE1, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE1, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.33f; // ( 70.0f / 30.0f );
         }
         else if( flRand <= 0.7f )
         {
-            self.SendWeaponAnim( IDLE2, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE2, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f; // ( 60.0f / 30.0f );
         }
         else if( flRand <= 0.9f )
         {
-            self.SendWeaponAnim( IDLE3, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE3, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.93f; // ( 88.0f / 30.0f );
         }
         else
         {
-            self.SendWeaponAnim( FIDGET, 0, GetBodygroup() );
+            self.SendWeaponAnim( FIDGET, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 5.66f; // ( 170.0f / 30.0f );
         }
     }

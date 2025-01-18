@@ -55,12 +55,6 @@ namespace BTS_MEDKIT
         private float m_reviveChargedTime; // time when target will be revive charge will complete
         private float m_rechargeTime; // time until regenerating ammo
 
-        int GetBodygroup()
-        {
-            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_medkit.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-            return pev.body;
-        }
-
         void Spawn()
         {
             Precache();
@@ -120,7 +114,7 @@ namespace BTS_MEDKIT
 
         bool Deploy()
         {
-            return self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_medkit.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_medkit.mdl" ), DRAW, "trip", 0, GetBodygroup() );
+            return self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_medkit.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_medkit.mdl" ), DRAW, "trip", 0, pev.body );
         }
 
         void Holster( int skiplocal /*= 0*/ )
@@ -231,7 +225,7 @@ namespace BTS_MEDKIT
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.4*2;
             }
 
-            self.SendWeaponAnim(iAnim, 0, GetBodygroup());
+            self.SendWeaponAnim(iAnim, 0, pev.body);
         }
 
         // void GiveScorePoints(entvars_t@ pevAttacker, entvars_t@ pevInflictor, const float &in flDamage)
@@ -277,7 +271,7 @@ namespace BTS_MEDKIT
             if(pMonster.IsAlive() && pMonster.IRelationship( m_pPlayer ) == R_AL && CanHealTarget(pMonster) && flHealthAmount > 0)
             {
                 m_pPlayer.SetAnimation(PLAYER_ATTACK1);
-                self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
+                self.SendWeaponAnim(SHORTUSE, 0, pev.body);
                 m_pPlayer.m_iWeaponVolume = VOLUME;
 
                 pMonster.TakeHealth(flHealthAmount, DMG_MEDKITHEAL);
@@ -353,7 +347,7 @@ namespace BTS_MEDKIT
 
             if (m_reviveChargedTime == 0.0f) 
             {
-                self.SendWeaponAnim(LONGUSE, 0, GetBodygroup());
+                self.SendWeaponAnim(LONGUSE, 0, pev.body);
                 m_reviveChargedTime = g_Engine.time + 2.0f;
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/suitchargeok1.wav", 1.0f, ATTN_NORM);
                 return;
@@ -363,7 +357,7 @@ namespace BTS_MEDKIT
             {
                 m_reviveChargedTime = 0;
                 m_pPlayer.SetAnimation(PLAYER_ATTACK1);
-                self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
+                self.SendWeaponAnim(SHORTUSE, 0, pev.body);
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
                 

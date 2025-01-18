@@ -63,12 +63,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private TraceResult m_trHit;
     private int m_iSwing;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_flashlight.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -148,7 +142,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flashlight.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flashlight.mdl" ), DRAW, "crowbar", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flashlight.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flashlight.mdl" ), DRAW, "crowbar", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -240,7 +234,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         SetThink( ThinkFunction( BaterryRechargeStart ) );
         pev.nextthink = g_Engine.time + ( 5.0f / 25.0f );
 
-        self.SendWeaponAnim( HOLSTER, 0, GetBodygroup() );
+        self.SendWeaponAnim( HOLSTER, 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
     }
 
@@ -254,9 +248,9 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
         {
-            case 0: self.SendWeaponAnim( IDLE3, 0, GetBodygroup() ); break; 
-            case 1: self.SendWeaponAnim( IDLE2, 0, GetBodygroup() ); break; 
-            default: self.SendWeaponAnim( IDLE, 0, GetBodygroup() ); break;
+            case 0: self.SendWeaponAnim( IDLE3, 0, pev.body ); break; 
+            case 1: self.SendWeaponAnim( IDLE2, 0, pev.body ); break; 
+            default: self.SendWeaponAnim( IDLE, 0, pev.body ); break;
         }
 
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
@@ -274,7 +268,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     {
         SetThink( null );
 
-        self.SendWeaponAnim( DRAW, 0, GetBodygroup() );
+        self.SendWeaponAnim( DRAW, 0, pev.body );
         m_iFlashBattery = m_iCurrentBaterry = 100;
 
         NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
@@ -345,9 +339,9 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 // miss
                 switch( ( m_iSwing++ ) % 3 )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, GetBodygroup() ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
+                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
+                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
+                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                 }
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.625f;
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -368,9 +362,9 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             switch( ( ( m_iSwing++ ) % 2 ) + 1 )
             {
-                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
-                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
-                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
+                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
+                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
+                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
             }
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.375f;

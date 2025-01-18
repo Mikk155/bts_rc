@@ -62,12 +62,6 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private bool m_fWhack;
     private int m_iSwing;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_pipe.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -128,7 +122,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_pipe.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_pipe.mdl" ), DRAW, "crowbar", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_pipe.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_pipe.mdl" ), DRAW, "crowbar", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -165,7 +159,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( !m_fWhack )
         {
             m_pPlayer.m_flNextAttack = 0.6f; // ( 26.0f / 30.0f );
-            self.SendWeaponAnim( ATTACKBIGWIND, 0, GetBodygroup() );
+            self.SendWeaponAnim( ATTACKBIGWIND, 0, pev.body );
             ForceAnimation( 25, 28 ); // ref_cock_wrench, crouch_cock_wrench
         }
         else
@@ -187,15 +181,15 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         switch( Math.RandomLong( 0, 2 ) )
         {
             case 0:
-                self.SendWeaponAnim( IDLE1, 0, GetBodygroup() );
+                self.SendWeaponAnim( IDLE1, 0, pev.body );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.69f;
                 break;
             case 1:
-                self.SendWeaponAnim( IDLE2, 0, GetBodygroup() );
+                self.SendWeaponAnim( IDLE2, 0, pev.body );
                 self.m_flTimeWeaponIdle = g_Engine.time + 5.33f;
                 break;
             case 2:
-                self.SendWeaponAnim( IDLE3, 0, GetBodygroup() );
+                self.SendWeaponAnim( IDLE3, 0, pev.body );
                 self.m_flTimeWeaponIdle = g_Engine.time + 5.33f;
                 break;
         }
@@ -234,9 +228,9 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 // miss
                 switch( ( m_iSwing++ ) % 3 )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, GetBodygroup() ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
+                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
+                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
+                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                 }
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.75f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -257,9 +251,9 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             switch( ( ( m_iSwing++ ) % 2 ) + 1 )
             {
-                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
-                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
-                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
+                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
+                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
+                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
             }
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.5f );
@@ -389,7 +383,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         {
             // miss
             m_iSwing++;
-            self.SendWeaponAnim( ATTACKBIGMISS, 0, GetBodygroup() );
+            self.SendWeaponAnim( ATTACKBIGMISS, 0, pev.body );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.7f;
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -406,7 +400,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
             m_iSwing++;
-            self.SendWeaponAnim( ATTACKBIGHIT, 0, GetBodygroup() );
+            self.SendWeaponAnim( ATTACKBIGHIT, 0, pev.body );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.64f;
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
