@@ -31,12 +31,7 @@ enum bodygroups_e
     HANDS
 };
 
-// Models
-string W_MODEL = "models/bts_rc/weapons/w_pipe.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_pipe.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_pipe.mdl";
 // Sounds
-string MISS_SND = "bts_rc/weapons/pipe_miss1.wav";
 array<string> HITWORLD_SND = {
     "bts_rc/weapons/pipe_hit1.wav",
     "bts_rc/weapons/pipe_hit2.wav"
@@ -83,7 +78,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_pipe.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
@@ -92,7 +87,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
         Precache();
         self.m_flCustomDmg = pev.dmg;
         // pev.fuser2 = Math.max( pev.fuser2, DAMAGE2 );
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_pipe.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
 
@@ -103,11 +98,11 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/w_pipe.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_pipe.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/p_pipe.mdl" );
 
-        g_SoundSystem.PrecacheSound( MISS_SND );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_miss1.wav" );
 
         for( uint i = 0; i < HITWORLD_SND.length(); i++ )
             g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
@@ -147,7 +142,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "crowbar", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_pipe.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_pipe.mdl" ), DRAW, "crowbar", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -261,7 +256,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // play wiff or swish sound
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND, 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/pipe_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
 
                 // player "shoot" animation
                 m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
@@ -394,7 +389,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
             // play wiff or swish sound
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND, 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/pipe_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
 
             // player "shoot" animation
             ForceAnimation( 27, 30 ); // ref_shoot_wrench, crouch_shoot_wrench

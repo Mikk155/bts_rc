@@ -23,11 +23,6 @@ namespace BTS_MEDKIT
         HANDS = 0
     };
 
-    // Models
-    const string W_MODEL = "models/bts_rc/weapons/w_medkit.mdl";
-    const string V_MODEL = "models/bts_rc/weapons/v_medkit.mdl";
-    const string P_MODEL = "models/bts_rc/weapons/p_medkit.mdl";
-
     // Weapon info
     const int MAX_CARRY = 100;
     const int MAX_CARRY2 = WEAPON_NOCLIP;
@@ -51,12 +46,6 @@ namespace BTS_MEDKIT
     const int RECHARGE_AMOUNT = 1;
     const float RECHARGE_DELAY = 0.6f;
 
-    // Sounds
-    const string MED_SHOT_MISS = "items/medshotno1.wav";
-    const string MED_SHOT_HEAL = "items/medshot4.wav";
-    const string MED_SHOT_ERROR = "items/suitchargeok1.wav";
-    const string MED_SHOT_REVIVE = "weapons/electro4.wav";
-
     class weapon_bts_medkit : ScriptBasePlayerWeaponEntity
     {
         private CBasePlayer@ m_pPlayer
@@ -69,14 +58,14 @@ namespace BTS_MEDKIT
 
         int GetBodygroup()
         {
-            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_medkit.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
             return pev.body;
         }
 
         void Spawn()
         {
             Precache();
-            g_EntityFuncs.SetModel(self, self.GetW_Model(W_MODEL));
+            g_EntityFuncs.SetModel(self, self.GetW_Model("models/bts_rc/weapons/w_medkit.mdl"));
             self.m_iDefaultAmmo = DEFAULT_GIVE;
             self.FallInit();
         }
@@ -84,14 +73,14 @@ namespace BTS_MEDKIT
         void Precache()
         {
             self.PrecacheCustomModels();
-            g_Game.PrecacheModel( W_MODEL );
-            g_Game.PrecacheModel( V_MODEL );
-            g_Game.PrecacheModel( P_MODEL );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_medkit.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/v_medkit.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/p_medkit.mdl" );
 
-            g_SoundSystem.PrecacheSound( MED_SHOT_MISS );
-            g_SoundSystem.PrecacheSound( MED_SHOT_HEAL );
-            g_SoundSystem.PrecacheSound( MED_SHOT_ERROR );
-            g_SoundSystem.PrecacheSound( MED_SHOT_REVIVE );
+            g_SoundSystem.PrecacheSound( "items/medshotno1.wav" );
+            g_SoundSystem.PrecacheSound( "items/medshot4.wav" );
+            g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+            g_SoundSystem.PrecacheSound( "weapons/electro4.wav" );
 
             g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + self.GetClassname()+ ".txt" );
         }
@@ -132,7 +121,7 @@ namespace BTS_MEDKIT
 
         bool Deploy()
         {
-            return self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "trip", 0, GetBodygroup() );
+            return self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_medkit.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_medkit.mdl" ), DRAW, "trip", 0, GetBodygroup() );
         }
 
         void Holster( int skiplocal /*= 0*/ )
@@ -223,7 +212,7 @@ namespace BTS_MEDKIT
             {
                 m_reviveChargedTime = 0.0f;
                 self.m_flNextSecondaryAttack = g_Engine.time + 0.5;
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, MED_SHOT_MISS, 1.0f, ATTN_NORM);
+                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
             }
 
             if(self.m_flTimeWeaponIdle > g_Engine.time)
@@ -308,7 +297,7 @@ namespace BTS_MEDKIT
                     pitch = int((float(iAmmoLeft) / (HEAL_AMMOUNT*2)) * 20.5f + 80);
                 }
 
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_HEAL, 1.0f, ATTN_NORM, 0, pitch);
+                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/medshot4.wav", 1.0f, ATTN_NORM, 0, pitch);
 
                 self.m_flNextPrimaryAttack = g_Engine.time + 0.5f;
             }
@@ -318,7 +307,7 @@ namespace BTS_MEDKIT
         {
             if (m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) <= REVIVE_COST) 
             {
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, MED_SHOT_MISS, 1.0f, ATTN_NORM);
+                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
                 m_reviveChargedTime = 0;
                 return;
@@ -351,7 +340,7 @@ namespace BTS_MEDKIT
 
             if (pBestTarget is null) 
             {
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, MED_SHOT_MISS, 1.0f, ATTN_NORM);
+                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
                 m_reviveChargedTime = 0;
                 return;
@@ -367,7 +356,7 @@ namespace BTS_MEDKIT
             {
                 self.SendWeaponAnim(LONGUSE, 0, GetBodygroup());
                 m_reviveChargedTime = g_Engine.time + 2.0f;
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_ERROR, 1.0f, ATTN_NORM);
+                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/suitchargeok1.wav", 1.0f, ATTN_NORM);
                 return;
             }
 
@@ -376,7 +365,7 @@ namespace BTS_MEDKIT
                 m_reviveChargedTime = 0;
                 m_pPlayer.SetAnimation(PLAYER_ATTACK1);
                 self.SendWeaponAnim(SHORTUSE, 0, GetBodygroup());
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, MED_SHOT_REVIVE, 1.0f, ATTN_NORM);
+                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM);
                 self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
                 
                 CBaseMonster@ pMonster = (pBestTarget.GetClassname() == "deadplayer") ? cast<CBaseMonster@>(g_EntityFuncs.Instance(int(pBestTarget.pev.renderamt))) : pBestTarget.MyMonsterPointer();
