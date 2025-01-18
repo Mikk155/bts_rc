@@ -26,16 +26,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/fidget_3.wav",
-    "bts_rc/weapons/fidget_4.wav",
-    "bts_rc/weapons/fidget_2.wav",
-    "bts_rc/weapons/m4_cliprelease1.wav",
-    // "bts_rc/weapons/weapon_holster.wav", // no found
-    "bts_rc/weapons/m4_clipinsert1.wav",
-    "bts_rc/weapons/m4_clic1.wav"
-};
 // Weapon info
 int MAX_CARRY = 150;
 int MAX_CLIP = 30;
@@ -97,9 +87,6 @@ class weapon_bts_m4 : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
