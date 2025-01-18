@@ -45,15 +45,25 @@
 ---
 
 ### General credits:
-| Contributor | Description |
-|---|---|
-| [AraseFiq](https://github.com/AraseFiq) | Script general and initial idea for these | features
-| [Mikk155](https://github.com/Mikk155) | Various |
-| [Rizulix](https://github.com/Rizulix) | Weapons, Item tracker |
-| [Gaftherman](https://github.com/Gaftherman) | Item tracker, medkit |
-| [KernCore](https://github.com/KernCore91) | Various code references |
-| [Nero0](https://github.com/Neyami) | Various code references |
-| [Solokiller](https://github.com/SamVanheer) | Help Support |
-| [H²](https://github.com/h2whoa) | Help Support |
-| [Zode](https://github.com/Zode) | Utility [freeedicts](scripts/maps/bts_rc/utils/main.as) |
-| [Giegue](https://github.com/JulianR0) | [Motd NetworkMessage](scripts/maps/bts_rc/gamemodes/item_tracker.as), [func_recharge](scripts/maps/bts_rc/entities/func_bts_recharger.as) |
+- [AraseFiq](https://github.com/AraseFiq)
+    - Various
+- [Mikk155](https://github.com/Mikk155)
+    - Various
+- [Rizulix](https://github.com/Rizulix)
+    - Weapons
+- [Gaftherman](https://github.com/Gaftherman)
+    - Medkit
+- Erty
+    - Loadout entity
+- [Solokiller](https://github.com/SamVanheer)
+    - Help Support
+- [H²](https://github.com/h2whoa)
+    - Ditto
+- [KernCore](https://github.com/KernCore91)
+    - Code references
+- [Nero0](https://github.com/Neyami)
+    - Ditto
+- [Giegue](https://github.com/JulianR0)
+    - Ditto
+- [Zode](https://github.com/Zode)
+    - Ditto
