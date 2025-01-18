@@ -104,9 +104,8 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_crowbar.mdl" ), self.GetP_Model( "models/hlclassic/p_crowbar.mdl" ), DRAW, "crowbar", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
-        return true;
+        return bts_deploy( "models/bts_rc/weapons/v_crowbar.mdl", "models/bts_rc/weapons/p_crowbar.mdl", DRAW, "crowbar", HANDS );
     }
 
     void Holster( int skiplocal = 0 )
