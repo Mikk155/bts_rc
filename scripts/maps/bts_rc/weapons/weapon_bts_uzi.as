@@ -33,23 +33,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-
-array<string> SOUNDS = {
-    "weapons/uzi/reload1.wav",
-    "weapons/uzi/akimbo_pull2.wav",
-    "weapons/uzi/reload2.wav",
-    "weapons/uzi/reload3.wav",
-    "weapons/uzi/deploy.wav",
-    "weapons/uzi/deploy1.wav",
-    "weapons/uzi/akimbo_pull2.wav",
-    "weapons/uzi/akimbo_pull1.wav",
-    "weapons/uzi/reload_right1.wav",
-    "weapons/uzi/reload_right2.wav",
-    "weapons/uzi/reload_left1.wav",
-    "weapons/uzi/reload_left2.wav",
-    "weapons/uzi/akimbo_deploy.wav"
-};
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CLIP = 20;
@@ -108,9 +91,6 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/uzi_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
