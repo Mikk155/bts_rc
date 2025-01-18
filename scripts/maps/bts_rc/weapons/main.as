@@ -44,8 +44,30 @@ mixin class bts_rc_base_weapon
         return @player;
     }
 
+#if DISCARDED
+    private bool m_is_first_deploy = true;
+    private float m_was_first_deploy;
+
+    // Call on a Item*Frame
+    protected should_inform()
+    {
+        if( m_was_first_deploy >= g_Engine.time && ( m_pPlayer.pev.button & IN_USE ) != 0 )
+        {
+            motd::open(m_pPlayer, string(g_WeaponDeploy[pev.classname]));
+            m_is_first_deploy = false;
+        }
+    }
+#endif
+
     protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1 )
     {
+#if DISCARDED
+        if( m_is_first_deploy && g_WeaponDeploy.exists(pev.classname))
+        {
+            g_PlayerFuncs.PrintKeyBindingString( m_pPlayer, "Press +use to see more info." );
+            m_was_first_deploy = g_Engine.time + 6.0f;
+        }
+#endif
         m_pPlayer.pev.viewmodel = self.GetV_Model( viewmodel );
         m_pPlayer.pev.weaponmodel = self.GetP_Model( playermodel );
         m_pPlayer.set_m_szAnimExtension( animation_ext );
