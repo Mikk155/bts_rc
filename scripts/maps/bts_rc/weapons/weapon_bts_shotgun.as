@@ -57,12 +57,6 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private int m_fInReloadState = 0;
     private int m_iShell;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_shotgun.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -126,7 +120,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_shotgun.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_shotgun.mdl" ), DRAW, "shotgun", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_shotgun.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_shotgun.mdl" ), DRAW, "shotgun", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -216,7 +210,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
-        self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
+        self.SendWeaponAnim( SHOOT, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0x1f ) );
         m_pPlayer.pev.punchangle.x = m_fHasHEV ? -5.0f : -11.0f;
 
@@ -304,7 +298,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
-        self.SendWeaponAnim( SHOOT2, 0, GetBodygroup() );
+        self.SendWeaponAnim( SHOOT2, 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) );
         m_pPlayer.pev.punchangle.x = m_fHasHEV ? -10.0f : -24.0f;
 
@@ -351,13 +345,13 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         switch( m_fInReloadState )
         {
         case 0:
-            self.SendWeaponAnim( START_RELOAD, 0, GetBodygroup() );
+            self.SendWeaponAnim( START_RELOAD, 0, pev.body );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.0f;
             m_flTimeWeaponReload = g_Engine.time + 0.6f;
             m_fInReloadState = 1;
             break;
         case 1:
-            self.SendWeaponAnim( RELOAD, 0, GetBodygroup() );
+            self.SendWeaponAnim( RELOAD, 0, pev.body );
             switch( Math.RandomLong( 0, 1 ) )
             {
                 case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload1.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
@@ -395,17 +389,17 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
         {
             case 0:
-            self.SendWeaponAnim( IDLE_DEEP, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE_DEEP, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // ( 60.0f / 12.0f );
             break;
 
             case 1:
-            self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
             break;
 
             case 2:
-            self.SendWeaponAnim( IDLE4, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE4, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
             break;
         }
@@ -427,7 +421,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 {
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
-                    self.SendWeaponAnim( PUMP, 0, GetBodygroup() );
+                    self.SendWeaponAnim( PUMP, 0, pev.body );
                     g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "hlclassic/weapons/scock1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.85f; // pump after
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;

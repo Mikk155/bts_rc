@@ -55,12 +55,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private int m_iSpecialReload;
     private int m_fInAttack;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_flaregun.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -121,7 +115,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flaregun.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flaregun.mdl" ), DRAW, "python", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flaregun.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flaregun.mdl" ), DRAW, "python", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -176,7 +170,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         // CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
         // View model animation
-        self.SendWeaponAnim( SHOOT, 0, GetBodygroup() );
+        self.SendWeaponAnim( SHOOT, 0, pev.body );
         // Custom Volume and Pitch
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flaregun_shot1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0xf ) );
         // m_pPlayer.pev.punchangle.x = -10.0; // Recoil
@@ -197,7 +191,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_flNextPrimaryAttack > g_Engine.time )
             return;
 
-        self.DefaultReload( MAX_CLIP, HOLSTER, 2.5f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, HOLSTER, 2.5f, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 2.75f;
         SetThink( ThinkFunction( this.FinishAnim ) );
         pev.nextthink = g_Engine.time + 1.5f;
@@ -214,22 +208,22 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         float flRand = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0.0f, 1.0f );
         if( flRand <= 0.5f )
         {
-            self.SendWeaponAnim( IDLE1, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE1, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.33f; // ( 70.0f / 30.0f );
         }
         else if( flRand <= 0.7f )
         {
-            self.SendWeaponAnim( IDLE2, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE2, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f; // ( 60.0f / 30.0f );
         }
         else if( flRand <= 0.9f )
         {
-            self.SendWeaponAnim( IDLE3, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE3, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.93f; // ( 88.0f / 30.0f );
         }
         else
         {
-            self.SendWeaponAnim( FIDGET, 0, GetBodygroup() );
+            self.SendWeaponAnim( FIDGET, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 5.66f; // ( 170.0f / 30.0f );
         }
     }
@@ -237,7 +231,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private void FinishAnim()
     {
         SetThink( null );
-        self.SendWeaponAnim( DRAW, 0, GetBodygroup() );
+        self.SendWeaponAnim( DRAW, 0, pev.body );
         BaseClass.Reload();
 
         switch( Math.RandomLong( 0, 1 ) )

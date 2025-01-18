@@ -49,12 +49,6 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private TraceResult m_trHit;
     private int m_iSwing;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_axe.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -165,9 +159,9 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 // miss
                 switch( ( m_iSwing++ ) % 3 )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, GetBodygroup() ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, GetBodygroup() ); break;
+                    case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
+                    case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
+                    case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                 }
                 self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.75f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -188,9 +182,9 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             switch( ( ( m_iSwing++ ) % 2 ) + 1 )
             {
-                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
-                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
-                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, GetBodygroup() ); break;
+                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
+                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
+                case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
             }
 
             self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.5f );
