@@ -176,7 +176,7 @@ namespace BTS_MEDKIT
                 m_pPlayer.pev.health = m_pPlayer.pev.max_health - 0.45;
             }
 
-            int iFloor = Math.Floor( m_pPlayer.pev.health );
+            int iFloor = int(Math.Floor( m_pPlayer.pev.health ));
             pEntity.Use(m_pPlayer, m_pPlayer, USE_ON);
             iFloor = m_pPlayer.pev.health - iFloor;
 
