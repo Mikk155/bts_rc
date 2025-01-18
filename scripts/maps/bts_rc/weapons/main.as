@@ -31,22 +31,6 @@
 #include "weapon_bts_shotgun"
 #include "weapon_bts_uzi"
 
-array<ItemMapping@> g_AmmoReplacement =
-{
-    ItemMapping( "weapon_9mmhandgun", "ammo_bts_dglocksd" ),
-    ItemMapping( "weapon_glock", "ammo_bts_dglocksd" ),
-    ItemMapping( "weapon_357", "ammo_bts_357cyl" ),
-    ItemMapping( "weapon_eagle", "ammo_bts_dreagle" ),
-    ItemMapping( "weapon_9mmAR", "ammo_bts_9mmbox" ),
-    ItemMapping( "weapon_mp5", "ammo_bts_9mmbox" ),
-    ItemMapping( "weapon_shotgun", "ammo_bts_shotshell" ),
-    ItemMapping( "weapon_m16", "ammo_bts_9mmbox" ),
-    ItemMapping( "weapon_saw", "ammo_bts_dsaw" ),
-    ItemMapping( "weapon_m249", "ammo_bts_dsaw" ),
-    ItemMapping( "weapon_minigun", "ammo_bts_dsaw" ),
-    ItemMapping( "weapon_medkit", "weapon_bts_medkit" )
-};
-
 const int WEAPON_DEFAULT_FLAGS = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
 mixin class bts_rc_base_weapon
