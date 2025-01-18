@@ -256,7 +256,7 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_EMPTY, 1.5f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD_EMPTY : RELOAD, 1.5f, GetBodygroup() );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
         BaseClass.Reload();
     }
