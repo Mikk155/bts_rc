@@ -24,18 +24,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/m203_open.wav",
-    "bts_rc/weapons/m203_shell.wav",
-    "bts_rc/weapons/m203_in.wav",
-    "bts_rc/weapons/m203_close.wav",
-    "bts_rc/weapons/mp5_clipout.wav",
-    "bts_rc/weapons/mp5_in.wav",
-    "bts_rc/weapons/mp5_slap.wav",
-    "bts_rc/weapons/mp5_draw2.wav",
-    "bts_rc/weapons/mp5_draw.wav"
-};
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CARRY2 = 10;
@@ -108,9 +96,6 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher2.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
