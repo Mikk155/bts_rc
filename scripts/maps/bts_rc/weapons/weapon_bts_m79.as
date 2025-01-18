@@ -83,10 +83,10 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         // Precaches the stuff for download
         g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
-        // g_Game.PrecacheGeneric( "events/ .txt" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_M79.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/M79_crosshair.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m79.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

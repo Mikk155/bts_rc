@@ -68,7 +68,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_mp5.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

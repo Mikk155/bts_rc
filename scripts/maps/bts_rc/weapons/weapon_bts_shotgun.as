@@ -71,8 +71,6 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/hlclassic/w_shotbox.mdl" );
         g_Game.PrecacheModel( "models/w_shotshell.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_shotgun" );
-
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/sbarrel1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/spas12_dbarrel1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
@@ -81,7 +79,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/reload3.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/scock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_shotgun.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

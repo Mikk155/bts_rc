@@ -90,7 +90,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheGeneric( "sprites/bts_rc/640hudof01.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/640hudof02.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_eagle.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

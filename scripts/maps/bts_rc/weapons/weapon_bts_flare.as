@@ -68,7 +68,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/flare_selection.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_flare.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flare.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
