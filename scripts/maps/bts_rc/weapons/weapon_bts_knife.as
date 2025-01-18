@@ -31,21 +31,6 @@ enum bodygroups_e
     HANDS = 0 // STUDIO
 };
 
-// Sounds
-array<string> MISS_SND = {
-    "weapons/knife1.wav",
-    "weapons/knife2.wav",
-    "weapons/knife3.wav"
-    // "weapons/cbar_miss1.wav"
-};
-array<string> HITWORLD_SND = {
-    "weapons/knife_hit_wall1.wav",
-    "weapons/knife_hit_wall2.wav"
-};
-array<string> HITFLESH_SND = {
-    "weapons/knife_hit_flesh1.wav",
-    "weapons/knife_hit_flesh2.wav"
-};
 // Weapon info
 int MAX_CARRY = -1;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -104,14 +89,13 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_knife.mdl" );
         g_Game.PrecacheModel( "models/opfor/p_knife.mdl" );
 
-        for( uint i = 0; i < MISS_SND.length(); i++ )
-            g_SoundSystem.PrecacheSound( MISS_SND[i] );
-
-        for( uint i = 0; i < HITWORLD_SND.length(); i++ )
-            g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
-
-        for( uint j = 0; j < HITFLESH_SND.length(); j++ )
-            g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
+        g_SoundSystem.PrecacheSound( "weapons/knife1.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/knife2.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/knife3.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall1.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall2.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh1.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh2.wav" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_knife.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
@@ -259,7 +243,18 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // play wiff or swish sound
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[Math.RandomLong( 0, MISS_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                switch( Math.RandomLong( 1, 3 ) )
+                {
+                    case 3:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife3.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                    break;
+                    case 2:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife2.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                    break;
+                    default:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                    break;
+                }
 
                 // player "shoot" animation
                 m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
@@ -315,7 +310,16 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
                     // end aone
 
                     // play thwack or smack sound
-                    g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
+                    switch( Math.RandomLong( 1, 2 ) )
+                    {
+                        case 2:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
+                        break;
+                        default:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
+                        break;
+                    }
+
                     m_pPlayer.m_iWeaponVolume = 128;
 
                     if( !pEntity.IsAlive() )
@@ -335,7 +339,15 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
                 g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
                 // also play crowbar strike
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                switch( Math.RandomLong( 1, 2 ) )
+                {
+                    case 2:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                    default:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                }
             }
 
             //delay the decal a bit
@@ -392,7 +404,18 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
             // play wiff or swish sound
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, MISS_SND[Math.RandomLong( 0, MISS_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+            switch( Math.RandomLong( 1, 3 ) )
+            {
+                case 3:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife3.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                break;
+                case 2:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife2.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                break;
+                default:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+                break;
+            }
 
             // player "shoot" animation
             ForceAnimation( 27, 30 ); // ref_shoot_wrench, crouch_shoot_wrench
@@ -441,7 +464,16 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
                     // end aone
 
                     // play thwack or smack sound
-                    g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
+                    switch( Math.RandomLong( 1, 2 ) )
+                    {
+                        case 2:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
+                        break;
+                        default:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
+                        break;
+                    }
+
                     m_pPlayer.m_iWeaponVolume = 128;
 
                     if( !pEntity.IsAlive() )
@@ -461,7 +493,15 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity
                 g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
                 // also play crowbar strike
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                switch( Math.RandomLong( 1, 2 ) )
+                {
+                    case 2:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                    default:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                }
             }
 
             // delay the decal a bit
