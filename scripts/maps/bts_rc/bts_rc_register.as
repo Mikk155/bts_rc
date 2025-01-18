@@ -186,6 +186,14 @@ void MapInit()
     /*==========================================================================
     *   - Start of precaching
     ==========================================================================*/
+    models::WXplo1 = g_Game.PrecacheModel( "sprites/WXplo1.spr" );
+    models::zerogxplode = g_Game.PrecacheModel( "sprites/zerogxplode.spr" );
+    models::steam1 = g_Game.PrecacheModel( "sprites/steam1.spr" );
+    models::laserbeam = g_Game .PrecacheModel( "sprites/laserbeam.spr" );
+    models::shell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
+    models::saw_shell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
+    models::shotgunshell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
+
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
     g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
@@ -281,13 +289,13 @@ void MapInit()
 // Model indexes
 namespace models
 {
-    int WXplo1 = g_Game.PrecacheModel( "sprites/WXplo1.spr" );
-    int zerogxplode = g_Game.PrecacheModel( "sprites/zerogxplode.spr" );
-    int steam1 = g_Game.PrecacheModel( "sprites/steam1.spr" );
-    int laserbeam = g_Game .PrecacheModel( "sprites/laserbeam.spr" );
-    int shell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
-    int saw_shell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
-    int shotgunshell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
+    int WXplo1;
+    int zerogxplode;
+    int steam1;
+    int laserbeam;
+    int shell;
+    int saw_shell;
+    int shotgunshell;
 }
 
 //sven only has 8192 edicts at any given time
@@ -500,7 +508,6 @@ final class PlayerClass
                 return "bts_helmet";
             }
         }
-
         mdl_scientist_last = ( mdl_scientist_last >= mdl_scientist.length() -1 ) ? 0 : mdl_scientist_last + 1;
         return mdl_scientist[ mdl_scientist_last ];
     }
@@ -515,7 +522,6 @@ namespace item_tracker
 #endif
     // Last frame we did an operation.
     float time;
-
     // String containing all the information.
     string buffer;
 }
