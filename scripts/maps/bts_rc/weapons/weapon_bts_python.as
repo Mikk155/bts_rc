@@ -28,11 +28,6 @@ enum bodygroups_e
     SCOPE
 };
 
-// Sounds
-
-array<string> SOUNDS = {
-    "hlclassic/weapons/357_reload1.wav"
-};
 // Weapon info
 int MAX_CARRY = 18;
 int MAX_CLIP = 6;
@@ -88,9 +83,6 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot2.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
