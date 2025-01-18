@@ -150,10 +150,65 @@ namespace BTS_MEDKIT
             BaseClass.AttachToPlayer(pPlayer);
         }
 
-        void ItemPostFrame()
+        void ItemPreFrame()
         {
-            RechargeAmmo();
-            BaseClass.ItemPostFrame();
+            if(m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) == MAX_CARRY)
+                return;
+            
+            if((m_pPlayer.pev.button & IN_USE) == 0)
+                return;
+
+            if(m_pPlayer.pev.health < m_pPlayer.pev.max_health)
+                return;
+
+            TraceResult tr;
+            Math.MakeVectors(m_pPlayer.pev.v_angle);
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * 64;
+            g_Utility.TraceLine(vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr);
+
+            if(tr.pHit is null)
+                return;
+
+            CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+            bool blDecrease = false;
+            float flLastHealth = 0.0f;
+
+            if(pEntity.GetClassname() != "func_healthcharger")
+                return;
+
+            if(pEntity.pev.frame == 1)
+                return;
+
+            if(m_pPlayer.pev.health >= m_pPlayer.pev.max_health)
+            {
+                flLastHealth = m_pPlayer.pev.health;
+                blDecrease = true;
+                m_pPlayer.pev.health = m_pPlayer.pev.max_health - 0.45;
+            }
+
+            int iFloor = Math.Floor( m_pPlayer.pev.health );
+            pEntity.Use(m_pPlayer, m_pPlayer, USE_ON);
+            iFloor = m_pPlayer.pev.health - iFloor;
+
+            if(iFloor > 0)
+            {
+                m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) + iFloor);
+
+                if(m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) > MAX_CARRY)
+                {
+                    m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, MAX_CARRY);
+                    m_rechargeTime = g_Engine.time + RECHARGE_DELAY;
+                }
+            }
+            
+            if(blDecrease)
+                m_pPlayer.pev.health = flLastHealth;
+
+            m_pPlayer.pev.button &= ~IN_USE;
+            m_pPlayer.pev.oldbuttons &= ~IN_USE;
+
+            BaseClass.ItemPreFrame();
         }
 
         void InactiveItemPostFrame()
