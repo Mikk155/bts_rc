@@ -24,16 +24,6 @@ enum bodygroups_e
     HANDS = 0 // STUDIO
 };
 
-// Sounds
-array<string> HITWORLD_SND = {
-    "weapons/cbar_hit1.wav",
-    "weapons/cbar_hit2.wav"
-};
-array<string> HITFLESH_SND = {
-    "weapons/cbar_hitbod1.wav",
-    "weapons/cbar_hitbod2.wav",
-    "weapons/cbar_hitbod3.wav"
-};
 // Weapon info
 int MAX_CARRY = -1;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -87,12 +77,11 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( "models/hlclassic/p_crowbar.mdl" );
 
         g_SoundSystem.PrecacheSound( "weapons/cbar_miss1.wav" );
-
-        for( uint i = 0; i < HITWORLD_SND.length(); i++ )
-            g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
-
-        for( uint j = 0; j < HITFLESH_SND.length(); j++ )
-            g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
+        g_SoundSystem.PrecacheSound( "weapons/cbar_hit1.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/cbar_hit2.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod1.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod2.wav" );
+        g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
@@ -242,7 +231,18 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
                     // end aone
 
                     // play thwack or smack sound
-                    g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
+                    switch( Math.RandomLong( 1, 3 ) )
+                    {
+                        case 3:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod3.wav", 1.0f, ATTN_NORM );
+                        break;
+                        case 2:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod2.wav", 1.0f, ATTN_NORM );
+                        break;
+                        default:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod1.wav", 1.0f, ATTN_NORM );
+                        break;
+                    }
                     m_pPlayer.m_iWeaponVolume = 128;
 
                     if( !pEntity.IsAlive() )
@@ -262,7 +262,15 @@ class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity
                 g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
                 // also play crowbar strike
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                switch( Math.RandomLong( 1, 2 ) )
+                {
+                    case 2:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hit2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                    default:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hit1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                }
             }
 
             // delay the decal a bit
