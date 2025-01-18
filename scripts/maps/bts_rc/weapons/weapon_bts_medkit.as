@@ -45,13 +45,10 @@ namespace BTS_MEDKIT
     const int RECHARGE_AMOUNT = 1;
     const float RECHARGE_DELAY = 0.6f;
 
-    class weapon_bts_medkit : ScriptBasePlayerWeaponEntity
+    class weapon_bts_medkit : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     {
-        private CBasePlayer@ m_pPlayer
-        {
-            get const   { return cast<CBasePlayer@>( self.m_hPlayer.GetEntity() ); }
-            set         { self.m_hPlayer = EHandle( @value ); }
-        }
+        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
         private float m_reviveChargedTime; // time when target will be revive charge will complete
         private float m_rechargeTime; // time until regenerating ammo
 
@@ -114,7 +111,8 @@ namespace BTS_MEDKIT
 
         bool Deploy()
         {
-            return self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_medkit.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_medkit.mdl" ), DRAW, "trip", 0, pev.body );
+            self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 0.6f;
+            return bts_deploy( "models/bts_rc/weapons/v_medkit.mdl", "models/bts_rc/weapons/p_medkit.mdl", DRAW, "trip", HANDS );
         }
 
         void Holster( int skiplocal /*= 0*/ )

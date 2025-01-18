@@ -150,9 +150,8 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_glock17f.mdl" ), self.GetP_Model( "models/hlclassic/p_9mmhandgun.mdl" ), DRAW, "onehanded", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
-        return true;
+        return bts_deploy( "models/bts_rc/weapons/v_glock17f.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", HANDS );
     }
 
     void Holster( int skiplocal = 0 )

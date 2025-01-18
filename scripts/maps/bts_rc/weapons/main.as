@@ -59,14 +59,13 @@ mixin class bts_rc_base_weapon
         return @player;
     }
 
-    bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1, float time = 0.5f )
+    bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1 )
     {
         m_pPlayer.pev.viewmodel = self.GetV_Model( viewmodel );
         m_pPlayer.pev.weaponmodel = self.GetP_Model( playermodel );
         m_pPlayer.set_m_szAnimExtension( animation_ext );
         pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( viewmodel ), pev.body, hands_group, g_PlayerClass[ m_pPlayer ] );
         self.SendWeaponAnim( animation, 0, pev.body );
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = self.m_flNextSecondaryAttack = ( g_Engine.time + time );
         return true;
     }
 };
