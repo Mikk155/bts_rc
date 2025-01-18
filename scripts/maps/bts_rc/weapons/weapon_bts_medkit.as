@@ -41,7 +41,7 @@ namespace BTS_MEDKIT
 
     // Weapon HUD
     const int SLOT = 0;
-    const int POSITION = 12;
+    const int POSITION = 14;
 
     // Vars
     const int HEAL_AMMOUNT = 10;
