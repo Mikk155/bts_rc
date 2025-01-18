@@ -227,7 +227,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate("!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.099f : 0.1f );
+        self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
         if( g_M249Knockback.GetBool() )

@@ -129,12 +129,12 @@ class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void PrimaryAttack()
     {
-        Fire( SEMI_CONE, g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.3f : 0.325f );
+        Fire( SEMI_CONE, 0.3f );
     }
 
     void SecondaryAttack()
     {
-        Fire( RAPID_CONE, g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.2f : 0.225f );
+        Fire( RAPID_CONE, 0.2f );
     }
 
     void Reload()
