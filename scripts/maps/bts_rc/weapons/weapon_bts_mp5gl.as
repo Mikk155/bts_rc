@@ -24,18 +24,7 @@ enum bodygroups_e
     HANDS
 };
 
-// Models
-string W_MODEL = "models/bts_rc/weapons/w_9mmARGL.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_9mmARGL.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_9mmARGL.mdl";
-string A_MODEL = "models/hlclassic/w_9mmarclip.mdl";
-string G_MODEL = "models/hlclassic/w_argrenade.mdl";
-string PRJ_MDL = "models/hlclassic/grenade.mdl";
 // Sounds
-string SHOOT_SND = "bts_rc/weapons/mp5_fire1.wav";
-string SHOOT2_SND = "hlclassic/weapons/glauncher.wav";
-string SHOOT2_SND2 = "hlclassic/weapons/glauncher2.wav";
-string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
 array<string> SOUNDS = {
     "bts_rc/weapons/m203_open.wav",
     "bts_rc/weapons/m203_shell.wav",
@@ -85,14 +74,14 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_9mmARGL.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_9mmARGL.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
         self.m_iDefaultSecAmmo = Math.RandomLong( 0, 1 );
         self.FallInit();
@@ -103,22 +92,22 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( A_MODEL );
-        g_Game.PrecacheModel( G_MODEL );
-        g_Game.PrecacheModel( PRJ_MDL );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmARGL.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_9mmARGL.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmARGL.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/w_9mmarclip.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/w_argrenade.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/grenade.mdl" );
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_mp5gl" );
         g_Game.PrecacheOther( "ammo_bts_mp5gl_grenade" );
 
-        g_SoundSystem.PrecacheSound( SHOOT_SND );
-        g_SoundSystem.PrecacheSound( SHOOT2_SND );
-        g_SoundSystem.PrecacheSound( SHOOT2_SND2 );
-        g_SoundSystem.PrecacheSound( EMPTY_SND );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_fire1.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher2.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
@@ -154,7 +143,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "mp5", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_9mmARGL.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_9mmARGL.mdl" ), DRAW, "mp5", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 1.25f;
         return true;
@@ -170,7 +159,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
         if( self.m_bPlayEmptySound )
         {
             self.m_bPlayEmptySound = false;
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
         }
         return false;
     }
@@ -244,7 +233,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
             case 2: self.SendWeaponAnim( SHOOT3, 0, GetBodygroup() ); break;
         }
 
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_fire1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
         if( m_fHasHEV )
             m_pPlayer.pev.punchangle.x = -2.0f;
@@ -293,16 +282,16 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity
         CGrenade@ pGrenade = g_EntityFuncs.ShootContact( m_pPlayer.pev, vecSrc, g_Engine.v_forward * 900.0f );
         if( pGrenade !is null )
         {
-            g_EntityFuncs.SetModel( pGrenade, PRJ_MDL );
+            g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/grenade.mdl" );
             pGrenade.pev.dmg = DAMAGE2;
         }
 
         self.SendWeaponAnim( LAUNCH, 0, GetBodygroup() );
 
         if( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 1 ) != 0 )
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT2_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/glauncher.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
         else
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT2_SND2, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/glauncher2.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
 
         m_pPlayer.pev.punchangle.x = -10.0f;
 
@@ -352,13 +341,13 @@ class ammo_bts_mp5gl : ScriptBasePlayerAmmoEntity
             m_iAmount = Math.RandomLong( 17, 20 );
 
         Precache();
-        g_EntityFuncs.SetModel( self, A_MODEL );
+        g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmarclip.mdl" );
         BaseClass.Spawn();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( "models/hlclassic/w_9mmarclip.mdl" );
         g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
@@ -378,13 +367,13 @@ class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, G_MODEL );
+        g_EntityFuncs.SetModel( self, "models/hlclassic/w_argrenade.mdl" );
         BaseClass.Spawn();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( G_MODEL );
+        g_Game.PrecacheModel( "models/hlclassic/w_argrenade.mdl" );
         g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
