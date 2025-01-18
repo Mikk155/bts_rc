@@ -13,6 +13,37 @@ HookReturnCode player_think( CBasePlayer@ player )
         // Change impulse 101 command with our own weapons.
         if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
         {
+            array<string> weapons = {
+                "weapon_bts_axe",
+                "weapon_bts_beretta",
+                "weapon_bts_crowbar",
+                "weapon_bts_eagle",
+                "weapon_bts_flare",
+                "weapon_bts_flaregun",
+                "weapon_bts_flashlight",
+                "weapon_bts_glock",
+                "weapon_bts_glock17f",
+                "weapon_bts_uzi",
+                "weapon_bts_shotgun",
+                "weapon_bts_python",
+                "weapon_bts_poolstick",
+                "weapon_bts_pipe",
+                "weapon_bts_mp5",
+                "weapon_bts_medkit",
+                "weapon_bts_mp5gl",
+                "weapon_bts_m4",
+                "weapon_bts_glocksd",
+                "weapon_bts_handgrenade",
+                "weapon_bts_knife",
+                "weapon_bts_m4sd",
+                "weapon_bts_glock18",
+                "weapon_bts_m79",
+                "weapon_bts_m16",
+                "weapon_bts_screwdriver",
+                "weapon_bts_saw",
+                "weapon_bts_sbshotgun"
+            };
+
             for( uint ui = 0; ui < weapons.length(); ui++ )
             {
                 const string weapon_name = weapons[ui];
