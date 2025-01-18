@@ -115,9 +115,8 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flaregun.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flaregun.mdl" ), DRAW, "python", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
-        return true;
+        return bts_deploy( "models/bts_rc/weapons/v_flaregun.mdl", "models/bts_rc/weapons/p_flaregun.mdl", DRAW, "python", HANDS );
     }
 
     void Holster( int skiplocal = 0 )
