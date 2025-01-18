@@ -51,10 +51,11 @@ const int WEAPON_DEFAULT_FLAGS = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWI
 
 mixin class bts_rc_base_weapon
 {
+    // To not cast repeatedly
     private CBasePlayer@ player = null;
     protected CBasePlayer@ get_player()
     {
-        if( player is null )
+        if( player is null || player !is self.m_hPlayer.GetEntity() )
             @player = cast<CBasePlayer>( self.m_hPlayer.GetEntity() );
         return @player;
     }
