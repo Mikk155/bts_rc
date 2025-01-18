@@ -49,12 +49,6 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private TraceResult m_trHit;
     private int m_iSwing;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_poolstick.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -113,7 +107,7 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_poolstick.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_poolstick.mdl" ), DRAW, "crowbar", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_poolstick.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_poolstick.mdl" ), DRAW, "crowbar", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -163,7 +157,7 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         {
             if( fFirst )
             {
-                self.SendWeaponAnim( ATTACK2MISS, 0, GetBodygroup() );
+                self.SendWeaponAnim( ATTACK2MISS, 0, pev.body );
 
                 self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.65f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -184,8 +178,8 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             switch( ( ( m_iSwing++ ) % 2 ) )
             {
-                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, GetBodygroup() ); break;
-                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, GetBodygroup() ); break;
+                case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
+                case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
             }
 
             self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.4f );

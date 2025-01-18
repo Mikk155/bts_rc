@@ -59,13 +59,6 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private int m_iShell;
     private int m_iLink;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_saw.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_saw.mdl" ), pev.body, ROUNDS, RecalculateBody() );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -124,7 +117,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_saw.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_saw.mdl" ), DRAW, "saw", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_saw.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_saw.mdl" ), DRAW, "saw", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -223,7 +216,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
-        self.SendWeaponAnim( Math.RandomLong( SHOOT1, SHOOT3 ), 0, GetBodygroup() );
+        self.SendWeaponAnim( Math.RandomLong( SHOOT1, SHOOT3 ), 0, pev.body );
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/gun_fire4.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
         m_pPlayer.pev.punchangle.x = m_fHasHEV ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
         m_pPlayer.pev.punchangle.y = m_fHasHEV ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
@@ -263,7 +256,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 )
             return;
 
-        self.DefaultReload( MAX_CLIP, RELOAD_START, 1.0f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, RELOAD_START, 1.0f, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 3.78f;
         SetThink( ThinkFunction( this.FinishAnim ) );
         pev.nextthink = g_Engine.time + 1.33f;
@@ -281,12 +274,12 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         const float flNextIdle = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0.0f, 1.0f );
         if( flNextIdle <= 0.95f )
         {
-            self.SendWeaponAnim( SLOWIDLE, 0, GetBodygroup() );
+            self.SendWeaponAnim( SLOWIDLE, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
         }
         else
         {
-            self.SendWeaponAnim( IDLE2, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE2, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + 6.16f;
         }
     }
@@ -304,7 +297,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private void FinishAnim()
     {
         SetThink( null );
-        self.SendWeaponAnim( RELOAD_END, 0, GetBodygroup() );
+        self.SendWeaponAnim( RELOAD_END, 0, pev.body );
     }
 }
 

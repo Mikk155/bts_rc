@@ -55,12 +55,6 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private bool m_bInAttack, m_bThrown;
     private int m_iAmmoSave;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_flare.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -117,7 +111,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flare.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flare.mdl" ), DRAW, "gren", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flare.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flare.mdl" ), DRAW, "gren", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 30.0f / 40.0f );
         return true;
     }
@@ -170,7 +164,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             return;
 
         self.m_flNextPrimaryAttack = g_Engine.time + ( 25.0f / 30.0f );
-        self.SendWeaponAnim( PULLPIN, 0, GetBodygroup() );
+        self.SendWeaponAnim( PULLPIN, 0, pev.body );
 
         m_bInAttack = true;
         m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
@@ -225,7 +219,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             return;
 
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f ); // ( 0.0f / 40.0f );
-        self.SendWeaponAnim( THROW, 0, GetBodygroup() );
+        self.SendWeaponAnim( THROW, 0, pev.body );
         m_bThrown = true;
         m_bInAttack = false;
         m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
@@ -241,7 +235,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_flTimeWeaponIdle > g_Engine.time )
             return;
 
-        self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
+        self.SendWeaponAnim( IDLE, 0, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 7.0f );
     }
 

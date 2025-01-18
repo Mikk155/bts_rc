@@ -56,12 +56,6 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private int m_iTracerCount;
     private int m_iShell;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_9mmARGL.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -124,7 +118,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_9mmARGL.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_9mmARGL.mdl" ), DRAW, "mp5", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_9mmARGL.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_9mmARGL.mdl" ), DRAW, "mp5", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 1.25f;
         return true;
@@ -209,9 +203,9 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
         {
-            case 0: self.SendWeaponAnim( SHOOT1, 0, GetBodygroup() ); break;
-            case 1: self.SendWeaponAnim( SHOOT2, 0, GetBodygroup() ); break;
-            case 2: self.SendWeaponAnim( SHOOT3, 0, GetBodygroup() ); break;
+            case 0: self.SendWeaponAnim( SHOOT1, 0, pev.body ); break;
+            case 1: self.SendWeaponAnim( SHOOT2, 0, pev.body ); break;
+            case 2: self.SendWeaponAnim( SHOOT3, 0, pev.body ); break;
         }
 
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_fire1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
@@ -267,7 +261,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             pGrenade.pev.dmg = DAMAGE2;
         }
 
-        self.SendWeaponAnim( LAUNCH, 0, GetBodygroup() );
+        self.SendWeaponAnim( LAUNCH, 0, pev.body );
 
         if( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 1 ) != 0 )
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/glauncher.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
@@ -288,7 +282,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        self.DefaultReload( MAX_CLIP, RELOAD, 3.0f, GetBodygroup() );
+        self.DefaultReload( MAX_CLIP, RELOAD, 3.0f, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
         BaseClass.Reload();
     }
@@ -303,9 +297,9 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
         {
-            case 0: self.SendWeaponAnim( LONGIDLE, 0, GetBodygroup() ); break;
-            case 1: self.SendWeaponAnim( IDLE1, 0, GetBodygroup() ); break;
-            default: self.SendWeaponAnim( IDLE1, 0, GetBodygroup() ); break;
+            case 0: self.SendWeaponAnim( LONGIDLE, 0, pev.body ); break;
+            case 1: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
+            default: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
         }
 
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );

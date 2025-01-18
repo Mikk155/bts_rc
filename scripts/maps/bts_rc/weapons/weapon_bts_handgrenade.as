@@ -52,12 +52,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private bool m_bInAttack, m_bThrown;
     private int m_iAmmoSave;
 
-    int GetBodygroup()
-    {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_grenade.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        return pev.body;
-    }
-
     void Spawn()
     {
         Precache();
@@ -112,7 +106,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_grenade.mdl" ), self.GetP_Model( "models/hlclassic/p_grenade.mdl" ), DRAW, "gren", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_grenade.mdl" ), self.GetP_Model( "models/hlclassic/p_grenade.mdl" ), DRAW, "gren", 0, pev.body );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 20.0f / 30.0f );
         return true;
     }
@@ -165,7 +159,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             return;
 
         self.m_flNextPrimaryAttack = g_Engine.time + ( 24.0f / 30.0f );
-        self.SendWeaponAnim( PULLPIN, 0, GetBodygroup() );
+        self.SendWeaponAnim( PULLPIN, 0, pev.body );
 
         m_bInAttack = true;
         m_fAttackStart = g_Engine.time + ( 24.0f / 30.0f );
@@ -232,11 +226,11 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         float flVel = Math.min( ( 90.0f - angThrow.x ) * 4.0f, 500.0f );
 
         if( flVel < 500.0f )
-            self.SendWeaponAnim( THROW1, 0, GetBodygroup() );
+            self.SendWeaponAnim( THROW1, 0, pev.body );
         else if( flVel < 1000.0f )
-            self.SendWeaponAnim( THROW2, 0, GetBodygroup() );
+            self.SendWeaponAnim( THROW2, 0, pev.body );
         else
-            self.SendWeaponAnim( THROW3, 0, GetBodygroup() );
+            self.SendWeaponAnim( THROW3, 0, pev.body );
 
         m_bThrown = true;
         m_bInAttack = false;
@@ -256,12 +250,12 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         float flRand = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0.0f, 1.0f );
         if( flRand <= 0.75f )
         {
-            self.SendWeaponAnim( IDLE, 0, GetBodygroup() );
+            self.SendWeaponAnim( IDLE, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f ); //how long till we do this again.
         }
         else
         {
-            self.SendWeaponAnim( FIDGET, 0, GetBodygroup() );
+            self.SendWeaponAnim( FIDGET, 0, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + ( 70.0f / 30.0f );
         }
     }
