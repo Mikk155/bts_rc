@@ -84,7 +84,6 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod3.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
 

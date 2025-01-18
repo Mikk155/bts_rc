@@ -89,7 +89,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
