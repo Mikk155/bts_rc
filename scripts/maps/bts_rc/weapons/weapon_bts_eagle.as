@@ -63,7 +63,6 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private float m_flFlashLightTime;
     private float m_flRestoreAfter = 0.0f;
     private int m_iCurrentBaterry;
-    private int m_iShell;
 
     void Spawn()
     {
@@ -81,11 +80,6 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_desert_eagle.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-
-        m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
-
-        g_Game.PrecacheOther( "ammo_bts_eagle" );
-        g_Game.PrecacheOther( "ammo_bts_eagle_battery" );
 
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
@@ -255,7 +249,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
         Vector vecOrigin = m_pPlayer.GetGunPosition() + vecForward * SHELL.x + vecRight * SHELL.y + vecUp * SHELL.z;
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
-        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
+        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shell, TE_BOUNCE_SHELL );
 
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );

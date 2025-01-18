@@ -69,7 +69,6 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
 

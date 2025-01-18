@@ -67,8 +67,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun_clip.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_flarebox" );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_shot1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
@@ -78,7 +76,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
         // g_Game.PrecacheGeneric( "events/ .txt" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/w_flare.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
 

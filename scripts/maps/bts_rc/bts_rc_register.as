@@ -256,6 +256,9 @@ namespace models
     int zerogxplode = g_Game.PrecacheModel( "sprites/zerogxplode.spr" );
     int steam1 = g_Game.PrecacheModel( "sprites/steam1.spr" );
     int laserbeam = g_Game .PrecacheModel( "sprites/laserbeam.spr" );
+    int shell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
+    int saw_shell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
+    int shotgunshell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
 }
 
 //sven only has 8192 edicts at any given time

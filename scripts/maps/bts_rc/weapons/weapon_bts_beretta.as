@@ -62,7 +62,6 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     private float m_flFlashLightTime;
     private float m_flRestoreAfter = 0.0f;
     private int m_iCurrentBaterry;
-    private int m_iShell;
 
     void Spawn()
     {
@@ -81,18 +80,12 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
 
-        m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
-
-        g_Game.PrecacheOther( "ammo_bts_beretta" );
-        g_Game.PrecacheOther( "ammo_bts_beretta_battery" );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/beretta_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
         g_SoundSystem.PrecacheSound( "bts_rc/items/flashlight1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
@@ -255,7 +248,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
         Vector vecOrigin = m_pPlayer.GetGunPosition() + vecForward * SHELL.x + vecRight * SHELL.y + vecUp * SHELL.z;
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
-        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
+        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shell, TE_BOUNCE_SHELL );
 
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
