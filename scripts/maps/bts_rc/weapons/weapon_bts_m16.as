@@ -83,7 +83,8 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         g_Game.PrecacheGeneric( "sprites/SAWFlash.spr" );
         g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m16.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

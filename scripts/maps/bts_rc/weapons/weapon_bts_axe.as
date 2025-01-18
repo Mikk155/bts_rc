@@ -68,7 +68,7 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod3.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_axe.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

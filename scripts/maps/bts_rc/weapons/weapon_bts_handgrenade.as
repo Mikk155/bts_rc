@@ -63,7 +63,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/hlclassic/p_grenade.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_handgrenade.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

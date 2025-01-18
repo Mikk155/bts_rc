@@ -68,12 +68,10 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_uzi.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_uzi" );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/uzi_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_uzi.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

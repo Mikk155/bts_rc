@@ -74,12 +74,10 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_saw" );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_saw.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

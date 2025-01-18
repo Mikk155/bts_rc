@@ -72,7 +72,7 @@ namespace BTS_MEDKIT
             g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
             g_SoundSystem.PrecacheSound( "weapons/electro4.wav" );
 
-            g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + self.GetClassname()+ ".txt" );
+            g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_medkit.txt" );
         }
 
         bool AddToPlayer( CBasePlayer@ pPlayer )

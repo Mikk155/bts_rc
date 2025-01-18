@@ -62,13 +62,11 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/hlclassic/w_357ammobox.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/w_357ammo.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_python" );
-
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot2.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_python.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
