@@ -206,7 +206,7 @@ namespace BTS_MEDKIT
                 m_pPlayer.pev.health = flLastHealth;
 
             m_pPlayer.pev.button &= ~IN_USE;
-            m_pPlayer.pev.oldbuttons &= ~IN_USE;
+            m_pPlayer.m_afButtonPressed &= ~IN_USE;
 
             BaseClass.ItemPreFrame();
         }
