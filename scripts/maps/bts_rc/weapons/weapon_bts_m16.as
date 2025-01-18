@@ -26,13 +26,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "weapons/m16_draw.wav",
-    "weapons/m16_magout_metallic.wav",
-    "weapons/m16_magin_metallic.wav",
-    "weapons/m16_charge.wav"
-};
 // Weapon info
 int MAX_CARRY = 150;
 int MAX_CARRY2 = 10;
@@ -105,9 +98,6 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher2.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/SAWFlash.spr" );
         g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
