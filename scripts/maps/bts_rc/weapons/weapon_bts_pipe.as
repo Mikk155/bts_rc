@@ -50,13 +50,10 @@ float DAMAGE = 15.0f;
 float RANGE2 = 35.0f;
 float DAMAGE2 = 19.0f;
 
-class weapon_bts_pipe : ScriptBasePlayerWeaponEntity
+class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }

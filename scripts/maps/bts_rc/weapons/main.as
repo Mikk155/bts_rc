@@ -48,3 +48,14 @@ array<ItemMapping@> g_AmmoReplacement =
 };
 
 const int WEAPON_DEFAULT_FLAGS = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
+
+mixin class bts_rc_base_weapon
+{
+    private CBasePlayer@ player = null;
+    protected CBasePlayer@ get_player()
+    {
+        if( player is null )
+            @player = cast<CBasePlayer>( self.m_hPlayer.GetEntity() );
+        return @player;
+    }
+};
