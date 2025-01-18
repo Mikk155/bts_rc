@@ -67,7 +67,6 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_m16.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_m16a2.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_m16.mdl" );
