@@ -28,13 +28,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/spas12_foley.wav",
-    "bts_rc/weapons/spas_idle4.wav",
-    "bts_rc/weapons/fidget_3.wav",
-    "bts_rc/weapons/fidget_4.wav",
-};
 // Weapon info
 int MAX_CARRY = 30;
 int MAX_CLIP = 8;
@@ -101,9 +94,6 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/sbarrel1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/spas12_dbarrel1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/reload3.wav" );
