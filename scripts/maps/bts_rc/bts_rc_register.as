@@ -305,72 +305,7 @@ bool freeedicts( int overhead = 1 )
     return ( g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - ( 16 * g_Engine.maxClients ) - 100 - overhead );
 }
 
-// Weapon classnames for impulse 101 cheat.
-array<string> weapons = {
-    "weapon_bts_axe",
-    "weapon_bts_beretta",
-    "weapon_bts_crowbar",
-    "weapon_bts_eagle",
-    "weapon_bts_flare",
-    "weapon_bts_flaregun",
-    "weapon_bts_flashlight",
-    "weapon_bts_glock",
-    "weapon_bts_glock17f",
-    "weapon_bts_uzi",
-    "weapon_bts_shotgun",
-    "weapon_bts_python",
-    "weapon_bts_poolstick",
-    "weapon_bts_pipe",
-    "weapon_bts_mp5",
-    "weapon_bts_medkit",
-    "weapon_bts_mp5gl",
-    "weapon_bts_m4",
-    "weapon_bts_glocksd",
-    "weapon_bts_handgrenade",
-    "weapon_bts_knife",
-    "weapon_bts_m4sd",
-    "weapon_bts_glock18",
-    "weapon_bts_m79",
-    "weapon_bts_m16",
-    "weapon_bts_screwdriver",
-    "weapon_bts_saw",
-    "weapon_bts_sbshotgun"
-};
-
 #if SERVER
-void trigger_impulse_101( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
-{
-    if( pActivator !is null && pActivator.IsPlayer() )
-    {
-        CBasePlayer@ player = cast<CBasePlayer@>(pActivator);
-
-        if( player !is null && player.IsConnected() )
-        {
-            for( uint ui = 0; ui < weapons.length(); ui++ )
-            {
-                const string weapon_name = weapons[ui];
-
-                player.GiveNamedItem( weapon_name );
-
-                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
-                
-                if( item !is null )
-                {
-                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
-
-                    if( weapon !is null )
-                    {
-                        if( weapon.m_iPrimaryAmmoType > 0 )
-                            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
-                        if( weapon.m_iSecondaryAmmoType > 0 )
-                            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
-                    }
-                }
-            }
-        }
-    }
-}
-
 // Should we display info of aiming entity?
 void whatsthat( CBasePlayer@ player )
 {
