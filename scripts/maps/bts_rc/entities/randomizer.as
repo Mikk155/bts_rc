@@ -32,6 +32,9 @@ namespace randomizer
 
         void Spawn()
         {
+            self.pev.solid = SOLID_NOT;
+            self.pev.effects |= EF_NODRAW;
+            self.pev.movetype = MOVETYPE_NONE;
 #if TEST
             m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
 #endif
