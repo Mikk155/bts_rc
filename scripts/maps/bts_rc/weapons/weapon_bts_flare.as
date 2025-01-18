@@ -27,11 +27,6 @@ enum bodygroups_e
     HANDS = 0 // STUDIO
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/flare_pinpull.wav",
-    "bts_rc/weapons/flare_deploy.wav"
-};
 // Weapon info
 int MAX_CARRY = 5;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -85,9 +80,6 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_flare.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_flare.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/flare_selection.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_flare.spr" );
