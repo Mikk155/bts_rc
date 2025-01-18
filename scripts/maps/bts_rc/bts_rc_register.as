@@ -186,6 +186,19 @@ void MapInit()
     /*==========================================================================
     *   - Start of precaching
     ==========================================================================*/
+    for( uint ui = 0; ui < precache::sounds.length(); ui++ )
+        g_SoundSystem.PrecacheSound( precache::sounds[ui] );
+    precache::sounds = {};
+
+    for( uint ui = 0; ui < precache::models.length(); ui++ )
+        g_Game.PrecacheModel( precache::models[ui] );
+    precache::models = {};
+
+    for( uint ui = 0; ui < precache::generic.length(); ui++ )
+        g_Game.PrecacheGeneric( precache::generic[ui] );
+    precache::generic = {};
+
+    // Global model indexes
     models::WXplo1 = g_Game.PrecacheModel( "sprites/WXplo1.spr" );
     models::zerogxplode = g_Game.PrecacheModel( "sprites/zerogxplode.spr" );
     models::steam1 = g_Game.PrecacheModel( "sprites/steam1.spr" );
@@ -194,74 +207,7 @@ void MapInit()
     models::saw_shell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
     models::shotgunshell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
 
-    g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
-    g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
-    g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-    g_SoundSystem.PrecacheSound( "vox/user.wav" );
-    g_SoundSystem.PrecacheSound( "vox/security.wav" );
-    g_SoundSystem.PrecacheSound( "vox/research.wav" );
-    g_SoundSystem.PrecacheSound( "vox/maintenance.wav" );
-    g_SoundSystem.PrecacheSound( "vox/authorized.wav" );
-
-    g_Game.PrecacheModel( "models/w_security.mdl" );
-    g_Game.PrecacheModel( "models/tool_box.mdl" );
-    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_security.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_research.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
-
-    g_Game.PrecacheGeneric( "sprites/bts_rc/wepspr.spr" );
-
-    for( uint ui = 0; ui < BloodSplash::Red.length(); ui++ )
-        g_Game.PrecacheModel( BloodSplash::Red[ui] );
-
-    for( uint ui = 0; ui < BloodSplash::Yellow.length(); ui++ )
-        g_Game.PrecacheModel( BloodSplash::Yellow[ui] );
-
-#if MAP_HAS
-    g_Game.PrecacheOther( "item_bts_armorvest" );
-    g_Game.PrecacheOther( "item_bts_helmet" );
-#endif
-    g_Game.PrecacheOther( "item_bts_hevbattery" );
-    g_Game.PrecacheOther( "item_bts_sprayaid" );
-    g_Game.PrecacheOther( "m79_rocket" );
-    g_Game.PrecacheOther( "flare" );
-    g_Game.PrecacheOther( "gun_dart" );
-    g_Game.PrecacheOther( "ammo_bts_beretta" );
-    g_Game.PrecacheOther( "ammo_bts_beretta_battery" );
-    g_Game.PrecacheOther( "ammo_bts_eagle" );
-    g_Game.PrecacheOther( "ammo_bts_eagle_battery" );
-    g_Game.PrecacheOther( "ammo_bts_flarebox" );
-#if MAP_HAS
-    g_Game.PrecacheOther( "ammo_bts_battery" );
-#endif
-    g_Game.PrecacheOther( "ammo_bts_glock" );
-    g_Game.PrecacheOther( "ammo_bts_glock17f" );
-    g_Game.PrecacheOther( "ammo_bts_glock17f_battery" );
-    g_Game.PrecacheOther( "ammo_bts_glock18" );
-    g_Game.PrecacheOther( "ammo_bts_glocksd" );
-    g_Game.PrecacheOther( "ammo_bts_dglocksd" );
-    g_Game.PrecacheOther( "ammo_bts_m4" );
-    g_Game.PrecacheOther( "ammo_bts_556mag" );
-    g_Game.PrecacheOther( "ammo_bts_m4sd" );
-    g_Game.PrecacheOther( "ammo_bts_m16" );
-    g_Game.PrecacheOther( "ammo_bts_556round" );
-    g_Game.PrecacheOther( "ammo_bts_m16_grenade" );
-    g_Game.PrecacheOther( "ammo_bts_m79" );
-    g_Game.PrecacheOther( "ammo_bts_mp5gl" );
-    g_Game.PrecacheOther( "ammo_bts_9mmbox" );
-    g_Game.PrecacheOther( "ammo_bts_mp5gl_grenade" );
-    g_Game.PrecacheOther( "ammo_bts_mp5" );
-    g_Game.PrecacheOther( "ammo_bts_dmp5" );
-    g_Game.PrecacheOther( "ammo_bts_python" );
-    g_Game.PrecacheOther( "ammo_bts_357cyl" );
-    g_Game.PrecacheOther( "ammo_bts_shotgun" );
-    g_Game.PrecacheOther( "ammo_bts_shotshell" );
-    g_Game.PrecacheOther( "ammo_bts_uzi" );
-    g_Game.PrecacheOther( "ammo_bts_saw" );
-    g_Game.PrecacheOther( "ammo_bts_dsaw" );
-    g_Game.PrecacheOther( "ammo_bts_sbshotgun" );
-    g_Game.PrecacheOther( "ammo_bts_sbshotgun_battery" );
-#if MAP_HAS
+#if SERVER
     g_Game.PrecacheOther( "monster_headcrab" );
 #endif
     /*==========================================================================
@@ -275,12 +221,7 @@ void MapInit()
     g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @player_takedamage );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @monster_killed );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @monster_takedamage );
-
-    // Remove this shit in 5.27.
-    if( g_Game.GetGameVersion() == 526 )
-    {
-        g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
-    }
+    /* -TODO Remove this line in 5.27 */ if( g_Game.GetGameVersion() == 526 ) {  g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect ); }
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -508,4 +449,270 @@ namespace motd
             motd_open.End(); 
         }
     }
+}
+
+// CRAP AHEAD! I know zzzzz but the map actually takes a lot to load so i'll optimize these as much as i can.
+namespace precache
+{
+    array<string> sounds =
+    {
+        "bts_rc/items/armor_pickup1.wav",
+        "bts_rc/items/battery_pickup1.wav",
+        "bts_rc/items/battery_reload.wav",
+        "bts_rc/items/nvg_off.wav",
+        "bts_rc/items/nvg_on.wav",
+        "bts_rc/items/sprayaid1.wav",
+        "bts_rc/weapons/axe_hit1.wav",
+        "bts_rc/weapons/axe_hit2.wav",
+        "bts_rc/weapons/axe_hitbod1.wav",
+        "bts_rc/weapons/axe_hitbod2.wav",
+        "bts_rc/weapons/axe_hitbod3.wav",
+        "bts_rc/weapons/axe_miss1.wav",
+        "bts_rc/weapons/beretta_fire1.wav",
+        "bts_rc/weapons/flare_bounce.wav",
+        "bts_rc/weapons/flare_on.wav",
+        "bts_rc/weapons/flare_pickup.wav",
+        "bts_rc/weapons/flaregun_reload1.wav",
+        "bts_rc/weapons/flaregun_reload2.wav",
+        "bts_rc/weapons/flaregun_shot1.wav",
+        "bts_rc/weapons/flarehit1.wav",
+        "bts_rc/weapons/flarehitbod1.wav",
+        "bts_rc/weapons/flashlight_hit1.wav",
+        "bts_rc/weapons/flashlight_hit2.wav",
+        "bts_rc/weapons/flashlight_hitbod1.wav",
+        "bts_rc/weapons/flashlight_hitbod2.wav",
+        "bts_rc/weapons/flashlight_hitbod3.wav",
+        "bts_rc/weapons/flashlight_miss1.wav",
+        "bts_rc/weapons/glock18_fire1.wav",
+        "bts_rc/weapons/glock_fire1.wav",
+        "bts_rc/weapons/glocksd_fire1.wav",
+        "bts_rc/weapons/glocksd_fire2.wav",
+        "bts_rc/weapons/gun_fire4.wav",
+        "bts_rc/weapons/m16_fire1.wav",
+        "bts_rc/weapons/m4_fire1.wav",
+        "bts_rc/weapons/m4sd_fire1.wav",
+        "bts_rc/weapons/m79_fire.wav",
+        "bts_rc/weapons/mp5_fire1.wav",
+        "bts_rc/weapons/pipe_hit1.wav",
+        "bts_rc/weapons/pipe_hit2.wav",
+        "bts_rc/weapons/pipe_hitbod1.wav",
+        "bts_rc/weapons/pipe_hitbod2.wav",
+        "bts_rc/weapons/pipe_hitbod3.wav",
+        "bts_rc/weapons/pipe_miss1.wav",
+        "bts_rc/weapons/reload1.wav",
+        "bts_rc/weapons/sbshotgun_fire1.wav",
+        "bts_rc/weapons/sd_hit1.wav",
+        "bts_rc/weapons/sd_hit2.wav",
+        "bts_rc/weapons/sd_hitbod1.wav",
+        "bts_rc/weapons/sd_hitbod2.wav",
+        "bts_rc/weapons/sd_hitbod3.wav",
+        "bts_rc/weapons/sd_miss1.wav",
+        "bts_rc/weapons/spas12_dbarrel1.wav",
+        "bts_rc/weapons/uzi_fire1.wav",
+        "debris/wood1.wav",
+        "debris/wood2.wav",
+        "hlclassic/items/9mmclip1.wav",
+        "hlclassic/weapons/357_cock1.wav",
+        "hlclassic/weapons/357_shot1.wav",
+        "hlclassic/weapons/357_shot2.wav",
+        "hlclassic/weapons/glauncher.wav",
+        "hlclassic/weapons/glauncher2.wav",
+        "hlclassic/weapons/reload3.wav",
+        "hlclassic/weapons/sbarrel1.wav",
+        "hlclassic/weapons/scock1.wav",
+        "items/flashlight1.wav",
+        "items/gunpickup2.wav",
+        "items/medshot4.wav",
+        "items/medshotno1.wav",
+        "items/suitcharge1.wav",
+        "items/suitchargeno1.wav",
+        "items/suitchargeok1.wav",
+        "vox/authorized.wav",
+        "vox/maintenance.wav",
+        "vox/research.wav",
+        "vox/security.wav",
+        "vox/user.wav",
+        "weapons/cbar_hit1.wav",
+        "weapons/cbar_hit2.wav",
+        "weapons/cbar_hitbod1.wav",
+        "weapons/cbar_hitbod2.wav",
+        "weapons/cbar_hitbod3.wav",
+        "weapons/cbar_miss1.wav",
+        "weapons/desert_eagle_fire.wav",
+        "weapons/electro4.wav",
+        "weapons/knife1.wav",
+        "weapons/knife2.wav",
+        "weapons/knife3.wav",
+        "weapons/knife_hit_flesh1.wav",
+        "weapons/knife_hit_flesh2.wav",
+        "weapons/knife_hit_wall1.wav",
+        "weapons/knife_hit_wall2.wav",
+        "weapons/xbow_hit1.wav",
+        "weapons/xbow_hitbod1.wav"
+    };
+
+    array<string> models =
+    {
+        "models/bshift/barney_helmet.mdl",
+        "models/bshift/barney_vest.mdl",
+        "models/bts_rc/furniture/w_flashlightbattery.mdl",
+        "models/bts_rc/items/w_medkits.mdl",
+        "models/bts_rc/weapons/flare.mdl",
+        "models/bts_rc/weapons/p_9mmARGL.mdl",
+        "models/bts_rc/weapons/p_9mmar.mdl",
+        "models/bts_rc/weapons/p_9mmhandgunsd.mdl",
+        "models/bts_rc/weapons/p_axe.mdl",
+        "models/bts_rc/weapons/p_beretta.mdl",
+        "models/bts_rc/weapons/p_desert_eagle.mdl",
+        "models/bts_rc/weapons/p_flare.mdl",
+        "models/bts_rc/weapons/p_flaregun.mdl",
+        "models/bts_rc/weapons/p_flashlight.mdl",
+        "models/bts_rc/weapons/p_m16.mdl",
+        "models/bts_rc/weapons/p_m4.mdl",
+        "models/bts_rc/weapons/p_m4sd.mdl",
+        "models/bts_rc/weapons/p_m79.mdl",
+        "models/bts_rc/weapons/p_medkit.mdl",
+        "models/bts_rc/weapons/p_pipe.mdl",
+        "models/bts_rc/weapons/p_poolstick.mdl",
+        "models/bts_rc/weapons/p_saw.mdl",
+        "models/bts_rc/weapons/p_sbshotgun.mdl",
+        "models/bts_rc/weapons/p_screwdriver.mdl",
+        "models/bts_rc/weapons/p_shotgun.mdl",
+        "models/bts_rc/weapons/p_uzi.mdl",
+        "models/bts_rc/weapons/v_357.mdl",
+        "models/bts_rc/weapons/v_9mmARGL.mdl",
+        "models/bts_rc/weapons/v_9mmar.mdl",
+        "models/bts_rc/weapons/v_9mmhandgun.mdl",
+        "models/bts_rc/weapons/v_9mmhandgunsd.mdl",
+        "models/bts_rc/weapons/v_axe.mdl",
+        "models/bts_rc/weapons/v_beretta.mdl",
+        "models/bts_rc/weapons/v_crowbar.mdl",
+        "models/bts_rc/weapons/v_desert_eagle.mdl",
+        "models/bts_rc/weapons/v_flare.mdl",
+        "models/bts_rc/weapons/v_flaregun.mdl",
+        "models/bts_rc/weapons/v_flashlight.mdl",
+        "models/bts_rc/weapons/v_glock17f.mdl",
+        "models/bts_rc/weapons/v_glock18.mdl",
+        "models/bts_rc/weapons/v_grenade.mdl",
+        "models/bts_rc/weapons/v_knife.mdl",
+        "models/bts_rc/weapons/v_m16a2.mdl",
+        "models/bts_rc/weapons/v_m4.mdl",
+        "models/bts_rc/weapons/v_m4sd.mdl",
+        "models/bts_rc/weapons/v_m79.mdl",
+        "models/bts_rc/weapons/v_medkit.mdl",
+        "models/bts_rc/weapons/v_pipe.mdl",
+        "models/bts_rc/weapons/v_poolstick.mdl",
+        "models/bts_rc/weapons/v_saw.mdl",
+        "models/bts_rc/weapons/v_sbshotgun.mdl",
+        "models/bts_rc/weapons/v_screwdriver.mdl",
+        "models/bts_rc/weapons/v_shotgun.mdl",
+        "models/bts_rc/weapons/v_uzi.mdl",
+        "models/bts_rc/weapons/w_556nato.mdl",
+        "models/bts_rc/weapons/w_9mmARGL.mdl",
+        "models/bts_rc/weapons/w_9mmar.mdl",
+        "models/bts_rc/weapons/w_9mmarclip.mdl",
+        "models/bts_rc/weapons/w_9mmhandgunsd.mdl",
+        "models/bts_rc/weapons/w_axe.mdl",
+        "models/bts_rc/weapons/w_beretta.mdl",
+        "models/bts_rc/weapons/w_desert_eagle.mdl",
+        "models/bts_rc/weapons/w_flare.mdl",
+        "models/bts_rc/weapons/w_flaregun.mdl",
+        "models/bts_rc/weapons/w_flaregun_clip.mdl",
+        "models/bts_rc/weapons/w_flashlight.mdl",
+        "models/bts_rc/weapons/w_m16.mdl",
+        "models/bts_rc/weapons/w_m4.mdl",
+        "models/bts_rc/weapons/w_m4sd.mdl",
+        "models/bts_rc/weapons/w_m79.mdl",
+        "models/bts_rc/weapons/w_medkit.mdl",
+        "models/bts_rc/weapons/w_pipe.mdl",
+        "models/bts_rc/weapons/w_poolstick.mdl",
+        "models/bts_rc/weapons/w_sbshotgun.mdl",
+        "models/bts_rc/weapons/w_screwdriver.mdl",
+        "models/bts_rc/weapons/w_shotgun.mdl",
+        "models/bts_rc/weapons/w_uzi.mdl",
+        "models/bts_rc/weapons/w_uzi_clip.mdl",
+        "models/grenade.mdl",
+        "models/hlclassic/grenade.mdl",
+        "models/hlclassic/p_357.mdl",
+        "models/hlclassic/p_9mmhandgun.mdl",
+        "models/hlclassic/p_crowbar.mdl",
+        "models/hlclassic/p_grenade.mdl",
+        "models/hlclassic/w_357.mdl",
+        "models/hlclassic/w_357ammo.mdl",
+        "models/hlclassic/w_357ammobox.mdl",
+        "models/hlclassic/w_9mmarclip.mdl",
+        "models/hlclassic/w_9mmclip.mdl",
+        "models/hlclassic/w_9mmhandgun.mdl",
+        "models/hlclassic/w_argrenade.mdl",
+        "models/hlclassic/w_battery.mdl",
+        "models/hlclassic/w_crowbar.mdl",
+        "models/hlclassic/w_grenade.mdl",
+        "models/hlclassic/w_shotbox.mdl",
+        "models/opfor/p_knife.mdl",
+        "models/opfor/w_knife.mdl",
+        "models/tool_box.mdl",
+        "models/w_argrenade.mdl",
+        "models/w_saw_clip.mdl",
+        "models/w_security.mdl",
+        "models/w_shotshell.mdl"
+    };
+
+    array<string> generic =
+    {
+        "events/muzzle_saw.txt",
+        "sprites/SAWFlash.spr",
+        "sprites/bts_rc/640hudof01.spr",
+        "sprites/bts_rc/640hudof02.spr",
+        "sprites/bts_rc/M79_crosshair.spr",
+        "sprites/bts_rc/ablood_1.spr",
+        "sprites/bts_rc/ablood_2.spr",
+        "sprites/bts_rc/ablood_3.spr",
+        "sprites/bts_rc/ablood_4.spr",
+        "sprites/bts_rc/ablood_5.spr",
+        "sprites/bts_rc/ammo_battery.spr",
+        "sprites/bts_rc/ammo_flare.spr",
+        "sprites/bts_rc/flare_selection.spr",
+        "sprites/bts_rc/hblood_1.spr",
+        "sprites/bts_rc/hblood_2.spr",
+        "sprites/bts_rc/hblood_3.spr",
+        "sprites/bts_rc/inv_card_maint.spr",
+        "sprites/bts_rc/inv_card_research.spr",
+        "sprites/bts_rc/inv_card_security.spr",
+        "sprites/bts_rc/muzzleflash12.spr",
+        "sprites/bts_rc/screwd.spr",
+        "sprites/bts_rc/w_beretta.spr",
+        "sprites/bts_rc/w_flare.spr",
+        "sprites/bts_rc/w_glocksd1.spr",
+        "sprites/bts_rc/w_glocksd4.spr",
+        "sprites/bts_rc/weapon_M79.spr",
+        "sprites/bts_rc/weapon_knife.spr",
+        "sprites/bts_rc/weapons/weapon_bts_axe.txt",
+        "sprites/bts_rc/weapons/weapon_bts_beretta.txt",
+        "sprites/bts_rc/weapons/weapon_bts_crowbar.txt",
+        "sprites/bts_rc/weapons/weapon_bts_eagle.txt",
+        "sprites/bts_rc/weapons/weapon_bts_flare.txt",
+        "sprites/bts_rc/weapons/weapon_bts_flaregun.txt",
+        "sprites/bts_rc/weapons/weapon_bts_glock.txt",
+        "sprites/bts_rc/weapons/weapon_bts_glock17f.txt",
+        "sprites/bts_rc/weapons/weapon_bts_glock18.txt",
+        "sprites/bts_rc/weapons/weapon_bts_glocksd.txt",
+        "sprites/bts_rc/weapons/weapon_bts_handgrenade.txt",
+        "sprites/bts_rc/weapons/weapon_bts_knife.txt",
+        "sprites/bts_rc/weapons/weapon_bts_m16.txt",
+        "sprites/bts_rc/weapons/weapon_bts_m4.txt",
+        "sprites/bts_rc/weapons/weapon_bts_m4sd.txt",
+        "sprites/bts_rc/weapons/weapon_bts_m79.txt",
+        "sprites/bts_rc/weapons/weapon_bts_medkit.txt",
+        "sprites/bts_rc/weapons/weapon_bts_mp5.txt",
+        "sprites/bts_rc/weapons/weapon_bts_mp5gl.txt",
+        "sprites/bts_rc/weapons/weapon_bts_pipe.txt",
+        "sprites/bts_rc/weapons/weapon_bts_poolstick.txt",
+        "sprites/bts_rc/weapons/weapon_bts_python.txt",
+        "sprites/bts_rc/weapons/weapon_bts_saw.txt",
+        "sprites/bts_rc/weapons/weapon_bts_sbshotgun.txt",
+        "sprites/bts_rc/weapons/weapon_bts_screwdriver.txt",
+        "sprites/bts_rc/weapons/weapon_bts_shotgun.txt",
+        "sprites/bts_rc/weapons/weapon_bts_uzi.txt",
+        "sprites/bts_rc/wepspr.spr"
+    };
 }

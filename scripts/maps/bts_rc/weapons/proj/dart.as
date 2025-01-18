@@ -6,7 +6,6 @@ class CDart : ScriptBaseEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetSize( pev, g_vecZero, g_vecZero );
 
         pev.movetype = MOVETYPE_FLY;
@@ -30,12 +29,6 @@ class CDart : ScriptBaseEntity
         SetThink( ThinkFunction( this.BubbleThink ) );
         pev.nextthink = g_Engine.time + 0.2f;
         SetTouch( TouchFunction( this.DartTouch ) );
-    }
-
-    void Precache()
-    {
-        g_SoundSystem.PrecacheSound( "weapons/xbow_hitbod1.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/xbow_hit1.wav" );
     }
 
     int Classify()

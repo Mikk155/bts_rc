@@ -54,25 +54,9 @@ namespace BTS_MEDKIT
 
         void Spawn()
         {
-            Precache();
             g_EntityFuncs.SetModel(self, self.GetW_Model("models/bts_rc/weapons/w_medkit.mdl"));
             self.m_iDefaultAmmo = DEFAULT_GIVE;
             self.FallInit();
-        }
-
-        void Precache()
-        {
-            self.PrecacheCustomModels();
-            g_Game.PrecacheModel( "models/bts_rc/weapons/w_medkit.mdl" );
-            g_Game.PrecacheModel( "models/bts_rc/weapons/v_medkit.mdl" );
-            g_Game.PrecacheModel( "models/bts_rc/weapons/p_medkit.mdl" );
-
-            g_SoundSystem.PrecacheSound( "items/medshotno1.wav" );
-            g_SoundSystem.PrecacheSound( "items/medshot4.wav" );
-            g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
-            g_SoundSystem.PrecacheSound( "weapons/electro4.wav" );
-
-            g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_medkit.txt" );
         }
 
         bool AddToPlayer( CBasePlayer@ pPlayer )

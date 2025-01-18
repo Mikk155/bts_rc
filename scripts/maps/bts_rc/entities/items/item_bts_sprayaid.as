@@ -2,23 +2,9 @@ namespace bts_items
 {
     class item_bts_sprayaid : ScriptBasePlayerItemEntity
     {
-        void Precache()
-        {
-            pev.model = ( pev.model != "" ? pev.model : string_t( "models/bts_rc/items/w_medkits.mdl" ) );
-
-            g_Game.PrecacheModel( self, string( pev.model ) );
-
-            g_SoundSystem.PrecacheSound( "bts_rc/items/sprayaid1.wav" );
-
-            BaseClass.Precache();
-        }
-
         void Spawn()
         {
-            Precache();
-
-            g_EntityFuncs.SetModel( self, string( pev.model ) );
-
+            g_EntityFuncs.SetModel( self, "models/bts_rc/items/w_medkits.mdl" );
             BaseClass.Spawn();
         }
 

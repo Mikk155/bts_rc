@@ -60,33 +60,9 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_m79.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 0, 3 );
         self.FallInit(); // get ready to fall
-    }
-
-    // Always precache the stuff you're going to use
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_m79.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_m79.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_m79.mdl" );
-        g_Game.PrecacheModel( "models/w_argrenade.mdl" );
-        g_Game.PrecacheModel( "models/grenade.mdl" );
-
-        g_Game.PrecacheOther( "ammo_bts_m79" );
-
-        // Precaches the sound for the engine to use
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m79_fire.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        // Precaches the stuff for download
-        g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_M79.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/M79_crosshair.spr" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m79.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -210,15 +186,8 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/w_argrenade.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/w_argrenade.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

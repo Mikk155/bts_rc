@@ -60,7 +60,6 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         // pev.fuser2 = Math.max( pev.fuser2, DAMAGE2 );
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_pipe.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
@@ -68,23 +67,6 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         m_iSwing = 0;
         m_fWhack = false;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_pipe.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_pipe.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_pipe.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_miss1.wav" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hit1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hit2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod3.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_pipe.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
