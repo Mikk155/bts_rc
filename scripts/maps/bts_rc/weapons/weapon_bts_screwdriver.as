@@ -41,10 +41,6 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private TraceResult m_trHit;
     private int m_iSwing;
 
@@ -151,6 +147,8 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             }
         }
 
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
         if( tr.flFraction >= 1.0f )
         {
             if( fFirst )
@@ -162,7 +160,7 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                     case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
                     case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                 }
-                self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.5f : 0.6f );
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.6f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // play wiff or swish sound
@@ -186,7 +184,7 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
             }
 
-            self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.25f : 0.35f );
+            self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.35f );
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
             // player "shoot" animation

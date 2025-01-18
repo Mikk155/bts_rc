@@ -49,10 +49,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    // private bool m_fHasHEV
-    // {
-    //     get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    // }
     private int m_iFlashBattery
     {
         get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }

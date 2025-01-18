@@ -43,10 +43,6 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private bool m_fHasHEV
-    {
-        get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    }
     private int m_iTracerCount;
     private int m_iShell;
 
@@ -197,7 +193,9 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_fire1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
-        if( m_fHasHEV )
+        bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
+        if( is_trained_personal )
             m_pPlayer.pev.punchangle.x = -2.0f;
         else
             m_pPlayer.pev.punchangle.x = m_pPlayer.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 )) : float( Math.RandomLong( -5, 3 ) );
@@ -208,10 +206,10 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && m_fHasHEV )
+        if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + ( m_fHasHEV ? 0.116f : 0.124f );
+        self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.116f : 0.124f );
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
     }
 
@@ -220,7 +218,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        self.DefaultReload( MAX_CLIP, RELOAD, m_fHasHEV ? 1.5f : 1.75f, pev.body );
+        self.DefaultReload( MAX_CLIP, RELOAD, g_PlayerClass.is_trained_personal(m_pPlayer) ? 1.5f : 1.75f, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
         BaseClass.Reload();
     }

@@ -47,10 +47,6 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    // private bool m_fHasHEV
-    // {
-    //  get const { return g_PlayerClass[m_pPlayer] == HELMET; }
-    // }
     private float m_fAttackStart, m_flStartThrow;
     private bool m_bInAttack, m_bThrown;
     private int m_iAmmoSave;
