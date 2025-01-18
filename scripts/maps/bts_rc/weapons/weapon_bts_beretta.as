@@ -87,7 +87,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/ammo_battery.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_beretta.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

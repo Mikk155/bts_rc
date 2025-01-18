@@ -74,9 +74,9 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload2.wav" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
-        // g_Game.PrecacheGeneric( "events/ .txt" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/w_flare.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flaregun.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

@@ -71,15 +71,12 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/hlclassic/w_argrenade.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/grenade.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_mp5gl" );
-        g_Game.PrecacheOther( "ammo_bts_mp5gl_grenade" );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher2.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_mp5gl.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

@@ -65,12 +65,10 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_m4sd.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_556nato.mdl" );
 
-        g_Game.PrecacheOther( "ammo_bts_m4sd" );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4sd_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m4sd.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
