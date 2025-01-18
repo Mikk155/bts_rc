@@ -29,16 +29,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> HITWORLD_SND = {
-    "bts_rc/weapons/flashlight_hit1.wav",
-    "bts_rc/weapons/flashlight_hit2.wav"
-};
-array<string> HITFLESH_SND = {
-    "bts_rc/weapons/flashlight_hitbod1.wav",
-    "bts_rc/weapons/flashlight_hitbod2.wav",
-    "bts_rc/weapons/flashlight_hitbod3.wav"
-};
 // Weapon info
 int MAX_CARRY = 10;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -105,11 +95,12 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_miss1.wav" );
 
-        for( uint i = 0; i < HITWORLD_SND.length(); i++ )
-            g_SoundSystem.PrecacheSound( HITWORLD_SND[i] );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit2.wav" );
 
-        for( uint j = 0; j < HITFLESH_SND.length(); j++ )
-            g_SoundSystem.PrecacheSound( HITFLESH_SND[j] );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod2.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod3.wav" );
 
         g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
@@ -422,7 +413,19 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
                     // end aone
 
                     // play thwack or smack sound
-                    g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, HITFLESH_SND[Math.RandomLong( 0, HITFLESH_SND.length() - 1 )], 1.0f, ATTN_NORM );
+                    switch( Math.RandomLong( 1, 3 ) )
+                    {
+                        case 3:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod3.wav", 1.0f, ATTN_NORM );
+                        break;
+                        case 2:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod2.wav", 1.0f, ATTN_NORM );
+                        break;
+                        default:
+                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod1.wav", 1.0f, ATTN_NORM );
+                        break;
+                    }
+
                     m_pPlayer.m_iWeaponVolume = 128;
 
                     if( !pEntity.IsAlive() )
@@ -442,7 +445,15 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
                 g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
                 // also play crowbar strike
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, HITWORLD_SND[Math.RandomLong( 0, HITWORLD_SND.length() - 1 )], 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                switch( Math.RandomLong( 1, 2 ) )
+                {
+                    case 2:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                    default:
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+                    break;
+                }
             }
 
             // delay the decal a bit
