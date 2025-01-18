@@ -371,7 +371,7 @@ namespace BTS_MEDKIT
             //        (pEntity.GetClassname() == "deadplayer") ||
             //        (pEntity.IsMonster() && !pEntity.IsPlayer());
 
-            return pEntity.IsRevivable();
+            return pEntity.IsRevivable() && pEntity.IRelationship(m_pPlayer) == R_AL;
         }
 
         bool IsBetterReviveTarget(CBaseEntity@ pEntity, CBaseEntity@ pBestTarget, float flDist, float flBestDist)
