@@ -114,9 +114,7 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_axe.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_axe.mdl" ), DRAW, "crowbar", 0, GetBodygroup() );
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
-        return true;
+        return bts_deploy( "models/bts_rc/weapons/v_axe.mdl", "models/bts_rc/weapons/p_axe.mdl", DRAW, "crowbar", HANDS, 1.0f );
     }
 
     void Holster( int skiplocal = 0 )
