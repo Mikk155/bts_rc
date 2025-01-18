@@ -35,14 +35,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/m79_open.wav",
-    "bts_rc/weapons/m79_shellout.wav",
-    "bts_rc/weapons/m79_shellin.wav",
-    "bts_rc/weapons/m79_close.wav",
-    "bts_rc/weapons/m79_aimon.wav"
-};
 // Weapon info
 int MAX_CARRY = 10;
 int MAX_CLIP = 1;
@@ -104,9 +96,6 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity
         // Precaches the sound for the engine to use
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/m79_fire.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         // Precaches the stuff for download
         g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
