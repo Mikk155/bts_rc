@@ -28,13 +28,6 @@ enum bodygroups_e
     HANDS
 }
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/beretta_draw.wav",
-    "bts_rc/items/9mmclip1.wav",
-    "bts_rc/items/9mmclip2.wav",
-    "bts_rc/items/9mmcock3.wav"
-};
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CARRY2 = 10;
@@ -110,9 +103,6 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/beretta_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_SoundSystem.PrecacheSound( "bts_rc/items/flashlight1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
