@@ -50,13 +50,10 @@ string BATTERY_KV = "$i_berettaBattery";
 Vector CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
 
-class weapon_bts_beretta : ScriptBasePlayerWeaponEntity
+class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }

@@ -42,13 +42,10 @@ int POSITION = 8;
 int DAMAGE = 66;
 Vector CONE( 0.01f, 0.01f, 0.01f );
 
-class weapon_bts_python : ScriptBasePlayerWeaponEntity
+class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }

@@ -45,13 +45,10 @@ float DAMAGE = 7.0f;
 float DRAIN_TIME = 0.8f;
 string BATTERY_KV = "$i_flashlightBattery";
 
-class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity
+class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     // private bool m_fHasHEV
     // {
     //     get const { return g_PlayerClass[m_pPlayer] == HELMET; }

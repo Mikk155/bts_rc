@@ -45,13 +45,10 @@ Vector SINGLE_CONE( 0.08716f, 0.04362f, 0.0f );
 Vector DOUBLE_CONE( 0.17365f, 0.04362f, 0.0f );
 Vector SHELL( 14.0f, 6.0f, -34.0f );
 
-class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity
+class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }
