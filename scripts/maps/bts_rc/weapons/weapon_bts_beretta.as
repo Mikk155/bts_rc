@@ -261,7 +261,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( is_trained_personal ? 0.3f : 0.325f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
@@ -304,7 +304,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
-        float flNextAttack = self.m_flNextPrimaryAttack - ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.3f : 0.325f );
+        float flNextAttack = self.m_flNextPrimaryAttack - 0.3f;
         if( flNextAttack > g_Engine.time ) // uggly hax
             return;
 

@@ -195,10 +195,7 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        if( is_trained_personal )
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.3f : 0.0625f );
-        else
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.325f : 0.0755f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == SEMI_AUTO ) ? 0.3f : 0.0625f );
 
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }

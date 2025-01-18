@@ -294,7 +294,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( is_trained_personal ? 0.85f : 1.0f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
 
         if( !is_trained_personal )
@@ -386,7 +386,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
                 case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload1.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
                 case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "hlclassic/weapons/reload3.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
             }
-            m_flTimeWeaponReload = g_Engine.time + ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.5f : 0.64f );
+            m_flTimeWeaponReload = g_Engine.time + 0.5f;
             m_fInReloadState = 2;
             BaseClass.Reload();
             break;

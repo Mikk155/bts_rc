@@ -221,7 +221,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.12f : 0.124f );
+        self.m_flNextPrimaryAttack = g_Engine.time + 0.12f;
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
     }
 
