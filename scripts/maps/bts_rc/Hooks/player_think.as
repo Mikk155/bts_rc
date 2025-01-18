@@ -7,10 +7,35 @@ HookReturnCode player_think( CBasePlayer@ player )
     if( player !is null && player.IsConnected() )
     {
 #if SERVER
-        // Change impulse 101 command with our own weapons.
-        check_impulse_101(player);
         whatsthat(player);
 #endif
+
+        // Change impulse 101 command with our own weapons.
+        if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+        {
+            for( uint ui = 0; ui < weapons.length(); ui++ )
+            {
+                const string weapon_name = weapons[ui];
+
+                player.GiveNamedItem( weapon_name );
+
+                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+                
+                if( item !is null )
+                {
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                    if( weapon !is null )
+                    {
+                        if( weapon.m_iPrimaryAmmoType > 0 )
+                            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                        if( weapon.m_iSecondaryAmmoType > 0 )
+                            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                    }
+                }
+            }
+            player.pev.impulse = 0;
+        }
 
         // Do not update the class here, Only weapons should do that so we assume the game hasn't started yet.
         const PM player_class = g_PlayerClass[ player, true ];
