@@ -48,8 +48,6 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private int m_iShell;
-
     void Spawn()
     {
         Precache();
@@ -64,10 +62,6 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_9mmhandgun.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/p_9mmhandgun.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
-
-        m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
-
-        g_Game.PrecacheOther( "ammo_bts_glock" );
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/glock_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
@@ -213,7 +207,7 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
         Vector vecOrigin = m_pPlayer.GetGunPosition() + vecForward * SHELL.x + vecRight * SHELL.y + vecUp * SHELL.z;
         Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
-        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_iShell, TE_BOUNCE_SHELL );
+        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shell, TE_BOUNCE_SHELL );
 
         if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
             m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
