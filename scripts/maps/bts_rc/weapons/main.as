@@ -46,3 +46,5 @@ array<ItemMapping@> g_AmmoReplacement =
     ItemMapping( "weapon_minigun", "ammo_bts_dsaw" ),
     ItemMapping( "weapon_medkit", "weapon_bts_medkit" )
 };
+
+const int WEAPON_DEFAULT_FLAGS = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
