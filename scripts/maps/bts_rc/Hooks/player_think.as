@@ -172,45 +172,7 @@ HookReturnCode player_think( CBasePlayer@ player )
                     item_tracker::time = g_Engine.time + 5.0; // Cooldown time for refreshing.
                 }
 
-                //================================================================================================
-                //  Shows a MOTD message to the player
-                //  Code by Giegue. Taken from: https://github.com/JulianR0/TPvP/blob/master/src/plugins/TPvP.as#L7375
-                //================================================================================================
-                uint iChars = 0;
-
-                string szSplitMsg = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-
-                for( uint uChars = 0; uChars < item_tracker::buffer.Length(); uChars++ )
-                {
-                    szSplitMsg.SetCharAt( iChars, char( item_tracker::buffer[ uChars ] ) );
-                    iChars++;
-
-                    if( iChars == 32 )
-                    {
-                        NetworkMessage motd_append( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                            motd_append.WriteByte( 0 );
-                            motd_append.WriteString( szSplitMsg );
-                        motd_append.End();
-
-                        iChars = 0;
-                    }
-                }
-
-                // If we reached the end, send the last letters of the message
-                if( iChars > 0 )
-                {
-                    szSplitMsg.Truncate( iChars );
-
-                    NetworkMessage motd_fix( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                        motd_fix.WriteByte( 0 );
-                        motd_fix.WriteString( szSplitMsg );
-                    motd_fix.End();
-                }
-
-                NetworkMessage motd_open( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                    motd_open.WriteByte( 1 );
-                    motd_open.WriteString( "\n" );
-                motd_open.End(); 
+                motd::open( player, item_tracker::buffer );
             }
         }
 
