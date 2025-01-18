@@ -24,14 +24,7 @@ enum bodygroups_e
     HANDS
 };
 
-// Models
-string W_MODEL = "models/bts_rc/weapons/w_9mmar.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_9mmar.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_9mmar.mdl";
-string A_MODEL = "models/hlclassic/w_9mmarclip.mdl";
 // Sounds
-string SHOOT_SND = "bts_rc/weapons/mp5_fire1.wav";
-string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
 array<string> SOUNDS = {
     "hlclassic/items/cliprelease1.wav",
     "hlclassic/items/clipinsert1.wav"
@@ -68,14 +61,14 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_9mmar.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_9mmar.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 5, MAX_CLIP );
         self.FallInit();
 
@@ -85,18 +78,18 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmar.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_9mmar.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmar.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/w_9mmarclip.mdl" );
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_mp5" );
         g_Game.PrecacheOther( "ammo_bts_dmp5" );
 
-        g_SoundSystem.PrecacheSound( SHOOT_SND );
-        g_SoundSystem.PrecacheSound( EMPTY_SND );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_fire1.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
@@ -132,7 +125,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "mp5", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_9mmar.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_9mmar.mdl" ), DRAW, "mp5", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -147,7 +140,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
         if( self.m_bPlayEmptySound )
         {
             self.m_bPlayEmptySound = false;
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
         }
         return false;
     }
@@ -221,7 +214,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity
             case 2: self.SendWeaponAnim( SHOOT3, 0, GetBodygroup() ); break;
         }
 
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_fire1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
         if( m_fHasHEV )
             m_pPlayer.pev.punchangle.x = -2.0f;
@@ -280,13 +273,13 @@ class ammo_bts_mp5 : ScriptBasePlayerAmmoEntity
             m_iAmount = Math.RandomLong( 9, 21 );
 
         Precache();
-        g_EntityFuncs.SetModel( self, A_MODEL );
+        g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmarclip.mdl" );
         BaseClass.Spawn();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( "models/hlclassic/w_9mmarclip.mdl" );
         g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 

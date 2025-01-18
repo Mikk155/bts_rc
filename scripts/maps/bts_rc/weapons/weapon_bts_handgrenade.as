@@ -24,11 +24,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Models
-string W_MODEL = "models/hlclassic/w_grenade.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_grenade.mdl";
-string P_MODEL = "models/hlclassic/p_grenade.mdl";
-string PRJ_MDL = "models/hlclassic/w_grenade.mdl";
 // Sounds
 array<string> SOUNDS = {
     "bts_rc/weapons/spas_idle4.wav",
@@ -71,14 +66,14 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_grenade.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model( "models/hlclassic/w_grenade.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit(); // get ready to fall
     }
@@ -86,10 +81,10 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( PRJ_MDL );
+        g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_grenade.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/p_grenade.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
@@ -132,7 +127,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "gren", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_grenade.mdl" ), self.GetP_Model( "models/hlclassic/p_grenade.mdl" ), DRAW, "gren", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 20.0f / 30.0f );
         return true;
     }
@@ -215,7 +210,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
         CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecSrc, vecThrow, TIMER );
         if( pGrenade !is null )
         {
-            g_EntityFuncs.SetModel( pGrenade, PRJ_MDL );
+            g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );
             pGrenade.pev.dmg = DAMAGE;
         }
 

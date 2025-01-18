@@ -27,14 +27,8 @@ enum bodygroups_e
     ROUNDS
 };
 
-// Models
-string W_MODEL = "models/bts_rc/weapons/v_saw.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_saw.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_saw.mdl";
-string A_MODEL = "models/w_saw_clip.mdl";
 // Sounds
-string SHOOT_SND = "bts_rc/weapons/gun_fire4.wav";
-string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
+
 array<string> SOUNDS = {
     "bts_rc/weapons/saw_reload.wav",
     "bts_rc/weapons/saw_reload2.wav"
@@ -77,15 +71,15 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, ROUNDS, RecalculateBody() );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_saw.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_saw.mdl" ), pev.body, ROUNDS, RecalculateBody() );
         return pev.body;
     }
 
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/v_saw.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 19, MAX_CLIP );
         self.FallInit();
 
@@ -96,18 +90,18 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_saw.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_saw.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/p_saw.mdl" );
+        g_Game.PrecacheModel( "models/w_saw_clip.mdl" );
 
         m_iShell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
         m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_saw" );
 
-        g_SoundSystem.PrecacheSound( SHOOT_SND );
-        g_SoundSystem.PrecacheSound( EMPTY_SND );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
@@ -143,7 +137,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
 
     bool Deploy()
     {
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "saw", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_saw.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_saw.mdl" ), DRAW, "saw", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -169,7 +163,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
         if( self.m_bPlayEmptySound )
         {
             self.m_bPlayEmptySound = false;
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
         }
         return false;
     }
@@ -243,7 +237,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity
         }
 
         self.SendWeaponAnim( Math.RandomLong( SHOOT1, SHOOT3 ), 0, GetBodygroup() );
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/gun_fire4.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
         m_pPlayer.pev.punchangle.x = m_fHasHEV ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
         m_pPlayer.pev.punchangle.y = m_fHasHEV ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
 
@@ -337,13 +331,13 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity
             m_iAmount = Math.RandomLong( 25, 30 );
 
         Precache();
-        g_EntityFuncs.SetModel( self, A_MODEL );
+        g_EntityFuncs.SetModel( self, "models/w_saw_clip.mdl" );
         BaseClass.Spawn();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( "models/w_saw_clip.mdl" );
         g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 

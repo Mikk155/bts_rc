@@ -27,11 +27,6 @@ enum bodygroups_e
     HANDS = 0 // STUDIO
 };
 
-// Models
-string W_MODEL = "models/bts_rc/weapons/w_flare.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_flare.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_flare.mdl";
-string PRJ_MDL = "models/bts_rc/weapons/flare.mdl";
 // Sounds
 array<string> SOUNDS = {
     "bts_rc/weapons/flare_pinpull.wav",
@@ -71,14 +66,14 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_flare.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model(  "models/bts_rc/weapons/w_flare.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit(); // get ready to fall
     }
@@ -86,13 +81,10 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( PRJ_MDL );
-
-        // g_SoundSystem.PrecacheSound( SHOOT_SND );
-        // g_SoundSystem.PrecacheSound( EMPTY_SND );
+        g_Game.PrecacheModel(  "models/bts_rc/weapons/w_flare.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_flare.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/p_flare.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
@@ -137,7 +129,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "gren", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_flare.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_flare.mdl" ), DRAW, "gren", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 30.0f / 40.0f );
         return true;
     }
@@ -217,7 +209,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity
         Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
         Vector vecThrow = g_Engine.v_forward * flVel + m_pPlayer.pev.velocity;
 
-        FLARE::Toss( m_pPlayer.pev, vecSrc, vecThrow, DAMAGE, DURATION, TIMER, PRJ_MDL );
+        FLARE::Toss( m_pPlayer.pev, vecSrc, vecThrow, DAMAGE, DURATION, TIMER, "models/bts_rc/weapons/flare.mdl" );
 
         m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
         m_fAttackStart = 0.0f;

@@ -29,20 +29,10 @@ enum bodygroups_e
     HANDS
 };
 
-// Models
-string W_MODEL = "models/bts_rc/weapons/w_desert_eagle.mdl";
-string V_MODEL = "models/bts_rc/weapons/v_desert_eagle.mdl";
-string P_MODEL = "models/bts_rc/weapons/p_desert_eagle.mdl";
-string A_MODEL = "models/hlclassic/w_9mmclip.mdl";
-string B_MODEL = "models/bts_rc/furniture/w_flashlightbattery.mdl";
 // Sounds
-string SHOOT_SND = "weapons/desert_eagle_fire.wav";
-string EMPTY_SND = "hlclassic/weapons/357_cock1.wav";
 array<string> SOUNDS = {
     "bts_rc/weapons/desert_eagle_reload.wav"
 };
-string SWITCH_SND = "items/flashlight1.wav";
-string RELOAD_SND = "bts_rc/items/battery_reload.wav";
 // Weapon info
 int MAX_CARRY = 18;
 int MAX_CARRY2 = 10;
@@ -89,14 +79,14 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
     int GetBodygroup()
     {
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( V_MODEL ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_desert_eagle.mdl" ), pev.body, HANDS, g_PlayerClass[m_pPlayer] );
         return pev.body;
     }
 
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, self.GetW_Model( W_MODEL ) );
+        g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_desert_eagle.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 1, MAX_CLIP );
         self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         self.FallInit();
@@ -105,25 +95,25 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
     void Precache()
     {
         self.PrecacheCustomModels();
-        g_Game.PrecacheModel( W_MODEL );
-        g_Game.PrecacheModel( V_MODEL );
-        g_Game.PrecacheModel( P_MODEL );
-        g_Game.PrecacheModel( A_MODEL );
-        g_Game.PrecacheModel( B_MODEL );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/w_desert_eagle.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/v_desert_eagle.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/weapons/p_desert_eagle.mdl" );
+        g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
+        g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
 
         m_iShell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
 
         g_Game.PrecacheOther( "ammo_bts_eagle" );
         g_Game.PrecacheOther( "ammo_bts_eagle_battery" );
 
-        g_SoundSystem.PrecacheSound( SHOOT_SND );
-        g_SoundSystem.PrecacheSound( EMPTY_SND );
+        g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
 
         for( uint i = 0; i < SOUNDS.length(); i++ )
             g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
-        g_SoundSystem.PrecacheSound( SWITCH_SND );
-        g_SoundSystem.PrecacheSound( RELOAD_SND );
+        g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/640hudof01.spr" );
         g_Game.PrecacheGeneric( "sprites/bts_rc/640hudof02.spr" );
@@ -173,7 +163,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        self.DefaultDeploy( self.GetV_Model( V_MODEL ), self.GetP_Model( P_MODEL ), DRAW, "onehanded", 0, GetBodygroup() );
+        self.DefaultDeploy( self.GetV_Model( "models/bts_rc/weapons/v_desert_eagle.mdl" ), self.GetP_Model( "models/bts_rc/weapons/p_desert_eagle.mdl" ), DRAW, "onehanded", 0, GetBodygroup() );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return true;
     }
@@ -181,7 +171,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
     void Holster( int skiplocal = 0 )
     {
         SetThink( null );
-        g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND );
+        g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
 
         if ( m_pPlayer.FlashlightIsOn() )
             FlashlightTurnOff();
@@ -230,7 +220,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
         if( self.m_bPlayEmptySound )
         {
             self.m_bPlayEmptySound = false;
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, EMPTY_SND, 0.8f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
         }
         return false;
     }
@@ -281,7 +271,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
         }
 
         self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, GetBodygroup() );
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SHOOT_SND, Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_fire.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
         m_pPlayer.pev.punchangle.x = m_fHasHEV ? -4.0f : -11.0f;
 
         Vector vecForward, vecRight, vecUp;
@@ -401,7 +391,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
         SetThink( ThinkFunction( BaterryRechargeEnd ) );
         pev.nextthink = g_Engine.time + 4.0f;
 
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, RELOAD_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
     }
 
     private void BaterryRechargeEnd()
@@ -422,7 +412,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
     private void FlashlightTurnOn()
     {
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "items/flashlight1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         m_pPlayer.pev.effects |= EF_DIMLIGHT;
 
         NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
@@ -435,7 +425,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity
 
     private void FlashlightTurnOff()
     {
-        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, SWITCH_SND, 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "items/flashlight1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
 
         NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
@@ -457,13 +447,13 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
             m_iAmount = Math.RandomLong( 1, 4 );
 
         Precache();
-        g_EntityFuncs.SetModel( self, A_MODEL );
+        g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmclip.mdl" );
         BaseClass.Spawn();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( A_MODEL );
+        g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
         g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
@@ -483,13 +473,13 @@ class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity
     void Spawn()
     {
         Precache();
-        g_EntityFuncs.SetModel( self, B_MODEL );
+        g_EntityFuncs.SetModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
         BaseClass.Spawn();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( B_MODEL );
+        g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
     }
 
