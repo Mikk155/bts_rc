@@ -47,7 +47,6 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     void Spawn()
     {
         Precache();
-        self.m_flCustomDmg = pev.dmg;
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_screwdriver.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
@@ -57,7 +56,6 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_screwdriver.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_screwdriver.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_screwdriver.mdl" );
@@ -190,18 +188,12 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             // player "shoot" animation
             m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
-            // AdamR: Custom damage option
-            float flDamage = DAMAGE;
-            if( self.m_flCustomDmg > 0.0f )
-                flDamage = self.m_flCustomDmg;
-            // AdamR: End
-
             g_WeaponFuncs.ClearMultiDamage();
 
             if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
+                pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
             else
-                pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
+                pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
             g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
