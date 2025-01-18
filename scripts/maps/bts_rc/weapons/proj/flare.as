@@ -17,7 +17,6 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
 
         pev.solid = SOLID_BBOX;
@@ -30,14 +29,6 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
         pev.effects |= EF_NOSHADOW;
 
         IgniteSound();
-    }
-
-    void Precache()
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_on.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_bounce.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehitbod1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehit1.wav" );
     }
 
     int Classify()
@@ -273,13 +264,13 @@ class CFlare : ScriptBaseEntity // ScriptBaseMonsterEntity
     }
 }
 
-CFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter, const string& in szModel )
+CFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
 {
     CFlare@ pFlare = cast<CFlare>( CastToScriptClass( g_EntityFuncs.CreateEntity( "flare" ) ) );
     if( pFlare is null )
         return null;
 
-    g_EntityFuncs.SetModel( pFlare.self, szModel );
+    g_EntityFuncs.SetModel( pFlare.self, "models/bts_rc/weapons/flare.mdl" );
     g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
     g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
 
@@ -302,13 +293,13 @@ CFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in v
     return pFlare;
 }
 
-CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, const string& in szModel )
+CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
 {
     CFlare@ pFlare = cast<CFlare>( CastToScriptClass( g_EntityFuncs.CreateEntity( "flare" ) ) );
     if( pFlare is null )
         return null;
 
-    g_EntityFuncs.SetModel( pFlare.self, szModel );
+    g_EntityFuncs.SetModel( pFlare.self, "models/bts_rc/weapons/flare.mdl" );
     g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
     g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
 

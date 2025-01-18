@@ -57,7 +57,6 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         // pev.fuser2 = Math.max( pev.fuser2, DAMAGE2 );
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/opfor/w_knife.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
@@ -65,25 +64,6 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
         m_iSwing = 0;
         m_fWhack = false;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/opfor/w_knife.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_knife.mdl" );
-        g_Game.PrecacheModel( "models/opfor/p_knife.mdl" );
-
-        g_SoundSystem.PrecacheSound( "weapons/knife1.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/knife2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/knife3.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall1.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh1.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh2.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapon_knife.spr" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_knife.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

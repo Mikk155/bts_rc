@@ -41,6 +41,8 @@ int POSITION = 4;
 int DAMAGE = 15;
 Vector SHELL( 14.0f, 8.0f, -10.0f );
 
+const int m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
+
 // Spread thing
 const CCVar@ g_M249WideSpread = CCVar( "m249_wide_spread", 0, "", ConCommandFlag::AdminOnly ); // as_command m249_wide_spread
 // Knockback thing
@@ -52,32 +54,15 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     private bool m_bAlternatingEject;
     private int m_iTracerCount;
-    private int m_iLink;
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/v_saw.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 19, MAX_CLIP );
         self.FallInit();
 
         m_iTracerCount = 0;
         m_bAlternatingEject = false;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_saw.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_saw.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_saw.mdl" );
-        g_Game.PrecacheModel( "models/w_saw_clip.mdl" );
-
-        m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_saw.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -302,15 +287,8 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity
         if( pev.ClassNameIs( "ammo_bts_dsaw" ) )
             m_iAmount = Math.RandomLong( 25, 30 );
 
-        Precache();
         g_EntityFuncs.SetModel( self, "models/w_saw_clip.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/w_saw_clip.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

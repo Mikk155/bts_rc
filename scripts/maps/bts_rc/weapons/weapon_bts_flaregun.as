@@ -53,30 +53,9 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_flaregun.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_flaregun.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_flaregun.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun_clip.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_shot1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload2.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/muzzleflash12.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/w_flare.spr" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flaregun.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -156,7 +135,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
         Vector vecVelocity = g_Engine.v_forward * VELOCITY;
 
-        auto flare = FLARE::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, DURATION, "models/bts_rc/weapons/flare.mdl" );
+        auto flare = FLARE::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, DURATION );
         flare.pev.scale = 0.5f;
         // CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
@@ -238,15 +217,8 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flaregun_clip.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun_clip.mdl" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_pickup.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

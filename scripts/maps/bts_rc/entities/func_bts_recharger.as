@@ -25,8 +25,6 @@ namespace func_bts_recharger
 
         void Spawn()
         {
-            Precache();
-
             self.pev.solid = SOLID_BSP;
             self.pev.movetype = MOVETYPE_PUSH;
 
@@ -61,13 +59,6 @@ namespace func_bts_recharger
                 return BaseClass.KeyValue( szKeyName, szValue );
             }
             return true;
-        }
-
-        void Precache()
-        {
-            g_SoundSystem.PrecacheSound( "items/suitcharge1.wav" );
-            g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-            g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
         }
 
         int ObjectCaps()

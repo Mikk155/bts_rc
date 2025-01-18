@@ -47,29 +47,11 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_poolstick.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
 
         m_iSwing = 0;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_poolstick.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_poolstick.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_poolstick.mdl" );
-
-        g_SoundSystem.PrecacheSound( "weapons/cbar_miss1.wav" );
-
-        g_SoundSystem.PrecacheSound( "debris/wood1.wav" );
-        g_SoundSystem.PrecacheSound( "debris/wood2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod1.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_poolstick.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

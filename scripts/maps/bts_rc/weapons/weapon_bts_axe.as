@@ -47,28 +47,11 @@ class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_axe.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
 
         m_iSwing = 0;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_axe.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_axe.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_axe.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_miss1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod3.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_axe.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )

@@ -55,23 +55,9 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_uzi.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 6, MAX_CLIP );
         self.FallInit();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_uzi.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_uzi.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/uzi_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_uzi.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -238,15 +224,8 @@ class ammo_bts_uzi : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_uzi_clip.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )

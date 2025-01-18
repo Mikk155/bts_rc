@@ -54,27 +54,11 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/hlclassic/w_9mmhandgun.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
         self.FallInit();
 
         m_iFireMode = SEMI_AUTO;
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/hlclassic/w_9mmhandgun.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_glock18.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/p_9mmhandgun.mdl" );
-        g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
-
-        g_Game.PrecacheOther( "ammo_bts_glock18" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/glock18_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_glock18.txt" );
     }
 
     bool AddToPlayer( CBasePlayer@ pPlayer )
@@ -244,15 +228,8 @@ class ammo_bts_glock18 : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        Precache();
         g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmclip.mdl" );
         BaseClass.Spawn();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     }
 
     bool AddAmmo( CBaseEntity@ pOther )
