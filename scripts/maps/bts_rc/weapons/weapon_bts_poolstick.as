@@ -38,13 +38,10 @@ int POSITION = 6;
 float RANGE = 48.0f;
 float DAMAGE = 10.0f;
 
-class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity
+class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }

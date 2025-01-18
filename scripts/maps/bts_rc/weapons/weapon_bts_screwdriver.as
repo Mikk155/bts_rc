@@ -37,13 +37,10 @@ int POSITION = 7;
 float RANGE = 32.0f;
 float DAMAGE = 9.0f;
 
-class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity
+class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }

@@ -44,13 +44,10 @@ Vector OFFSET( 8.0f, 4.0f, -2.0f ); // for projectile
 // const Vector MUZZLE_ORIGIN       = Vector( 16.0, 4.0, -4.0 ); //forward, right, up
 // const string SPRITE_MUZZLE_GRENADE   = "sprites/bts_rc/muzzleflash12.spr";
 
-class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity
+class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     private bool m_fHasHEV
     {
         get const { return g_PlayerClass[m_pPlayer] == HELMET; }

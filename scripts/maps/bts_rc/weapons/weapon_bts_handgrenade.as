@@ -40,13 +40,10 @@ float TIMER = 3.0f;
 float DAMAGE = 100.0f;
 Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
 
-class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
+class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 {
-    private CBasePlayer@ m_pPlayer
-    {
-        get const { return cast<CBasePlayer>( self.m_hPlayer.GetEntity() ); }
-        set       { self.m_hPlayer = EHandle( @value ); }
-    }
+    private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+
     // private bool m_fHasHEV
     // {
     //  get const { return g_PlayerClass[m_pPlayer] == HELMET; }
