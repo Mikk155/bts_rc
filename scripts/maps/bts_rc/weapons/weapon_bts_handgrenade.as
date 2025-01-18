@@ -24,15 +24,6 @@ enum bodygroups_e
     HANDS
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/spas_idle4.wav",
-    // "bts_rc/weapons/spas_foley.wav", // no found
-    "bts_rc/weapons/grenade_pinpull.wav",
-    "bts_rc/weapons/grenade_throw1.wav",
-    "bts_rc/weapons/grenade_throw2.wav",
-    "bts_rc/weapons/grenade_draw.wav"
-};
 // Weapon info
 int MAX_CARRY = 10;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -85,9 +76,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_grenade.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/p_grenade.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
