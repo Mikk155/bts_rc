@@ -31,16 +31,6 @@ enum modes_e
     FULL_AUTO
 };
 
-// Sounds
-array<string> SOUNDS = {
-    "bts_rc/weapons/9mm_clipout.wav",
-    "bts_rc/weapons/9mm_draw.wav",
-    "bts_rc/weapons/9mm_clip.wav",
-    "bts_rc/weapons/9mm_in.wav",
-    "bts_rc/weapons/9mm_draw.wav",
-    "bts_rc/weapons/9mm_cock1.wav",
-    "bts_rc/weapons/9mm_cock2.wav"
-};
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CLIP = 19;
@@ -101,9 +91,6 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/glock18_fire1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
-        for( uint i = 0; i < SOUNDS.length(); i++ )
-            g_SoundSystem.PrecacheSound( SOUNDS[i] );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/" + pev.classname + ".txt" );
     }
