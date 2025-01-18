@@ -69,7 +69,6 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     // Always precache the stuff you're going to use
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_m79.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_m79.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_m79.mdl" );

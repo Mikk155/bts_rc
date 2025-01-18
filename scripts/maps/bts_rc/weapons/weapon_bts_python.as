@@ -56,7 +56,6 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/hlclassic/w_357.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_357.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/p_357.mdl" );

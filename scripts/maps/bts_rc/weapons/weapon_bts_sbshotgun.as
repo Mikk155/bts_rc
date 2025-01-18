@@ -84,7 +84,6 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_sbshotgun.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_sbshotgun.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_sbshotgun.mdl" );

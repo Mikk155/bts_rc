@@ -65,7 +65,6 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_uzi.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_uzi.mdl" );

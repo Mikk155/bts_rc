@@ -58,7 +58,6 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_grenade.mdl" );
         g_Game.PrecacheModel( "models/hlclassic/p_grenade.mdl" );

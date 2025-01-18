@@ -61,7 +61,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     void Precache()
     {
-        self.PrecacheCustomModels();
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_flaregun.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_flaregun.mdl" );
