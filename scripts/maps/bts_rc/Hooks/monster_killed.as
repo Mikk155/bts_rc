@@ -5,7 +5,7 @@
     }
 #endif
 
-HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int iGib )
+HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
 {
     if( monster !is null )
     {
@@ -112,7 +112,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     monster.SetBodygroup( 1, 1 );
 
                     // This model does have an extra bodygroup for the headcrab or was gibbed
-                    if( monster.GetBodygroup( 1 ) == 1 || iGib == GIB_ALWAYS )
+                    if( monster.GetBodygroup( 1 ) == 1 || gib == GIB_ALWAYS )
                     {
                         // -TODO Should models have an attachment instead of +72 offset?
                         CBaseEntity@ headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
@@ -148,9 +148,65 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 }
             }
 
-            if( cvar_bloodpuddles.GetInt() == 0 )
+            if( cvar_bloodpuddles.GetInt() == 0
+            and freeedicts( 30 )
+            /* Do not create for non-bleedable npcs */
+            and monster.m_bloodColor != DONT_BLEED
+            /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles overflow x[ */
+            and !user_data.exists( "bloodpuddle" ) )
             {
-                env_bloodpuddle::create(monster, user_data, iGib);
+                CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
+
+                if( entity !is null )
+                {
+                    env_bloodpuddle::env_bloodpuddle@ bloodpuddle = cast<env_bloodpuddle::env_bloodpuddle@>( CastToScriptClass( entity ) );
+
+                    if( bloodpuddle !is null )
+                    {
+                        if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
+                        {
+                            bloodpuddle.pev.skin = 1;
+                        }
+
+                        if( monster.pev.classname == "moster_headcrab" || monster.pev.classname == "monster_houndeye" || monster.pev.classname == "monster_babycrab" )
+                        {
+                            bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
+                        }
+                        else
+                        {
+                            bloodpuddle.pev.scale = Math.RandomFloat( 1.5, 2.5 );
+                        }
+
+                        /* Monster gibed? Set it to full gib */
+                        if( monster.ShouldGibMonster( gib ) )
+                        {
+                            bloodpuddle.state = env_bloodpuddle::BLOOD_STATE::EXPANDED;
+                            // Think right away
+                            bloodpuddle.pev.nextthink = g_Engine.time + 0.1f;
+                        }
+                        else
+                        {
+                            bloodpuddle.pev.nextthink = g_Engine.time + 0.8f;
+                        }
+
+                        bloodpuddle.Spawn();
+                    }
+                    else
+                    {
+#if SERVER
+                        env_bloodpuddle::m_Logger.error( "Failed to cast to class, Liberating edict." );
+#endif
+                        entity.pev.flags |= FL_KILLME;
+                    }
+                }
+                else
+                {
+#if SERVER
+                    env_bloodpuddle::m_Logger.error( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
+#endif
+                }
+
+                user_data[ "bloodpuddle" ] = true;
             }
         }
     }

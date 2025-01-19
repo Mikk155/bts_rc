@@ -1037,6 +1037,7 @@ namespace precache
         "models/hlclassic/w_crowbar.mdl",
         "models/hlclassic/w_grenade.mdl",
         "models/hlclassic/w_shotbox.mdl",
+        "models/mikk/misc/bloodpuddle.mdl",
         "models/opfor/p_knife.mdl",
         "models/opfor/w_knife.mdl",
         "models/tool_box.mdl",
