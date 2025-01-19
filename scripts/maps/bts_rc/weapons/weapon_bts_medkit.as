@@ -59,20 +59,6 @@ namespace BTS_MEDKIT
             self.FallInit();
         }
 
-        bool AddToPlayer( CBasePlayer@ pPlayer )
-        {
-            if( !BaseClass.AddToPlayer( pPlayer ) )
-                return false;
-
-            if(RECHARGE_DELAY != 0.0f)
-                m_rechargeTime = g_Engine.time + RECHARGE_DELAY;
-
-            NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
-                weapon.WriteLong( g_ItemRegistry.GetIdForName( self.GetClassname() ) );
-            weapon.End();
-            return true;
-        }
-
         bool GetItemInfo( ItemInfo& out info )
         {
             info.iMaxAmmo1 = MAX_CARRY;
