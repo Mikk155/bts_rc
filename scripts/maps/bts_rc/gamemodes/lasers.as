@@ -135,6 +135,18 @@ class CLasers
 
 CLasers g_sentry_laser;
 
+namespace lasers
+{
+    void add_sentry( CBaseMonster@ squad, CBaseEntity@ entity )
+    {
+        // Sentries are spawned via squadmaker so g_sentry_laser can't find them.
+        if( entity !is null )
+        {
+            g_sentry_laser.handles.insertLast( EHandle( entity ) );
+        }
+    }
+}
+
 void CSentryCallback( CCVar@ cvar, const string& in szOldValue, float flOldValue )
 {
     if( g_sentry_laser !is null )

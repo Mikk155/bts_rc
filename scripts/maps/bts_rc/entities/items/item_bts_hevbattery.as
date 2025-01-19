@@ -1,63 +1,60 @@
-namespace bts_items
+class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
 {
-    class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
+    void Spawn()
     {
-        void Spawn()
+        g_EntityFuncs.SetModel( self, "models/hlclassic/w_battery.mdl" );
+        BaseClass.Spawn();
+    }
+
+    bool AddAmmo( CBaseEntity@ other )
+    {
+        if( other is null || !other.IsPlayer() || !other.IsAlive() )
+            return false;
+
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
+
+        if( player is null )
+            return false;
+
+        if( PM::HELMET != g_PlayerClass[ player, true ] )
+            return false;
+
+        if( player.pev.armorvalue >= player.pev.armortype )
+            return false;
+
+        player.pev.armorvalue += Math.RandomFloat( 10, 25 );
+
+        if( player.pev.armorvalue > player.pev.armortype )
+            player.pev.armorvalue = player.pev.armortype;
+
+        // From CItemBattery at items.cpp
+        NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
+            m.WriteString( "item_battery" );
+        m.End();
+
+        if( PM::HELMET == g_PlayerClass[ player, true ] )
         {
-            g_EntityFuncs.SetModel( self, "models/hlclassic/w_battery.mdl" );
-            BaseClass.Spawn();
-        }
+            int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
 
-        bool AddAmmo( CBaseEntity@ other )
-        {
-            if( other is null || !other.IsPlayer() || !other.IsAlive() )
-                return false;
+            pct = ( pct / 5 );
 
-            CBasePlayer@ player = cast<CBasePlayer@>( other );
-
-            if( player is null )
-                return false;
-
-            if( PM::HELMET != g_PlayerClass[ player, true ] )
-                return false;
-
-            if( player.pev.armorvalue >= player.pev.armortype )
-                return false;
-
-            player.pev.armorvalue += Math.RandomFloat( 10, 25 );
-
-            if( player.pev.armorvalue > player.pev.armortype )
-                player.pev.armorvalue = player.pev.armortype;
-
-            // From CItemBattery at items.cpp
-            NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-                m.WriteString( "item_battery" );
-            m.End();
-
-            if( PM::HELMET == g_PlayerClass[ player, true ] )
+            if( pct > 0 )
             {
-                int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
-
-                pct = ( pct / 5 );
-
-                if( pct > 0 )
-                {
-                    pct--;
-                }
-
-                string szcharge;
-                snprintf( szcharge, "!HEV_%1P", pct );
-
-                player.SetSuitUpdate( szcharge, false, 30 );
+                pct--;
             }
 
-            g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+            string szcharge;
+            snprintf( szcharge, "!HEV_%1P", pct );
 
-            self.UpdateOnRemove();
-            pev.flags |= FL_KILLME;
-            pev.targetname = String::EMPTY_STRING;
-
-            return true;
+            player.SetSuitUpdate( szcharge, false, 30 );
         }
+
+        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+
+        self.UpdateOnRemove();
+        pev.flags |= FL_KILLME;
+        pev.targetname = String::EMPTY_STRING;
+
+        return true;
     }
 }
