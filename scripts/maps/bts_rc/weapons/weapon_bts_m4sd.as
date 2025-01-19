@@ -223,23 +223,4 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
     }
 }
-
-class ammo_bts_m4sd : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_556nato.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( AMMO_GIVE, "556", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }

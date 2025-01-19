@@ -417,25 +417,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }
-
-class ammo_bts_battery : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, "bts:battery", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }
 // End namespace BTS_FLASHLIGHT
 // if you wanna use this as a sample, go ahead and make sure credit the rightful owner.
