@@ -128,6 +128,7 @@ mixin class bts_rc_base_weapon
         // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
         pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( viewmodel ), pev.body, hands_group, g_PlayerClass[ m_pPlayer ] );
         self.SendWeaponAnim( animation, 0, pev.body );
+        m_pPlayer.m_flNextAttack = 0.5f;
         return true;
     }
 
