@@ -269,8 +269,8 @@ namespace trigger_update_class
                         invkeycard.Touch( player );
                     }
 
-                    g_PlayerFuncs.ScreenFade( player, fadeColor, 0.25f, 1.0f, 255.0f, FFADE_IN );
-                    g_Scheduler.SetTimeout( this, "PlayerFade", 1, @player, fadeColor);
+                    g_PlayerFuncs.ScreenFade( player, fadeColor, 0.25f, 1.0f, 255.0f, FFADE_OUT );
+                    g_Scheduler.SetTimeout( this, "PlayerFade", 1.0f, @player, fadeColor);
 
                     g_Scheduler.SetTimeout( this, "DisplayMessage", 3, @player, message);
 
@@ -300,11 +300,11 @@ namespace trigger_update_class
             }
         }
 
-        protected void PlayerFade(CBasePlayer@ player, Vector& in color, int flags)
+        protected void PlayerFade(CBasePlayer@ player, Vector& in color)
         {
             if( player !is null )
             {
-                g_PlayerFuncs.ScreenFade(player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT);
+                g_PlayerFuncs.ScreenFade(player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
             }
         }
 
