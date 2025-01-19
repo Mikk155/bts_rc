@@ -125,7 +125,7 @@ namespace trigger_update_class
                             snprintf( message, "USER MODE SELECTED\nSECURITY CLEARANCE LEVEL 5\nADMINISTRATOR OBSERVING\nTECHNICIAN OBSERVING\nTROUBLE SHOOTING ENABLED\nGENERATING USER SCENARIOS\n10%.. 20%.. 30%.. 40%.. 50%.. 60%..\n70%.. 80%.. 90%.. 100%.. COMPLETE\nSIMUL" );
                             fadeColor = Vector(255, 0, 0);
 
-                            player.GiveNamedItem( "weapon_bts_flashlight" );
+                            player.GiveNamedItem( "weapon_bts_flashlight", SF_GIVENITEM );
 #if SERVER
                             g_PlayerClass.m_Logger.error( "Set loadout \"Solo\" for player {}", { player.pev.netname } );
 #endif
@@ -141,36 +141,36 @@ namespace trigger_update_class
                             {
                                 case 1:
                                 {
-                                    player.GiveNamedItem( "weapon_bts_eagle" );
-                                    player.GiveNamedItem( "ammo_bts_eagle" );
-                                    player.GiveNamedItem( "ammo_bts_eagle" );
+                                    player.GiveNamedItem( "weapon_bts_eagle", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_bts_eagle", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_bts_eagle", SF_GIVENITEM );
                                     break;
                                 }
                                 case 2:
                                 {
-                                    player.GiveNamedItem( "weapon_bts_beretta" );
-                                    player.GiveNamedItem( "ammo_9mmclip" );
-                                    player.GiveNamedItem( "ammo_9mmclip" );
+                                    player.GiveNamedItem( "weapon_bts_beretta", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_9mmclip", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_9mmclip", SF_GIVENITEM );
                                     break;
                                 }
                                 case 3:
                                 {
-                                    player.GiveNamedItem( "weapon_bts_glock" );
-                                    player.GiveNamedItem( "ammo_9mmclip" );
-                                    player.GiveNamedItem( "ammo_9mmclip" );
+                                    player.GiveNamedItem( "weapon_bts_glock", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_9mmclip", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_9mmclip", SF_GIVENITEM );
                                     break;
                                 }
                                 case 4:
                                 {
-                                    player.GiveNamedItem( "weapon_bts_glock17f" );
-                                    player.GiveNamedItem( "ammo_9mmclip" );
-                                    player.GiveNamedItem( "ammo_9mmclip" );
+                                    player.GiveNamedItem( "weapon_bts_glock17f", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_9mmclip", SF_GIVENITEM );
+                                    player.GiveNamedItem( "ammo_9mmclip", SF_GIVENITEM );
                                     break;
                                 }
                             }
-                            player.GiveNamedItem( "item_bts_helmet" );
-                            player.GiveNamedItem( "item_bts_armorvest" );
-                            player.GiveNamedItem( "weapon_bts_flashlight" );
+                            player.GiveNamedItem( "item_bts_helmet", SF_GIVENITEM );
+                            player.GiveNamedItem( "item_bts_armorvest", SF_GIVENITEM );
+                            player.GiveNamedItem( "weapon_bts_flashlight", SF_GIVENITEM );
 
                             keycard[ "skin" ] = "3";
                             keycard[ "description" ] = "Blackmesa Security Clearance level 1";
@@ -190,9 +190,9 @@ namespace trigger_update_class
                             snprintf( sound, "vox/research.wav" );
                             snprintf( message, "%1%2", message, "Blackmesa Science Team" );
 
-                            player.GiveNamedItem( "weapon_bts_screwdriver" );
-                            player.GiveNamedItem( "weapon_medkit" );
-                            player.GiveNamedItem( "weapon_bts_flashlight" );
+                            player.GiveNamedItem( "weapon_bts_screwdriver", SF_GIVENITEM );
+                            player.GiveNamedItem( "weapon_medkit", SF_GIVENITEM );
+                            player.GiveNamedItem( "weapon_bts_flashlight", SF_GIVENITEM );
 
                             keycard[ "skin" ] = "2";
                             keycard[ "description" ] = "Blackmesa Research Clearance level 1";
@@ -215,17 +215,17 @@ namespace trigger_update_class
                             {
                                 case 1:
                                 {
-                                    player.GiveNamedItem( "weapon_bts_screwdriver" );
+                                    player.GiveNamedItem( "weapon_bts_screwdriver", SF_GIVENITEM );
                                     break;
                                 }
                                 case 2:
                                 {
-                                    player.GiveNamedItem( "weapon_bts_crowbar" );
+                                    player.GiveNamedItem( "weapon_bts_crowbar", SF_GIVENITEM );
                                     break;
                                 }
                             }
-                            player.GiveNamedItem( "item_bts_helmet" );
-                            player.GiveNamedItem( "item_bts_helmet" );
+                            player.GiveNamedItem( "item_bts_helmet", SF_GIVENITEM );
+                            player.GiveNamedItem( "item_bts_helmet", SF_GIVENITEM );
 
                             keycard[ "skin" ] = "2";
                             keycard[ "description" ] = "Blackmesa Maintenance Clearance";
