@@ -2,8 +2,6 @@
     Author: Mikk
 */
 
-CCVar@ cvar_sentry_laser = CCVar( "bts_rc_disable_sentry_laser", -1, String::EMPTY_STRING, ConCommandFlag::AdminOnly, @CSentryCallback );
-
 class CLasers
 {
     array<EHandle>@ handles = {};
@@ -11,44 +9,6 @@ class CLasers
     int model_index = g_Game.PrecacheModel( "sprites/glow01.spr" );
 
     CScheduledFunction@ scheduler;
-
-    void map_activate()
-    {
-        const array<string> turrets = {
-#if SERVER
-            "monster_sentry",
-#endif
-            "monster_turret",
-            "monster_miniturret"
-        };
-
-        for( uint ui = 0; ui < turrets.length(); ui++ )
-        {
-            CBaseEntity@ entity = null;
-
-            while( ( @entity = g_EntityFuncs.FindEntityByClassname( entity, turrets[ui] ) ) !is null )
-            {
-                this.handles.insertLast( EHandle( entity ) );
-            }
-        }
-    }
-
-    void turn_off()
-    {
-        if( this.scheduler !is null )
-        {
-            g_Scheduler.RemoveTimer( this.scheduler );
-            @this.scheduler = null;
-        }
-    }
-
-    void turn_on()
-    {
-        if( this.scheduler is null )
-        {
-            @this.scheduler = g_Scheduler.SetInterval( this, "think", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
-        }
-    }
 
     CSprite@ sprite( Vector&in VecPos )
     {
@@ -175,12 +135,19 @@ void CSentryCallback( CCVar@ cvar, const string& in szOldValue, float flOldValue
         {
             case 1:
             {
-                g_sentry_laser.turn_off();
+                if( g_sentry_laser.scheduler !is null )
+                {
+                    g_Scheduler.RemoveTimer( g_sentry_laser.scheduler );
+                    @g_sentry_laser.scheduler = null;
+                }
                 break;
             }
             default:
             {
-                g_sentry_laser.turn_on();
+                if( g_sentry_laser.scheduler is null )
+                {
+                    @g_sentry_laser.scheduler = g_Scheduler.SetInterval( g_sentry_laser, "think", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
+                }
                 break;
             }
         }

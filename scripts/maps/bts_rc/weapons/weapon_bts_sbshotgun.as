@@ -101,7 +101,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = WEAPON_DEFAULT_FLAGS;
+        info.iFlags = m_flags;
         info.iWeight = WEIGHT;
         return true;
     }
@@ -238,7 +238,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 2048.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            Sparks::Sparks( tr.pHit, tr.iHitgroup, tr.vecEndPos );
+            bts_post_attack(tr);
             BloodSplash::Create( tr.pHit, tr.iHitgroup, tr.vecEndPos );
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )

@@ -76,7 +76,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = ( WEAPON_DEFAULT_FLAGS | FLAGS );
+        info.iFlags = ( m_flags | FLAGS );
         info.iWeight = WEIGHT;
         return true;
     }

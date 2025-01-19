@@ -2,23 +2,294 @@
     Author: Mikk
 */
 
+/*==========================================================================
+*   - Start of includes
+==========================================================================*/
 #if SERVER
 #include "Logger"
 #endif
 
-#include "entities/main"
-#include "gamemodes/main"
-#include "Hooks/main"
-#include "weapons/main"
+#include "entities/env_bloodpuddle"
+#include "entities/func_bts_recharger"
+#include "entities/point_checkpoint"
+#include "entities/randomizer"
+#include "entities/trigger_script"
+#include "entities/trigger_update_class"
+#include "entities/items/item_bts_armorvest"
+#include "entities/items/item_bts_helmet"
+#include "entities/items/item_bts_hevbattery"
+#include "entities/items/item_bts_sprayaid"
+#if SERVER
+#include "entities/trigger_logger"
+#endif
+
+#include "gamemodes/BloodSplash"
+#include "gamemodes/bts_rc_erty"
+#include "gamemodes/lasers"
+#include "gamemodes/player_voices"
+
+#include "Hooks/monster_killed"
+#include "Hooks/monster_takedamage"
+#include "Hooks/player_connect" /* -TODO Remove this line in 5.27 */
+#include "Hooks/player_think"
+#include "Hooks/player_takedamage"
+
+#include "weapons/proj/dart"
+#include "weapons/proj/flare"
+#include "weapons/proj/m79_rocket"
+
+#include "weapons/weapon_bts_axe"
+#include "weapons/weapon_bts_beretta"
+#include "weapons/weapon_bts_crowbar"
+#include "weapons/weapon_bts_eagle"
+#include "weapons/weapon_bts_flare"
+#include "weapons/weapon_bts_flaregun"
+#include "weapons/weapon_bts_flashlight"
+#include "weapons/weapon_bts_glock"
+#include "weapons/weapon_bts_glock17f"
+#include "weapons/weapon_bts_glock18"
+#include "weapons/weapon_bts_glocksd"
+#include "weapons/weapon_bts_handgrenade"
+#include "weapons/weapon_bts_knife"
+#include "weapons/weapon_bts_m4"
+#include "weapons/weapon_bts_m4sd"
+#include "weapons/weapon_bts_m16"
+#include "weapons/weapon_bts_m79"
+#include "weapons/weapon_bts_medkit"
+#include "weapons/weapon_bts_mp5"
+#include "weapons/weapon_bts_mp5gl"
+#include "weapons/weapon_bts_pipe"
+#include "weapons/weapon_bts_poolstick"
+#include "weapons/weapon_bts_python"
+#include "weapons/weapon_bts_saw"
+#include "weapons/weapon_bts_sbshotgun"
+#include "weapons/weapon_bts_screwdriver"
+#include "weapons/weapon_bts_shotgun"
+#include "weapons/weapon_bts_uzi"
+/*==========================================================================
+*   - End
+==========================================================================*/
+/*
+    -TODO Map
+
+    * Spawn sentry by squadmaker + call function for lasers
+    * Match zombie models to their classname used in bts_rc
+    *
+*/
+
+/*==========================================================================
+*   - Start of base class for weapons
+==========================================================================*/
+mixin class bts_rc_base_weapon
+{
+    // Default flags for weapons
+    protected int m_flags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
+
+    // To not cast repeatedly
+    private CBasePlayer@ player = null;
+    protected CBasePlayer@ get_player()
+    {
+        if( player is null || player !is self.m_hPlayer.GetEntity() )
+        {
+            @player = cast<CBasePlayer>( self.m_hPlayer.GetEntity() );
+        }
+        return @player;
+    }
+
+#if DISCARDED
+    * "Discarded idea of having a motd of information for the current picked weapon when a player takes it for the first time."
+    private bool m_is_first_deploy = true;
+    private float m_was_first_deploy;
+
+    // Call on a Item*Frame
+    protected should_inform()
+    {
+        if( m_was_first_deploy >= g_Engine.time && ( m_pPlayer.pev.button & IN_USE ) != 0 )
+        {
+            motd::open(m_pPlayer, string(g_WeaponDeploy[pev.classname]));
+            m_is_first_deploy = false;
+        }
+    }
+#endif
+
+    // A weapon is deployed
+    protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1 )
+    {
+#if DISCARDED
+        if( m_is_first_deploy && g_WeaponDeploy.exists(pev.classname))
+        {
+            g_PlayerFuncs.PrintKeyBindingString( m_pPlayer, "Press +use to see more info." );
+            m_was_first_deploy = g_Engine.time + 6.0f;
+        }
+#endif
+        m_pPlayer.pev.viewmodel = self.GetV_Model( viewmodel );
+        m_pPlayer.pev.weaponmodel = self.GetP_Model( playermodel );
+        m_pPlayer.set_m_szAnimExtension( animation_ext );
+        // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( viewmodel ), pev.body, hands_group, g_PlayerClass[ m_pPlayer ] );
+        self.SendWeaponAnim( animation, 0, pev.body );
+        return true;
+    }
+
+    protected void bts_post_attack( TraceResult &in tr )
+    {
+        bool should_sparks = ( cvar_trace_sparks.GetInt() != 1 && freeedicts( 17 ) );
+
+        if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
+        {
+            CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
+
+            if( hit !is null )
+            {
+                if( should_sparks )
+                {
+                    int sparks_color;
+
+                    if( "monster_robogrunt" == hit.pev.classname )
+                    {
+                        sparks_color = 5;
+                    }
+                    else if( "monster_sentry" == hit.pev.classname || "monster_turret" == hit.pev.classname || "monster_miniturret" == hit.pev.classname )
+                    {
+                        sparks_color = 4;
+                    }
+                    else if( tr.iHitgroup == 10 )
+                    {
+                        if( "monster_zombie_soldier" == hit.pev.classname )
+                        {
+                            if( "models/bts_rc/monsters/zombie_hev.mdl" == hit.pev.model )
+                            {
+                                sparks_color = 7;
+                            }
+                        }
+                        else if( hit.pev.classname == "monster_alien_grunt" )
+                        {
+                            sparks_color = 0;
+                        }
+                        else
+                        {
+                            should_sparks = false;
+                        }
+                    }
+                    else
+                    {
+                        should_sparks = false;
+                    }
+
+                    if( should_sparks )
+                    {
+                        switch( Math.RandomLong( 1, 5 ) )
+                        {
+                            case 1: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric1.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                            case 2: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric2.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                            case 3: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric3.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                            case 4: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric4.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                            case 5: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric5.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                        }
+
+                        NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                            m.WriteByte( TE_STREAK_SPLASH );
+                            m.WriteCoord( tr.vecEndPos.x );
+                            m.WriteCoord( tr.vecEndPos.y );
+                            m.WriteCoord( tr.vecEndPos.z );
+                            m.WriteCoord( g_Engine.v_forward.x );
+                            m.WriteCoord( g_Engine.v_forward.y );
+                            m.WriteCoord( g_Engine.v_forward.z );
+                            m.WriteByte( sparks_color ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png
+                            m.WriteShort( 30 ); // Count
+                            m.WriteShort( 128 ); // Base speed
+                            m.WriteShort( 100 ); // Random velocity
+                        m.End();
+
+                        NetworkMessage m2( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                            m2.WriteByte( TE_DLIGHT );
+                            m2.WriteCoord( tr.vecEndPos.x );
+                            m2.WriteCoord( tr.vecEndPos.y );
+                            m2.WriteCoord( tr.vecEndPos.z );
+                            m2.WriteByte( 5 ); // radius
+                            m2.WriteByte( 150 ); // R
+                            m2.WriteByte( 100 ); // G
+                            m2.WriteByte( 0 ); // B
+                            m2.WriteByte( 1 ); // life in 0.1's
+                            m2.WriteByte( 1 ); // decay in 0.1's
+                        m2.End();
+
+                        //g_Utility.Sparks( tr.vecEndPos );
+                    }
+                }
+            }
+        }
+    }
+};
+/*==========================================================================
+*   - End
+==========================================================================*/
+
+/*==========================================================================
+*   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
+==========================================================================*/
+CCVar@ cvar_player_voices = CCVar( "bts_rc_disable_player_voices", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
+CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
+CCVar@ cvar_sentry_laser = CCVar( "bts_rc_disable_sentry_laser", -1, String::EMPTY_STRING, ConCommandFlag::AdminOnly, @CSentryCallback );
+CCVar@ cvar_trace_blood = CCVar( "bts_rc_disable_bloodsplash", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
+CCVar@ cvar_trace_sparks = CCVar( "bts_rc_disable_sparks", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
+/*==========================================================================
+*   - End
+==========================================================================*/
 
 void MapActivate()
 {
+    /*==========================================================================
+    *   - Start of turret lasers
+    ==========================================================================*/
+    const array<string> turrets = {
 #if SERVER
-    g_Logger.info( "Map entities {}/{}", { g_EngineFuncs.NumberOfEntities(), g_Engine.maxEntities } );
+        "monster_sentry",
 #endif
+        "monster_turret",
+        "monster_miniturret"
+    };
 
-    g_sentry_laser.map_activate();
-    BTS_RC_ERTY::MapActivate();
+    for( uint ui = 0; ui < turrets.length(); ui++ )
+    {
+        CBaseEntity@ entity = null;
+
+        while( ( @entity = g_EntityFuncs.FindEntityByClassname( entity, turrets[ui] ) ) !is null )
+        {
+            g_sentry_laser.handles.insertLast( EHandle( entity ) );
+        }
+    }
+    /*==========================================================================
+    *   - End
+    ==========================================================================*/
+
+    /*==========================================================================
+    *   - Start of Erty's Loadout entity
+    ==========================================================================*/
+    BTS_RC_ERTY::msgParams.x = 0;
+    BTS_RC_ERTY::msgParams.y = 0;
+    BTS_RC_ERTY::msgParams.effect = 2;
+    BTS_RC_ERTY::msgParams.r1 = 255;
+    BTS_RC_ERTY::msgParams.g1 = 255;
+    BTS_RC_ERTY::msgParams.b1 = 255;
+    BTS_RC_ERTY::msgParams.a1 = 0;
+    BTS_RC_ERTY::msgParams.r2 = 240;
+    BTS_RC_ERTY::msgParams.g2 = 110;
+    BTS_RC_ERTY::msgParams.b2 = 0;
+    BTS_RC_ERTY::msgParams.a2 = 0;
+    BTS_RC_ERTY::msgParams.fadeinTime = 0.05f;
+    BTS_RC_ERTY::msgParams.fadeoutTime = 0.5f;
+    BTS_RC_ERTY::msgParams.holdTime = 1.2f;
+    BTS_RC_ERTY::msgParams.fxTime = 0.025f;
+    BTS_RC_ERTY::msgParams.channel = 3;
+
+    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelSolo);
+    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelSecurity);
+    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelScientist);
+    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelRepair);
+    /*==========================================================================
+    *   - End
+    ==========================================================================*/
 }
 
 void MapInit()
@@ -26,17 +297,13 @@ void MapInit()
 #if SERVER
     LoggerLevel = ( Warning | Debug | Info | Critical | Error );
 #endif
-
-    g_VoiceResponse.init();
-
-    RegisterPointCheckPointEntity();
-
     /*==========================================================================
-    *   - Start of custom entities
+    *   - Start of custom entities registry
     ==========================================================================*/
     g_CustomEntityFuncs.RegisterCustomEntity( "env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
     g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
 #if SERVER
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_logger::trigger_logger", "trigger_logger" );
 #endif
@@ -179,6 +446,86 @@ void MapInit()
             ItemMapping( "weapon_medkit", "weapon_bts_medkit" )
         }
     );
+    /*==========================================================================
+    *   - End
+    ==========================================================================*/
+
+    /*==========================================================================
+    *   - Start of player voice responses
+    ==========================================================================*/
+    // Initialize handlers for specific classes
+    CVoices@ scientist = @CVoices( "scientist" );
+    CVoices@ barney = @CVoices( "barney" );
+    CVoices@ construction = @CVoices( "construction" );
+    CVoices@ helmet = @CVoices( "helmet" );
+    CVoices@ cleansuit = @CVoices( "cleansuit" );
+
+    // Save them in the voice responses class
+    g_VoiceResponse.voices[ "scientist" ] = @scientist;
+    g_VoiceResponse.voices[ "barney" ] = @barney;
+    g_VoiceResponse.voices[ "construction" ] = @construction;
+    g_VoiceResponse.voices[ "helmet" ] = @helmet;
+    g_VoiceResponse.voices[ "cleansuit" ] = @cleansuit;
+
+    // Constructor
+    construction.takedamage.cooldown = 1.0;
+    construction.takedamage.push_back( "bts_rc/player/construction/co_pain1.wav" );
+    construction.takedamage.push_back( "bts_rc/player/construction/co_pain2.wav" );
+    construction.takedamage.push_back( "bts_rc/player/construction/co_pain3.wav" );
+    construction.takedamage.push_back( "bts_rc/player/construction/co_pain4.wav" );
+    construction.killed.push_back( "bts_rc/player/construction/co_die1.wav" );
+    construction.killed.push_back( "bts_rc/player/construction/co_die2.wav" );
+    construction.killed.push_back( "bts_rc/player/construction/co_die3.wav" );
+    construction.killed.push_back( "bts_rc/player/construction/co_die4.wav" );
+
+    // Barney
+    barney.takedamage.cooldown = 1.0;
+    barney.takedamage.push_back( "barney/ba_pain1.wav" );
+    barney.takedamage.push_back( "barney/ba_pain2.wav" );
+    barney.takedamage.push_back( "barney/ba_pain3.wav" );
+    barney.killed.push_back( "barney/ba_die1.wav" );
+    barney.killed.push_back( "barney/ba_die2.wav" );
+    barney.killed.push_back( "barney/ba_die3.wav" );
+
+    // H.E.V
+    helmet.takedamage.cooldown = 1.0;
+    helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain1.wav" );
+    helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain2.wav" );
+    helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain3.wav" );
+    helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain4.wav" );
+    helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain5.wav" );
+    helmet.killed.push_back( "bts_rc/player/helmet/hm_death1.wav" );
+    helmet.killed.push_back( "bts_rc/player/helmet/hm_death2.wav" );
+    helmet.killed.push_back( "bts_rc/player/helmet/hm_death3.wav" );
+    helmet.killed.push_back( "bts_rc/player/helmet/hm_death4.wav" );
+
+    // Cleansuit
+    cleansuit.takedamage.cooldown = 1.0;
+    cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain1.wav" );
+    cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain2.wav" );
+    cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain3.wav" );
+    cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain4.wav" );
+    cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain5.wav" );
+    cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death1.wav" );
+    cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death2.wav" );
+    cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death3.wav" );
+    cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death4.wav" );
+
+    // Scientist
+    scientist.takedamage.cooldown = 1.0;
+    scientist.takedamage.push_back( "scientist/sci_pain1.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain2.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain3.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain4.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain5.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain6.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain7.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain8.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain9.wav" );
+    scientist.takedamage.push_back( "scientist/sci_pain10.wav" );
+    scientist.killed.push_back( "scientist/sci_die1.wav" );
+    scientist.killed.push_back( "scientist/sci_die2.wav" );
+    scientist.killed.push_back( "scientist/sci_die3.wav" );
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -532,6 +879,11 @@ namespace precache
         "vox/research.wav",
         "vox/security.wav",
         "vox/user.wav",
+        "weapons/ric1.wav",
+        "weapons/ric2.wav",
+        "weapons/ric3.wav",
+        "weapons/ric4.wav",
+        "weapons/ric5.wav",
         "weapons/cbar_hit1.wav",
         "weapons/cbar_hit2.wav",
         "weapons/cbar_hitbod1.wav",
@@ -654,13 +1006,9 @@ namespace precache
         "models/w_argrenade.mdl",
         "models/w_saw_clip.mdl",
         "models/w_security.mdl",
-        "models/w_shotshell.mdl"
-    };
-
-    array<string> generic =
-    {
-        "events/muzzle_saw.txt",
+        "models/w_shotshell.mdl",
         "sprites/SAWFlash.spr",
+        "sprites/glow01.spr",
         "sprites/bts_rc/640hudof01.spr",
         "sprites/bts_rc/640hudof02.spr",
         "sprites/bts_rc/M79_crosshair.spr",
@@ -686,6 +1034,12 @@ namespace precache
         "sprites/bts_rc/w_glocksd4.spr",
         "sprites/bts_rc/weapon_M79.spr",
         "sprites/bts_rc/weapon_knife.spr",
+        "sprites/bts_rc/wepspr.spr"
+    };
+
+    array<string> generic =
+    {
+        "events/muzzle_saw.txt",
         "sprites/bts_rc/weapons/weapon_bts_axe.txt",
         "sprites/bts_rc/weapons/weapon_bts_beretta.txt",
         "sprites/bts_rc/weapons/weapon_bts_crowbar.txt",
@@ -712,7 +1066,6 @@ namespace precache
         "sprites/bts_rc/weapons/weapon_bts_sbshotgun.txt",
         "sprites/bts_rc/weapons/weapon_bts_screwdriver.txt",
         "sprites/bts_rc/weapons/weapon_bts_shotgun.txt",
-        "sprites/bts_rc/weapons/weapon_bts_uzi.txt",
-        "sprites/bts_rc/wepspr.spr"
+        "sprites/bts_rc/weapons/weapon_bts_uzi.txt"
     };
 }

@@ -2,7 +2,6 @@
     Logger. This is shit and should be removed on release though for now it's a bit useful
 */
 
-
 CCVar@ g_LoggerSet = CCVar( "bts_rc_logger", "", "Toggle a logger level", ConCommandFlag::AdminOnly, @ToggleLogger );
 
 enum LoggerLevels

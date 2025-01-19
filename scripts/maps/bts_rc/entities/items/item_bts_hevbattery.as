@@ -62,13 +62,13 @@ namespace bts_items
 
         void Touch( CBaseEntity@ other )
         {
-            if( ( pev.spawnflags & item_f::TouchOnly ) == 0 )
+            if( ( pev.spawnflags & 128 ) == 0 )
                 AddAmmo(other);
         }
 
         void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE usetype, float value )
         {
-            if( ( pev.spawnflags & item_f::UseOnly ) == 0 )
+            if( ( pev.spawnflags & 256 ) == 0 )
                 AddAmmo(activator);
         }
     }
