@@ -1,6 +1,6 @@
 namespace bts_items
 {
-    class item_bts_sprayaid : ScriptBasePlayerItemEntity
+    class item_bts_sprayaid : ScriptBasePlayerAmmoEntity
     {
         void Spawn()
         {
@@ -34,18 +34,6 @@ namespace bts_items
             pev.targetname = String::EMPTY_STRING;
 
             return true;
-        }
-
-        void Touch( CBaseEntity@ other )
-        {
-            if( ( pev.spawnflags & 128 ) == 0 )
-                AddAmmo(other);
-        }
-
-        void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE usetype, float value )
-        {
-            if( ( pev.spawnflags & 256 ) == 0 )
-                AddAmmo(activator);
         }
     }
 }
