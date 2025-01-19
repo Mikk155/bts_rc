@@ -9,6 +9,7 @@
 #include "Logger"
 #endif
 
+#include "entities/ammo"
 #include "entities/env_bloodpuddle"
 #include "entities/func_bts_recharger"
 #include "entities/items"
