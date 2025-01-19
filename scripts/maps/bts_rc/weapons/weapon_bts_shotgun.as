@@ -398,34 +398,4 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         return false;
     }
 }
-
-class ammo_bts_shotgun : ScriptBasePlayerAmmoEntity
-{
-    private int m_iAmount = AMMO_GIVE;
-
-    void Spawn()
-    {
-        if( pev.ClassNameIs( "ammo_bts_shotshell" ) )
-        {
-            m_iAmount = 3;
-            g_EntityFuncs.SetModel( self, "models/w_shotshell.mdl" );
-        }
-        else
-        {
-            g_EntityFuncs.SetModel( self, "models/hlclassic/w_shotbox.mdl" );
-        }
-
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( m_iAmount, "buckshot", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }
