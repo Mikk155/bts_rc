@@ -58,17 +58,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.FallInit();
     }
 
-    bool AddToPlayer( CBasePlayer@ pPlayer )
-    {
-        if( !BaseClass.AddToPlayer( pPlayer ) )
-            return false;
-
-        NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, pPlayer.edict() );
-            weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
-        weapon.End();
-        return true;
-    }
-
     bool GetItemInfo( ItemInfo& out info )
     {
         info.iMaxAmmo1 = MAX_CARRY;
