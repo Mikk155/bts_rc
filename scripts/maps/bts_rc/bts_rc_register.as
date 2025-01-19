@@ -22,7 +22,6 @@
 #include "entities/trigger_logger"
 #endif
 
-#include "gamemodes/bts_rc_erty"
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
 
@@ -295,34 +294,6 @@ void MapActivate()
             g_sentry_laser.handles.insertLast( EHandle( entity ) );
         }
     }
-    /*==========================================================================
-    *   - End
-    ==========================================================================*/
-
-    /*==========================================================================
-    *   - Start of Erty's Loadout entity
-    ==========================================================================*/
-    BTS_RC_ERTY::msgParams.x = 0;
-    BTS_RC_ERTY::msgParams.y = 0;
-    BTS_RC_ERTY::msgParams.effect = 2;
-    BTS_RC_ERTY::msgParams.r1 = 255;
-    BTS_RC_ERTY::msgParams.g1 = 255;
-    BTS_RC_ERTY::msgParams.b1 = 255;
-    BTS_RC_ERTY::msgParams.a1 = 0;
-    BTS_RC_ERTY::msgParams.r2 = 240;
-    BTS_RC_ERTY::msgParams.g2 = 110;
-    BTS_RC_ERTY::msgParams.b2 = 0;
-    BTS_RC_ERTY::msgParams.a2 = 0;
-    BTS_RC_ERTY::msgParams.fadeinTime = 0.05f;
-    BTS_RC_ERTY::msgParams.fadeoutTime = 0.5f;
-    BTS_RC_ERTY::msgParams.holdTime = 1.2f;
-    BTS_RC_ERTY::msgParams.fxTime = 0.025f;
-    BTS_RC_ERTY::msgParams.channel = 3;
-
-    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelSolo);
-    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelSecurity);
-    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelScientist);
-    BTS_RC_ERTY::ShuffleArray(BTS_RC_ERTY::rgPlayermodelRepair);
     /*==========================================================================
     *   - End
     ==========================================================================*/
