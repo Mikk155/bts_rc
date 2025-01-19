@@ -6,8 +6,6 @@ class CLasers
 {
     array<EHandle>@ handles = {};
 
-    int model_index = g_Game.PrecacheModel( "sprites/glow01.spr" );
-
     CScheduledFunction@ scheduler;
 
     CSprite@ sprite( Vector&in VecPos )
@@ -62,6 +60,22 @@ class CLasers
             if( sentry is null || sentry.pev.sequence == 0 || !sentry.IsAlive() )
                 continue;
 
+#if DISCARDED
+            TraceResult tr;
+            Vector VecStart;
+            Vector VecAngles;
+
+            if( "monster_sentry" == sentry.pev.classname )
+                sentry.GetBonePosition( 5, VecStart, VecAngles );
+            else if( "monster_turret" == sentry.pev.classname )
+                sentry.GetBonePosition( 9, VecStart, VecAngles );
+            else if( "monster_miniturret" == sentry.pev.classname )
+                sentry.GetBonePosition( 3, VecStart, VecAngles );
+
+            Vector vecEnd = VecStart + VecAngles * 1200;
+            // VecAngles seems to be veczero.
+            g_Utility.TraceLine( VecStart, vecEnd, dont_ignore_monsters, sentry.edict(), tr );
+#endif
             if( !sentry.m_hEnemy.IsValid() )
                 continue;
 
@@ -75,12 +89,6 @@ class CLasers
                 sentry.GetBonePosition( 9, VecStart, VecAngles );
             else if( "monster_miniturret" == sentry.pev.classname )
                 sentry.GetBonePosition( 3, VecStart, VecAngles );
-
-#if DISCARDED
-            Vector vecEnd = VecStart + VecAngles * 1200;
-            // VecAngles seems to be veczero.
-            g_Utility.TraceLine( VecStart, vecEnd, dont_ignore_monsters, sentry.edict(), tr );
-#endif
 
             // Offset of 10 units bellow the eye position
             g_Utility.TraceLine( VecStart, sentry.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, sentry.edict(), tr );
@@ -131,25 +139,17 @@ void CSentryCallback( CCVar@ cvar, const string& in szOldValue, float flOldValue
 {
     if( g_sentry_laser !is null )
     {
-        switch( cvar_sentry_laser.GetInt() )
+        if( cvar_sentry_laser.GetInt() == 1 )
         {
-            case 1:
+            if( g_sentry_laser.scheduler !is null )
             {
-                if( g_sentry_laser.scheduler !is null )
-                {
-                    g_Scheduler.RemoveTimer( g_sentry_laser.scheduler );
-                    @g_sentry_laser.scheduler = null;
-                }
-                break;
+                g_Scheduler.RemoveTimer( g_sentry_laser.scheduler );
+                @g_sentry_laser.scheduler = null;
             }
-            default:
-            {
-                if( g_sentry_laser.scheduler is null )
-                {
-                    @g_sentry_laser.scheduler = g_Scheduler.SetInterval( g_sentry_laser, "think", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
-                }
-                break;
-            }
+        }
+        else if( g_sentry_laser.scheduler is null )
+        {
+            @g_sentry_laser.scheduler = g_Scheduler.SetInterval( g_sentry_laser, "think", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
         }
     }
 }
