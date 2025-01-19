@@ -74,6 +74,13 @@
 /*==========================================================================
 *   - Start of base class for weapons
 ==========================================================================*/
+#if SERVER
+namespace btsweapon
+{
+    CLogger@ m_Logger = CLogger( "Weapon" );
+}
+#endif
+
 mixin class bts_rc_base_weapon
 {
     // Default flags for weapons
@@ -251,6 +258,22 @@ mixin class bts_rc_base_weapon
                 }
             }
         }
+    }
+
+    bool AddToPlayer( CBasePlayer@ player )
+    {
+        if( !BaseClass.AddToPlayer( player ) )
+            return false;
+
+#if SERVER
+        btsweapon::m_Logger.info( "Added weapon {} to player {}", { pev.classname, player.pev.netname } );
+#endif
+
+        NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, player.edict() );
+            weapon.WriteLong( g_ItemRegistry.GetIdForName( pev.classname ) );
+        weapon.End();
+
+        return true;
     }
 };
 /*==========================================================================
