@@ -23,7 +23,6 @@
 #include "entities/trigger_logger"
 #endif
 
-#include "gamemodes/BloodSplash"
 #include "gamemodes/bts_rc_erty"
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
@@ -134,15 +133,52 @@ mixin class bts_rc_base_weapon
 
     protected void bts_post_attack( TraceResult &in tr )
     {
-        bool should_sparks = ( cvar_trace_sparks.GetInt() != 1 && freeedicts( 17 ) );
-
         if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
         {
             CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
 
             if( hit !is null )
             {
-                if( should_sparks )
+                bool should_bleed = ( cvar_trace_blood.GetInt() != 1 );
+                if( should_bleed && tr.iHitgroup != 10 && hit.IsMonster() && freeedicts( 1 ) )
+                {
+                    CBaseMonster@ monster = cast<CBaseMonster@>(hit);
+
+                    if( monster !is null && monster.m_bloodColor != DONT_BLEED )
+                    {
+                        CSprite@ spr = null;
+
+                        if( monster.m_bloodColor == BLOOD_COLOR_RED )
+                        {
+                            switch( Math.RandomLong( 1, 3 ) )
+                            {
+                                case 1: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/hblood_1.spr", tr.vecEndPos, true ); break;
+                                case 2: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/hblood_2.spr", tr.vecEndPos, true ); break;
+                                case 3: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/hblood_3.spr", tr.vecEndPos, true ); break;
+                            }
+                        }
+                        else if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
+                        {
+                            switch( Math.RandomLong( 1, 5 ) )
+                            {
+                                case 1: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/ablood_1.spr", tr.vecEndPos, true ); break;
+                                case 2: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/ablood_2.spr", tr.vecEndPos, true ); break;
+                                case 3: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/ablood_3.spr", tr.vecEndPos, true ); break;
+                                case 4: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/ablood_4.spr", tr.vecEndPos, true ); break;
+                                case 5: @spr = g_EntityFuncs.CreateSprite( "sprites/bts_rc/ablood_5.spr", tr.vecEndPos, true ); break;
+                            }
+                        }
+
+                        if( spr !is null )
+                        {
+                            spr.AnimateAndDie( 60.0f );
+                            spr.pev.scale = 0.2;
+                        }
+                    }
+                }
+
+                bool should_sparks = ( cvar_trace_sparks.GetInt() != 1 );
+                if( should_sparks && freeedicts( 17 ) )
                 {
                     int sparks_color;
 
