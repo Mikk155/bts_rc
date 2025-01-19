@@ -4,12 +4,41 @@
 
 namespace trigger_update_class
 {
+    HUDTextParams msgParams;
+
+    enum LoadOut
+    {
+        Nothing = -1,
+        Security = 0,
+        Scientist = 1,
+        Constructor = 2,
+        Solo = 3
+    };
+
     class trigger_update_class : ScriptBaseEntity
     {
         private PM m_class = PM::SCIENTIST;
+        private LoadOut m_loadout = LoadOut::Nothing;
 
         void Spawn()
         {
+            msgParams.x = 0;
+            msgParams.y = 0;
+            msgParams.effect = 2;
+            msgParams.r1 = 255;
+            msgParams.g1 = 255;
+            msgParams.b1 = 255;
+            msgParams.a1 = 0;
+            msgParams.r2 = 240;
+            msgParams.g2 = 110;
+            msgParams.b2 = 0;
+            msgParams.a2 = 0;
+            msgParams.fadeinTime = 0.05f;
+            msgParams.fadeoutTime = 0.5f;
+            msgParams.holdTime = 1.2f;
+            msgParams.fxTime = 0.025f;
+            msgParams.channel = 3;
+
             self.pev.movetype = MOVETYPE_NONE;
             self.pev.effects |= EF_NODRAW;
             self.pev.solid = SOLID_NOT;
@@ -19,10 +48,43 @@ namespace trigger_update_class
         {
             if( szKeyName == 'm_class' )
             {
-                m_class = PM( atoi( szValue ) );
+                int value = atoi( szValue );
+
+                switch( value )
+                {
+                    case 6: // Solo
+                    {
+                        m_loadout = LoadOut::Solo;
+                        m_class = PM::BARNEY;
+                        break;
+                    }
+                    case PM::BARNEY:
+                    {
+                        m_loadout = LoadOut::Security;
+                        m_class = PM::BARNEY;
+                        break;
+                    }
+                    case PM::SCIENTIST:
+                    {
+                        m_loadout = LoadOut::Scientist;
+                        m_class = PM::SCIENTIST;
+                        break;
+                    }
+                    case PM::CONSTRUCTION:
+                    {
+                        m_loadout = LoadOut::Constructor;
+                        m_class = PM::CONSTRUCTION;
+                        break;
+                    }
+                    default:
+                    {
+                        m_class = PM( value );
+                        break;
+                    }
+                }
+                return true;
             }
-            // We don't want anything else so just return false
-            return false;
+            return BaseClass.KeyValue( szKeyName, szValue );
         }
 
         void Use( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
@@ -34,6 +96,182 @@ namespace trigger_update_class
                 if( pActivator.IsPlayer() && ( @player = cast<CBasePlayer@>( pActivator ) ) !is null )
                 {
                     g_PlayerClass.set_class( player, m_class );
+
+                    string sound;
+                    string message = "";
+                    Vector fadeColor;
+
+                    dictionary keycard;
+                    CBaseEntity@ invkeycard = null;
+                    keycard[ "model" ] = "models/w_security.mdl";
+                    keycard[ "delay" ] = "0";
+                    keycard[ "holder_timelimit_wait_until_activated" ] = "0";
+                    keycard[ "m_flCustomRespawnTime" ] = "0";
+                    keycard[ "holder_keep_on_death" ] = "0";
+                    keycard[ "holder_keep_on_respawn" ] = "0";
+                    keycard[ "holder_can_drop" ] = "1";
+                    keycard[ "carried_hidden" ] = "1";
+                    keycard[ "return_timelimit" ] = "-1";
+
+                    switch( m_loadout )
+                    {
+                        case LoadOut::Nothing:
+                        {
+                            return; // Exit.
+                        }
+                        case LoadOut::Solo:
+                        {
+                            snprintf( sound, "vox/user.wav" );
+                            snprintf( message, "USER MODE SELECTED\nSECURITY CLEARANCE LEVEL 5\nADMINISTRATOR OBSERVING\nTECHNICIAN OBSERVING\nTROUBLE SHOOTING ENABLED\nGENERATING USER SCENARIOS\n10%.. 20%.. 30%.. 40%.. 50%.. 60%..\n70%.. 80%.. 90%.. 100%.. COMPLETE\nSIMUL" );
+                            fadeColor = Vector(255, 0, 0);
+
+                            player.GiveNamedItem( "weapon_bts_flashlight" );
+#if SERVER
+                            g_PlayerClass.m_Logger.error( "Set loadout \"Solo\" for player {}", { player.pev.netname } );
+#endif
+                            break;
+                        }
+                        case LoadOut::Security:
+                        {
+                            fadeColor = Vector(0, 170, 255);
+                            snprintf( sound, "vox/security.wav" );
+                            snprintf( message, "%1%2", message, "Blackmesa Security Force" );
+
+                            switch( Math.RandomLong( 1, 4 ) )
+                            {
+                                case 1:
+                                {
+                                    player.GiveNamedItem( "weapon_bts_eagle" );
+                                    player.GiveNamedItem( "ammo_bts_eagle", 0, 2 ); // GiveNamedItem( const string& in szName, int iFlags = 0, int iAmmoCount = 0 )
+                                    break;
+                                }
+                                case 2:
+                                {
+                                    player.GiveNamedItem( "weapon_bts_beretta" );
+                                    player.GiveNamedItem( "ammo_9mmclip", 0, 2 );
+                                    break;
+                                }
+                                case 3:
+                                {
+                                    player.GiveNamedItem( "weapon_bts_glock" );
+                                    player.GiveNamedItem( "ammo_9mmclip", 0, 2 );
+                                    break;
+                                }
+                                case 4:
+                                {
+                                    player.GiveNamedItem( "weapon_bts_glock17f" );
+                                    player.GiveNamedItem( "ammo_9mmclip", 0, 2 );
+                                    break;
+                                }
+                            }
+                            player.GiveNamedItem( "item_bts_helmet" );
+                            player.GiveNamedItem( "item_bts_armorvest" );
+                            player.GiveNamedItem( "weapon_bts_flashlight" );
+
+                            keycard[ "skin" ] = "3";
+                            keycard[ "description" ] = "Blackmesa Security Clearance level 1";
+                            keycard[ "display_name" ] = "Security Keycard lvl 1";
+                            keycard[ "item_name" ] = "Blackmesa_Security_Clearance_1";
+                            keycard[ "item_icon" ] = "bts_rc/inv_card_security.spr";
+                            keycard[ "item_group" ] = "security";
+                            @invkeycard = g_EntityFuncs.CreateEntity( "item_inventory", keycard );
+#if SERVER
+                            g_PlayerClass.m_Logger.error( "Set loadout \"Security\" for player {}", { player.pev.netname } );
+#endif
+                            break;
+                        }
+                        case LoadOut::Scientist:
+                        {
+                            fadeColor = Vector(0, 255, 93);
+                            snprintf( sound, "vox/research.wav" );
+                            snprintf( message, "%1%2", message, "Blackmesa Science Team" );
+
+                            player.GiveNamedItem( "weapon_bts_screwdriver" );
+                            player.GiveNamedItem( "weapon_medkit" );
+                            player.GiveNamedItem( "weapon_bts_flashlight" );
+
+                            keycard[ "skin" ] = "2";
+                            keycard[ "description" ] = "Blackmesa Research Clearance level 1";
+                            keycard[ "display_name" ] = "Research Keycard lvl 1";
+                            keycard[ "item_name" ] = "Blackmesa_Research_Clearance_1";
+                            keycard[ "item_icon" ] = "bts_rc/inv_card_research.spr";
+                            @invkeycard = g_EntityFuncs.CreateEntity( "item_inventory", keycard );
+#if SERVER
+                            g_PlayerClass.m_Logger.error( "Set loadout \"Scientist\" for player {}", { player.pev.netname } );
+#endif
+                            break;
+                        }
+                        case LoadOut::Constructor:
+                        {
+                            fadeColor = Vector(255, 255, 127);
+                            snprintf( sound, "vox/maintenance.wav" );
+                            snprintf( message, "%1%2", message, "Blackmesa Maintenance" );
+
+                            switch( Math.RandomLong( 1, 2 ) )
+                            {
+                                case 1:
+                                {
+                                    player.GiveNamedItem( "weapon_bts_screwdriver" );
+                                    break;
+                                }
+                                case 2:
+                                {
+                                    player.GiveNamedItem( "weapon_bts_crowbar" );
+                                    break;
+                                }
+                            }
+                            player.GiveNamedItem( "item_bts_helmet" );
+                            player.GiveNamedItem( "item_bts_helmet" );
+
+                            keycard[ "skin" ] = "2";
+                            keycard[ "description" ] = "Blackmesa Maintenance Clearance";
+                            keycard[ "display_name" ] = "Maintenance Keycard";
+                            keycard[ "item_name" ] = "Blackmesa_Maintenance_Clearance";
+                            keycard[ "item_icon" ] = "bts_rc/inv_card_maint.spr";
+                            @invkeycard = g_EntityFuncs.CreateEntity( "item_inventory", keycard );
+
+                            dictionary kv;
+                            kv[ "model" ] = "models/tool_box.mdl";
+                            kv[ "delay" ] = "0";
+                            kv[ "holder_timelimit_wait_until_activated" ] = "0";
+                            kv[ "m_flCustomRespawnTime" ] = "0";
+                            kv[ "holder_keep_on_death" ] = "0";
+                            kv[ "holder_keep_on_respawn" ] = "0";
+                            kv[ "weight" ] = "10";
+                            kv[ "carried_hidden" ] = "1";
+                            kv[ "holder_can_drop" ] = "1";
+                            kv[ "return_timelimit" ] = "-1";
+                            kv[ "scale" ] = "0.8";
+                            kv[ "item_icon" ] = "bts_rc/inv_card_maint.spr";
+                            kv[ "item_name" ] = "GM_TOOLBOX";
+                            kv[ "description" ] = "Blackmesa Maintenance Toolcase";
+                            kv[ "display_name" ] = "Maintenance Toolbox (10 SLOTS)";
+
+                            CBaseEntity@ toolbox = g_EntityFuncs.CreateEntity( "item_inventory", kv );
+
+                            if( toolbox !is null )
+                            {
+                                toolbox.Touch( player );
+                            }
+#if SERVER
+                            g_PlayerClass.m_Logger.error( "Set loadout \"Constructor\" for player {}", { player.pev.netname } );
+#endif
+                            break;
+                        }
+                    }
+
+                    if( invkeycard !is null )
+                    {
+                        invkeycard.Touch( player );
+                    }
+
+                    g_PlayerFuncs.ScreenFade( player, fadeColor, 0.25f, 1.0f, 255.0f, FFADE_IN );
+                    g_Scheduler.SetTimeout( this, "PlayerFade", 1, @player, fadeColor);
+
+                    g_Scheduler.SetTimeout( this, "DisplayMessage", 3, @player, message);
+
+                    g_SoundSystem.EmitAmbientSound( pCaller.edict(), pCaller.pev.origin, sound, 0.5f, ATTN_IDLE, 0, 100 );
+                    g_Scheduler.SetTimeout( this, "PlaySoundAtTarget", 1.0f, @pCaller, "vox/authorized.wav" );
                 }
 #if SERVER
                 else
@@ -48,6 +286,30 @@ namespace trigger_update_class
                 g_PlayerClass.m_Logger.error( "Entity \"{}\" origin {} got no !activator!", { self.GetTargetname(), self.GetOrigin().ToString() } );
             }
 #endif
+        }
+
+        protected void DisplayMessage(CBasePlayer@ player, string message)
+        {
+            if( player !is null )
+            {
+                g_PlayerFuncs.HudMessage( player, msgParams, message );
+            }
+        }
+
+        protected void PlayerFade(CBasePlayer@ player, Vector& in color, int flags)
+        {
+            if( player !is null )
+            {
+                g_PlayerFuncs.ScreenFade(player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT);
+            }
+        }
+
+        protected void PlaySoundAtTarget(CBaseEntity@ target, string sample)
+        {
+            if( target !is null )
+            {
+                g_SoundSystem.EmitAmbientSound( target.edict(), target.pev.origin, sample, 0.5f, ATTN_IDLE, 0, 100 );
+            }
         }
     }
 }
