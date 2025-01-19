@@ -142,25 +142,29 @@ namespace trigger_update_class
                                 case 1:
                                 {
                                     player.GiveNamedItem( "weapon_bts_eagle" );
-                                    player.GiveNamedItem( "ammo_bts_eagle", 0, 2 ); // GiveNamedItem( const string& in szName, int iFlags = 0, int iAmmoCount = 0 )
+                                    player.GiveNamedItem( "ammo_bts_eagle" );
+                                    player.GiveNamedItem( "ammo_bts_eagle" );
                                     break;
                                 }
                                 case 2:
                                 {
                                     player.GiveNamedItem( "weapon_bts_beretta" );
-                                    player.GiveNamedItem( "ammo_9mmclip", 0, 2 );
+                                    player.GiveNamedItem( "ammo_9mmclip" );
+                                    player.GiveNamedItem( "ammo_9mmclip" );
                                     break;
                                 }
                                 case 3:
                                 {
                                     player.GiveNamedItem( "weapon_bts_glock" );
-                                    player.GiveNamedItem( "ammo_9mmclip", 0, 2 );
+                                    player.GiveNamedItem( "ammo_9mmclip" );
+                                    player.GiveNamedItem( "ammo_9mmclip" );
                                     break;
                                 }
                                 case 4:
                                 {
                                     player.GiveNamedItem( "weapon_bts_glock17f" );
-                                    player.GiveNamedItem( "ammo_9mmclip", 0, 2 );
+                                    player.GiveNamedItem( "ammo_9mmclip" );
+                                    player.GiveNamedItem( "ammo_9mmclip" );
                                     break;
                                 }
                             }
