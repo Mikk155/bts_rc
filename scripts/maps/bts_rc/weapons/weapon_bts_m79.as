@@ -170,23 +170,4 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 6.0f ); // How much time to idle again
     }
 }
-
-class ammo_bts_m79 : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/w_argrenade.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP : AMMO_GIVE, "ARgrenades", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 } // Namespace end

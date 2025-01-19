@@ -189,33 +189,4 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         }
     }
 }
-
-class ammo_bts_python : ScriptBasePlayerAmmoEntity
-{
-    private int m_iAmount = AMMO_GIVE;
-
-    void Spawn()
-    {
-        if( pev.ClassNameIs( "ammo_bts_357cyl" ) )
-        {
-            g_EntityFuncs.SetModel( self, "models/hlclassic/w_357ammo.mdl" );
-            m_iAmount = Math.RandomLong( 2, 4 );
-        }
-        else
-        {
-            g_EntityFuncs.SetModel( self, "models/hlclassic/w_357ammobox.mdl" );
-        }
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( m_iAmount, "357", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }

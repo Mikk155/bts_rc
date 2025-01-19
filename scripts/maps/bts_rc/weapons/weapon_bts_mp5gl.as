@@ -265,47 +265,4 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
     }
 }
-
-class ammo_bts_mp5gl : ScriptBasePlayerAmmoEntity
-{
-    private int m_iAmount = AMMO_GIVE;
-
-    void Spawn()
-    {
-        if( pev.ClassNameIs( "ammo_bts_9mmbox" ) )
-            m_iAmount = Math.RandomLong( 17, 20 );
-
-        g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmarclip.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( m_iAmount, "9mm", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
-
-class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/hlclassic/w_argrenade.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? AMMO_DROP2 : AMMO_GIVE2, "ARgrenades", MAX_CARRY2 ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }

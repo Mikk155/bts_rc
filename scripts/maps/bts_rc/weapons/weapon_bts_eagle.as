@@ -374,47 +374,4 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         m_flFlashLightTime = 0.0f;
     }
 }
-
-class ammo_bts_eagle : ScriptBasePlayerAmmoEntity
-{
-    private int m_iAmount = AMMO_GIVE;
-
-    void Spawn()
-    {
-        if( pev.ClassNameIs( "ammo_bts_dreagle" ) )
-            m_iAmount = Math.RandomLong( 1, 4 );
-
-        g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmclip.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( m_iAmount, "357", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
-
-class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( AMMO_GIVE2, "bts:battery", MAX_CARRY2 ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }

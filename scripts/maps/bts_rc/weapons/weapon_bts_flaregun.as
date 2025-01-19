@@ -200,24 +200,4 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         }
     }
 }
-
-// Ammo class
-class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flaregun_clip.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( AMMO_GIVE, "bts:flare", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_pickup.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-        return false;
-    }
-}
 }

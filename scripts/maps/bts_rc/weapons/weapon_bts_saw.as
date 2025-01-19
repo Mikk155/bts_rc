@@ -265,29 +265,4 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         self.SendWeaponAnim( RELOAD_END, 0, pev.body );
     }
 }
-
-class ammo_bts_saw : ScriptBasePlayerAmmoEntity
-{
-    private int m_iAmount = AMMO_GIVE;
-
-    void Spawn()
-    {
-        if( pev.ClassNameIs( "ammo_bts_dsaw" ) )
-            m_iAmount = Math.RandomLong( 25, 30 );
-
-        g_EntityFuncs.SetModel( self, "models/w_saw_clip.mdl" );
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( m_iAmount, "556", MAX_CARRY ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-            return true;
-        }
-
-        return false;
-    }
-}
 }

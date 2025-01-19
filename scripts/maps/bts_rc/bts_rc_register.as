@@ -266,7 +266,7 @@ mixin class bts_rc_base_weapon
             return false;
 
 #if SERVER
-        btsweapon::m_Logger.info( "Added weapon {} to player {}", { pev.classname, player.pev.netname } );
+        btsweapon::m_Logger.info( "Added {} to player {}", { pev.classname, player.pev.netname } );
 #endif
 
         NetworkMessage weapon( MSG_ONE, NetworkMessages::WeapPickup, player.edict() );
@@ -385,8 +385,8 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "HL_SCREWDRIVER::weapon_bts_screwdriver", "weapon_bts_screwdriver" );
 
     // Ammo
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta", "ammo_bts_beretta" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "HL_BERETTA::ammo_bts_beretta_battery", "ammo_bts_beretta_battery" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_beretta", "ammo_bts_beretta" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_beretta_battery", "ammo_bts_beretta_battery" );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", "ammo_bts_eagle" );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle_battery", "ammo_bts_eagle_battery" );
     g_CustomEntityFuncs.RegisterCustomEntity( "BTS_DEAGLE::ammo_bts_eagle", "ammo_bts_dreagle" ); 
