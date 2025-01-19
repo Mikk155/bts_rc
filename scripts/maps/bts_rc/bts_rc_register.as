@@ -115,7 +115,7 @@ mixin class bts_rc_base_weapon
 #endif
 
     // A weapon is deployed
-    protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1 )
+    protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1, time = 1.0f )
     {
 #if DISCARDED
         if( m_is_first_deploy && g_WeaponDeploy.exists(pev.classname))
@@ -130,7 +130,7 @@ mixin class bts_rc_base_weapon
         // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
         pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( viewmodel ), pev.body, hands_group, g_PlayerClass[ m_pPlayer ] );
         self.SendWeaponAnim( animation, 0, pev.body );
-        m_pPlayer.m_flNextAttack = 0.5f;
+        m_pPlayer.m_flNextAttack = self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = self.m_flNextSecondaryAttack = g_Engine.time + time;
         return true;
     }
 
