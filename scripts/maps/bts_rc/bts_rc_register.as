@@ -11,13 +11,10 @@
 
 #include "entities/env_bloodpuddle"
 #include "entities/func_bts_recharger"
+#include "entities/items"
 #include "entities/point_checkpoint"
 #include "entities/randomizer"
 #include "entities/trigger_update_class"
-#include "entities/items/item_bts_armorvest"
-#include "entities/items/item_bts_helmet"
-#include "entities/items/item_bts_hevbattery"
-#include "entities/items/item_bts_sprayaid"
 #if SERVER
 #include "entities/trigger_logger"
 #endif
