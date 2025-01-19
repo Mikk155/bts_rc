@@ -86,7 +86,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         info.iSlot = SLOT;
         info.iPosition = POSITION;
         info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-        info.iFlags = WEAPON_DEFAULT_FLAGS;
+        info.iFlags = m_flags;
         info.iWeight = WEIGHT;
         return true;
     }
@@ -165,7 +165,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            Sparks::Sparks( tr.pHit, tr.iHitgroup, tr.vecEndPos );
+            bts_post_attack(tr);
             BloodSplash::Create( tr.pHit, tr.iHitgroup, tr.vecEndPos );
 
             // each 2 bullets

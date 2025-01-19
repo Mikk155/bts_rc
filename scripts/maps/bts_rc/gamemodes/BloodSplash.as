@@ -2,8 +2,6 @@
     Author: Mikk
 */
 
-CCVar@ cvar_trace_blood = CCVar( "bts_rc_disable_bloodsplash", 0 );
-
 namespace BloodSplash
 {
     array<string>@ Red = {

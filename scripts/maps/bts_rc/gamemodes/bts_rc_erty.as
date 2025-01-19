@@ -80,36 +80,6 @@ namespace BTS_RC_ERTY
 
 // Utility functions
 
-    /**
-    * Map activation handler.
-    * @return void
-    */
-    void MapActivate()
-    {
-        msgParams.x           = 0;
-        msgParams.y           = 0;
-        msgParams.effect      = 2;
-        msgParams.r1          = 255;
-        msgParams.g1          = 255;
-        msgParams.b1          = 255;
-        msgParams.a1          = 0;
-        msgParams.r2          = 240;
-        msgParams.g2          = 110;
-        msgParams.b2          = 0;
-        msgParams.a2          = 0;
-        msgParams.fadeinTime  = 0.05f;
-        msgParams.fadeoutTime = 0.5f;
-        msgParams.holdTime    = 1.2f;
-        msgParams.fxTime      = 0.025f;
-        msgParams.channel     = 3;
-        
-        ShuffleArray(rgPlayermodelSolo);
-        ShuffleArray(rgPlayermodelSecurity);
-        ShuffleArray(rgPlayermodelScientist);
-        ShuffleArray(rgPlayermodelRepair);
-    }
-
-
     void ShuffleArray(array<string> &arr)
     {
         if (arr.length() == 1) { return; }

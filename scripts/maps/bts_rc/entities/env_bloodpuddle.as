@@ -4,8 +4,6 @@
     Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0 );
-
 namespace env_bloodpuddle
 {
 #if SERVER
