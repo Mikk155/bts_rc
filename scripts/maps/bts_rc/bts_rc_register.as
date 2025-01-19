@@ -13,7 +13,6 @@
 #include "entities/func_bts_recharger"
 #include "entities/point_checkpoint"
 #include "entities/randomizer"
-#include "entities/trigger_script"
 #include "entities/trigger_update_class"
 #include "entities/items/item_bts_armorvest"
 #include "entities/items/item_bts_helmet"
@@ -354,10 +353,10 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_headcrab", "randomizer_headcrab" );
 
     // Items
-    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_armorvest", "item_bts_armorvest" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_helmet", "item_bts_helmet" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_hevbattery", "item_bts_hevbattery" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "bts_items::item_bts_sprayaid", "item_bts_sprayaid" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_armorvest", "item_bts_armorvest" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_helmet", "item_bts_helmet" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_hevbattery", "item_bts_hevbattery" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_sprayaid", "item_bts_sprayaid" );
 
     // Projectiles
     g_CustomEntityFuncs.RegisterCustomEntity( "M79_ROCKET::CM79Rocket", "m79_rocket" );
@@ -831,6 +830,35 @@ namespace motd
                 motd_open.WriteByte( 1 );
                 motd_open.WriteString( "\n" );
             motd_open.End(); 
+        }
+    }
+}
+
+// Do we really need a script to do this?
+namespace survival
+{
+    // This is stupid.
+    void activate( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    {
+        g_SurvivalMode.Activate();
+    }
+
+    // Still stupid.
+    void deactivate( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    {
+        g_SurvivalMode.Disable();
+    }
+
+    // Even more stupid.
+    void toggle( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    {
+        if( g_SurvivalMode.IsActive() )
+        {
+            deactivate( null, null, USE_SET, 0 );
+        }
+        else
+        {
+            activate( null, null, USE_SET, 0 );
         }
     }
 }
