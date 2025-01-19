@@ -83,7 +83,7 @@ namespace BTS_MEDKIT
             info.iSlot = SLOT;
             info.iPosition = POSITION;
             info.iId = g_ItemRegistry.GetIdForName( self.GetClassname() );
-            info.iFlags = WEAPON_DEFAULT_FLAGS;
+            info.iFlags = m_flags;
             info.iWeight = WEIGHT;
             return true;
         }

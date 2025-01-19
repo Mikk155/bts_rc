@@ -1,7 +1,3 @@
-/*
-    Author: Mikk
-*/
-
 #if SERVER
     namespace monster_killed
     {
