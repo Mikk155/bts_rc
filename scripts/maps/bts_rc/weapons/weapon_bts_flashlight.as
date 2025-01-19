@@ -409,6 +409,7 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
             // delay the decal a bit
             m_trHit = tr;
+            bts_post_attack(tr);
             SetThink( ThinkFunction( this.Smack ) );
             pev.nextthink = g_Engine.time + 0.2f;
 
