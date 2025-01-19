@@ -209,7 +209,6 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
             bts_post_attack(tr);
-            BloodSplash::Create( tr.pHit, tr.iHitgroup, tr.vecEndPos );
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
