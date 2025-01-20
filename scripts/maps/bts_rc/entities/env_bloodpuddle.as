@@ -26,7 +26,7 @@ namespace env_bloodpuddle
         void Spawn()
         {
             self.pev.movetype = MOVETYPE_TOSS;
-            self.pev.solid = SOLID_BBOX;
+            self.pev.solid = SOLID_NOT;
             g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
 
 #if DISCARDED
@@ -34,6 +34,7 @@ namespace env_bloodpuddle
 
             if( uisize > 0 )
             {
+                self.pev.solid = SOLID_BBOX;
                 SetTouch( TouchFunction( this.touch ) );
             }
 #endif
