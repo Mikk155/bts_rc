@@ -49,7 +49,7 @@ namespace weapon_bts_medkit
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel(self, self.GetW_Model("models/bts_rc/weapons/w_medkit.mdl"));
+            g_EntityFuncs.SetModel(self, self.GetW_Model("models/bts_rc/weapons/w_pmedkit.mdl"));
             self.m_iDefaultAmmo = DEFAULT_GIVE;
             self.FallInit();
         }
