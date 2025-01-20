@@ -29,7 +29,6 @@
 #include "Hooks/player_think"
 #include "Hooks/player_takedamage"
 
-#include "weapons/proj/dart"
 #include "weapons/proj/flare"
 #include "weapons/proj/m79_rocket"
 
@@ -354,7 +353,6 @@ void MapInit()
     // Projectiles
     g_CustomEntityFuncs.RegisterCustomEntity( "M79_ROCKET::CM79Rocket", "m79_rocket" );
     g_CustomEntityFuncs.RegisterCustomEntity( "FLARE::CFlare", "flare" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "DART::CDart", "gun_dart" );
 
     // Weapon Entities
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_axe::weapon_bts_axe", "weapon_bts_axe" );
@@ -1029,7 +1027,7 @@ namespace precache
         "models/bts_rc/weapons/w_m4.mdl",
         "models/bts_rc/weapons/w_m4sd.mdl",
         "models/bts_rc/weapons/w_m79.mdl",
-        "models/bts_rc/weapons/w_medkit.mdl"
+        "models/bts_rc/weapons/w_medkit.mdl",
         "models/bts_rc/weapons/w_pmedkit.mdl",
         "models/bts_rc/weapons/w_pipe.mdl",
         "models/bts_rc/weapons/w_poolstick.mdl",
