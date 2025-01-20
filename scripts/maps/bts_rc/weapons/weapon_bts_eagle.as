@@ -47,7 +47,6 @@ int POSITION = 9;
 // Vars
 int DAMAGE = 56;
 float DRAIN_TIME = 0.8f;
-string BATTERY_KV = "$i_eagleBattery";
 Vector CONE( 0.01f, 0.01f, 0.01f );
 Vector SHELL( 32.0f, 6.0f, -12.0f );
 
@@ -57,8 +56,8 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     private int m_iFlashBattery
     {
-        get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
-        set       { m_pPlayer.GetUserData()[ BATTERY_KV ] = value; }
+        get const { return int( m_pPlayer.GetUserData()[ pev.classname ] ); }
+        set       { m_pPlayer.GetUserData()[ pev.classname ] = value; }
     }
     private float m_flFlashLightTime;
     private float m_flRestoreAfter = 0.0f;

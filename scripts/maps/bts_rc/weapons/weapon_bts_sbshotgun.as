@@ -50,7 +50,6 @@ int POSITION = 6;
 int DAMAGE = 16;
 int PELLETS = 4;
 float DRAIN_TIME = 0.8f;
-string BATTERY_KV = "$i_sbshottyBattery";
 Vector CONE( 0.08716f, 0.04362f, 0.0f );
 Vector SHELL( 14.0f, 6.0f, -34.0f );
 
@@ -60,8 +59,8 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     private int m_iFlashBattery
     {
-        get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
-        set       { m_pPlayer.GetUserData()[ BATTERY_KV ] = value; }
+        get const { return int( m_pPlayer.GetUserData()[ pev.classname ] ); }
+        set       { m_pPlayer.GetUserData()[ pev.classname ] = value; }
     }
     private float m_flTimeWeaponReload;
     private float m_flFlashLightTime;

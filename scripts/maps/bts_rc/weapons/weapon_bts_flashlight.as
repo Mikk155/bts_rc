@@ -43,7 +43,6 @@ int POSITION = 4;
 float RANGE = 32.0f;
 float DAMAGE = 7.0f;
 float DRAIN_TIME = 0.8f;
-string BATTERY_KV = "$i_flashlightBattery";
 
 class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
 {
@@ -51,8 +50,8 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, 
 
     private int m_iFlashBattery
     {
-        get const { return int( m_pPlayer.GetUserData()[ BATTERY_KV ] ); }
-        set       { m_pPlayer.GetUserData()[ BATTERY_KV ] = value; }
+        get const { return int( m_pPlayer.GetUserData()[ pev.classname ] ); }
+        set       { m_pPlayer.GetUserData()[ pev.classname ] = value; }
     }
     private float m_flFlashLightTime;
     private int m_iCurrentBaterry;
