@@ -6,7 +6,7 @@
 *      && kmkz && Rizulix
 */
 
-namespace BTS_MEDKIT
+namespace weapon_bts_medkit
 {
     enum medkit_e
     {
