@@ -3,7 +3,7 @@
 */
 // Rewrited by Rizulix for bts_rc (january 2025)
 
-namespace HL_AXE
+namespace weapon_bts_axe
 {
     enum axe_e
     {
