@@ -115,7 +115,7 @@ mixin class bts_rc_base_weapon
 #endif
 
     // A weapon is deployed
-    protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1, time = 1.0f )
+    protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group = 1, float time = 1.0f )
     {
 #if DISCARDED
         if( m_is_first_deploy && g_WeaponDeploy.exists(pev.classname))
