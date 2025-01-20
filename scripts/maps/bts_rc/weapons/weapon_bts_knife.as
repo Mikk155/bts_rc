@@ -47,13 +47,11 @@ float DAMAGE = 18.0f;
 float RANGE2 = 35.0f;
 float DAMAGE2 = 35.0f;
 
-class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-    private TraceResult m_trHit;
     private bool m_fWhack;
-    private int m_iSwing;
 
     void Spawn()
     {
@@ -61,8 +59,6 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/opfor/w_knife.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
-
-        m_iSwing = 0;
         m_fWhack = false;
     }
 
@@ -103,15 +99,6 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             BigSwing();
         }
         BaseClass.ItemPostFrame();
-    }
-
-    void PrimaryAttack()
-    {
-        if( !Swing( true ) )
-        {
-            SetThink( ThinkFunction( this.SwingAgain ) );
-            pev.nextthink = g_Engine.time + 0.1f;
-        }
     }
 
     void SecondaryAttack()
@@ -306,16 +293,6 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
         }
         return fDidHit;
-    }
-
-    private void SwingAgain()
-    {
-        Swing( false );
-    }
-
-    private void Smack()
-    {
-        g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 
     private void BigSwing()
