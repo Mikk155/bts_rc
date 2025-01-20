@@ -27,12 +27,6 @@ enum btsuzi_e
     AKIMBO_DEPLOY
 };
 
-enum bodygroups_e
-{
-    UZI = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CLIP = 20;
@@ -77,7 +71,7 @@ class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_uzi.mdl", "models/bts_rc/weapons/p_uzi.mdl", DRAW, "mp5", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_uzi.mdl", "models/bts_rc/weapons/p_uzi.mdl", DRAW, "mp5", 1 );
     }
 
     void Holster( int skiplocal = 0 )

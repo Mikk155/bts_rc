@@ -19,12 +19,6 @@ enum btsflaregun_e
     IDLE3
 };
 
-enum bodygroups_e
-{
-    GUN = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 6;
 int MAX_CLIP = 1;
@@ -75,7 +69,7 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_flaregun.mdl", "models/bts_rc/weapons/p_flaregun.mdl", DRAW, "python", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_flaregun.mdl", "models/bts_rc/weapons/p_flaregun.mdl", DRAW, "python", 1 );
     }
 
     void Holster( int skiplocal = 0 )

@@ -21,13 +21,6 @@ enum shotgun_e
     IDLE_DEEP
 };
 
-enum bodygroups_e
-{
-    STUDIO0 = 0,
-    STUDIO1,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 30;
 int MAX_CLIP = 8;
@@ -79,7 +72,7 @@ class weapon_bts_shotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_shotgun.mdl", "models/bts_rc/weapons/p_shotgun.mdl", DRAW, "shotgun", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_shotgun.mdl", "models/bts_rc/weapons/p_shotgun.mdl", DRAW, "shotgun", 2 );
     }
 
     void Holster( int skiplocal = 0 )

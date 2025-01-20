@@ -29,12 +29,6 @@ enum hlm79_e
     HOLSTER
 };
 
-enum bodygroups_e
-{
-    M79 = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 10;
 int MAX_CLIP = 1;
@@ -82,7 +76,7 @@ class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_m79.mdl", "models/bts_rc/weapons/p_m79.mdl", DRAW, "bow", HANDS, 1.03f );
+        return bts_deploy( "models/bts_rc/weapons/v_m79.mdl", "models/bts_rc/weapons/p_m79.mdl", DRAW, "bow", 1, 1.03f );
     }
 
     void Holster( int skiplocal = 0 )

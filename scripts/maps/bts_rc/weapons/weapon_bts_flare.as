@@ -22,11 +22,6 @@ enum btsflare_e
     DRAW
 };
 
-enum bodygroups_e
-{
-    HANDS = 0 // STUDIO
-};
-
 // Weapon info
 int MAX_CARRY = 5;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -82,7 +77,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        return bts_deploy( "models/bts_rc/weapons/v_flare.mdl", "models/bts_rc/weapons/p_flare.mdl", DRAW, "gren", HANDS, 0.75f );
+        return bts_deploy( "models/bts_rc/weapons/v_flare.mdl", "models/bts_rc/weapons/p_flare.mdl", DRAW, "gren", 0, 0.75f );
     }
 
     bool CanHolster()

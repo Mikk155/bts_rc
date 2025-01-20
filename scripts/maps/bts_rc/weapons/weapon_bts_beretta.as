@@ -22,12 +22,6 @@ enum hlberetta_e
     ADD_SILENCER // IDLE3_2
 };
 
-enum bodygroups_e
-{
-    STUDIO = 0,
-    HANDS
-}
-
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CARRY2 = 10;
@@ -107,7 +101,7 @@ class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        return bts_deploy( "models/bts_rc/weapons/v_beretta.mdl", "models/bts_rc/weapons/p_beretta.mdl", DRAW, "onehanded", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_beretta.mdl", "models/bts_rc/weapons/p_beretta.mdl", DRAW, "onehanded", 1 );
     }
 
     void Holster( int skiplocal = 0 )

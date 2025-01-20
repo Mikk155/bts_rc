@@ -22,13 +22,6 @@ enum btsdeagle_e
     HOLSTER
 };
 
-enum bodygroups_e
-{
-    STUDIO0 = 0,
-    STUDIO1,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 18;
 int MAX_CARRY2 = 10;
@@ -108,7 +101,7 @@ class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        return bts_deploy( "models/bts_rc/weapons/v_desert_eagle.mdl", "models/bts_rc/weapons/p_desert_eagle.mdl", DRAW, "onehanded", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_desert_eagle.mdl", "models/bts_rc/weapons/p_desert_eagle.mdl", DRAW, "onehanded", 2 );
     }
 
     void Holster( int skiplocal = 0 )

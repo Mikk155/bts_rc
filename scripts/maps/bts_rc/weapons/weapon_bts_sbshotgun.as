@@ -24,13 +24,6 @@ enum sbshotgun_e
     IDLE_DEEP
 };
 
-enum bodygroups_e
-{
-    STUDIO0 = 0,
-    STUDIO1,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 30;
 int MAX_CARRY2 = 10;
@@ -116,7 +109,7 @@ class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        return bts_deploy( "models/bts_rc/weapons/v_sbshotgun.mdl", "models/bts_rc/weapons/p_sbshotgun.mdl", DRAW, "shotgun", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_sbshotgun.mdl", "models/bts_rc/weapons/p_sbshotgun.mdl", DRAW, "shotgun", 2 );
     }
 
     void Holster( int skiplocal = 0 )

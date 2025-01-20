@@ -21,14 +21,6 @@ enum btsg17f_e
     ADD_SILENCER
 };
 
-enum bodygroups_e
-{
-    STUDIO0 = 0,
-    STUDIO1,
-    HANDS,
-    SILENCER
-};
-
 enum modes_e
 {
     SEMI_AUTO = 0,
@@ -114,7 +106,7 @@ class weapon_bts_glock17f : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        return bts_deploy( "models/bts_rc/weapons/v_glock17f.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_glock17f.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2 );
     }
 
     void Holster( int skiplocal = 0 )

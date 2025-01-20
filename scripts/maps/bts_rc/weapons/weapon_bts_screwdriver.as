@@ -19,11 +19,6 @@ enum screwdriver_e
     ATTACK3HIT
 };
 
-enum bodygroups_e
-{
-    HANDS = 0 // STUDIO
-};
-
 // Weapon info
 int MAX_CARRY = -1;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -65,7 +60,7 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon,
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_screwdriver.mdl", "models/bts_rc/weapons/p_screwdriver.mdl", DRAW, "crowbar", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_screwdriver.mdl", "models/bts_rc/weapons/p_screwdriver.mdl", DRAW, "crowbar", 0 );
     }
 
     void Holster( int skiplocal = 0 )

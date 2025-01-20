@@ -20,11 +20,6 @@ enum btsglock18_e
     ADD_SILENCER
 };
 
-enum bodygroups_e
-{
-    HANDS = 0 // STUDIO
-};
-
 enum modes_e
 {
     SEMI_AUTO = 0,
@@ -78,7 +73,7 @@ class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_glock18.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_glock18.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 0 );
     }
 
     void Holster( int skiplocal = 0 )

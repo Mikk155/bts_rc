@@ -20,13 +20,6 @@ enum m249_e
     SHOOT3
 };
 
-enum bodygroups_e
-{
-    BODY = 0,
-    HANDS,
-    ROUNDS
-};
-
 // Weapon info
 int MAX_CARRY = 150;
 int MAX_CLIP = 100;
@@ -82,7 +75,7 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_saw.mdl", "models/bts_rc/weapons/p_saw.mdl", DRAW, "saw", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_saw.mdl", "models/bts_rc/weapons/p_saw.mdl", DRAW, "saw", 1 );
     }
 
     void Holster( int skiplocal = 0 )
