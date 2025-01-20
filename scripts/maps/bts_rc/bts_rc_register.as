@@ -233,8 +233,8 @@ mixin class bts_rc_base_weapon
                             m.WriteCoord( tr.vecEndPos.x );
                             m.WriteCoord( tr.vecEndPos.y );
                             m.WriteCoord( tr.vecEndPos.z );
-                            m.WriteCoord( g_Engine.v_forward.x );
-                            m.WriteCoord( g_Engine.v_forward.y );
+                            m.WriteCoord( 0 );
+                            m.WriteCoord( 0 );
                             m.WriteCoord( g_Engine.v_forward.z );
                             m.WriteByte( sparks_color ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png
                             m.WriteShort( 30 ); // Count
