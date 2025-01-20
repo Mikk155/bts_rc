@@ -255,7 +255,8 @@ mixin class bts_rc_base_weapon
                             m2.WriteByte( 1 ); // decay in 0.1's
                         m2.End();
 
-                        //g_Utility.Sparks( tr.vecEndPos );
+                        g_Utility.Sparks( tr.vecEndPos );
+                        g_Utility.Ricochet( tr.vecEndPos, Math.RandomFloat( 0.5, 1.5 ) );
                     }
                 }
             }
