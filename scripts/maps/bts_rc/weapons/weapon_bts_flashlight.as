@@ -53,6 +53,8 @@ namespace weapon_bts_flashlight
         }
 
         private float m_flFlashLightTime;
+        private bool m_bWasFlashLightOn;
+        private float m_bFlashLightTurnTime;
         private int m_iCurrentBaterry;
 
         void Spawn()
@@ -84,6 +86,7 @@ namespace weapon_bts_flashlight
 
         bool Deploy()
         {
+            m_bWasFlashLightOn = false;
             m_iCurrentBaterry = m_iFlashBattery;
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT; // just to be sure
             m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
@@ -111,6 +114,12 @@ namespace weapon_bts_flashlight
 
         void ItemPostFrame()
         {
+            if( m_bWasFlashLightOn && m_bFlashLightTurnTime < g_Engine.time )
+            {
+                m_pPlayer.pev.effects |= EF_DIMLIGHT;
+                m_bWasFlashLightOn = false;
+            }
+
             if( m_flFlashLightTime != 0.0f && m_flFlashLightTime <= g_Engine.time )
             {
                 if( m_pPlayer.FlashlightIsOn() )
@@ -246,9 +255,14 @@ namespace weapon_bts_flashlight
             m_flFlashLightTime = 0.0f;
         }
 
-        // -TODO Store if flashlight was on and turn off momentarly til the swing ends
         private bool Swing( bool fFirst )
         {
+            if ( m_pPlayer.FlashlightIsOn() )
+            {
+                m_bWasFlashLightOn = true;
+                m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
+            }
+
             TraceResult tr;
             bool fDidHit = false;
 
@@ -283,7 +297,7 @@ namespace weapon_bts_flashlight
                         case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
                         case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                     }
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.625f;
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = m_bFlashLightTurnTime = g_Engine.time + 0.625f;
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
@@ -307,7 +321,7 @@ namespace weapon_bts_flashlight
                     case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
                 }
 
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.375f;
+                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = m_bFlashLightTurnTime = g_Engine.time + 0.375f;
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation
@@ -388,6 +402,7 @@ namespace weapon_bts_flashlight
 
                 m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
             }
+
             return fDidHit;
         }
     }
