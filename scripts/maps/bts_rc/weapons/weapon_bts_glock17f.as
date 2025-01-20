@@ -232,34 +232,34 @@ namespace weapon_bts_glock17f
         {
             if( m_iCurrentBaterry == 0 )
             {
-                self.PlayEmptySound();
-                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                return;
+                if( m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
+                {
+                    self.PlayEmptySound();
+                    self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+                }
+                else
+                {
+                    SetThink( null );
+                    m_flRestoreAfter = 0.0f;
+                    self.m_fInReload = false;
+                    m_flFlashLightTime = 0.0f;
+
+                    SetThink( ThinkFunction( BaterryRechargeStart ) );
+                    pev.nextthink = g_Engine.time + ( 15.0f / 16.0f );
+
+                    self.SendWeaponAnim( HOLSTER, 0, pev.body );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
+                }
             }
-
-            if( m_pPlayer.FlashlightIsOn() )
-                FlashlightTurnOff();
             else
-                FlashlightTurnOn();
+            {
+                if( m_pPlayer.FlashlightIsOn() )
+                    FlashlightTurnOff();
+                else
+                    FlashlightTurnOn();
 
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
-        }
-
-        void TertiaryAttack()
-        {
-            if( m_iCurrentBaterry != 0 || m_pPlayer.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
-                return;
-
-            SetThink( null );
-            m_flRestoreAfter = 0.0f;
-            self.m_fInReload = false;
-            m_flFlashLightTime = 0.0f;
-
-            SetThink( ThinkFunction( BaterryRechargeStart ) );
-            pev.nextthink = g_Engine.time + ( 15.0f / 16.0f );
-
-            self.SendWeaponAnim( HOLSTER, 0, pev.body );
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
+                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
+            }
         }
 
         void Reload()
