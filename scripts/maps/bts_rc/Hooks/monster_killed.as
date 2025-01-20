@@ -168,7 +168,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                             bloodpuddle.pev.skin = 1;
                         }
 
-                        if( monster.pev.classname == "moster_headcrab" || monster.pev.classname == "monster_houndeye" || monster.pev.classname == "monster_babycrab" )
+                        if( monster.pev.classname == "monster_headcrab" || monster.pev.classname == "monster_houndeye" || monster.pev.classname == "monster_babycrab" )
                         {
                             bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
                         }
