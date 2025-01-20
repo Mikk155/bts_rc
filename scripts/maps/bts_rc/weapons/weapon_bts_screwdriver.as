@@ -37,20 +37,15 @@ int POSITION = 7;
 float RANGE = 32.0f;
 float DAMAGE = 9.0f;
 
-class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
-
-    private TraceResult m_trHit;
-    private int m_iSwing;
 
     void Spawn()
     {
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_screwdriver.mdl" ) );
         self.m_iDefaultAmmo = DEFAULT_GIVE;
         self.FallInit();
-
-        m_iSwing = 0;
     }
 
     bool GetItemInfo( ItemInfo& out info )
@@ -78,15 +73,6 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     {
         SetThink( null );
         BaseClass.Holster( skiplocal );
-    }
-
-    void PrimaryAttack()
-    {
-        if( !Swing( true ) )
-        {
-            SetThink( ThinkFunction( this.SwingAgain ) );
-            pev.nextthink = g_Engine.time + 0.1f;
-        }
     }
 
     private bool Swing( bool fFirst )
@@ -233,16 +219,6 @@ class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
         }
         return fDidHit;
-    }
-
-    private void SwingAgain()
-    {
-        Swing( false );
-    }
-
-    private void Smack()
-    {
-        g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }
 }

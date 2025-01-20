@@ -45,7 +45,7 @@ float DAMAGE = 7.0f;
 float DRAIN_TIME = 0.8f;
 string BATTERY_KV = "$i_flashlightBattery";
 
-class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
 {
     private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
@@ -56,16 +56,12 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     }
     private float m_flFlashLightTime;
     private int m_iCurrentBaterry;
-    private TraceResult m_trHit;
-    private int m_iSwing;
 
     void Spawn()
     {
         g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_flashlight.mdl" ) );
         self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         self.FallInit();
-
-        m_iSwing = 0;
     }
 
     bool GetItemInfo( ItemInfo& out info )
@@ -151,15 +147,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
         }
         return false;
-    }
-
-    void PrimaryAttack()
-    {
-        if( !Swing( true ) )
-        {
-            SetThink( ThinkFunction( this.SwingAgain ) );
-            pev.nextthink = g_Engine.time + 0.1f;
-        }
     }
 
     void SecondaryAttack()
@@ -405,16 +392,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
             m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
         }
         return fDidHit;
-    }
-
-    private void SwingAgain()
-    {
-        Swing( false );
-    }
-
-    private void Smack()
-    {
-        g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }
 }

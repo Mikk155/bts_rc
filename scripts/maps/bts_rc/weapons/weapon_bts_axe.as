@@ -18,7 +18,7 @@ namespace HL_AXE
         ATTACK3HIT
     };
 
-    class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
@@ -26,14 +26,10 @@ namespace HL_AXE
             return bts_deploy( "models/bts_rc/weapons/v_axe.mdl", "models/bts_rc/weapons/p_axe.mdl", DRAW, "crowbar", 1 );
         }
 
-        private TraceResult m_trHit;
-        private int m_iSwing;
-
         void Spawn()
         {
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_axe.mdl" ) );
             self.FallInit();
-            m_iSwing = 0;
         }
 
         bool GetItemInfo( ItemInfo& out info )
@@ -55,15 +51,6 @@ namespace HL_AXE
         {
             SetThink( null );
             BaseClass.Holster( skiplocal );
-        }
-
-        void PrimaryAttack()
-        {
-            if( !Swing( true ) )
-            {
-                SetThink( ThinkFunction( this.SwingAgain ) );
-                pev.nextthink = g_Engine.time + 0.1f;
-            }
         }
 
         private bool Swing( bool fFirst )
@@ -211,16 +198,6 @@ namespace HL_AXE
                 m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
             }
             return fDidHit;
-        }
-
-        private void SwingAgain()
-        {
-            Swing( false );
-        }
-
-        private void Smack()
-        {
-            g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
         }
     }
 }
