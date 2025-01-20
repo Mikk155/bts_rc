@@ -50,9 +50,15 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, 
 
     private int m_iFlashBattery
     {
-        get const { return int( m_pPlayer.GetUserData()[ pev.classname ] ); }
-        set       { m_pPlayer.GetUserData()[ pev.classname ] = value; }
+        get const {
+            if( !m_pPlayer.GetUserData().exists( pev.classname ) ) {
+                m_pPlayer.GetUserData()[ pev.classname ] = Math.RandomLong( 0, 50 );
+            }
+            return int( m_pPlayer.GetUserData()[ pev.classname ] );
+        }
+        set { m_pPlayer.GetUserData()[ pev.classname ] = value; }
     }
+
     private float m_flFlashLightTime;
     private int m_iCurrentBaterry;
 
