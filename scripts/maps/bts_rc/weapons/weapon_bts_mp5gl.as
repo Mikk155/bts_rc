@@ -78,8 +78,6 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.0f;
-        self.m_flTimeWeaponIdle = g_Engine.time + 1.25f;
         return bts_deploy( "models/bts_rc/weapons/v_9mmARGL.mdl", "models/bts_rc/weapons/p_9mmARGL.mdl", DRAW, "mp5", HANDS );
     }
 

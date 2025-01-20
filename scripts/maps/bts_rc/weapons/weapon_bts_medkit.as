@@ -81,8 +81,7 @@ namespace BTS_MEDKIT
 
         bool Deploy()
         {
-            self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 0.6f;
-            return bts_deploy( "models/bts_rc/weapons/v_medkit.mdl", "models/bts_rc/weapons/p_medkit.mdl", DRAW, "trip", HANDS );
+            return bts_deploy( "models/bts_rc/weapons/v_medkit.mdl", "models/bts_rc/weapons/p_medkit.mdl", DRAW, "trip", HANDS, 0.6f );
         }
 
         void Holster( int skiplocal /*= 0*/ )
