@@ -176,7 +176,7 @@ mixin class bts_rc_base_weapon
                         if( spr !is null )
                         {
                             spr.AnimateAndDie( 60.0f );
-                            spr.pev.scale = 0.2;
+                            spr.pev.scale = Math.RandomFloat( 0.05, 0.3 );
                         }
                     }
                 }
