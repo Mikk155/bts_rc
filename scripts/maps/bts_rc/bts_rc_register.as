@@ -753,7 +753,7 @@ final class PlayerClass
         player.GetUserData()[ "class" ] = player_class;
 
         // Hide flashlight icon.
-        player.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
+        player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
         player.pev.armortype = ( player_class == PM::HELMET ? 100 : 50 );
 
