@@ -82,8 +82,7 @@ class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 30.0f / 40.0f );
-        return bts_deploy( "models/bts_rc/weapons/v_flare.mdl", "models/bts_rc/weapons/p_flare.mdl", DRAW, "gren", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_flare.mdl", "models/bts_rc/weapons/p_flare.mdl", DRAW, "gren", HANDS, 0.75f );
     }
 
     bool CanHolster()

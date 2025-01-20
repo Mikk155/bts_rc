@@ -79,7 +79,6 @@ class weapon_bts_knife : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_r
 
     bool Deploy()
     {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return bts_deploy( "models/bts_rc/weapons/v_knife.mdl", "models/opfor/p_knife.mdl", DRAW, "crowbar", HANDS );
     }
 
