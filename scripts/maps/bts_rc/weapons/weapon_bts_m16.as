@@ -80,7 +80,6 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return bts_deploy( "models/bts_rc/weapons/v_m16a2.mdl", "models/bts_rc/weapons/p_m16.mdl", DRAW, "m16", HANDS );
     }
 

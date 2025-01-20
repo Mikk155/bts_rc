@@ -95,7 +95,6 @@ class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, 
             msg.WriteByte( m_iCurrentBaterry );
         msg.End();
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return bts_deploy( "models/bts_rc/weapons/v_flashlight.mdl", "models/bts_rc/weapons/p_flashlight.mdl", DRAW, "crowbar", HANDS );
     }
 

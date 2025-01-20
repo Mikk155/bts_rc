@@ -79,8 +79,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 20.0f / 30.0f );
-        return bts_deploy( "models/bts_rc/weapons/v_grenade.mdl", "models/bts_rc/weapons/p_grenade.mdl", DRAW, "gren", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_grenade.mdl", "models/bts_rc/weapons/p_grenade.mdl", DRAW, "gren", HANDS, 0.66f );
     }
 
     bool CanHolster()

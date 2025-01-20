@@ -72,7 +72,6 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", HANDS );
     }
 

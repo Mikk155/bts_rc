@@ -75,7 +75,6 @@ class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return bts_deploy( "models/bts_rc/weapons/v_flaregun.mdl", "models/bts_rc/weapons/p_flaregun.mdl", DRAW, "python", HANDS );
     }
 

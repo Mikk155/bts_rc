@@ -82,7 +82,6 @@ class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 1.0f;
         return bts_deploy( "models/bts_rc/weapons/v_saw.mdl", "models/bts_rc/weapons/p_saw.mdl", DRAW, "saw", HANDS );
     }
 
