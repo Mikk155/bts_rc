@@ -19,13 +19,6 @@ enum m16a3_e
     RELOAD2 // m203 reload
 };
 
-enum bodygroups_e
-{
-    STUDIO0 = 0,
-    STUDIO1,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 150;
 int MAX_CARRY2 = 10;
@@ -80,7 +73,7 @@ class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_m16a2.mdl", "models/bts_rc/weapons/p_m16.mdl", DRAW, "m16", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_m16a2.mdl", "models/bts_rc/weapons/p_m16.mdl", DRAW, "m16", 2 );
     }
 
     void Holster( int skiplocal = 0 )

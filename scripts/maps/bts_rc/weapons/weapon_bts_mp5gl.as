@@ -18,12 +18,6 @@ enum mp5gl_e
     SHOOT3,
 };
 
-enum bodygroups_e
-{
-    STUDIO = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CARRY2 = 10;
@@ -78,7 +72,7 @@ class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_9mmARGL.mdl", "models/bts_rc/weapons/p_9mmARGL.mdl", DRAW, "mp5", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_9mmARGL.mdl", "models/bts_rc/weapons/p_9mmARGL.mdl", DRAW, "mp5", 1 );
     }
 
     void Holster( int skiplocal = 0 )

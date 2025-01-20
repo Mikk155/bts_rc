@@ -25,12 +25,6 @@ enum pipe_e
     ATTACKBIGLOOP
 };
 
-enum bodygroups_e
-{
-    STUDIO = 0,
-    HANDS
-};
-
 // array<string> SOUNDS = {
 //  "weapons/wrench_draw.wav",
 //  "weapons/wrench_pull.wav"
@@ -82,7 +76,7 @@ class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_pipe.mdl", "models/bts_rc/weapons/p_pipe.mdl", DRAW, "crowbar", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_pipe.mdl", "models/bts_rc/weapons/p_pipe.mdl", DRAW, "crowbar", 1 );
     }
 
     void Holster( int skiplocal = 0 )

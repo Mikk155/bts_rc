@@ -18,11 +18,6 @@ namespace BTS_MEDKIT
         DRAW,
     };
 
-    enum bodygroups_e
-    {
-        HANDS = 0
-    };
-
     // Weapon info
     const int MAX_CARRY = 100;
     const int MAX_CARRY2 = WEAPON_NOCLIP;
@@ -81,7 +76,7 @@ namespace BTS_MEDKIT
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_medkit.mdl", "models/bts_rc/weapons/p_medkit.mdl", DRAW, "trip", HANDS, 0.6f );
+            return bts_deploy( "models/bts_rc/weapons/v_medkit.mdl", "models/bts_rc/weapons/p_medkit.mdl", DRAW, "trip", 0, 0.6f );
         }
 
         void Holster( int skiplocal /*= 0*/ )
