@@ -205,6 +205,9 @@ HookReturnCode player_think( CBasePlayer@ player )
                 {
                     user_data[ "helmet_nv_state" ] = ( state == 1 ? 0 : 1 );
 
+                    if( state == 1 )
+                        user_data[ "helmet_nv_startup" ] = 0;
+
                     g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
 
                     g_SoundSystem.EmitSoundDyn(
@@ -234,12 +237,19 @@ HookReturnCode player_think( CBasePlayer@ player )
 #endif
                         }
 
+                        int nv_radius = int( user_data[ "helmet_nv_startup" ] );
+
+                        if( nv_radius <= 40 ) {
+                            nv_radius++;
+                            user_data[ "helmet_nv_startup" ] = nv_radius;
+                        }
+
                         NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
                             m.WriteByte( TE_DLIGHT );
                             m.WriteCoord(player.pev.origin.x);
                             m.WriteCoord(player.pev.origin.y);
                             m.WriteCoord(player.pev.origin.z);
-                            m.WriteByte(40);
+                            m.WriteByte(nv_radius);
                             m.WriteByte(255);
                             m.WriteByte(255);
                             m.WriteByte(255);
