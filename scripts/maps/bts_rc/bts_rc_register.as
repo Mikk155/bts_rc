@@ -64,13 +64,6 @@
 /*==========================================================================
 *   - End
 ==========================================================================*/
-/*
-    -TODO Map
-
-    * Spawn sentry by squadmaker + call function for lasers
-    * Match zombie models to their classname used in bts_rc
-    *
-*/
 
 /*==========================================================================
 *   - Start of base class for weapons
@@ -98,40 +91,21 @@ mixin class bts_rc_base_weapon
         return @player;
     }
 
-#if DISCARDED
-    * "Discarded idea of having a motd of information for the current picked weapon when a player takes it for the first time."
-    private bool m_is_first_deploy = true;
-    private float m_was_first_deploy;
-
-    // Call on a Item*Frame
-    protected should_inform()
-    {
-        if( m_was_first_deploy >= g_Engine.time && ( m_pPlayer.pev.button & IN_USE ) != 0 )
-        {
-            motd::open(m_pPlayer, string(g_WeaponDeploy[pev.classname]));
-            m_is_first_deploy = false;
-        }
-    }
-#endif
-
     // A weapon is deployed
     protected bool bts_deploy( const string &in viewmodel, const string &in playermodel, int animation, const string &in animation_ext, int hands_group, float time = 1.0f )
     {
-#if DISCARDED
-        if( m_is_first_deploy && g_WeaponDeploy.exists(pev.classname))
-        {
-            g_PlayerFuncs.PrintKeyBindingString( m_pPlayer, "Press +use to see more info." );
-            m_was_first_deploy = g_Engine.time + 6.0f;
-        }
-#endif
         m_pPlayer.pev.viewmodel = self.GetV_Model( viewmodel );
         m_pPlayer.pev.weaponmodel = self.GetP_Model( playermodel );
+
         m_pPlayer.set_m_szAnimExtension( animation_ext );
+
         // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
         pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( viewmodel ), pev.body, hands_group, g_PlayerClass[ m_pPlayer ] );
         self.SendWeaponAnim( animation, 0, pev.body );
-        m_pPlayer.m_flNextAttack = time;
+
+        m_pPlayer.m_flNextAttack = time; // For some reason the weapon's *Attack functions weren't being called without this.
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = self.m_flNextSecondaryAttack = g_Engine.time + time;
+
         return true;
     }
 
@@ -176,7 +150,7 @@ mixin class bts_rc_base_weapon
                         if( spr !is null )
                         {
                             spr.AnimateAndDie( 60.0f );
-                            spr.pev.scale = Math.RandomFloat( 0.05, 0.3 );
+                            spr.pev.scale = Math.RandomFloat( 0.05, 0.25 );
                         }
                     }
                 }
@@ -670,10 +644,6 @@ void whatsthat( CBasePlayer@ player )
     }
 }
 #endif
-
-/*
-    Author: Mikk
-*/
 
 enum PM
 {
