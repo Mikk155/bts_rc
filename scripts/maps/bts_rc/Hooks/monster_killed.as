@@ -27,7 +27,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                         drop_item = "ammo_bts_battery";
                     break;
                     case 2:
-                        drop_item = "flare";
+                        drop_item = "weapon_bts_flare";
                     break;
                     case 3:
                         drop_item = "ammo_bts_dglocksd";
