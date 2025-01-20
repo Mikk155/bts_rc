@@ -18,12 +18,6 @@ enum handgrenade_e
     DRAW
 };
 
-enum bodygroups_e
-{
-    BODY = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 10;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -79,7 +73,7 @@ class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     bool Deploy()
     {
         m_iAmmoSave = 0; // Zero out the ammo save
-        return bts_deploy( "models/bts_rc/weapons/v_grenade.mdl", "models/bts_rc/weapons/p_grenade.mdl", DRAW, "gren", HANDS, 0.66f );
+        return bts_deploy( "models/bts_rc/weapons/v_grenade.mdl", "models/bts_rc/weapons/p_grenade.mdl", DRAW, "gren", 1, 0.66f );
     }
 
     bool CanHolster()

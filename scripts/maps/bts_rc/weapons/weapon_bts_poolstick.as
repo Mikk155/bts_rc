@@ -19,12 +19,6 @@ enum poolstick_e
     ATTACK3HIT
 };
 
-enum bodygroups_e
-{
-    STUDIO = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = -1;
 int MAX_CLIP = WEAPON_NOCLIP;
@@ -66,7 +60,7 @@ class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, b
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_poolstick.mdl", "models/bts_rc/weapons/p_poolstick.mdl", DRAW, "crowbar", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_poolstick.mdl", "models/bts_rc/weapons/p_poolstick.mdl", DRAW, "crowbar", 1 );
     }
 
     void Holster( int skiplocal = 0 )

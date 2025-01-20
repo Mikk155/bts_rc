@@ -18,12 +18,6 @@ enum hlmp5_e
     SHOOT3,
 };
 
-enum bodygroups_e
-{
-    STUDIO = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CLIP = 30;
@@ -71,7 +65,7 @@ class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_9mmar.mdl", "models/bts_rc/weapons/p_9mmar.mdl", DRAW, "mp5", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_9mmar.mdl", "models/bts_rc/weapons/p_9mmar.mdl", DRAW, "mp5", 1 );
     }
 
     void Holster( int skiplocal = 0 )

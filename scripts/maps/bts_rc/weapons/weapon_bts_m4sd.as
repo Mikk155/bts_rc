@@ -21,12 +21,6 @@ enum m4sd_e
     SHOOT3,
 };
 
-enum bodygroups_e
-{
-    BODY = 0,
-    HANDS
-};
-
 // Weapon info
 int MAX_CARRY = 150;
 int MAX_CLIP = 30;
@@ -74,7 +68,7 @@ class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_m4sd.mdl", "models/bts_rc/weapons/p_m4sd.mdl", DRAW, "m16", HANDS, 1.2f );
+        return bts_deploy( "models/bts_rc/weapons/v_m4sd.mdl", "models/bts_rc/weapons/p_m4sd.mdl", DRAW, "m16", 1, 1.2f );
     }
 
     void Holster( int skiplocal = 0 )

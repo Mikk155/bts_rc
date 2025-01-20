@@ -19,15 +19,6 @@ enum python_e
     IDLE3
 };
 
-enum bodygroups_e
-{
-    GUN = 0,
-    BULLETS,
-    SPEEDLOAD,
-    HANDS,
-    SCOPE
-};
-
 // Weapon info
 int MAX_CARRY = 18;
 int MAX_CLIP = 6;
@@ -70,7 +61,7 @@ class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_357.mdl", "models/bts_rc/weapons/p_357.mdl", DRAW, "python", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_357.mdl", "models/bts_rc/weapons/p_357.mdl", DRAW, "python", 3 );
     }
 
     void Holster( int skiplocal = 0 )

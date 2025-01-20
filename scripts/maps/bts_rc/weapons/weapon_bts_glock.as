@@ -20,14 +20,6 @@ enum hlglock_e
     ADD_SILENCER
 };
 
-enum bodygroups_e
-{
-    STUDIO0 = 0,
-    STUDIO1,
-    HANDS,
-    SILENCER
-};
-
 // Weapon info
 int MAX_CARRY = 120;
 int MAX_CLIP = 17;
@@ -72,7 +64,7 @@ class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 
     bool Deploy()
     {
-        return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", HANDS );
+        return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2 );
     }
 
     void Holster( int skiplocal = 0 )
