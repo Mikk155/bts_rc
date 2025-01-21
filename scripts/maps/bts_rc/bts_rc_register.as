@@ -1059,7 +1059,6 @@ namespace precache
         "models/opfor/p_knife.mdl",
         "models/opfor/w_knife.mdl",
         "models/tool_box.mdl",
-        "models/w_argrenade.mdl",
         "models/w_security.mdl",
         "models/w_shotshell.mdl",
         "sprites/SAWFlash.spr",
