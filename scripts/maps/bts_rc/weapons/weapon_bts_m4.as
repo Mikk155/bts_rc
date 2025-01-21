@@ -31,7 +31,6 @@ namespace weapon_bts_m4
     int POSITION = 8;
     // Vars
     int DAMAGE = 15;
-    Vector CROUCH_CONE( 0.01f, 0.01f, 0.01f );
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_m4 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
@@ -109,41 +108,42 @@ namespace weapon_bts_m4
             Math.MakeVectors( m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle );
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
-            Vector vecSpread = m_pPlayer.pev.FlagBitSet( FL_DUCKING ) ? CROUCH_CONE : VECTOR_CONE_3DEGREES;
 
+            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
+            float CONE = ( is_trained_personal ? ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ) : ( m_pPlayer.IsMoving() ? 0.2f : 0.05f ) );
+
+            float x, y;
+            g_Utility.GetCircularGaussianSpread( x, y );
+
+            Vector vecDir = vecAiming + x * CONE * g_Engine.v_right + y * CONE * g_Engine.v_up;
+            Vector vecEnd = vecSrc + vecDir * 8192.0f;
+
+            TraceResult tr;
+            g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
+            self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
+            bts_post_attack(tr);
+
+            // each 4 bullets
+            if( ( m_iTracerCount++ % 4 ) == 0 )
             {
-                float x, y;
-                g_Utility.GetCircularGaussianSpread( x, y );
+                Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
+                NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
+                    tracer.WriteByte( TE_TRACER );
+                    tracer.WriteCoord( vecTracerSrc.x );
+                    tracer.WriteCoord( vecTracerSrc.y );
+                    tracer.WriteCoord( vecTracerSrc.z );
+                    tracer.WriteCoord( tr.vecEndPos.x );
+                    tracer.WriteCoord( tr.vecEndPos.y );
+                    tracer.WriteCoord( tr.vecEndPos.z );
+                tracer.End();
+            }
 
-                Vector vecDir = vecAiming + x * vecSpread.x * g_Engine.v_right + y * vecSpread.y * g_Engine.v_up;
-                Vector vecEnd = vecSrc + vecDir * 8192.0f;
-
-                TraceResult tr;
-                g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-                self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
-
-                // each 4 bullets
-                if( ( m_iTracerCount++ % 4 ) == 0 )
-                {
-                    Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
-                    NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
-                        tracer.WriteByte( TE_TRACER );
-                        tracer.WriteCoord( vecTracerSrc.x );
-                        tracer.WriteCoord( vecTracerSrc.y );
-                        tracer.WriteCoord( vecTracerSrc.z );
-                        tracer.WriteCoord( tr.vecEndPos.x );
-                        tracer.WriteCoord( tr.vecEndPos.y );
-                        tracer.WriteCoord( tr.vecEndPos.z );
-                    tracer.End();
-                }
-
-                if( tr.flFraction < 1.0f && tr.pHit !is null )
-                {
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                    if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
-                        g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
-                }
+            if( tr.flFraction < 1.0f && tr.pHit !is null )
+            {
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
+                    g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
@@ -155,13 +155,13 @@ namespace weapon_bts_m4
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m4_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 
-            if( g_PlayerClass.is_trained_personal(m_pPlayer) )
+            if( is_trained_personal )
             {
                 m_pPlayer.pev.punchangle.x = -2.75f;
             }
             else
             {
-                if( m_pPlayer.pev.FlagBitSet( FL_DUCKING ) )
+                if( !m_pPlayer.IsMoving() )
                     m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 2 ));
                 else
                     m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -6, 3 ));
