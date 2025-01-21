@@ -39,7 +39,6 @@ namespace weapon_bts_beretta
     // Vars
     int DAMAGE = 14;
     float DRAIN_TIME = 0.8f;
-    Vector CONE( 0.01f, 0.01f, 0.01f );
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
@@ -184,27 +183,27 @@ namespace weapon_bts_beretta
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-            {
-                float x, y;
-                g_Utility.GetCircularGaussianSpread( x, y );
-
-                Vector vecDir = vecAiming + x * CONE.x * g_Engine.v_right + y * CONE.y * g_Engine.v_up;
-                Vector vecEnd = vecSrc + vecDir * 8192.0f;
-
-                TraceResult tr;
-                g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-                self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
-
-                if( tr.flFraction < 1.0f && tr.pHit !is null )
-                {
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                    if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
-                        g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
-                }
-            }
+            float x, y;
+            g_Utility.GetCircularGaussianSpread( x, y );
 
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
+            float CONE = ( is_trained_personal ? 0.01f : 0.05f );
+
+            Vector vecDir = vecAiming + x * CONE * g_Engine.v_right + y * CONE * g_Engine.v_up;
+            Vector vecEnd = vecSrc + vecDir * 8192.0f;
+
+            TraceResult tr;
+            g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
+            self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
+            bts_post_attack(tr);
+
+            if( tr.flFraction < 1.0f && tr.pHit !is null )
+            {
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
+                    g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
+            }
 
             self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/beretta_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
