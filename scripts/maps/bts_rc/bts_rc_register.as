@@ -1031,6 +1031,7 @@ namespace precache
         "models/bts_rc/weapons/w_pmedkit.mdl",
         "models/bts_rc/weapons/w_pipe.mdl",
         "models/bts_rc/weapons/w_poolstick.mdl",
+        "models/bts_rc/weapons/w_saw.mdl",
         "models/bts_rc/weapons/w_sbshotgun.mdl",
         "models/bts_rc/weapons/w_screwdriver.mdl",
         "models/bts_rc/weapons/w_shotgun.mdl",

@@ -49,7 +49,7 @@ namespace weapon_bts_saw
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/v_saw.mdl" ) );
+            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_saw.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 19, MAX_CLIP );
             self.FallInit();
 
