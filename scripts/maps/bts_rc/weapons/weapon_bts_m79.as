@@ -122,7 +122,7 @@ namespace weapon_bts_m79
             Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
             Vector vecVelocity = g_Engine.v_forward * VELOCITY;
 
-            M79_ROCKET::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, RADIUS, "models/grenade.mdl" );
+            M79_ROCKET::Shoot( m_pPlayer.pev, vecSrc, vecVelocity, DAMAGE, RADIUS, "models/hlclassic/grenade.mdl" );
             // CreateMuzzleflash( SPRITE_MUZZLE_GRENADE, MUZZLE_ORIGIN.x, MUZZLE_ORIGIN.y, MUZZLE_ORIGIN.z, 0.05, 128, 20.0 );
 
             // View model animation
