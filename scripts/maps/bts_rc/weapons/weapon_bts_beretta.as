@@ -168,6 +168,9 @@ namespace weapon_bts_beretta
                 return;
             }
 
+            if( ( m_pPlayer.m_afButtonPressed & IN_ATTACK ) == 0 )
+                return;
+
             m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
             m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
 
@@ -218,7 +221,11 @@ namespace weapon_bts_beretta
             if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
+            self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
+
+            if( !is_trained_personal )
+                self.m_flNextPrimaryAttack = g_Engine.time + 0.15f;
+
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         }
 
