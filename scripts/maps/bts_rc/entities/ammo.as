@@ -170,7 +170,7 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
 class ammo_bts_m79 : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
-        Spawn("models/w_argrenade.mdl" );
+        Spawn("models/hlclassic/w_argrenade.mdl");
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? weapon_bts_m79::AMMO_DROP : weapon_bts_m79::AMMO_GIVE, "ARgrenades", weapon_bts_m79::MAX_CARRY );
