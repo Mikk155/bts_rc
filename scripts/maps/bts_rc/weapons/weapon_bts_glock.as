@@ -31,8 +31,6 @@ namespace weapon_bts_glock
     int POSITION = 4;
     // Vars
     int DAMAGE = 12;
-    Vector SEMI_CONE( 0.01f, 0.01f, 0.01f );
-    Vector RAPID_CONE( 0.1f, 0.1f, 0.1f );
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
@@ -83,12 +81,12 @@ namespace weapon_bts_glock
 
         void PrimaryAttack()
         {
-            Fire( SEMI_CONE, 0.3f );
+            Fire( 0.01f, 0.3f );
         }
 
         void SecondaryAttack()
         {
-            Fire( RAPID_CONE, 0.2f);
+            Fire( 0.1f, 0.2f);
         }
 
         void Reload()
@@ -119,7 +117,7 @@ namespace weapon_bts_glock
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
         }
 
-        private void Fire( const Vector& in vecSpread, float flCycleTime )
+        private void Fire( const float& in flSpread, float flCycleTime )
         {
             if( self.m_iClip <= 0 )
             {
@@ -143,24 +141,26 @@ namespace weapon_bts_glock
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
+            float x, y;
+            g_Utility.GetCircularGaussianSpread( x, y );
+
+            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+
+            float CONE = ( is_trained_personal ? flSpread : Math.min( flSpread * 5, 0.2f ) );
+
+            Vector vecDir = vecAiming + x * CONE * g_Engine.v_right + y * CONE * g_Engine.v_up;
+            Vector vecEnd = vecSrc + vecDir * 8192.0f;
+
+            TraceResult tr;
+            g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
+            self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
+            bts_post_attack(tr);
+
+            if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                float x, y;
-                g_Utility.GetCircularGaussianSpread( x, y );
-
-                Vector vecDir = vecAiming + x * vecSpread.x * g_Engine.v_right + y * vecSpread.y * g_Engine.v_up;
-                Vector vecEnd = vecSrc + vecDir * 8192.0f;
-
-                TraceResult tr;
-                g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-                self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
-
-                if( tr.flFraction < 1.0f && tr.pHit !is null )
-                {
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                    if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
-                        g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
-                }
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
+                    g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
 
             self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, pev.body );
