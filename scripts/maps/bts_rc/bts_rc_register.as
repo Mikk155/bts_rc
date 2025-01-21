@@ -1038,7 +1038,6 @@ namespace precache
         "models/bts_rc/weapons/w_shotgun.mdl",
         "models/bts_rc/weapons/w_uzi.mdl",
         "models/bts_rc/weapons/w_uzi_clip.mdl",
-        "models/grenade.mdl",
         "models/hlclassic/grenade.mdl",
         "models/hlclassic/p_357.mdl",
         "models/hlclassic/p_9mmhandgun.mdl",
