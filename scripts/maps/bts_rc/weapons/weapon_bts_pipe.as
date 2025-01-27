@@ -176,7 +176,7 @@ namespace weapon_bts_pipe
                         case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
                         case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                     }
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.75f );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.95f : 1.25f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound

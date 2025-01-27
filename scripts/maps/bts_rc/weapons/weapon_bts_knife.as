@@ -173,7 +173,7 @@ namespace weapon_bts_knife
                         case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
                         case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                     }
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.5f : 0.6f );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.5f : 0.75f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound

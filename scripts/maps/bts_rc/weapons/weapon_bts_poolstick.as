@@ -29,7 +29,7 @@ namespace weapon_bts_poolstick
     int POSITION = 6;
     // Vars
     float RANGE = 48.0f;
-    float DAMAGE = 10.0f;
+    float DAMAGE = 11.0f;
 
     class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
     {
@@ -158,13 +158,13 @@ namespace weapon_bts_poolstick
                         switch( Math.RandomLong( 1, 3 ) )
                         {
                             case 3:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "debris/cbar_hitbod3.wav", 1.0f, ATTN_NORM );
+                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod3.wav", 1.0f, ATTN_NORM );
                             break;
                             case 2:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "debris/cbar_hitbod2.wav", 1.0f, ATTN_NORM );
+                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod2.wav", 1.0f, ATTN_NORM );
                             break;
                             default:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "debris/cbar_hitbod1.wav", 1.0f, ATTN_NORM );
+                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod1.wav", 1.0f, ATTN_NORM );
                             break;
                         }
                         m_pPlayer.m_iWeaponVolume = 128;

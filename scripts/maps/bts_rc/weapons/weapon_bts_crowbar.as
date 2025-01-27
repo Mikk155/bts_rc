@@ -109,7 +109,7 @@ namespace weapon_bts_crowbar
                         case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
                         case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                     }
-                    self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.75f );
+                    self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.95f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
