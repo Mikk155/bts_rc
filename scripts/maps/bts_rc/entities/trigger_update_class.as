@@ -232,6 +232,7 @@ namespace trigger_update_class
                             keycard[ "display_name" ] = "Maintenance Keycard";
                             keycard[ "item_name" ] = "Blackmesa_Maintenance_Clearance";
                             keycard[ "item_icon" ] = "bts_rc/inv_card_maint.spr";
+							keycard[ "item_group" ] = "repair";
                             @invkeycard = g_EntityFuncs.CreateEntity( "item_inventory", keycard );
 
                             dictionary kv;
