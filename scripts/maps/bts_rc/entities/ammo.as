@@ -170,7 +170,7 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
 class ammo_bts_m79 : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
-        Spawn("models/hlclassic/w_argrenade.mdl");
+        Spawn("models/w_argrenade.mdl" );
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? weapon_bts_m79::AMMO_DROP : weapon_bts_m79::AMMO_GIVE, "ARgrenades", weapon_bts_m79::MAX_CARRY );
@@ -220,7 +220,7 @@ class ammo_bts_python : ScriptBasePlayerAmmoEntity, bts_ammo_base
 class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
-        Spawn("models/bts_rc/weapons/w_saw_clip.mdl");
+        Spawn("models/w_saw_clip.mdl" );
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, ( "ammo_bts_dsaw" == pev.classname ? Math.RandomLong( 25, 30 ) : weapon_bts_saw::AMMO_GIVE ), "556", weapon_bts_saw::MAX_CARRY );
