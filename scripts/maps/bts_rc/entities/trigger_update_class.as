@@ -37,7 +37,7 @@ namespace trigger_update_class
             msgParams.fadeoutTime = 0.5f;
             msgParams.holdTime = 1.2f;
             msgParams.fxTime = 0.025f;
-            msgParams.channel = 3;
+            msgParams.channel = 5;
 
             self.pev.movetype = MOVETYPE_NONE;
             self.pev.effects |= EF_NODRAW;
@@ -272,11 +272,7 @@ namespace trigger_update_class
 
                     g_PlayerFuncs.ScreenFade( player, fadeColor, 0.25f, 1.0f, 255.0f, FFADE_OUT );
                     g_Scheduler.SetTimeout( this, "PlayerFade", 1.0f, @player, fadeColor);
-
-                    g_Scheduler.SetTimeout( this, "DisplayMessage", 3, @player, message);
-
-                    g_SoundSystem.EmitAmbientSound( pCaller.edict(), pCaller.pev.origin, sound, 0.5f, ATTN_IDLE, 0, 100 );
-                    g_Scheduler.SetTimeout( this, "PlaySoundAtTarget", 1.0f, @pCaller, "vox/authorized.wav" );
+					g_PlayerFuncs.HudMessage( player, msgParams, message );
                 }
 #if SERVER
                 else
@@ -293,27 +289,11 @@ namespace trigger_update_class
 #endif
         }
 
-        protected void DisplayMessage(CBasePlayer@ player, string message)
-        {
-            if( player !is null )
-            {
-                g_PlayerFuncs.HudMessage( player, msgParams, message );
-            }
-        }
-
         protected void PlayerFade(CBasePlayer@ player, Vector& in color)
         {
             if( player !is null )
             {
                 g_PlayerFuncs.ScreenFade(player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
-            }
-        }
-
-        protected void PlaySoundAtTarget(CBaseEntity@ target, string sample)
-        {
-            if( target !is null )
-            {
-                g_SoundSystem.EmitAmbientSound( target.edict(), target.pev.origin, sample, 0.5f, ATTN_IDLE, 0, 100 );
             }
         }
     }
