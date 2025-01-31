@@ -223,8 +223,7 @@ namespace weapon_bts_beretta
 
             self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
 
-            if( !is_trained_personal )
-                self.m_flNextPrimaryAttack = g_Engine.time + 0.15f;
+            self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.05f : 0.10f );
 
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         }
