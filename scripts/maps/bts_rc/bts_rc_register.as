@@ -726,6 +726,22 @@ final class PlayerClass
 
         player.pev.armortype = ( player_class == PM::HELMET ? 100 : 50 );
 
+        // Re-Deploy weapon to update view model hands
+        if( player.m_hActiveItem.IsValid() )
+        {
+            CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
+
+            if( active_item !is null )
+            {
+                CBasePlayerItem@ weapon = cast<CBasePlayerItem@>( active_item );
+
+                if( weapon !is null )
+                {
+                    weapon.Deploy();
+                }
+            }
+        }
+
 #if SERVER
         m_Logger.debug( "Asigned model \"{}\" to player {} at class {}", { model, player.pev.netname, player_class } );
 #endif
