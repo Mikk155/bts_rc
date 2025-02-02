@@ -55,17 +55,17 @@ namespace randomizer
             switch( this.type() )
             {
                 case 1:
-                    return g_RandomizerNpc.indexes[ Math.RandomLong( 0, g_RandomizerNpc.indexes.length() ) ];
+                    return g_RandomizerNpc.indexes[ Math.RandomLong( 0, g_RandomizerNpc.indexes.length() -1 ) ];
                 case 2:
-                    return g_RandomizerItem.indexes[ Math.RandomLong( 0, g_RandomizerItem.indexes.length() ) ];
+                    return g_RandomizerItem.indexes[ Math.RandomLong( 0, g_RandomizerItem.indexes.length() -1 ) ];
                 case 3:
-                    return g_RandomizerHull.indexes[ Math.RandomLong( 0, g_RandomizerHull.indexes.length() ) ];
+                    return g_RandomizerHull.indexes[ Math.RandomLong( 0, g_RandomizerHull.indexes.length() -1 ) ];
                 case 4:
-                    return g_RandomizerBoss.indexes[ Math.RandomLong( 0, g_RandomizerBoss.indexes.length() ) ];
+                    return g_RandomizerBoss.indexes[ Math.RandomLong( 0, g_RandomizerBoss.indexes.length() -1 ) ];
                 case 5:
-                    return g_RandomizerWave.indexes[ Math.RandomLong( 0, g_RandomizerWave.indexes.length() ) ];
+                    return g_RandomizerWave.indexes[ Math.RandomLong( 0, g_RandomizerWave.indexes.length() -1 ) ];
                 case 6:
-                    return g_RandomizerHeadcrab.indexes[ Math.RandomLong( 0, g_RandomizerHeadcrab.indexes.length() ) ];
+                    return g_RandomizerHeadcrab.indexes[ Math.RandomLong( 0, g_RandomizerHeadcrab.indexes.length() -1 ) ];
             }
 
             return self.entindex();
