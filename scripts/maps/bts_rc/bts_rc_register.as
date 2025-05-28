@@ -257,6 +257,23 @@ mixin class bts_rc_base_weapon
 
         return true;
     }
+
+    protected float Accuracy( float tr, float def, float trd, float defd )
+    {
+        if( g_PlayerClass.is_trained_personal(m_pPlayer) )
+        {
+            if( ( m_pPlayer.pev.button & IN_DUCK ) != 0 )
+            {
+                return trd;
+            }
+            return tr;
+        }
+        else if( ( m_pPlayer.pev.button & IN_DUCK ) != 0 )
+        {
+            return defd;
+        }
+        return def;
+    }
 };
 
 mixin class bts_rc_base_melee

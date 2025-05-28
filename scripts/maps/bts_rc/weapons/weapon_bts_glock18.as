@@ -118,7 +118,7 @@ namespace weapon_bts_glock18
 
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
 
-            float CONE = ( is_trained_personal ? 0.01f : 0.05f );
+            float CONE = Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
 
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
