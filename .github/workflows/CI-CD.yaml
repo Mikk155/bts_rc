@@ -21,7 +21,7 @@ jobs:
     - name: Build zips
       run: python build.py
 
-    - name: Release Debug.zip
+    - name: Release Release.zip
       uses: xresloader/upload-to-github-release@v1.6.0
       with:
         file: Release.zip
