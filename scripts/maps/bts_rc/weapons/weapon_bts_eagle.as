@@ -188,7 +188,7 @@ namespace weapon_bts_eagle
 
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
 
-            float CONE = ( is_trained_personal ? 0.01f : 0.05f );
+            float CONE = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
 
             Vector vecDir = vecAiming + x * CONE * g_Engine.v_right + y * CONE * g_Engine.v_up;
             Vector vecEnd = vecSrc + vecDir * 8192.0f;
