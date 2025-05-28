@@ -31,7 +31,7 @@ namespace weapon_bts_sbshotgun
     // int DEFAULT_GIVE = Math.RandomLong( 1, 6 );
     // int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
     int AMMO_GIVE = MAX_CLIP;
-    int AMMO_GIVE2 = 1;
+    int AMMO_GIVE2 = 0;
     int AMMO_DROP = AMMO_GIVE;
     int AMMO_DROP2 = AMMO_GIVE2;
     int WEIGHT = 15;
@@ -39,8 +39,8 @@ namespace weapon_bts_sbshotgun
     int SLOT = 2;
     int POSITION = 6;
     // Vars
-    int DAMAGE = 16;
-    int PELLETS = 4;
+    int DAMAGE = 13;
+    int PELLETS = 8;
     float DRAIN_TIME = 0.8f;
     Vector CONE( 0.08716f, 0.04362f, 0.0f );
     Vector SHELL( 14.0f, 6.0f, -34.0f );
@@ -179,7 +179,7 @@ namespace weapon_bts_sbshotgun
             if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
             {
                 self.PlayEmptySound();
-                self.m_flNextPrimaryAttack = g_Engine.time + 0.15f;
+                self.m_flNextPrimaryAttack = g_Engine.time + 0.12f;
                 return;
             }
 
@@ -334,9 +334,9 @@ namespace weapon_bts_sbshotgun
                 switch( Math.RandomLong( 0, 1 ) )
                 {
                     case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload1.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
-                    case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "hlclassic/weapons/reload3.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
+                    case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload3.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
                 }
-                m_flTimeWeaponReload = g_Engine.time + 0.5f;
+                m_flTimeWeaponReload = g_Engine.time + 0.4f;
                 m_fInReloadState = 2;
                 BaseClass.Reload();
                 break;
@@ -387,7 +387,7 @@ namespace weapon_bts_sbshotgun
         private void PumpWeapon()
         {
             SetThink( null );
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "hlclassic/weapons/scock1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/sbscock1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
         }
 
         private void BaterryRechargeStart()
@@ -454,7 +454,7 @@ namespace weapon_bts_sbshotgun
                         m_fInReloadState = 0;
                         self.m_fInReload = false;
                         self.SendWeaponAnim( PUMP, 0, pev.body );
-                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "hlclassic/weapons/scock1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
+                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/sbscock1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 0x1f ) );
                         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f; // pump after
                         self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
                         return true;
