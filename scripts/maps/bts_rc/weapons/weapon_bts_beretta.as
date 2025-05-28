@@ -29,7 +29,7 @@ namespace weapon_bts_beretta
     // int DEFAULT_GIVE = Math.RandomLong( 1, 15 );
     // int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
     int AMMO_GIVE = MAX_CLIP;
-    int AMMO_GIVE2 = 1;
+    int AMMO_GIVE2 = 0;
     int AMMO_DROP = AMMO_GIVE;
     int AMMO_DROP2 = AMMO_GIVE2;
     int WEIGHT = 10;

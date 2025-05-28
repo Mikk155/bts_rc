@@ -39,6 +39,7 @@ namespace randomizer
         g_RandomizerHull.init();
         g_RandomizerWave.init();
         g_RandomizerItem.init();
+		g_RandomizerHullWave.init();
 
         // Free the entity slot.
         if( pActivator !is null )
@@ -66,6 +67,8 @@ namespace randomizer
                     return g_RandomizerWave.indexes[ Math.RandomLong( 0, g_RandomizerWave.indexes.length() -1 ) ];
                 case 6:
                     return g_RandomizerHeadcrab.indexes[ Math.RandomLong( 0, g_RandomizerHeadcrab.indexes.length() -1 ) ];
+				case 7:
+					return g_RandomizerHullWave.indexes[ Math.RandomLong( 0, g_RandomizerHullWave.indexes.length() -1 ) ];
             }
 
             return self.entindex();
@@ -150,6 +153,11 @@ namespace randomizer
     class randomizer_headcrab : CRandomizerEntity
     {
         int type() { return 6; }
+    }
+	
+	class randomizer_hullwave : CRandomizerEntity
+    {
+        int type() { return 7; }
     }
 
     //============================================================================
@@ -236,7 +244,11 @@ namespace randomizer
                 "GM_HEAD_S5",
                 "GM_HEAD_S6",
                 "GM_HEAD_S7",
-                "GM_HEAD_S8"
+                "GM_HEAD_S8",
+				"GM_HEADZOEA_S1",
+				"GM_HEADZOEA_S2",
+				"GM_HEADZOEA_S3",
+				"GM_HEADZOEA_S4"
             };
         }
     }
@@ -277,6 +289,7 @@ namespace randomizer
                 "GM_HG_6",
                 "GM_HG_7",
                 "GM_HG_8",
+				"GM_FGUN_1",
                 "GM_G18_1",
                 "GM_PHK_1",
                 "GM_PHK_2",
@@ -383,9 +396,7 @@ namespace randomizer
                 "GM_VOLT_S1",
                 "GM_BULL_S1",
                 "GM_BULL_S2",
-                "GM_BULL_S3",
-                "GM_BABYVOLT_S1",
-                "GM_BABYVOLT_S2"
+                "GM_BULL_S3"
             };
         }
     }
@@ -476,7 +487,11 @@ namespace randomizer
                 "GM_ZM_S27",
                 "GM_ZM_S28",
                 "GM_ZM_S29",
-                "GM_ZM_S30"
+                "GM_ZM_S30",
+				"GM_ZM_CS_1",
+				"GM_ZM_CS_2",
+				"GM_ZM_CS_3",
+				"GM_ZM_CS_4"
             };
         }
     }
@@ -490,7 +505,7 @@ namespace randomizer
         {
             return
             {
-                "GM_R_SLAVE_S1",
+				"GM_R_SLAVE_S1",
                 "GM_R_SLAVE_S2",
                 "GM_R_SLAVE_S3",
                 "GM_R_SLAVE_S4",
@@ -506,8 +521,6 @@ namespace randomizer
                 "GM_R_HOUND_S6",
                 "GM_R_SNARK_S1",
                 "GM_R_SNARK_S2",
-                "GM_R_AGRUNT_S1",
-                "GM_R_AGRUNT_S2",
                 "GM_R_PITDRONE_S1",
                 "GM_R_PITDRONE_S2",
                 "GM_R_PITDRONE_S3",
@@ -516,9 +529,33 @@ namespace randomizer
                 "GM_R_CRAB_S3",
                 "GM_R_CRAB_S4",
                 "GM_R_CRAB_S5",
-                "GM_CHUM_S1"
+                "GM_CHUM_S1",
+				"GM_BABYVOLT_S1",
+                "GM_BABYVOLT_S2"
             };
         }
     }
     CRanomizerWaves g_RandomizerWave;
+	
+	final class CRanomizerHullWaves : CRandomizer
+    {
+        string name() { return "HullWave"; }
+
+        array<string>@ entities()
+        {
+            return
+            {
+                "GM_R_VOLT_S1",
+                "GM_R_SHOCK_S1",
+				"GM_R_AGRUNT_S1",
+                "GM_R_AGRUNT_S2",
+                "GM_AGRUNT_TORTURED1",
+				"GM_AGRUNT_TORTURED2",
+				"GM_AGRUNT_TORTURED_A51",
+				"GM_AGRUNT_TORTURED_A52",
+				"GM_R_BULL_S1"
+            };
+        }
+    }
+    CRanomizerHullWaves g_RandomizerHullWave;
 }

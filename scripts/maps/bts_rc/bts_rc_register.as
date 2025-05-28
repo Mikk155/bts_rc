@@ -53,6 +53,7 @@
 #include "weapons/weapon_bts_mp5"
 #include "weapons/weapon_bts_mp5gl"
 #include "weapons/weapon_bts_pipe"
+#include "weapons/weapon_bts_pipewrench"
 #include "weapons/weapon_bts_poolstick"
 #include "weapons/weapon_bts_python"
 #include "weapons/weapon_bts_saw"
@@ -60,6 +61,7 @@
 #include "weapons/weapon_bts_screwdriver"
 #include "weapons/weapon_bts_shotgun"
 #include "weapons/weapon_bts_uzi"
+#include "weapons/weapon_bts_uzisd"
 /*==========================================================================
 *   - End
 ==========================================================================*/
@@ -162,6 +164,10 @@ mixin class bts_rc_base_weapon
                     if( "monster_robogrunt" == hit.pev.classname )
                     {
                         sparks_color = 5;
+                    }
+                    else if( "models/bts_rc/monsters/robothwgrunt.mdl" == hit.pev.model )
+                    {
+                        sparks_color = 7;
                     }
                     else if( "monster_sentry" == hit.pev.classname || "monster_turret" == hit.pev.classname || "monster_miniturret" == hit.pev.classname )
                     {
@@ -343,6 +349,7 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_boss", "randomizer_boss" );
     g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_wave", "randomizer_wave" );
     g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_headcrab", "randomizer_headcrab" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_hullwave", "randomizer_hullwave" );
 
     // Items
     g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_armorvest", "item_bts_armorvest" );
@@ -356,6 +363,7 @@ void MapInit()
 
     // Weapon Entities
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_axe::weapon_bts_axe", "weapon_bts_axe" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_pipewrench::weapon_bts_pipewrench", "weapon_bts_pipewrench" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_beretta::weapon_bts_beretta", "weapon_bts_beretta" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_crowbar::weapon_bts_crowbar", "weapon_bts_crowbar" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_eagle::weapon_bts_eagle", "weapon_bts_eagle" );
@@ -380,6 +388,7 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_python::weapon_bts_python", "weapon_bts_python" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_shotgun::weapon_bts_shotgun", "weapon_bts_shotgun" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_uzi::weapon_bts_uzi", "weapon_bts_uzi" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_uzisd::weapon_bts_uzisd", "weapon_bts_uzisd" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_saw::weapon_bts_saw", "weapon_bts_saw" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sbshotgun::weapon_bts_sbshotgun", "weapon_bts_sbshotgun" );
     g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_screwdriver::weapon_bts_screwdriver", "weapon_bts_screwdriver" );
@@ -419,9 +428,11 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_shotgun", "ammo_bts_shotgun" );
     g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_shotgun", "ammo_bts_shotshell" );
     g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_uzi", "ammo_bts_uzi" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_uzisd", "ammo_bts_uzisd" );
 
     // Weapons
     g_ItemRegistry.RegisterWeapon( "weapon_bts_axe", "bts_rc/weapons" );
+    g_ItemRegistry.RegisterWeapon( "weapon_bts_pipewrench", "bts_rc/weapons" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_crowbar", "bts_rc/weapons" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", "357", "bts:battery", "ammo_bts_eagle", "ammo_bts_eagle_battery" );
@@ -446,6 +457,7 @@ void MapInit()
     g_ItemRegistry.RegisterWeapon( "weapon_bts_python", "bts_rc/weapons", "357", "", "ammo_bts_python", "" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_shotgun", "bts_rc/weapons", "buckshot", "", "ammo_bts_shotgun", "" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_uzi", "bts_rc/weapons", "9mm", "", "ammo_bts_uzi", "" );
+    g_ItemRegistry.RegisterWeapon( "weapon_bts_uzisd", "bts_rc/weapons", "9mm", "", "ammo_bts_uzisd", "" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_saw", "bts_rc/weapons", "556", "", "ammo_bts_saw", "" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_sbshotgun", "bts_rc/weapons", "buckshot", "bts:battery", "ammo_bts_sbshotgun", "ammo_bts_sbshotgun_battery" );
     g_ItemRegistry.RegisterWeapon( "weapon_bts_screwdriver", "bts_rc/weapons" );
@@ -463,10 +475,13 @@ void MapInit()
             ItemMapping( "weapon_glock", "ammo_bts_dglocksd" ),
             ItemMapping( "weapon_357", "ammo_bts_357cyl" ),
             ItemMapping( "weapon_eagle", "ammo_bts_dreagle" ),
+            ItemMapping( "weapon_uzi", "ammo_bts_9mmbox" ),
+            ItemMapping( "weapon_uziakimbo", "ammo_bts_9mmbox" ),
             ItemMapping( "weapon_9mmAR", "ammo_bts_9mmbox" ),
             ItemMapping( "weapon_mp5", "ammo_bts_9mmbox" ),
             ItemMapping( "weapon_shotgun", "ammo_bts_shotshell" ),
-            ItemMapping( "weapon_m16", "ammo_bts_9mmbox" ),
+            ItemMapping( "weapon_m16", "ammo_bts_556mag" ),
+            ItemMapping( "weapon_sniperrifle", "ammo_bts_556mag" ),
             ItemMapping( "weapon_saw", "ammo_bts_dsaw" ),
             ItemMapping( "weapon_m249", "ammo_bts_dsaw" ),
             ItemMapping( "weapon_minigun", "ammo_bts_dsaw" ),
@@ -919,7 +934,14 @@ namespace precache
         "bts_rc/weapons/pipe_hitbod2.wav",
         "bts_rc/weapons/pipe_hitbod3.wav",
         "bts_rc/weapons/pipe_miss1.wav",
+        "weapons/pwrench_hit1.wav",
+        "weapons/pwrench_hit2.wav",
+        "weapons/pwrench_hitbod1.wav",
+        "weapons/pwrench_hitbod2.wav",
+        "weapons/pwrench_hitbod3.wav",
+        "weapons/pwrench_miss1.wav",
         "bts_rc/weapons/reload1.wav",
+        "bts_rc/weapons/reload3.wav",
         "bts_rc/weapons/sbshotgun_fire1.wav",
         "bts_rc/weapons/sd_hit1.wav",
         "bts_rc/weapons/sd_hit2.wav",
@@ -937,6 +959,7 @@ namespace precache
         "hlclassic/weapons/357_shot2.wav",
         "hlclassic/weapons/glauncher.wav",
         "hlclassic/weapons/glauncher2.wav",
+        "hlclassic/weapons/reload1.wav",
         "hlclassic/weapons/reload3.wav",
         "hlclassic/weapons/sbarrel1.wav",
         "hlclassic/weapons/scock1.wav",
@@ -998,12 +1021,14 @@ namespace precache
         "models/bts_rc/weapons/p_m79.mdl",
         "models/bts_rc/weapons/p_medkit.mdl",
         "models/bts_rc/weapons/p_pipe.mdl",
+        "models/bts_rc/weapons/p_pipe_wrench.mdl",
         "models/bts_rc/weapons/p_poolstick.mdl",
         "models/bts_rc/weapons/p_saw.mdl",
         "models/bts_rc/weapons/p_sbshotgun.mdl",
         "models/bts_rc/weapons/p_screwdriver.mdl",
         "models/bts_rc/weapons/p_shotgun.mdl",
         "models/bts_rc/weapons/p_uzi.mdl",
+        "models/bts_rc/weapons/p_uzisd.mdl",
         "models/bts_rc/weapons/v_357.mdl",
         "models/bts_rc/weapons/v_9mmARGL.mdl",
         "models/bts_rc/weapons/v_9mmar.mdl",
@@ -1012,6 +1037,7 @@ namespace precache
         "models/bts_rc/weapons/v_axe.mdl",
         "models/bts_rc/weapons/v_beretta.mdl",
         "models/bts_rc/weapons/v_crowbar.mdl",
+        "models/bts_rc/weapons/v_crowbary.mdl",
         "models/bts_rc/weapons/v_desert_eagle.mdl",
         "models/bts_rc/weapons/v_flare.mdl",
         "models/bts_rc/weapons/v_flaregun.mdl",
@@ -1026,12 +1052,14 @@ namespace precache
         "models/bts_rc/weapons/v_m79.mdl",
         "models/bts_rc/weapons/v_medkit.mdl",
         "models/bts_rc/weapons/v_pipe.mdl",
+        "models/bts_rc/weapons/v_pipe_wrench.mdl",
         "models/bts_rc/weapons/v_poolstick.mdl",
         "models/bts_rc/weapons/v_saw.mdl",
         "models/bts_rc/weapons/v_sbshotgun.mdl",
         "models/bts_rc/weapons/v_screwdriver.mdl",
         "models/bts_rc/weapons/v_shotgun.mdl",
         "models/bts_rc/weapons/v_uzi.mdl",
+        "models/bts_rc/weapons/v_uzisd.mdl",
         "models/bts_rc/weapons/w_556nato.mdl",
         "models/bts_rc/weapons/w_9mmARGL.mdl",
         "models/bts_rc/weapons/w_9mmar.mdl",
@@ -1051,6 +1079,7 @@ namespace precache
         "models/bts_rc/weapons/w_medkit.mdl",
         "models/bts_rc/weapons/w_pmedkit.mdl",
         "models/bts_rc/weapons/w_pipe.mdl",
+        "models/bts_rc/weapons/w_pipe_wrench.mdl",
         "models/bts_rc/weapons/w_poolstick.mdl",
         "models/bts_rc/weapons/w_saw.mdl",
         "models/bts_rc/weapons/w_saw_clip.mdl",
@@ -1058,11 +1087,13 @@ namespace precache
         "models/bts_rc/weapons/w_screwdriver.mdl",
         "models/bts_rc/weapons/w_shotgun.mdl",
         "models/bts_rc/weapons/w_uzi.mdl",
+        "models/bts_rc/weapons/w_uzisd.mdl",
         "models/bts_rc/weapons/w_uzi_clip.mdl",
         "models/hlclassic/grenade.mdl",
         "models/hlclassic/p_357.mdl",
         "models/hlclassic/p_9mmhandgun.mdl",
         "models/hlclassic/p_crowbar.mdl",
+        "models/bts_rc/weapons/p_crowbary.mdl",
         "models/hlclassic/p_grenade.mdl",
         "models/hlclassic/w_357.mdl",
         "models/hlclassic/w_357ammo.mdl",
@@ -1073,6 +1104,7 @@ namespace precache
         "models/hlclassic/w_argrenade.mdl",
         "models/hlclassic/w_battery.mdl",
         "models/hlclassic/w_crowbar.mdl",
+        "models/bts_rc/weapons/w_crowbary.mdl",
         "models/hlclassic/w_grenade.mdl",
         "models/hlclassic/w_shotbox.mdl",
         "models/mikk/misc/bloodpuddle.mdl",
@@ -1114,6 +1146,7 @@ namespace precache
     array<string> generic =
     {
         "events/muzzle_saw.txt",
+        "sprites/bts_rc/weapons/weapon_bts_pipewrench.txt",
         "sprites/bts_rc/weapons/weapon_bts_axe.txt",
         "sprites/bts_rc/weapons/weapon_bts_beretta.txt",
         "sprites/bts_rc/weapons/weapon_bts_crowbar.txt",
@@ -1140,6 +1173,7 @@ namespace precache
         "sprites/bts_rc/weapons/weapon_bts_sbshotgun.txt",
         "sprites/bts_rc/weapons/weapon_bts_screwdriver.txt",
         "sprites/bts_rc/weapons/weapon_bts_shotgun.txt",
-        "sprites/bts_rc/weapons/weapon_bts_uzi.txt"
+        "sprites/bts_rc/weapons/weapon_bts_uzi.txt",
+        "sprites/bts_rc/weapons/weapon_bts_uzisd.txt"
     };
 }
