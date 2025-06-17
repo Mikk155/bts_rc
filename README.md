@@ -24,6 +24,12 @@
     - ``0``
         - Player does voice responses to game events. Default.
 
+- ``as_command bts_rc_disable_player_models`` (value)
+    - ``1``
+        - Disables the overriden player models
+    - ``0``
+        - use bts player models
+
 - ``as_command bts_rc_disable_sentry_laser`` (value)
     - ``1``
         - Disables sentry and turrets from having laser indicators
