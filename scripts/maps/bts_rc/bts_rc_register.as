@@ -307,6 +307,7 @@ mixin class bts_rc_base_melee
 /*==========================================================================
 *   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
 ==========================================================================*/
+CCVar@ cvar_player_models = CCVar( "bts_rc_disable_player_models", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
 CCVar@ cvar_player_voices = CCVar( "bts_rc_disable_player_voices", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
 CCVar@ cvar_bloodpuddles = CCVar( "bts_rc_disable_bloodpuddles", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly );
 CCVar@ cvar_sentry_laser = CCVar( "bts_rc_disable_sentry_laser", -1, String::EMPTY_STRING, ConCommandFlag::AdminOnly, @CSentryCallback );
