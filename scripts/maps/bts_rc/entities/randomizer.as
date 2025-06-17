@@ -437,8 +437,6 @@ namespace randomizer
                 "GM_SLAVE_S6",
                 "GM_SLAVE_S7",
                 "GM_SLAVE_S8",
-                "GM_SHOCKTROOPER_S1",
-                "GM_SHOCKTROOPER_S2",
                 "GM_PITDRONE_S1",
                 "GM_PITDRONE_S2",
                 "GM_PITDRONE_S3",
@@ -546,7 +544,6 @@ namespace randomizer
             return
             {
                 "GM_R_VOLT_S1",
-                "GM_R_SHOCK_S1",
                 "GM_R_AGRUNT_S1",
                 "GM_R_AGRUNT_S2",
                 "GM_AGRUNT_TORTURED1",
