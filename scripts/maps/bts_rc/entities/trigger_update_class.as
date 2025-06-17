@@ -432,7 +432,7 @@ namespace trigger_update_class
                                 { "item_group", "Items" },
                                 { "description", "Increased damage... at a cost. (25 SLOTS)" },
                                 { "display_name", "Adrenaline" },
-                                { "effect_damage", "115" }
+                                { "effect_damage", "108" }
                             } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: SPEED RUNNER" );
                             break;
@@ -459,7 +459,7 @@ namespace trigger_update_class
                                 { "item_group", "Items" },
                                 { "description", "Increased movement speed (10 SLOTS)" },
                                 { "display_name", "Morphine Can" },
-                                { "effect_speed", "115" }
+                                { "effect_speed", "108" }
                             } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: JUNKY" );
                             break;
