@@ -19,33 +19,33 @@ namespace weapon_bts_glocksd
         DRAW,
         HOLSTER,
         ADD_SILENCER,
-		FLASH
+        FLASH
     };
 
     // Weapon info
     int MAX_CARRY = 120;
-	int MAX_CARRY2 = 10;
+    int MAX_CARRY2 = 10;
     int MAX_CLIP = 17;
-	int MAX_CLIP2 = WEAPON_NOCLIP;
+    int MAX_CLIP2 = WEAPON_NOCLIP;
     // int DEFAULT_GIVE = Math.RandomLong( 8, 17 );
     int AMMO_GIVE = MAX_CLIP;
-	int AMMO_GIVE2 = 1;
+    int AMMO_GIVE2 = 1;
     int AMMO_DROP = AMMO_GIVE;
-	int AMMO_DROP2 = AMMO_GIVE2;
+    int AMMO_DROP2 = AMMO_GIVE2;
     int WEIGHT = 10;
     // Weapon HUD
     int SLOT = 1;
     int POSITION = 5;
     // Vars
     int DAMAGE = 16;
-	float DRAIN_TIME = 0.8f;
+    float DRAIN_TIME = 0.8f;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
-		private EHandle m_hLaser; // Yeah... no custom eagle_laser (laser_spot)
-		private int m_kLaserState; // 0: off, 1: on, 2: on (for deploy)
+        private EHandle m_hLaser; // Yeah... no custom eagle_laser (laser_spot)
+        private int m_kLaserState; // 0: off, 1: on, 2: on (for deploy)
 
         private int m_iFlashBattery
         {
@@ -67,7 +67,7 @@ namespace weapon_bts_glocksd
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_9mmhandgunsd.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 8, MAX_CLIP );
             self.FallInit();
-			m_kLaserState = 0;
+            m_kLaserState = 0;
         }
 
         bool GetItemInfo( ItemInfo& out info )
@@ -87,10 +87,10 @@ namespace weapon_bts_glocksd
 
         bool Deploy()
         {
-		    m_iCurrentBaterry = m_iFlashBattery;
+            m_iCurrentBaterry = m_iFlashBattery;
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT; // just to be sure
             m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
-			m_kLaserState = 0;
+            m_kLaserState = 0;
 
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
@@ -108,7 +108,7 @@ namespace weapon_bts_glocksd
             if ( m_pPlayer.FlashlightIsOn() )
                 FlashlightTurnOff();
 
-			m_kLaserState = 0;
+            m_kLaserState = 0;
             m_flRestoreAfter = 0.0f;
             m_iFlashBattery = m_iCurrentBaterry;
             m_pPlayer.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
@@ -155,7 +155,7 @@ namespace weapon_bts_glocksd
                 m_flRestoreAfter = 0.0f;
                 m_pPlayer.pev.effects |= EF_DIMLIGHT;
             }
-			UpdateLaser();
+            UpdateLaser();
             BaseClass.ItemPostFrame();
         }
 
@@ -188,10 +188,10 @@ namespace weapon_bts_glocksd
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-					m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
-				
-				self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
-				self.SendWeaponAnim( FLASH, 0, pev.body );
+                    m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
+                
+                self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+                self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
             }
         }
@@ -200,19 +200,19 @@ namespace weapon_bts_glocksd
         {
             if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
                 return;
-				
-			    if( m_pPlayer.FlashlightIsOn() )
+                
+                if( m_pPlayer.FlashlightIsOn() )
                 FlashlightTurnOff();
-				m_kLaserState = 0;
-				
-			NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
+                m_kLaserState = 0;
+                
+            NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
                 msg.WriteByte( 0 );
                 msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_EMPTY, 1.5f, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
             BaseClass.Reload();
         }
 
@@ -258,12 +258,12 @@ namespace weapon_bts_glocksd
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
-			
-			float CONE = Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
-			if (m_kLaserState != 0)
-			{
-				CONE *= 0.3f;
-			}
+            
+            float CONE = Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
+            if (m_kLaserState != 0)
+            {
+                CONE *= 0.3f;
+            }
 
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
@@ -303,10 +303,10 @@ namespace weapon_bts_glocksd
             self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
 
             self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.05f : 0.10f );
-			if (m_kLaserState != 0)
-			{
-				self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.10f : 0.13f );
-			}
+            if (m_kLaserState != 0)
+            {
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.10f : 0.13f );
+            }
 
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         }
@@ -315,56 +315,56 @@ namespace weapon_bts_glocksd
         {
             SetThink( ThinkFunction( BaterryRechargeEnd ) );
             pev.nextthink = g_Engine.time + 4.0f;
-			FlashlightTurnOff();
+            FlashlightTurnOff();
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         }
 
-	  private void UpdateLaser()
-	  {
-		if (m_kLaserState == 0)
-		  return;
+      private void UpdateLaser()
+      {
+        if (m_kLaserState == 0)
+          return;
 
-		Math.MakeVectors(m_pPlayer.pev.v_angle);
-		Vector vecSrc = m_pPlayer.GetGunPosition();
-		Vector vecEnd = vecSrc + (g_Engine.v_forward * 8192.0f);
+        Math.MakeVectors(m_pPlayer.pev.v_angle);
+        Vector vecSrc = m_pPlayer.GetGunPosition();
+        Vector vecEnd = vecSrc + (g_Engine.v_forward * 8192.0f);
 
-		TraceResult tr;
-		g_Utility.TraceLine(vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr);
-		g_EntityFuncs.SetOrigin(m_pLaser, tr.vecEndPos);
+        TraceResult tr;
+        g_Utility.TraceLine(vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr);
+        g_EntityFuncs.SetOrigin(m_pLaser, tr.vecEndPos);
 
-		if (m_kLaserState == 2)
-		{
-		  m_kLaserState = 1;
-		  m_pLaser.pev.effects &= ~EF_NODRAW;
-		  g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_sight.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM);
-		}
+        if (m_kLaserState == 2)
+        {
+          m_kLaserState = 1;
+          m_pLaser.pev.effects &= ~EF_NODRAW;
+          g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_sight.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM);
+        }
 
-		if (m_pLaser.pev.dmgtime != 0.0f && g_Engine.time > m_pLaser.pev.dmgtime)
-		{
-		  m_pLaser.pev.dmgtime = 0.0f;
-		  m_pLaser.pev.effects &= ~EF_NODRAW;
-		}
-	  }
+        if (m_pLaser.pev.dmgtime != 0.0f && g_Engine.time > m_pLaser.pev.dmgtime)
+        {
+          m_pLaser.pev.dmgtime = 0.0f;
+          m_pLaser.pev.effects &= ~EF_NODRAW;
+        }
+      }
 
-	  // Instead of creating/removing in Holster, Deploy, SecondaryAttack
-	  // only creates a new one if the previous one was somehow deleted
-	  private CBaseEntity@ get_m_pLaser() property
-	  {
-		if (!m_hLaser)
-		{
-		  m_hLaser = EHandle(g_EntityFuncs.CreateEntity("info_target", null, false));
-		  g_EntityFuncs.SetModel(m_hLaser.GetEntity(), "sprites/laserdot.spr");
-		  m_hLaser.GetEntity().pev.movetype = MOVETYPE_NONE;
-		  m_hLaser.GetEntity().pev.solid = SOLID_NOT;
-		  m_hLaser.GetEntity().pev.scale = 0.5f;
-		  m_hLaser.GetEntity().pev.rendermode = kRenderGlow;
-		  m_hLaser.GetEntity().pev.renderamt = 255.0f;
-		  m_hLaser.GetEntity().pev.renderfx = kRenderFxNoDissipation;
-		  g_EntityFuncs.DispatchSpawn(m_hLaser.GetEntity().edict());
-		}
-		return m_hLaser.GetEntity();
-	  }
+      // Instead of creating/removing in Holster, Deploy, SecondaryAttack
+      // only creates a new one if the previous one was somehow deleted
+      private CBaseEntity@ get_m_pLaser() property
+      {
+        if (!m_hLaser)
+        {
+          m_hLaser = EHandle(g_EntityFuncs.CreateEntity("info_target", null, false));
+          g_EntityFuncs.SetModel(m_hLaser.GetEntity(), "sprites/laserdot.spr");
+          m_hLaser.GetEntity().pev.movetype = MOVETYPE_NONE;
+          m_hLaser.GetEntity().pev.solid = SOLID_NOT;
+          m_hLaser.GetEntity().pev.scale = 0.5f;
+          m_hLaser.GetEntity().pev.rendermode = kRenderGlow;
+          m_hLaser.GetEntity().pev.renderamt = 255.0f;
+          m_hLaser.GetEntity().pev.renderfx = kRenderFxNoDissipation;
+          g_EntityFuncs.DispatchSpawn(m_hLaser.GetEntity().edict());
+        }
+        return m_hLaser.GetEntity();
+      }
 
         private void BaterryRechargeEnd()
         {
@@ -385,10 +385,10 @@ namespace weapon_bts_glocksd
         private void FlashlightTurnOn()
         {
             g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_sight.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM);
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/flashlight1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/flashlight1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
             m_pPlayer.pev.effects |= EF_DIMLIGHT;
-			m_pLaser.pev.effects &= ~EF_NODRAW;
-			m_kLaserState = 1;
+            m_pLaser.pev.effects &= ~EF_NODRAW;
+            m_kLaserState = 1;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
                 msg.WriteByte( 1 );
@@ -401,10 +401,10 @@ namespace weapon_bts_glocksd
         private void FlashlightTurnOff()
         {
             g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM);
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/flashlight1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/flashlight1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-			m_pLaser.pev.effects |= EF_NODRAW;
-			m_kLaserState = 0;
+            m_pLaser.pev.effects |= EF_NODRAW;
+            m_kLaserState = 0;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
                 msg.WriteByte( 0 );
@@ -412,6 +412,6 @@ namespace weapon_bts_glocksd
             msg.End();
 
             m_flFlashLightTime = 0.0f;
-        }		
+        }       
     }
 }

@@ -25,7 +25,7 @@ namespace weapon_bts_saw
     // int DEFAULT_GIVE = Math.RandomLong( 19, 100 );
     int AMMO_GIVE = MAX_CLIP;
     int AMMO_DROP = AMMO_GIVE;
-	int AMMO_DROPPED = 50;
+    int AMMO_DROPPED = 50;
     int WEIGHT = 20;
     // Weapon HUD
     int SLOT = 3;
@@ -45,14 +45,14 @@ namespace weapon_bts_saw
 
         private bool m_bAlternatingEject;
         private int m_iTracerCount;
-		private bool m_bFixBeltAfterReload;
+        private bool m_bFixBeltAfterReload;
 
         void Spawn()
         {
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_saw.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 19, MAX_CLIP );
             self.FallInit();
-			pev.scale = 0.8;
+            pev.scale = 0.8;
 
             m_iTracerCount = 0;
             m_bAlternatingEject = false;
@@ -88,12 +88,12 @@ namespace weapon_bts_saw
         {
             BaseClass.ItemPostFrame();
 
-			// Reload just finished → engine has set m_iClip
-			if (m_bFixBeltAfterReload && !self.m_fInReload)
-			{
-				m_bFixBeltAfterReload = false;
-				RecalculateBody(self.m_iClip);
-			}
+            // Reload just finished → engine has set m_iClip
+            if (m_bFixBeltAfterReload && !self.m_fInReload)
+            {
+                m_bFixBeltAfterReload = false;
+                RecalculateBody(self.m_iClip);
+            }
 
             // Speed up player reload anim
             // Surely no one will change anim_extensions :clueless:
@@ -125,7 +125,7 @@ namespace weapon_bts_saw
 
             RecalculateBody(--self.m_iClip);
             m_bAlternatingEject = !m_bAlternatingEject;
-			
+            
 
             m_pPlayer.pev.effects |= EF_MUZZLEFLASH;
             pev.effects |= EF_MUZZLEFLASH;
@@ -213,11 +213,11 @@ namespace weapon_bts_saw
         {
             if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 )
                 return;
-			
-			m_bFixBeltAfterReload = true;
-			RecalculateBody(self.m_iClip);
+            
+            m_bFixBeltAfterReload = true;
+            RecalculateBody(self.m_iClip);
             self.DefaultReload( MAX_CLIP, RELOAD_START, 2.0f, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
             self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 4.4f;
             SetThink( ThinkFunction( this.FinishAnim ) );
             pev.nextthink = g_Engine.time + 1.94f;
@@ -245,31 +245,31 @@ namespace weapon_bts_saw
             }
         }
 
-		private void RecalculateBody(int iClip)
-		{
-			int roundsBody;
+        private void RecalculateBody(int iClip)
+        {
+            int roundsBody;
 
-			if (iClip <= 0)
-				roundsBody = 8;
-			else if (iClip < 8)
-				roundsBody = 9 - iClip;
-			else
-				roundsBody = 0;
+            if (iClip <= 0)
+                roundsBody = 8;
+            else if (iClip < 8)
+                roundsBody = 9 - iClip;
+            else
+                roundsBody = 0;
 
-			// ONLY change bodygroup 2 (SAW rounds)
-				pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_saw.mdl")), pev.body, 2, roundsBody);
-		}
+            // ONLY change bodygroup 2 (SAW rounds)
+                pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_saw.mdl")), pev.body, 2, roundsBody);
+        }
 
         private void FinishAnim()
         {
-			int roundsBody;
-		
+            int roundsBody;
+        
             SetThink( null );
-			roundsBody = self.m_iClip;
-			pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_saw.mdl")), pev.body, 2, roundsBody); // HACKY HACK HAACKS
-			pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex("models/bts_rc/weapons/v_saw.mdl"), pev.body, 1, g_PlayerClass[m_pPlayer]);
+            roundsBody = self.m_iClip;
+            pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_saw.mdl")), pev.body, 2, roundsBody); // HACKY HACK HAACKS
+            pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex("models/bts_rc/weapons/v_saw.mdl"), pev.body, 1, g_PlayerClass[m_pPlayer]);
             self.SendWeaponAnim( RELOAD_END, 0, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
         }
     }
 }

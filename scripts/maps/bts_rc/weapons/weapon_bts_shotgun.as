@@ -26,7 +26,7 @@ namespace weapon_bts_shotgun
     // int DEFAULT_GIVE = Math.RandomLong( 2, 8 );
     int AMMO_GIVE = MAX_CLIP;
     int AMMO_DROP = AMMO_GIVE;
-	int AMMO_GIVE_DROP = 3;
+    int AMMO_GIVE_DROP = 3;
     int WEIGHT = 15;
     // Weapon HUD
     int SLOT = 2;

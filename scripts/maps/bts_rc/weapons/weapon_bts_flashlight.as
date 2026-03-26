@@ -20,7 +20,7 @@ namespace weapon_bts_flashlight
         ATTACK3HIT,
         IDLE2,
         IDLE3,
-		FLASH
+        FLASH
     };
 
     // Weapon info
@@ -183,10 +183,10 @@ namespace weapon_bts_flashlight
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-					m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
-				
-				self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
-				self.SendWeaponAnim( FLASH, 0, pev.body );
+                    m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
+                
+                self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+                self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
             }
         }
@@ -213,7 +213,7 @@ namespace weapon_bts_flashlight
         {
             SetThink( ThinkFunction( BaterryRechargeEnd ) );
             pev.nextthink = g_Engine.time + 4.0f;
-			FlashlightTurnOff();
+            FlashlightTurnOff();
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         }

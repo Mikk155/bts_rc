@@ -19,7 +19,7 @@ namespace weapon_bts_beretta
         DRAW,
         HOLSTER,
         ADD_SILENCER, // IDLE3_2
-		FLASH
+        FLASH
     };
 
     // Weapon info
@@ -193,7 +193,7 @@ namespace weapon_bts_beretta
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
 
             float CONE = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
-			CONE *= 0.6f;
+            CONE *= 0.6f;
 
             Vector vecDir = vecAiming + x * CONE * g_Engine.v_right + y * CONE * g_Engine.v_up;
             Vector vecEnd = vecSrc + vecDir * 8192.0f;
@@ -259,10 +259,10 @@ namespace weapon_bts_beretta
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-					m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
-				
-				self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
-				self.SendWeaponAnim( FLASH, 0, pev.body );
+                    m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
+                
+                self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+                self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
             }
         }
@@ -281,7 +281,7 @@ namespace weapon_bts_beretta
 
             self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_EMPTY, 1.5f, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
             BaseClass.Reload();
         }
 
@@ -307,7 +307,7 @@ namespace weapon_bts_beretta
         {
             SetThink( ThinkFunction( BaterryRechargeEnd ) );
             pev.nextthink = g_Engine.time + 4.0f;
-			FlashlightTurnOff();
+            FlashlightTurnOff();
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         }

@@ -15,9 +15,9 @@ namespace weapon_bts_mp5gl
         SHOOT1,
         SHOOT2,
         SHOOT3,
-		BURSTE
+        BURSTE
     };
-	
+    
     enum modes_e
     {
         BURST = 0,
@@ -49,9 +49,9 @@ namespace weapon_bts_mp5gl
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
         private int m_iTracerCount;
-		private int m_iFireMode;
-		private int m_iBurstCount = 0, m_iBurstLeft = 0;
-		private float m_flNextBurstFireTime = 0;
+        private int m_iFireMode;
+        private int m_iBurstCount = 0, m_iBurstLeft = 0;
+        private float m_flNextBurstFireTime = 0;
 
         void Spawn()
         {
@@ -59,7 +59,7 @@ namespace weapon_bts_mp5gl
             self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
             self.m_iDefaultSecAmmo = Math.RandomLong( 0, 1 );
             self.FallInit();
-			m_iFireMode = FULL_AUTO;
+            m_iFireMode = FULL_AUTO;
 
             m_iTracerCount = 0;
         }
@@ -87,7 +87,7 @@ namespace weapon_bts_mp5gl
         void Holster( int skiplocal = 0 )
         {
             BaseClass.Holster( skiplocal );
-			m_iBurstLeft = 0;
+            m_iBurstLeft = 0;
         }
 
         bool PlayEmptySound()
@@ -99,39 +99,39 @@ namespace weapon_bts_mp5gl
             }
             return false;
         }
-		
-		void ItemPostFrame()
-		{
-			if( m_iFireMode == BURST )
-			{
-				if( m_iBurstLeft > 0 )
-				{
-					if( m_flNextBurstFireTime < g_Engine.time)
-					{
-						if( self.m_iClip <= 0 )
-						{
-							m_iBurstLeft = 0;
-							return;
-						}
-						else
-							--m_iBurstLeft;
+        
+        void ItemPostFrame()
+        {
+            if( m_iFireMode == BURST )
+            {
+                if( m_iBurstLeft > 0 )
+                {
+                    if( m_flNextBurstFireTime < g_Engine.time)
+                    {
+                        if( self.m_iClip <= 0 )
+                        {
+                            m_iBurstLeft = 0;
+                            return;
+                        }
+                        else
+                            --m_iBurstLeft;
 
-						Fire();
+                        Fire();
 
-						if( m_iBurstLeft > 0 )
-							m_flNextBurstFireTime = (self.m_flNextPrimaryAttack = g_Engine.time + 0.07f );
-						else
-							m_flNextBurstFireTime = 1.0f;
-					}
+                        if( m_iBurstLeft > 0 )
+                            m_flNextBurstFireTime = (self.m_flNextPrimaryAttack = g_Engine.time + 0.07f );
+                        else
+                            m_flNextBurstFireTime = 1.0f;
+                    }
 
-					//While firing a burst, don't allow reload or any other weapon actions. Might be best to let some things run though.
-					return;
-				}
-			}
+                    //While firing a burst, don't allow reload or any other weapon actions. Might be best to let some things run though.
+                    return;
+                }
+            }
 
-			BaseClass.ItemPostFrame();
-		}
-		
+            BaseClass.ItemPostFrame();
+        }
+        
         void PrimaryAttack()
         {
             // don't fire underwater
@@ -145,24 +145,24 @@ namespace weapon_bts_mp5gl
             m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
             m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
 
-			if( m_iFireMode == BURST )
-			{
-				m_iBurstCount = Math.min( 3, self.m_iClip );
-				m_iBurstLeft = m_iBurstCount - 1;
+            if( m_iFireMode == BURST )
+            {
+                m_iBurstCount = Math.min( 3, self.m_iClip );
+                m_iBurstLeft = m_iBurstCount - 1;
 
-				m_flNextBurstFireTime = g_Engine.time + 0.09f;
-				//Prevent primary attack before burst finishes. Might need to be finetuned.
-				self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.425f;
-			}
-			else
-			{
-				if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
-					self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = (self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
-				else
-					self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = (self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
-			}
-			Fire();
-		}
+                m_flNextBurstFireTime = g_Engine.time + 0.09f;
+                //Prevent primary attack before burst finishes. Might need to be finetuned.
+                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.425f;
+            }
+            else
+            {
+                if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = (self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
+                else
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = (self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
+            }
+            Fire();
+        }
 
         void Fire()
         {
@@ -181,10 +181,10 @@ namespace weapon_bts_mp5gl
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
-			if( m_iFireMode == BURST )
-			{
-				CONE *= 0.2f;
-			}
+            if( m_iFireMode == BURST )
+            {
+                CONE *= 0.2f;
+            }
 
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
@@ -243,10 +243,10 @@ namespace weapon_bts_mp5gl
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
-			if( m_iFireMode == BURST )
-			{
-				self.m_flNextPrimaryAttack = g_Engine.time + 0.24f;
-			}
+            if( m_iFireMode == BURST )
+            {
+                self.m_flNextPrimaryAttack = g_Engine.time + 0.24f;
+            }
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
         }
 
@@ -255,17 +255,17 @@ namespace weapon_bts_mp5gl
             if( m_iFireMode == BURST )
             {
                 m_iFireMode = FULL_AUTO;
-				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_slap.wav", 0.8f, ATTN_NORM, 0, 100 );
+                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_slap.wav", 0.8f, ATTN_NORM, 0, 100 );
             }
             else
             {
                 m_iFireMode = BURST;
-				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Burst\n" );
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_slap.wav", 0.8f, ATTN_NORM, 0, 115 );
+                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Burst\n" );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_slap.wav", 0.8f, ATTN_NORM, 0, 115 );
             }
-			self.SendWeaponAnim( BURSTE, 0, pev.body );
-			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+            self.SendWeaponAnim( BURSTE, 0, pev.body );
+            self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
         }
 
@@ -324,7 +324,7 @@ namespace weapon_bts_mp5gl
                 return;
 
             self.DefaultReload( MAX_CLIP, RELOAD, 3.0f, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/mp5_clip.wav", 0.15f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/mp5_clip.wav", 0.15f, ATTN_NORM, 0, PITCH_NORM );
             self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
             BaseClass.Reload();
         }

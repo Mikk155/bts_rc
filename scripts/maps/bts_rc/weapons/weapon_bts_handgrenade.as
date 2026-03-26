@@ -71,9 +71,9 @@ namespace weapon_bts_handgrenade
 
         bool Deploy()
         {
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/grenade_draw.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/grenade_draw.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
             m_iAmmoSave = 0; // Zero out the ammo save
-			m_fAttackStart = 0.0; //Nero ADDED 2026-01-15
+            m_fAttackStart = 0.0; //Nero ADDED 2026-01-15
             return bts_deploy( "models/bts_rc/weapons/v_grenade.mdl", "models/hlclassic/p_grenade.mdl", DRAW, "gren", 1, 0.66f );
         }
 
@@ -95,27 +95,27 @@ namespace weapon_bts_handgrenade
 
         void Holster( int skiplocal = 0 )
         {
-			//Nero ADDED 2026-01-15
-			if( m_pPlayer.pev.deadflag != DEAD_NO and m_fAttackStart != 0 )
-			{
-				Vector vecHandPos, vecVelocity;
-				g_EngineFuncs.GetBonePosition( m_pPlayer.edict(), 28, vecHandPos, void );
+            //Nero ADDED 2026-01-15
+            if( m_pPlayer.pev.deadflag != DEAD_NO and m_fAttackStart != 0 )
+            {
+                Vector vecHandPos, vecVelocity;
+                g_EngineFuncs.GetBonePosition( m_pPlayer.edict(), 28, vecHandPos, void );
 
-				vecVelocity = Vector( Math.RandomFloat(-20.0, 20.0), Math.RandomFloat(-20.0, 20.0), 40.0 );
-				CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecHandPos, vecVelocity, TIMER );
-				if( pGrenade !is null )
-				{
-					g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );
-					pGrenade.pev.dmg = DAMAGE;
-				}
+                vecVelocity = Vector( Math.RandomFloat(-20.0, 20.0), Math.RandomFloat(-20.0, 20.0), 40.0 );
+                CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecHandPos, vecVelocity, TIMER );
+                if( pGrenade !is null )
+                {
+                    g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );
+                    pGrenade.pev.dmg = DAMAGE;
+                }
 
-				m_fAttackStart = 0.0;
-			}
-			//Nero ADDED 2026-01-15
+                m_fAttackStart = 0.0;
+            }
+            //Nero ADDED 2026-01-15
 
             m_bThrown = false;
             m_bInAttack = false;
-			//m_fAttackStart = 0.0f; //Nero REMOVED 2026-01-15
+            //m_fAttackStart = 0.0f; //Nero REMOVED 2026-01-15
 
             SetThink( null );
 
@@ -155,15 +155,15 @@ namespace weapon_bts_handgrenade
         {
             Vector angThrow = m_pPlayer.pev.v_angle + m_pPlayer.pev.punchangle;
 
-			switch (Math.RandomLong(0, 1))
-			{
-			case 0:
-				  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "bts_rc/weapons/grenade_throw1.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
-				  break;
-			case 1:
-				  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "bts_rc/weapons/grenade_throw2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
-				  break;
-			}
+            switch (Math.RandomLong(0, 1))
+            {
+            case 0:
+                  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "bts_rc/weapons/grenade_throw1.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
+                  break;
+            case 1:
+                  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "bts_rc/weapons/grenade_throw2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
+                  break;
+            }
 
             if( angThrow.x < 0.0f )
                 angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );

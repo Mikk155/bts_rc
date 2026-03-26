@@ -17,7 +17,7 @@ namespace weapon_bts_m4sd
         SHOOT2,
         SHOOT3,
     };
-	
+    
     enum modes_e
     {
         SEMI = 0,
@@ -43,14 +43,14 @@ namespace weapon_bts_m4sd
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
         private int m_iTracerCount;
-		private int m_iFireMode;
+        private int m_iFireMode;
 
         void Spawn()
         {
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_m4sd.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
             self.FallInit();
-			m_iFireMode = SEMI;
+            m_iFireMode = SEMI;
 
             m_iTracerCount = 0;
         }
@@ -100,11 +100,11 @@ namespace weapon_bts_m4sd
                 self.m_flNextPrimaryAttack = g_Engine.time + 0.10f;
                 return;
             }
-			if ( m_iFireMode == SEMI )
-			{
-				if( ( m_pPlayer.m_afButtonPressed & IN_ATTACK ) == 0 )
-					return;
-			}
+            if ( m_iFireMode == SEMI )
+            {
+                if( ( m_pPlayer.m_afButtonPressed & IN_ATTACK ) == 0 )
+                    return;
+            }
 
             m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
             m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
@@ -124,10 +124,10 @@ namespace weapon_bts_m4sd
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
-			if( m_iFireMode == SEMI )
-			{
-				CONE *= 0.8f;
-			}
+            if( m_iFireMode == SEMI )
+            {
+                CONE *= 0.8f;
+            }
 
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
@@ -209,17 +209,17 @@ namespace weapon_bts_m4sd
             if( m_iFireMode == SEMI )
             {
                 m_iFireMode = FULL_AUTO;
-				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/grenade_pinpull.wav", 0.8f, ATTN_NORM, 0, 100 );
+                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/grenade_pinpull.wav", 0.8f, ATTN_NORM, 0, 100 );
             }
             else
             {
                 m_iFireMode = SEMI;
-				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Semi\n" );
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/grenade_pinpull.wav", 0.8f, ATTN_NORM, 0, 115 );
+                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Semi\n" );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/grenade_pinpull.wav", 0.8f, ATTN_NORM, 0, 115 );
             }
-			self.SendWeaponAnim( LONGIDLE, 0, pev.body );
-			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+            self.SendWeaponAnim( LONGIDLE, 0, pev.body );
+            self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
         }
 
@@ -230,7 +230,7 @@ namespace weapon_bts_m4sd
 
             self.SetFOV( 0 );
             self.DefaultReload( MAX_CLIP, RELOAD, 2.75f, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget_3.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget_3.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
             self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
             BaseClass.Reload();
         }

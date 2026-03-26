@@ -121,7 +121,7 @@ class ammo_bts_glock18 : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
         Spawn("models/hlclassic/w_9mmclip.mdl" );
-		pev.scale = 1.1;
+        pev.scale = 1.1;
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, weapon_bts_glock18::AMMO_GIVE, "9mm", weapon_bts_glock18::MAX_CARRY );
@@ -163,7 +163,7 @@ class ammo_bts_m16sd : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
         Spawn("models/bts_rc/weapons/w_556nato.mdl" );
-		pev.scale = 0.9;
+        pev.scale = 0.9;
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, weapon_bts_m16sd::AMMO_GIVE, "556", weapon_bts_m16sd::MAX_CARRY, "hlclassic/weapons/reload2.wav");
@@ -185,7 +185,7 @@ class ammo_bts_dummy : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
         Spawn("models/bts_rc/furniture/w_flashlightbattery.mdl" );
-		pev.scale = 0.1;
+        pev.scale = 0.1;
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, 1, "uranium", 1, "bts_rc/weapons/m79_close.wav");
@@ -296,7 +296,7 @@ class ammo_bts_sbshotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn() {
         Spawn("models/hlclassic/w_shotshell.mdl" );
-		pev.scale = 0.9;
+        pev.scale = 0.9;
     }
     bool AddAmmo( CBaseEntity@ other ) {
         return AddAmmo(other, weapon_bts_sbshotgun::AMMO_GIVE_DROP, "buckshot", weapon_bts_sbshotgun::MAX_CARRY, "hlclassic/weapons/reload1.wav");
