@@ -30,7 +30,7 @@ namespace weapon_bts_glock
     int SLOT = 1;
     int POSITION = 4;
     // Vars
-    int DAMAGE = 13;
+    int DAMAGE = 15;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_glock : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
@@ -39,7 +39,7 @@ namespace weapon_bts_glock
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/hlclassic/w_9mmhandgun.mdl" ) );
+            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_9mmhandgun.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 8, MAX_CLIP );
             self.FallInit();
         }
@@ -61,7 +61,7 @@ namespace weapon_bts_glock
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2 );
+            return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2, 0.45f);
         }
 
         void Holster( int skiplocal = 0 )
@@ -81,7 +81,7 @@ namespace weapon_bts_glock
 
         void PrimaryAttack()
         {
-            Fire( Accuracy( 0.01f, 0.02f, 0.005f, 0.01f ), 0.3f );
+            Fire( Accuracy( 0.01f, 0.03f, 0.01f, 0.04f ), 0.3f );
         }
 
         void SecondaryAttack()
@@ -96,6 +96,7 @@ namespace weapon_bts_glock
 
             self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_EMPTY, 1.5f, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
             BaseClass.Reload();
         }
 
@@ -122,9 +123,12 @@ namespace weapon_bts_glock
             if( self.m_iClip <= 0 )
             {
                 self.PlayEmptySound();
-                self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
+                self.m_flNextPrimaryAttack = g_Engine.time + 0.05f;
                 return;
             }
+
+            if( ( m_pPlayer.m_afButtonPressed & IN_ATTACK ) == 0 )
+                return;
 
             m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
             m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
@@ -174,7 +178,9 @@ namespace weapon_bts_glock
             if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + flCycleTime;
+            self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
+
+            self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.05f : 0.10f );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         }
     }

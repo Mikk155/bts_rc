@@ -6,7 +6,7 @@
 
 namespace env_bloodpuddle
 {
-#if SERVER
+#if DEVELOP
     CLogger@ m_Logger = CLogger( "Blood Puddle" );
 #endif
 
@@ -49,7 +49,7 @@ namespace env_bloodpuddle
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
                     self.pev.sequence = 0;
-#if SERVER
+#if DEVELOP
                     m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
 #endif
                     break;
@@ -61,7 +61,7 @@ namespace env_bloodpuddle
                     self.pev.sequence = 1;
                     self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );  
                     self.pev.frame = 0;
-#if SERVER
+#if DEVELOP
                     m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\" at framerate of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale, self.pev.framerate } );
 #endif
                     break;
@@ -84,9 +84,16 @@ namespace env_bloodpuddle
                     }
 
                     self.pev.renderamt -= 1;
-                    self.pev.nextthink = g_Engine.time + 0.1;
+                    self.pev.nextthink = g_Engine.time + 4.0;
                     break;
                 }
+
+			/*	case BLOOD_STATE::EXPANDED:
+				{
+					// Puddle stays forever instead.
+					self.pev.nextthink = g_Engine.time + 1.0;
+					break;
+				}*/
 
                 case BLOOD_STATE::IDLE:
                 case BLOOD_STATE::EXPANDING:

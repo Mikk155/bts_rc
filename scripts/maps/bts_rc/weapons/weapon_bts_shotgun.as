@@ -26,12 +26,13 @@ namespace weapon_bts_shotgun
     // int DEFAULT_GIVE = Math.RandomLong( 2, 8 );
     int AMMO_GIVE = MAX_CLIP;
     int AMMO_DROP = AMMO_GIVE;
+	int AMMO_GIVE_DROP = 3;
     int WEIGHT = 15;
     // Weapon HUD
     int SLOT = 2;
     int POSITION = 7;
     // Vars
-    int DAMAGE = 13;
+    int DAMAGE = 16;
     int PELLETS = 8;
     Vector SINGLE_CONE( 0.08716f, 0.04362f, 0.0f );
     Vector DOUBLE_CONE( 0.17365f, 0.04362f, 0.0f );
@@ -57,7 +58,7 @@ namespace weapon_bts_shotgun
         bool GetItemInfo( ItemInfo& out info )
         {
             info.iMaxAmmo1 = MAX_CARRY;
-            info.iAmmo1Drop = AMMO_DROP;
+            info.iAmmo1Drop = AMMO_GIVE_DROP;
             info.iMaxAmmo2 = -1;
             info.iAmmo2Drop = -1;
             info.iMaxClip = MAX_CLIP;

@@ -15,7 +15,7 @@ namespace M79_ROCKET
                 m1.WriteShort( self.entindex() );
                 m1.WriteShort( models::laserbeam );
                 m1.WriteByte( 20 ); // life
-                m1.WriteByte( 4 ); // width
+                m1.WriteByte( 2 ); // width
                 m1.WriteByte( 190 ); // r
                 m1.WriteByte( 190 ); // g
                 m1.WriteByte( 190 ); // b
@@ -80,7 +80,7 @@ namespace M79_ROCKET
                 }
 
                 m1.WriteByte( 15 ); // scale * 10
-                m1.WriteByte( 30 ); // framerate
+                m1.WriteByte( 10 ); // framerate
                 m1.WriteByte( TE_EXPLFLAG_NONE );
             m1.End();
 
@@ -92,7 +92,7 @@ namespace M79_ROCKET
             if( pev.owner !is null )
                 @pevOwner = pev.owner.vars;
 
-            g_WeaponFuncs.RadiusDamage( pev.origin, pev, pevOwner, pev.dmg, pev.fuser1, CLASS_NONE, DMG_MORTAR );
+            g_WeaponFuncs.RadiusDamage( pev.origin, pev, pevOwner, pev.dmg, pev.fuser1, CLASS_NONE, DMG_BLAST );
 
             g_Utility.DecalTrace( tr, DECAL_SCORCH1 + Math.RandomLong( 0, 1 ) );
 
