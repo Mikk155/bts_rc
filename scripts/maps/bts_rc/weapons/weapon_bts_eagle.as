@@ -265,7 +265,6 @@ namespace weapon_bts_eagle
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-                    m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
                 
                 self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
                 self.SendWeaponAnim( FLASH, 0, pev.body );
