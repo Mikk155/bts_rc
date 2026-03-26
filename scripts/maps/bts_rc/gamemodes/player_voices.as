@@ -12,6 +12,7 @@ class CVoice
     private array<string> voices;
 
     float cooldown = 0.0f;
+	float pitch = 100.0f;
 
     void push_back( const string& in sound )
     {
@@ -19,7 +20,7 @@ class CVoice
 
         this.voices.insertLast( sound );
 
-#if SERVER
+#if DEVELOP
         g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\" as \"{}\"", { sound, this.__owner__, this.__type__ } );
 #endif
     }
@@ -30,7 +31,7 @@ class CVoice
         this.__owner__ = owner;
     }
 
-    bool PlaySound( CBaseEntity@ target, const float volume = 1.0, const int pitch = PITCH_NORM, const int flags = 0 )
+    bool PlaySound( CBaseEntity@ target, const float volume = 1.0, const int pitchOverride = -1, const int flags = 0 )
     {
         if( target is null )
             return false;
@@ -42,7 +43,7 @@ class CVoice
 
         if( this.voices.length() <= 0 )
         {
-#if SERVER
+#if DEVELOP
             g_VoiceResponse.m_Logger.warn( "Tried to PlaySound on a empty CVoice list for \"{}\" at \"{}\"", { this.__type__, this.__owner__ } );
 #endif
 
@@ -51,11 +52,14 @@ class CVoice
 
         const string sound = this.voices[ Math.RandomLong( 0, this.voices.length() - 1 ) ];
 
-#if SERVER
+#if DEVELOP
         g_VoiceResponse.m_Logger.info( "PlaySound \"{}\" for {} as \"{}\" from \"{}\"", { sound, target.pev.netname, this.__type__, this.__owner__ } );
 #endif
 
-        g_SoundSystem.PlaySound( target.edict(), CHAN_VOICE, sound, volume, ATTN_NORM, flags, pitch, 0, true, target.GetOrigin() );
+// If pitchOverride == -1 → use class pitch
+    const int finalPitch = (pitchOverride == -1 ? int(this.pitch) : pitchOverride);
+
+        g_SoundSystem.PlaySound( target.edict(), CHAN_VOICE, sound, volume, ATTN_NORM, flags, finalPitch, 0, true, target.GetOrigin() );
 
         data[ this.__type__] = g_Engine.time + this.cooldown;
 
@@ -85,15 +89,18 @@ class CVoices
 
 class CVoiceResponse
 {
-#if SERVER
+#if DEVELOP
     CLogger@ m_Logger = CLogger( "Voice Responses" );
 #endif
 
     dictionary@ voices = {
         { "barney", null },
+		{ "veteran", null },
         { "scientist", null },
         { "construction", null },
-        { "helmet", null }
+        { "helmet", null },
+		{ "otis", null },
+		{ "bscientist", null }
     };
 
     CVoices@ opIndex( CBasePlayer@ player ) const
@@ -105,9 +112,17 @@ class CVoiceResponse
 
         switch( player_class )
         {
+			case PM::OPERATIVE:
             case PM::BARNEY:
                 return cast<CVoices@>( this.voices[ "barney" ] );
-
+				
+			case PM::OTIS:
+                return cast<CVoices@>( this.voices[ "otis" ] );
+				
+			case PM::VETERAN:
+				return cast<CVoices@>( this.voices[ "veteran" ] );
+			
+			case PM::GCONSTRUCTION:
             case PM::CONSTRUCTION:
                 return cast<CVoices@>( this.voices[ "construction" ] );
 
@@ -116,9 +131,11 @@ class CVoiceResponse
 
             case PM::CLSUIT:
                 return cast<CVoices@>( this.voices[ "cleansuit" ] );
+				
+			case PM::BSCIENTIST:
+                return cast<CVoices@>( this.voices[ "bscientist" ] );
 
             case PM::SCIENTIST:
-            case PM::BSCIENTIST:
             default:
                 return cast<CVoices@>( this.voices[ "scientist" ] );
         }

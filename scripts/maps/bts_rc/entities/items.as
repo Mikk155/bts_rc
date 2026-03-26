@@ -1,185 +1,191 @@
 class item_bts_armorvest : ScriptBasePlayerAmmoEntity
 {
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bshift/barney_vest.mdl" );
-        BaseClass.Spawn();
-    }
+	void Spawn()
+	{
+		g_EntityFuncs.SetModel(self, "models/bshift/barney_vest.mdl");
+		BaseClass.Spawn();
+	}
 
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        if( other is null || !other.IsPlayer() || !other.IsAlive() )
-            return false;
+	bool AddAmmo(CBaseEntity @other)
+	{
+		if (other is null || !other.IsPlayer() || !other.IsAlive())
+			return false;
 
-        CBasePlayer@ player = cast<CBasePlayer@>( other );
+		CBasePlayer @player = cast<CBasePlayer @>(other);
 
-        if( player is null )
-            return false;
+		if (player is null)
+			return false;
 
-        if( PM::HELMET == g_PlayerClass[ player, true ] )
-            return false;
+		auto PlayerClass = g_PlayerClass[player];
 
-        if( player.pev.armorvalue >= player.pev.armortype )
-            return false;
+		if (PlayerClass == PM::HELMET or PlayerClass == PM::CLSUIT)
+			return false;
 
-        player.pev.armorvalue += Math.RandomFloat( 20, 30 );
+		if (player.pev.armorvalue >= player.pev.armortype)
+			return false;
 
-        if( player.pev.armorvalue > player.pev.armortype )
-            player.pev.armorvalue = player.pev.armortype;
+		player.pev.armorvalue += Math.RandomFloat(20, 30);
 
-        // From CItemBattery at items.cpp
-        NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-            m.WriteString( "item_battery" );
-        m.End();
+		if (player.pev.armorvalue > player.pev.armortype)
+			player.pev.armorvalue = player.pev.armortype;
 
-        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "bts_rc/items/armor_pickup1.wav", 1, ATTN_NORM );
+		// From CItemBattery at items.cpp
+		NetworkMessage m(MSG_ONE, NetworkMessages::ItemPickup, player.edict());
+		m.WriteString("item_battery");
+		m.End();
 
-        self.UpdateOnRemove();
-        pev.flags |= FL_KILLME;
-        pev.targetname = String::EMPTY_STRING;
+		g_SoundSystem.EmitSound(player.edict(), CHAN_ITEM, "bts_rc/items/armor_pickup1.wav", 1, ATTN_NORM);
 
-        return true;
-    }
+		self.UpdateOnRemove();
+		pev.flags |= FL_KILLME;
+		pev.targetname = String::EMPTY_STRING;
+
+		return true;
+	}
 }
 
 class item_bts_helmet : ScriptBasePlayerAmmoEntity
 {
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bshift/barney_helmet.mdl" );
-        BaseClass.Spawn();
-    }
+	void Spawn()
+	{
+		g_EntityFuncs.SetModel(self, "models/bshift/barney_helmet.mdl");
+		BaseClass.Spawn();
+	}
 
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        if( other is null || !other.IsPlayer() || !other.IsAlive() )
-            return false;
+	bool AddAmmo(CBaseEntity @other)
+	{
+		if (other is null || !other.IsPlayer() || !other.IsAlive())
+			return false;
 
-        CBasePlayer@ player = cast<CBasePlayer@>( other );
+		CBasePlayer @player = cast<CBasePlayer @>(other);
 
-        if( player is null )
-            return false;
+		if (player is null)
+			return false;
 
-        if( PM::HELMET == g_PlayerClass[ player, true ] )
-            return false;
+		auto PlayerClass = g_PlayerClass[player];
 
-        if( player.pev.armorvalue >= player.pev.armortype )
-            return false;
+		if (PlayerClass == PM::HELMET or PlayerClass == PM::CLSUIT)
+			return false;
 
-        player.pev.armorvalue += Math.RandomFloat( 7, 10 );
+		if (player.pev.armorvalue >= player.pev.armortype)
+			return false;
 
-        if( player.pev.armorvalue > player.pev.armortype )
-            player.pev.armorvalue = player.pev.armortype;
+		player.pev.armorvalue += Math.RandomFloat(7, 10);
 
-        // From CItemBattery at items.cpp
-        NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-            m.WriteString( "item_battery" );
-        m.End();
+		if (player.pev.armorvalue > player.pev.armortype)
+			player.pev.armorvalue = player.pev.armortype;
 
-        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "bts_rc/items/armor_pickup1.wav", 1, ATTN_NORM );
+		// From CItemBattery at items.cpp
+		NetworkMessage m(MSG_ONE, NetworkMessages::ItemPickup, player.edict());
+		m.WriteString("item_battery");
+		m.End();
 
-        self.UpdateOnRemove();
-        pev.flags |= FL_KILLME;
-        pev.targetname = String::EMPTY_STRING;
+		g_SoundSystem.EmitSound(player.edict(), CHAN_ITEM, "bts_rc/items/armor_pickup1.wav", 1, ATTN_NORM);
 
-        return true;
-    }
+		self.UpdateOnRemove();
+		pev.flags |= FL_KILLME;
+		pev.targetname = String::EMPTY_STRING;
+
+		return true;
+	}
 }
 
 class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
 {
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/hlclassic/w_battery.mdl" );
-        BaseClass.Spawn();
-    }
+	void Spawn()
+	{
+		g_EntityFuncs.SetModel(self, "models/bts_rc/weapons/w_battery.mdl");
+		BaseClass.Spawn();
+	}
 
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        if( other is null || !other.IsPlayer() || !other.IsAlive() )
-            return false;
+	bool AddAmmo(CBaseEntity @other)
+	{
+		if (other is null || !other.IsPlayer() || !other.IsAlive())
+			return false;
 
-        CBasePlayer@ player = cast<CBasePlayer@>( other );
+		CBasePlayer @player = cast<CBasePlayer @>(other);
 
-        if( player is null )
-            return false;
+		if (player is null)
+			return false;
 
-        if( PM::HELMET != g_PlayerClass[ player, true ] )
-            return false;
+		auto PlayerClass = g_PlayerClass[player];
 
-        if( player.pev.armorvalue >= player.pev.armortype )
-            return false;
+		if (PlayerClass != PM::HELMET and PlayerClass != PM::CLSUIT)
+			return false;
 
-        player.pev.armorvalue += Math.RandomFloat( 10, 25 );
+		if (player.pev.armorvalue >= player.pev.armortype)
+			return false;
 
-        if( player.pev.armorvalue > player.pev.armortype )
-            player.pev.armorvalue = player.pev.armortype;
+		player.pev.armorvalue += Math.RandomFloat(10, 25);
 
-        // From CItemBattery at items.cpp
-        NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-            m.WriteString( "item_battery" );
-        m.End();
+		if (player.pev.armorvalue > player.pev.armortype)
+			player.pev.armorvalue = player.pev.armortype;
 
-        if( PM::HELMET == g_PlayerClass[ player, true ] )
-        {
-            int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
+		// From CItemBattery at items.cpp
+		NetworkMessage m(MSG_ONE, NetworkMessages::ItemPickup, player.edict());
+		m.WriteString("item_battery");
+		m.End();
 
-            pct = ( pct / 5 );
+		if (PM::HELMET == g_PlayerClass[player, true])
+		{
+			int pct = int(float(player.pev.armorvalue * 100.0) * (1.0 / 100) + 0.5);
 
-            if( pct > 0 )
-            {
-                pct--;
-            }
+			pct = (pct / 5);
 
-            string szcharge;
-            snprintf( szcharge, "!HEV_%1P", pct );
+			if (pct > 0)
+			{
+				pct--;
+			}
 
-            player.SetSuitUpdate( szcharge, false, 30 );
-        }
+			string szcharge;
+			snprintf(szcharge, "!HEV_%1P", pct);
 
-        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+			player.SetSuitUpdate(szcharge, false, 30);
+		}
 
-        self.UpdateOnRemove();
-        pev.flags |= FL_KILLME;
-        pev.targetname = String::EMPTY_STRING;
+		g_SoundSystem.EmitSound(player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM);
 
-        return true;
-    }
+		self.UpdateOnRemove();
+		pev.flags |= FL_KILLME;
+		pev.targetname = String::EMPTY_STRING;
+
+		return true;
+	}
 }
 
 class item_bts_sprayaid : ScriptBasePlayerAmmoEntity
 {
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/items/w_medkits.mdl" );
-        BaseClass.Spawn();
-    }
+	void Spawn()
+	{
+		g_EntityFuncs.SetModel(self, "models/bts_rc/items/w_medkits.mdl");
+		BaseClass.Spawn();
+	}
 
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        if( other is null || !other.IsPlayer() || !other.IsAlive() )
-            return false;
+	bool AddAmmo(CBaseEntity @other)
+	{
+		if (other is null || !other.IsPlayer() || !other.IsAlive())
+			return false;
 
-        CBasePlayer@ player = cast<CBasePlayer@>( other );
+		CBasePlayer @player = cast<CBasePlayer @>(other);
 
-        if( player is null )
-            return false;
+		if (player is null)
+			return false;
 
-        if( player.pev.health >= player.pev.max_health )
-            return false;
+		if (player.pev.health >= player.pev.max_health)
+			return false;
 
-        player.TakeHealth( Math.RandomFloat( 10, 12 ), DMG_GENERIC );
+		player.TakeHealth(Math.RandomFloat(10, 12), DMG_GENERIC);
 
-        NetworkMessage m( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-            m.WriteString( "item_healthkit" );
-        m.End();
+		NetworkMessage m(MSG_ONE, NetworkMessages::ItemPickup, player.edict());
+		m.WriteString("item_healthkit");
+		m.End();
 
-        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+		g_SoundSystem.EmitSound(player.edict(), CHAN_ITEM, "items/medshot4.wav", 1, ATTN_NORM);
 
-        self.UpdateOnRemove();
-        pev.flags |= FL_KILLME;
-        pev.targetname = String::EMPTY_STRING;
+		self.UpdateOnRemove();
+		pev.flags |= FL_KILLME;
+		pev.targetname = String::EMPTY_STRING;
 
-        return true;
-    }
+		return true;
+	}
 }
