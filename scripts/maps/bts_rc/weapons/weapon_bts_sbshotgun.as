@@ -20,7 +20,9 @@ namespace weapon_bts_sbshotgun
         DRAW,
         HOLSTER,
         IDLE4,
-        IDLE_DEEP
+        IDLE_DEEP,
+		IDLE_STEAMFACEPALM,
+		FLASH
     };
 
     // Weapon info
@@ -31,7 +33,8 @@ namespace weapon_bts_sbshotgun
     // int DEFAULT_GIVE = Math.RandomLong( 1, 6 );
     // int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
     int AMMO_GIVE = MAX_CLIP;
-    int AMMO_GIVE2 = 0;
+    int AMMO_GIVE2 = 1;
+	int AMMO_GIVE_DROP = 3;
     int AMMO_DROP = AMMO_GIVE;
     int AMMO_DROP2 = AMMO_GIVE2;
     int WEIGHT = 15;
@@ -80,7 +83,7 @@ namespace weapon_bts_sbshotgun
         bool GetItemInfo( ItemInfo& out info )
         {
             info.iMaxAmmo1 = MAX_CARRY;
-            info.iAmmo1Drop = AMMO_DROP;
+            info.iAmmo1Drop = AMMO_GIVE_DROP;
             info.iMaxAmmo2 = MAX_CARRY2;
             info.iAmmo2Drop = AMMO_DROP2;
             info.iMaxClip = MAX_CLIP;
@@ -108,7 +111,7 @@ namespace weapon_bts_sbshotgun
                 msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
-            return bts_deploy( "models/bts_rc/weapons/v_sbshotgun.mdl", "models/bts_rc/weapons/p_sbshotgun.mdl", DRAW, "shotgun", 2 );
+            return bts_deploy( "models/bts_rc/weapons/v_sbshotgun.mdl", "models/bts_rc/weapons/p_sbshotgun.mdl", DRAW, "shotgun", 2, 0.6f);
         }
 
         void Holster( int skiplocal = 0 )
@@ -289,7 +292,7 @@ namespace weapon_bts_sbshotgun
                     pev.nextthink = g_Engine.time + ( 10.0f / 30.0f );
 
                     self.SendWeaponAnim( HOLSTER, 0, pev.body );
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // just block
                 }
             }
             else
@@ -298,7 +301,10 @@ namespace weapon_bts_sbshotgun
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
+					m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
 
+				self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+				self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
             }
         }
@@ -316,10 +322,7 @@ namespace weapon_bts_sbshotgun
                 return;
 
             if( m_pPlayer.FlashlightIsOn() )
-            {
-                m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-                m_flRestoreAfter = -1.0f;
-            }
+                FlashlightTurnOff();
 
             switch( m_fInReloadState )
             {
@@ -394,6 +397,7 @@ namespace weapon_bts_sbshotgun
         {
             SetThink( ThinkFunction( BaterryRechargeEnd ) );
             pev.nextthink = g_Engine.time + 4.0f;
+			FlashlightTurnOff();
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         }

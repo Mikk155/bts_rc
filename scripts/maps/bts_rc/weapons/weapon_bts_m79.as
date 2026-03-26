@@ -36,10 +36,10 @@ namespace weapon_bts_m79
     int AMMO_DROP = 1;
     int WEIGHT = 20;
     // Weapon HUD
-    int SLOT = 3;
+    int SLOT = 5;
     int POSITION = 4;
     // Vars
-    float DAMAGE = 125.0f;
+    float DAMAGE = 130.0f;
     float RADIUS = 240.0f;
     float VELOCITY = 1200.0f;
     Vector OFFSET( 8.0f, 4.0f, -2.0f ); // for projectile
