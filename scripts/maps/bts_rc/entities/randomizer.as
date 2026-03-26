@@ -1,6 +1,6 @@
 namespace randomizer
 {
-#if SERVER
+#if DEVELOP
     CLogger@ m_Logger = CLogger( "Randomizer" );
 #endif
 
@@ -15,14 +15,14 @@ namespace randomizer
             {
                 owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
             }
-#if SERVER
+#if DEVELOP
             else
             {
                 randomizer::m_Logger.warn( "Failed to swap a squad. null owner for squad" );
             }
 #endif
         }
-#if SERVER
+#if DEVELOP
         else
         {
             randomizer::m_Logger.warn( "Failed to swap a squad: {}", { ( squad is null ? "null squad" : "null owner for squad" ) } );
@@ -102,7 +102,7 @@ namespace randomizer
                             // Swap owners
                             self.Use( g_EntityFuncs.Instance( self.pev.owner ), self, USE_SET );
                             self.Use( ( randomizer !is null ? g_EntityFuncs.Instance( randomizer.pev.owner ) : null ), randomizer, USE_SET );
-#if SERVER
+#if DEVELOP
                             m_Logger.debug( "{}: \"{}\" <-> \"{}\"", { self.pev.classname, self.entindex(), randomizer.entindex() } );
 #endif
                             break;
@@ -184,7 +184,7 @@ namespace randomizer
             const string name = this.name();
             string target;
             snprintf( target, "randomizer_%1", name );
-#if SERVER
+#if DEVELOP
             m_Logger.info( "Initializing swappers \"{}\"", { target } );
 #endif
             // Find all randomizers and store them in indexes
@@ -212,21 +212,35 @@ namespace randomizer
             m_Logger.info( "Swapped list {} indexes", { this.name() } );
 #endif
 
-            array<string> entities_names = this.entities();
+			array<string> entities_names = this.entities();
 
-            int index = this.indexes.length();
+			// Clamp to the smallest list size
+			int count = Math.min(
+				int(entities_names.length()),
+				int(this.indexes.length())
+			);
 
-            for( uint ui = 0; ui < entities_names.length(); ui++, index-- )
-            {
-                if( ( @pRandomizer = g_EntityFuncs.Instance( this.indexes[ index - 1 ] ) ) !is null )
-                {
-#if TEST
-                    m_Logger.debug( "{}: \"{}\" Swap position to {}", { name, entities_names[ui], pRandomizer.GetOrigin().ToString() } );
-#endif
-                    pRandomizer.Use( g_EntityFuncs.FindEntityByTargetname( null, entities_names[ui] ), pRandomizer, USE_SET );
-                }
-            }
-        }
+			for( int i = 0; i < count; i++ )
+			{
+				int randIndex = this.indexes[ this.indexes.length() - 1 - i ];
+				@pRandomizer = g_EntityFuncs.Instance( randIndex );
+
+				if( pRandomizer !is null )
+				{
+			#if TEST
+					m_Logger.debug(
+						"{}: \"{}\" Swap position to {}",
+						{ name, entities_names[i], pRandomizer.GetOrigin().ToString() }
+					);
+			#endif
+					pRandomizer.Use(
+						g_EntityFuncs.FindEntityByTargetname( null, entities_names[i] ),
+						pRandomizer,
+						USE_SET
+					);
+				}
+			}
+		}
     }
 
     final class CRanomizerHeadcrabs : CRandomizer
@@ -248,7 +262,8 @@ namespace randomizer
                 "GM_HEADZOEA_S1",
                 "GM_HEADZOEA_S2",
                 "GM_HEADZOEA_S3",
-                "GM_HEADZOEA_S4"
+                "GM_HEADZOEA_S4",
+				"GM_SNAP_S2"
             };
         }
     }
@@ -392,11 +407,25 @@ namespace randomizer
         {
             return
             {
+				"GM_GONOME_S7",
+				"GM_PITDRONE_S3",
+                "GM_PITDRONE_S4",
+				"GM_GONOME_S3",
+				"GM_GONOME_S4",
                 "GM_AGRUNT_S1",
+				"GM_R_SLAVE_S7",
+                "GM_R_SLAVE_S8",
+                "GM_R_HOUND_S1",
+                "GM_R_HOUND_S2",
+				"GM_SHOCK_S2",
                 "GM_VOLT_S1",
                 "GM_BULL_S1",
                 "GM_BULL_S2",
-                "GM_BULL_S3"
+                "GM_BULL_S3",
+				"GM_ZM_CS_3",
+                "GM_ZM_CS_4",
+				"GM_ZM_ENG3",
+				"GM_ZM_ENG4"
             };
         }
     }
@@ -427,20 +456,19 @@ namespace randomizer
         {
             return
             {
+				"GM_SNAP_S1",
                 "GM_STUK_S1",
                 "GM_STUK_S2",
                 "GM_SLAVE_S1",
                 "GM_SLAVE_S2",
                 "GM_SLAVE_S3",
                 "GM_SLAVE_S4",
-                "GM_SLAVE_S5",
+				"GM_SLAVE_S5",
                 "GM_SLAVE_S6",
-                "GM_SLAVE_S7",
+				"GM_SLAVE_S7",
                 "GM_SLAVE_S8",
                 "GM_PITDRONE_S1",
                 "GM_PITDRONE_S2",
-                "GM_PITDRONE_S3",
-                "GM_PITDRONE_S4",
                 "GM_SNARK_S1",
                 "GM_SNARK_S2",
                 "GM_SNARK_S3",
@@ -452,10 +480,7 @@ namespace randomizer
                 "GM_HOUND_S6",
                 "GM_GONOME_S1",
                 "GM_GONOME_S2",
-                "GM_GONOME_S3",
-                "GM_GONOME_S4",
-                "GM_GONOME_S5",
-                "GM_GONOME_S6",
+				"GM_SHOCK_S1",
                 "GM_ZM_S1",
                 "GM_ZM_S2",
                 "GM_ZM_S3",
@@ -488,8 +513,8 @@ namespace randomizer
                 "GM_ZM_S30",
                 "GM_ZM_CS_1",
                 "GM_ZM_CS_2",
-                "GM_ZM_CS_3",
-                "GM_ZM_CS_4"
+				"GM_ZM_ENG1",
+				"GM_ZM_ENG2"
             };
         }
     }
@@ -509,10 +534,6 @@ namespace randomizer
                 "GM_R_SLAVE_S4",
                 "GM_R_SLAVE_S5",
                 "GM_R_SLAVE_S6",
-                "GM_R_SLAVE_S7",
-                "GM_R_SLAVE_S8",
-                "GM_R_HOUND_S1",
-                "GM_R_HOUND_S2",
                 "GM_R_HOUND_S3",
                 "GM_R_HOUND_S4",
                 "GM_R_HOUND_S5",
@@ -527,9 +548,11 @@ namespace randomizer
                 "GM_R_CRAB_S3",
                 "GM_R_CRAB_S4",
                 "GM_R_CRAB_S5",
-                "GM_CHUM_S1",
+                "GM_CHUM_S1", // TORT ONLY
                 "GM_BABYVOLT_S1",
-                "GM_BABYVOLT_S2"
+                "GM_BABYVOLT_S2",
+				"GM_GONOME_S5",
+                "GM_GONOME_S6"
             };
         }
     }
@@ -543,14 +566,24 @@ namespace randomizer
         {
             return
             {
+				"GM_R_BGARG_S1",
                 "GM_R_VOLT_S1",
+				"GM_R_VOLT_S2",
                 "GM_R_AGRUNT_S1",
                 "GM_R_AGRUNT_S2",
+				"GM_R_AGRUNT_S3",
+				"GM_R_AGRUNT_S4",
                 "GM_AGRUNT_TORTURED1",
                 "GM_AGRUNT_TORTURED2",
                 "GM_AGRUNT_TORTURED_A51",
                 "GM_AGRUNT_TORTURED_A52",
-                "GM_R_BULL_S1"
+                "GM_R_BULL_S1",
+				"GM_R_BULL_S2",
+				"GM_R_BULL_S3",
+				"GM_R_BULL_S4",
+				"GM_SNAP_R_S1",
+				"GM_SNAP_R_S2"
+				
             };
         }
     }

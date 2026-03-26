@@ -1,11 +1,11 @@
 /*
- * M16A3 Full Auto
+ * M16A3 Full Auto (Black ops)
  */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
-namespace weapon_bts_m16
+namespace weapon_bts_m16sd
 {
-	enum m16a3_e
+	enum m16a3sd_e
 	{
 		DRAW = 0,
 		HOLSTER,
@@ -21,7 +21,7 @@ namespace weapon_bts_m16
 	// Weapon info
 	int MAX_CARRY = 150;
 	int MAX_CARRY2 = 10;
-	int MAX_CLIP = 30;
+	int MAX_CLIP = 20;
 	int MAX_CLIP2 = WEAPON_NOCLIP;
 	// int DEFAULT_GIVE = Math.RandomLong( 15, 30 );
 	// int DEFAULT_GIVE2 = Math.RandomLong( 0, 1 );
@@ -32,14 +32,14 @@ namespace weapon_bts_m16
 	int WEIGHT = 5;
 	// Weapon HUD
 	int SLOT = 2;
-	int POSITION = 10;
+	int POSITION = 11;
 	// Vars
-	int DAMAGE = 23;
+	int DAMAGE = 24;
 	float DAMAGE2 = 110.0f;
 	Vector CROUCH_CONE(0.01f, 0.01f, 0.01f);
 	Vector SHELL(32.0f, 6.0f, -12.0f);
 
-	class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+	class weapon_bts_m16sd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
 	{
 		private CBasePlayer @m_pPlayer
 		{
@@ -55,8 +55,8 @@ namespace weapon_bts_m16
 
 		void Spawn()
 		{
-			g_EntityFuncs.SetModel(self, self.GetW_Model("models/bts_rc/weapons/w_m16.mdl"));
-			self.m_iDefaultAmmo = Math.RandomLong(15, MAX_CLIP);
+			g_EntityFuncs.SetModel(self, self.GetW_Model("models/bts_rc/weapons/w_m16sd.mdl"));
+			self.m_iDefaultAmmo = Math.RandomLong(9, MAX_CLIP);
 			self.m_iDefaultSecAmmo = Math.RandomLong(0, 1);
 			self.FallInit();
 
@@ -82,7 +82,7 @@ namespace weapon_bts_m16
 		{
 			m_bGrenadeFire = false;
 
-			return bts_deploy("models/bts_rc/weapons/v_m16a2.mdl", "models/bts_rc/weapons/p_m16.mdl", DRAW, "m16", 2);
+			return bts_deploy("models/bts_rc/weapons/v_m16a2sd.mdl", "models/bts_rc/weapons/p_m16sd.mdl", DRAW, "m16", 2);
 		}
 
 		void Holster(int skiplocal = 0)
@@ -113,13 +113,9 @@ namespace weapon_bts_m16
 				return;
 			}
 
-			m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
-			m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
+			m_pPlayer.m_iWeaponVolume = QUIET_GUN_VOLUME;
 
 			--self.m_iClip;
-
-			m_pPlayer.pev.effects |= EF_MUZZLEFLASH;
-			pev.effects |= EF_MUZZLEFLASH;
 
 			// player "shoot" animation
 			m_pPlayer.SetAnimation(PLAYER_ATTACK1);
@@ -178,7 +174,8 @@ namespace weapon_bts_m16
 					break;
 			}
 
-			g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m16_fire1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong(0, 10));
+			g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m4sd_fire1.wav", 1.0f, ATTN_NORM, 0, 105 + Math.RandomLong(0, 10));
+			g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/m16_fire1.wav", 0.3f, ATTN_NORM, 0, 95 + Math.RandomLong(0, 10));
 
 			if (is_trained_personal)
 				m_pPlayer.pev.punchangle.x = -3.0f;
@@ -194,7 +191,7 @@ namespace weapon_bts_m16
 			if (self.m_iClip <= 0 && m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET)
 				m_pPlayer.SetSuitUpdate("!HEV_AMO0", false, 0);
 
-			self.m_flNextPrimaryAttack = g_Engine.time + 0.142f;
+			self.m_flNextPrimaryAttack = g_Engine.time + 0.11f;
 			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 10.0f, 15.0f);
 		}
 

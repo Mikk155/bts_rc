@@ -19,7 +19,8 @@ namespace weapon_bts_flashlight
         ATTACK3MISS,
         ATTACK3HIT,
         IDLE2,
-        IDLE3
+        IDLE3,
+		FLASH
     };
 
     // Weapon info
@@ -96,7 +97,7 @@ namespace weapon_bts_flashlight
                 msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
-            return bts_deploy( "models/bts_rc/weapons/v_flashlight.mdl", "models/bts_rc/weapons/p_flashlight.mdl", DRAW, "crowbar", 1 );
+            return bts_deploy( "models/bts_rc/weapons/v_flashlight.mdl", "models/bts_rc/weapons/p_flashlight.mdl", DRAW, "crowbar", 1, 0.5f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -173,7 +174,7 @@ namespace weapon_bts_flashlight
                     pev.nextthink = g_Engine.time + ( 5.0f / 25.0f );
 
                     self.SendWeaponAnim( HOLSTER, 0, pev.body );
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // just block
                 }
             }
             else
@@ -182,8 +183,11 @@ namespace weapon_bts_flashlight
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
+					m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
+				
+				self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+				self.SendWeaponAnim( FLASH, 0, pev.body );
+                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
             }
         }
 
@@ -209,6 +213,7 @@ namespace weapon_bts_flashlight
         {
             SetThink( ThinkFunction( BaterryRechargeEnd ) );
             pev.nextthink = g_Engine.time + 4.0f;
+			FlashlightTurnOff();
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         }
@@ -257,11 +262,8 @@ namespace weapon_bts_flashlight
 
         private bool Swing( bool fFirst )
         {
-            if ( m_pPlayer.FlashlightIsOn() )
-            {
-                m_bWasFlashLightOn = true;
-                m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-            }
+                if( m_pPlayer.FlashlightIsOn() )
+                    FlashlightTurnOff();
 
             TraceResult tr;
             bool fDidHit = false;

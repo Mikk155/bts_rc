@@ -1,10 +1,3 @@
-#if SERVER
-    namespace monster_killed
-    {
-        CLogger@ m_Logger = CLogger( "MonsterKilledHook" );
-    }
-#endif
-
 HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
 {
     if( monster !is null )
@@ -57,6 +50,28 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     break;
                 }
             }
+			else if( monster.pev.classname == "monster_human_grunt"  && monster.pev.weapons == 5)
+			{
+				drop_item = "ammo_bts_556round";
+			}
+			else if( monster.pev.classname == "monster_male_assassin" && monster.pev.weapons == 5)
+			{
+				drop_item = "ammo_bts_556round";
+			}
+			else if( monster.pev.model == "models/bts_rc/monsters/zombie_medic.mdl" )
+            {
+				
+                is_zombie = true;
+				switch( Math.RandomLong( 1, 2 ) )
+				{
+					case 1:
+						drop_item = "item_bts_sprayaid";
+					break;
+					case 2:
+						drop_item = "item_healthkit";
+					break;
+				}
+            }
             else if( monster.pev.classname == "monster_zombie_soldier" || monster.pev.classname == "monster_gonome" )
             {
                 is_zombie = true;
@@ -83,21 +98,11 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                         drop_item = "ammo_bts_dglocksd";
                     break;
                     case 8:
-                        drop_item = "ammo_bts_556mag";
-                    break;
-                    case 9:
                         drop_item = "item_bts_hevbattery";
                     break;
                     default:
                         g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
                     break;
-                }
-            }
-            else if( monster.pev.classname == "monster_sentry" )
-            {
-                if( Math.RandomLong( 1, 2 ) == 1 )
-                {
-                    drop_item = "ammo_bts_9mmbox";
                 }
             }
 
@@ -121,17 +126,8 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                         {
                             headcrab.pev.health = headcrab_health - headcrab_damage;
 
-#if SERVER
-                            monster_killed::m_Logger.info( "Created Headcrab for \"{}\" at \"{}\" with \"{}\" HP", { monster.pev.classname, headcrab.pev.origin.ToString(), headcrab.pev.health } );
-#endif
                         }
                     }
-#if SERVER
-                    else
-                    {
-                        monster_killed::m_Logger.info( "Monster \"{}\" doesn't have a headcrab hitgroup for model \"{}\"", { monster.pev.classname, monster.pev.model } );
-                    }
-#endif
                 }
             }
 
@@ -141,9 +137,6 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
 
                 if( item !is null )
                 {
-#if SERVER
-                    monster_killed::m_Logger.info( "Created item \"{}\" for monster \"{}\" at \"{}\"", { drop_item, monster.pev.classname, monster.Center().ToString() } );
-#endif
                     item.pev.spawnflags |= 1024; // no more respawn
                 }
             }
@@ -193,17 +186,11 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     }
                     else
                     {
-#if SERVER
-                        env_bloodpuddle::m_Logger.error( "Failed to cast to class, Liberating edict." );
-#endif
                         entity.pev.flags |= FL_KILLME;
                     }
                 }
                 else
                 {
-#if SERVER
-                    env_bloodpuddle::m_Logger.error( "Failed to create for monster \"{}\" at \"{}\"", { monster.pev.classname, monster.pev.origin.ToString() } );
-#endif
                 }
 
                 user_data[ "bloodpuddle" ] = true;

@@ -7,7 +7,7 @@ namespace weapon_bts_screwdriver
 {
     enum screwdriver_e
     {
-        IDLE = 0,
+        IDLE1 = 0,
         DRAW,
         HOLSTER,
         ATTACK1HIT,
@@ -15,7 +15,9 @@ namespace weapon_bts_screwdriver
         ATTACK2MISS,
         ATTACK2HIT,
         ATTACK3MISS,
-        ATTACK3HIT
+        ATTACK3HIT,
+		IDLE2,
+		IDLE3
     };
 
     // Weapon info
@@ -59,7 +61,7 @@ namespace weapon_bts_screwdriver
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_screwdriver.mdl", "models/bts_rc/weapons/p_screwdriver.mdl", DRAW, "crowbar", 1 );
+            return bts_deploy( "models/bts_rc/weapons/v_screwdriver.mdl", "models/bts_rc/weapons/p_screwdriver.mdl", DRAW, "crowbar", 1, 0.30f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -140,9 +142,9 @@ namespace weapon_bts_screwdriver
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // first swing does full damage
                 else
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // subsequent swings do 50% (Changed -Sniper) (Half)
 
                 g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 

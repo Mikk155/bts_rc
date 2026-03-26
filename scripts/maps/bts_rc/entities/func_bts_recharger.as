@@ -18,6 +18,7 @@ namespace func_bts_recharger
         protected int m_customjuice = 30;
         protected float m_last_use;
         protected int m_juice = 30;
+		protected int pitch = 115;
         protected int m_sound_status;
         protected float m_flSoundTime;
         protected string_t fire_on_empty;
@@ -84,7 +85,7 @@ namespace func_bts_recharger
             }
 
             // if there is no juice left, make the deny noise
-            if ( m_juice <= 0 || PM::HELMET != g_PlayerClass[ player, true ] )
+            if ( m_juice <= 0 || player.pev.armorvalue == 100 || PM::HELMET != g_PlayerClass[ player, true ] )
             {
                 if ( m_flSoundTime <= g_Engine.time )
                 {
@@ -101,18 +102,25 @@ namespace func_bts_recharger
             if ( m_last_use >= g_Engine.time )
                 return;
 
+            pitch = pitch - (m_juice / 13.5);
+
             // Play the on sound or the looping charging sound
             if( m_sound_status == sound_status::OFF )
             {
                 m_sound_status++;
-                g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
+                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM, 0, pitch);
                 m_flSoundTime = 0.56 + g_Engine.time;
             }
             if ( m_sound_status == sound_status::ON && m_flSoundTime <= g_Engine.time )
             {
                 m_sound_status++;
-                g_SoundSystem.EmitSound( self.edict(), CHAN_STATIC, "items/suitcharge1.wav", 1.0, ATTN_NORM );
+                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_STATIC, "bts_rc/items/suitcharge1.wav", 1.0, ATTN_NORM, 0, pitch);
             }
+            if ( m_sound_status >= sound_status::LOOP )
+            {
+                g_SoundSystem.StopSound( self.edict(), CHAN_STATIC, "bts_rc/items/suitcharge1.wav" );
+            }
+            m_sound_status = sound_status::OFF;
 
             // charge the player
             if ( activator.TakeArmor( 1, DMG_GENERIC ) )
@@ -156,7 +164,7 @@ namespace func_bts_recharger
             // Stop looping sound.
             if ( m_sound_status >= sound_status::LOOP )
             {
-                g_SoundSystem.StopSound( self.edict(), CHAN_STATIC, "items/suitcharge1.wav" );
+                g_SoundSystem.StopSound( self.edict(), CHAN_STATIC, "bts_rc/items/suitcharge1.wav" );
             }
             m_sound_status = sound_status::OFF;
         }

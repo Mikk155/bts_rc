@@ -36,7 +36,7 @@ namespace weapon_bts_glock18
     int SLOT = 1;
     int POSITION = 10;
     // Vars
-    int DAMAGE = 12;
+    int DAMAGE = 15;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
@@ -47,7 +47,7 @@ namespace weapon_bts_glock18
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/hlclassic/w_9mmhandgun.mdl" ) );
+            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_glock18.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
             self.FallInit();
 
@@ -71,7 +71,7 @@ namespace weapon_bts_glock18
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_glock18.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 1 );
+            return bts_deploy( "models/bts_rc/weapons/v_glock18.mdl", "models/bts_rc/weapons/p_glock18.mdl", DRAW, "onehanded", 1, 0.6f);
         }
 
         void Holster( int skiplocal = 0 )
@@ -165,13 +165,18 @@ namespace weapon_bts_glock18
             if( m_iFireMode == SEMI_AUTO )
             {
                 m_iFireMode = FULL_AUTO;
-                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto Mode \n" );
+                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
+				self.SendWeaponAnim( ADD_SILENCER, 0, pev.body );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/reload2.wav", 0.8f, ATTN_NORM, 0, 112 );
             }
             else
             {
                 m_iFireMode = SEMI_AUTO;
-                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Semi-Auto Mode \n" );
+                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Semi-Auto\n" );
+				self.SendWeaponAnim( ADD_SILENCER, 0, pev.body );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/reload2.wav", 0.8f, ATTN_NORM, 0, 98 );
             }
+			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
         }
 
@@ -180,8 +185,9 @@ namespace weapon_bts_glock18
             if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
                 return;
 
-            self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD_EMPTY : RELOAD, 1.5f, pev.body );
+            self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD_EMPTY : RELOAD, 2.0f, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
             BaseClass.Reload();
         }
 

@@ -16,10 +16,12 @@ namespace weapon_bts_medkit
         SHORTUSE,
         HOLSTER,
         DRAW,
+		SELFHEAL,
+		IDK
     };
 
     // Weapon info
-    const int MAX_CARRY = 100;
+    const int MAX_CARRY = 120;
     const int MAX_CARRY2 = WEAPON_NOCLIP;
     const int MAX_CLIP = WEAPON_NOCLIP;
     const int MAX_DROP = 10;
@@ -29,12 +31,14 @@ namespace weapon_bts_medkit
     const int WEIGHT = 0;
 
     // Weapon HUD
-    const int SLOT = 0;
+    const int SLOT = 4;
     const int POSITION = 14;
 
     // Vars
     const int HEAL_AMMOUNT = 10;
     const int REVIVE_COST = 49;
+	const int SELF_HEAL_AMMO_COST = 30;
+	const int SELF_HEAL_HP_GAIN   = 10;
     const int VOLUME = 128;
     const int REVIVE_RADIUS = 64;
     const int RECHARGE_AMOUNT = 1;
@@ -93,7 +97,72 @@ namespace weapon_bts_medkit
 
             BaseClass.AttachToPlayer(pPlayer);
         }
+		
+		void TertiaryAttack()
+		{
+			int iAmmoLeft = m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType);
 
+			if (iAmmoLeft <= 0)
+			{
+				g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
+				self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+				self.m_flNextTertiaryAttack = g_Engine.time + 2.0f;
+				return;
+			}
+
+			float flMissingHP = m_pPlayer.pev.max_health - m_pPlayer.pev.health;
+			if (flMissingHP <= 0)
+				return;
+
+			// Max HP we can heal with a full self-heal
+			float flMaxHealHP = float(SELF_HEAL_HP_GAIN);
+
+			// Clamp desired heal to missing HP
+			float flDesiredHealHP = Math.min(flMaxHealHP, flMissingHP);
+
+			// Convert HP → ammo (3 ammo per 1 HP)
+			float flAmmoNeeded = (flDesiredHealHP / flMaxHealHP) * float(SELF_HEAL_AMMO_COST);
+
+			// Clamp by available ammo
+			float flAmmoUsed = Math.min(flAmmoNeeded, float(iAmmoLeft));
+
+			// Convert back ammo → actual heal
+			float flHealAmount = (flAmmoUsed / float(SELF_HEAL_AMMO_COST)) * flMaxHealHP;
+
+			// Apply same diminishing behavior as normal heal
+			if (iAmmoLeft <= HEAL_AMMOUNT * 0.75f)
+				flHealAmount = Math.min(HEAL_AMMOUNT * 0.2f, flHealAmount);
+			else if (iAmmoLeft < HEAL_AMMOUNT * 1.5f)
+				flHealAmount = Math.min(HEAL_AMMOUNT * 0.2f, flHealAmount);
+			else if (iAmmoLeft < HEAL_AMMOUNT * 6)
+				flHealAmount = Math.min(HEAL_AMMOUNT * 0.5f, flHealAmount);
+
+			flHealAmount = int(Math.Ceil(flHealAmount));
+			flAmmoUsed   = int(Math.Ceil((flHealAmount / flMaxHealHP) * SELF_HEAL_AMMO_COST));
+
+			if (flHealAmount <= 0 || flAmmoUsed <= 0)
+				return;
+
+			// Execute heal
+			m_pPlayer.SetAnimation(PLAYER_ATTACK1);
+			self.SendWeaponAnim(SELFHEAL, 0, pev.body);
+			m_pPlayer.m_iWeaponVolume = VOLUME;
+
+			m_pPlayer.TakeHealth(flHealAmount, DMG_MEDKITHEAL);
+			m_pPlayer.m_rgAmmo(
+				self.m_iPrimaryAmmoType,
+				iAmmoLeft - int(flAmmoUsed)
+			);
+
+			int pitch = Math.RandomLong(50, 60);
+			if (iAmmoLeft < HEAL_AMMOUNT * 13)
+				pitch += int(float(iAmmoLeft) / 1.25f);
+
+			g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/medshot4.wav", 1.0f, ATTN_NORM, 0, pitch);
+
+			self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+			self.m_flNextTertiaryAttack = g_Engine.time + 2.0f;
+		}
         void ItemPreFrame()
         {
             if(m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) == MAX_CARRY)
@@ -219,13 +288,17 @@ namespace weapon_bts_medkit
             float flHealthAmount = Math.min(HEAL_AMMOUNT, pMonster.pev.max_health - pMonster.pev.health);
 
             // slowly lower pitch
-            if (iAmmoLeft < HEAL_AMMOUNT*2) 
-            {
-                flHealthAmount = Math.min(HEAL_AMMOUNT*0.5f, flHealthAmount);
-            }
-            else if (iAmmoLeft < HEAL_AMMOUNT) 
+            if (iAmmoLeft <= HEAL_AMMOUNT*0.75) 
             {
                 flHealthAmount = Math.min(HEAL_AMMOUNT*0.2f, flHealthAmount);
+            }
+            else if (iAmmoLeft < HEAL_AMMOUNT*1.5) 
+            {
+                flHealthAmount = Math.min(HEAL_AMMOUNT*0.2f, flHealthAmount);
+            }
+			else if (iAmmoLeft < HEAL_AMMOUNT*6) 
+            {
+                flHealthAmount = Math.min(HEAL_AMMOUNT*0.5f, flHealthAmount);
             }
 
             flHealthAmount = int(Math.Ceil(Math.min(float(iAmmoLeft), flHealthAmount)));
@@ -245,13 +318,12 @@ namespace weapon_bts_medkit
 
                 m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, int(Math.Ceil(iAmmoLeft - flHealthAmount)));
             
-                int pitch = 100;
+                int pitch = Math.RandomLong( 50, 60);
 
-                if (iAmmoLeft < HEAL_AMMOUNT * 2) 
+                if (iAmmoLeft < HEAL_AMMOUNT * 13) 
                 {
-                    pitch = int((float(iAmmoLeft) / (HEAL_AMMOUNT*2)) * 20.5f + 80);
+                    pitch = pitch + (int(float(iAmmoLeft) / 1.25));
                 }
-
                 g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/medshot4.wav", 1.0f, ATTN_NORM, 0, pitch);
 
                 self.m_flNextPrimaryAttack = g_Engine.time + 0.5f;
@@ -260,83 +332,95 @@ namespace weapon_bts_medkit
 
         void SecondaryAttack()
         {
-            if (m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) <= REVIVE_COST) 
-            {
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
-                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                m_reviveChargedTime = 0;
-                return;
-            }
+			auto PlayerClass = g_PlayerClass[player];
+			if (PlayerClass == PM::SCIENTIST || PlayerClass == PM::BSCIENTIST || PlayerClass == PM::HELMET || PlayerClass == PM::VETERAN || PlayerClass == PM::CLSUIT)
+			{ //lmao
+				if (m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) <= REVIVE_COST) 
+				{
+					g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
+					self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+					m_reviveChargedTime = 0;
+					return;
+				}
 
-            CBaseEntity@ pBestTarget = null;
-            float flBestDist = REVIVE_RADIUS;
+				CBaseEntity@ pBestTarget = null;
+				float flBestDist = REVIVE_RADIUS;
 
-            CBaseEntity@ pEntity;
-            while ((@pEntity = g_EntityFuncs.FindEntityInSphere(pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname")) !is null)
-            {
-                if (pEntity is null || !IsValidReviveTarget(pEntity))
-                    continue;
+				CBaseEntity@ pEntity;
+				while ((@pEntity = g_EntityFuncs.FindEntityInSphere(pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname")) !is null)
+				{
+					if (pEntity is null || !IsValidReviveTarget(pEntity))
+						continue;
 
-                float flDist = (pEntity.pev.origin - m_pPlayer.pev.origin).Length();
+					float flDist = (pEntity.pev.origin - m_pPlayer.pev.origin).Length();
 
-                if (pBestTarget is null)
-                {
-                    flBestDist = flDist;
-                    @pBestTarget = pEntity;
-                    continue;
-                }
+					if (pBestTarget is null)
+					{
+						flBestDist = flDist;
+						@pBestTarget = pEntity;
+						continue;
+					}
 
-                if (IsBetterReviveTarget(pEntity, pBestTarget, flDist, flBestDist))
-                {
-                    flBestDist = flDist;
-                    @pBestTarget = pEntity;
-                }
-            }
+					if (IsBetterReviveTarget(pEntity, pBestTarget, flDist, flBestDist))
+					{
+						flBestDist = flDist;
+						@pBestTarget = pEntity;
+					}
+				}
 
-            if (pBestTarget is null) 
-            {
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
-                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                m_reviveChargedTime = 0;
-                return;
-            }
+				if (pBestTarget is null) 
+				{
+					g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
+					self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+					m_reviveChargedTime = 0;
+					return;
+				}
 
-            if (pBestTarget.m_fCanFadeStart) 
-            {
-                pBestTarget.pev.renderamt = 255;
-                pBestTarget.pev.nextthink = g_Engine.time + 2.0f;
-            }
+				if (pBestTarget.m_fCanFadeStart) 
+				{
+					pBestTarget.pev.renderamt = 255;
+					pBestTarget.pev.nextthink = g_Engine.time + 2.0f;
+				}
 
-            if (m_reviveChargedTime == 0.0f) 
-            {
-                self.SendWeaponAnim(LONGUSE, 0, pev.body);
-                m_reviveChargedTime = g_Engine.time + 2.0f;
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/suitchargeok1.wav", 1.0f, ATTN_NORM);
-                return;
-            }
+				if (m_reviveChargedTime == 0.0f) 
+				{
+					self.SendWeaponAnim(LONGUSE, 0, pev.body);
+					m_reviveChargedTime = g_Engine.time + 2.0f;
+					g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "items/suitchargeok1.wav", 1.0f, ATTN_NORM);
+					return;
+				}
 
-            if (m_reviveChargedTime < g_Engine.time)
-            {
-                m_reviveChargedTime = 0;
-                m_pPlayer.SetAnimation(PLAYER_ATTACK1);
-                self.SendWeaponAnim(SHORTUSE, 0, pev.body);
-                g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM);
-                self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
-                
-                CBaseMonster@ pMonster = (pBestTarget.GetClassname() == "deadplayer") ? cast<CBaseMonster@>(g_EntityFuncs.Instance(int(pBestTarget.pev.renderamt))) : pBestTarget.MyMonsterPointer();
-                pMonster.Revive();
-                pMonster.pev.health = (pMonster.pev.max_health / 2);
+				if (m_reviveChargedTime < g_Engine.time)
+				{
+					m_reviveChargedTime = 0;
+					m_pPlayer.SetAnimation(PLAYER_ATTACK1);
+					self.SendWeaponAnim(SHORTUSE, 0, pev.body);
+					g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM);
+					self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
+					
+					CBaseMonster@ pMonster = (pBestTarget.GetClassname() == "deadplayer") ? cast<CBaseMonster@>(g_EntityFuncs.Instance(int(pBestTarget.pev.renderamt))) : pBestTarget.MyMonsterPointer();
+					pMonster.Revive();
+					pMonster.pev.health = (pMonster.pev.max_health / 2);
 
-                // m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
+					// m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
 
-                //https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
-                pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
-                pMonster.ClearSchedule();
+					//https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
+					pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
+					pMonster.ClearSchedule();
 
-                m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) - REVIVE_COST);
-            }
+					m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo(self.m_iPrimaryAmmoType) - REVIVE_COST - 1);
+				}
 
-            self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
+				self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
+			}
+			else
+			{
+				g_SoundSystem.EmitSoundDyn(m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM);
+				self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
+				self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
+				self.SendWeaponAnim(IDK, 0, pev.body);
+				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, "Revival is only for doctors." );
+			}
         }
 
         bool CanHealTarget(CBaseEntity@ pEntity)
