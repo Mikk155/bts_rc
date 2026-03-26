@@ -299,7 +299,7 @@ CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in 
     if( pFlare is null )
         return null;
 
-    g_EntityFuncs.SetModel( pFlare.self, "models/bts_rc/weapons/flare.mdl" );
+    g_EntityFuncs.SetModel( pFlare.self, "models/bts_rc/weapons/w_flaregun_clip.mdl" );
     g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
     g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
 

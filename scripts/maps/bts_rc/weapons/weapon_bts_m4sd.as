@@ -11,13 +11,17 @@ namespace weapon_bts_m4sd
     {
         LONGIDLE = 0,
         IDLE1,
-        LAUNCH,
         RELOAD,
         DRAW,
-        DEPLOY,
         SHOOT1,
         SHOOT2,
         SHOOT3,
+    };
+	
+    enum modes_e
+    {
+        SEMI = 0,
+        FULL_AUTO,
     };
 
     // Weapon info
@@ -31,7 +35,7 @@ namespace weapon_bts_m4sd
     int SLOT = 2;
     int POSITION = 9;
     // Vars
-    int DAMAGE = 19;
+    int DAMAGE = 22;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
     class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
@@ -39,12 +43,14 @@ namespace weapon_bts_m4sd
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
         private int m_iTracerCount;
+		private int m_iFireMode;
 
         void Spawn()
         {
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_m4sd.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
             self.FallInit();
+			m_iFireMode = SEMI;
 
             m_iTracerCount = 0;
         }
@@ -94,9 +100,14 @@ namespace weapon_bts_m4sd
                 self.m_flNextPrimaryAttack = g_Engine.time + 0.10f;
                 return;
             }
+			if ( m_iFireMode == SEMI )
+			{
+				if( ( m_pPlayer.m_afButtonPressed & IN_ATTACK ) == 0 )
+					return;
+			}
 
-            m_pPlayer.m_iWeaponVolume = QUIET_GUN_VOLUME;
-            m_pPlayer.m_iWeaponFlash = DIM_GUN_FLASH;
+            m_pPlayer.m_iWeaponVolume = NORMAL_GUN_VOLUME;
+            m_pPlayer.m_iWeaponFlash = NORMAL_GUN_FLASH;
 
             --self.m_iClip;
 
@@ -113,6 +124,10 @@ namespace weapon_bts_m4sd
             bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
+			if( m_iFireMode == SEMI )
+			{
+				CONE *= 0.8f;
+			}
 
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
@@ -177,7 +192,7 @@ namespace weapon_bts_m4sd
             if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_pPlayer.m_iFOV != 0 ? 0.13f : 0.124f );
+            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != SEMI ? 0.124f : 0.105f );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
         }
 
@@ -189,13 +204,33 @@ namespace weapon_bts_m4sd
         }
 */
 
+        void SecondaryAttack()
+        {
+            if( m_iFireMode == SEMI )
+            {
+                m_iFireMode = FULL_AUTO;
+				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/grenade_pinpull.wav", 0.8f, ATTN_NORM, 0, 100 );
+            }
+            else
+            {
+                m_iFireMode = SEMI;
+				g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Semi\n" );
+				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/grenade_pinpull.wav", 0.8f, ATTN_NORM, 0, 115 );
+            }
+			self.SendWeaponAnim( LONGIDLE, 0, pev.body );
+			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+        }
+
         void Reload()
         {
             if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
                 return;
 
             self.SetFOV( 0 );
-            self.DefaultReload( MAX_CLIP, RELOAD, 3.0f, pev.body );
+            self.DefaultReload( MAX_CLIP, RELOAD, 2.75f, pev.body );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget_3.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
             self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
             BaseClass.Reload();
         }

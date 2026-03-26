@@ -17,7 +17,8 @@ namespace weapon_bts_glock17f
         RELOAD,
         DRAW,
         HOLSTER,
-        ADD_SILENCER
+        ADD_SILENCER,
+		FLASH
     };
 
     enum modes_e
@@ -34,7 +35,7 @@ namespace weapon_bts_glock17f
     // int DEFAULT_GIVE = Math.RandomLong( 8, 17 );
     // int DEFAULT_GIVE2 = Math.RandomLong( 1, 2 );
     int AMMO_GIVE = MAX_CLIP;
-    int AMMO_GIVE2 = 0;
+    int AMMO_GIVE2 = 1;
     int AMMO_DROP = AMMO_GIVE;
     int AMMO_DROP2 = AMMO_GIVE2;
     int WEIGHT = 10;
@@ -42,7 +43,7 @@ namespace weapon_bts_glock17f
     int SLOT = 1;
     int POSITION = 7;
     // Vars
-    int DAMAGE = 13;
+    int DAMAGE = 15;
     float DRAIN_TIME = 0.8f;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
@@ -67,7 +68,7 @@ namespace weapon_bts_glock17f
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/hlclassic/w_9mmhandgun.mdl" ) );
+            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_glock17f.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 8, MAX_CLIP );
             self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
             self.FallInit();
@@ -104,7 +105,7 @@ namespace weapon_bts_glock17f
                 msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
-            return bts_deploy( "models/bts_rc/weapons/v_glock17f.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2 );
+            return bts_deploy( "models/bts_rc/weapons/v_glock17f.mdl", "models/bts_rc/weapons/p_glock17f.mdl", DRAW, "onehanded", 2, 0.6f);
         }
 
         void Holster( int skiplocal = 0 )
@@ -253,7 +254,7 @@ namespace weapon_bts_glock17f
                     pev.nextthink = g_Engine.time + ( 15.0f / 16.0f );
 
                     self.SendWeaponAnim( HOLSTER, 0, pev.body );
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 20.0f; // just block
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // just block
                 }
             }
             else
@@ -262,7 +263,10 @@ namespace weapon_bts_glock17f
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-
+					m_iCurrentBaterry = m_iCurrentBaterry - 0.3;
+					
+				self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+				self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
             }
         }
@@ -277,13 +281,11 @@ namespace weapon_bts_glock17f
                 return;
 
             if( m_pPlayer.FlashlightIsOn() )
-            {
-                m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
-                m_flRestoreAfter = g_Engine.time + 1.6f;
-            }
+                FlashlightTurnOff();
 
             self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD : RELOAD_EMPTY, 1.5f, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
+			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
             BaseClass.Reload();
         }
 
@@ -309,6 +311,7 @@ namespace weapon_bts_glock17f
         {
             SetThink( ThinkFunction( BaterryRechargeEnd ) );
             pev.nextthink = g_Engine.time + 4.0f;
+			FlashlightTurnOff();
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
         }
