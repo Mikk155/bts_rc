@@ -166,17 +166,17 @@ namespace weapon_bts_glock18
             {
                 m_iFireMode = FULL_AUTO;
                 g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Full-Auto\n" );
-				self.SendWeaponAnim( ADD_SILENCER, 0, pev.body );
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/reload2.wav", 0.8f, ATTN_NORM, 0, 112 );
+                self.SendWeaponAnim( ADD_SILENCER, 0, pev.body );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/reload2.wav", 0.8f, ATTN_NORM, 0, 112 );
             }
             else
             {
                 m_iFireMode = SEMI_AUTO;
                 g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, " Semi-Auto\n" );
-				self.SendWeaponAnim( ADD_SILENCER, 0, pev.body );
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/reload2.wav", 0.8f, ATTN_NORM, 0, 98 );
+                self.SendWeaponAnim( ADD_SILENCER, 0, pev.body );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/reload2.wav", 0.8f, ATTN_NORM, 0, 98 );
             }
-			self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
+            self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
         }
 
@@ -187,7 +187,7 @@ namespace weapon_bts_glock18
 
             self.DefaultReload( MAX_CLIP, self.m_iClip != 0 ? RELOAD_EMPTY : RELOAD, 2.0f, pev.body );
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
             BaseClass.Reload();
         }
 

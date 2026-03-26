@@ -16,8 +16,8 @@ namespace weapon_bts_screwdriver
         ATTACK2HIT,
         ATTACK3MISS,
         ATTACK3HIT,
-		IDLE2,
-		IDLE3
+        IDLE2,
+        IDLE3
     };
 
     // Weapon info

@@ -18,7 +18,7 @@ namespace func_bts_recharger
         protected int m_customjuice = 30;
         protected float m_last_use;
         protected int m_juice = 30;
-		protected int pitch = 115;
+        protected int pitch = 115;
         protected int m_sound_status;
         protected float m_flSoundTime;
         protected string_t fire_on_empty;
