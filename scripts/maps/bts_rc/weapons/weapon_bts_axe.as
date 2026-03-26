@@ -16,12 +16,12 @@ namespace weapon_bts_axe
         ATTACK2HIT,
         ATTACK3MISS,
         ATTACK3HIT,
-		IDLE2,
-		IDLE3,
-		SHOVE,
-		SHOVE_ALT,
-		SHOVE_MISS,
-		SHOVE_MISS_ALT
+        IDLE2,
+        IDLE3,
+        SHOVE,
+        SHOVE_ALT,
+        SHOVE_MISS,
+        SHOVE_MISS_ALT
     };
 
     class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
@@ -59,35 +59,35 @@ namespace weapon_bts_axe
             BaseClass.Holster( skiplocal );
         }
 
-		void SecondaryAttack()
-		{
-			Shove();
-		}
+        void SecondaryAttack()
+        {
+            Shove();
+        }
 
-		void WeaponIdle()
-		{
-			self.ResetEmptySound();
-			m_pPlayer.GetAutoaimVector(AUTOAIM_5DEGREES);
+        void WeaponIdle()
+        {
+            self.ResetEmptySound();
+            m_pPlayer.GetAutoaimVector(AUTOAIM_5DEGREES);
 
-			if (self.m_flTimeWeaponIdle > g_Engine.time)
-				return;
+            if (self.m_flTimeWeaponIdle > g_Engine.time)
+                return;
 
-			switch (Math.RandomLong(0, 2))
-			{
-				case 0:
-					self.SendWeaponAnim(IDLE, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
-					break;
-				case 1:
-					self.SendWeaponAnim(IDLE2, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
-					break;
-				case 2:
-					self.SendWeaponAnim(IDLE3, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
-					break;
-			}
-		}
+            switch (Math.RandomLong(0, 2))
+            {
+                case 0:
+                    self.SendWeaponAnim(IDLE, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
+                    break;
+                case 1:
+                    self.SendWeaponAnim(IDLE2, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
+                    break;
+                case 2:
+                    self.SendWeaponAnim(IDLE3, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
+                    break;
+            }
+        }
 
         private bool Swing( bool fFirst )
         {
@@ -129,7 +129,7 @@ namespace weapon_bts_axe
                         case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                     }
                     self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
-					self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
+                    self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
@@ -154,7 +154,7 @@ namespace weapon_bts_axe
                 }
 
                 self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
-				self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.4f : 0.8f );
+                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.4f : 0.8f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation
@@ -238,7 +238,7 @@ namespace weapon_bts_axe
             return fDidHit;
         }
 
-		private bool Shove()
+        private bool Shove()
         {
             bool fDidHit = false;
 
@@ -268,22 +268,22 @@ namespace weapon_bts_axe
 
             if( tr.flFraction >= 1.0f )
             {
-				// miss
-				switch( ( m_iSwing++ ) % 3 )
-				{
-					case 0: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
-					case 1: self.SendWeaponAnim( SHOVE_MISS_ALT, 0, pev.body ); break;
-					case 2: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
-				}
-				self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
-				self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
-				self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
+                // miss
+                switch( ( m_iSwing++ ) % 3 )
+                {
+                    case 0: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
+                    case 1: self.SendWeaponAnim( SHOVE_MISS_ALT, 0, pev.body ); break;
+                    case 2: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
+                }
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
+                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
+                self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
-				// play wiff or swish sound
-				g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 92 + Math.RandomLong( 0, 0xF ) );
+                // play wiff or swish sound
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 92 + Math.RandomLong( 0, 0xF ) );
 
-				// player "shoot" animation
-				m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
+                // player "shoot" animation
+                m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
             }
             else
             {
@@ -307,14 +307,14 @@ namespace weapon_bts_axe
                 m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
                 g_WeaponFuncs.ClearMultiDamage();
-				
-				// aone
-					if( pEntity !is null && ( pEntity.IsPlayer() || pEntity.IsMonster() ) )
-					{
-						pEntity.pev.velocity = pEntity.pev.velocity +
-							( self.pev.origin - pEntity.pev.origin ).Normalize() * -250;
-					}
-				// end aone
+                
+                // aone
+                    if( pEntity !is null && ( pEntity.IsPlayer() || pEntity.IsMonster() ) )
+                    {
+                        pEntity.pev.velocity = pEntity.pev.velocity +
+                            ( self.pev.origin - pEntity.pev.origin ).Normalize() * -250;
+                    }
+                // end aone
 
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )

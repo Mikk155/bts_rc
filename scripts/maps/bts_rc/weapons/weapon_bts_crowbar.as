@@ -16,12 +16,12 @@ namespace weapon_bts_crowbar
         ATTACK2HIT,
         ATTACK3MISS,
         ATTACK3HIT,
-		IDLE2,
-		IDLE3,
-		SHOVE,
-		SHOVE_MISS,
-		SHOVE_ALT,
-		SHOVE_ALT_MISS
+        IDLE2,
+        IDLE3,
+        SHOVE,
+        SHOVE_MISS,
+        SHOVE_ALT,
+        SHOVE_ALT_MISS
     };
 
     // Weapon info
@@ -36,12 +36,12 @@ namespace weapon_bts_crowbar
     // Vars
     float RANGE = 32.0f;
     float DAMAGE = 13.0f;
-	float DAMAGE2 = 11.0f;
-	
-	string GetName()
-	{
-	  return "weapon_bts_crowbar";
-	}
+    float DAMAGE2 = 11.0f;
+    
+    string GetName()
+    {
+      return "weapon_bts_crowbar";
+    }
 
     class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
     {
@@ -73,7 +73,7 @@ namespace weapon_bts_crowbar
 
         bool Deploy()
         {
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
             return bts_deploy( "models/bts_rc/weapons/v_crowbar.mdl", "models/bts_rc/weapons/p_crowbar.mdl", DRAW, "crowbar", 0, 0.4f );
         }
 
@@ -82,200 +82,200 @@ namespace weapon_bts_crowbar
             SetThink( null );
             BaseClass.Holster( skiplocal );
         }
-		
-		void WeaponIdle()
-		{
-			self.ResetEmptySound();
-			m_pPlayer.GetAutoaimVector(AUTOAIM_5DEGREES);
+        
+        void WeaponIdle()
+        {
+            self.ResetEmptySound();
+            m_pPlayer.GetAutoaimVector(AUTOAIM_5DEGREES);
 
-			if (self.m_flTimeWeaponIdle > g_Engine.time)
-				return;
+            if (self.m_flTimeWeaponIdle > g_Engine.time)
+                return;
 
-			switch (Math.RandomLong(0, 2))
-			{
-				case 0:
-					self.SendWeaponAnim(IDLE1, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 3.5f;
-					break;
-				case 1:
-					self.SendWeaponAnim(IDLE2, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 5.6f;
-					break;
-				case 2:
-					self.SendWeaponAnim(IDLE3, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 5.6f;
-					break;
-			}
-		}
-		
-		void TertiaryAttack()
-		{
-			if (int(g_EngineFuncs.CVarGetFloat("mp_dropweapons")) == 0)
-			  return;
+            switch (Math.RandomLong(0, 2))
+            {
+                case 0:
+                    self.SendWeaponAnim(IDLE1, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 3.5f;
+                    break;
+                case 1:
+                    self.SendWeaponAnim(IDLE2, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.6f;
+                    break;
+                case 2:
+                    self.SendWeaponAnim(IDLE3, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.6f;
+                    break;
+            }
+        }
+        
+        void TertiaryAttack()
+        {
+            if (int(g_EngineFuncs.CVarGetFloat("mp_dropweapons")) == 0)
+              return;
 
-			self.SendWeaponAnim( ATTACK1MISS, 0, pev.body );
-			self.m_flNextPrimaryAttack = self.m_flNextTertiaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.0f;
+            self.SendWeaponAnim( ATTACK1MISS, 0, pev.body );
+            self.m_flNextPrimaryAttack = self.m_flNextTertiaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.0f;
 
-			SetThink(ThinkFunction(Throw));
-			pev.nextthink = g_Engine.time + 0.23f;
-		}
+            SetThink(ThinkFunction(Throw));
+            pev.nextthink = g_Engine.time + 0.23f;
+        }
 
-		void SecondaryAttack()
-		{
-			Shove();
-		}
-	
-		  // THROW LOGIC STARTS HERE!!!
-		private void Throw()
-		{
-			Math.MakeVectors(m_pPlayer.pev.v_angle);
-			CBaseEntity@ pOwner = self.m_hPlayer.GetEntity();
-			Vector vecSrc = m_pPlayer.GetGunPosition() + (g_Engine.v_right * 8.0f) + (g_Engine.v_up * -8.0f);
+        void SecondaryAttack()
+        {
+            Shove();
+        }
+    
+          // THROW LOGIC STARTS HERE!!!
+        private void Throw()
+        {
+            Math.MakeVectors(m_pPlayer.pev.v_angle);
+            CBaseEntity@ pOwner = self.m_hPlayer.GetEntity();
+            Vector vecSrc = m_pPlayer.GetGunPosition() + (g_Engine.v_right * 8.0f) + (g_Engine.v_up * -8.0f);
 
-			// This will be null when dropweapons is disabled
-			if (m_pPlayer.DropItem(GetName()) is null)
-			  return;
+            // This will be null when dropweapons is disabled
+            if (m_pPlayer.DropItem(GetName()) is null)
+              return;
 
-			SetThink(ThinkFunction(DummyThink));
-			pev.nextthink = g_Engine.time + 0.15f;
-			SetTouch(TouchFunction(ThrowTouch));
+            SetThink(ThinkFunction(DummyThink));
+            pev.nextthink = g_Engine.time + 0.15f;
+            SetTouch(TouchFunction(ThrowTouch));
 
-			g_EntityFuncs.SetOrigin(self, vecSrc);
-			pev.velocity = (g_Engine.v_forward * 1200.0f) + (g_Engine.v_up * 2.53f);
-			pev.angles = Math.VecToAngles(pev.velocity.Normalize());
-			pev.angles.z -= 90.0f;
-			pev.avelocity = Vector(-800.0f, 0.0f, 0.0f);
-			pev.movetype = MOVETYPE_BOUNCE;
-			pev.solid = SOLID_BBOX;
-			pev.effects &= ~EF_NODRAW;
-			pev.friction = 0.3f;
-			@pev.owner = pOwner.edict();
-			pev.spawnflags |= SF_DODAMAGE;
-		}
+            g_EntityFuncs.SetOrigin(self, vecSrc);
+            pev.velocity = (g_Engine.v_forward * 1200.0f) + (g_Engine.v_up * 2.53f);
+            pev.angles = Math.VecToAngles(pev.velocity.Normalize());
+            pev.angles.z -= 90.0f;
+            pev.avelocity = Vector(-800.0f, 0.0f, 0.0f);
+            pev.movetype = MOVETYPE_BOUNCE;
+            pev.solid = SOLID_BBOX;
+            pev.effects &= ~EF_NODRAW;
+            pev.friction = 0.3f;
+            @pev.owner = pOwner.edict();
+            pev.spawnflags |= SF_DODAMAGE;
+        }
 
-		private void ThrowThink()
-		{
-			pev.nextthink = g_Engine.time + 0.1f;
+        private void ThrowThink()
+        {
+            pev.nextthink = g_Engine.time + 0.1f;
 
-			if ((pev.flags & FL_ONGROUND) != 0)
-			{
-			  Math.MakeVectors(pev.angles);
-			  pev.angles.y = Math.VecToAngles(g_Engine.v_forward).y;
+            if ((pev.flags & FL_ONGROUND) != 0)
+            {
+              Math.MakeVectors(pev.angles);
+              pev.angles.y = Math.VecToAngles(g_Engine.v_forward).y;
 
-			  // Lie flat
-			  pev.angles.x = 0.0f;
-			  pev.angles.z = 0.0f;
+              // Lie flat
+              pev.angles.x = 0.0f;
+              pev.angles.z = 0.0f;
 
-			  // This is equivalent to
-			  // SetThink( &CBasePlayerItem::FallThink );
-			  // Why? No idea... but it seems that the same applies for Touch
-			  SetThink(null);
-			}
-		}
+              // This is equivalent to
+              // SetThink( &CBasePlayerItem::FallThink );
+              // Why? No idea... but it seems that the same applies for Touch
+              SetThink(null);
+            }
+        }
 
-		private void ThrowTouch(CBaseEntity@ pOther)
-		{
-			if (pOther.pev.ClassNameIs(pev.classname))
-			  return;
+        private void ThrowTouch(CBaseEntity@ pOther)
+        {
+            if (pOther.pev.ClassNameIs(pev.classname))
+              return;
 
-			// Don't set Touch to DefaultTouch because later
-			// when the surface is a lift we will not clank on bounce
-			if (pev.velocity.Length() < 10.0f)
-			  self.DefaultTouch(pOther); // This do the weapon drop sound
+            // Don't set Touch to DefaultTouch because later
+            // when the surface is a lift we will not clank on bounce
+            if (pev.velocity.Length() < 10.0f)
+              self.DefaultTouch(pOther); // This do the weapon drop sound
 
-			if (pOther.edict() is pev.owner)
-			  return;
+            if (pOther.edict() is pev.owner)
+              return;
 
-			// Add a bit of static friction
-			pev.velocity = pev.velocity * 0.5f;
-			pev.avelocity = pev.avelocity * 0.5f;
-			pev.angles.z = 0.0f;
+            // Add a bit of static friction
+            pev.velocity = pev.velocity * 0.5f;
+            pev.avelocity = pev.avelocity * 0.5f;
+            pev.angles.z = 0.0f;
 
-			if ((pev.spawnflags & SF_DODAMAGE) != 0)
-			{
-			  pev.angles.z = 320.0f;
-			  pev.spawnflags &= ~SF_DODAMAGE;
+            if ((pev.spawnflags & SF_DODAMAGE) != 0)
+            {
+              pev.angles.z = 320.0f;
+              pev.spawnflags &= ~SF_DODAMAGE;
 
-			  TraceResult tr = g_Utility.GetGlobalTrace();
-			  if (pev.owner !is null)
-			  {
-				// AdamR: Custom damage option
-				float flDamage = DAMAGE;
-				if (self.m_flCustomDmg > 0.0f)
-				  flDamage = self.m_flCustomDmg;
-				// AdamR: End
+              TraceResult tr = g_Utility.GetGlobalTrace();
+              if (pev.owner !is null)
+              {
+                // AdamR: Custom damage option
+                float flDamage = DAMAGE;
+                if (self.m_flCustomDmg > 0.0f)
+                  flDamage = self.m_flCustomDmg;
+                // AdamR: End
 
-				g_WeaponFuncs.ClearMultiDamage();
-				pOther.TraceAttack(pev.owner.vars, flDamage * 1.5f, g_Engine.v_forward, tr, DMG_CLUB);
-				g_WeaponFuncs.ApplyMultiDamage(pev, pev.owner.vars);
-			  }
+                g_WeaponFuncs.ClearMultiDamage();
+                pOther.TraceAttack(pev.owner.vars, flDamage * 1.5f, g_Engine.v_forward, tr, DMG_CLUB);
+                g_WeaponFuncs.ApplyMultiDamage(pev, pev.owner.vars);
+              }
 
-			  if (pOther.IsBSPModel())
-			  {
-				g_Utility.Sparks(tr.vecEndPos);
-				g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_VOICE, "debris/metal2.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong(0, 29));
-			  }
-			  else
-			  {
-				switch (Math.RandomLong(0, 1))
-				{
-				case 0:
-				  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "weapons/cbar_hitbod1.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
-				  break;
-				case 1:
-				  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "weapons/cbar_hitbod2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
-				  break;
-				}
-			  }
+              if (pOther.IsBSPModel())
+              {
+                g_Utility.Sparks(tr.vecEndPos);
+                g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_VOICE, "debris/metal2.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong(0, 29));
+              }
+              else
+              {
+                switch (Math.RandomLong(0, 1))
+                {
+                case 0:
+                  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "weapons/cbar_hitbod1.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
+                  break;
+                case 1:
+                  g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_ITEM, "weapons/cbar_hitbod2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM);
+                  break;
+                }
+              }
 
-			  g_Utility.TraceLine(pev.origin, pev.origin - Vector(0.0f, 0.0f, 5.0f), ignore_monsters, self.edict(), tr);
-			  if (pOther.pev.ClassNameIs("worldspawn") && tr.flFraction >= 1.0f)
-			  {
-				SetThink(ThinkFunction(UnstuckThrow));
-				pev.nextthink = g_Engine.time + 0.3f;
-				SetTouch(TouchFunction(DummyTouch));
+              g_Utility.TraceLine(pev.origin, pev.origin - Vector(0.0f, 0.0f, 5.0f), ignore_monsters, self.edict(), tr);
+              if (pOther.pev.ClassNameIs("worldspawn") && tr.flFraction >= 1.0f)
+              {
+                SetThink(ThinkFunction(UnstuckThrow));
+                pev.nextthink = g_Engine.time + 0.3f;
+                SetTouch(TouchFunction(DummyTouch));
 
-				// If what we hit is static architecture, can stay around for a while.
-				pev.movedir = pev.velocity.Normalize();
-				g_EntityFuncs.SetOrigin(self, pev.origin + (pev.movedir * -5.0f));
+                // If what we hit is static architecture, can stay around for a while.
+                pev.movedir = pev.velocity.Normalize();
+                g_EntityFuncs.SetOrigin(self, pev.origin + (pev.movedir * -5.0f));
 
-				pev.velocity = g_vecZero;
-				pev.avelocity = g_vecZero;
-				pev.angles = Math.VecToAngles(pev.movedir);
-				pev.angles.z -= 90.0f;
-				pev.movetype = MOVETYPE_TOSS;
-			  }
-			  else
-			  {
-				SetThink(ThinkFunction(ThrowThink));
-				pev.nextthink = g_Engine.time + 0.1f;
-			  }
-			  return;
-			}
+                pev.velocity = g_vecZero;
+                pev.avelocity = g_vecZero;
+                pev.angles = Math.VecToAngles(pev.movedir);
+                pev.angles.z -= 90.0f;
+                pev.movetype = MOVETYPE_TOSS;
+              }
+              else
+              {
+                SetThink(ThinkFunction(ThrowThink));
+                pev.nextthink = g_Engine.time + 0.1f;
+              }
+              return;
+            }
 
-		  if (pOther.IsBSPModel())
-			g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_VOICE, "debris/metal2.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong(0, 29));
-		}
+          if (pOther.IsBSPModel())
+            g_SoundSystem.EmitSoundDyn(self.edict(), CHAN_VOICE, "debris/metal2.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong(0, 29));
+        }
 
-		private void UnstuckThrow()
-		{
-			SetThink(ThinkFunction(ThrowThink));
-			pev.nextthink = g_Engine.time + 0.1f;
-			SetTouch(TouchFunction(ThrowTouch));
+        private void UnstuckThrow()
+        {
+            SetThink(ThinkFunction(ThrowThink));
+            pev.nextthink = g_Engine.time + 0.1f;
+            SetTouch(TouchFunction(ThrowTouch));
 
-			pev.velocity = pev.movedir * -64.0f;
-			pev.avelocity = Vector(200.0f, 0.0f, 0.0f);
-			pev.movetype = MOVETYPE_BOUNCE;
-		}
+            pev.velocity = pev.movedir * -64.0f;
+            pev.avelocity = Vector(200.0f, 0.0f, 0.0f);
+            pev.movetype = MOVETYPE_BOUNCE;
+        }
 
-		  // Guess why these exists? :D
-		  private void DummyThink() { }
+          // Guess why these exists? :D
+          private void DummyThink() { }
 
-		private void DummyTouch(CBaseEntity@ pOther) { }
-		// THROW LOGIC ENDS HERE!!!
+        private void DummyTouch(CBaseEntity@ pOther) { }
+        // THROW LOGIC ENDS HERE!!!
 
-		private bool Swing( bool fFirst )
-		{
+        private bool Swing( bool fFirst )
+        {
             bool fDidHit = false;
 
             TraceResult tr;
@@ -314,7 +314,7 @@ namespace weapon_bts_crowbar
                         case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
                     }
                     self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.95f );
-					self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.00f : 1.25f );
+                    self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.00f : 1.25f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
@@ -339,7 +339,7 @@ namespace weapon_bts_crowbar
                 }
 
                 self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
-				self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 1.0f);
+                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 1.0f);
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation
@@ -421,9 +421,9 @@ namespace weapon_bts_crowbar
             }
             return fDidHit;
         }
-		
-		private bool Shove()
-		{
+        
+        private bool Shove()
+        {
             bool fDidHit = false;
 
             TraceResult tr;
@@ -460,7 +460,7 @@ namespace weapon_bts_crowbar
                      case 2: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
                 }
                 self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.1f );
-				self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.95f );
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.95f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // play wiff or swish sound
@@ -484,21 +484,21 @@ namespace weapon_bts_crowbar
                 }
 
                 self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 1.0f );
-				self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation
                 m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
                 g_WeaponFuncs.ClearMultiDamage();
-				
-				// aone
-				if( pEntity !is null && ( pEntity.IsPlayer() || pEntity.IsMonster() ) )
-					{
-						pEntity.pev.velocity = pEntity.pev.velocity +
-							( self.pev.origin - pEntity.pev.origin ).Normalize() * -200;
-					}
-				// end aone
+                
+                // aone
+                if( pEntity !is null && ( pEntity.IsPlayer() || pEntity.IsMonster() ) )
+                    {
+                        pEntity.pev.velocity = pEntity.pev.velocity +
+                            ( self.pev.origin - pEntity.pev.origin ).Normalize() * -200;
+                    }
+                // end aone
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
                     pEntity.TraceAttack( m_pPlayer.pev, DAMAGE2, g_Engine.v_forward, tr, DMG_LAUNCH | DMG_CLUB); // first swing does full damage
@@ -573,6 +573,6 @@ namespace weapon_bts_crowbar
                 m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
             }
             return fDidHit;
-        }	
+        }   
     }
 }

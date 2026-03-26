@@ -16,7 +16,7 @@ namespace weapon_bts_poolstick
         ATTACK2HIT,
         ATTACK3MISS,
         ATTACK3HIT,
-		IDLE2
+        IDLE2
     };
 
     // Weapon info
@@ -31,7 +31,7 @@ namespace weapon_bts_poolstick
     // Vars
     float RANGE = 48.0f;
     float DAMAGE = 11.0f;
-	float RANGE2 = 54.0f;
+    float RANGE2 = 54.0f;
     float DAMAGE2 = 8.0f;
 
     class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
@@ -70,30 +70,30 @@ namespace weapon_bts_poolstick
             SetThink( null );
             BaseClass.Holster( skiplocal );
         }
-		
-		void WeaponIdle()
-		{
-			self.ResetEmptySound();
+        
+        void WeaponIdle()
+        {
+            self.ResetEmptySound();
 
-			if (self.m_flTimeWeaponIdle < g_Engine.time)
-			{
-				float flRand = g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 0, 1);
-				if (flRand <= 0.99)
-				{
-					self.SendWeaponAnim(IDLE, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 10, 15);
-				}
-				else
-				{
-					self.SendWeaponAnim(IDLE2, 0, pev.body);
-					self.m_flTimeWeaponIdle = g_Engine.time + 5.0;
-				}
-			}
-		}
+            if (self.m_flTimeWeaponIdle < g_Engine.time)
+            {
+                float flRand = g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 0, 1);
+                if (flRand <= 0.99)
+                {
+                    self.SendWeaponAnim(IDLE, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 10, 15);
+                }
+                else
+                {
+                    self.SendWeaponAnim(IDLE2, 0, pev.body);
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.0;
+                }
+            }
+        }
 
         void SecondaryAttack()
         {
-			Poke();
+            Poke();
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
         }
 
@@ -132,7 +132,7 @@ namespace weapon_bts_poolstick
                     self.SendWeaponAnim( ATTACK2MISS, 0, pev.body );
 
                     self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.65f );
-					self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.8f );
+                    self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.8f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
@@ -156,7 +156,7 @@ namespace weapon_bts_poolstick
                 }
 
                 self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.4f );
-				self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.8f );
+                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.8f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation
@@ -238,8 +238,8 @@ namespace weapon_bts_poolstick
             }
             return fDidHit;
         }
-		
-		private bool Poke()
+        
+        private bool Poke()
         {
             bool fDidHit = false;
 
@@ -272,7 +272,7 @@ namespace weapon_bts_poolstick
                 self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
 
                 self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.75f : 0.8f );
-				self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.65f );
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.65f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // play wiff or swish sound
@@ -288,10 +288,10 @@ namespace weapon_bts_poolstick
 
                 CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
-				self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
+                self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
 
                 self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.6f : 0.75f );
-				self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.65f );
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.65f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation

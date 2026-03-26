@@ -92,7 +92,7 @@ namespace weapon_bts_uzisd
                 return;
 
             self.DefaultReload( MAX_CLIP, RELOAD, 2.75f, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget1.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget1.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
             self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
             BaseClass.Reload();
         }
@@ -160,7 +160,7 @@ namespace weapon_bts_uzisd
 
             self.SendWeaponAnim( SHOOT, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/uzi_fire1.wav", 0.3f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/uzi_fire1.wav", 0.3f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 
             if( g_PlayerClass.is_trained_personal(m_pPlayer) )
             {

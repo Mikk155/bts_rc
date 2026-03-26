@@ -104,17 +104,6 @@ mixin class bts_rc_base_weapon
 
         m_pPlayer.m_flNextAttack = time; // For some reason the weapon's *Attack functions weren't being called without this.
 
-        time += g_Engine.time
-
-        if( self.m_flNextPrimaryAttack < time )
-            self.m_flNextPrimaryAttack = time;
-
-        if( self.m_flTimeWeaponIdle < time )
-            self.m_flTimeWeaponIdle = time;
-
-        if( self.m_flNextSecondaryAttack < time )
-            self.m_flNextSecondaryAttack = time;
-
         time += g_Engine.time;
 
         if (self.m_flNextPrimaryAttack < time)

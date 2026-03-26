@@ -88,12 +88,12 @@ namespace env_bloodpuddle
                     break;
                 }
 
-			/*	case BLOOD_STATE::EXPANDED:
-				{
-					// Puddle stays forever instead.
-					self.pev.nextthink = g_Engine.time + 1.0;
-					break;
-				}*/
+            /*  case BLOOD_STATE::EXPANDED:
+                {
+                    // Puddle stays forever instead.
+                    self.pev.nextthink = g_Engine.time + 1.0;
+                    break;
+                }*/
 
                 case BLOOD_STATE::IDLE:
                 case BLOOD_STATE::EXPANDING:

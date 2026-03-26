@@ -19,7 +19,7 @@ namespace weapon_bts_flare
         PULLPIN,
         THROW,
         DRAW,
-		TOSS
+        TOSS
     };
 
     // Weapon info
@@ -43,7 +43,7 @@ namespace weapon_bts_flare
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
-		private int throw;
+        private int throw;
         private float m_fAttackStart, m_flStartThrow;
         private bool m_bInAttack, m_bThrown;
         private int m_iAmmoSave;
@@ -78,7 +78,7 @@ namespace weapon_bts_flare
 
         bool Deploy()
         {
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/flare_deploy.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/flare_deploy.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
             m_iAmmoSave = 0; // Zero out the ammo save
             return bts_deploy( "models/bts_rc/weapons/v_flare.mdl", "models/bts_rc/weapons/p_flare.mdl", DRAW, "gren", 0, 0.75f );
         }
@@ -132,15 +132,15 @@ namespace weapon_bts_flare
 
             self.m_flNextPrimaryAttack = g_Engine.time + ( 25.0f / 30.0f );
             self.SendWeaponAnim( PULLPIN, 0, pev.body );
-			throw = 0;
+            throw = 0;
 
             m_bInAttack = true;
             m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
 
             self.m_flTimeWeaponIdle = g_Engine.time + ( 25.0f / 30.0f ) + ( 23.0f / 30.0f ); // ( 1.0f / 40.0f );
         }
-		
-		void SecondaryAttack()
+        
+        void SecondaryAttack()
         {
             if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
                 return;
@@ -150,7 +150,7 @@ namespace weapon_bts_flare
 
             self.m_flNextSecondaryAttack = g_Engine.time + ( 25.0f / 30.0f );
             self.SendWeaponAnim( PULLPIN, 0, pev.body );
-			throw = 1;
+            throw = 1;
 
             m_bInAttack = true;
             m_fAttackStart = g_Engine.time + ( 25.0f / 25.0f );
@@ -167,14 +167,14 @@ namespace weapon_bts_flare
                 angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
             else
                 angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
-				
-				float flVel = ( 90.0f - angThrow.x ) * 6.0f;
-				
+                
+                float flVel = ( 90.0f - angThrow.x ) * 6.0f;
+                
             if( flVel > 750.0f )
                 flVel = 750.0f;
-				
-			if( throw == 1 )
-				flVel = flVel / 2.0f; 
+                
+            if( throw == 1 )
+                flVel = flVel / 2.0f; 
 
             Math.MakeVectors( angThrow );
             Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
@@ -208,10 +208,10 @@ namespace weapon_bts_flare
                 return;
 
             self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f ); // ( 0.0f / 40.0f );
-			if( throw == 0 )
-				self.SendWeaponAnim( THROW, 0, pev.body );
-			if( throw == 1 )
-				self.SendWeaponAnim( TOSS, 0, pev.body );
+            if( throw == 0 )
+                self.SendWeaponAnim( THROW, 0, pev.body );
+            if( throw == 1 )
+                self.SendWeaponAnim( TOSS, 0, pev.body );
             m_bThrown = true;
             m_bInAttack = false;
             m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
@@ -242,6 +242,6 @@ namespace weapon_bts_flare
             self.DestroyItem();
             //g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
         }
-		
+        
     }
 }

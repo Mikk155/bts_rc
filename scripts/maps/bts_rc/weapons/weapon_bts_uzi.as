@@ -68,7 +68,7 @@ namespace weapon_bts_uzi
 
         bool Deploy()
         {
-         	 return bts_deploy( "models/bts_rc/weapons/v_uzi.mdl", "models/bts_rc/weapons/p_uzi.mdl", DRAW, "mp5", 1, 1.275f);
+             return bts_deploy( "models/bts_rc/weapons/v_uzi.mdl", "models/bts_rc/weapons/p_uzi.mdl", DRAW, "mp5", 1, 1.275f);
         }
 
         void Holster( int skiplocal = 0 )
@@ -92,7 +92,7 @@ namespace weapon_bts_uzi
                 return;
 
             self.DefaultReload( MAX_CLIP, RELOAD, 2.75f, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget1.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/fidget1.wav", 0.6f, ATTN_NORM, 0, PITCH_NORM );
             self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
             BaseClass.Reload();
         }

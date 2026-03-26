@@ -25,7 +25,7 @@ namespace weapon_bts_sawsd
     // int DEFAULT_GIVE = Math.RandomLong( 19, 100 );
     int AMMO_GIVE = MAX_CLIP;
     int AMMO_DROP = AMMO_GIVE;
-	int AMMO_DROPPED = 50;
+    int AMMO_DROPPED = 50;
     int WEIGHT = 20;
     // Weapon HUD
     int SLOT = 3;
@@ -35,9 +35,9 @@ namespace weapon_bts_sawsd
     Vector SHELL( 14.0f, 8.0f, -10.0f );
 
     const int m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
-	
-	// Knockback thing
-	const CCVar@ g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
+    
+    // Knockback thing
+    const CCVar@ g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
 
     class weapon_bts_sawsd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
     {
@@ -45,14 +45,14 @@ namespace weapon_bts_sawsd
 
         private bool m_bAlternatingEject;
         private int m_iTracerCount;
-		private bool m_bFixBeltAfterReload;
+        private bool m_bFixBeltAfterReload;
 
         void Spawn()
         {
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_sawsd.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 19, MAX_CLIP );
             self.FallInit();
-			pev.scale = 0.8;
+            pev.scale = 0.8;
 
             m_iTracerCount = 0;
             m_bAlternatingEject = false;
@@ -163,7 +163,7 @@ namespace weapon_bts_sawsd
             }
 
             self.SendWeaponAnim( Math.RandomLong( SHOOT1, SHOOT3 ), 0, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/gun_fire4.wav", 0.5f, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
             m_pPlayer.pev.punchangle.x = is_trained_personal ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
             m_pPlayer.pev.punchangle.y = is_trained_personal ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
@@ -203,10 +203,10 @@ namespace weapon_bts_sawsd
             if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 )
                 return;
 
-			m_bFixBeltAfterReload = true;
-			RecalculateBody(self.m_iClip);
+            m_bFixBeltAfterReload = true;
+            RecalculateBody(self.m_iClip);
             self.DefaultReload( MAX_CLIP, RELOAD_START, 2.0f, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
             self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 4.4f;
             SetThink( ThinkFunction( this.FinishAnim ) );
             pev.nextthink = g_Engine.time + 1.94f;
@@ -234,31 +234,31 @@ namespace weapon_bts_sawsd
             }
         }
 
-		private void RecalculateBody(int iClip)
-		{
-			int roundsBody;
+        private void RecalculateBody(int iClip)
+        {
+            int roundsBody;
 
-			if (iClip <= 0)
-				roundsBody = 8;
-			else if (iClip < 8)
-				roundsBody = 9 - iClip;
-			else
-				roundsBody = 0;
+            if (iClip <= 0)
+                roundsBody = 8;
+            else if (iClip < 8)
+                roundsBody = 9 - iClip;
+            else
+                roundsBody = 0;
 
-			// ONLY change bodygroup 2 (SAW rounds)
-				pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_sawsd.mdl")), pev.body, 2, roundsBody);
-		}
+            // ONLY change bodygroup 2 (SAW rounds)
+                pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_sawsd.mdl")), pev.body, 2, roundsBody);
+        }
 
         private void FinishAnim()
         {
-			int roundsBody;
-		
+            int roundsBody;
+        
             SetThink( null );
-			roundsBody = self.m_iClip;
-			pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_sawsd.mdl")), pev.body, 2, roundsBody); // HACKY HACK HAACKS
-			pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex("models/bts_rc/weapons/v_sawsd.mdl"), pev.body, 1, g_PlayerClass[m_pPlayer]);
+            roundsBody = self.m_iClip;
+            pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_sawsd.mdl")), pev.body, 2, roundsBody); // HACKY HACK HAACKS
+            pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex("models/bts_rc/weapons/v_sawsd.mdl"), pev.body, 1, g_PlayerClass[m_pPlayer]);
             self.SendWeaponAnim( RELOAD_END, 0, pev.body );
-			g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
         }
     }
 }
