@@ -102,7 +102,7 @@ namespace func_bts_recharger
             if ( m_last_use >= g_Engine.time )
                 return;
 
-            pitch = pitch - (m_juice / 13.5);
+            pitch = pitch - int(m_juice / 13.5);
 
             // Play the on sound or the looping charging sound
             if( m_sound_status == sound_status::OFF )
