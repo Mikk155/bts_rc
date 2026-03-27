@@ -50,27 +50,27 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     break;
                 }
             }
-			else if( monster.pev.classname == "monster_human_grunt"  && monster.pev.weapons == 5)
-			{
-				drop_item = "ammo_bts_556round";
-			}
-			else if( monster.pev.classname == "monster_male_assassin" && monster.pev.weapons == 5)
-			{
-				drop_item = "ammo_bts_556round";
-			}
-			else if( monster.pev.model == "models/bts_rc/monsters/zombie_medic.mdl" )
+            else if( monster.pev.classname == "monster_human_grunt"  && monster.pev.weapons == 5)
             {
-				
+                drop_item = "ammo_bts_556round";
+            }
+            else if( monster.pev.classname == "monster_male_assassin" && monster.pev.weapons == 5)
+            {
+                drop_item = "ammo_bts_556round";
+            }
+            else if( monster.pev.model == "models/bts_rc/monsters/zombie_medic.mdl" )
+            {
+                
                 is_zombie = true;
-				switch( Math.RandomLong( 1, 2 ) )
-				{
-					case 1:
-						drop_item = "item_bts_sprayaid";
-					break;
-					case 2:
-						drop_item = "item_healthkit";
-					break;
-				}
+                switch( Math.RandomLong( 1, 2 ) )
+                {
+                    case 1:
+                        drop_item = "item_bts_sprayaid";
+                    break;
+                    case 2:
+                        drop_item = "item_healthkit";
+                    break;
+                }
             }
             else if( monster.pev.classname == "monster_zombie_soldier" || monster.pev.classname == "monster_gonome" )
             {
@@ -141,7 +141,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 }
             }
 
-            if( cvar_bloodpuddles.GetInt() == 0
+            if( gpBloodPuddles
             and freeedicts( 30 )
             /* Do not create for non-bleedable npcs */
             and monster.m_bloodColor != DONT_BLEED

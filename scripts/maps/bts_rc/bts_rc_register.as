@@ -361,8 +361,8 @@ mixin class bts_rc_base_melee
 /*==========================================================================
 *   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
 ==========================================================================*/
+bool gpBloodPuddles;
 CCVar @cvar_player_models = CCVar("bts_rc_disable_player_models", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
-CCVar @cvar_bloodpuddles = CCVar("bts_rc_disable_bloodpuddles", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
 CCVar @cvar_sentry_laser = CCVar("bts_rc_disable_sentry_laser", -1, String::EMPTY_STRING, ConCommandFlag::AdminOnly, @CSentryCallback);
 CCVar @cvar_trace_blood = CCVar("bts_rc_disable_bloodsplash", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
 CCVar @cvar_trace_sparks = CCVar("bts_rc_disable_sparks", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
@@ -411,10 +411,15 @@ void MapInit()
         g_VoiceResponse.Register();
     }
 
+    if( g_Config.get( "blood_puddles", gpBloodPuddles ) && gpBloodPuddles )
+    {
+        g_CustomEntityFuncs.RegisterCustomEntity("env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle");
+        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+    }
+
     /*==========================================================================
     *   - Start of custom entities registry
     ==========================================================================*/
-    g_CustomEntityFuncs.RegisterCustomEntity("env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle");
     g_CustomEntityFuncs.RegisterCustomEntity("func_bts_recharger::func_bts_recharger", "func_bts_recharger");
     g_CustomEntityFuncs.RegisterCustomEntity("trigger_update_class::trigger_update_class", "trigger_update_class");
     g_CustomEntityFuncs.RegisterCustomEntity("point_checkpoint::point_checkpoint", "point_checkpoint");
@@ -1201,7 +1206,6 @@ namespace precache
             "models/bts_rc/weapons/w_crowbar.mdl",
             "models/hlclassic/w_grenade.mdl",
             "models/bts_rc/weapons/w_shotbox.mdl",
-            "models/mikk/misc/bloodpuddle.mdl",
             "models/opfor/p_knife.mdl",
             "models/opfor/w_knife.mdl",
             "models/tool_box.mdl",
