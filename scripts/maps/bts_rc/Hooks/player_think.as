@@ -55,10 +55,6 @@ HookReturnCode player_think(CBasePlayer @player)
 {
     if (player !is null && player.IsConnected())
     {
-#if DEVELOP
-        whatsthat(player);
-#endif
-
         // Change impulse 101 command with our own weapons.
         if (player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat("sv_cheats") > 0 && g_PlayerFuncs.AdminLevel(player) >= ADMIN_YES)
         {

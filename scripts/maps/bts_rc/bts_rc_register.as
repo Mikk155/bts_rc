@@ -745,9 +745,6 @@ void MapInit()
     models::saw_shell = g_Game.PrecacheModel("models/bts_rc/weapons/saw_shell.mdl");
     models::shotgunshell = g_Game.PrecacheModel("models/hlclassic/shotgunshell.mdl");
 
-#if SERVER
-    g_Game.PrecacheOther("monster_headcrab");
-#endif
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -788,29 +785,6 @@ bool freeedicts(int overhead = 1)
 {
     return (g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - (16 * g_Engine.maxClients) - 100 - overhead);
 }
-
-#if SERVER
-// Should we display info of aiming entity?
-void whatsthat(CBasePlayer @player)
-{
-    if (player !is null && player.IsConnected())
-    {
-        TraceResult tr;
-        Math.MakeVectors(player.pev.v_angle);
-        g_Utility.TraceLine(player.EyePosition(), player.EyePosition() + player.GetAutoaimVector(1.0) * 500.0f, dont_ignore_monsters, player.edict(), tr);
-
-        if (g_EntityFuncs.IsValidEntity(tr.pHit))
-        {
-            CBaseEntity @hit = g_EntityFuncs.Instance(tr.pHit);
-
-            if (hit !is null && hit.GetCustomKeyvalues().HasKeyvalue("$s_message"))
-            {
-                g_PlayerFuncs.ClientPrint(player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue("$s_message").GetString() + "\n");
-            }
-        }
-    }
-}
-#endif
 
 // Barney > Scientist > Construction > Black Scientist    > Helmet > Cleansuit      > Operative > Black Otis      > Green Construction > Veterans
 // Blue   > White     > Yellow       > White (Blk hand)   > Orange > White (Yellow) > Gray      > Blue (Blk Hand) > Green              > Gray (Speical)
