@@ -9,6 +9,9 @@
 #include "../../mikk155/meta_api"
 #include "../../mikk155/meta_api/json"
 
+// Contain models/sprites ID
+#include "misc/models"
+
 #include "callbacks/Hellbound"
 #include "callbacks/survival"
 
@@ -593,15 +596,6 @@ void MapInit()
         g_Game.PrecacheGeneric(precache::generic[ui]);
     precache::generic = {};
 
-    // Global model indexes
-    models::WXplo1 = g_Game.PrecacheModel("sprites/WXplo1.spr");
-    models::zerogxplode = g_Game.PrecacheModel("sprites/zerogxplode.spr");
-    models::steam1 = g_Game.PrecacheModel("sprites/steam1.spr");
-    models::laserbeam = g_Game.PrecacheModel("sprites/laserbeam.spr");
-    models::shell = g_Game.PrecacheModel("models/hlclassic/shell.mdl");
-    models::saw_shell = g_Game.PrecacheModel("models/bts_rc/weapons/saw_shell.mdl");
-    models::shotgunshell = g_Game.PrecacheModel("models/hlclassic/shotgunshell.mdl");
-
     /*==========================================================================
     *   - End
     ==========================================================================*/
@@ -620,18 +614,6 @@ void MapInit()
     /*==========================================================================
     *   - End
     ==========================================================================*/
-}
-
-// Model indexes
-namespace models
-{
-    int WXplo1;
-    int zerogxplode;
-    int steam1;
-    int laserbeam;
-    int shell;
-    int saw_shell;
-    int shotgunshell;
 }
 
 // sven only has 8192 edicts at any given time
