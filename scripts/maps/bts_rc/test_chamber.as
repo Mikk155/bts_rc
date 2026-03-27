@@ -1,5 +1,37 @@
-namespace trigger_logger
+#if METAMOD_DEBUG
+namespace test_chamber
 {
+    bool breg = reg();
+
+    bool reg()
+    {
+        g_CustomEntityFuncs.RegisterCustomEntity( "test_chamber::trigger_logger", "trigger_logger" );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @WhatsThat );
+        return true;
+    }
+
+    HookReturnCode WhatsThat( CBasePlayer@ player )
+    {
+        if( player is null )
+            return HOOK_CONTINUE;
+
+        TraceResult tr;
+        Math.MakeVectors(player.pev.v_angle);
+        g_Utility.TraceLine(player.EyePosition(), player.EyePosition() + player.GetAutoaimVector(1.0) * 500.0f, dont_ignore_monsters, player.edict(), tr);
+
+        if ( g_EntityFuncs.IsValidEntity(tr.pHit) )
+        {
+            CBaseEntity @hit = g_EntityFuncs.Instance(tr.pHit);
+
+            if (hit !is null && hit.GetCustomKeyvalues().HasKeyvalue("$s_message"))
+            {
+                g_PlayerFuncs.ClientPrint(player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue("$s_message").GetString() + "\n");
+            }
+        }
+
+        return HOOK_CONTINUE;
+    }
+
     HUDTextParams HudParams;
 
     class trigger_logger : ScriptBaseEntity
@@ -39,3 +71,4 @@ namespace trigger_logger
         }
     }
 }
+#endif
