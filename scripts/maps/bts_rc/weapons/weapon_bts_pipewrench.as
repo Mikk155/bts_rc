@@ -44,7 +44,7 @@ namespace weapon_bts_pipewrench
     float RANGE2 = 35.0f;
     float DAMAGE2 = 28.0f;
 
-    class weapon_bts_pipewrench : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_pipewrench : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer @m_pPlayer
         {

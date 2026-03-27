@@ -39,7 +39,7 @@ namespace weapon_bts_m16
     Vector CROUCH_CONE(0.01f, 0.01f, 0.01f);
     Vector SHELL(32.0f, 6.0f, -12.0f);
 
-    class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_m16 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer @m_pPlayer
         {
