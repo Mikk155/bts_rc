@@ -1,4 +1,7 @@
 {
     // Whatever player voices are enabled
-    "voice_responses": true
+    "voice_responses": true,
+
+    // Whatever to enable blood puddles
+    "blood_puddles": true
 }
