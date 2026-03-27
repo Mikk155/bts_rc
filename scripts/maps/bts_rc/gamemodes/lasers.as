@@ -45,7 +45,8 @@ namespace lasers
         const array<string> turrets = {
             "monster_sentry",
             "monster_turret",
-            "monster_miniturret"};
+            "monster_miniturret"
+        };
 
         for (uint ui = 0; ui < turrets.length(); ui++)
         {
@@ -63,13 +64,15 @@ void lasers_think()
 {
     for( int i = lasers::handles.length() - 1; i >= 0; i-- )
     {
-        if( !lasers::handles[i].IsValid() )
+        auto handle = lasers::handles[i];
+
+        if( !handle.IsValid() )
         {
             lasers::handles.removeAt(i);
             continue;
         }
 
-        CBaseEntity@ entity = lasers::handles[i].GetEntity();
+        CBaseEntity@ entity = handle.GetEntity();
 
         if( entity is null || !entity.IsAlive() )
         {
