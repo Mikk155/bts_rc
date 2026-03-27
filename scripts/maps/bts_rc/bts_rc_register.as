@@ -8,6 +8,7 @@
 
 #include "../../mikk155/meta_api"
 
+#include "callbacks/Hellbound"
 #include "callbacks/survival"
 
 #include "entities/ammo"
@@ -355,48 +356,6 @@ mixin class bts_rc_base_melee
 /*==========================================================================
 *   - End
 ==========================================================================*/
-
-/*==========================================================================
-*   - HELLBOUND INJECTION
-==========================================================================*/
-
-namespace Hellbound
-{
-    funcdef HookReturnCode Think( CBasePlayer@ );
-
-    Think@ callback;
-
-    void Shutdown( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
-    {
-        if( callback is null )
-            return;
-
-        g_Hooks.RemoveHook( Hooks::Player::PlayerPostThink, @callback );
-        @callback = null;
-    }
-
-    void Startup( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
-    {
-        if( callback !is null )
-            return;
-
-        @callback = Think( OnThink );
-
-        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @callback );
-    }
-
-    HookReturnCode OnThink( CBasePlayer@ player )
-    {
-        if( player !is null )
-        {
-            player.pev.health = 1;
-            player.pev.armorvalue = 1;
-            player.pev.max_health = 1;
-        }
-        
-        return HOOK_CONTINUE;
-    }
-}
 
 /*==========================================================================
 *   - End
