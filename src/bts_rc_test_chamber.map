@@ -211,6 +211,11 @@
 "origin" "-192 0 37"
 }
 {
+"classname" "trigger_script"
+"m_iszScriptFile" "bts_rc/test_chamber"
+"origin" "-192 0 50"
+}
+{
 "classname" "light_environment"
 "_light" "255 255 128 200"
 "pitch" "0"
