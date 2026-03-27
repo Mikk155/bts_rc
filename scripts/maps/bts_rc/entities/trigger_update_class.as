@@ -139,18 +139,12 @@ namespace trigger_update_class
         void Use( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
         {
             if( pActivator is null ) {
-                #if DEVELOP
-                g_PlayerClass.m_Logger.error( "Entity \"{}\" origin {} got no !activator!", { self.GetTargetname(), self.GetOrigin().ToString() } );
-                #endif
                 return;
             }
 
             CBasePlayer@ player = null;
 
             if( !pActivator.IsPlayer() ) {
-                #if DEVELOP
-                g_PlayerClass.m_Logger.error( "Entity \"{}\" origin {} got an !activator that is not a player!", { self.GetTargetname(), self.GetOrigin().ToString() } );
-                #endif
                 return;
             }
 
