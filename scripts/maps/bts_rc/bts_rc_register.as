@@ -14,9 +14,6 @@
 #include "entities/point_checkpoint"
 #include "entities/randomizer"
 #include "entities/trigger_update_class"
-#if SERVER
-    #include "entities/trigger_logger"
-#endif
 
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"

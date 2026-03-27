@@ -6,10 +6,6 @@
 
 namespace env_bloodpuddle
 {
-#if DEVELOP
-    CLogger@ m_Logger = CLogger( "Blood Puddle" );
-#endif
-
     enum BLOOD_STATE
     {
         IDLE = 0,
@@ -49,9 +45,6 @@ namespace env_bloodpuddle
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
                     self.pev.sequence = 0;
-#if DEVELOP
-                    m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale } );
-#endif
                     break;
                 }
 
@@ -61,9 +54,6 @@ namespace env_bloodpuddle
                     self.pev.sequence = 1;
                     self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );  
                     self.pev.frame = 0;
-#if DEVELOP
-                    m_Logger.info( "Created for \"{}\" at \"{}\" with scale of \"{}\" at framerate of \"{}\"", { self.pev.owner.vars.classname, self.pev.origin.ToString(), self.pev.scale, self.pev.framerate } );
-#endif
                     break;
                 }
             }

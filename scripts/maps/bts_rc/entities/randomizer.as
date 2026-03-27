@@ -1,33 +1,23 @@
 namespace randomizer
 {
-#if DEVELOP
-    CLogger@ m_Logger = CLogger( "Randomizer" );
-#endif
-
     // Swap a specific squad to a random location.
     void randomize_squad( CBaseMonster@ squad, CBaseEntity@ entity )
     {
-        if( squad !is null && g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
+        if( squad is null )
+            return;
+
+        if( g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
         {
             CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
 
             if( owner_spot !is null )
             {
                 owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
+                return;
             }
-#if DEVELOP
-            else
-            {
-                randomizer::m_Logger.warn( "Failed to swap a squad. null owner for squad" );
-            }
-#endif
         }
-#if DEVELOP
-        else
-        {
-            randomizer::m_Logger.warn( "Failed to swap a squad: {}", { ( squad is null ? "null squad" : "null owner for squad" ) } );
-        }
-#endif
+
+        g_Game.AlertMessage( at_console, "[ERROR] Failed to swap a squad at %1\n", squad.pev.origin.ToString() );
     }
 
     // Swap all squads to a random and unique location.
@@ -79,9 +69,6 @@ namespace randomizer
             self.pev.solid = SOLID_NOT;
             self.pev.effects |= EF_NODRAW;
             self.pev.movetype = MOVETYPE_NONE;
-#if TEST
-            m_Logger.debug( "Random origin for \"{}\" at \"{}\"", { self.GetClassname(), self.GetOrigin().ToString() } );
-#endif
         }
 
         // Swap the given squadmaker with the given randomizer position.
@@ -102,9 +89,6 @@ namespace randomizer
                             // Swap owners
                             self.Use( g_EntityFuncs.Instance( self.pev.owner ), self, USE_SET );
                             self.Use( ( randomizer !is null ? g_EntityFuncs.Instance( randomizer.pev.owner ) : null ), randomizer, USE_SET );
-#if DEVELOP
-                            m_Logger.debug( "{}: \"{}\" <-> \"{}\"", { self.pev.classname, self.entindex(), randomizer.entindex() } );
-#endif
                             break;
                         }
                     }
@@ -184,17 +168,10 @@ namespace randomizer
             const string name = this.name();
             string target;
             snprintf( target, "randomizer_%1", name );
-#if DEVELOP
-            m_Logger.info( "Initializing swappers \"{}\"", { target } );
-#endif
             // Find all randomizers and store them in indexes
             CBaseEntity@ pRandomizer = null;
             while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, target ) ) !is null )
             {
-#if TEST
-                m_Logger.info( "Got entity {} at \"{}\"", { pRandomizer.entindex(), pRandomizer.GetOrigin().ToString() } );
-#endif
-
                 this.indexes.insertLast( pRandomizer.entindex() );
             }
 
@@ -208,9 +185,6 @@ namespace randomizer
                 swaps[j] = temp;
             }
             this.indexes = swaps;
-#if TEST
-            m_Logger.info( "Swapped list {} indexes", { this.name() } );
-#endif
 
             array<string> entities_names = this.entities();
 
@@ -227,12 +201,6 @@ namespace randomizer
 
                 if( pRandomizer !is null )
                 {
-            #if TEST
-                    m_Logger.debug(
-                        "{}: \"{}\" Swap position to {}",
-                        { name, entities_names[i], pRandomizer.GetOrigin().ToString() }
-                    );
-            #endif
                     pRandomizer.Use(
                         g_EntityFuncs.FindEntityByTargetname( null, entities_names[i] ),
                         pRandomizer,

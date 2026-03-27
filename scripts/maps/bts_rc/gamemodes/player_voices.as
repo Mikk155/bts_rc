@@ -12,17 +12,13 @@ class CVoice
     private array<string> voices;
 
     float cooldown = 0.0f;
-	float pitch = 100.0f;
+    float pitch = 100.0f;
 
     void push_back( const string& in sound )
     {
         g_SoundSystem.PrecacheSound( sound );
 
         this.voices.insertLast( sound );
-
-#if DEVELOP
-        g_VoiceResponse.m_Logger.info( "Push sound \"{}\" for \"{}\" as \"{}\"", { sound, this.__owner__, this.__type__ } );
-#endif
     }
 
     CVoice( const string owner, const string type )
@@ -43,18 +39,10 @@ class CVoice
 
         if( this.voices.length() <= 0 )
         {
-#if DEVELOP
-            g_VoiceResponse.m_Logger.warn( "Tried to PlaySound on a empty CVoice list for \"{}\" at \"{}\"", { this.__type__, this.__owner__ } );
-#endif
-
             return false;
         }
 
         const string sound = this.voices[ Math.RandomLong( 0, this.voices.length() - 1 ) ];
-
-#if DEVELOP
-        g_VoiceResponse.m_Logger.info( "PlaySound \"{}\" for {} as \"{}\" from \"{}\"", { sound, target.pev.netname, this.__type__, this.__owner__ } );
-#endif
 
 // If pitchOverride == -1 → use class pitch
     const int finalPitch = (pitchOverride == -1 ? int(this.pitch) : pitchOverride);
@@ -89,18 +77,14 @@ class CVoices
 
 class CVoiceResponse
 {
-#if DEVELOP
-    CLogger@ m_Logger = CLogger( "Voice Responses" );
-#endif
-
     dictionary@ voices = {
         { "barney", null },
-		{ "veteran", null },
+        { "veteran", null },
         { "scientist", null },
         { "construction", null },
         { "helmet", null },
-		{ "otis", null },
-		{ "bscientist", null }
+        { "otis", null },
+        { "bscientist", null }
     };
 
     CVoices@ opIndex( CBasePlayer@ player ) const
@@ -112,17 +96,17 @@ class CVoiceResponse
 
         switch( player_class )
         {
-			case PM::OPERATIVE:
+            case PM::OPERATIVE:
             case PM::BARNEY:
                 return cast<CVoices@>( this.voices[ "barney" ] );
-				
-			case PM::OTIS:
+                
+            case PM::OTIS:
                 return cast<CVoices@>( this.voices[ "otis" ] );
-				
-			case PM::VETERAN:
-				return cast<CVoices@>( this.voices[ "veteran" ] );
-			
-			case PM::GCONSTRUCTION:
+                
+            case PM::VETERAN:
+                return cast<CVoices@>( this.voices[ "veteran" ] );
+            
+            case PM::GCONSTRUCTION:
             case PM::CONSTRUCTION:
                 return cast<CVoices@>( this.voices[ "construction" ] );
 
@@ -131,8 +115,8 @@ class CVoiceResponse
 
             case PM::CLSUIT:
                 return cast<CVoices@>( this.voices[ "cleansuit" ] );
-				
-			case PM::BSCIENTIST:
+                
+            case PM::BSCIENTIST:
                 return cast<CVoices@>( this.voices[ "bscientist" ] );
 
             case PM::SCIENTIST:
