@@ -44,7 +44,7 @@ namespace weapon_bts_mp5gl
     float DAMAGE2 = 110.0f;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
-    class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

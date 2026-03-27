@@ -48,7 +48,7 @@ namespace weapon_bts_sbshotgun
     Vector CONE( 0.08716f, 0.04362f, 0.0f );
     Vector SHELL( 14.0f, 6.0f, -34.0f );
 
-    class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

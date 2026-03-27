@@ -33,7 +33,7 @@ namespace weapon_bts_handgrenade
     float DAMAGE = 130.0f;
     Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
 
-    class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

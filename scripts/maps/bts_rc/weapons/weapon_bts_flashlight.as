@@ -38,7 +38,7 @@ namespace weapon_bts_flashlight
     float DAMAGE = 7.0f;
     float DRAIN_TIME = 0.8f;
 
-    class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

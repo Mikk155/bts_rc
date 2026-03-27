@@ -42,7 +42,7 @@ namespace weapon_bts_beretta
     float DRAIN_TIME = 0.8f;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
-    class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

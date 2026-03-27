@@ -28,7 +28,7 @@ namespace weapon_bts_sw637
     const int BODYGROUP_ROUNDS = 2;
     const int BODYGROUP_HANDS  = 1;
 
-    class weapon_bts_sw637 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_sw637 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

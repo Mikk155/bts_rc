@@ -24,7 +24,7 @@ namespace weapon_bts_axe
         SHOVE_MISS_ALT
     };
 
-    class weapon_bts_axe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_axe : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

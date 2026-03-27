@@ -34,7 +34,7 @@ namespace weapon_bts_poolstick
     float RANGE2 = 54.0f;
     float DAMAGE2 = 8.0f;
 
-    class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

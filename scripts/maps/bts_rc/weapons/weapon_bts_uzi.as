@@ -40,7 +40,7 @@ namespace weapon_bts_uzi
     int DAMAGE = 16;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
-    class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_uzi : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

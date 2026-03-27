@@ -43,7 +43,7 @@ namespace weapon_bts_crowbar
       return "weapon_bts_crowbar";
     }
 
-    class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_crowbar : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

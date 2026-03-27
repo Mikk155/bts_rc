@@ -41,7 +41,7 @@ namespace weapon_bts_glocksd
     float DRAIN_TIME = 0.8f;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
-    class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_glocksd : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
         private EHandle m_hLaser; // Yeah... no custom eagle_laser (laser_spot)

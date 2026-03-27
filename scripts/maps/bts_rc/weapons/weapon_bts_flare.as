@@ -39,7 +39,7 @@ namespace weapon_bts_flare
     float DURATION = 180.0f;
     Vector OFFSET( 16.0f, 0.0f, 0.0f ); // for projectile
 
-    class weapon_bts_flare : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_flare : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

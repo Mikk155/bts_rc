@@ -33,7 +33,7 @@ namespace weapon_bts_screwdriver
     float RANGE = 32.0f;
     float DAMAGE = 9.0f;
 
-    class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

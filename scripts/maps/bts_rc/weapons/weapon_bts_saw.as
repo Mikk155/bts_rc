@@ -39,7 +39,7 @@ namespace weapon_bts_saw
     // Knockback thing
     const CCVar@ g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
 
-    class weapon_bts_saw : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_saw : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

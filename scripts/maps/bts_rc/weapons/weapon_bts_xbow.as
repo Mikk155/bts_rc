@@ -210,7 +210,7 @@ namespace BTS_XBOW
         CROSSBOW_HOLSTER2   // empty
     };
 
-    class weapon_bts_xbow : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_xbow : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer @m_pPlayer = null;
 

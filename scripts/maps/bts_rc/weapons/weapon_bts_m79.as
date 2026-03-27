@@ -47,7 +47,7 @@ namespace weapon_bts_m79
     // string SPRITE_MUZZLE_GRENADE = "sprites/bts_rc/muzzleflash12.spr";
     // Vector MUZZLE_ORIGIN = Vector( 16.0, 4.0, -4.0 ); // forward, right, up
 
-    class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

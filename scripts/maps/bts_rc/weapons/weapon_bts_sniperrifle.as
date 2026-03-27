@@ -26,7 +26,7 @@ namespace weapon_bts_sniperrifle
     const int WEIGHT = 10;
     const int DAMAGE = 120;
 
-    class weapon_bts_sniperrifle : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_sniperrifle : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer @m_pPlayer
         {
