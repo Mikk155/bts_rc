@@ -6,6 +6,8 @@
 *   - Start of includes
 ==========================================================================*/
 
+#include "../../mikk155/meta_api"
+
 #include "entities/ammo"
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 #include "entities/env_bloodpuddle"
@@ -413,6 +415,7 @@ CCVar @cvar_trace_sparks = CCVar("bts_rc_disable_sparks", 0, String::EMPTY_STRIN
 
 void MapActivate()
 {
+    meta_api::NoticeInstallation();
     /*==========================================================================
     *   - Start of turret lasers
     ==========================================================================*/
