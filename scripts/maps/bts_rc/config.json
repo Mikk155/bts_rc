@@ -3,5 +3,17 @@
     "voice_responses": true,
 
     // Whatever to enable blood puddles
-    "blood_puddles": true
+    "blood_puddles": true,
+
+    // Whatever that enemies should splash extra blood
+    "blood_splash": true,
+
+    // Whatever machine enemies should splash sparks
+    "sparks_splash": true,
+
+    // Whatever turrets should have laser aims
+    "turret_lasers": true,
+
+    // Whatever to force player models
+    "force_playermodels": true
 }

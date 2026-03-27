@@ -129,8 +129,7 @@ mixin class bts_rc_base_weapon
 
             if (hit !is null)
             {
-                bool should_bleed = (cvar_trace_blood.GetInt() != 1);
-                if (should_bleed && tr.iHitgroup != 10 && hit.IsMonster() && freeedicts(1))
+                if( gpTraceBlood && tr.iHitgroup != 10 && hit.IsMonster() && freeedicts(1) )
                 {
                     CBaseMonster @monster = cast<CBaseMonster @>(hit);
 
@@ -183,7 +182,7 @@ mixin class bts_rc_base_weapon
                     }
                 }
 
-                bool should_sparks = (cvar_trace_sparks.GetInt() != 1);
+                bool should_sparks = gpTraceSparks;
                 if (should_sparks && freeedicts(17))
                 {
                     int sparks_color;
@@ -362,10 +361,10 @@ mixin class bts_rc_base_melee
 *   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
 ==========================================================================*/
 bool gpBloodPuddles;
-CCVar @cvar_player_models = CCVar("bts_rc_disable_player_models", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
-CCVar @cvar_sentry_laser = CCVar("bts_rc_disable_sentry_laser", -1, String::EMPTY_STRING, ConCommandFlag::AdminOnly, @CSentryCallback);
-CCVar @cvar_trace_blood = CCVar("bts_rc_disable_bloodsplash", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
-CCVar @cvar_trace_sparks = CCVar("bts_rc_disable_sparks", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
+bool gpForcepModels;
+bool gpLaserSentries;
+bool gpTraceBlood;
+bool gpTraceSparks;
 /*==========================================================================
 *   - End
 ==========================================================================*/
@@ -373,28 +372,7 @@ CCVar @cvar_trace_sparks = CCVar("bts_rc_disable_sparks", 0, String::EMPTY_STRIN
 void MapActivate()
 {
     meta_api::NoticeInstallation();
-    /*==========================================================================
-    *   - Start of turret lasers
-    ==========================================================================*/
-    const array<string> turrets = {
-#if SERVER
-        "monster_sentry",
-#endif
-        "monster_turret",
-        "monster_miniturret"};
-
-    for (uint ui = 0; ui < turrets.length(); ui++)
-    {
-        CBaseEntity @entity = null;
-
-        while ((@entity = g_EntityFuncs.FindEntityByClassname(entity, turrets[ui])) !is null)
-        {
-            g_sentry_laser.handles.insertLast(EHandle(entity));
-        }
-    }
-    /*==========================================================================
-    *   - End
-    ==========================================================================*/
+    lasers::MapActivate();
 }
 
 dictionary g_Config;
@@ -416,6 +394,16 @@ void MapInit()
         g_CustomEntityFuncs.RegisterCustomEntity("env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle");
         g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
     }
+
+    if( g_Config.get( "turret_lasers", gpLaserSentries ) && gpLaserSentries )
+    {
+        g_Scheduler.SetInterval( "lasers_think", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
+        g_Game.PrecacheModel( "sprites/glow01.spr" );
+    }
+
+    g_Config.get( "force_playermodels", gpForcepModels );
+    g_Config.get( "blood_splash", gpTraceBlood );
+    g_Config.get( "sparks_splash", gpTraceSparks );
 
     /*==========================================================================
     *   - Start of custom entities registry
@@ -1215,7 +1203,6 @@ namespace precache
             "models/bts_rc/monsters/snapbugattach.mdl",
             "models/bts_rc/monsters/snapbug.mdl",
             "sprites/SAWFlash.spr",
-            "sprites/glow01.spr",
             "sprites/bts_rc/640hudof01.spr",
             "sprites/bts_rc/640hudof02.spr",
             "sprites/bts_rc/M79_crosshair.spr",
