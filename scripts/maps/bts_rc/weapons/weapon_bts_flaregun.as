@@ -37,7 +37,7 @@ namespace weapon_bts_flaregun
     // const Vector MUZZLE_ORIGIN       = Vector( 16.0, 4.0, -4.0 ); //forward, right, up
     // const string SPRITE_MUZZLE_GRENADE   = "sprites/bts_rc/muzzleflash12.spr";
 
-    class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer @m_pPlayer
         {

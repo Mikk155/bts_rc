@@ -43,7 +43,7 @@ namespace weapon_bts_pipe
     float RANGE2 = 35.0f;
     float DAMAGE2 = 27.0f;
 
-    class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon, bts_rc_base_melee
+    class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

@@ -58,7 +58,7 @@ namespace BTS_FLAMETHROWER
         FLTHRW_HOLSTER
     };
 
-    class weapon_bts_flamethrower : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_flamethrower : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer @m_pPlayer
         {

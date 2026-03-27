@@ -44,7 +44,7 @@ namespace weapon_bts_medkit
     const int RECHARGE_AMOUNT = 1;
     const float RECHARGE_DELAY = 0.6f;
 
-    class weapon_bts_medkit : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_medkit : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

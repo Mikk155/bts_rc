@@ -31,7 +31,7 @@ namespace weapon_bts_python
     // Vars
     int DAMAGE = 66;
 
-    class weapon_bts_python : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_python : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 

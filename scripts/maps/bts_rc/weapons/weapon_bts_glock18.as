@@ -39,7 +39,7 @@ namespace weapon_bts_glock18
     int DAMAGE = 15;
     Vector SHELL( 32.0f, 6.0f, -12.0f );
 
-    class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, bts_rc_base_weapon
+    class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
         private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
 
