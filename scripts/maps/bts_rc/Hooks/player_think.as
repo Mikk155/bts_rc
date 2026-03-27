@@ -2,55 +2,6 @@
     Author: Mikk
 */
 
-array<bool> g_WasAlive( 33, false ); // 1..32 players
-
-HookReturnCode PlayerLeftObserver( CBasePlayer@ pPlayer )
-{
-    if( pPlayer is null || !pPlayer.IsAlive() )
-        return HOOK_CONTINUE;
-
-    // Delay by 0.5s so spawn is fully finished
-    g_Scheduler.SetTimeout( "GiveFists", 0.5f, EHandle( pPlayer ) );
-
-    return HOOK_CONTINUE;
-}
-
-void GiveFists( EHandle hPlayer )
-{
-    CBasePlayer@ pPlayer = cast<CBasePlayer@>( hPlayer.GetEntity() );
-    if( pPlayer is null || !pPlayer.IsAlive() )
-        return;
-
-    // Don't duplicate
-    if( pPlayer.HasNamedPlayerItem( "weapon_bts_fists" ) !is null )
-        return;
-
-    // Give weapon
-    pPlayer.GiveNamedItem( "weapon_bts_fists" );
-
-}
-
-HookReturnCode OnPlayerPostThink( CBasePlayer@ pPlayer )
-{
-    if( pPlayer is null )
-        return HOOK_CONTINUE;
-
-    int idx = pPlayer.entindex();
-
-    bool aliveNow = pPlayer.IsAlive();
-    bool wasAlive = g_WasAlive[ idx ];
-
-    // DEAD -> ALIVE transition = revive
-    if( aliveNow && !wasAlive )
-    {
-        g_Scheduler.SetTimeout( "GiveFists", 0.0f, EHandle( pPlayer ) );
-    }
-
-    g_WasAlive[ idx ] = aliveNow;
-
-    return HOOK_CONTINUE;
-}
-
 HookReturnCode player_think(CBasePlayer @player)
 {
     if (player !is null && player.IsConnected())
