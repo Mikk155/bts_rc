@@ -8,6 +8,8 @@
 
 #include "../../mikk155/meta_api"
 
+#include "callbacks/survival"
+
 #include "entities/ammo"
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 #include "entities/env_bloodpuddle"
@@ -1088,39 +1090,6 @@ namespace motd
     }
 }
 
-// Do we really need a script to do this?
-namespace survival
-{
-    // This is stupid.
-    void activate(CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue)
-    {
-        g_SurvivalMode.Activate();
-    }
-
-    // Still stupid.
-    void deactivate(CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue)
-    {
-        g_SurvivalMode.Disable();
-    }
-
-    // Even more stupid.
-    void toggle(CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue)
-    {
-        if (g_SurvivalMode.IsActive())
-        {
-            deactivate(null, null, USE_SET, 0);
-        }
-        else
-        {
-            activate(null, null, USE_SET, 0);
-        }
-    }
-
-    void enabled(CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue)
-    {
-        g_EntityFuncs.FireTargets((g_SurvivalMode.MapSupportEnabled() && g_SurvivalMode.IsActive() ? "GM_SURVIVAL_ACTIVE" : "GM_SURVIVAL_INACTIVE"), null, null, USE_TOGGLE, 0, 0);
-    }
-}
 
 // CRAP AHEAD! I know zzzzz but the map actually takes a lot to load so i'll optimize these as much as i can.
 namespace precache
