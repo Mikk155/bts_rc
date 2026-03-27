@@ -53,41 +53,23 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
         }
     }
 
-    if( cvar_player_voices.GetInt() == 0 && ( pDamageInfo.pAttacker is null || player.Classify() != pDamageInfo.pAttacker.Classify() ) )
+    if( g_VoiceResponse.Active && ( pDamageInfo.pAttacker is null || pDamageInfo.pAttacker.IRelationship(player) != R_AL ) )
     {
         CVoices@ voices = g_VoiceResponse[ player ];
 
         if( voices !is null )
         {
-#if DISCARDED
-            if( player.pev.waterlevel == WATERLEVEL_HEAD )
-            {
-                if( voices.drowndamage !is null )
-                {
-                    voices.drowndamage.PlaySound( player );
-                }
-            }
-            else
-            {
-#endif
             // Player will be dead
-            if( player.pev.health - pDamageInfo.flDamage <= 0 )
+            if( ( player.pev.health - pDamageInfo.flDamage ) <= 0 )
             {
                 if( voices.killed !is null )
-                {
                     voices.killed.PlaySound( player );
-                }
             }
             else
             {
                 if( voices.takedamage !is null )
-                {
                     voices.takedamage.PlaySound( player );
-                }
             }
-#if DISCARDED
-            }
-#endif
         }
     }
 

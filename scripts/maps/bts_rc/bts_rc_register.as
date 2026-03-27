@@ -7,6 +7,7 @@
 ==========================================================================*/
 
 #include "../../mikk155/meta_api"
+#include "../../mikk155/meta_api/json"
 
 #include "callbacks/Hellbound"
 #include "callbacks/survival"
@@ -365,7 +366,6 @@ mixin class bts_rc_base_melee
 *   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
 ==========================================================================*/
 CCVar @cvar_player_models = CCVar("bts_rc_disable_player_models", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
-CCVar @cvar_player_voices = CCVar("bts_rc_disable_player_voices", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
 CCVar @cvar_bloodpuddles = CCVar("bts_rc_disable_bloodpuddles", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
 CCVar @cvar_sentry_laser = CCVar("bts_rc_disable_sentry_laser", -1, String::EMPTY_STRING, ConCommandFlag::AdminOnly, @CSentryCallback);
 CCVar @cvar_trace_blood = CCVar("bts_rc_disable_bloodsplash", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
@@ -401,8 +401,20 @@ void MapActivate()
     ==========================================================================*/
 }
 
+dictionary g_Config;
+
 void MapInit()
 {
+    if( !meta_api::json::Deserialize( "bts_rc/config.json", g_Config ) )
+    {
+        g_Game.AlertMessage( at_console, "[ERROR] Can not open \"scripts/maps/bts_rc/config.json\"\n" );
+    }
+
+    if( g_Config.get( "voice_responses", g_VoiceResponse.Active ) && g_VoiceResponse.Active )
+    {
+        g_VoiceResponse.Register();
+    }
+
     /*==========================================================================
     *   - Start of custom entities registry
     ==========================================================================*/
@@ -573,150 +585,6 @@ void MapInit()
          ItemMapping("weapon_minigun", "ammo_bts_dsaw"),
          ItemMapping("weapon_rpg", "weapon_bts_m79"),
          ItemMapping("weapon_medkit", "weapon_bts_medkit")});
-    /*==========================================================================
-    *   - End
-    ==========================================================================*/
-
-    /*==========================================================================
-    *   - Start of player voice responses
-    ==========================================================================*/
-    // Initialize handlers for specific classes
-    CVoices @scientist = @CVoices("scientist");
-    CVoices @barney = @CVoices("barney");
-    CVoices @construction = @CVoices("construction");
-    CVoices @helmet = @CVoices("helmet");
-    CVoices @cleansuit = @CVoices("cleansuit");
-    CVoices @veteran = @CVoices("veteran");
-    CVoices @otis = @CVoices("otis");
-    CVoices @bscientist = @CVoices("bscientist");
-
-    // Save them in the voice responses class
-    g_VoiceResponse.voices["scientist"] = @scientist;
-    g_VoiceResponse.voices["barney"] = @barney;
-    g_VoiceResponse.voices["construction"] = @construction;
-    g_VoiceResponse.voices["helmet"] = @helmet;
-    g_VoiceResponse.voices["cleansuit"] = @cleansuit;
-    g_VoiceResponse.voices["veteran"] = @veteran;
-    g_VoiceResponse.voices["otis"] = @otis;
-    g_VoiceResponse.voices["bscientist"] = @bscientist;
-
-    // Constructor
-    construction.takedamage.cooldown = 1.0;
-    construction.takedamage.push_back("bts_rc/player/construction/co_pain1.wav");
-    construction.takedamage.push_back("bts_rc/player/construction/co_pain2.wav");
-    construction.takedamage.push_back("bts_rc/player/construction/co_pain3.wav");
-    construction.takedamage.push_back("bts_rc/player/construction/co_pain4.wav");
-    construction.killed.push_back("bts_rc/player/construction/co_die1.wav");
-    construction.killed.push_back("bts_rc/player/construction/co_die2.wav");
-    construction.killed.push_back("bts_rc/player/construction/co_die3.wav");
-    construction.killed.push_back("bts_rc/player/construction/co_die4.wav");
-
-    // Barney
-    barney.takedamage.cooldown = 1.0;
-    barney.takedamage.push_back("barney/ba_pain1.wav");
-    barney.takedamage.push_back("barney/ba_pain2.wav");
-    barney.takedamage.push_back("barney/ba_pain3.wav");
-    barney.killed.push_back("barney/ba_die1.wav");
-    barney.killed.push_back("barney/ba_die2.wav");
-    barney.killed.push_back("barney/ba_die3.wav");
-    
-    // Otis
-    otis.takedamage.cooldown = 1.0;
-    otis.takedamage.pitch = 94.0f;
-    otis.killed.pitch = 94.0f;
-    otis.takedamage.push_back("otis/scar.wav");
-    otis.takedamage.push_back("barney/ba_pain1.wav");
-    otis.takedamage.push_back("barney/ba_pain2.wav");
-    otis.takedamage.push_back("barney/ba_pain3.wav");
-    otis.takedamage.push_back("barney/aghh.wav");
-    otis.takedamage.push_back("barney/ba_die3.wav");
-    otis.takedamage.push_back("barney/ba_pain3.wav");
-    otis.killed.push_back("barney/ba_die1.wav");
-    otis.killed.push_back("barney/ba_die2.wav");
-    otis.killed.push_back("barney/ba_die3.wav");
-
-    // Veteran
-    veteran.takedamage.cooldown = 1.0;
-    veteran.takedamage.pitch = 103.0f;
-    veteran.killed.pitch = 103.0f;
-    veteran.takedamage.push_back("fgrunt/gr_pain1.wav");
-    veteran.takedamage.push_back("fgrunt/gr_pain2.wav");
-    veteran.takedamage.push_back("fgrunt/gr_pain3.wav");
-    veteran.takedamage.push_back("fgrunt/gr_pain4.wav");
-    veteran.takedamage.push_back("fgrunt/gr_pain5.wav");
-    veteran.takedamage.push_back("fgrunt/gr_pain6.wav");
-    veteran.killed.push_back("fgrunt/death1.wav");
-    veteran.killed.push_back("fgrunt/death2.wav");
-    veteran.killed.push_back("fgrunt/death3.wav");
-    veteran.killed.push_back("fgrunt/death4.wav");
-    veteran.killed.push_back("fgrunt/death5.wav");
-    veteran.killed.push_back("fgrunt/death6.wav");
-
-    // H.E.V
-    helmet.takedamage.cooldown = 1.0;
-    helmet.takedamage.push_back("bts_rc/player/helmet/hm_pain1.wav");
-    helmet.takedamage.push_back("bts_rc/player/helmet/hm_pain2.wav");
-    helmet.takedamage.push_back("bts_rc/player/helmet/hm_pain3.wav");
-    helmet.takedamage.push_back("bts_rc/player/helmet/hm_pain4.wav");
-    helmet.takedamage.push_back("bts_rc/player/helmet/hm_pain5.wav");
-    helmet.killed.push_back("bts_rc/player/helmet/hm_death1.wav");
-    helmet.killed.push_back("bts_rc/player/helmet/hm_death2.wav");
-    helmet.killed.push_back("bts_rc/player/helmet/hm_death3.wav");
-    helmet.killed.push_back("bts_rc/player/helmet/hm_death4.wav");
-
-    // Cleansuit
-    cleansuit.takedamage.cooldown = 1.0;
-    cleansuit.takedamage.push_back("bts_rc/player/cleansuit/cl_pain1.wav");
-    cleansuit.takedamage.push_back("bts_rc/player/cleansuit/cl_pain2.wav");
-    cleansuit.takedamage.push_back("bts_rc/player/cleansuit/cl_pain3.wav");
-    cleansuit.takedamage.push_back("bts_rc/player/cleansuit/cl_pain4.wav");
-    cleansuit.takedamage.push_back("bts_rc/player/cleansuit/cl_pain5.wav");
-    cleansuit.killed.push_back("bts_rc/player/cleansuit/cl_death1.wav");
-    cleansuit.killed.push_back("bts_rc/player/cleansuit/cl_death2.wav");
-    cleansuit.killed.push_back("bts_rc/player/cleansuit/cl_death3.wav");
-    cleansuit.killed.push_back("bts_rc/player/cleansuit/cl_death4.wav");
-
-    // Black Scientist
-    bscientist.takedamage.cooldown = 1.0;
-    bscientist.takedamage.pitch = 94.0f;
-    bscientist.killed.pitch = 94.0f;
-    bscientist.takedamage.push_back("scientist/sci_pain1.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain2.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain3.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain4.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain5.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain6.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain7.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain8.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain9.wav");
-    bscientist.takedamage.push_back("scientist/sci_pain10.wav");
-    bscientist.takedamage.push_back("scientist/sci_fear11.wav");
-    bscientist.takedamage.push_back("scientist/sci_fear15.wav");
-    bscientist.killed.push_back("scientist/sci_die1.wav");
-    bscientist.killed.push_back("scientist/sci_die2.wav");
-    bscientist.killed.push_back("scientist/sci_die3.wav");
-    bscientist.killed.push_back("scientist/scream21.wav");
-    bscientist.killed.push_back("scientist/scream23.wav");
-
-    // Scientist
-    scientist.takedamage.cooldown = 1.0;
-    scientist.takedamage.push_back("scientist/sci_pain1.wav");
-    scientist.takedamage.push_back("scientist/sci_pain2.wav");
-    scientist.takedamage.push_back("scientist/sci_pain3.wav");
-    scientist.takedamage.push_back("scientist/sci_pain4.wav");
-    scientist.takedamage.push_back("scientist/sci_pain5.wav");
-    scientist.takedamage.push_back("scientist/sci_pain6.wav");
-    scientist.takedamage.push_back("scientist/sci_pain7.wav");
-    scientist.takedamage.push_back("scientist/sci_pain8.wav");
-    scientist.takedamage.push_back("scientist/sci_pain9.wav");
-    scientist.takedamage.push_back("scientist/sci_pain10.wav");
-    scientist.takedamage.push_back("scientist/sci_fear11.wav");
-    scientist.takedamage.push_back("scientist/sci_fear15.wav");
-    scientist.killed.push_back("scientist/sci_die1.wav");
-    scientist.killed.push_back("scientist/sci_die2.wav");
-    scientist.killed.push_back("scientist/sci_die3.wav");
-    scientist.killed.push_back("scientist/scream21.wav");
-    scientist.killed.push_back("scientist/scream23.wav");
     /*==========================================================================
     *   - End
     ==========================================================================*/
