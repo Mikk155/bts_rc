@@ -359,10 +359,6 @@ mixin class bts_rc_base_melee
 ==========================================================================*/
 
 /*==========================================================================
-*   - End
-==========================================================================*/
-
-/*==========================================================================
 *   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
 ==========================================================================*/
 CCVar @cvar_player_models = CCVar("bts_rc_disable_player_models", 0, String::EMPTY_STRING, ConCommandFlag::AdminOnly);
@@ -624,8 +620,6 @@ void MapInit()
     g_Hooks.RegisterHook(Hooks::Player::PlayerTakeDamage, @player_takedamage);
     g_Hooks.RegisterHook(Hooks::Monster::MonsterKilled, @monster_killed);
     g_Hooks.RegisterHook(Hooks::Monster::MonsterTakeDamage, @monster_takedamage);
-    g_Hooks.RegisterHook(Hooks::Player::PlayerLeftObserver, @PlayerLeftObserver );
-    g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @OnPlayerPostThink );
     /* -TODO Remove this line in 5.27 */ if (g_Game.GetGameVersion() == 526)
     {
         g_Hooks.RegisterHook(Hooks::Player::ClientPutInServer, @notice_assets::player_connect);
