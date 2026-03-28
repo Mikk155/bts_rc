@@ -1,8 +1,8 @@
 /*
-* M9 Beretta w/ Torchlight attached
-* Author: Giegue, Mikk
-* Animation: MTB
-*/
+ * M9 Beretta w/ Torchlight attached
+ * Author: Giegue, Mikk
+ * Animation: MTB
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_beretta
@@ -44,17 +44,28 @@ namespace weapon_bts_beretta
 
     class weapon_bts_beretta : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int m_iFlashBattery
         {
-            get const {
-                if( !m_pPlayer.GetUserData().exists( pev.classname ) ) {
-                    m_pPlayer.GetUserData()[ pev.classname ] = Math.RandomLong( 0, 50 );
+            get const
+            {
+                if( !m_pPlayer.GetUserData().exists( pev.classname ) )
+                {
+                    m_pPlayer.GetUserData()[pev.classname] = Math.RandomLong( 0, 50 );
                 }
-                return int( m_pPlayer.GetUserData()[ pev.classname ] );
+                return int( m_pPlayer.GetUserData()[pev.classname] );
             }
-            set { m_pPlayer.GetUserData()[ pev.classname ] = value; }
+            set
+            {
+                m_pPlayer.GetUserData()[pev.classname] = value;
+            }
         }
 
         private float m_flFlashLightTime;
@@ -96,8 +107,8 @@ namespace weapon_bts_beretta
             m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             return bts_deploy( "models/bts_rc/weapons/v_beretta.mdl", "models/bts_rc/weapons/p_beretta.mdl", DRAW, "onehanded", 1 );
@@ -108,7 +119,7 @@ namespace weapon_bts_beretta
             SetThink( null );
             g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
 
-            if ( m_pPlayer.FlashlightIsOn() )
+            if( m_pPlayer.FlashlightIsOn() )
                 FlashlightTurnOff();
 
             m_flRestoreAfter = 0.0f;
@@ -138,7 +149,7 @@ namespace weapon_bts_beretta
                 }
 
                 NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-                    msg.WriteByte( m_iCurrentBaterry );
+                msg.WriteByte( m_iCurrentBaterry );
                 msg.End();
             }
 
@@ -190,7 +201,7 @@ namespace weapon_bts_beretta
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             float CONE = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
             CONE *= 0.6f;
@@ -201,11 +212,11 @@ namespace weapon_bts_beretta
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            bts_post_attack(tr);
+            bts_post_attack( tr );
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
@@ -259,7 +270,7 @@ namespace weapon_bts_beretta
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-                
+
                 self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
                 self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
@@ -294,9 +305,15 @@ namespace weapon_bts_beretta
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
             {
-                case 0: self.SendWeaponAnim( IDLE1, 0, pev.body ); break; 
-                case 1: self.SendWeaponAnim( IDLE2, 0, pev.body ); break; 
-                default: self.SendWeaponAnim( IDLE3, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
+                    break;
+                default:
+                    self.SendWeaponAnim( IDLE3, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
@@ -319,7 +336,7 @@ namespace weapon_bts_beretta
             m_iFlashBattery = m_iCurrentBaterry = 100;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_pPlayer.m_flNextAttack = 0.5f;
@@ -333,8 +350,8 @@ namespace weapon_bts_beretta
             m_pPlayer.pev.effects |= EF_DIMLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 1 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 1 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_flFlashLightTime = g_Engine.time + DRAIN_TIME;
@@ -346,8 +363,8 @@ namespace weapon_bts_beretta
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_flFlashLightTime = 0.0f;

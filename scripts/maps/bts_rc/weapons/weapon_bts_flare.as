@@ -1,4 +1,4 @@
-//Black Mesa Emergency Flare
+// Black Mesa Emergency Flare
 /* Model Credits
 / Model: Valve
 / Textures: Valve
@@ -41,7 +41,13 @@ namespace weapon_bts_flare
 
     class weapon_bts_flare : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int throw;
         private float m_fAttackStart, m_flStartThrow;
@@ -50,7 +56,7 @@ namespace weapon_bts_flare
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model(  "models/bts_rc/weapons/w_flare.mdl" ) );
+            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_flare.mdl" ) );
             self.m_iDefaultAmmo = DEFAULT_GIVE;
             self.FallInit(); // get ready to fall
         }
@@ -93,7 +99,7 @@ namespace weapon_bts_flare
             return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
         }
 
-        CBasePlayerItem@ DropItem()
+        CBasePlayerItem @DropItem()
         {
             m_iAmmoSave = m_pPlayer.AmmoInventory( self.m_iPrimaryAmmoType ); // Save the player"s ammo pool in case it has any in DropItem
             return self;
@@ -139,7 +145,7 @@ namespace weapon_bts_flare
 
             self.m_flTimeWeaponIdle = g_Engine.time + ( 25.0f / 30.0f ) + ( 23.0f / 30.0f ); // ( 1.0f / 40.0f );
         }
-        
+
         void SecondaryAttack()
         {
             if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
@@ -167,14 +173,14 @@ namespace weapon_bts_flare
                 angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
             else
                 angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
-                
-                float flVel = ( 90.0f - angThrow.x ) * 6.0f;
-                
+
+            float flVel = ( 90.0f - angThrow.x ) * 6.0f;
+
             if( flVel > 750.0f )
                 flVel = 750.0f;
-                
+
             if( throw == 1 )
-                flVel = flVel / 2.0f; 
+                flVel = flVel / 2.0f;
 
             Math.MakeVectors( angThrow );
             Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * OFFSET.x + g_Engine.v_right * OFFSET.y + g_Engine.v_up * OFFSET.z;
@@ -240,8 +246,7 @@ namespace weapon_bts_flare
         {
             SetThink( null );
             self.DestroyItem();
-            //g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
+            // g_Game.AlertMessage( at_console, "Item Destroyed.\n" );
         }
-        
     }
 }

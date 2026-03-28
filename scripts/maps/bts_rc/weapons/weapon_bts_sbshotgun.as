@@ -1,10 +1,10 @@
 /*
-* Mossberg 500 w/ Torchlight Attached
-* Models: ZikShadow
-* Scripts: Mikk, RaptorSKA
-* Sound: RaptorSKA
-* Sprites: ZikShadow
-*/
+ * Mossberg 500 w/ Torchlight Attached
+ * Models: ZikShadow
+ * Scripts: Mikk, RaptorSKA
+ * Sound: RaptorSKA
+ * Sprites: ZikShadow
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_sbshotgun
@@ -50,17 +50,28 @@ namespace weapon_bts_sbshotgun
 
     class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int m_iFlashBattery
         {
-            get const {
-                if( !m_pPlayer.GetUserData().exists( pev.classname ) ) {
-                    m_pPlayer.GetUserData()[ pev.classname ] = Math.RandomLong( 0, 50 );
+            get const
+            {
+                if( !m_pPlayer.GetUserData().exists( pev.classname ) )
+                {
+                    m_pPlayer.GetUserData()[pev.classname] = Math.RandomLong( 0, 50 );
                 }
-                return int( m_pPlayer.GetUserData()[ pev.classname ] );
+                return int( m_pPlayer.GetUserData()[pev.classname] );
             }
-            set { m_pPlayer.GetUserData()[ pev.classname ] = value; }
+            set
+            {
+                m_pPlayer.GetUserData()[pev.classname] = value;
+            }
         }
 
         private float m_flTimeWeaponReload;
@@ -107,11 +118,11 @@ namespace weapon_bts_sbshotgun
             m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
-            return bts_deploy( "models/bts_rc/weapons/v_sbshotgun.mdl", "models/bts_rc/weapons/p_sbshotgun.mdl", DRAW, "shotgun", 2, 0.6f);
+            return bts_deploy( "models/bts_rc/weapons/v_sbshotgun.mdl", "models/bts_rc/weapons/p_sbshotgun.mdl", DRAW, "shotgun", 2, 0.6f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -119,7 +130,7 @@ namespace weapon_bts_sbshotgun
             SetThink( null );
             g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
 
-            if ( m_pPlayer.FlashlightIsOn() )
+            if( m_pPlayer.FlashlightIsOn() )
                 FlashlightTurnOff();
 
             m_fInReloadState = 0;
@@ -151,7 +162,7 @@ namespace weapon_bts_sbshotgun
                 }
 
                 NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-                    msg.WriteByte( m_iCurrentBaterry );
+                msg.WriteByte( m_iCurrentBaterry );
                 msg.End();
             }
 
@@ -216,7 +227,7 @@ namespace weapon_bts_sbshotgun
             float x, y;
             Vector vecDir, vecEnd;
             TraceResult tr;
-            CBaseEntity@ pHit;
+            CBaseEntity @pHit;
             for( int i = 0; i < PELLETS; i++ )
             {
                 g_Utility.GetCircularGaussianSpread( x, y );
@@ -226,7 +237,7 @@ namespace weapon_bts_sbshotgun
 
                 g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
                 self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 2048.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
+                bts_post_attack( tr );
 
                 if( tr.flFraction < 1.0f && tr.pHit !is null )
                 {
@@ -236,7 +247,7 @@ namespace weapon_bts_sbshotgun
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             self.SendWeaponAnim( SHOOT, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/sbshotgun_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
@@ -325,29 +336,33 @@ namespace weapon_bts_sbshotgun
 
             switch( m_fInReloadState )
             {
-            case 0:
-                self.SendWeaponAnim( START_RELOAD, 0, pev.body );
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 1.0f;
-                m_flTimeWeaponReload = g_Engine.time + 0.6f;
-                m_fInReloadState = 1;
-                break;
-            case 1:
-                self.SendWeaponAnim( RELOAD, 0, pev.body );
-                switch( Math.RandomLong( 0, 1 ) )
-                {
-                    case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload1.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
-                    case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload3.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) ); break;
-                }
-                m_flTimeWeaponReload = g_Engine.time + 0.4f;
-                m_fInReloadState = 2;
-                BaseClass.Reload();
-                break;
-            case 2:
-                // Add them to the clip
-                self.m_iClip += 1;
-                m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
-                m_fInReloadState = 1;
-                break;
+                case 0:
+                    self.SendWeaponAnim( START_RELOAD, 0, pev.body );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 1.0f;
+                    m_flTimeWeaponReload = g_Engine.time + 0.6f;
+                    m_fInReloadState = 1;
+                    break;
+                case 1:
+                    self.SendWeaponAnim( RELOAD, 0, pev.body );
+                    switch( Math.RandomLong( 0, 1 ) )
+                    {
+                        case 0:
+                            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload1.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) );
+                            break;
+                        case 1:
+                            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/reload3.wav", 1.0f, ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) );
+                            break;
+                    }
+                    m_flTimeWeaponReload = g_Engine.time + 0.4f;
+                    m_fInReloadState = 2;
+                    BaseClass.Reload();
+                    break;
+                case 2:
+                    // Add them to the clip
+                    self.m_iClip += 1;
+                    m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+                    m_fInReloadState = 1;
+                    break;
             }
 
             self.m_fInReload = true;
@@ -370,19 +385,19 @@ namespace weapon_bts_sbshotgun
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
             {
                 case 0:
-                self.SendWeaponAnim( IDLE_DEEP, 0, pev.body );
-                self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // ( 60.0f / 12.0f );
-                break;
+                    self.SendWeaponAnim( IDLE_DEEP, 0, pev.body );
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.0f; // ( 60.0f / 12.0f );
+                    break;
 
                 case 1:
-                self.SendWeaponAnim( IDLE, 0, pev.body );
-                self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
-                break;
+                    self.SendWeaponAnim( IDLE, 0, pev.body );
+                    self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
+                    break;
 
                 case 2:
-                self.SendWeaponAnim( IDLE4, 0, pev.body );
-                self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
-                break;
+                    self.SendWeaponAnim( IDLE4, 0, pev.body );
+                    self.m_flTimeWeaponIdle = g_Engine.time + 2.22f; // ( 20.0f / 9.0f );
+                    break;
             }
         }
 
@@ -409,7 +424,7 @@ namespace weapon_bts_sbshotgun
             m_iFlashBattery = m_iCurrentBaterry = 100;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_pPlayer.m_flNextAttack = 0.5f;
@@ -423,8 +438,8 @@ namespace weapon_bts_sbshotgun
             m_pPlayer.pev.effects |= EF_DIMLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 1 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 1 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_flFlashLightTime = g_Engine.time + DRAIN_TIME;
@@ -436,8 +451,8 @@ namespace weapon_bts_sbshotgun
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_flFlashLightTime = 0.0f;
@@ -445,11 +460,11 @@ namespace weapon_bts_sbshotgun
 
         private bool FinishReload( bool fCondition )
         {
-            if ( self.m_fInReload )
+            if( self.m_fInReload )
             {
-                if ( m_fInReloadState != 0 )
+                if( m_fInReloadState != 0 )
                 {
-                    if ( fCondition )
+                    if( fCondition )
                     {
                         if( m_flRestoreAfter == -1.0f )
                             m_flRestoreAfter = g_Engine.time + 1.0f;

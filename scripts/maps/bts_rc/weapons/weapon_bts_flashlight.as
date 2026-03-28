@@ -40,17 +40,28 @@ namespace weapon_bts_flashlight
 
     class weapon_bts_flashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int m_iFlashBattery
         {
-            get const {
-                if( !m_pPlayer.GetUserData().exists( pev.classname ) ) {
-                    m_pPlayer.GetUserData()[ pev.classname ] = Math.RandomLong( 0, 50 );
+            get const
+            {
+                if( !m_pPlayer.GetUserData().exists( pev.classname ) )
+                {
+                    m_pPlayer.GetUserData()[pev.classname] = Math.RandomLong( 0, 50 );
                 }
-                return int( m_pPlayer.GetUserData()[ pev.classname ] );
+                return int( m_pPlayer.GetUserData()[pev.classname] );
             }
-            set { m_pPlayer.GetUserData()[ pev.classname ] = value; }
+            set
+            {
+                m_pPlayer.GetUserData()[pev.classname] = value;
+            }
         }
 
         private float m_flFlashLightTime;
@@ -93,8 +104,8 @@ namespace weapon_bts_flashlight
             m_pPlayer.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             return bts_deploy( "models/bts_rc/weapons/v_flashlight.mdl", "models/bts_rc/weapons/p_flashlight.mdl", DRAW, "crowbar", 1, 0.5f );
@@ -105,7 +116,7 @@ namespace weapon_bts_flashlight
             SetThink( null );
             g_SoundSystem.StopSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
 
-            if ( m_pPlayer.FlashlightIsOn() )
+            if( m_pPlayer.FlashlightIsOn() )
                 FlashlightTurnOff();
 
             m_iFlashBattery = m_iCurrentBaterry;
@@ -140,7 +151,7 @@ namespace weapon_bts_flashlight
                 }
 
                 NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-                    msg.WriteByte( m_iCurrentBaterry );
+                msg.WriteByte( m_iCurrentBaterry );
                 msg.End();
             }
             BaseClass.ItemPostFrame();
@@ -183,7 +194,7 @@ namespace weapon_bts_flashlight
                     FlashlightTurnOff();
                 else
                     FlashlightTurnOn();
-                
+
                 self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 5.0f, 10.0f );
                 self.SendWeaponAnim( FLASH, 0, pev.body );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
@@ -200,9 +211,15 @@ namespace weapon_bts_flashlight
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
             {
-                case 0: self.SendWeaponAnim( IDLE3, 0, pev.body ); break; 
-                case 1: self.SendWeaponAnim( IDLE2, 0, pev.body ); break; 
-                default: self.SendWeaponAnim( IDLE, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( IDLE3, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
+                    break;
+                default:
+                    self.SendWeaponAnim( IDLE, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
@@ -225,7 +242,7 @@ namespace weapon_bts_flashlight
             m_iFlashBattery = m_iCurrentBaterry = 100;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, m_pPlayer.edict() );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_pPlayer.m_flNextAttack = 0.5f;
@@ -239,8 +256,8 @@ namespace weapon_bts_flashlight
             m_pPlayer.pev.effects |= EF_DIMLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 1 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 1 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_flFlashLightTime = g_Engine.time + DRAIN_TIME;
@@ -252,8 +269,8 @@ namespace weapon_bts_flashlight
             m_pPlayer.pev.effects &= ~EF_DIMLIGHT;
 
             NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, m_pPlayer.edict() );
-                msg.WriteByte( 0 );
-                msg.WriteByte( m_iCurrentBaterry );
+            msg.WriteByte( 0 );
+            msg.WriteByte( m_iCurrentBaterry );
             msg.End();
 
             m_flFlashLightTime = 0.0f;
@@ -261,15 +278,15 @@ namespace weapon_bts_flashlight
 
         private bool Swing( bool fFirst )
         {
-                if( m_pPlayer.FlashlightIsOn() )
-                    FlashlightTurnOff();
+            if( m_pPlayer.FlashlightIsOn() )
+                FlashlightTurnOff();
 
             TraceResult tr;
             bool fDidHit = false;
 
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * RANGE;
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE;
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -280,7 +297,7 @@ namespace weapon_bts_flashlight
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -294,9 +311,15 @@ namespace weapon_bts_flashlight
                     // miss
                     switch( ( m_iSwing++ ) % 3 )
                     {
-                        case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
-                        case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
+                        case 0:
+                            self.SendWeaponAnim( ATTACK1MISS, 0, pev.body );
+                            break;
+                        case 1:
+                            self.SendWeaponAnim( ATTACK2MISS, 0, pev.body );
+                            break;
+                        case 2:
+                            self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
+                            break;
                     }
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = m_bFlashLightTurnTime = g_Engine.time + 0.625f;
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -313,13 +336,19 @@ namespace weapon_bts_flashlight
                 // hit
                 fDidHit = true;
 
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 switch( ( ( m_iSwing++ ) % 2 ) + 1 )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
+                    case 0:
+                        self.SendWeaponAnim( ATTACK1HIT, 0, pev.body );
+                        break;
+                    case 1:
+                        self.SendWeaponAnim( ATTACK2HIT, 0, pev.body );
+                        break;
+                    case 2:
+                        self.SendWeaponAnim( ATTACK3HIT, 0, pev.body );
+                        break;
                 }
 
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = m_bFlashLightTurnTime = g_Engine.time + 0.375f;
@@ -331,7 +360,7 @@ namespace weapon_bts_flashlight
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB );        // first swing does full damage
                 else
                     pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
@@ -356,13 +385,13 @@ namespace weapon_bts_flashlight
                         {
                             case 3:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             case 2:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             default:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                         }
 
                         m_pPlayer.m_iWeaponVolume = 128;
@@ -388,16 +417,16 @@ namespace weapon_bts_flashlight
                     {
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                     }
                 }
 
                 // delay the decal a bit
                 m_trHit = tr;
-                bts_post_attack(tr);
+                bts_post_attack( tr );
                 SetThink( ThinkFunction( this.Smack ) );
                 pev.nextthink = g_Engine.time + 0.2f;
 
