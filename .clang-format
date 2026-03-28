@@ -1,0 +1,66 @@
+# See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+BasedOnStyle: LLVM
+
+AllowShortIfStatementsOnASingleLine: Never
+
+SpaceBeforeParens: Never
+SpacesInParentheses: true
+SpaceInEmptyParentheses: false
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+DerivePointerAlignment: true
+Standard: C++11
+
+TabWidth: 4
+UseTab: Never
+IndentWidth: 4
+IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentPPDirectives: BeforeHash
+NamespaceIndentation: All
+AccessModifierOffset: 0
+
+FixNamespaceComments: false # Don't add namespace comments
+
+ColumnLimit: 0 # Don't auto-wrap long lines
+
+BreakBeforeBraces: Allman
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterObjCDeclaration: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeLambdaBody: false
+  BeforeWhile: true
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+
+BreakBeforeBinaryOperators: None
+BreakBeforeTernaryOperators: false
+BreakConstructorInitializers: BeforeComma
+BreakInheritanceList: AfterColon
+BreakStringLiterals: false
+
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+
+AlignAfterOpenBracket: Align
+AlignEscapedNewlines: Left
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+
+PointerAlignment: Right
+SpaceBeforeCaseColon: false
+BinPackArguments: false

@@ -1,3 +1,4 @@
 {
-    "explorer.excludeGitIgnore": true
+    "explorer.excludeGitIgnore": true,
+    "unreal-angelscript-clang-format.style": ".clang-format"
 }
