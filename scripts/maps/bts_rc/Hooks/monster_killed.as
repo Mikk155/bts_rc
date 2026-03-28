@@ -1,8 +1,8 @@
-HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
+HookReturnCode monster_killed( CBaseMonster @monster, CBaseEntity @attacker, int gib )
 {
     if( monster !is null )
     {
-        dictionary@ user_data = monster.GetUserData();
+        dictionary @user_data = monster.GetUserData();
 
         if( freeedicts( 1 ) )
         {
@@ -18,16 +18,16 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 {
                     case 1:
                         drop_item = "ammo_bts_battery";
-                    break;
+                        break;
                     case 2:
                         drop_item = "weapon_bts_flare";
-                    break;
+                        break;
                     case 3:
                         drop_item = "ammo_bts_dglocksd";
-                    break;
+                        break;
                     case 4:
                         drop_item = "item_bts_sprayaid";
-                    break;
+                        break;
                 }
             }
             else if( monster.pev.classname == "monster_zombie_barney" )
@@ -38,38 +38,37 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 {
                     case 1:
                         drop_item = "ammo_bts_dglocksd";
-                    break;
+                        break;
                     case 2:
                         drop_item = "ammo_bts_dreagle";
-                    break;
+                        break;
                     case 3:
                         drop_item = "ammo_bts_shotshell";
-                    break;
+                        break;
                     case 4:
                         drop_item = "ammo_bts_beretta";
-                    break;
+                        break;
                 }
             }
-            else if( monster.pev.classname == "monster_human_grunt"  && monster.pev.weapons == 5)
+            else if( monster.pev.classname == "monster_human_grunt" && monster.pev.weapons == 5 )
             {
                 drop_item = "ammo_bts_556round";
             }
-            else if( monster.pev.classname == "monster_male_assassin" && monster.pev.weapons == 5)
+            else if( monster.pev.classname == "monster_male_assassin" && monster.pev.weapons == 5 )
             {
                 drop_item = "ammo_bts_556round";
             }
             else if( monster.pev.model == "models/bts_rc/monsters/zombie_medic.mdl" )
             {
-                
                 is_zombie = true;
                 switch( Math.RandomLong( 1, 2 ) )
                 {
                     case 1:
                         drop_item = "item_bts_sprayaid";
-                    break;
+                        break;
                     case 2:
                         drop_item = "item_healthkit";
-                    break;
+                        break;
                 }
             }
             else if( monster.pev.classname == "monster_zombie_soldier" || monster.pev.classname == "monster_gonome" )
@@ -81,35 +80,35 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     case 1:
                     case 2:
                         drop_item = "ammo_bts_shotshell";
-                    break;
+                        break;
                     case 3:
                         drop_item = "ammo_bts_9mmbox";
-                    break;
+                        break;
                     case 4:
                         drop_item = "ammo_bts_556round";
-                    break;
+                        break;
                     case 5:
                         drop_item = "ammo_bts_357cyl";
-                    break;
+                        break;
                     case 6:
                         drop_item = "ammo_bts_dreagle";
-                    break;
+                        break;
                     case 7:
                         drop_item = "ammo_bts_dglocksd";
-                    break;
+                        break;
                     case 8:
                         drop_item = "item_bts_hevbattery";
-                    break;
+                        break;
                     default:
                         g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
-                    break;
+                        break;
                 }
             }
 
             if( is_zombie )
             {
                 const float headcrab_health = g_EngineFuncs.CVarGetFloat( "sk_headcrab_health" );
-                const float headcrab_damage = int(user_data[ "headcrab_damage" ]);
+                const float headcrab_damage = int( user_data["headcrab_damage"] );
 
                 // Check if the stored received damage is less than a headcrab's HP
                 if( headcrab_damage < headcrab_health )
@@ -120,12 +119,11 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     if( monster.GetBodygroup( 1 ) == 1 || gib == GIB_ALWAYS )
                     {
                         // -TODO Should models have an attachment instead of +72 offset?
-                        CBaseEntity@ headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
+                        CBaseEntity @headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
 
                         if( headcrab !is null )
                         {
                             headcrab.pev.health = headcrab_health - headcrab_damage;
-
                         }
                     }
                 }
@@ -133,7 +131,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
 
             if( drop_item != String::EMPTY_STRING )
             {
-                CBaseEntity@ item = g_EntityFuncs.Create( drop_item, monster.Center(), g_vecZero, false, monster.edict() );
+                CBaseEntity @item = g_EntityFuncs.Create( drop_item, monster.Center(), g_vecZero, false, monster.edict() );
 
                 if( item !is null )
                 {
@@ -141,18 +139,17 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 }
             }
 
-            if( gpBloodPuddles
-            and freeedicts( 30 )
-            /* Do not create for non-bleedable npcs */
-            and monster.m_bloodColor != DONT_BLEED
-            /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles overflow x[ */
-            and !user_data.exists( "bloodpuddle" ) )
+            if( gpBloodPuddles and freeedicts( 30 )
+                /* Do not create for non-bleedable npcs */
+                and monster.m_bloodColor != DONT_BLEED
+                /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles overflow x[ */
+                and !user_data.exists( "bloodpuddle" ) )
             {
-                CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
+                CBaseEntity @entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
 
                 if( entity !is null )
                 {
-                    env_bloodpuddle::env_bloodpuddle@ bloodpuddle = cast<env_bloodpuddle::env_bloodpuddle@>( CastToScriptClass( entity ) );
+                    env_bloodpuddle::env_bloodpuddle @bloodpuddle = cast<env_bloodpuddle::env_bloodpuddle @>( CastToScriptClass( entity ) );
 
                     if( bloodpuddle !is null )
                     {
@@ -193,7 +190,7 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                 {
                 }
 
-                user_data[ "bloodpuddle" ] = true;
+                user_data["bloodpuddle"] = true;
             }
         }
     }
