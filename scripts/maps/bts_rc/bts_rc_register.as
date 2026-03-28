@@ -10,20 +10,22 @@
 #include "../../mikk155/meta_api/json"
 
 // Contain models/sprites ID
-#include "misc/models"
 #include "misc/Precache"
+#include "misc/models"
+
 
 #include "callbacks/Hellbound"
 #include "callbacks/survival"
 
 #include "entities/ammo"
-#include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 #include "entities/env_bloodpuddle"
 #include "entities/func_bts_recharger"
 #include "entities/items"
 #include "entities/point_checkpoint"
 #include "entities/randomizer"
 #include "entities/trigger_update_class"
+#include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
+
 
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
@@ -70,7 +72,7 @@ void MapInit()
 
     if( g_Config.get( "blood_puddles", gpBloodPuddles ) && gpBloodPuddles )
     {
-        g_CustomEntityFuncs.RegisterCustomEntity("env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle");
+        g_CustomEntityFuncs.RegisterCustomEntity( "env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
         g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
     }
 
@@ -116,42 +118,41 @@ void MapInit()
     /*==========================================================================
     *   - Start of custom entities registry
     ==========================================================================*/
-    g_CustomEntityFuncs.RegisterCustomEntity("func_bts_recharger::func_bts_recharger", "func_bts_recharger");
-    g_CustomEntityFuncs.RegisterCustomEntity("trigger_update_class::trigger_update_class", "trigger_update_class");
-    g_CustomEntityFuncs.RegisterCustomEntity("point_checkpoint::point_checkpoint", "point_checkpoint");
-    btscm::CustomMonsterMapInit(); //Nero ADDED 2026-01-07 Custom Monsters
+    g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
+    btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
     // Randomizer
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_npc", "randomizer_npc");
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_item", "randomizer_item");
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_hull", "randomizer_hull");
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_boss", "randomizer_boss");
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_wave", "randomizer_wave");
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_headcrab", "randomizer_headcrab");
-    g_CustomEntityFuncs.RegisterCustomEntity("randomizer::randomizer_hullwave", "randomizer_hullwave");
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_npc", "randomizer_npc" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_item", "randomizer_item" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_hull", "randomizer_hull" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_boss", "randomizer_boss" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_wave", "randomizer_wave" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_headcrab", "randomizer_headcrab" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_hullwave", "randomizer_hullwave" );
 
     // Items
-    g_CustomEntityFuncs.RegisterCustomEntity("item_bts_armorvest", "item_bts_armorvest");
-    g_CustomEntityFuncs.RegisterCustomEntity("item_bts_helmet", "item_bts_helmet");
-    g_CustomEntityFuncs.RegisterCustomEntity("item_bts_hevbattery", "item_bts_hevbattery");
-    g_CustomEntityFuncs.RegisterCustomEntity("item_bts_sprayaid", "item_bts_sprayaid");
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_armorvest", "item_bts_armorvest" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_helmet", "item_bts_helmet" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_hevbattery", "item_bts_hevbattery" );
+    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_sprayaid", "item_bts_sprayaid" );
 
-
-    g_Hooks.RegisterHook(Hooks::Player::PlayerPostThink, @player_think);
-    g_Hooks.RegisterHook(Hooks::Player::PlayerTakeDamage, @player_takedamage);
-    g_Hooks.RegisterHook(Hooks::Monster::MonsterKilled, @monster_killed);
-    g_Hooks.RegisterHook(Hooks::Monster::MonsterTakeDamage, @monster_takedamage);
-    /* -TODO Remove this line in 5.27 */ if (g_Game.GetGameVersion() == 526)
+    g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_think );
+    g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @player_takedamage );
+    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @monster_killed );
+    g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @monster_takedamage );
+    /* -TODO Remove this line in 5.27 */ if( g_Game.GetGameVersion() == 526 )
     {
-        g_Hooks.RegisterHook(Hooks::Player::ClientPutInServer, @notice_assets::player_connect);
+        g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
     }
 }
 
 // sven only has 8192 edicts at any given time
 // so assume each player carries exactly 16 weapons, and then leave 100 slots free for various temporary things. -Zode
-bool freeedicts(int overhead = 1)
+bool freeedicts( int overhead = 1 )
 {
-    return (g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - (16 * g_Engine.maxClients) - 100 - overhead);
+    return ( g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - ( 16 * g_Engine.maxClients ) - 100 - overhead );
 }
 
 // Barney > Scientist > Construction > Black Scientist    > Helmet > Cleansuit      > Operative > Black Otis      > Green Construction > Veterans
@@ -175,41 +176,41 @@ enum PM
 final class PlayerClass
 {
     // Index of the last used model so we give each player a different one instead of a random one.
-    private uint mdl_scientist_last = Math.RandomLong(0, 4);
+    private uint mdl_scientist_last = Math.RandomLong( 0, 4 );
     private array<string> mdl_scientist = {
         "bts_scientist",
         "bts_scientist3",
         "bts_scientist4",
         "bts_scientist5",
-        "bts_scientist6"};
-    private uint mdl_barney_last = Math.RandomLong(0, 2);
+        "bts_scientist6" };
+    private uint mdl_barney_last = Math.RandomLong( 0, 2 );
     private array<string> mdl_barney = {
         "bts_barney",
         "bts_barney2",
-        "bts_barney3"};
-    private uint mdl_con_last = Math.RandomLong(0, 3);
+        "bts_barney3" };
+    private uint mdl_con_last = Math.RandomLong( 0, 3 );
     private array<string> mdl_con = {
         "bts_construction",
         "bts_construction2",
-        "bts_construction3"};
-    private uint mdl_operative_last = Math.RandomLong(0, 5);
+        "bts_construction3" };
+    private uint mdl_operative_last = Math.RandomLong( 0, 5 );
     private array<string> mdl_operative = {
         "bts_op",
         "bts_op2",
         "bts_op3",
         "bts_op4",
         "bts_op5",
-        "bts_op6"};
+        "bts_op6" };
 
-    const PM opIndex(CBasePlayer @player, bool DontSet = false)
+    const PM opIndex( CBasePlayer @player, bool DontSet = false )
     {
-        if (player !is null)
+        if( player !is null )
         {
             dictionary @data = player.GetUserData();
 
-            if (!data.exists("class"))
+            if( !data.exists( "class" ) )
             {
-                if (DontSet)
+                if( DontSet )
                 {
                     return PM::UNSET;
                 }
@@ -218,27 +219,27 @@ final class PlayerClass
                 {
                     case 1:
                         g_PlayerClass.set_class( player, PM::BARNEY );
-                    break;
+                        break;
                     case 2:
                         g_PlayerClass.set_class( player, PM::CONSTRUCTION );
-                    break;
+                        break;
                     case 3:
                         g_PlayerClass.set_class( player, PM::OPERATIVE );
-                    break;
+                        break;
                 }
             }
 
-            return PM(data["class"]);
+            return PM( data["class"] );
         }
 
         return PM::SCIENTIST;
     }
 
-    bool is_trained_personal(CBasePlayer @player)
+    bool is_trained_personal( CBasePlayer @player )
     {
         PM pm = g_PlayerClass[player];
 
-        switch (pm)
+        switch( pm )
         {
             case PM::BARNEY:
             case PM::OTIS:
@@ -251,20 +252,20 @@ final class PlayerClass
         return false;
     }
 
-    void set_class(CBasePlayer @player, PM player_class)
+    void set_class( CBasePlayer @player, PM player_class )
     {
-        const string model = this.model(player_class);
+        const string model = this.model( player_class );
 
         // Update class for bodygroups of view models n
-        if (model == "bts_scientist3")
+        if( model == "bts_scientist3" )
         {
             player_class = PM::BSCIENTIST;
         }
-        if (model == "bts_construction2")
+        if( model == "bts_construction2" )
         {
             player_class = PM::GCONSTRUCTION;
         }
-        if (model == "bts_otis_blk")
+        if( model == "bts_otis_blk" )
         {
             player_class = PM::OTIS;
         }
@@ -275,18 +276,18 @@ final class PlayerClass
         // Hide flashlight icon.
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
-        player.pev.armortype = (player_class == PM::HELMET ? 100 : 50);
+        player.pev.armortype = ( player_class == PM::HELMET ? 100 : 50 );
 
         // Re-Deploy weapon to update view model hands
-        if (player.m_hActiveItem.IsValid())
+        if( player.m_hActiveItem.IsValid() )
         {
             CBaseEntity @active_item = player.m_hActiveItem.GetEntity();
 
-            if (active_item !is null)
+            if( active_item !is null )
             {
-                CBasePlayerItem @weapon = cast<CBasePlayerItem @>(active_item);
+                CBasePlayerItem @weapon = cast<CBasePlayerItem @>( active_item );
 
-                if (weapon !is null)
+                if( weapon !is null )
                 {
                     weapon.Deploy();
                 }
@@ -295,28 +296,28 @@ final class PlayerClass
     }
 
     // Return a player model for the given class
-    const string& model(const PM player_class)
+    const string& model( const PM player_class )
     {
-        switch (player_class)
+        switch( player_class )
         {
             case PM::SCIENTIST:
             {
-                mdl_scientist_last = (mdl_scientist_last >= mdl_scientist.length() - 1) ? 0 : mdl_scientist_last + 1;
+                mdl_scientist_last = ( mdl_scientist_last >= mdl_scientist.length() - 1 ) ? 0 : mdl_scientist_last + 1;
                 return mdl_scientist[mdl_scientist_last];
             }
             case PM::CONSTRUCTION:
             {
-                mdl_con_last = (mdl_con_last >= mdl_con.length() - 1) ? 0 : mdl_con_last + 1;
+                mdl_con_last = ( mdl_con_last >= mdl_con.length() - 1 ) ? 0 : mdl_con_last + 1;
                 return mdl_con[mdl_con_last];
             }
             case PM::BARNEY:
             {
-                mdl_barney_last = (mdl_barney_last >= mdl_barney.length() - 1) ? 0 : mdl_barney_last + 1;
+                mdl_barney_last = ( mdl_barney_last >= mdl_barney.length() - 1 ) ? 0 : mdl_barney_last + 1;
                 return mdl_barney[mdl_barney_last];
             }
             case PM::OPERATIVE:
             {
-                mdl_operative_last = (mdl_operative_last >= mdl_operative.length() - 1) ? 0 : mdl_operative_last + 1;
+                mdl_operative_last = ( mdl_operative_last >= mdl_operative.length() - 1 ) ? 0 : mdl_operative_last + 1;
                 return mdl_operative[mdl_operative_last];
             }
             case PM::CLSUIT:
@@ -348,24 +349,24 @@ namespace item_tracker
 //================================================================================================
 namespace motd
 {
-    void open(CBasePlayer @player, const string&in buffer)
+    void open( CBasePlayer @player, const string&in buffer )
     {
-        if (player !is null && player.IsConnected())
+        if( player !is null && player.IsConnected() )
         {
             uint iChars = 0;
 
             string szSplitMsg = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
-            for (uint uChars = 0; uChars < item_tracker::buffer.Length(); uChars++)
+            for( uint uChars = 0; uChars < item_tracker::buffer.Length(); uChars++ )
             {
-                szSplitMsg.SetCharAt(iChars, char(item_tracker::buffer[uChars]));
+                szSplitMsg.SetCharAt( iChars, char( item_tracker::buffer[uChars] ) );
                 iChars++;
 
-                if (iChars == 32)
+                if( iChars == 32 )
                 {
-                    NetworkMessage motd_append(MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict());
-                    motd_append.WriteByte(0);
-                    motd_append.WriteString(szSplitMsg);
+                    NetworkMessage motd_append( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                    motd_append.WriteByte( 0 );
+                    motd_append.WriteString( szSplitMsg );
                     motd_append.End();
 
                     iChars = 0;
@@ -373,19 +374,19 @@ namespace motd
             }
 
             // If we reached the end, send the last letters of the message
-            if (iChars > 0)
+            if( iChars > 0 )
             {
-                szSplitMsg.Truncate(iChars);
+                szSplitMsg.Truncate( iChars );
 
-                NetworkMessage motd_fix(MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict());
-                motd_fix.WriteByte(0);
-                motd_fix.WriteString(szSplitMsg);
+                NetworkMessage motd_fix( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+                motd_fix.WriteByte( 0 );
+                motd_fix.WriteString( szSplitMsg );
                 motd_fix.End();
             }
 
-            NetworkMessage motd_open(MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict());
-            motd_open.WriteByte(1);
-            motd_open.WriteString("\n");
+            NetworkMessage motd_open( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
+            motd_open.WriteByte( 1 );
+            motd_open.WriteString( "\n" );
             motd_open.End();
         }
     }

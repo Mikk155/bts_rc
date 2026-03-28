@@ -1,7 +1,7 @@
 /*
-* Black Operations Standard M249 SAW Light Machine Gun
-* Author: Rizulix
-*/
+ * Black Operations Standard M249 SAW Light Machine Gun
+ * Author: Rizulix
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_sawsd
@@ -35,13 +35,19 @@ namespace weapon_bts_sawsd
     Vector SHELL( 14.0f, 8.0f, -10.0f );
 
     const int m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
-    
+
     // Knockback thing
-    const CCVar@ g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
+    const CCVar @g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
 
     class weapon_bts_sawsd : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private bool m_bAlternatingEject;
         private int m_iTracerCount;
@@ -115,7 +121,7 @@ namespace weapon_bts_sawsd
 
             m_pPlayer.m_iWeaponVolume = QUIET_GUN_VOLUME;
 
-            RecalculateBody(--self.m_iClip);
+            RecalculateBody( --self.m_iClip );
             m_bAlternatingEject = !m_bAlternatingEject;
 
             m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
@@ -125,7 +131,7 @@ namespace weapon_bts_sawsd
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
             Vector vecSpread;
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
 
@@ -138,33 +144,33 @@ namespace weapon_bts_sawsd
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            bts_post_attack(tr);
+            bts_post_attack( tr );
 
             // each 2 bullets
             if( ( m_iTracerCount++ % 2 ) == 0 )
             {
                 Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
                 NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
-                    tracer.WriteByte( TE_TRACER );
-                    tracer.WriteCoord( vecTracerSrc.x );
-                    tracer.WriteCoord( vecTracerSrc.y );
-                    tracer.WriteCoord( vecTracerSrc.z );
-                    tracer.WriteCoord( tr.vecEndPos.x );
-                    tracer.WriteCoord( tr.vecEndPos.y );
-                    tracer.WriteCoord( tr.vecEndPos.z );
+                tracer.WriteByte( TE_TRACER );
+                tracer.WriteCoord( vecTracerSrc.x );
+                tracer.WriteCoord( vecTracerSrc.y );
+                tracer.WriteCoord( vecTracerSrc.z );
+                tracer.WriteCoord( tr.vecEndPos.x );
+                tracer.WriteCoord( tr.vecEndPos.y );
+                tracer.WriteCoord( tr.vecEndPos.z );
                 tracer.End();
             }
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
 
             self.SendWeaponAnim( Math.RandomLong( SHOOT1, SHOOT3 ), 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/gun_fire4.wav", 0.5f, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/gun_fire4.wav", 0.5f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 15 ) );
             m_pPlayer.pev.punchangle.x = is_trained_personal ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
             m_pPlayer.pev.punchangle.y = is_trained_personal ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
 
@@ -174,8 +180,8 @@ namespace weapon_bts_sawsd
             Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_bAlternatingEject ? m_iLink : models::saw_shell, TE_BOUNCE_SHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
-                m_pPlayer.SetSuitUpdate("!HEV_AMO0", false, 0 );
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
+                m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
             self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
@@ -200,13 +206,13 @@ namespace weapon_bts_sawsd
 
         void Reload()
         {
-            if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType) <= 0 )
+            if( self.m_iClip == MAX_CLIP || m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
                 return;
 
             m_bFixBeltAfterReload = true;
-            RecalculateBody(self.m_iClip);
+            RecalculateBody( self.m_iClip );
             self.DefaultReload( MAX_CLIP, RELOAD_START, 2.0f, pev.body );
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 15 ) );
             self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 4.4f;
             SetThink( ThinkFunction( this.FinishAnim ) );
             pev.nextthink = g_Engine.time + 1.94f;
@@ -234,31 +240,31 @@ namespace weapon_bts_sawsd
             }
         }
 
-        private void RecalculateBody(int iClip)
+        private void RecalculateBody( int iClip )
         {
             int roundsBody;
 
-            if (iClip <= 0)
+            if( iClip <= 0 )
                 roundsBody = 8;
-            else if (iClip < 8)
+            else if( iClip < 8 )
                 roundsBody = 9 - iClip;
             else
                 roundsBody = 0;
 
             // ONLY change bodygroup 2 (SAW rounds)
-                pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_sawsd.mdl")), pev.body, 2, roundsBody);
+            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( self.GetV_Model( "models/bts_rc/weapons/v_sawsd.mdl" ) ), pev.body, 2, roundsBody );
         }
 
         private void FinishAnim()
         {
             int roundsBody;
-        
+
             SetThink( null );
             roundsBody = self.m_iClip;
-            pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(self.GetV_Model("models/bts_rc/weapons/v_sawsd.mdl")), pev.body, 2, roundsBody); // HACKY HACK HAACKS
-            pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex("models/bts_rc/weapons/v_sawsd.mdl"), pev.body, 1, g_PlayerClass[m_pPlayer]);
+            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( self.GetV_Model( "models/bts_rc/weapons/v_sawsd.mdl" ) ), pev.body, 2, roundsBody ); // HACKY HACK HAACKS
+            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_sawsd.mdl" ), pev.body, 1, g_PlayerClass[m_pPlayer] );
             self.SendWeaponAnim( RELOAD_END, 0, pev.body );
-            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong(0, 15) );
+            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 15 ) );
         }
     }
 }

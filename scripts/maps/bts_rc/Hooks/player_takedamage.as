@@ -2,26 +2,25 @@
     Author: Mikk
 */
 
-const array<string>@ geiger_snds = {
+const array<string> @geiger_snds = {
     "player/geiger1.wav",
     "player/geiger2.wav",
     "player/geiger3.wav",
     "player/geiger4.wav",
     "player/geiger5.wav",
-    "player/geiger6.wav"
-};
+    "player/geiger6.wav" };
 
-HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
+HookReturnCode player_takedamage( DamageInfo @pDamageInfo )
 {
     if( pDamageInfo.flDamage <= 0 )
         return HOOK_CONTINUE;
 
-    CBaseEntity@ victim = pDamageInfo.pVictim;
+    CBaseEntity @victim = pDamageInfo.pVictim;
 
     if( victim is null )
         return HOOK_CONTINUE;
 
-    CBasePlayer@ player = cast<CBasePlayer@>( victim );
+    CBasePlayer @player = cast<CBasePlayer @>( victim );
 
     if( player is null )
         return HOOK_CONTINUE;
@@ -32,11 +31,11 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
 
         if( uisize > 0 )
         {
-            const string sound = geiger_snds[ Math.RandomLong( 0, uisize - 1 ) ];
+            const string sound = geiger_snds[Math.RandomLong( 0, uisize - 1 )];
             g_SoundSystem.PlaySound( player.edict(), CHAN_VOICE, sound, 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, player.GetOrigin() );
         }
 
-        switch( g_PlayerClass[ player, true ] )
+        switch( g_PlayerClass[player, true] )
         {
             case PM::CLSUIT:
             {
@@ -53,9 +52,9 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
         }
     }
 
-    if( g_VoiceResponse.Active && ( pDamageInfo.pAttacker is null || pDamageInfo.pAttacker.IRelationship(player) != R_AL ) )
+    if( g_VoiceResponse.Active && ( pDamageInfo.pAttacker is null || pDamageInfo.pAttacker.IRelationship( player ) != R_AL ) )
     {
-        CVoices@ voices = g_VoiceResponse[ player ];
+        CVoices @voices = g_VoiceResponse[player];
 
         if( voices !is null )
         {

@@ -1,6 +1,6 @@
 /*
-* H&K MP5
-*/
+ * H&K MP5
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_mp5
@@ -16,7 +16,7 @@ namespace weapon_bts_mp5
         SHOOT2,
         SHOOT3,
     };
-    
+
     enum modes_e
     {
         BURST = 0,
@@ -39,7 +39,13 @@ namespace weapon_bts_mp5
 
     class weapon_bts_mp5 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int m_iTracerCount;
         private int m_iFireMode;
@@ -73,7 +79,7 @@ namespace weapon_bts_mp5
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_9mmar.mdl", "models/bts_rc/weapons/p_9mmar.mdl", DRAW, "mp5", 1, 0.6f);
+            return bts_deploy( "models/bts_rc/weapons/v_9mmar.mdl", "models/bts_rc/weapons/p_9mmar.mdl", DRAW, "mp5", 1, 0.6f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -98,7 +104,7 @@ namespace weapon_bts_mp5
             {
                 if( m_iBurstLeft > 0 )
                 {
-                    if( m_flNextBurstFireTime < g_Engine.time)
+                    if( m_flNextBurstFireTime < g_Engine.time )
                     {
                         if( self.m_iClip <= 0 )
                         {
@@ -111,12 +117,12 @@ namespace weapon_bts_mp5
                         Fire();
 
                         if( m_iBurstLeft > 0 )
-                            m_flNextBurstFireTime = (self.m_flNextPrimaryAttack = g_Engine.time + 0.07f );
+                            m_flNextBurstFireTime = ( self.m_flNextPrimaryAttack = g_Engine.time + 0.07f );
                         else
                             m_flNextBurstFireTime = 1.0f;
                     }
 
-                    //While firing a burst, don't allow reload or any other weapon actions. Might be best to let some things run though.
+                    // While firing a burst, don't allow reload or any other weapon actions. Might be best to let some things run though.
                     return;
                 }
             }
@@ -143,19 +149,19 @@ namespace weapon_bts_mp5
                 m_iBurstLeft = m_iBurstCount - 1;
 
                 m_flNextBurstFireTime = g_Engine.time + 0.09f;
-                //Prevent primary attack before burst finishes. Might need to be finetuned.
+                // Prevent primary attack before burst finishes. Might need to be finetuned.
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.425f;
             }
             else
             {
                 if( m_pPlayer.pev.waterlevel == WATERLEVEL_HEAD )
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = (self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = ( self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
                 else
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = (self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = ( self.m_flNextPrimaryAttack = g_Engine.time + 0.09f );
             }
             Fire();
         }
-            
+
         void Fire()
         {
             --self.m_iClip;
@@ -170,7 +176,7 @@ namespace weapon_bts_mp5
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
             if( m_iFireMode == BURST )
@@ -187,35 +193,41 @@ namespace weapon_bts_mp5
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            bts_post_attack(tr);
+            bts_post_attack( tr );
 
             // each 2 bullets
             if( ( m_iTracerCount++ % 2 ) == 0 )
             {
                 Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
                 NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
-                    tracer.WriteByte( TE_TRACER );
-                    tracer.WriteCoord( vecTracerSrc.x );
-                    tracer.WriteCoord( vecTracerSrc.y );
-                    tracer.WriteCoord( vecTracerSrc.z );
-                    tracer.WriteCoord( tr.vecEndPos.x );
-                    tracer.WriteCoord( tr.vecEndPos.y );
-                    tracer.WriteCoord( tr.vecEndPos.z );
+                tracer.WriteByte( TE_TRACER );
+                tracer.WriteCoord( vecTracerSrc.x );
+                tracer.WriteCoord( vecTracerSrc.y );
+                tracer.WriteCoord( vecTracerSrc.z );
+                tracer.WriteCoord( tr.vecEndPos.x );
+                tracer.WriteCoord( tr.vecEndPos.y );
+                tracer.WriteCoord( tr.vecEndPos.z );
                 tracer.End();
             }
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
             {
-                case 0: self.SendWeaponAnim( SHOOT1, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( SHOOT2, 0, pev.body ); break;
-                case 2: self.SendWeaponAnim( SHOOT3, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( SHOOT1, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( SHOOT2, 0, pev.body );
+                    break;
+                case 2:
+                    self.SendWeaponAnim( SHOOT3, 0, pev.body );
+                    break;
             }
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/mp5_fire1.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
@@ -223,7 +235,7 @@ namespace weapon_bts_mp5
             if( is_trained_personal )
                 m_pPlayer.pev.punchangle.x = -2.0f;
             else
-                m_pPlayer.pev.punchangle.x = m_pPlayer.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 )) : float( Math.RandomLong( -5, 3 ) );
+                m_pPlayer.pev.punchangle.x = m_pPlayer.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -5, 3 ) );
 
             Vector vecForward, vecRight, vecUp;
             g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );
@@ -239,7 +251,7 @@ namespace weapon_bts_mp5
             {
                 self.m_flNextPrimaryAttack = g_Engine.time + 0.24f;
             }
-            
+
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
         }
 
@@ -283,9 +295,15 @@ namespace weapon_bts_mp5
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
             {
-                case 0: self.SendWeaponAnim( LONGIDLE, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
-                default: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( LONGIDLE, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
+                default:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );

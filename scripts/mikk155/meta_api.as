@@ -1,13 +1,13 @@
 /**
-*   @brief Common metamod utilities
-**/
+ *   @brief Common metamod utilities
+ **/
 
 namespace meta_api
 {
     /**
-    *   @brief Return whatever metamod's "aslp" plugin is installed in the server
-    *   You can use the pre-processor "METAMOD_PLUGIN_ASLP" to know that. That is escentially what this method does.
-    **/
+     *   @brief Return whatever metamod's "aslp" plugin is installed in the server
+     *   You can use the pre-processor "METAMOD_PLUGIN_ASLP" to know that. That is escentially what this method does.
+     **/
     const bool IsInstalled()
     {
 #if METAMOD_PLUGIN_ASLP
@@ -18,8 +18,8 @@ namespace meta_api
     }
 
     /**
-    *   @brief Notice the server if metamod's "aslp" plugin is not installed
-    **/
+     *   @brief Notice the server if metamod's "aslp" plugin is not installed
+     **/
     void NoticeInstallation()
     {
         if( !IsInstalled() )

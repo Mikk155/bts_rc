@@ -52,7 +52,7 @@ namespace env_bloodpuddle
                 default:
                 {
                     self.pev.sequence = 1;
-                    self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );  
+                    self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );
                     self.pev.frame = 0;
                     break;
                 }
@@ -78,12 +78,12 @@ namespace env_bloodpuddle
                     break;
                 }
 
-            /*  case BLOOD_STATE::EXPANDED:
-                {
-                    // Puddle stays forever instead.
-                    self.pev.nextthink = g_Engine.time + 1.0;
-                    break;
-                }*/
+                    /*  case BLOOD_STATE::EXPANDED:
+                        {
+                            // Puddle stays forever instead.
+                            self.pev.nextthink = g_Engine.time + 1.0;
+                            break;
+                        }*/
 
                 case BLOOD_STATE::IDLE:
                 case BLOOD_STATE::EXPANDING:
@@ -106,11 +106,11 @@ namespace env_bloodpuddle
         }
 
 #if DISCARDED
-        void touch( CBaseEntity@ other )
+        void touch( CBaseEntity @other )
         {
             if( g_Engine.time > last_time && other !is null && other.IsPlayer() )
             {
-                g_SoundSystem.PlaySound( self.edict(), CHAN_BODY, CONST_BLOODPUDDLE_SND[ Math.RandomLong( 0, uisize - 1 ) ], 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, self.GetOrigin() );
+                g_SoundSystem.PlaySound( self.edict(), CHAN_BODY, CONST_BLOODPUDDLE_SND[Math.RandomLong( 0, uisize - 1 )], 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, self.GetOrigin() );
 
                 last_time = g_Engine.time + 0.3f;
             }

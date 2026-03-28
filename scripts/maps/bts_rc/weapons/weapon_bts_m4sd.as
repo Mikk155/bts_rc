@@ -17,7 +17,7 @@ namespace weapon_bts_m4sd
         SHOOT2,
         SHOOT3,
     };
-    
+
     enum modes_e
     {
         SEMI = 0,
@@ -40,7 +40,13 @@ namespace weapon_bts_m4sd
 
     class weapon_bts_m4sd : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int m_iTracerCount;
         private int m_iFireMode;
@@ -100,7 +106,7 @@ namespace weapon_bts_m4sd
                 self.m_flNextPrimaryAttack = g_Engine.time + 0.10f;
                 return;
             }
-            if ( m_iFireMode == SEMI )
+            if( m_iFireMode == SEMI )
             {
                 if( ( m_pPlayer.m_afButtonPressed & IN_ATTACK ) == 0 )
                     return;
@@ -121,7 +127,7 @@ namespace weapon_bts_m4sd
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
             if( m_iFireMode == SEMI )
@@ -138,35 +144,41 @@ namespace weapon_bts_m4sd
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            bts_post_attack(tr);
+            bts_post_attack( tr );
 
             // each 4 bullets
             if( ( m_iTracerCount++ % 4 ) == 0 )
             {
                 Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
                 NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
-                    tracer.WriteByte( TE_TRACER );
-                    tracer.WriteCoord( vecTracerSrc.x );
-                    tracer.WriteCoord( vecTracerSrc.y );
-                    tracer.WriteCoord( vecTracerSrc.z );
-                    tracer.WriteCoord( tr.vecEndPos.x );
-                    tracer.WriteCoord( tr.vecEndPos.y );
-                    tracer.WriteCoord( tr.vecEndPos.z );
+                tracer.WriteByte( TE_TRACER );
+                tracer.WriteCoord( vecTracerSrc.x );
+                tracer.WriteCoord( vecTracerSrc.y );
+                tracer.WriteCoord( vecTracerSrc.z );
+                tracer.WriteCoord( tr.vecEndPos.x );
+                tracer.WriteCoord( tr.vecEndPos.y );
+                tracer.WriteCoord( tr.vecEndPos.z );
                 tracer.End();
             }
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 2 ) )
             {
-                case 0: self.SendWeaponAnim( SHOOT1, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( SHOOT2, 0, pev.body ); break;
-                case 2: self.SendWeaponAnim( SHOOT3, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( SHOOT1, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( SHOOT2, 0, pev.body );
+                    break;
+                case 2:
+                    self.SendWeaponAnim( SHOOT3, 0, pev.body );
+                    break;
             }
 
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/m4sd_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
@@ -178,9 +190,9 @@ namespace weapon_bts_m4sd
             else
             {
                 if( !m_pPlayer.IsMoving() )
-                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 2 ));
+                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 2 ) );
                 else
-                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -6, 3 ));
+                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -6, 3 ) );
             }
 
             Vector vecForward, vecRight, vecUp;
@@ -196,13 +208,13 @@ namespace weapon_bts_m4sd
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );
         }
 
-/*
-        void SecondaryAttack()
-        {
-            self.SetFOV( m_pPlayer.m_iFOV != 0 ? 0 : 45 );
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
-        }
-*/
+        /*
+                void SecondaryAttack()
+                {
+                    self.SetFOV( m_pPlayer.m_iFOV != 0 ? 0 : 45 );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.3f;
+                }
+        */
 
         void SecondaryAttack()
         {
@@ -245,8 +257,12 @@ namespace weapon_bts_m4sd
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 1 ) )
             {
-                case 0: self.SendWeaponAnim( LONGIDLE, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( LONGIDLE, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10.0f, 15.0f );

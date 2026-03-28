@@ -1,6 +1,6 @@
 /*
-* Glock 17
-*/
+ * Glock 17
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_glock
@@ -35,7 +35,13 @@ namespace weapon_bts_glock
 
     class weapon_bts_glock : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         void Spawn()
         {
@@ -61,7 +67,7 @@ namespace weapon_bts_glock
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2, 0.45f);
+            return bts_deploy( "models/bts_rc/weapons/v_9mmhandgun.mdl", "models/bts_rc/weapons/p_9mmhandgun.mdl", DRAW, "onehanded", 2, 0.45f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -86,7 +92,7 @@ namespace weapon_bts_glock
 
         void SecondaryAttack()
         {
-            Fire( Accuracy( 0.1f, 0.2f, 0.01f, 0.02f ), 0.2f);
+            Fire( Accuracy( 0.1f, 0.2f, 0.01f, 0.02f ), 0.2f );
         }
 
         void Reload()
@@ -110,9 +116,15 @@ namespace weapon_bts_glock
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
             {
-                case 0: self.SendWeaponAnim( IDLE1, 0, pev.body ); break; 
-                case 1: self.SendWeaponAnim( IDLE2, 0, pev.body ); break; 
-                default: self.SendWeaponAnim( IDLE3, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
+                    break;
+                default:
+                    self.SendWeaponAnim( IDLE3, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );
@@ -148,7 +160,7 @@ namespace weapon_bts_glock
             float x, y;
             g_Utility.GetCircularGaussianSpread( x, y );
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             Vector vecDir = vecAiming + x * flSpread * g_Engine.v_right + y * flSpread * g_Engine.v_up;
             Vector vecEnd = vecSrc + vecDir * 8192.0f;
@@ -156,18 +168,18 @@ namespace weapon_bts_glock
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            bts_post_attack(tr);
+            bts_post_attack( tr );
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
 
             self.SendWeaponAnim( self.m_iClip != 0 ? SHOOT : SHOOT_EMPTY, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/glock_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal(m_pPlayer) ? -2.0f : -2.65f;
+            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal( m_pPlayer ) ? -2.0f : -2.65f;
 
             Vector vecForward, vecRight, vecUp;
             g_EngineFuncs.AngleVectors( m_pPlayer.pev.v_angle, vecForward, vecRight, vecUp );

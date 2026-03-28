@@ -1,8 +1,8 @@
 /*
-*   Emergency Fire Axe
-*   Rewrited by Rizulix for bts_rc (january 2025)
-*   Rewrited by mikk 27/3/26
-*/
+ *   Emergency Fire Axe
+ *   Rewrited by Rizulix for bts_rc (january 2025)
+ *   Rewrited by mikk 27/3/26
+ */
 
 namespace weapons
 {
@@ -34,13 +34,7 @@ namespace weapons
 
             bool Deploy()
             {
-                return deploy( get_player(), self,
-                    "models/bts_rc/weapons/v_axe.mdl",
-                    "models/bts_rc/weapons/p_axe.mdl",
-                    ANIM::DRAW,
-                    "crowbar",
-                    1
-                );
+                return deploy( get_player(), self, "models/bts_rc/weapons/v_axe.mdl", "models/bts_rc/weapons/p_axe.mdl", ANIM::DRAW, "crowbar", 1 );
             }
 
             void Spawn()
@@ -102,9 +96,15 @@ namespace weapons
                 {
                     switch( Math.RandomLong( 0, 2 ) )
                     {
-                        case 0: self.SendWeaponAnim( ANIM::IDLE1, 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( ANIM::IDLE2, 0, pev.body ); break;
-                        case 2: self.SendWeaponAnim( ANIM::IDLE3, 0, pev.body ); break;
+                        case 0:
+                            self.SendWeaponAnim( ANIM::IDLE1, 0, pev.body );
+                            break;
+                        case 1:
+                            self.SendWeaponAnim( ANIM::IDLE2, 0, pev.body );
+                            break;
+                        case 2:
+                            self.SendWeaponAnim( ANIM::IDLE3, 0, pev.body );
+                            break;
                     }
 
                     self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
@@ -135,9 +135,15 @@ namespace weapons
                         // miss
                         switch( ( m_iSwing++ ) % 3 )
                         {
-                            case 0: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS : ANIM::ATTACK1MISS ), 0, pev.body ); break;
-                            case 1: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS_ALT : ANIM::ATTACK2MISS ), 0, pev.body ); break;
-                            case 2: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS : ANIM::ATTACK3MISS ), 0, pev.body ); break;
+                            case 0:
+                                self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS : ANIM::ATTACK1MISS ), 0, pev.body );
+                                break;
+                            case 1:
+                                self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS_ALT : ANIM::ATTACK2MISS ), 0, pev.body );
+                                break;
+                            case 2:
+                                self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS : ANIM::ATTACK3MISS ), 0, pev.body );
+                                break;
                         }
 
                         self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
@@ -161,7 +167,7 @@ namespace weapons
                         {
                             // Calculate the point of intersection of the line (or hull) and the object we hit
                             // This is and approximation of the "best" intersection
-                            CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                            CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
 
                             if( pHit is null || pHit.IsBSPModel() )
                             {
@@ -177,9 +183,15 @@ namespace weapons
 
                     switch( ( ( m_iSwing++ ) % 2 ) + 1 )
                     {
-                        case 0: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE : ANIM::ATTACK1HIT ), 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_ALT : ANIM::ATTACK2HIT ), 0, pev.body ); break;
-                        case 2: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE : ANIM::ATTACK3HIT ), 0, pev.body ); break;
+                        case 0:
+                            self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE : ANIM::ATTACK1HIT ), 0, pev.body );
+                            break;
+                        case 1:
+                            self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_ALT : ANIM::ATTACK2HIT ), 0, pev.body );
+                            break;
+                        case 2:
+                            self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE : ANIM::ATTACK3HIT ), 0, pev.body );
+                            break;
                     }
 
                     if( m_IsSecondary )
@@ -196,7 +208,7 @@ namespace weapons
                     float flVol = 1.0f;
                     bool fHitWorld = true;
 
-                    CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                     if( pEntity !is null )
                     {
@@ -217,9 +229,15 @@ namespace weapons
                             // play thwack or smack sound
                             switch( Math.RandomLong( 0, 2 ) )
                             {
-                                case 0: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM ); break;
-                                case 1: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM ); break;
-                                case 2: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM ); break;
+                                case 0:
+                                    g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM );
+                                    break;
+                                case 1:
+                                    g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM );
+                                    break;
+                                case 2:
+                                    g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM );
+                                    break;
                             }
 
                             player.m_iWeaponVolume = 128;
@@ -242,8 +260,12 @@ namespace weapons
                         // also play crowbar strike
                         switch( Math.RandomLong( 0, 1 ) )
                         {
-                            case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
-                            case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
+                            case 0:
+                                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, pitch );
+                                break;
+                            case 1:
+                                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, pitch );
+                                break;
                         }
                     }
 

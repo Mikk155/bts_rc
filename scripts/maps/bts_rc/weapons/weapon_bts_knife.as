@@ -1,10 +1,10 @@
 /*
-* Opposing Force knife
-* Credits: SamVanheer and the collaborators of
-* https://github.com/twhl-community/halflife-unified-sdk
-* https://github.com/twhl-community/halflife-op4-updated
-* Credit to KernCore for secondary attack functions
-*/
+ * Opposing Force knife
+ * Credits: SamVanheer and the collaborators of
+ * https://github.com/twhl-community/halflife-unified-sdk
+ * https://github.com/twhl-community/halflife-op4-updated
+ * Credit to KernCore for secondary attack functions
+ */
 // Rewrited by Rizulix for bts_rc (january 2025)
 
 namespace weapon_bts_knife
@@ -44,7 +44,13 @@ namespace weapon_bts_knife
 
     class weapon_bts_knife : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private bool m_fWhack;
 
@@ -74,7 +80,7 @@ namespace weapon_bts_knife
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_knife.mdl", "models/opfor/p_knife.mdl", DRAW, "crowbar", 0, 0.6f);
+            return bts_deploy( "models/bts_rc/weapons/v_knife.mdl", "models/opfor/p_knife.mdl", DRAW, "crowbar", 0, 0.6f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -101,10 +107,10 @@ namespace weapon_bts_knife
             {
                 m_pPlayer.m_flNextAttack = 0.6f; // ( 26.0f / 30.0f );
                 self.SendWeaponAnim( CHARGE, 0, pev.body );
-                ForceAnimation( 25, 28 ); // ref_cock_wrench, crouch_cock_wrench
+                ForceAnimation( 25, 28 );        // ref_cock_wrench, crouch_cock_wrench
             }
             else
-                ForceAnimation( 26, 29 ); // ref_hold_wrench, crouch_hold_wrench
+                ForceAnimation( 26, 29 );        // ref_hold_wrench, crouch_hold_wrench
 
             m_fWhack = true;
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.1f;
@@ -143,8 +149,8 @@ namespace weapon_bts_knife
             TraceResult tr;
 
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * RANGE;
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE;
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -155,7 +161,7 @@ namespace weapon_bts_knife
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -169,11 +175,17 @@ namespace weapon_bts_knife
                     // miss
                     switch( ( m_iSwing++ ) % 3 )
                     {
-                        case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
-                        case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
+                        case 0:
+                            self.SendWeaponAnim( ATTACK1MISS, 0, pev.body );
+                            break;
+                        case 1:
+                            self.SendWeaponAnim( ATTACK2MISS, 0, pev.body );
+                            break;
+                        case 2:
+                            self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
+                            break;
                     }
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.5f : 0.75f );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal( m_pPlayer ) ? 0.5f : 0.75f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
@@ -181,13 +193,13 @@ namespace weapon_bts_knife
                     {
                         case 3:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife3.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-                        break;
+                            break;
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife2.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-                        break;
+                            break;
                     }
 
                     // player "shoot" animation
@@ -199,16 +211,22 @@ namespace weapon_bts_knife
                 // hit
                 fDidHit = true;
 
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 switch( ( ( m_iSwing++ ) % 2 ) + 1 )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
+                    case 0:
+                        self.SendWeaponAnim( ATTACK1HIT, 0, pev.body );
+                        break;
+                    case 1:
+                        self.SendWeaponAnim( ATTACK2HIT, 0, pev.body );
+                        break;
+                    case 2:
+                        self.SendWeaponAnim( ATTACK3HIT, 0, pev.body );
+                        break;
                 }
 
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal(m_pPlayer) ? 0.25f : 0.35f );
+                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal( m_pPlayer ) ? 0.25f : 0.35f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation
@@ -217,9 +235,9 @@ namespace weapon_bts_knife
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );                    // first swing does full damage
                 else
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f /*DAMAGE0*/, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // subsequent swings do 50% (Changed -Sniper) (Half)
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f /*DAMAGE0*/, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
                 g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
@@ -242,10 +260,10 @@ namespace weapon_bts_knife
                         {
                             case 2:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             default:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                         }
 
                         m_pPlayer.m_iWeaponVolume = 128;
@@ -271,16 +289,16 @@ namespace weapon_bts_knife
                     {
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                     }
                 }
 
-                //delay the decal a bit
+                // delay the decal a bit
                 m_trHit = tr;
-                bts_post_attack(tr);
+                bts_post_attack( tr );
                 SetThink( ThinkFunction( this.Smack ) );
                 pev.nextthink = g_Engine.time + 0.2f;
 
@@ -294,8 +312,8 @@ namespace weapon_bts_knife
             TraceResult tr;
 
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * RANGE2;
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE2;
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -306,7 +324,7 @@ namespace weapon_bts_knife
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -327,13 +345,13 @@ namespace weapon_bts_knife
                 {
                     case 3:
                         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife3.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-                    break;
+                        break;
                     case 2:
                         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife2.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-                    break;
+                        break;
                     default:
                         g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-                    break;
+                        break;
                 }
 
                 // player "shoot" animation
@@ -342,7 +360,7 @@ namespace weapon_bts_knife
             else
             {
                 // hit
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 m_iSwing++;
                 self.SendWeaponAnim( STAB, 0, pev.body );
@@ -362,9 +380,9 @@ namespace weapon_bts_knife
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, flDamage, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );        // first swing does full damage
                 else
-                    pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // subsequent swings do 50% (Changed -Sniper) (Half)
+                    pEntity.TraceAttack( m_pPlayer.pev, flDamage * 0.5f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
                 g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
@@ -387,10 +405,10 @@ namespace weapon_bts_knife
                         {
                             case 2:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             default:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_flesh2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                         }
 
                         m_pPlayer.m_iWeaponVolume = 128;
@@ -416,10 +434,10 @@ namespace weapon_bts_knife
                     {
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/knife_hit_wall1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                     }
                 }
 

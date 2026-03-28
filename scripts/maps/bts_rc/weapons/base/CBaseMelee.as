@@ -19,6 +19,6 @@ mixin class CBaseMelee
 
     protected void Smack()
     {
-        g_WeaponFuncs.DecalGunshot(m_trHit, BULLET_PLAYER_CROWBAR);
+        g_WeaponFuncs.DecalGunshot( m_trHit, BULLET_PLAYER_CROWBAR );
     }
 }

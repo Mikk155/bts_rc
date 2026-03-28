@@ -1,6 +1,6 @@
 /*
-* Uzi ( Single )
-*/
+ * Uzi ( Single )
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_uzisd
@@ -42,7 +42,13 @@ namespace weapon_bts_uzisd
 
     class weapon_bts_uzisd : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         void Spawn()
         {
@@ -68,7 +74,7 @@ namespace weapon_bts_uzisd
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_uzisd.mdl", "models/bts_rc/weapons/p_uzisd.mdl", DRAW, "mp5", 2, 1.1f);
+            return bts_deploy( "models/bts_rc/weapons/v_uzisd.mdl", "models/bts_rc/weapons/p_uzisd.mdl", DRAW, "mp5", 2, 1.1f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -107,9 +113,15 @@ namespace weapon_bts_uzisd
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
             {
-                case 0: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( IDLE2, 0, pev.body ); break;
-                default: self.SendWeaponAnim( IDLE3, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
+                    break;
+                default:
+                    self.SendWeaponAnim( IDLE3, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 7.0f, 9.0f );
@@ -148,11 +160,11 @@ namespace weapon_bts_uzisd
                 TraceResult tr;
                 g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
                 self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
+                bts_post_attack( tr );
 
                 if( tr.flFraction < 1.0f && tr.pHit !is null )
                 {
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                         g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
                 }
@@ -162,20 +174,20 @@ namespace weapon_bts_uzisd
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/uzi_fire1.wav", 0.3f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
 
-            if( g_PlayerClass.is_trained_personal(m_pPlayer) )
+            if( g_PlayerClass.is_trained_personal( m_pPlayer ) )
             {
                 m_pPlayer.pev.punchangle.x = -2.25f;
             }
             else
             {
                 if( !m_pPlayer.pev.FlagBitSet( FL_ONGROUND ) )
-                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -5, 3 ));
+                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -5, 3 ) );
                 else if( m_pPlayer.pev.velocity.Length2D() > 0 )
-                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -4, 3 ));
+                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -4, 3 ) );
                 else if( m_pPlayer.pev.FlagBitSet( FL_DUCKING ) )
-                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 2 ));
+                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 2 ) );
                 else
-                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 3 ));
+                    m_pPlayer.pev.punchangle.x = float( Math.RandomLong( -3, 3 ) );
             }
 
             Vector vecForward, vecRight, vecUp;

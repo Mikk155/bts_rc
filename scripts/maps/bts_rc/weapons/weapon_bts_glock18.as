@@ -1,6 +1,6 @@
 /*
-* Glock 18
-*/
+ * Glock 18
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_glock18
@@ -41,7 +41,13 @@ namespace weapon_bts_glock18
 
     class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         private int m_iFireMode;
 
@@ -71,7 +77,7 @@ namespace weapon_bts_glock18
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_glock18.mdl", "models/bts_rc/weapons/p_glock18.mdl", DRAW, "onehanded", 1, 0.6f);
+            return bts_deploy( "models/bts_rc/weapons/v_glock18.mdl", "models/bts_rc/weapons/p_glock18.mdl", DRAW, "onehanded", 1, 0.6f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -116,7 +122,7 @@ namespace weapon_bts_glock18
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             float CONE = Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
 
@@ -129,11 +135,11 @@ namespace weapon_bts_glock18
             TraceResult tr;
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-            bts_post_attack(tr);
+            bts_post_attack( tr );
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
@@ -201,9 +207,15 @@ namespace weapon_bts_glock18
 
             switch( g_PlayerFuncs.SharedRandomLong( m_pPlayer.random_seed, 0, 3 ) )
             {
-                case 0: self.SendWeaponAnim( IDLE1, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( IDLE2, 0, pev.body ); break;
-                default: self.SendWeaponAnim( IDLE3, 0, pev.body ); break;
+                case 0:
+                    self.SendWeaponAnim( IDLE1, 0, pev.body );
+                    break;
+                case 1:
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
+                    break;
+                default:
+                    self.SendWeaponAnim( IDLE3, 0, pev.body );
+                    break;
             }
 
             self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 6.0f, 8.0f );

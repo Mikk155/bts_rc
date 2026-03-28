@@ -1,7 +1,7 @@
 /*
-* Smith & Wesson 637
-* Author: SV BOY
-*/
+ * Smith & Wesson 637
+ * Author: SV BOY
+ */
 
 namespace weapon_bts_sw637
 {
@@ -18,21 +18,27 @@ namespace weapon_bts_sw637
 
     const string A_MODEL = "models/bts_rc/weapons/w_38ammobox.mdl";
     int MAX_CARRY = 60;
-    int MAX_CLIP  = 5;
+    int MAX_CLIP = 5;
     int AMMO_DROP = 5;
     int AMMO_GIVE = 20;
-    int WEIGHT    = 10;
-    int SLOT      = 1;
-    int POSITION  = 17;
-    int DAMAGE    = 25;
+    int WEIGHT = 10;
+    int SLOT = 1;
+    int POSITION = 17;
+    int DAMAGE = 25;
     const int BODYGROUP_ROUNDS = 2;
-    const int BODYGROUP_HANDS  = 1;
+    const int BODYGROUP_HANDS = 1;
 
     class weapon_bts_sw637 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
-        private bool  m_fReloading = false;
+        private bool m_fReloading = false;
         private float m_flNextInsert = 0.0f;
 
         // -----------------------------
@@ -42,15 +48,15 @@ namespace weapon_bts_sw637
         {
             int mdl = g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_sw637.mdl" );
 
-            pev.body = g_ModelFuncs.SetBodygroup(mdl, pev.body, BODYGROUP_HANDS, g_PlayerClass[m_pPlayer]);
+            pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, BODYGROUP_HANDS, g_PlayerClass[m_pPlayer] );
 
-            pev.body = g_ModelFuncs.SetBodygroup(mdl, pev.body, BODYGROUP_ROUNDS, self.m_iClip);
+            pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, BODYGROUP_ROUNDS, self.m_iClip );
         }
 
         void Spawn()
         {
             g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_sw637.mdl" ) );
-            self.m_iDefaultAmmo = Math.RandomLong( 0, 0);
+            self.m_iDefaultAmmo = Math.RandomLong( 0, 0 );
             self.FallInit();
         }
 
@@ -72,7 +78,7 @@ namespace weapon_bts_sw637
             if( m_fReloading )
             {
                 {
-                    PrimaryAttack(); 
+                    PrimaryAttack();
                 }
             }
         }
@@ -80,7 +86,7 @@ namespace weapon_bts_sw637
         bool Deploy()
         {
             UpdateViewBodygroups();
-            return bts_deploy("models/bts_rc/weapons/v_sw637.mdl", "models/bts_rc/weapons/p_sw637.mdl", DRAW, "python", 1, 1.0f);
+            return bts_deploy( "models/bts_rc/weapons/v_sw637.mdl", "models/bts_rc/weapons/p_sw637.mdl", DRAW, "python", 1, 1.0f );
         }
 
         void Holster( int skiplocal = 0 )
@@ -122,11 +128,11 @@ namespace weapon_bts_sw637
                 TraceResult tr;
                 g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
                 self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
+                bts_post_attack( tr );
 
                 if( tr.flFraction < 1.0f && tr.pHit !is null )
                 {
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                         g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
                 }
@@ -145,11 +151,15 @@ namespace weapon_bts_sw637
 
             switch( Math.RandomLong( 0, 1 ) )
             {
-                case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/38_shot1.wav", 1.0f, ATTN_NORM, 0, 95 ); break;
-                case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/38_shot2.wav", 1.0f, ATTN_NORM, 0, 95 ); break;
+                case 0:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/38_shot1.wav", 1.0f, ATTN_NORM, 0, 95 );
+                    break;
+                case 1:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/38_shot2.wav", 1.0f, ATTN_NORM, 0, 95 );
+                    break;
             }
 
-            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal(m_pPlayer) ? -3.0f : -7.0f;
+            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal( m_pPlayer ) ? -3.0f : -7.0f;
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.25f;
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -173,7 +183,7 @@ namespace weapon_bts_sw637
 
             m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) + self.m_iClip );
             self.m_iClip = 0;
-            pev.body = g_ModelFuncs.SetBodygroup(mdl, pev.body, BODYGROUP_ROUNDS, 4);
+            pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, BODYGROUP_ROUNDS, 4 );
 
             m_fReloading = true;
             self.SendWeaponAnim( RELOAD_START, 0, pev.body );
@@ -214,8 +224,7 @@ namespace weapon_bts_sw637
                 self.m_iClip++;
                 m_pPlayer.m_rgAmmo(
                     self.m_iPrimaryAmmoType,
-                    m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1
-                );
+                    m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
 
                 self.SendWeaponAnim( RELOAD_PART, 0, pev.body );
                 UpdateViewBodygroups();
@@ -244,49 +253,49 @@ namespace weapon_bts_sw637
     {
         void Spawn()
         {
-            g_EntityFuncs.SetModel(self, A_MODEL);
+            g_EntityFuncs.SetModel( self, A_MODEL );
 
             pev.scale = 1.0;
 
             BaseClass.Spawn();
         }
 
-        bool AddAmmo(CBaseEntity @pOther)
+        bool AddAmmo( CBaseEntity @pOther )
         {
             int iGive;
 
             iGive = MAX_CLIP;
 
-            if (pOther.GiveAmmo(iGive, "sw637", MAX_CLIP) != -1)
+            if( pOther.GiveAmmo( iGive, "sw637", MAX_CLIP ) != -1 )
             {
-                g_SoundSystem.EmitSound(self.edict(), CHAN_ITEM, "bts_rc/weapons/sw_bullet_insert_1.wav", 1, ATTN_NORM);
+                g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/weapons/sw_bullet_insert_1.wav", 1, ATTN_NORM );
                 return true;
             }
 
             return false;
         }
     }
-    
+
     class ammo_bts_sw637lmao : ScriptBasePlayerAmmoEntity
     {
         void Spawn()
         {
-            g_EntityFuncs.SetModel(self, A_MODEL);
+            g_EntityFuncs.SetModel( self, A_MODEL );
 
             pev.scale = 1.0;
 
             BaseClass.Spawn();
         }
 
-        bool AddAmmo(CBaseEntity @pOther)
+        bool AddAmmo( CBaseEntity @pOther )
         {
             int iGive;
 
             iGive = 1;
 
-            if (pOther.GiveAmmo(iGive, "sw637", MAX_CLIP) != -1)
+            if( pOther.GiveAmmo( iGive, "sw637", MAX_CLIP ) != -1 )
             {
-                g_SoundSystem.EmitSound(self.edict(), CHAN_ITEM, "bts_rc/weapons/sw_bullet_insert_1.wav", 1, ATTN_NORM);
+                g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/weapons/sw_bullet_insert_1.wav", 1, ATTN_NORM );
                 return true;
             }
 
@@ -298,7 +307,7 @@ namespace weapon_bts_sw637
     {
         return "ammo_bts_sw637";
     }
-    
+
     string GetAmmoName2()
     {
         return "ammo_bts_sw637lmao";
@@ -306,10 +315,10 @@ namespace weapon_bts_sw637
 
     void Register()
     {
-        g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_sw637::ammo_bts_sw637lmao", GetAmmoName2());
-        g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_sw637::ammo_bts_sw637", GetAmmoName1());
-        g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_sw637::weapon_bts_sw637", "weapon_bts_sw637");
-        g_ItemRegistry.RegisterWeapon("weapon_bts_sw637", "bts_rc/weapons", "sw637", "", GetAmmoName1());
+        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sw637::ammo_bts_sw637lmao", GetAmmoName2() );
+        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sw637::ammo_bts_sw637", GetAmmoName1() );
+        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sw637::weapon_bts_sw637", "weapon_bts_sw637" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_sw637", "bts_rc/weapons", "sw637", "", GetAmmoName1() );
     }
-    
+
 }

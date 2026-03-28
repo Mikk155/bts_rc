@@ -1,7 +1,7 @@
 /*
-* Colt Python 357 Magnum
-* Author: Rizulix
-*/
+ * Colt Python 357 Magnum
+ * Author: Rizulix
+ */
 // Rewrited by Rizulix for bts_rc (december 2024)
 
 namespace weapon_bts_python
@@ -33,7 +33,13 @@ namespace weapon_bts_python
 
     class weapon_bts_python : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         void Spawn()
         {
@@ -112,23 +118,27 @@ namespace weapon_bts_python
                 TraceResult tr;
                 g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
                 self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, DAMAGE, m_pPlayer.pev );
-                bts_post_attack(tr);
+                bts_post_attack( tr );
 
                 if( tr.flFraction < 1.0f && tr.pHit !is null )
                 {
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                         g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
                 }
             }
 
             self.SendWeaponAnim( SHOOT, 0, pev.body );
-            switch ( Math.RandomLong( 0, 1 ) )
+            switch( Math.RandomLong( 0, 1 ) )
             {
-                case 0: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_shot1.wav", Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM ); break;
-                case 1: g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_shot2.wav", Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM ); break;
+                case 0:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_shot1.wav", Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM );
+                    break;
+                case 1:
+                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/357_shot2.wav", Math.RandomFloat( 0.8f, 0.9f ), ATTN_NORM, 0, PITCH_NORM );
+                    break;
             }
-            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal(m_pPlayer) ? -10.0f : -16.0f;
+            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal( m_pPlayer ) ? -10.0f : -16.0f;
 
             if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );

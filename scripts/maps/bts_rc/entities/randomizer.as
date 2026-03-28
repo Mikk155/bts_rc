@@ -1,14 +1,14 @@
 namespace randomizer
 {
     // Swap a specific squad to a random location.
-    void randomize_squad( CBaseMonster@ squad, CBaseEntity@ entity )
+    void randomize_squad( CBaseMonster @squad, CBaseEntity @entity )
     {
         if( squad is null )
             return;
 
         if( g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
         {
-            CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
+            CBaseEntity @owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
 
             if( owner_spot !is null )
             {
@@ -21,7 +21,7 @@ namespace randomizer
     }
 
     // Swap all squads to a random and unique location.
-    void randomize( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    void randomize( CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue )
     {
         g_RandomizerHeadcrab.init();
         g_RandomizerNpc.init();
@@ -38,7 +38,10 @@ namespace randomizer
 
     class CRandomizerEntity : ScriptBaseEntity
     {
-        int type() { return 0; }
+        int type()
+        {
+            return 0;
+        }
 
         // Get a entity index from the proper randomizer.
         int GetRandomizerIndex()
@@ -46,19 +49,19 @@ namespace randomizer
             switch( this.type() )
             {
                 case 1:
-                    return g_RandomizerNpc.indexes[ Math.RandomLong( 0, g_RandomizerNpc.indexes.length() -1 ) ];
+                    return g_RandomizerNpc.indexes[Math.RandomLong( 0, g_RandomizerNpc.indexes.length() - 1 )];
                 case 2:
-                    return g_RandomizerItem.indexes[ Math.RandomLong( 0, g_RandomizerItem.indexes.length() -1 ) ];
+                    return g_RandomizerItem.indexes[Math.RandomLong( 0, g_RandomizerItem.indexes.length() - 1 )];
                 case 3:
-                    return g_RandomizerHull.indexes[ Math.RandomLong( 0, g_RandomizerHull.indexes.length() -1 ) ];
+                    return g_RandomizerHull.indexes[Math.RandomLong( 0, g_RandomizerHull.indexes.length() - 1 )];
                 case 4:
-                    return g_RandomizerBoss.indexes[ Math.RandomLong( 0, g_RandomizerBoss.indexes.length() -1 ) ];
+                    return g_RandomizerBoss.indexes[Math.RandomLong( 0, g_RandomizerBoss.indexes.length() - 1 )];
                 case 5:
-                    return g_RandomizerWave.indexes[ Math.RandomLong( 0, g_RandomizerWave.indexes.length() -1 ) ];
+                    return g_RandomizerWave.indexes[Math.RandomLong( 0, g_RandomizerWave.indexes.length() - 1 )];
                 case 6:
-                    return g_RandomizerHeadcrab.indexes[ Math.RandomLong( 0, g_RandomizerHeadcrab.indexes.length() -1 ) ];
+                    return g_RandomizerHeadcrab.indexes[Math.RandomLong( 0, g_RandomizerHeadcrab.indexes.length() - 1 )];
                 case 7:
-                    return g_RandomizerHullWave.indexes[ Math.RandomLong( 0, g_RandomizerHullWave.indexes.length() -1 ) ];
+                    return g_RandomizerHullWave.indexes[Math.RandomLong( 0, g_RandomizerHullWave.indexes.length() - 1 )];
             }
 
             return self.entindex();
@@ -72,7 +75,7 @@ namespace randomizer
         }
 
         // Swap the given squadmaker with the given randomizer position.
-        void Use( CBaseEntity@ squad, CBaseEntity@ randomizer, USE_TYPE use, float value )
+        void Use( CBaseEntity @squad, CBaseEntity @randomizer, USE_TYPE use, float value )
         {
             switch( use )
             {
@@ -111,37 +114,58 @@ namespace randomizer
 
     class randomizer_npc : CRandomizerEntity
     {
-        int type() { return 1; }
+        int type()
+        {
+            return 1;
+        }
     }
 
     class randomizer_item : CRandomizerEntity
     {
-        int type() { return 2; }
+        int type()
+        {
+            return 2;
+        }
     }
 
     class randomizer_hull : CRandomizerEntity
     {
-        int type() { return 3; }
+        int type()
+        {
+            return 3;
+        }
     }
 
     class randomizer_boss : CRandomizerEntity
     {
-        int type() { return 4; }
+        int type()
+        {
+            return 4;
+        }
     }
 
     class randomizer_wave : CRandomizerEntity
     {
-        int type() { return 5; }
+        int type()
+        {
+            return 5;
+        }
     }
 
     class randomizer_headcrab : CRandomizerEntity
     {
-        int type() { return 6; }
+        int type()
+        {
+            return 6;
+        }
     }
-    
+
     class randomizer_hullwave : CRandomizerEntity
     {
-        int type() { return 7; }
+        int type()
+        {
+            return 7;
+        }
     }
 
     //============================================================================
@@ -155,10 +179,16 @@ namespace randomizer
     class CRandomizer
     {
         // Identifier name for this class
-        string name() { return String::EMPTY_STRING; }
+        string name()
+        {
+            return String::EMPTY_STRING;
+        }
 
         // List of entities names for this class
-        array<string>@ entities() { return {}; }
+        array<string> @entities()
+        {
+            return {};
+        }
 
         // Indexes of randomizer entities
         array<int> indexes;
@@ -169,7 +199,7 @@ namespace randomizer
             string target;
             snprintf( target, "randomizer_%1", name );
             // Find all randomizers and store them in indexes
-            CBaseEntity@ pRandomizer = null;
+            CBaseEntity @pRandomizer = null;
             while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, target ) ) !is null )
             {
                 this.indexes.insertLast( pRandomizer.entindex() );
@@ -190,13 +220,12 @@ namespace randomizer
 
             // Clamp to the smallest list size
             int count = Math.min(
-                int(entities_names.length()),
-                int(this.indexes.length())
-            );
+                int( entities_names.length() ),
+                int( this.indexes.length() ) );
 
             for( int i = 0; i < count; i++ )
             {
-                int randIndex = this.indexes[ this.indexes.length() - 1 - i ];
+                int randIndex = this.indexes[this.indexes.length() - 1 - i];
                 @pRandomizer = g_EntityFuncs.Instance( randIndex );
 
                 if( pRandomizer !is null )
@@ -204,8 +233,7 @@ namespace randomizer
                     pRandomizer.Use(
                         g_EntityFuncs.FindEntityByTargetname( null, entities_names[i] ),
                         pRandomizer,
-                        USE_SET
-                    );
+                        USE_SET );
                 }
             }
         }
@@ -213,12 +241,14 @@ namespace randomizer
 
     final class CRanomizerHeadcrabs : CRandomizer
     {
-        string name() { return "headcrab"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "headcrab";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 "GM_HEAD_S1",
                 "GM_HEAD_S2",
                 "GM_HEAD_S3",
@@ -231,20 +261,20 @@ namespace randomizer
                 "GM_HEADZOEA_S2",
                 "GM_HEADZOEA_S3",
                 "GM_HEADZOEA_S4",
-                "GM_SNAP_S2"
-            };
+                "GM_SNAP_S2" };
         }
-    }
-    CRanomizerHeadcrabs g_RandomizerHeadcrab;
+    } CRanomizerHeadcrabs g_RandomizerHeadcrab;
 
     final class CRanomizerItems : CRandomizer
     {
-        string name() { return "item"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "item";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 // WEAPONS
                 "GM_SG_1",
                 "GM_SG_2",
@@ -361,20 +391,20 @@ namespace randomizer
                 "GM_FLASH_3",
                 "GM_FLASH_4",
                 "GM_TOOLBOX_1",
-                "GM_TOOLBOX_2"
-            };
+                "GM_TOOLBOX_2" };
         }
-    }
-    CRanomizerItems g_RandomizerItem;
+    } CRanomizerItems g_RandomizerItem;
 
     final class CRanomizerHulls : CRandomizer
     {
-        string name() { return "hull"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "hull";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 "GM_GONOME_S7",
                 "GM_PITDRONE_S3",
                 "GM_PITDRONE_S4",
@@ -393,37 +423,37 @@ namespace randomizer
                 "GM_ZM_CS_3",
                 "GM_ZM_CS_4",
                 "GM_ZM_ENG3",
-                "GM_ZM_ENG4"
-            };
+                "GM_ZM_ENG4" };
         }
-    }
-    CRanomizerHulls g_RandomizerHull;
+    } CRanomizerHulls g_RandomizerHull;
 
     final class CRanomizerBosss : CRandomizer
     {
-        string name() { return "boss"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "boss";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 "GM_KPIN_S1",
                 "GM_TOR_S1",
                 "GM_VOLT_S2",
-                "GM_BGARG_S1"
-            };
+                "GM_BGARG_S1" };
         }
-    }
-    CRanomizerBosss g_RandomizerBoss;
+    } CRanomizerBosss g_RandomizerBoss;
 
     final class CRanomizerNpcs : CRandomizer
     {
-        string name() { return "npc"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "npc";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 "GM_SNAP_S1",
                 "GM_STUK_S1",
                 "GM_STUK_S2",
@@ -482,20 +512,20 @@ namespace randomizer
                 "GM_ZM_CS_1",
                 "GM_ZM_CS_2",
                 "GM_ZM_ENG1",
-                "GM_ZM_ENG2"
-            };
+                "GM_ZM_ENG2" };
         }
-    }
-    CRanomizerNpcs g_RandomizerNpc;
+    } CRanomizerNpcs g_RandomizerNpc;
 
     final class CRanomizerWaves : CRandomizer
     {
-        string name() { return "wave"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "wave";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 "GM_R_SLAVE_S1",
                 "GM_R_SLAVE_S2",
                 "GM_R_SLAVE_S3",
@@ -520,20 +550,20 @@ namespace randomizer
                 "GM_BABYVOLT_S1",
                 "GM_BABYVOLT_S2",
                 "GM_GONOME_S5",
-                "GM_GONOME_S6"
-            };
+                "GM_GONOME_S6" };
         }
-    }
-    CRanomizerWaves g_RandomizerWave;
-    
+    } CRanomizerWaves g_RandomizerWave;
+
     final class CRanomizerHullWaves : CRandomizer
     {
-        string name() { return "hullwave"; }
-
-        array<string>@ entities()
+        string name()
         {
-            return
-            {
+            return "hullwave";
+        }
+
+        array<string> @entities()
+        {
+            return {
                 "GM_R_BGARG_S1",
                 "GM_R_VOLT_S1",
                 "GM_R_VOLT_S2",
@@ -551,9 +581,8 @@ namespace randomizer
                 "GM_R_BULL_S4",
                 "GM_SNAP_R_S1",
                 "GM_SNAP_R_S2"
-                
+
             };
         }
-    }
-    CRanomizerHullWaves g_RandomizerHullWave;
+    } CRanomizerHullWaves g_RandomizerHullWave;
 }

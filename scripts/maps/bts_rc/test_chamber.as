@@ -11,28 +11,28 @@ namespace test_chamber
         return true;
     }
 
-    HookReturnCode PlayerSpawn( CBasePlayer@ player )
+    HookReturnCode PlayerSpawn( CBasePlayer @player )
     {
         g_SurvivalMode.Disable();
         return HOOK_CONTINUE;
     }
 
-    HookReturnCode WhatsThat( CBasePlayer@ player )
+    HookReturnCode WhatsThat( CBasePlayer @player )
     {
         if( player is null )
             return HOOK_CONTINUE;
 
         TraceResult tr;
-        Math.MakeVectors(player.pev.v_angle);
-        g_Utility.TraceLine(player.EyePosition(), player.EyePosition() + player.GetAutoaimVector(1.0) * 500.0f, dont_ignore_monsters, player.edict(), tr);
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.EyePosition(), player.EyePosition() + player.GetAutoaimVector( 1.0 ) * 500.0f, dont_ignore_monsters, player.edict(), tr );
 
-        if ( g_EntityFuncs.IsValidEntity(tr.pHit) )
+        if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
         {
-            CBaseEntity @hit = g_EntityFuncs.Instance(tr.pHit);
+            CBaseEntity @hit = g_EntityFuncs.Instance( tr.pHit );
 
-            if (hit !is null && hit.GetCustomKeyvalues().HasKeyvalue("$s_message"))
+            if( hit !is null && hit.GetCustomKeyvalues().HasKeyvalue( "$s_message" ) )
             {
-                g_PlayerFuncs.ClientPrint(player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue("$s_message").GetString() + "\n");
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCENTER, hit.GetCustomKeyvalues().GetKeyvalue( "$s_message" ).GetString() + "\n" );
             }
         }
 
@@ -52,7 +52,7 @@ namespace test_chamber
             g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
         }
 
-        void Touch( CBaseEntity@ pOther )
+        void Touch( CBaseEntity @pOther )
         {
             if( pOther !is null && pOther.IsPlayer() )
             {
@@ -66,14 +66,14 @@ namespace test_chamber
                 HudParams.g2 = RGBA_SVENCOOP.g;
                 HudParams.b2 = RGBA_SVENCOOP.b;
                 HudParams.a2 = 0;
-                HudParams.fadeinTime = 0; 
+                HudParams.fadeinTime = 0;
                 HudParams.fadeoutTime = 0.25;
                 HudParams.fxTime = 0;
                 HudParams.holdTime = 2;
                 HudParams.channel = 3;
                 HudParams.y = 0.90;
 
-                g_PlayerFuncs.HudMessage( cast<CBasePlayer@>(pOther), HudParams, string( self.pev.message ) + "\n" );
+                g_PlayerFuncs.HudMessage( cast<CBasePlayer @>( pOther ), HudParams, string( self.pev.message ) + "\n" );
             }
         }
     }

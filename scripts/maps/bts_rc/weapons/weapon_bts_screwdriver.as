@@ -1,6 +1,6 @@
-/* 
-* Maintenance Screwdriver
-*/
+/*
+ * Maintenance Screwdriver
+ */
 // Rewrited by Rizulix for bts_rc (january 2025)
 
 namespace weapon_bts_screwdriver
@@ -35,7 +35,13 @@ namespace weapon_bts_screwdriver
 
     class weapon_bts_screwdriver : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         void Spawn()
         {
@@ -77,8 +83,8 @@ namespace weapon_bts_screwdriver
             TraceResult tr;
 
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * RANGE;
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE;
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -89,14 +95,14 @@ namespace weapon_bts_screwdriver
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             if( tr.flFraction >= 1.0f )
             {
@@ -105,9 +111,15 @@ namespace weapon_bts_screwdriver
                     // miss
                     switch( ( m_iSwing++ ) % 3 )
                     {
-                        case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
-                        case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
+                        case 0:
+                            self.SendWeaponAnim( ATTACK1MISS, 0, pev.body );
+                            break;
+                        case 1:
+                            self.SendWeaponAnim( ATTACK2MISS, 0, pev.body );
+                            break;
+                        case 2:
+                            self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
+                            break;
                     }
                     self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.5f : 0.6f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
@@ -124,13 +136,19 @@ namespace weapon_bts_screwdriver
                 // hit
                 fDidHit = true;
 
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 switch( ( ( m_iSwing++ ) % 2 ) + 1 )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
+                    case 0:
+                        self.SendWeaponAnim( ATTACK1HIT, 0, pev.body );
+                        break;
+                    case 1:
+                        self.SendWeaponAnim( ATTACK2HIT, 0, pev.body );
+                        break;
+                    case 2:
+                        self.SendWeaponAnim( ATTACK3HIT, 0, pev.body );
+                        break;
                 }
 
                 self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.35f );
@@ -142,9 +160,9 @@ namespace weapon_bts_screwdriver
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );        // first swing does full damage
                 else
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // subsequent swings do 50% (Changed -Sniper) (Half)
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
                 g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
 
@@ -167,13 +185,13 @@ namespace weapon_bts_screwdriver
                         {
                             case 2:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/sd_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             case 3:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/sd_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             default:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/sd_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                         }
                         m_pPlayer.m_iWeaponVolume = 128;
 
@@ -198,16 +216,16 @@ namespace weapon_bts_screwdriver
                     {
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/sd_hit2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/sd_hit1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                     }
                 }
 
                 // delay the decal a bit
                 m_trHit = tr;
-                bts_post_attack(tr);
+                bts_post_attack( tr );
                 SetThink( ThinkFunction( this.Smack ) );
                 pev.nextthink = g_Engine.time + 0.2f;
 

@@ -1,6 +1,6 @@
-/* 
-* Poolstick
-*/
+/*
+ * Poolstick
+ */
 // Rewrited by Rizulix for bts_rc (january 2025)
 
 namespace weapon_bts_poolstick
@@ -36,7 +36,13 @@ namespace weapon_bts_poolstick
 
     class weapon_bts_poolstick : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
+        private CBasePlayer @m_pPlayer
+        {
+            get const
+            {
+                return get_player();
+            }
+        }
 
         void Spawn()
         {
@@ -70,22 +76,22 @@ namespace weapon_bts_poolstick
             SetThink( null );
             BaseClass.Holster( skiplocal );
         }
-        
+
         void WeaponIdle()
         {
             self.ResetEmptySound();
 
-            if (self.m_flTimeWeaponIdle < g_Engine.time)
+            if( self.m_flTimeWeaponIdle < g_Engine.time )
             {
-                float flRand = g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 0, 1);
-                if (flRand <= 0.99)
+                float flRand = g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 0, 1 );
+                if( flRand <= 0.99 )
                 {
-                    self.SendWeaponAnim(IDLE, 0, pev.body);
-                    self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat(m_pPlayer.random_seed, 10, 15);
+                    self.SendWeaponAnim( IDLE, 0, pev.body );
+                    self.m_flTimeWeaponIdle = g_Engine.time + g_PlayerFuncs.SharedRandomFloat( m_pPlayer.random_seed, 10, 15 );
                 }
                 else
                 {
-                    self.SendWeaponAnim(IDLE2, 0, pev.body);
+                    self.SendWeaponAnim( IDLE2, 0, pev.body );
                     self.m_flTimeWeaponIdle = g_Engine.time + 5.0;
                 }
             }
@@ -104,8 +110,8 @@ namespace weapon_bts_poolstick
             TraceResult tr;
 
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * RANGE;
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE;
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -116,14 +122,14 @@ namespace weapon_bts_poolstick
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             if( tr.flFraction >= 1.0f )
             {
@@ -147,12 +153,16 @@ namespace weapon_bts_poolstick
                 // hit
                 fDidHit = true;
 
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 switch( ( ( m_iSwing++ ) % 2 ) )
                 {
-                    case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
+                    case 0:
+                        self.SendWeaponAnim( ATTACK1HIT, 0, pev.body );
+                        break;
+                    case 1:
+                        self.SendWeaponAnim( ATTACK2HIT, 0, pev.body );
+                        break;
                 }
 
                 self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.4f );
@@ -165,7 +175,7 @@ namespace weapon_bts_poolstick
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB );        // first swing does full damage
                 else
                     pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
@@ -190,13 +200,13 @@ namespace weapon_bts_poolstick
                         {
                             case 3:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             case 2:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             default:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                         }
                         m_pPlayer.m_iWeaponVolume = 128;
 
@@ -221,16 +231,16 @@ namespace weapon_bts_poolstick
                     {
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "debris/wood2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "debris/wood1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                     }
                 }
 
                 // delay the decal a bit
                 m_trHit = tr;
-                bts_post_attack(tr);
+                bts_post_attack( tr );
                 SetThink( ThinkFunction( this.Smack ) );
                 pev.nextthink = g_Engine.time + 0.2f;
 
@@ -238,7 +248,7 @@ namespace weapon_bts_poolstick
             }
             return fDidHit;
         }
-        
+
         private bool Poke()
         {
             bool fDidHit = false;
@@ -246,8 +256,8 @@ namespace weapon_bts_poolstick
             TraceResult tr;
 
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * RANGE2;
+            Vector vecSrc = m_pPlayer.GetGunPosition();
+            Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE2;
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
 
@@ -258,14 +268,14 @@ namespace weapon_bts_poolstick
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
+            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
 
             if( tr.flFraction >= 1.0f )
             {
@@ -286,7 +296,7 @@ namespace weapon_bts_poolstick
                 // hit
                 fDidHit = true;
 
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
 
@@ -300,7 +310,7 @@ namespace weapon_bts_poolstick
                 g_WeaponFuncs.ClearMultiDamage();
 
                 if( self.m_flNextSecondaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE2, g_Engine.v_forward, tr, DMG_CLUB ); // first swing does full damage
+                    pEntity.TraceAttack( m_pPlayer.pev, DAMAGE2, g_Engine.v_forward, tr, DMG_CLUB );        // first swing does full damage
                 else
                     pEntity.TraceAttack( m_pPlayer.pev, DAMAGE2 * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
 
@@ -325,13 +335,13 @@ namespace weapon_bts_poolstick
                         {
                             case 3:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             case 2:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                             default:
                                 g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "weapons/cbar_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
+                                break;
                         }
                         m_pPlayer.m_iWeaponVolume = 128;
 
@@ -356,16 +366,16 @@ namespace weapon_bts_poolstick
                     {
                         case 2:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "debris/wood2.wav", 1.0f, ATTN_NORM, 0, 102 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                         default:
                             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "debris/wood1.wav", 1.0f, ATTN_NORM, 0, 102 + Math.RandomLong( 0, 3 ) );
-                        break;
+                            break;
                     }
                 }
 
                 // delay the decal a bit
                 m_trHit = tr;
-                bts_post_attack(tr);
+                bts_post_attack( tr );
                 SetThink( ThinkFunction( this.Smack ) );
                 pev.nextthink = g_Engine.time + 0.2f;
 
