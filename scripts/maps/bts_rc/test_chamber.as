@@ -7,7 +7,14 @@ namespace test_chamber
     {
         g_CustomEntityFuncs.RegisterCustomEntity( "test_chamber::trigger_logger", "trigger_logger" );
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @WhatsThat );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PlayerSpawn );
         return true;
+    }
+
+    HookReturnCode PlayerSpawn( CBasePlayer@ player )
+    {
+        g_SurvivalMode.Disable();
+        return HOOK_CONTINUE;
     }
 
     HookReturnCode WhatsThat( CBasePlayer@ player )
