@@ -154,7 +154,7 @@ namespace monster_snapbug
             pev.yaw_speed = ys;
         }
 
-        void RunTask( Task @pTask )
+        void RunTask( Task@ pTask )
         {
             switch( pTask.iTask )
             {
@@ -176,7 +176,7 @@ namespace monster_snapbug
             }
         }
 
-        void StartTask( Task @pTask )
+        void StartTask( Task@ pTask )
         {
             self.m_iTaskStatus = TASKSTATUS_RUNNING;
 
@@ -241,7 +241,7 @@ namespace monster_snapbug
                 IdleSound();
         }
 
-        void HandleAnimEvent( MonsterEvent @pEvent )
+        void HandleAnimEvent( MonsterEvent@ pEvent )
         {
             switch( pEvent.event )
             {
@@ -309,7 +309,7 @@ namespace monster_snapbug
             return false;
         }
 
-        Schedule @GetScheduleOfType( int iType )
+        Schedule@ GetScheduleOfType( int iType )
         {
             switch( iType )
             {
@@ -320,7 +320,7 @@ namespace monster_snapbug
             return BaseClass.GetScheduleOfType( iType );
         }
 
-        void LeapTouch( CBaseEntity @pOther )
+        void LeapTouch( CBaseEntity@ pOther )
         {
             if( pOther.pev.takedamage == 0 )
                 return;
@@ -341,24 +341,24 @@ namespace monster_snapbug
             SetTouch( null );
         }
 
-        void AttachSnapbug( CBaseEntity @pOther )
+        void AttachSnapbug( CBaseEntity@ pOther )
         {
             if( !pOther.pev.FlagBitSet( FL_CLIENT ) )
                 return;
 
-            CBasePlayer @pPlayer = cast<CBasePlayer @>( pOther );
+            CBasePlayer@ pPlayer = cast<CBasePlayer@>( pOther );
 
-            CustomKeyvalues @pCustom = pPlayer.GetCustomKeyvalues();
+            CustomKeyvalues@ pCustom = pPlayer.GetCustomKeyvalues();
             if( pCustom.GetKeyvalue( KVN_SNAPBUGGED ).GetInteger() == 1 )
                 return;
 
-            KeyValueBuffer @pInfo = g_EngineFuncs.GetInfoKeyBuffer( pPlayer.edict() );
+            KeyValueBuffer@ pInfo = g_EngineFuncs.GetInfoKeyBuffer( pPlayer.edict() );
             string sModel = pInfo.GetValue( "model" );
 
             if( arrsImmune.find( sModel ) >= 0 )
                 return;
 
-            CBaseEntity @pSnapbug = g_EntityFuncs.Create( NPC_CLASSNAME2, pPlayer.pev.origin, g_vecZero, false, pPlayer.edict() );
+            CBaseEntity@ pSnapbug = g_EntityFuncs.Create( NPC_CLASSNAME2, pPlayer.pev.origin, g_vecZero, false, pPlayer.edict() );
             @pSnapbug.pev.aiment = pPlayer.edict();
             pSnapbug.pev.movetype = MOVETYPE_FOLLOW;
 
@@ -370,7 +370,7 @@ namespace monster_snapbug
             g_EntityFuncs.Remove( self );
         }
 
-        void ShowHUD( CBasePlayer @pPlayer )
+        void ShowHUD( CBasePlayer@ pPlayer )
         {
             HUDSpriteParams hudParamsSnapbug;
             hudParamsSnapbug.fadeinTime = 0.0;
@@ -388,7 +388,7 @@ namespace monster_snapbug
         }
     }
 
-    array<ScriptSchedule @> @custom_snapbug_schedules;
+    array<ScriptSchedule@>@ custom_snapbug_schedules;
 
     ScriptSchedule slSBRangeAttack1(
         bits_COND_ENEMY_OCCLUDED |
@@ -417,7 +417,7 @@ namespace monster_snapbug
         slSBRangeAttack1Fast.AddTask( ScriptTask( TASK_RANGE_ATTACK1 ) );
         slSBRangeAttack1Fast.AddTask( ScriptTask( TASK_SET_ACTIVITY, float( ACT_IDLE ) ) );
 
-        array<ScriptSchedule @> scheds = { slSBRangeAttack1, slSBRangeAttack1Fast };
+        array<ScriptSchedule@> scheds = { slSBRangeAttack1, slSBRangeAttack1Fast };
 
         @custom_snapbug_schedules = @scheds;
     }
@@ -427,11 +427,11 @@ namespace monster_snapbug
         private float m_flDealDamage;
         private float m_flAttachTime;
 
-        protected CBasePlayer @m_pOwner
+        protected CBasePlayer@ m_pOwner
         {
             get
             {
-                return cast<CBasePlayer @>( g_EntityFuncs.Instance( pev.owner ) );
+                return cast<CBasePlayer@>( g_EntityFuncs.Instance( pev.owner ) );
             }
         }
 
@@ -517,12 +517,12 @@ namespace monster_snapbug
         }
     }
 
-    void SnapbugAntidote( CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue )
+    void SnapbugAntidote( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
     {
         if( !pActivator.pev.FlagBitSet( FL_CLIENT ) )
             return;
 
-        CBasePlayer @pPlayer = cast<CBasePlayer @>( pActivator );
+        CBasePlayer@ pPlayer = cast<CBasePlayer@>( pActivator );
         btscm::RemoveSnapbug( pPlayer );
     }
 

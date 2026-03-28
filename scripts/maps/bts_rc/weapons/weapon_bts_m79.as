@@ -49,7 +49,7 @@ namespace weapon_bts_m79
 
     class weapon_bts_m79 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {

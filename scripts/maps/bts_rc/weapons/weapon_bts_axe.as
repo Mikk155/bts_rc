@@ -167,7 +167,7 @@ namespace weapons
                         {
                             // Calculate the point of intersection of the line (or hull) and the object we hit
                             // This is and approximation of the "best" intersection
-                            CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                            CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
 
                             if( pHit is null || pHit.IsBSPModel() )
                             {
@@ -208,7 +208,7 @@ namespace weapons
                     float flVol = 1.0f;
                     bool fHitWorld = true;
 
-                    CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                     if( pEntity !is null )
                     {

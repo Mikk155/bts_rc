@@ -35,7 +35,7 @@ namespace weapon_bts_handgrenade
 
     class weapon_bts_handgrenade : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -93,7 +93,7 @@ namespace weapon_bts_handgrenade
             return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
         }
 
-        CBasePlayerItem @DropItem()
+        CBasePlayerItem@ DropItem()
         {
             m_iAmmoSave = m_pPlayer.AmmoInventory( self.m_iPrimaryAmmoType ); // Save the player"s ammo pool in case it has any in DropItem
             return self;
@@ -108,7 +108,7 @@ namespace weapon_bts_handgrenade
                 g_EngineFuncs.GetBonePosition( m_pPlayer.edict(), 28, vecHandPos, void );
 
                 vecVelocity = Vector( Math.RandomFloat( -20.0, 20.0 ), Math.RandomFloat( -20.0, 20.0 ), 40.0 );
-                CGrenade @pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecHandPos, vecVelocity, TIMER );
+                CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecHandPos, vecVelocity, TIMER );
                 if( pGrenade !is null )
                 {
                     g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );
@@ -185,7 +185,7 @@ namespace weapon_bts_handgrenade
             Vector vecThrow = g_Engine.v_forward * flVel + m_pPlayer.pev.velocity;
 
             // explode 3 seconds after launch
-            CGrenade @pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecSrc, vecThrow, TIMER );
+            CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( m_pPlayer.pev, vecSrc, vecThrow, TIMER );
             if( pGrenade !is null )
             {
                 g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );

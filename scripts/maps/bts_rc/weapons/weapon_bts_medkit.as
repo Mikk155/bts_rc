@@ -46,7 +46,7 @@ namespace weapon_bts_medkit
 
     class weapon_bts_medkit : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -96,7 +96,7 @@ namespace weapon_bts_medkit
             BaseClass.Holster( skiplocal );
         }
 
-        void AttachToPlayer( CBasePlayer @pPlayer )
+        void AttachToPlayer( CBasePlayer@ pPlayer )
         {
             if( self.m_iDefaultAmmo == 0 )
                 self.m_iDefaultAmmo = 1;
@@ -188,7 +188,7 @@ namespace weapon_bts_medkit
             if( tr.pHit is null )
                 return;
 
-            CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+            CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
             bool blDecrease = false;
             float flLastHealth = 0.0f;
 
@@ -284,7 +284,7 @@ namespace weapon_bts_medkit
                 g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, m_pPlayer.edict(), tr );
             }
 
-            CBaseMonster @pMonster = ( tr.pHit !is null ) ? g_EntityFuncs.Instance( tr.pHit ).MyMonsterPointer() : null;
+            CBaseMonster@ pMonster = ( tr.pHit !is null ) ? g_EntityFuncs.Instance( tr.pHit ).MyMonsterPointer() : null;
             int iAmmoLeft = m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType );
 
             if( pMonster is null || iAmmoLeft <= 0 )
@@ -348,10 +348,10 @@ namespace weapon_bts_medkit
                     return;
                 }
 
-                CBaseEntity @pBestTarget = null;
+                CBaseEntity@ pBestTarget = null;
                 float flBestDist = REVIVE_RADIUS;
 
-                CBaseEntity @pEntity;
+                CBaseEntity@ pEntity;
                 while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname" ) ) !is null )
                 {
                     if( pEntity is null || !IsValidReviveTarget( pEntity ) )
@@ -403,7 +403,7 @@ namespace weapon_bts_medkit
                     g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM );
                     self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
 
-                    CBaseMonster @pMonster = ( pBestTarget.GetClassname() == "deadplayer" ) ? cast<CBaseMonster @>( g_EntityFuncs.Instance( int( pBestTarget.pev.renderamt ) ) ) : pBestTarget.MyMonsterPointer();
+                    CBaseMonster@ pMonster = ( pBestTarget.GetClassname() == "deadplayer" ) ? cast<CBaseMonster@>( g_EntityFuncs.Instance( int( pBestTarget.pev.renderamt ) ) ) : pBestTarget.MyMonsterPointer();
                     pMonster.Revive();
                     pMonster.pev.health = ( pMonster.pev.max_health / 2 );
 
@@ -428,9 +428,9 @@ namespace weapon_bts_medkit
             }
         }
 
-        bool CanHealTarget( CBaseEntity @pEntity )
+        bool CanHealTarget( CBaseEntity@ pEntity )
         {
-            CBaseMonster @pMonster = ( pEntity !is null ) ? pEntity.MyMonsterPointer() : null;
+            CBaseMonster@ pMonster = ( pEntity !is null ) ? pEntity.MyMonsterPointer() : null;
 
             if( pMonster is null )
                 return false;
@@ -441,7 +441,7 @@ namespace weapon_bts_medkit
             return true;
         }
 
-        bool IsValidReviveTarget( CBaseEntity @pEntity )
+        bool IsValidReviveTarget( CBaseEntity@ pEntity )
         {
             // if (pEntity.IRelationship(m_pPlayer) >= R_NO || pEntity.IsAlive() || pEntity.IsMachine())
             //     return false;
@@ -462,7 +462,7 @@ namespace weapon_bts_medkit
             return pEntity.IsRevivable() && pEntity.IRelationship( m_pPlayer ) == R_AL;
         }
 
-        bool IsBetterReviveTarget( CBaseEntity @pEntity, CBaseEntity @pBestTarget, float flDist, float flBestDist )
+        bool IsBetterReviveTarget( CBaseEntity@ pEntity, CBaseEntity@ pBestTarget, float flDist, float flBestDist )
         {
             bool isBetterClass = pEntity.IsPlayer() && !pBestTarget.IsPlayer();
             bool isWorseClass = !pEntity.IsPlayer() && pBestTarget.IsPlayer();

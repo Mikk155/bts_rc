@@ -110,7 +110,7 @@ namespace BTS_XBOW
             g_Game.PrecacheModel( "models/bts_rc/weapons/electro_bolt.mdl" );
         }
 
-        void BoltTouch( CBaseEntity @pOther )
+        void BoltTouch( CBaseEntity@ pOther )
         {
             if( g_EngineFuncs.PointContents( self.pev.origin ) == CONTENTS_SKY )
             {
@@ -124,7 +124,7 @@ namespace BTS_XBOW
             if( pOther.pev.takedamage != DAMAGE_NO )
             {
                 TraceResult tr = g_Utility.GetGlobalTrace();
-                entvars_t @pevOwner = pev.owner.vars;
+                entvars_t@ pevOwner = pev.owner.vars;
 
                 g_WeaponFuncs.ClearMultiDamage();
 
@@ -182,11 +182,11 @@ namespace BTS_XBOW
         }
     }
 
-    electro_bolt @BoltCreate()
+    electro_bolt@ BoltCreate()
     {
         // Create a new entity with electro_bolt private data
-        CBaseEntity @pre_pBolt = g_EntityFuncs.CreateEntity( "electro_bolt", null, false );
-        electro_bolt @pBolt = cast<electro_bolt @>( CastToScriptClass( pre_pBolt ) );
+        CBaseEntity@ pre_pBolt = g_EntityFuncs.CreateEntity( "electro_bolt", null, false );
+        electro_bolt@ pBolt = cast<electro_bolt@>( CastToScriptClass( pre_pBolt ) );
 
         pBolt.Spawn();
         // pBolt.Start(180.f);
@@ -212,7 +212,7 @@ namespace BTS_XBOW
 
     class weapon_bts_xbow : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer = null;
+        private CBasePlayer@ m_pPlayer = null;
 
         void Spawn()
         {
@@ -252,7 +252,7 @@ namespace BTS_XBOW
             g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_xbow.txt" );
         }
 
-        bool AddToPlayer( CBasePlayer @pPlayer )
+        bool AddToPlayer( CBasePlayer@ pPlayer )
         {
             if( BaseClass.AddToPlayer( pPlayer ) )
             {
@@ -361,7 +361,7 @@ namespace BTS_XBOW
             if( self.m_flCustomDmg > 0 )
                 flDamage = self.m_flCustomDmg;
 
-            electro_bolt @pBolt = BoltCreate();
+            electro_bolt@ pBolt = BoltCreate();
             pBolt.pev.origin = vecSrc;
             pBolt.pev.angles = anglesAim;
             pBolt.pev.dmg = flDamage;
@@ -479,7 +479,7 @@ namespace BTS_XBOW
             BaseClass.Spawn();
         }
 
-        bool AddAmmo( CBaseEntity @pOther )
+        bool AddAmmo( CBaseEntity@ pOther )
         {
             int iGive;
 

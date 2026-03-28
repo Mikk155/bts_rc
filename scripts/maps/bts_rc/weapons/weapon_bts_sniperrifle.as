@@ -28,7 +28,7 @@ namespace weapon_bts_sniperrifle
 
     class weapon_bts_sniperrifle : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -76,7 +76,7 @@ namespace weapon_bts_sniperrifle
             return true;
         }
 
-        bool AddToPlayer( CBasePlayer @pPlayer )
+        bool AddToPlayer( CBasePlayer@ pPlayer )
         {
             if( !BaseClass.AddToPlayer( pPlayer ) )
                 return false;

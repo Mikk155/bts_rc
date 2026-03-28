@@ -2,7 +2,7 @@
     Author: Mikk
 */
 
-HookReturnCode player_think( CBasePlayer @player )
+HookReturnCode player_think( CBasePlayer@ player )
 {
     if( player !is null && player.IsConnected() )
     {
@@ -57,11 +57,11 @@ HookReturnCode player_think( CBasePlayer @player )
 
                 player.GiveNamedItem( weapon_name );
 
-                CBasePlayerItem @item = player.HasNamedPlayerItem( weapon_name );
+                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
 
                 if( item !is null )
                 {
-                    CBasePlayerWeapon @weapon = cast<CBasePlayerWeapon @>( item );
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
 
                     if( weapon !is null )
                     {
@@ -84,7 +84,7 @@ HookReturnCode player_think( CBasePlayer @player )
             return HOOK_CONTINUE;
         }
 
-        dictionary @user_data = player.GetUserData();
+        dictionary@ user_data = player.GetUserData();
 
         if( gpForcepModels )
             player.SetOverriddenPlayerModel( string( user_data["pm"] ) );
@@ -129,21 +129,21 @@ HookReturnCode player_think( CBasePlayer @player )
                     // Iterate over all clients, some player's indexes will be above GetNumPlayers, i have no proofs but neither doubts.
                     for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
                     {
-                        CBasePlayer @players = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
+                        CBasePlayer@ players = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
 
                         if( players !is null && players.IsConnected() )
                         {
-                            InventoryList @inventory = players.m_pInventory;
+                            InventoryList@ inventory = players.m_pInventory;
 
                             while( inventory !is null )
                             {
-                                CItemInventory @item = cast<CItemInventory @>( inventory.hItem.GetEntity() );
+                                CItemInventory@ item = cast<CItemInventory@>( inventory.hItem.GetEntity() );
 
                                 if( item !is null && items.exists( item.m_szItemName ) )
                                 {
                                     string format;
 
-                                    CustomKeyvalues @doubles = item.GetCustomKeyvalues();
+                                    CustomKeyvalues@ doubles = item.GetCustomKeyvalues();
 
                                     // These are duplicated "item_name" So to identify to which "Display name" it belongs we use a custom keyvalue.
                                     if( doubles !is null && doubles.HasKeyvalue( "$i_secondary" ) )

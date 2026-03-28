@@ -5,7 +5,7 @@
 namespace btscm
 {
 
-    HookReturnCode RobotTakeDamage( DamageInfo @pDamageInfo )
+    HookReturnCode RobotTakeDamage( DamageInfo@ pDamageInfo )
     {
         if( IsRobot( pDamageInfo.pVictim ) )
         {
@@ -20,13 +20,13 @@ namespace btscm
 
     void RoboThink()
     {
-        CBaseEntity @pEntity = null;
+        CBaseEntity@ pEntity = null;
         while( ( @pEntity = g_EntityFuncs.FindEntityByClassname( pEntity, "monster_human_grunt_ally" ) ) !is null )
         {
             if( pEntity.pev.model != "models/bts_rc/monsters/rgrunt_opfor.mdl" )
                 continue;
 
-            CustomKeyvalues @pCustom = pEntity.GetCustomKeyvalues();
+            CustomKeyvalues@ pCustom = pEntity.GetCustomKeyvalues();
             float flNextThink = pCustom.GetKeyvalue( KVN_MONSTERTHINK ).GetFloat();
 
             if( flNextThink <= g_Engine.time )
@@ -47,13 +47,13 @@ namespace btscm
 
     void LowHealth( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
         if( ( pMonster.pev.health / pMonster.pev.max_health ) <= ROBOT_LOWHEALTH and pMonster.pev.deadflag != DEAD_DEAD )
         {
-            CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+            CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
             float flNextSpark = pCustom.GetKeyvalue( KVN_NEXTSPARK ).GetFloat();
             bool bDoubleSpark = pCustom.GetKeyvalue( KVN_DOUBLESPARK ).GetInteger() == 1 ? true : false;
 
@@ -82,11 +82,11 @@ namespace btscm
 
     void UpdateGlow( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flNextSpark = pCustom.GetKeyvalue( KVN_NEXTSPARK ).GetFloat();
         bool bShockTouch = pCustom.GetKeyvalue( KVN_SHOCKTOUCH ).GetInteger() == 1 ? true : false;
 
@@ -111,16 +111,16 @@ namespace btscm
 
     void DoShockTouch( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         bool bShockTouch = pCustom.GetKeyvalue( KVN_SHOCKTOUCH ).GetInteger() == 1 ? true : false;
 
         if( bShockTouch )
         {
-            CBaseEntity @pTarget = null;
+            CBaseEntity@ pTarget = null;
             while( ( @pTarget = g_EntityFuncs.FindEntityInSphere( pTarget, pMonster.pev.origin, pMonster.pev.size.z, "*", "classname" ) ) !is null )
             {
                 if( pTarget is pMonster or !pTarget.IsAlive() or pTarget.pev.takedamage == DAMAGE_NO )
@@ -151,7 +151,7 @@ namespace btscm
 
     void GlowEffect( EHandle hMonster, bool bOn )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
@@ -171,9 +171,9 @@ namespace btscm
         }
     }
 
-    void HandleRobotDamage( DamageInfo @pDamageInfo, bool bBoss = false )
+    void HandleRobotDamage( DamageInfo@ pDamageInfo, bool bBoss = false )
     {
-        CustomKeyvalues @pCustom = pDamageInfo.pVictim.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pDamageInfo.pVictim.GetCustomKeyvalues();
         bool bShockTouch = pCustom.GetKeyvalue( KVN_SHOCKTOUCH ).GetInteger() == 1 ? true : false;
 
         if( bShockTouch )
@@ -244,7 +244,7 @@ namespace btscm
 
     void DoRobotDeath( EHandle hMonster, bool bGibbed = false, bool bBoss = false )
     {
-        CBaseMonster @pMonster = hMonster.GetEntity().MyMonsterPointer();
+        CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
         if( pMonster is null )
             return;
 
@@ -265,18 +265,18 @@ namespace btscm
         else
             g_SoundSystem.EmitSound( pMonster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death2.wav", VOL_NORM, 0.5 );
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         pCustom.SetKeyvalue( KVN_REMOVETIME, g_Engine.time + Math.RandomFloat( 3.0, 7.0 ) );
         pCustom.SetKeyvalue( KVN_DIETHINK, g_Engine.time );
     }
 
     void ShowDamage( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         int iDoSmokePuff = pCustom.GetKeyvalue( KVN_DOSMOKEPUFF ).GetInteger();
         Vector vecOrigin = pMonster.pev.origin + Vector( 0, 0, pMonster.pev.size.z ); // GetEyePosition() ??
 
@@ -301,10 +301,10 @@ namespace btscm
 
     void ExplosiveDeath( EHandle hMonster )
     {
-        CBaseMonster @pMonster = hMonster.GetEntity().MyMonsterPointer();
+        CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
         if( pMonster is null )
             return;
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
 
         SpawnExplosion( pMonster.pev.origin, 0.0, 0.0, EXPLODE_DAMAGE );
 
@@ -354,7 +354,7 @@ namespace btscm
 
         if( freeedicts( 1 ) )
         {
-            CBaseEntity @pSmoker = g_EntityFuncs.Create( "env_smoker", pMonster.pev.origin, g_vecZero, false );
+            CBaseEntity@ pSmoker = g_EntityFuncs.Create( "env_smoker", pMonster.pev.origin, g_vecZero, false );
             pSmoker.pev.health = 1;                      // 1 smoke balls
             pSmoker.pev.scale = 10;                      // 4.6X normal size
             pSmoker.pev.dmg = 0;                         // 0 radial distribution
@@ -374,11 +374,11 @@ namespace btscm
 
     void DieThink( EHandle hMonster )
     {
-        CBaseMonster @pMonster = hMonster.GetEntity().MyMonsterPointer();
+        CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flNextDieThink = pCustom.GetKeyvalue( KVN_DIETHINK ).GetFloat();
 
         if( flNextDieThink > 0.0 and flNextDieThink <= g_Engine.time )
@@ -419,7 +419,7 @@ namespace btscm
         }
     }
 
-    bool IsRobot( CBaseEntity @pMonster )
+    bool IsRobot( CBaseEntity@ pMonster )
     {
         if( pMonster.GetClassname() == "monster_human_grunt_ally" and pMonster.pev.model == "models/bts_rc/monsters/rgrunt_opfor.mdl" )
             return true;
@@ -427,7 +427,7 @@ namespace btscm
         return false;
     }
 
-    bool IsRobotBoss( CBaseEntity @pMonster )
+    bool IsRobotBoss( CBaseEntity@ pMonster )
     {
         if( pMonster.GetClassname() == "monster_hwgrunt" and pMonster.pev.model == "models/bts_rc/monsters/robothwgrunt.mdl" )
             return true;

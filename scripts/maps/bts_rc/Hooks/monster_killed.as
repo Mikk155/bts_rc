@@ -1,8 +1,8 @@
-HookReturnCode monster_killed( CBaseMonster @monster, CBaseEntity @attacker, int gib )
+HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
 {
     if( monster !is null )
     {
-        dictionary @user_data = monster.GetUserData();
+        dictionary@ user_data = monster.GetUserData();
 
         if( freeedicts( 1 ) )
         {
@@ -119,7 +119,7 @@ HookReturnCode monster_killed( CBaseMonster @monster, CBaseEntity @attacker, int
                     if( monster.GetBodygroup( 1 ) == 1 || gib == GIB_ALWAYS )
                     {
                         // -TODO Should models have an attachment instead of +72 offset?
-                        CBaseEntity @headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
+                        CBaseEntity@ headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin + Vector( 0, 0, 72 ), monster.pev.angles, false, monster.edict() );
 
                         if( headcrab !is null )
                         {
@@ -131,7 +131,7 @@ HookReturnCode monster_killed( CBaseMonster @monster, CBaseEntity @attacker, int
 
             if( drop_item != String::EMPTY_STRING )
             {
-                CBaseEntity @item = g_EntityFuncs.Create( drop_item, monster.Center(), g_vecZero, false, monster.edict() );
+                CBaseEntity@ item = g_EntityFuncs.Create( drop_item, monster.Center(), g_vecZero, false, monster.edict() );
 
                 if( item !is null )
                 {
@@ -145,11 +145,11 @@ HookReturnCode monster_killed( CBaseMonster @monster, CBaseEntity @attacker, int
                 /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles overflow x[ */
                 and !user_data.exists( "bloodpuddle" ) )
             {
-                CBaseEntity @entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
+                CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
 
                 if( entity !is null )
                 {
-                    env_bloodpuddle::env_bloodpuddle @bloodpuddle = cast<env_bloodpuddle::env_bloodpuddle @>( CastToScriptClass( entity ) );
+                    env_bloodpuddle::env_bloodpuddle@ bloodpuddle = cast<env_bloodpuddle::env_bloodpuddle@>( CastToScriptClass( entity ) );
 
                     if( bloodpuddle !is null )
                     {

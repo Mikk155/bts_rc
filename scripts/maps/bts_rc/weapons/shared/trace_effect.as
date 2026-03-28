@@ -15,17 +15,17 @@ namespace weapons
 
         if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
         {
-            CBaseEntity @hit = g_EntityFuncs.Instance( tr.pHit );
+            CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
 
             if( hit !is null )
             {
                 if( gpTraceBlood && tr.iHitgroup != 10 && hit.IsMonster() && freeedicts( 1 ) )
                 {
-                    CBaseMonster @monster = cast<CBaseMonster @>( hit );
+                    CBaseMonster@ monster = cast<CBaseMonster@>( hit );
 
                     if( monster !is null && monster.m_bloodColor != DONT_BLEED )
                     {
-                        CSprite @spr = null;
+                        CSprite@ spr = null;
 
                         if( monster.m_bloodColor == BLOOD_COLOR_RED )
                         {

@@ -4,9 +4,9 @@
 
 namespace lasers
 {
-    array<EHandle> @handles = {};
+    array<EHandle>@ handles = {};
 
-    CSprite @sprite( Vector &in VecPos )
+    CSprite@ sprite( Vector &in VecPos )
     {
         NetworkMessage m2( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
         m2.WriteByte( TE_DLIGHT );
@@ -21,7 +21,7 @@ namespace lasers
         m2.WriteByte( 1 );   // decay in 0.1's
         m2.End();
 
-        CSprite @spr = g_EntityFuncs.CreateSprite( "sprites/glow01.spr", VecPos, true );
+        CSprite@ spr = g_EntityFuncs.CreateSprite( "sprites/glow01.spr", VecPos, true );
 
         if( spr !is null )
         {
@@ -31,7 +31,7 @@ namespace lasers
         return null;
     }
 
-    void add_sentry( CBaseMonster @squad, CBaseEntity @entity )
+    void add_sentry( CBaseMonster@ squad, CBaseEntity@ entity )
     {
         // Sentries are spawned via squadmaker so we can't find them.
         if( entity !is null )
@@ -49,7 +49,7 @@ namespace lasers
 
         for( uint ui = 0; ui < turrets.length(); ui++ )
         {
-            CBaseEntity @entity = null;
+            CBaseEntity@ entity = null;
 
             while( ( @entity = g_EntityFuncs.FindEntityByClassname( entity, turrets[ui] ) ) !is null )
             {
@@ -71,7 +71,7 @@ void lasers_think()
             continue;
         }
 
-        CBaseEntity @entity = handle.GetEntity();
+        CBaseEntity@ entity = handle.GetEntity();
 
         if( entity is null || !entity.IsAlive() )
         {
@@ -83,7 +83,7 @@ void lasers_think()
         if( !freeedicts( 5 ) )
             return;
 
-        CBaseMonster @sentry = cast<CBaseMonster>( entity );
+        CBaseMonster@ sentry = cast<CBaseMonster>( entity );
 
         if( sentry is null || sentry.pev.sequence == 0 || !sentry.IsAlive() )
             continue;
@@ -105,7 +105,7 @@ void lasers_think()
         // Offset of 10 units bellow the eye position
         g_Utility.TraceLine( VecStart, sentry.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, sentry.edict(), tr );
 
-        CSprite @spr_1 = lasers::sprite( VecStart );
+        CSprite@ spr_1 = lasers::sprite( VecStart );
         if( spr_1 !is null )
         {
             spr_1.pev.rendermode = kRenderGlow;          // Glow
@@ -113,7 +113,7 @@ void lasers_think()
             spr_1.pev.rendercolor = Vector( 255, 0, 0 ); // Color of glow
         }
 
-        CSprite @spr_2 = lasers::sprite( tr.vecEndPos );
+        CSprite@ spr_2 = lasers::sprite( tr.vecEndPos );
         if( spr_2 !is null )
         {
             spr_2.pev.rendermode = kRenderTransAdd;      // Additive
