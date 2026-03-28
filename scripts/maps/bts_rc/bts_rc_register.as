@@ -80,7 +80,32 @@ void MapInit()
         g_Game.PrecacheModel( "sprites/glow01.spr" );
     }
 
-    g_Config.get( "force_playermodels", gpForcepModels );
+    if( g_Config.get( "force_playermodels", gpForcepModels ) && gpForcepModels )
+    {
+        g_Game.PrecacheModel( "models/player/bts_barney/bts_barney.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_barney3/bts_barney3.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_cleansuit/bts_cleansuit.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_construction2/bts_construction2.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_construction3/bts_construction3.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op/bts_op.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op2/bts_op2.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op3/bts_op3.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op4/bts_op4.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op5/bts_op5.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op6/bts_op6.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op_band/bts_op_band.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op_free/bts_op_free.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_op_hurt/bts_op_hurt.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_otis/bts_otis.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_otis2/bts_otis2.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_otis_blk/bts_otis_blk.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_scientist2/bts_scientist2.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_scientist3/bts_scientist3.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_scientist4/bts_scientist4.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_scientist5/bts_scientist5.mdl" );
+        g_Game.PrecacheModel( "models/player/bts_scientist6/bts_scientist6.mdl" );
+    }
+
     g_Config.get( "blood_splash", gpTraceBlood );
     g_Config.get( "sparks_splash", gpTraceSparks );
 
