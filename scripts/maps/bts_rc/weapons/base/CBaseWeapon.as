@@ -1,46 +1,29 @@
 mixin class CBaseWeapon
 {
-    // Default flags for weapons
-    protected int m_flags = (ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD);
+#if FALSE
+    CBasePlayerWeapon@ self;
+#endif
+
+    CBasePlayer@ player = null;
 
     // To not cast repeatedly
-    private CBasePlayer @player = null;
-    protected CBasePlayer @get_player()
+    CBasePlayer@ get_player()
     {
-        if (player is null || player !is self.m_hPlayer.GetEntity())
+        if( player is null || player !is self.m_hPlayer.GetEntity() )
         {
-            @player = cast<CBasePlayer>(self.m_hPlayer.GetEntity());
+            @player = cast<CBasePlayer>( self.m_hPlayer.GetEntity() );
         }
         return @player;
     }
 
+    ////////////_---------------------------old shit delete
+    // Default flags for weapons
+    protected int m_flags = (ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD);
+
     // A weapon is deployed
     protected bool bts_deploy(const string&in viewmodel, const string&in playermodel, int animation, const string&in animation_ext, int hands_group, float time = 1.0f)
     {
-        self.DefaultDeploy( self.GetV_Model( viewmodel ), self.GetP_Model( playermodel ), animation, animation_ext, 0, hands_group );
-        m_pPlayer.pev.viewmodel = self.GetV_Model(viewmodel);
-        m_pPlayer.pev.weaponmodel = self.GetP_Model(playermodel);
-
-        m_pPlayer.set_m_szAnimExtension(animation_ext);
-
-        // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
-        pev.body = g_ModelFuncs.SetBodygroup(g_ModelFuncs.ModelIndex(viewmodel), pev.body, hands_group, g_PlayerClass[m_pPlayer]);
-        self.SendWeaponAnim(animation, 0, pev.body);
-
-        m_pPlayer.m_flNextAttack = time; // For some reason the weapon's *Attack functions weren't being called without this.
-
-        time += g_Engine.time;
-
-        if (self.m_flNextPrimaryAttack < time)
-            self.m_flNextPrimaryAttack = time;
-
-        if (self.m_flTimeWeaponIdle < time)
-            self.m_flTimeWeaponIdle = time;
-
-        if (self.m_flNextSecondaryAttack < time)
-            self.m_flNextSecondaryAttack = time;
-
-        return true;
+        return weapons::deploy( get_player(), self, viewmodel, playermodel, animation, animation_ext, hands_group, time );
     }
 
     protected void bts_post_attack(TraceResult&in tr)
@@ -235,15 +218,17 @@ mixin class CBaseWeapon
 
     protected float Accuracy(float tr, float def, float trd, float defd)
     {
-        if (g_PlayerClass.is_trained_personal(m_pPlayer))
+        auto player = get_player();
+
+        if (g_PlayerClass.is_trained_personal(player))
         {
-            if ((m_pPlayer.pev.button & IN_DUCK) != 0)
+            if ((player.pev.button & IN_DUCK) != 0)
             {
                 return trd;
             }
             return tr;
         }
-        else if ((m_pPlayer.pev.button & IN_DUCK) != 0)
+        else if ((player.pev.button & IN_DUCK) != 0)
         {
             return defd;
         }

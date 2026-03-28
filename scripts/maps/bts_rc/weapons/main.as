@@ -1,3 +1,7 @@
+#include "shared/deploy"
+#include "shared/pull_target"
+#include "shared/trace_effect"
+
 #include "base/CBaseMelee"
 #include "base/CBaseWeapon"
 
@@ -43,32 +47,46 @@
 
 namespace weapons
 {
+    array<ItemMapping@> gpItemMapping(0);
+    array<string> gpWeaponNames(0);
+
+    const int gpDefaultFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
+
+    void RegisterWeapon(
+        const string&in entityName,
+        const string&in primaryObject = String::EMPTY_STRING,
+        const string&in primaryEntity = String::EMPTY_STRING,
+        const string&in secondaryObject = String::EMPTY_STRING,
+        const string&in secondaryEntity = String::EMPTY_STRING,
+        const string&in remapEntity = String::EMPTY_STRING
+    )
+    {
+        if( !remapEntity.IsEmpty() )
+        {
+            auto remap = ItemMapping( remapEntity, entityName );
+            gpItemMapping.insertLast( @remap );
+        }
+
+        string objectName;
+        snprintf( objectName, "weapons::%1::%1", entityName, entityName );
+        g_CustomEntityFuncs.RegisterCustomEntity( objectName, entityName );
+        g_ItemRegistry.RegisterWeapon( entityName, "bts_rc/weapons", primaryObject, secondaryObject, primaryEntity, secondaryEntity );
+        gpWeaponNames.insertLast( entityName );
+    }
+
     void MapInit()
     {
-        g_ClassicMode.ForceItemRemap(true);
-        g_ClassicMode.SetItemMappings(
-            {ItemMapping("weapon_9mmhandgun", "ammo_bts_dglocksd"),
-            ItemMapping("weapon_glock", "ammo_bts_dglocksd"),
-            ItemMapping("weapon_357", "ammo_bts_357cyl"),
-            ItemMapping("weapon_eagle", "ammo_bts_dreagle"),
-            ItemMapping("weapon_uzi", "ammo_bts_9mmbox"),
-            ItemMapping("weapon_uziakimbo", "ammo_bts_9mmbox"),
-            ItemMapping("weapon_9mmAR", "ammo_bts_9mmbox"),
-            ItemMapping("weapon_mp5", "ammo_bts_9mmbox"),
-            ItemMapping("weapon_shotgun", "ammo_bts_shotshell"),
-            ItemMapping("weapon_m16", "item_h"), //please consult yourself with line 183 of ammo.as line
-            ItemMapping("weapon_sniperrifle", "weapon_bts_sniperrifle"),
-            ItemMapping("weapon_saw", "ammo_bts_dsaw"),
-            ItemMapping("weapon_m249", "ammo_bts_dsaw"),
-            ItemMapping("weapon_minigun", "ammo_bts_dsaw"),
-            ItemMapping("weapon_rpg", "weapon_bts_m79"),
-            ItemMapping("weapon_medkit", "weapon_bts_medkit")});
+        RegisterWeapon( "weapon_bts_axe" );
+
+        g_ClassicMode.ForceItemRemap( true );
+        g_ClassicMode.SetItemMappings( gpItemMapping );
+        gpItemMapping.resize(0);
+
         // Projectiles
         g_CustomEntityFuncs.RegisterCustomEntity("M79_ROCKET::CM79Rocket", "m79_rocket");
         g_CustomEntityFuncs.RegisterCustomEntity("FLARE::CFlare", "flare");
         g_CustomEntityFuncs.RegisterCustomEntity("BTS_FLAMETHROWER::flame_proj", "flame_proj");
         // Weapon Entities
-        g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_axe::weapon_bts_axe", "weapon_bts_axe");
         g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_pipewrench::weapon_bts_pipewrench", "weapon_bts_pipewrench");
         g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_beretta::weapon_bts_beretta", "weapon_bts_beretta");
         g_CustomEntityFuncs.RegisterCustomEntity("weapon_bts_crowbar::weapon_bts_crowbar", "weapon_bts_crowbar");
@@ -144,7 +162,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity("ammo_bts_uzi", "ammo_bts_uzi");
         g_CustomEntityFuncs.RegisterCustomEntity("ammo_bts_uzisd", "ammo_bts_uzisd");
 
-        g_ItemRegistry.RegisterWeapon("weapon_bts_axe", "bts_rc/weapons");
         g_ItemRegistry.RegisterWeapon("weapon_bts_pipewrench", "bts_rc/weapons");
         g_ItemRegistry.RegisterWeapon("weapon_bts_beretta", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery");
         g_ItemRegistry.RegisterWeapon("weapon_bts_crowbar", "bts_rc/weapons");

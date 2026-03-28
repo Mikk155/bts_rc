@@ -1,396 +1,258 @@
 /*
-* Emergency Fire Axe
+*   Emergency Fire Axe
+*   Rewrited by Rizulix for bts_rc (january 2025)
+*   Rewrited by mikk 27/3/26
 */
-// Rewrited by Rizulix for bts_rc (january 2025)
 
-namespace weapon_bts_axe
+namespace weapons
 {
-    enum axe_e
+    namespace weapon_bts_axe
     {
-        IDLE = 0,
-        DRAW,
-        HOLSTER,
-        ATTACK1HIT,
-        ATTACK1MISS,
-        ATTACK2MISS,
-        ATTACK2HIT,
-        ATTACK3MISS,
-        ATTACK3HIT,
-        IDLE2,
-        IDLE3,
-        SHOVE,
-        SHOVE_ALT,
-        SHOVE_MISS,
-        SHOVE_MISS_ALT
-    };
-
-    class weapon_bts_axe : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
-    {
-        private CBasePlayer@ m_pPlayer { get const { return get_player(); } }
-
-        bool Deploy() {
-            return bts_deploy( "models/bts_rc/weapons/v_axe.mdl", "models/bts_rc/weapons/p_axe.mdl", DRAW, "crowbar", 1 );
-        }
-
-        void Spawn()
+        enum ANIM
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_axe.mdl" ) );
-            self.FallInit();
-        }
+            IDLE1 = 0,
+            DRAW,
+            HOLSTER,
+            ATTACK1HIT,
+            ATTACK1MISS,
+            ATTACK2MISS,
+            ATTACK2HIT,
+            ATTACK3MISS,
+            ATTACK3HIT,
+            IDLE2,
+            IDLE3,
+            SHOVE,
+            SHOVE_ALT,
+            SHOVE_MISS,
+            SHOVE_MISS_ALT
+        };
 
-        bool GetItemInfo( ItemInfo& out info )
+        class weapon_bts_axe : ScriptBasePlayerWeaponEntity, CBaseWeapon
         {
-            info.iMaxAmmo1 = -1;
-            info.iAmmo1Drop = WEAPON_NOCLIP;
-            info.iMaxAmmo2 = -1;
-            info.iAmmo2Drop = -1;
-            info.iMaxClip = WEAPON_NOCLIP;
-            info.iSlot = 0;
-            info.iPosition = 9;
-            info.iId = g_ItemRegistry.GetIdForName( pev.classname );
-            info.iFlags = m_flags;
-            info.iWeight = 10;
-            return true;
-        }
+            int m_iSwing = 0;
+            bool m_IsSecondary = false;
 
-        void Holster( int skiplocal = 0 )
-        {
-            SetThink( null );
-            BaseClass.Holster( skiplocal );
-        }
-
-        void SecondaryAttack()
-        {
-            Shove();
-        }
-
-        void WeaponIdle()
-        {
-            self.ResetEmptySound();
-            m_pPlayer.GetAutoaimVector(AUTOAIM_5DEGREES);
-
-            if (self.m_flTimeWeaponIdle > g_Engine.time)
-                return;
-
-            switch (Math.RandomLong(0, 2))
+            bool Deploy()
             {
-                case 0:
-                    self.SendWeaponAnim(IDLE, 0, pev.body);
-                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
-                    break;
-                case 1:
-                    self.SendWeaponAnim(IDLE2, 0, pev.body);
-                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
-                    break;
-                case 2:
-                    self.SendWeaponAnim(IDLE3, 0, pev.body);
-                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
-                    break;
+                return deploy( get_player(), self,
+                    "models/bts_rc/weapons/v_axe.mdl",
+                    "models/bts_rc/weapons/p_axe.mdl",
+                    ANIM::DRAW,
+                    "crowbar",
+                    1
+                );
             }
-        }
 
-        private bool Swing( bool fFirst )
-        {
-            bool fDidHit = false;
-
-            TraceResult tr;
-
-            Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * 32.0f;
-
-            g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-
-            if( tr.flFraction >= 1.0f )
+            void Spawn()
             {
-                g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, m_pPlayer.edict(), tr );
-                if( tr.flFraction < 1.0f )
+                g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_axe.mdl" );
+                self.FallInit();
+            }
+
+            bool GetItemInfo( ItemInfo& out info )
+            {
+                info.iMaxAmmo1 = -1;
+                info.iAmmo1Drop = WEAPON_NOCLIP;
+                info.iMaxAmmo2 = -1;
+                info.iAmmo2Drop = -1;
+                info.iMaxClip = WEAPON_NOCLIP;
+                info.iSlot = 0;
+                info.iPosition = 9;
+                info.iId = g_ItemRegistry.GetIdForName( pev.classname );
+                info.iFlags = gpDefaultFlags;
+                info.iWeight = 10;
+                return true;
+            }
+
+            void Holster( int skiplocal = 0 )
+            {
+                SetThink( null );
+                BaseClass.Holster( skiplocal );
+            }
+
+            void PrimaryAttack()
+            {
+                m_IsSecondary = false;
+                Attack();
+            }
+
+            void Attack()
+            {
+                if( !Swing( true ) )
                 {
-                    // Calculate the point of intersection of the line (or hull) and the object we hit
-                    // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                    if( pHit is null || pHit.IsBSPModel() )
-                        g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
-                    vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
+                    SetThink( ThinkFunction( this.SwingAgain ) );
+                    pev.nextthink = g_Engine.time + 0.1f;
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
-
-            if( tr.flFraction >= 1.0f )
+            void SwingAgain()
             {
-                if( fFirst )
+                Swing( false );
+            }
+
+            void SecondaryAttack()
+            {
+                m_IsSecondary = true;
+                Attack();
+            }
+
+            void WeaponIdle()
+            {
+                if( g_Engine.time > self.m_flTimeWeaponIdle )
                 {
-                    // miss
-                    switch( ( m_iSwing++ ) % 3 )
+                    switch( Math.RandomLong( 0, 2 ) )
                     {
-                        case 0: self.SendWeaponAnim( ATTACK1MISS, 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( ATTACK2MISS, 0, pev.body ); break;
-                        case 2: self.SendWeaponAnim( ATTACK3MISS, 0, pev.body ); break;
+                        case 0: self.SendWeaponAnim( ANIM::IDLE1, 0, pev.body ); break;
+                        case 1: self.SendWeaponAnim( ANIM::IDLE2, 0, pev.body ); break;
+                        case 2: self.SendWeaponAnim( ANIM::IDLE3, 0, pev.body ); break;
                     }
-                    self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
-                    self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
+
+                    self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
+                }
+            }
+
+            bool Swing( bool fFirst )
+            {
+                auto player = get_player();
+
+                bool fDidHit = false;
+
+                TraceResult tr;
+
+                Math.MakeVectors( player.pev.v_angle );
+
+                Vector vecSrc = player.GetGunPosition();
+                Vector vecEnd = vecSrc + g_Engine.v_forward * 45.0f;
+
+                g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
+
+                bool is_trained_personal = g_PlayerClass.is_trained_personal( player );
+
+                if( tr.flFraction >= 1.0f )
+                {
+                    if( fFirst )
+                    {
+                        // miss
+                        switch( ( m_iSwing++ ) % 3 )
+                        {
+                            case 0: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS : ANIM::ATTACK1MISS ), 0, pev.body ); break;
+                            case 1: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS_ALT : ANIM::ATTACK2MISS ), 0, pev.body ); break;
+                            case 2: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_MISS : ANIM::ATTACK3MISS ), 0, pev.body ); break;
+                        }
+
+                        self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
+                        self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
+                        self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
+
+                        // play wiff or swish sound
+                        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+
+                        // player "shoot" animation
+                        player.SetAnimation( PLAYER_ATTACK1 );
+                    }
+                }
+                else
+                {
+                    if( tr.flFraction >= 1.0f )
+                    {
+                        g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, player.edict(), tr );
+
+                        if( tr.flFraction < 1.0f )
+                        {
+                            // Calculate the point of intersection of the line (or hull) and the object we hit
+                            // This is and approximation of the "best" intersection
+                            CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
+
+                            if( pHit is null || pHit.IsBSPModel() )
+                            {
+                                g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, player.edict() );
+                            }
+
+                            vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
+                        }
+                    }
+
+                    // hit
+                    fDidHit = true;
+
+                    switch( ( ( m_iSwing++ ) % 2 ) + 1 )
+                    {
+                        case 0: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE : ANIM::ATTACK1HIT ), 0, pev.body ); break;
+                        case 1: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE_ALT : ANIM::ATTACK2HIT ), 0, pev.body ); break;
+                        case 2: self.SendWeaponAnim( ( m_IsSecondary ? ANIM::SHOVE : ANIM::ATTACK3HIT ), 0, pev.body ); break;
+                    }
+
+                    if( m_IsSecondary )
+                        self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
+                    else
+                        self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.4f : 0.8f );
+
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
-                    // play wiff or swish sound
-                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-
                     // player "shoot" animation
-                    m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-                }
-            }
-            else
-            {
-                // hit
-                fDidHit = true;
+                    player.SetAnimation( PLAYER_ATTACK1 );
 
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
+                    // play thwack, smack, or dong sound
+                    float flVol = 1.0f;
+                    bool fHitWorld = true;
 
-                switch( ( ( m_iSwing++ ) % 2 ) + 1 )
-                {
-                    case 0: self.SendWeaponAnim( ATTACK1HIT, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ATTACK2HIT, 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( ATTACK3HIT, 0, pev.body ); break;
-                }
+                    CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
-                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
-                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.4f : 0.8f );
-                self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
-
-                // player "shoot" animation
-                m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-
-                g_WeaponFuncs.ClearMultiDamage();
-
-                if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, 20.0f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // first swing does full damage
-                else
-                    pEntity.TraceAttack( m_pPlayer.pev, 20.0f * 0.5f, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB); // subsequent swings do 50% (Changed -Sniper) (Half)
-
-                g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
-
-                // play thwack, smack, or dong sound
-                float flVol = 1.0f;
-                bool fHitWorld = true;
-
-                // for monsters or breakable entity smacking speed function
-                if( pEntity !is null )
-                {
-                    if( pEntity.Classify() != CLASS_NONE && pEntity.Classify() != CLASS_MACHINE && pEntity.BloodColor() != DONT_BLEED )
+                    if( pEntity !is null )
                     {
-                        // aone
-                        if( pEntity.IsPlayer() ) // lets pull them
-                            pEntity.pev.velocity = pEntity.pev.velocity + ( pev.origin - pEntity.pev.origin ).Normalize() * 120.0f;
-                        // end aone
+                        g_WeaponFuncs.ClearMultiDamage();
 
-                        // play thwack or smack sound
-                        switch( Math.RandomLong( 1, 3 ) )
+                        // subsequent swings do 50% damage
+                        float subsequent = ( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time ) ? 1.0 : 0.5f;
+                        pEntity.TraceAttack( player.pev, ( m_IsSecondary ? 14.0f : 20.0f ) * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
+
+                        g_WeaponFuncs.ApplyMultiDamage( player.pev, player.pev );
+
+                        int classify = pEntity.Classify();
+
+                        if( classify != CLASS_NONE && classify != CLASS_MACHINE && pEntity.BloodColor() != DONT_BLEED )
                         {
-                            case 3:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
-                            case 2:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
-                            default:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
+                            pull_target( player.pev.origin, pEntity );
+
+                            // play thwack or smack sound
+                            switch( Math.RandomLong( 0, 2 ) )
+                            {
+                                case 0: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM ); break;
+                                case 1: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM ); break;
+                                case 2: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM ); break;
+                            }
+
+                            player.m_iWeaponVolume = 128;
+
+                            if( !pEntity.IsAlive() )
+                                return true;
+                            else
+                                flVol = 0.1f;
+
+                            fHitWorld = false;
                         }
-
-                        m_pPlayer.m_iWeaponVolume = 128;
-
-                        if( !pEntity.IsAlive() )
-                            return true;
-                        else
-                            flVol = 0.1f;
-
-                        fHitWorld = false;
                     }
-                }
 
-                // play texture hit sound
-                // UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
-
-                if( fHitWorld )
-                {
-                    g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
-
-                    // also play crowbar strike
-                    switch( Math.RandomLong( 1, 2 ) )
+                    if( fHitWorld )
                     {
-                        case 2:
-                            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
-                        default:
-                            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
-                    }
-                }
+                        g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
 
-                // delay the decal a bit
-                m_trHit = tr;
-                bts_post_attack(tr);
-                SetThink( ThinkFunction( this.Smack ) );
-                pev.nextthink = g_Engine.time + 0.2f;
+                        int pitch = ( m_IsSecondary ? 93 : 98 ) + Math.RandomLong( 0, 3 );
 
-                m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
-            }
-            return fDidHit;
-        }
-
-        private bool Shove()
-        {
-            bool fDidHit = false;
-
-            TraceResult tr;
-
-            Math.MakeVectors( m_pPlayer.pev.v_angle );
-            Vector vecSrc   = m_pPlayer.GetGunPosition();
-            Vector vecEnd   = vecSrc + g_Engine.v_forward * 32.0f;
-
-            g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
-
-            if( tr.flFraction >= 1.0f )
-            {
-                g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, m_pPlayer.edict(), tr );
-                if( tr.flFraction < 1.0f )
-                {
-                    // Calculate the point of intersection of the line (or hull) and the object we hit
-                    // This is and approximation of the "best" intersection
-                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                    if( pHit is null || pHit.IsBSPModel() )
-                        g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
-                    vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
-                }
-            }
-
-            bool is_trained_personal = g_PlayerClass.is_trained_personal(m_pPlayer);
-
-            if( tr.flFraction >= 1.0f )
-            {
-                // miss
-                switch( ( m_iSwing++ ) % 3 )
-                {
-                    case 0: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( SHOVE_MISS_ALT, 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( SHOVE_MISS, 0, pev.body ); break;
-                }
-                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
-                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
-                self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
-
-                // play wiff or swish sound
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 92 + Math.RandomLong( 0, 0xF ) );
-
-                // player "shoot" animation
-                m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-            }
-            else
-            {
-                // hit
-                fDidHit = true;
-
-                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
-
-                switch( ( ( m_iSwing++ ) % 2 ) + 1 )
-                {
-                    case 0: self.SendWeaponAnim( SHOVE, 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( SHOVE_ALT, 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( SHOVE, 0, pev.body ); break;
-                }
-
-                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
-                self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 0.4f : 0.8f );
-                self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
-
-                // player "shoot" animation
-                m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-
-                g_WeaponFuncs.ClearMultiDamage();
-                
-                // aone
-                    if( pEntity !is null && ( pEntity.IsPlayer() || pEntity.IsMonster() ) )
-                    {
-                        pEntity.pev.velocity = pEntity.pev.velocity +
-                            ( self.pev.origin - pEntity.pev.origin ).Normalize() * -250;
-                    }
-                // end aone
-
-
-                if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                    pEntity.TraceAttack( m_pPlayer.pev, 14.0f, g_Engine.v_forward, tr, DMG_LAUNCH | DMG_CLUB); // first swing does full damage
-                else
-                    pEntity.TraceAttack( m_pPlayer.pev, 14.0f * 0.5f, g_Engine.v_forward, tr, DMG_LAUNCH | DMG_CLUB); // subsequent swings do 50% (Changed -Sniper) (Half)
-
-                g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
-
-                // play thwack, smack, or dong sound
-                float flVol = 1.0f;
-                bool fHitWorld = true;
-
-                // for monsters or breakable entity smacking speed function
-                if( pEntity !is null )
-                {
-                    if( pEntity.Classify() != CLASS_NONE && pEntity.Classify() != CLASS_MACHINE && pEntity.BloodColor() != DONT_BLEED )
-                    {
-                        // aone
-                        if( pEntity.IsPlayer() ) // lets pull them
-                            pEntity.pev.velocity = pEntity.pev.velocity + ( pev.origin - pEntity.pev.origin ).Normalize() * 120.0f;
-                        // end aone
-
-                        // play thwack or smack sound
-                        switch( Math.RandomLong( 1, 3 ) )
+                        // also play crowbar strike
+                        switch( Math.RandomLong( 0, 1 ) )
                         {
-                            case 3:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
-                            case 2:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
-                            default:
-                                g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
+                            case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
+                            case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
                         }
-
-                        m_pPlayer.m_iWeaponVolume = 128;
-
-                        if( !pEntity.IsAlive() )
-                            return true;
-                        else
-                            flVol = 0.1f;
-
-                        fHitWorld = false;
                     }
+
+                    trace_effect( tr, Bullet::BULLET_PLAYER_CROWBAR, 0.2f );
+
+                    player.m_iWeaponVolume = int( flVol * 512 );
                 }
-
-                // play texture hit sound
-                // UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
-
-                if( fHitWorld )
-                {
-                    g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
-
-                    // also play crowbar strike
-                    switch( Math.RandomLong( 1, 2 ) )
-                    {
-                        case 2:
-                            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, 93 + Math.RandomLong( 0, 3 ) );
-                        break;
-                        default:
-                            g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, 93 + Math.RandomLong( 0, 3 ) );
-                        break;
-                    }
-                }
-
-                // delay the decal a bit
-                m_trHit = tr;
-                bts_post_attack(tr);
-                SetThink( ThinkFunction( this.Smack ) );
-                pev.nextthink = g_Engine.time + 0.2f;
-
-                m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
+                return fDidHit;
             }
-            return fDidHit;
         }
     }
 }
