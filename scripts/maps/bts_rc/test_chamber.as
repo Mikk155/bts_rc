@@ -11,13 +11,13 @@ namespace test_chamber
         return true;
     }
 
-    HookReturnCode PlayerSpawn( CBasePlayer @player )
+    HookReturnCode PlayerSpawn( CBasePlayer@ player )
     {
         g_SurvivalMode.Disable();
         return HOOK_CONTINUE;
     }
 
-    HookReturnCode WhatsThat( CBasePlayer @player )
+    HookReturnCode WhatsThat( CBasePlayer@ player )
     {
         if( player is null )
             return HOOK_CONTINUE;
@@ -28,7 +28,7 @@ namespace test_chamber
 
         if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
         {
-            CBaseEntity @hit = g_EntityFuncs.Instance( tr.pHit );
+            CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
 
             if( hit !is null && hit.GetCustomKeyvalues().HasKeyvalue( "$s_message" ) )
             {
@@ -52,7 +52,7 @@ namespace test_chamber
             g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
         }
 
-        void Touch( CBaseEntity @pOther )
+        void Touch( CBaseEntity@ pOther )
         {
             if( pOther !is null && pOther.IsPlayer() )
             {
@@ -73,7 +73,7 @@ namespace test_chamber
                 HudParams.channel = 3;
                 HudParams.y = 0.90;
 
-                g_PlayerFuncs.HudMessage( cast<CBasePlayer @>( pOther ), HudParams, string( self.pev.message ) + "\n" );
+                g_PlayerFuncs.HudMessage( cast<CBasePlayer@>( pOther ), HudParams, string( self.pev.message ) + "\n" );
             }
         }
     }

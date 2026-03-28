@@ -1,14 +1,14 @@
 namespace randomizer
 {
     // Swap a specific squad to a random location.
-    void randomize_squad( CBaseMonster @squad, CBaseEntity @entity )
+    void randomize_squad( CBaseMonster@ squad, CBaseEntity@ entity )
     {
         if( squad is null )
             return;
 
         if( g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
         {
-            CBaseEntity @owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
+            CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
 
             if( owner_spot !is null )
             {
@@ -21,7 +21,7 @@ namespace randomizer
     }
 
     // Swap all squads to a random and unique location.
-    void randomize( CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue )
+    void randomize( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
     {
         g_RandomizerHeadcrab.init();
         g_RandomizerNpc.init();
@@ -75,7 +75,7 @@ namespace randomizer
         }
 
         // Swap the given squadmaker with the given randomizer position.
-        void Use( CBaseEntity @squad, CBaseEntity @randomizer, USE_TYPE use, float value )
+        void Use( CBaseEntity@ squad, CBaseEntity@ randomizer, USE_TYPE use, float value )
         {
             switch( use )
             {
@@ -185,7 +185,7 @@ namespace randomizer
         }
 
         // List of entities names for this class
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {};
         }
@@ -199,7 +199,7 @@ namespace randomizer
             string target;
             snprintf( target, "randomizer_%1", name );
             // Find all randomizers and store them in indexes
-            CBaseEntity @pRandomizer = null;
+            CBaseEntity@ pRandomizer = null;
             while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, target ) ) !is null )
             {
                 this.indexes.insertLast( pRandomizer.entindex() );
@@ -246,7 +246,7 @@ namespace randomizer
             return "headcrab";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 "GM_HEAD_S1",
@@ -272,7 +272,7 @@ namespace randomizer
             return "item";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 // WEAPONS
@@ -402,7 +402,7 @@ namespace randomizer
             return "hull";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 "GM_GONOME_S7",
@@ -434,7 +434,7 @@ namespace randomizer
             return "boss";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 "GM_KPIN_S1",
@@ -451,7 +451,7 @@ namespace randomizer
             return "npc";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 "GM_SNAP_S1",
@@ -523,7 +523,7 @@ namespace randomizer
             return "wave";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 "GM_R_SLAVE_S1",
@@ -561,7 +561,7 @@ namespace randomizer
             return "hullwave";
         }
 
-        array<string> @entities()
+        array<string>@ entities()
         {
             return {
                 "GM_R_BGARG_S1",

@@ -39,7 +39,7 @@ namespace weapon_bts_flaregun
 
     class weapon_bts_flaregun : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {

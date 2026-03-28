@@ -6,14 +6,14 @@ namespace meta_api
         uint __size__;
 
         // Lambda used for AS string deserialize
-        funcdef dictionary __ParseObject__( const string &in serialized, __ParseObject__ @ParseObject, __ParseObject__ @ParseArray );
+        funcdef dictionary __ParseObject__( const string&in serialized, __ParseObject__@ ParseObject, __ParseObject__@ ParseArray );
         // Lambda used for AS string serialize
-        funcdef string __SerializeObject__( dictionary @obj, __SerializeObject__ @SerializeObject, int indents, int depth );
+        funcdef string __SerializeObject__( dictionary@ obj, __SerializeObject__@ SerializeObject, int indents, int depth );
 
         /**
-         *   @brief return whatever str is a valid file name and formats the output filename
-         **/
-        bool GetFilename( const string &in str, string &out filename )
+        *   @brief return whatever str is a valid file name and formats the output filename
+        **/
+        bool GetFilename( const string&in str, string&out filename )
         {
             if( str.EndsWith( ".json" ) )
             {
@@ -35,11 +35,11 @@ namespace meta_api
         }
 
         /**
-         *   @brief Deserializes str into obj,
-         *   If str ends with ".json" we will open a file. No need to specify scripts/plugins/ or scripts/maps/ it will be automatically detected.
-         *   If str is a file and is pointing to store/ and the file couldn't be opened it will be writed and return {}
-         **/
-        bool Deserialize( const string &in str, dictionary &out obj )
+        *   @brief Deserializes str into obj,
+        *   If str ends with ".json" we will open a file. No need to specify scripts/plugins/ or scripts/maps/ it will be automatically detected.
+        *   If str is a file and is pointing to store/ and the file couldn't be opened it will be writed and return {}
+        **/
+        bool Deserialize( const string&in str, dictionary&out obj )
         {
             // AS copy
             string serialized = String::EMPTY_STRING;
@@ -87,8 +87,8 @@ namespace meta_api
             }
 
 #if METAMOD_PLUGIN_ASLP
-            if( true ) // HACK HACK: Fix Unreachable code error since we don't get the #else keyword.
-                return aslp::json::Deserialize( str, obj );
+        if( true ) // HACK HACK: Fix Unreachable code error since we don't get the #else keyword.
+            return aslp::json::Deserialize( str, obj );
 #endif
 
             // No file loaded?
@@ -98,14 +98,15 @@ namespace meta_api
                 serialized.Trim( ' ' );
             }
 
-            auto ParseObject = __ParseObject__( function( const string &in serialized, __ParseObject__ @ParseObject, __ParseObject__ @ParseArray ) {
+            auto ParseObject = __ParseObject__( function( const string&in serialized, __ParseObject__@ ParseObject, __ParseObject__@ ParseArray )
+            {
                 dictionary obj;
 
                 string key = String::EMPTY_STRING;
                 string value = String::EMPTY_STRING;
                 bool in_string = false;
                 bool is_escaped = false;
-
+                
                 bool reading_commentary = false;
                 bool single_commentary = false;
                 bool reading_key = true;
@@ -139,12 +140,12 @@ namespace meta_api
                         if( c == '"' && !was_escaped )
                         {
                             in_string = false;
-
+                            
                             if( !reading_key )
                             {
                                 value_is_string = true;
                             }
-
+                            
                             continue;
                         }
                         else if( c == '\\' && !was_escaped )
@@ -155,12 +156,9 @@ namespace meta_api
 
                         if( was_escaped )
                         {
-                            if( c == 'n' )
-                                c = '\n';
-                            else if( c == 't' )
-                                c = '\t';
-                            else if( c == 'r' )
-                                c = '\r';
+                            if( c == 'n' ) c = '\n';
+                            else if( c == 't' ) c = '\t';
+                            else if( c == 'r' ) c = '\r';
                         }
 
                         if( reading_key )
@@ -215,7 +213,7 @@ namespace meta_api
                             return obj;
                         }
 
-                        obj[key] = ParseObject( serialized, ParseObject, ParseArray );
+                        obj[ key ] = ParseObject( serialized, ParseObject, ParseArray );
                         just_parsed_child = true;
                     }
                     else if( c == '[' )
@@ -231,7 +229,7 @@ namespace meta_api
                             return obj;
                         }
 
-                        obj[key] = ParseArray( serialized, ParseObject, ParseArray );
+                        obj[ key ] = ParseArray( serialized, ParseObject, ParseArray );
                         just_parsed_child = true;
                     }
                     else if( c == ',' || c == '}' )
@@ -256,11 +254,11 @@ namespace meta_api
                             }
                             else if( g_Utility.IsStringFloat( value ) )
                             {
-                                obj.set( key, atof( value ) );
+                                obj.set( key, atof( value ) ); 
                             }
                             else if( g_Utility.IsStringInt( value ) )
                             {
-                                obj.set( key, atoi( value ) );
+                                obj.set( key, atoi( value ) ); 
                             }
                             else if( value == "false" )
                             {
@@ -272,7 +270,7 @@ namespace meta_api
                             }
                             else if( value == "null" )
                             {
-                                obj.set( key, string( "__null__" ) );
+                                obj.set( key, string("__null__") );
                             }
                             else if( value != String::EMPTY_STRING )
                             {
@@ -322,14 +320,15 @@ namespace meta_api
                 return obj;
             } );
 
-            auto ParseArray = __ParseObject__( function( const string &in serialized, __ParseObject__ @ParseObject, __ParseObject__ @ParseArray ) {
+            auto ParseArray = __ParseObject__( function( const string&in serialized, __ParseObject__@ ParseObject, __ParseObject__@ ParseArray )
+            {
                 dictionary obj;
 
                 uint item_index = 0;
                 string value = String::EMPTY_STRING;
                 bool in_string = false;
                 bool is_escaped = false;
-
+                
                 bool value_is_string = false;
                 bool just_parsed_child = false;
 
@@ -358,12 +357,9 @@ namespace meta_api
 
                         if( was_escaped )
                         {
-                            if( c == 'n' )
-                                c = '\n';
-                            else if( c == 't' )
-                                c = '\t';
-                            else if( c == 'r' )
-                                c = '\r';
+                            if( c == 'n' ) c = '\n';
+                            else if( c == 't' ) c = '\t';
+                            else if( c == 'r' ) c = '\r';
                         }
 
                         value += c;
@@ -434,7 +430,7 @@ namespace meta_api
                             }
                             else if( value == "null" )
                             {
-                                obj.set( string( item_index ), string( "__null__" ) );
+                                obj.set( string( item_index ), string("__null__") );
                             }
                             else if( value != String::EMPTY_STRING )
                             {
@@ -481,7 +477,7 @@ namespace meta_api
             while( start_idx < __size__ )
             {
                 char check( serialized[start_idx] );
-
+                
                 if( check == ' ' || check == '\n' || check == '\r' || check == '\t' )
                 {
                     start_idx++;
@@ -521,15 +517,16 @@ namespace meta_api
         }
 
         /**
-         *   @brief Serializes obj.
-         *   indents: -1 = single line, >= 0 = base tabs for root
-         *   filename: if not empty, a file name to write in "scripts/<module type>/store/<filename>.json"
-         **/
-        string Serialize( dictionary @obj, int indents = -1, string filename = String::EMPTY_STRING )
+        *   @brief Serializes obj.
+        *   indents: -1 = single line, >= 0 = base tabs for root
+        *   filename: if not empty, a file name to write in "scripts/<module type>/store/<filename>.json"
+        **/
+        string Serialize( dictionary@ obj, int indents = -1, string filename = String::EMPTY_STRING )
         {
-            auto SerializeObject = __SerializeObject__( function( dictionary @obj, __SerializeObject__ @SerializeObject, int indents, int depth ) {
-                array<string> @keys = obj.getKeys();
-
+            auto SerializeObject = __SerializeObject__( function( dictionary@ obj, __SerializeObject__@ SerializeObject, int indents, int depth )
+            {
+                array<string>@ keys = obj.getKeys();
+                
                 if( keys.length() == 0 )
                 {
                     return "{}";
@@ -546,7 +543,7 @@ namespace meta_api
                 }
 
                 string newline = ( indents >= 0 ) ? "\n" : "";
-
+                
                 string indent_str = String::EMPTY_STRING;
                 string indent_inner = String::EMPTY_STRING;
 
@@ -581,12 +578,12 @@ namespace meta_api
                         escaped_key.Replace( "\n", "\\n" );
                         escaped_key.Replace( "\r", "\\r" );
                         escaped_key.Replace( "\t", "\\t" );
-
+                        
                         buffer += "\"" + escaped_key + "\": ";
                     }
 
                     string strValue;
-                    dictionary @objValue = null;
+                    dictionary@ objValue = null; 
                     int iValue;
                     float fValue;
 
@@ -603,7 +600,7 @@ namespace meta_api
                             strValue.Replace( "\n", "\\n" );
                             strValue.Replace( "\r", "\\r" );
                             strValue.Replace( "\t", "\\t" );
-
+                            
                             buffer += "\"" + strValue + "\"";
                         }
                     }
@@ -656,11 +653,11 @@ namespace meta_api
 
             return str;
         }
-
+        
         /**
-         *   @brief Return whatever the given obj has an object at key containing the current map name in it.
-         **/
-        bool IsMapListed( dictionary @obj, const string &in key = "map_blacklist" )
+        *   @brief Return whatever the given obj has an object at key containing the current map name in it.
+        **/
+        bool IsMapListed( dictionary@ obj, const string&in key = "map_blacklist" )
         {
             dictionary map_blacklist;
             if( obj.get( key, map_blacklist ) )
@@ -669,7 +666,7 @@ namespace meta_api
 
                 for( uint ui = 0; ui < map_blacklist.getSize(); ui++ )
                 {
-                    if( mapname == string( map_blacklist[ui] ) )
+                    if( mapname == string( map_blacklist[ ui ] ) )
                     {
                         return true;
                     }
@@ -679,9 +676,9 @@ namespace meta_api
         }
 
         /**
-         *   @brief converts the given obj to a list of string. any type that is not a string will be skipped.
-         **/
-        array<string> ToArray( dictionary @obj )
+        *   @brief converts the given obj to a list of string. any type that is not a string will be skipped.
+        **/
+        array<string> ToArray( dictionary@ obj )
         {
             uint size = obj.getSize();
 
@@ -692,24 +689,24 @@ namespace meta_api
                 string value;
                 if( !obj.get( string( ui ), value ) )
                     return {};
-                List[ui] = value;
+                List[ ui ] = value;
             }
 
             return List;
         }
 
         /**
-         *   @brief converts the given obj to a list of string. any type that is not a string will be skipped.
-         **/
-        array<string> ToArray( dictionaryValue &in obj )
+        *   @brief converts the given obj to a list of string. any type that is not a string will be skipped.
+        **/
+        array<string> ToArray( dictionaryValue&in obj )
         {
             return ToArray( cast<dictionary>( obj ) );
         }
 
         /**
-         *   @brief converts the given obj to a list of dictionaryValue
-         **/
-        array<dictionaryValue> ToAnyArray( dictionary @obj )
+        *   @brief converts the given obj to a list of dictionaryValue
+        **/
+        array<dictionaryValue> ToAnyArray( dictionary@ obj )
         {
             uint size = obj.getSize();
 
@@ -720,7 +717,7 @@ namespace meta_api
                 dictionaryValue value;
                 if( !obj.get( string( ui ), value ) )
                     return {};
-                List[ui] = value;
+                List[ ui ] = value;
             }
 
             return List;

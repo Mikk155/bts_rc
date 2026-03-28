@@ -7,7 +7,7 @@ namespace point_checkpoint
 
     class point_checkpoint : ScriptBaseAnimating
     {
-        private CSprite @m_pSprite;
+        private CSprite@ m_pSprite;
         private int m_iNextPlayerToRevive = 1;
 
         // How much time between being triggered and starting the revival of dead players
@@ -191,14 +191,14 @@ namespace point_checkpoint
             msg.End();
         }
 
-        void Touch( CBaseEntity @pOther )
+        void Touch( CBaseEntity@ pOther )
         {
             if( !IsEnabled() || IsActivated() || !pOther.IsPlayer() )
                 return;
 
             if( ( pOther.pev.button & IN_USE ) == 0 )
             {
-                CBasePlayer @player = cast<CBasePlayer @>( pOther );
+                CBasePlayer@ player = cast<CBasePlayer@>( pOther );
 
                 if( player !is null )
                 {
@@ -305,7 +305,7 @@ namespace point_checkpoint
         // Revives 1 player every m_flDelayBetweenRevive seconds, if any players need reviving.
         void RespawnThink()
         {
-            CBasePlayer @pPlayer;
+            CBasePlayer@ pPlayer;
 
             for( ; m_iNextPlayerToRevive <= g_Engine.maxClients; ++m_iNextPlayerToRevive )
             {
@@ -322,7 +322,7 @@ namespace point_checkpoint
 
                     // Call player equip
                     // Only disable default giving if there are game_player_equip entities in give mode
-                    CBaseEntity @pEquipEntity = null;
+                    CBaseEntity@ pEquipEntity = null;
                     while( ( @pEquipEntity = g_EntityFuncs.FindEntityByClassname( pEquipEntity, "game_player_equip" ) ) !is null )
                         pEquipEntity.Touch( pPlayer );
 

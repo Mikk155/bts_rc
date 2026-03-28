@@ -25,15 +25,6 @@ namespace env_bloodpuddle
             self.pev.solid = SOLID_NOT;
             g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
 
-#if DISCARDED
-            uisize = CONST_BLOODPUDDLE_SND.length();
-
-            if( uisize > 0 )
-            {
-                self.pev.solid = SOLID_BBOX;
-                SetTouch( TouchFunction( this.touch ) );
-            }
-#endif
             SetThink( ThinkFunction( this.think ) );
 
             g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
@@ -104,17 +95,5 @@ namespace env_bloodpuddle
                 }
             }
         }
-
-#if DISCARDED
-        void touch( CBaseEntity @other )
-        {
-            if( g_Engine.time > last_time && other !is null && other.IsPlayer() )
-            {
-                g_SoundSystem.PlaySound( self.edict(), CHAN_BODY, CONST_BLOODPUDDLE_SND[Math.RandomLong( 0, uisize - 1 )], 0.5, ATTN_NORM, 0, PITCH_NORM, 0, true, self.GetOrigin() );
-
-                last_time = g_Engine.time + 0.3f;
-            }
-        }
-#endif
     }
 }

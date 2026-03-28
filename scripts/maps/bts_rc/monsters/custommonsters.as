@@ -14,7 +14,7 @@
 namespace btscm
 {
 
-    CScheduledFunction @g_monsterThink = null;
+    CScheduledFunction@ g_monsterThink = null;
 
     void CustomMonsterMapInit()
     {
@@ -46,7 +46,7 @@ namespace btscm
         ZombieThink();
     }
 
-    HookReturnCode MonsterKilled( CBaseMonster @pMonster, CBaseEntity @pAttacker, int iGib )
+    HookReturnCode MonsterKilled( CBaseMonster@ pMonster, CBaseEntity@ pAttacker, int iGib )
     {
         if( ( IsRobot( pMonster ) or IsRobotBoss( pMonster ) ) and pMonster.pev.deadflag == DEAD_NO )
         {
@@ -62,9 +62,9 @@ namespace btscm
         return HOOK_CONTINUE;
     }
 
-    HookReturnCode PlayerTakeDamage( DamageInfo @pDamageInfo )
+    HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
     {
-        CBasePlayer @pPlayer = cast<CBasePlayer @>( pDamageInfo.pVictim );
+        CBasePlayer@ pPlayer = cast<CBasePlayer@>( pDamageInfo.pVictim );
 
         if( pPlayer.m_LastHitGroup != HITGROUP_CHEST or pPlayer.FInViewCone( pDamageInfo.pAttacker ) )
             return HOOK_CONTINUE;
@@ -74,13 +74,13 @@ namespace btscm
         return HOOK_CONTINUE;
     }
 
-    void RemoveSnapbug( CBasePlayer @pPlayer, float flDamage = 0.0 )
+    void RemoveSnapbug( CBasePlayer@ pPlayer, float flDamage = 0.0 )
     {
-        CustomKeyvalues @pCustom = pPlayer.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pPlayer.GetCustomKeyvalues();
         if( pCustom.GetKeyvalue( monster_snapbug::KVN_SNAPBUGGED ).GetInteger() != 1 )
             return;
 
-        CBaseEntity @pSnapbug = null;
+        CBaseEntity@ pSnapbug = null;
         while( ( @pSnapbug = g_EntityFuncs.FindEntityByClassname( pSnapbug, monster_snapbug::NPC_CLASSNAME2 ) ) !is null )
         {
             if( pSnapbug.pev.owner !is null and pSnapbug.pev.owner is pPlayer.edict() )
@@ -102,7 +102,7 @@ namespace btscm
         center.x += Math.RandomFloat( -randomRange, randomRange );
         center.y += Math.RandomFloat( -randomRange, randomRange );
 
-        CBaseEntity @pExplosion = g_EntityFuncs.Create( "env_explosion", center, g_vecZero, false );
+        CBaseEntity@ pExplosion = g_EntityFuncs.Create( "env_explosion", center, g_vecZero, false );
         pExplosion.KeyValue( "iMagnitude", string( magnitude ) );
 
         g_EntityFuncs.DispatchSpawn( pExplosion.edict() );

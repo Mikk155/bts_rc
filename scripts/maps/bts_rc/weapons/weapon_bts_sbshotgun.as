@@ -50,7 +50,7 @@ namespace weapon_bts_sbshotgun
 
     class weapon_bts_sbshotgun : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -227,7 +227,7 @@ namespace weapon_bts_sbshotgun
             float x, y;
             Vector vecDir, vecEnd;
             TraceResult tr;
-            CBaseEntity @pHit;
+            CBaseEntity@ pHit;
             for( int i = 0; i < PELLETS; i++ )
             {
                 g_Utility.GetCircularGaussianSpread( x, y );

@@ -46,7 +46,7 @@ namespace weapon_bts_pipewrench
 
     class weapon_bts_pipewrench : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -133,7 +133,7 @@ namespace weapon_bts_pipewrench
         private void Throw()
         {
             Math.MakeVectors( m_pPlayer.pev.v_angle );
-            CBaseEntity @pOwner = self.m_hPlayer.GetEntity();
+            CBaseEntity@ pOwner = self.m_hPlayer.GetEntity();
             Vector vecSrc = m_pPlayer.GetGunPosition() + ( g_Engine.v_right * 8.0f ) + ( g_Engine.v_up * -8.0f );
 
             // This will be null when dropweapons is disabled
@@ -177,7 +177,7 @@ namespace weapon_bts_pipewrench
             }
         }
 
-        private void ThrowTouch( CBaseEntity @pOther )
+        private void ThrowTouch( CBaseEntity@ pOther )
         {
             if( pOther.pev.ClassNameIs( pev.classname ) )
                 return;
@@ -277,7 +277,7 @@ namespace weapon_bts_pipewrench
         {
         }
 
-        private void DummyTouch( CBaseEntity @pOther )
+        private void DummyTouch( CBaseEntity@ pOther )
         {
         }
         // THROW LOGIC ENDS HERE!!!
@@ -342,7 +342,7 @@ namespace weapon_bts_pipewrench
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -383,7 +383,7 @@ namespace weapon_bts_pipewrench
                 // hit
                 fDidHit = true;
 
-                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 switch( ( ( m_iSwing++ ) % 2 ) + 1 )
                 {
@@ -501,7 +501,7 @@ namespace weapon_bts_pipewrench
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -526,7 +526,7 @@ namespace weapon_bts_pipewrench
             else
             {
                 // hit
-                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 m_iSwing++;
                 self.SendWeaponAnim( ATTACKBIGHIT, 0, pev.body );

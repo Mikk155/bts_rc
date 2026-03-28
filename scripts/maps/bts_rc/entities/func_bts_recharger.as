@@ -67,12 +67,12 @@ namespace func_bts_recharger
             return ( BaseClass.ObjectCaps() | FCAP_CONTINUOUS_USE ) & ~FCAP_ACROSS_TRANSITION;
         }
 
-        void Use( CBaseEntity @activator, CBaseEntity @pCaller, USE_TYPE useType, float value )
+        void Use( CBaseEntity@ activator, CBaseEntity@ pCaller, USE_TYPE useType, float value )
         {
             if( activator is null || !activator.IsPlayer() || !activator.IsAlive() )
                 return;
 
-            CBasePlayer @player = cast<CBasePlayer @>( activator );
+            CBasePlayer@ player = cast<CBasePlayer@>( activator );
 
             if( player is null )
                 return;
@@ -170,97 +170,3 @@ namespace func_bts_recharger
         }
     }
 }
-
-#if DISCARDED
-// Stupid shit idk why it doesn't move the charger owner entity to the location, it is not null.
-namespace func_bts_recharger
-{
-    int register = LINK_ENTITY_TO_CLASS( "func_bts_recharger", "func_bts_recharger" );
-
-    class func_bts_recharger : ScriptBaseEntity
-    {
-        private float m_lastuse;
-
-        private dictionary @map_values = {};
-
-        private CBaseEntity @m_recharger
-        {
-            get const
-            {
-                return ( g_EntityFuncs.IsValidEntity( self.pev.owner ) ? g_EntityFuncs.Instance( self.pev.owner ) : null );
-            }
-            set
-            {
-                @self.pev.owner = ( value !is null ? value.edict() : null );
-            }
-        }
-
-        void Spawn()
-        {
-            self.pev.solid = SOLID_BSP;
-            self.pev.movetype = MOVETYPE_PUSH;
-
-            g_EntityFuncs.SetOrigin( self, self.pev.origin );
-            g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
-            g_EntityFuncs.SetModel( self, self.pev.model );
-            self.pev.frame = 0;
-
-            @m_recharger = g_EntityFuncs.CreateEntity( "func_recharge", map_values, true );
-
-            if( m_recharger !is null )
-            {
-                m_recharger.pev.solid = SOLID_NOT;
-                m_recharger.pev.effects |= ( EF_NODRAW | EF_NODECALS );
-                g_EntityFuncs.SetOrigin( m_recharger, self.pev.origin );
-            }
-
-            @map_values = null;
-
-            SetThink( ThinkFunction( this.Think ) );
-            self.pev.nextthink = g_Engine.time + 0.1;
-        }
-
-        bool KeyValue( const string& in szKeyName, const string& in szValue )
-        {
-            map_values[szKeyName] = szValue;
-            return true;
-        }
-
-        int ObjectCaps()
-        {
-            return ( BaseClass.ObjectCaps() | FCAP_CONTINUOUS_USE ) & ~FCAP_ACROSS_TRANSITION;
-        }
-
-        void Think()
-        {
-            if( m_recharger is null )
-            {
-                self.pev.flags |= FL_KILLME;
-                SetThink( null );
-                return;
-            }
-
-            self.pev.frame = m_recharger.pev.frame;
-            self.pev.nextthink = g_Engine.time + 0.1;
-        }
-
-        void Use( CBaseEntity @activator, CBaseEntity @caller, USE_TYPE usetype, float value )
-        {
-            if( m_recharger is null || m_lastuse < g_Engine.time || activator is null || !activator.IsPlayer() || !activator.IsAlive() )
-                return;
-
-            CBasePlayer @player = cast<CBasePlayer @>( activator );
-
-            if( player is null )
-                return;
-
-            if( PM::HELMET == g_PlayerClass[player, true] )
-                return;
-
-            m_recharger.Use( activator, activator, USE_SET, 1 );
-            self.pev.frame = m_recharger.pev.frame;
-            m_lastuse = g_Engine.time + 0.3f;
-        }
-    }
-}
-#endif

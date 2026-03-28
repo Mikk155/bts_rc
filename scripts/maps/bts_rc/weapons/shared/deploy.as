@@ -5,8 +5,8 @@ namespace weapons
      *   @param hands_group: group for the view model weapon hands
      *   @param time: next think time
      **/
-    bool deploy( CBasePlayer @player,
-                 CBasePlayerWeapon @weapon,
+    bool deploy( CBasePlayer@ player,
+                 CBasePlayerWeapon@ weapon,
                  const string &in viewmodel,
                  const string &in playermodel,
                  int animation,

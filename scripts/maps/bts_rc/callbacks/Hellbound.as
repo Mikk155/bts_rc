@@ -1,8 +1,8 @@
 namespace Hellbound
 {
-    void Startup( CBaseEntity @activator, CBaseEntity @caller, USE_TYPE use_type, float value )
+    void Startup( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
     {
-        auto pSetAttributes = PlayerSpawnHook( function( CBasePlayer @player ) {
+        auto pSetAttributes = PlayerSpawnHook( function( CBasePlayer@ player ) {
             if( player !is null )
             {
                 player.pev.health = player.pev.armortype = player.pev.max_health = 1;

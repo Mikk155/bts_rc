@@ -44,7 +44,7 @@ namespace weapon_bts_eagle
 
     class weapon_bts_eagle : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -224,7 +224,7 @@ namespace weapon_bts_eagle
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
@@ -383,7 +383,7 @@ namespace weapon_bts_eagle
 
         // Instead of creating/removing in Holster, Deploy, SecondaryAttack
         // only creates a new one if the previous one was somehow deleted
-        private CBaseEntity @get_m_pLaser() property
+        private CBaseEntity@ get_m_pLaser() property
         {
             if( !m_hLaser )
             {

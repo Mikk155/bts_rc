@@ -2,7 +2,7 @@
     Author: Mikk
 */
 
-const array<string> @geiger_snds = {
+const array<string>@ geiger_snds = {
     "player/geiger1.wav",
     "player/geiger2.wav",
     "player/geiger3.wav",
@@ -10,17 +10,17 @@ const array<string> @geiger_snds = {
     "player/geiger5.wav",
     "player/geiger6.wav" };
 
-HookReturnCode player_takedamage( DamageInfo @pDamageInfo )
+HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
 {
     if( pDamageInfo.flDamage <= 0 )
         return HOOK_CONTINUE;
 
-    CBaseEntity @victim = pDamageInfo.pVictim;
+    CBaseEntity@ victim = pDamageInfo.pVictim;
 
     if( victim is null )
         return HOOK_CONTINUE;
 
-    CBasePlayer @player = cast<CBasePlayer @>( victim );
+    CBasePlayer@ player = cast<CBasePlayer@>( victim );
 
     if( player is null )
         return HOOK_CONTINUE;
@@ -54,7 +54,7 @@ HookReturnCode player_takedamage( DamageInfo @pDamageInfo )
 
     if( g_VoiceResponse.Active && ( pDamageInfo.pAttacker is null || pDamageInfo.pAttacker.IRelationship( player ) != R_AL ) )
     {
-        CVoices @voices = g_VoiceResponse[player];
+        CVoices@ voices = g_VoiceResponse[player];
 
         if( voices !is null )
         {

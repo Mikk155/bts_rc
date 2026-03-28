@@ -48,7 +48,7 @@
 
 namespace weapons
 {
-    array<ItemMapping @> gpItemMapping( 0 );
+    array<ItemMapping@> gpItemMapping( 0 );
     array<string> gpWeaponNames( 0 );
 
     const int gpDefaultFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );

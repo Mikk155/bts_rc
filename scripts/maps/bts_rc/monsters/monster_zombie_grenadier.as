@@ -182,7 +182,7 @@ namespace monster_zombie_grenadier
 
             if( self.m_MonsterState == MONSTERSTATE_SCRIPT and self.m_hCine.GetEntity() !is null )
             {
-                CCineMonster @pCine = cast<CCineMonster @>( self.m_hCine.GetEntity() );
+                CCineMonster@ pCine = cast<CCineMonster@>( self.m_hCine.GetEntity() );
                 if( pCine !is null )
                     iIgnoreConditions |= pCine.IgnoreConditions();
             }
@@ -200,13 +200,13 @@ namespace monster_zombie_grenadier
                 DropOrExplode( g_vecZero );
         }
 
-        void HandleAnimEvent( MonsterEvent @pEvent )
+        void HandleAnimEvent( MonsterEvent@ pEvent )
         {
             switch( pEvent.event )
             {
                 case NPC_AE_ATTACK_RIGHT:
                 {
-                    CBaseEntity @pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
+                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
                         if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
@@ -229,7 +229,7 @@ namespace monster_zombie_grenadier
 
                 case NPC_AE_ATTACK_LEFT:
                 {
-                    CBaseEntity @pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
+                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
                         if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
@@ -274,7 +274,7 @@ namespace monster_zombie_grenadier
             }
         }
 
-        int TakeDamage( entvars_t @pevInflictor, entvars_t @pevAttacker, float flDamage, int bitsDamageType )
+        int TakeDamage( entvars_t@ pevInflictor, entvars_t@ pevAttacker, float flDamage, int bitsDamageType )
         {
             // take no damage when pulling out a grenade
             if( self.m_Activity == ACT_RANGE_ATTACK1 )
@@ -307,7 +307,7 @@ namespace monster_zombie_grenadier
             return BaseClass.TakeDamage( pevInflictor, pevAttacker, flDamage, bitsDamageType );
         }
 
-        void Killed( entvars_t @pevAttacker, int iGib )
+        void Killed( entvars_t@ pevAttacker, int iGib )
         {
             if( m_bGrenadeOut )
                 DropOrExplode( g_vecZero );
@@ -348,7 +348,7 @@ namespace monster_zombie_grenadier
             self.Killed( self.pev, GIB_ALWAYS );
         }
 
-        void StartTask( Task @pTask )
+        void StartTask( Task@ pTask )
         {
             switch( pTask.iTask )
             {
@@ -401,7 +401,7 @@ namespace monster_zombie_grenadier
             return false;
         }
 
-        CBaseEntity @CheckTraceHullAttack( CBaseMonster @pThis, float flDist, int iDamage, int iDmgType )
+        CBaseEntity@ CheckTraceHullAttack( CBaseMonster@ pThis, float flDist, int iDamage, int iDmgType )
         {
             TraceResult tr;
 
@@ -418,7 +418,7 @@ namespace monster_zombie_grenadier
 
             if( tr.pHit !is null )
             {
-                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 if( iDamage > 0 )
                     pEntity.TakeDamage( pThis.pev, pThis.pev, iDamage, iDmgType );

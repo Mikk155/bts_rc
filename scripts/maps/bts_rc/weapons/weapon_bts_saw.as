@@ -37,11 +37,11 @@ namespace weapon_bts_saw
     const int m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
 
     // Knockback thing
-    const CCVar @g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
+    const CCVar@ g_M249Knockback = CCVar( "m249_knockback", 1, "", ConCommandFlag::AdminOnly ); // as_command m249_knockback
 
     class weapon_bts_saw : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -174,7 +174,7 @@ namespace weapon_bts_saw
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }

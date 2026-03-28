@@ -64,7 +64,7 @@ namespace FLARE
             pev.nextthink = g_Engine.time + 0.1f;
         }
 
-        void FlareTouch( CBaseEntity @pOther )
+        void FlareTouch( CBaseEntity@ pOther )
         {
             if( @pOther.edict() == @pev.owner )
                 return;
@@ -81,7 +81,7 @@ namespace FLARE
 
             if( pOther.pev.takedamage != DAMAGE_NO )
             {
-                entvars_t @pevOwner = pev;
+                entvars_t@ pevOwner = pev;
                 if( pev.owner !is null )
                     @pevOwner = pev.owner.vars;
 
@@ -161,13 +161,13 @@ namespace FLARE
             }
         }
 
-        void FlareBurnTouch( CBaseEntity @pOther )
+        void FlareBurnTouch( CBaseEntity@ pOther )
         {
             if( pOther.pev.takedamage != DAMAGE_NO )
             {
                 if( m_flNextAttack < g_Engine.time )
                 {
-                    entvars_t @pevOwner = pev;
+                    entvars_t@ pevOwner = pev;
                     if( pev.owner !is null )
                         @pevOwner = pev.owner.vars;
 
@@ -216,7 +216,7 @@ namespace FLARE
             {
                 if( g_Utility.GetGlobalTrace().pHit !is null )
                 {
-                    CBaseEntity @pHit = g_EntityFuncs.Instance( g_Utility.GetGlobalTrace().pHit );
+                    CBaseEntity@ pHit = g_EntityFuncs.Instance( g_Utility.GetGlobalTrace().pHit );
                     if( pHit.IsBSPModel() )
                     {
                         g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
@@ -264,9 +264,9 @@ namespace FLARE
         }
     }
 
-    CFlare @Toss( entvars_t @pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
+    CFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
     {
-        CFlare @pFlare = cast<CFlare>( CastToScriptClass( g_EntityFuncs.CreateEntity( "flare" ) ) );
+        CFlare@ pFlare = cast<CFlare>( CastToScriptClass( g_EntityFuncs.CreateEntity( "flare" ) ) );
         if( pFlare is null )
             return null;
 
@@ -294,9 +294,9 @@ namespace FLARE
         return pFlare;
     }
 
-    CFlare @Shoot( entvars_t @pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
+    CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
     {
-        CFlare @pFlare = cast<CFlare>( CastToScriptClass( g_EntityFuncs.CreateEntity( "flare" ) ) );
+        CFlare@ pFlare = cast<CFlare>( CastToScriptClass( g_EntityFuncs.CreateEntity( "flare" ) ) );
         if( pFlare is null )
             return null;
 

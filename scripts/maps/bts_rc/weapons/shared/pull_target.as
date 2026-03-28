@@ -3,7 +3,7 @@ namespace weapons
     /**
      *   @brief Pull target
      **/
-    bool pull_target( const Vector &in source, CBaseEntity @target )
+    bool pull_target( const Vector &in source, CBaseEntity@ target )
     {
         if( target !is null && target.IsPlayer() )
         {

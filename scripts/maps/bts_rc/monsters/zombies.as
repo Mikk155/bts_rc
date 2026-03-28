@@ -5,7 +5,7 @@
 namespace btscm
 {
 
-    HookReturnCode ZombieTakeDamage( DamageInfo @pDamageInfo )
+    HookReturnCode ZombieTakeDamage( DamageInfo@ pDamageInfo )
     {
         if( IsZombieEngineer( pDamageInfo.pVictim ) )
         {
@@ -18,7 +18,7 @@ namespace btscm
         return HOOK_CONTINUE;
     }
 
-    void HandleZombieDamage( DamageInfo @pDamageInfo )
+    void HandleZombieDamage( DamageInfo@ pDamageInfo )
     {
         int iHitGroup = pDamageInfo.pVictim.MyMonsterPointer().m_LastHitGroup;
 
@@ -50,13 +50,13 @@ namespace btscm
 
     void HandleCanisterDamage( EHandle hVictim, EHandle hAttacker, float flDamage )
     {
-        CBaseEntity @pVictim = hVictim.GetEntity();
+        CBaseEntity@ pVictim = hVictim.GetEntity();
         if( pVictim is null )
             return;
 
-        CBaseEntity @pAttacker = hAttacker.GetEntity();
+        CBaseEntity@ pAttacker = hAttacker.GetEntity();
 
-        CustomKeyvalues @pCustom = pVictim.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pVictim.GetCustomKeyvalues();
 
         float flCanisterHealth = pCustom.GetKeyvalue( KVN_ZOMBIECANHP ).GetFloat();
         flCanisterHealth -= flDamage;
@@ -68,7 +68,7 @@ namespace btscm
             pCustom.SetKeyvalue( KVN_ZOMBIECANHP, -1337 );
 
             SpawnExplosion( pVictim.pev.origin, 0.0, 0.0, CANISTER_DAMAGE );
-            entvars_t @pevAttacker = null;
+            entvars_t@ pevAttacker = null;
 
             if( pAttacker !is null )
                 @pevAttacker = pAttacker.pev;
@@ -79,7 +79,7 @@ namespace btscm
 
     void ZombieThink()
     {
-        CBaseEntity @pEntity = null;
+        CBaseEntity@ pEntity = null;
         while( ( @pEntity = g_EntityFuncs.FindEntityByClassname( pEntity, "monster_zombie_soldier" ) ) !is null )
         {
             if( pEntity.pev.model != "models/bts_rc/monsters/zombie_engineer.mdl" )
@@ -109,11 +109,11 @@ namespace btscm
 
     void HandleZombieEngineer( EHandle hEntity )
     {
-        CBaseEntity @pEntity = hEntity.GetEntity();
+        CBaseEntity@ pEntity = hEntity.GetEntity();
         if( pEntity is null )
             return;
 
-        CustomKeyvalues @pCustom = pEntity.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pEntity.GetCustomKeyvalues();
         float flNextThink = pCustom.GetKeyvalue( KVN_MONSTERTHINK ).GetFloat();
 
         if( flNextThink <= g_Engine.time )
@@ -141,7 +141,7 @@ namespace btscm
         }
     }
 
-    void DoCanisterSmoke( CBaseEntity @pMonster )
+    void DoCanisterSmoke( CBaseEntity@ pMonster )
     {
         if( !freeedicts( 1 ) )
             return;
@@ -149,7 +149,7 @@ namespace btscm
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flCanisterHealth = pCustom.GetKeyvalue( KVN_ZOMBIECANHP ).GetFloat();
 
         if( flCanisterHealth > 0 and Math.RandomLong( 0, CANISTER_HEALTH ) > flCanisterHealth )
@@ -174,7 +174,7 @@ namespace btscm
         }
     }
 
-    bool IsZombieEngineer( CBaseEntity @pMonster )
+    bool IsZombieEngineer( CBaseEntity@ pMonster )
     {
         if( pMonster.GetClassname() == "monster_zombie_soldier" and pMonster.pev.model == "models/bts_rc/monsters/zombie_engineer.mdl" )
             return true;

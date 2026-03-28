@@ -1,13 +1,13 @@
 mixin class CBaseWeapon
 {
 #if FALSE
-    CBasePlayerWeapon @self;
+    CBasePlayerWeapon@ self;
 #endif
 
-    CBasePlayer @player = null;
+    CBasePlayer@ player = null;
 
     // To not cast repeatedly
-    CBasePlayer @get_player()
+    CBasePlayer@ get_player()
     {
         if( player is null || player !is self.m_hPlayer.GetEntity() )
         {
@@ -30,17 +30,17 @@ mixin class CBaseWeapon
     {
         if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
         {
-            CBaseEntity @hit = g_EntityFuncs.Instance( tr.pHit );
+            CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
 
             if( hit !is null )
             {
                 if( gpTraceBlood && tr.iHitgroup != 10 && hit.IsMonster() && freeedicts( 1 ) )
                 {
-                    CBaseMonster @monster = cast<CBaseMonster @>( hit );
+                    CBaseMonster@ monster = cast<CBaseMonster@>( hit );
 
                     if( monster !is null && monster.m_bloodColor != DONT_BLEED )
                     {
-                        CSprite @spr = null;
+                        CSprite@ spr = null;
 
                         if( monster.m_bloodColor == BLOOD_COLOR_RED )
                         {
@@ -203,7 +203,7 @@ mixin class CBaseWeapon
         }
     }
 
-    bool AddToPlayer( CBasePlayer @player )
+    bool AddToPlayer( CBasePlayer@ player )
     {
         if( !BaseClass.AddToPlayer( player ) )
             return false;

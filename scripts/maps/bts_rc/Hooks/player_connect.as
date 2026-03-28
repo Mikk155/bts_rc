@@ -9,12 +9,12 @@ namespace notice_assets
         if( !hplayer.IsValid() )
             return;
 
-        CBaseEntity @entity = hplayer.GetEntity();
+        CBaseEntity@ entity = hplayer.GetEntity();
 
         if( entity is null )
             return;
 
-        CBasePlayer @player = cast<CBasePlayer @>( entity );
+        CBasePlayer@ player = cast<CBasePlayer@>( entity );
 
         if( player is null )
             return;
@@ -28,7 +28,7 @@ namespace notice_assets
     // Nero ADDED 2026-01-10
     void DisplayGametitle( EHandle hPlayer )
     {
-        CBasePlayer @pPlayer = cast<CBasePlayer @>( hPlayer.GetEntity() );
+        CBasePlayer@ pPlayer = cast<CBasePlayer@>( hPlayer.GetEntity() );
 
         if( pPlayer is null or !pPlayer.IsConnected() )
             return;
@@ -53,7 +53,7 @@ namespace notice_assets
         g_PlayerFuncs.HudCustomSprite( pPlayer, hudParamsTitle );
     }
 
-    HookReturnCode player_connect( CBasePlayer @player )
+    HookReturnCode player_connect( CBasePlayer@ player )
     {
         if( player !is null )
         {

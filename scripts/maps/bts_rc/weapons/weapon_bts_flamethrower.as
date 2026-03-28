@@ -60,7 +60,7 @@ namespace BTS_FLAMETHROWER
 
     class weapon_bts_flamethrower : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -111,7 +111,7 @@ namespace BTS_FLAMETHROWER
             return true;
         }
 
-        bool AddToPlayer( CBasePlayer @pPlayer )
+        bool AddToPlayer( CBasePlayer@ pPlayer )
         {
             if( !BaseClass.AddToPlayer( pPlayer ) )
                 return false;
@@ -180,7 +180,7 @@ namespace BTS_FLAMETHROWER
             Vector vecSrc = m_pPlayer.GetGunPosition() + g_Engine.v_forward * 16 + g_Engine.v_right * 2 + g_Engine.v_up * -2;
             Vector vecDir = m_pPlayer.pev.v_angle * Vector( -1, 1, 1 );
 
-            CBaseEntity @pFlame = g_EntityFuncs.Create( "flame_proj", vecSrc, vecDir, false, m_pPlayer.edict() );
+            CBaseEntity@ pFlame = g_EntityFuncs.Create( "flame_proj", vecSrc, vecDir, false, m_pPlayer.edict() );
 
             Vector vecVelocity = g_Engine.v_forward * FLAME_SPEED;
 
@@ -268,7 +268,7 @@ namespace BTS_FLAMETHROWER
         }
 
         // Fetch it from KernCore's INS2 proj_ins2flame.as
-        void FlameTouch( CBaseEntity @pOther )
+        void FlameTouch( CBaseEntity@ pOther )
         {
             TraceResult tr = g_Utility.GetGlobalTrace();
 
@@ -284,7 +284,7 @@ namespace BTS_FLAMETHROWER
                     return;
             */
 
-            entvars_t @pevOwner;
+            entvars_t@ pevOwner;
             if( self.pev.owner !is null )
                 @pevOwner = @self.pev.owner.vars;
             else
@@ -332,7 +332,7 @@ namespace BTS_FLAMETHROWER
             BaseClass.Spawn();
         }
 
-        bool AddAmmo( CBaseEntity @pOther )
+        bool AddAmmo( CBaseEntity@ pOther )
         {
             int iGive;
 
