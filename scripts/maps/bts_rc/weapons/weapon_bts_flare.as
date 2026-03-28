@@ -41,7 +41,7 @@ namespace weapon_bts_flare
 
     class weapon_bts_flare : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -99,7 +99,7 @@ namespace weapon_bts_flare
             return m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
         }
 
-        CBasePlayerItem @DropItem()
+        CBasePlayerItem@ DropItem()
         {
             m_iAmmoSave = m_pPlayer.AmmoInventory( self.m_iPrimaryAmmoType ); // Save the player"s ammo pool in case it has any in DropItem
             return self;

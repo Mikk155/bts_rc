@@ -41,7 +41,7 @@ namespace weapon_bts_glock18
 
     class weapon_bts_glock18 : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -139,7 +139,7 @@ namespace weapon_bts_glock18
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }

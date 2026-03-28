@@ -20,7 +20,7 @@ namespace trigger_update_class
         private PM m_class = PM::SCIENTIST;
         private LoadOut m_loadout = LoadOut::Nothing;
 
-        void AddItems( CBasePlayer @player, dictionary @kvObj )
+        void AddItems( CBasePlayer@ player, dictionary@ kvObj )
         {
             array<string> keys = kvObj.getKeys();
 
@@ -29,7 +29,7 @@ namespace trigger_update_class
                     player.GiveNamedItem( keys[ui], SF_GIVENITEM ); // Somehow the third argument is not working so we iterate
         }
 
-        void AddItemInventory( CBasePlayer @player, dictionary @kvObj )
+        void AddItemInventory( CBasePlayer@ player, dictionary@ kvObj )
         {
             if( player !is null )
             {
@@ -42,7 +42,7 @@ namespace trigger_update_class
             }
         }
 
-        void AddKeyCard( CBasePlayer @player, dictionary @kvObj )
+        void AddKeyCard( CBasePlayer@ player, dictionary@ kvObj )
         {
             if( player !is null )
             {
@@ -136,21 +136,21 @@ namespace trigger_update_class
             return BaseClass.KeyValue( szKeyName, szValue );
         }
 
-        void Use( CBaseEntity @pActivator, CBaseEntity @pCaller, USE_TYPE useType, float flValue )
+        void Use( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
         {
             if( pActivator is null )
             {
                 return;
             }
 
-            CBasePlayer @player = null;
+            CBasePlayer@ player = null;
 
             if( !pActivator.IsPlayer() )
             {
                 return;
             }
 
-            @player = cast<CBasePlayer @>( pActivator );
+            @player = cast<CBasePlayer@>( pActivator );
 
             if( player is null )
             {

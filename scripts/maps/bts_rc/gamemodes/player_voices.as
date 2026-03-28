@@ -27,12 +27,12 @@ class CVoice
         this.__owner__ = owner;
     }
 
-    bool PlaySound( CBaseEntity @target, const float volume = 1.0, const int pitchOverride = -1, const int flags = 0 )
+    bool PlaySound( CBaseEntity@ target, const float volume = 1.0, const int pitchOverride = -1, const int flags = 0 )
     {
         if( target is null )
             return false;
 
-        dictionary @data = target.GetUserData();
+        dictionary@ data = target.GetUserData();
 
         if( g_Engine.time < float( data[this.__type__] ) )
             return false;
@@ -64,8 +64,8 @@ class CVoices
         return this.__name__;
     }
 
-    CVoice @takedamage;
-    CVoice @killed;
+    CVoice@ takedamage;
+    CVoice@ killed;
 
     CVoices( const string&in name )
     {
@@ -79,7 +79,7 @@ class CVoiceResponse
 {
     bool Active = false;
 
-    dictionary @voices = {
+    dictionary@ voices = {
         { "barney", null },
         { "veteran", null },
         { "scientist", null },
@@ -88,7 +88,7 @@ class CVoiceResponse
         { "otis", null },
         { "bscientist", null } };
 
-    CVoices @opIndex( CBasePlayer @player ) const
+    CVoices@ opIndex( CBasePlayer@ player ) const
     {
         if( player is null )
             return null;
@@ -99,44 +99,44 @@ class CVoiceResponse
         {
             case PM::OPERATIVE:
             case PM::BARNEY:
-                return cast<CVoices @>( this.voices["barney"] );
+                return cast<CVoices@>( this.voices["barney"] );
 
             case PM::OTIS:
-                return cast<CVoices @>( this.voices["otis"] );
+                return cast<CVoices@>( this.voices["otis"] );
 
             case PM::VETERAN:
-                return cast<CVoices @>( this.voices["veteran"] );
+                return cast<CVoices@>( this.voices["veteran"] );
 
             case PM::GCONSTRUCTION:
             case PM::CONSTRUCTION:
-                return cast<CVoices @>( this.voices["construction"] );
+                return cast<CVoices@>( this.voices["construction"] );
 
             case PM::HELMET:
-                return cast<CVoices @>( this.voices["helmet"] );
+                return cast<CVoices@>( this.voices["helmet"] );
 
             case PM::CLSUIT:
-                return cast<CVoices @>( this.voices["cleansuit"] );
+                return cast<CVoices@>( this.voices["cleansuit"] );
 
             case PM::BSCIENTIST:
-                return cast<CVoices @>( this.voices["bscientist"] );
+                return cast<CVoices@>( this.voices["bscientist"] );
 
             case PM::SCIENTIST:
             default:
-                return cast<CVoices @>( this.voices["scientist"] );
+                return cast<CVoices@>( this.voices["scientist"] );
         }
     }
 
     void Register()
     {
         // Initialize handlers for specific classes
-        CVoices @scientist = @CVoices( "scientist" );
-        CVoices @barney = @CVoices( "barney" );
-        CVoices @construction = @CVoices( "construction" );
-        CVoices @helmet = @CVoices( "helmet" );
-        CVoices @cleansuit = @CVoices( "cleansuit" );
-        CVoices @veteran = @CVoices( "veteran" );
-        CVoices @otis = @CVoices( "otis" );
-        CVoices @bscientist = @CVoices( "bscientist" );
+        CVoices@ scientist = @CVoices( "scientist" );
+        CVoices@ barney = @CVoices( "barney" );
+        CVoices@ construction = @CVoices( "construction" );
+        CVoices@ helmet = @CVoices( "helmet" );
+        CVoices@ cleansuit = @CVoices( "cleansuit" );
+        CVoices@ veteran = @CVoices( "veteran" );
+        CVoices@ otis = @CVoices( "otis" );
+        CVoices@ bscientist = @CVoices( "bscientist" );
 
         // Save them in the voice responses class
         g_VoiceResponse.voices["scientist"] = @scientist;

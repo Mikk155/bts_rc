@@ -33,7 +33,7 @@ namespace M79_ROCKET
             pev.nextthink = g_Engine.time + 0.1f;
         }
 
-        void GrenadeTouch( CBaseEntity @pOther )
+        void GrenadeTouch( CBaseEntity@ pOther )
         {
             if( g_EngineFuncs.PointContents( pev.origin ) == CONTENTS_SKY )
             {
@@ -84,11 +84,11 @@ namespace M79_ROCKET
             m1.WriteByte( TE_EXPLFLAG_NONE );
             m1.End();
 
-            CSoundEnt @sound = GetSoundEntInstance();
+            CSoundEnt@ sound = GetSoundEntInstance();
             if( sound !is null )
                 sound.InsertSound( bits_SOUND_COMBAT, pev.origin, NORMAL_EXPLOSION_VOLUME, 3.0f, self );
 
-            entvars_t @pevOwner = pev;
+            entvars_t@ pevOwner = pev;
             if( pev.owner !is null )
                 @pevOwner = pev.owner.vars;
 
@@ -127,14 +127,14 @@ namespace M79_ROCKET
         }
     }
 
-    CM79Rocket @Shoot( entvars_t @pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flRadius, const string& in szModel )
+    CM79Rocket@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flRadius, const string& in szModel )
     {
-        CBaseEntity @entity = g_EntityFuncs.CreateEntity( "m79_rocket" );
+        CBaseEntity@ entity = g_EntityFuncs.CreateEntity( "m79_rocket" );
 
         if( entity is null )
             return null;
 
-        CM79Rocket @pRocket = cast<CM79Rocket @>( CastToScriptClass( entity ) );
+        CM79Rocket@ pRocket = cast<CM79Rocket@>( CastToScriptClass( entity ) );
 
         if( pRocket is null )
             return null;

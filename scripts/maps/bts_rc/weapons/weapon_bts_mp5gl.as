@@ -46,7 +46,7 @@ namespace weapon_bts_mp5gl
 
     class weapon_bts_mp5gl : ScriptBasePlayerWeaponEntity, CBaseWeapon
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -220,7 +220,7 @@ namespace weapon_bts_mp5gl
 
             if( tr.flFraction < 1.0f && tr.pHit !is null )
             {
-                CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                 if( ( pHit is null || pHit.IsBSPModel() ) && !pHit.pev.FlagBitSet( FL_WORLDBRUSH ) )
                     g_WeaponFuncs.DecalGunshot( tr, BULLET_PLAYER_CUSTOMDAMAGE );
             }
@@ -307,7 +307,7 @@ namespace weapon_bts_mp5gl
             vecSrc = vecSrc + ( ( ( m_pPlayer.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( m_pPlayer.pev.view_ofs * 0.5f ) );
 
             // we don't add in player velocity anymore.
-            CGrenade @pGrenade = g_EntityFuncs.ShootContact( m_pPlayer.pev, vecSrc, g_Engine.v_forward * 900.0f );
+            CGrenade@ pGrenade = g_EntityFuncs.ShootContact( m_pPlayer.pev, vecSrc, g_Engine.v_forward * 900.0f );
             if( pGrenade !is null )
             {
                 g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/grenade.mdl" );

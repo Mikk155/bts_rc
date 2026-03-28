@@ -6,12 +6,12 @@ class item_bts_armorvest : ScriptBasePlayerAmmoEntity
         BaseClass.Spawn();
     }
 
-    bool AddAmmo( CBaseEntity @other )
+    bool AddAmmo( CBaseEntity@ other )
     {
         if( other is null || !other.IsPlayer() || !other.IsAlive() )
             return false;
 
-        CBasePlayer @player = cast<CBasePlayer @>( other );
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
         if( player is null )
             return false;
@@ -52,12 +52,12 @@ class item_bts_helmet : ScriptBasePlayerAmmoEntity
         BaseClass.Spawn();
     }
 
-    bool AddAmmo( CBaseEntity @other )
+    bool AddAmmo( CBaseEntity@ other )
     {
         if( other is null || !other.IsPlayer() || !other.IsAlive() )
             return false;
 
-        CBasePlayer @player = cast<CBasePlayer @>( other );
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
         if( player is null )
             return false;
@@ -98,12 +98,12 @@ class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
         BaseClass.Spawn();
     }
 
-    bool AddAmmo( CBaseEntity @other )
+    bool AddAmmo( CBaseEntity@ other )
     {
         if( other is null || !other.IsPlayer() || !other.IsAlive() )
             return false;
 
-        CBasePlayer @player = cast<CBasePlayer @>( other );
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
         if( player is null )
             return false;
@@ -161,12 +161,12 @@ class item_bts_sprayaid : ScriptBasePlayerAmmoEntity
         BaseClass.Spawn();
     }
 
-    bool AddAmmo( CBaseEntity @other )
+    bool AddAmmo( CBaseEntity@ other )
     {
         if( other is null || !other.IsPlayer() || !other.IsAlive() )
             return false;
 
-        CBasePlayer @player = cast<CBasePlayer @>( other );
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
         if( player is null )
             return false;

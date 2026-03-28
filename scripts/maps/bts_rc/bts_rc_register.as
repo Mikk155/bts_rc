@@ -202,11 +202,11 @@ final class PlayerClass
         "bts_op5",
         "bts_op6" };
 
-    const PM opIndex( CBasePlayer @player, bool DontSet = false )
+    const PM opIndex( CBasePlayer@ player, bool DontSet = false )
     {
         if( player !is null )
         {
-            dictionary @data = player.GetUserData();
+            dictionary@ data = player.GetUserData();
 
             if( !data.exists( "class" ) )
             {
@@ -235,7 +235,7 @@ final class PlayerClass
         return PM::SCIENTIST;
     }
 
-    bool is_trained_personal( CBasePlayer @player )
+    bool is_trained_personal( CBasePlayer@ player )
     {
         PM pm = g_PlayerClass[player];
 
@@ -252,7 +252,7 @@ final class PlayerClass
         return false;
     }
 
-    void set_class( CBasePlayer @player, PM player_class )
+    void set_class( CBasePlayer@ player, PM player_class )
     {
         const string model = this.model( player_class );
 
@@ -281,11 +281,11 @@ final class PlayerClass
         // Re-Deploy weapon to update view model hands
         if( player.m_hActiveItem.IsValid() )
         {
-            CBaseEntity @active_item = player.m_hActiveItem.GetEntity();
+            CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
 
             if( active_item !is null )
             {
-                CBasePlayerItem @weapon = cast<CBasePlayerItem @>( active_item );
+                CBasePlayerItem@ weapon = cast<CBasePlayerItem@>( active_item );
 
                 if( weapon !is null )
                 {
@@ -349,7 +349,7 @@ namespace item_tracker
 //================================================================================================
 namespace motd
 {
-    void open( CBasePlayer @player, const string&in buffer )
+    void open( CBasePlayer@ player, const string&in buffer )
     {
         if( player !is null && player.IsConnected() )
         {

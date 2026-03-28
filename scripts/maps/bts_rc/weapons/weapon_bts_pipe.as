@@ -45,7 +45,7 @@ namespace weapon_bts_pipe
 
     class weapon_bts_pipe : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
     {
-        private CBasePlayer @m_pPlayer
+        private CBasePlayer@ m_pPlayer
         {
             get const
             {
@@ -162,7 +162,7 @@ namespace weapon_bts_pipe
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -203,7 +203,7 @@ namespace weapon_bts_pipe
                 // hit
                 fDidHit = true;
 
-                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 switch( ( ( m_iSwing++ ) % 2 ) + 1 )
                 {
@@ -319,7 +319,7 @@ namespace weapon_bts_pipe
                 {
                     // Calculate the point of intersection of the line (or hull) and the object we hit
                     // This is and approximation of the "best" intersection
-                    CBaseEntity @pHit = g_EntityFuncs.Instance( tr.pHit );
+                    CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                     if( pHit is null || pHit.IsBSPModel() )
                         g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
                     vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
@@ -344,7 +344,7 @@ namespace weapon_bts_pipe
             else
             {
                 // hit
-                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 m_iSwing++;
                 self.SendWeaponAnim( ATTACKBIGHIT, 0, pev.body );

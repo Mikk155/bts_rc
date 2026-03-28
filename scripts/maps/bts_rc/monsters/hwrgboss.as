@@ -5,7 +5,7 @@
 namespace btscm
 {
 
-    HookReturnCode HWRGTakeDamage( DamageInfo @pDamageInfo )
+    HookReturnCode HWRGTakeDamage( DamageInfo@ pDamageInfo )
     {
         if( IsRobotBoss( pDamageInfo.pVictim ) )
         {
@@ -33,7 +33,7 @@ namespace btscm
             }
             else if( iHitGroup == HITGROUP_HEAD and ( HasFlags( pDamageInfo.bitsDamageType, DMG_SNIPER ) or IsUsingSniperRifle( pDamageInfo.pAttacker ) ) )
             {
-                CustomKeyvalues @pCustom = pDamageInfo.pVictim.GetCustomKeyvalues();
+                CustomKeyvalues@ pCustom = pDamageInfo.pVictim.GetCustomKeyvalues();
                 pCustom.SetKeyvalue( KVN_DOSMOKEPUFF, int( 3 + ( pDamageInfo.flDamage / 5.0 ) ) );
 
                 pDamageInfo.flDamage *= DAMAGE_MULT_HEAD;
@@ -47,11 +47,11 @@ namespace btscm
         return HOOK_CONTINUE;
     }
 
-    bool IsUsingSniperRifle( CBaseEntity @pEntity )
+    bool IsUsingSniperRifle( CBaseEntity@ pEntity )
     {
         if( HasFlags( pEntity.pev.flags, FL_CLIENT ) )
         {
-            CBasePlayer @pPlayer = cast<CBasePlayer @>( pEntity );
+            CBasePlayer@ pPlayer = cast<CBasePlayer@>( pEntity );
 
             if( pPlayer.m_hActiveItem.GetEntity() !is null and pPlayer.m_hActiveItem.GetEntity().GetClassname() == "weapon_bts_sniperrifle" )
                 return true;
@@ -62,7 +62,7 @@ namespace btscm
 
     void HWRGThink()
     {
-        CBaseEntity @pEntity = null;
+        CBaseEntity@ pEntity = null;
         while( ( @pEntity = g_EntityFuncs.FindEntityByClassname( pEntity, "monster_hwgrunt" ) ) !is null )
         {
             if( pEntity.pev.model != "models/bts_rc/monsters/robothwgrunt.mdl" )
@@ -81,7 +81,7 @@ namespace btscm
             //"306.899 3901.98 -246"
             //"194.899 3901.98 -246"
 
-            CustomKeyvalues @pCustom = pEntity.GetCustomKeyvalues();
+            CustomKeyvalues@ pCustom = pEntity.GetCustomKeyvalues();
             float flNextThink = pCustom.GetKeyvalue( KVN_MONSTERTHINK ).GetFloat();
             float flNextShieldStompCheck = pCustom.GetKeyvalue( KVN_SHIELDCHECK ).GetFloat();
 
@@ -114,11 +114,11 @@ namespace btscm
 
     void CheckForShieldStomp( EHandle hMonster )
     {
-        CBaseMonster @pMonster = hMonster.GetEntity().MyMonsterPointer();
+        CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flShieldStomp = pCustom.GetKeyvalue( KVN_SHIELDSTOMP ).GetFloat();
         if( flShieldStomp > 0 or pMonster.pev.sequence == pMonster.LookupSequence( "shield_stomp" ) )
             return;
@@ -147,11 +147,11 @@ namespace btscm
 
     void DoShieldStomp( EHandle hMonster )
     {
-        CBaseMonster @pMonster = hMonster.GetEntity().MyMonsterPointer();
+        CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flShieldStomp = pCustom.GetKeyvalue( KVN_SHIELDSTOMP ).GetFloat();
 
         if( flShieldStomp > 0 and flShieldStomp <= g_Engine.time )
@@ -171,7 +171,7 @@ namespace btscm
 
     void ShieldBlast( EHandle hMonster )
     {
-        CBaseMonster @pMonster = hMonster.GetEntity().MyMonsterPointer();
+        CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
         if( pMonster is null )
             return;
 
@@ -221,7 +221,7 @@ namespace btscm
         m2.WriteByte( 0 );                                                             // speed
         m2.End();
 
-        CBaseEntity @pEntity = null;
+        CBaseEntity@ pEntity = null;
         while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, pMonster.pev.origin, SHIELD_AOE_RADIUS, "*", "classname" ) ) !is null )
         {
             if( pEntity.pev.takedamage != DAMAGE_NO and pEntity.edict() !is pMonster.edict() )
@@ -254,7 +254,7 @@ namespace btscm
         }
     }
 
-    void Knockback( EHandle hMonster, CBaseEntity @pTarget )
+    void Knockback( EHandle hMonster, CBaseEntity@ pTarget )
     {
         if( pTarget is null )
             return;
@@ -267,7 +267,7 @@ namespace btscm
         if( pTarget.pev.takedamage == DAMAGE_NO )
             return;
 
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
@@ -300,7 +300,7 @@ namespace btscm
 
     bool IsSurrounded( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return false;
 
@@ -309,13 +309,13 @@ namespace btscm
 
     int SurroundedBy( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return 0;
 
         int iSurroundedBy = 0;
 
-        CBaseEntity @pEntity = null;
+        CBaseEntity@ pEntity = null;
         while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, pMonster.pev.origin, SURROUND_RADIUS, "*", "classname" ) ) !is null )
         {
             if( pEntity.pev.FlagBitSet( FL_MONSTER | FL_CLIENT ) and pEntity.pev.takedamage != DAMAGE_NO and pEntity.edict() !is pMonster.edict() )
@@ -335,7 +335,7 @@ namespace btscm
 
     RGBA GetBeamColor( EHandle hMonster, bool bRandom = false )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return RGBA( 255, 255, 255, 255 );
 
@@ -383,11 +383,11 @@ namespace btscm
 
     void DoKick( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flKick = pCustom.GetKeyvalue( KVN_KICK ).GetFloat();
 
         if( flKick > 0 and flKick <= g_Engine.time )
@@ -399,11 +399,11 @@ namespace btscm
 
     void DoShieldSlam( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
-        CustomKeyvalues @pCustom = pMonster.GetCustomKeyvalues();
+        CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
         float flShieldSlam = pCustom.GetKeyvalue( KVN_SHIELDSLAM ).GetFloat();
 
         if( flShieldSlam > 0 and flShieldSlam <= g_Engine.time )
@@ -415,14 +415,14 @@ namespace btscm
 
     void MeleeAttack( EHandle hMonster, bool bKick )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
         float flRange = bKick ? KICK_RANGE : SHIELD_SLAM_RANGE;
         float flDamage = bKick ? KICK_DAMAGE : SHIELD_SLAM_DAMAGE;
 
-        CBaseEntity @pHurt = CheckTraceHullAttack( pMonster, flRange, flDamage, DMG_CRUSH );
+        CBaseEntity@ pHurt = CheckTraceHullAttack( pMonster, flRange, flDamage, DMG_CRUSH );
         if( pHurt !is null )
         {
             if( HasFlags( pHurt.pev.flags, ( FL_MONSTER | FL_CLIENT ) ) )
@@ -455,7 +455,7 @@ namespace btscm
         // AttackSound();
     }
 
-    CBaseEntity @CheckTraceHullAttack( CBaseEntity @pThis, float flDist, float flDamage, int iDmgType )
+    CBaseEntity@ CheckTraceHullAttack( CBaseEntity@ pThis, float flDist, float flDamage, int iDmgType )
     {
         TraceResult tr;
 
@@ -472,7 +472,7 @@ namespace btscm
 
         if( tr.pHit !is null )
         {
-            CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+            CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
             if( flDamage > 0 )
                 pEntity.TakeDamage( pThis.pev, pThis.pev, flDamage, iDmgType );
@@ -485,11 +485,11 @@ namespace btscm
 
     void DealWithFlares( EHandle hMonster )
     {
-        CBaseEntity @pMonster = hMonster.GetEntity();
+        CBaseEntity@ pMonster = hMonster.GetEntity();
         if( pMonster is null )
             return;
 
-        CBaseEntity @pEntity = null;
+        CBaseEntity@ pEntity = null;
         while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, pMonster.pev.origin, ANTIFLARE_RANGE, "*", "classname" ) ) !is null )
         {
             if( pEntity.GetClassname() != "flare" )
@@ -508,7 +508,7 @@ namespace btscm
 
             if( freeedicts( 1 ) )
             {
-                CBeam @pBeam = g_EntityFuncs.CreateBeam( SPRITE_ANTIFLARE, 50 );
+                CBeam@ pBeam = g_EntityFuncs.CreateBeam( SPRITE_ANTIFLARE, 50 );
                 if( pBeam !is null )
                 {
                     pBeam.PointsInit( pMonster.Center(), pEntity.Center() );

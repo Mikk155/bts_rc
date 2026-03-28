@@ -227,7 +227,7 @@ namespace monster_zombie_gunner
 
             if( self.m_MonsterState == MONSTERSTATE_SCRIPT and self.m_hCine.GetEntity() !is null )
             {
-                CCineMonster @pCine = cast<CCineMonster @>( self.m_hCine.GetEntity() );
+                CCineMonster@ pCine = cast<CCineMonster@>( self.m_hCine.GetEntity() );
                 if( pCine !is null )
                     iIgnoreConditions |= pCine.IgnoreConditions();
             }
@@ -235,13 +235,13 @@ namespace monster_zombie_gunner
             return iIgnoreConditions;
         }
 
-        void HandleAnimEvent( MonsterEvent @pEvent )
+        void HandleAnimEvent( MonsterEvent@ pEvent )
         {
             switch( pEvent.event )
             {
                 case NPC_AE_ATTACK_RIGHT:
                 {
-                    CBaseEntity @pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
+                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
                         if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
@@ -264,7 +264,7 @@ namespace monster_zombie_gunner
 
                 case NPC_AE_ATTACK_LEFT:
                 {
-                    CBaseEntity @pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
+                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
                         if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
@@ -287,7 +287,7 @@ namespace monster_zombie_gunner
 
                 case NPC_AE_ATTACK_BOTH:
                 {
-                    CBaseEntity @pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_BOTH_SLASH, DMG_SLASH );
+                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_BOTH_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
                         if( btscm::HasFlags( pHurt.pev.flags, FL_MONSTER | FL_CLIENT ) )
@@ -353,7 +353,7 @@ namespace monster_zombie_gunner
             }
         }
 
-        int TakeDamage( entvars_t @pevInflictor, entvars_t @pevAttacker, float flDamage, int bitsDamageType )
+        int TakeDamage( entvars_t@ pevInflictor, entvars_t@ pevAttacker, float flDamage, int bitsDamageType )
         {
             // take no damage when pulling out the gun
             if( self.m_Activity == ACT_RANGE_ATTACK1 )
@@ -378,7 +378,7 @@ namespace monster_zombie_gunner
             return BaseClass.TakeDamage( pevInflictor, pevAttacker, flDamage, bitsDamageType );
         }
 
-        void StartTask( Task @pTask )
+        void StartTask( Task@ pTask )
         {
             switch( pTask.iTask )
             {
@@ -429,7 +429,7 @@ namespace monster_zombie_gunner
             return false;
         }
 
-        CBaseEntity @CheckTraceHullAttack( CBaseMonster @pThis, float flDist, int iDamage, int iDmgType )
+        CBaseEntity@ CheckTraceHullAttack( CBaseMonster@ pThis, float flDist, int iDamage, int iDmgType )
         {
             TraceResult tr;
 
@@ -446,7 +446,7 @@ namespace monster_zombie_gunner
 
             if( tr.pHit !is null )
             {
-                CBaseEntity @pEntity = g_EntityFuncs.Instance( tr.pHit );
+                CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
                 if( iDamage > 0 )
                     pEntity.TakeDamage( pThis.pev, pThis.pev, iDamage, iDmgType );
