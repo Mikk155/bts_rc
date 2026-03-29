@@ -41,13 +41,14 @@
 #include "weapons/main"
 
 /*==========================================================================
-*   - Start of Cvars for server operators. Modify these in maps/bts_rc.cfg
+*   - Start of variables for server operators. Modify these in config.json
 ==========================================================================*/
 bool gpBloodPuddles;
 bool gpForcepModels;
 bool gpLaserSentries;
 bool gpTraceBlood;
 bool gpTraceSparks;
+bool gpAllowMeleePull;
 /*==========================================================================
 *   - End
 ==========================================================================*/
@@ -114,6 +115,7 @@ void MapInit()
 
     g_Config.get( "blood_splash", gpTraceBlood );
     g_Config.get( "sparks_splash", gpTraceSparks );
+    g_Config.get( "melee_weapons_pull", gpAllowMeleePull );
 
     Precache();
 
