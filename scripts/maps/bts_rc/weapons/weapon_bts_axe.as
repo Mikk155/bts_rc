@@ -11,6 +11,19 @@ namespace weapons
         class CAxeConfig : IConfigContext
         {
             float AttackDistance = 45.0f;
+            float PrimaryDamage = 20;
+            float SecondaryDamage = 14;
+            float SubsequentDeduction = 0.5f;
+
+            float PrimaryCooldown = 0.8f;
+            float PrimaryMissCooldown = 1.25f;
+            float PrimaryTrainedCooldown = 0.4f;
+            float PrimaryMissTrainedCooldown = 0.90f;
+
+            float SecondaryCooldown = 0.5f;
+            float SecondaryMissCooldown = 1.35f;
+            float SecondaryTrainedCooldown = 0.25f;
+            float SecondaryMissTrainedCooldown = 1.0f;
 
             CAxeConfig()
             {
@@ -25,6 +38,20 @@ namespace weapons
             void Parse( dictionary@ json )
             {
                 json.get( "attack_distance", AttackDistance );
+                json.get( "subsequent_hits_deduction", SubsequentDeduction );
+                json.get( "subsequent_hits_deduction", SubsequentDeduction );
+                json.get( "primary_damage", PrimaryDamage );
+                json.get( "secondary_damage", SecondaryDamage );
+
+                json.get( "primary_cooldown", PrimaryCooldown );
+                json.get( "primary_miss_cooldown", PrimaryMissCooldown );
+                json.get( "primary_trained_cooldown", PrimaryTrainedCooldown );
+                json.get( "primary_miss_trained_cooldown", PrimaryMissTrainedCooldown );
+
+                json.get( "secondary_cooldown", SecondaryCooldown );
+                json.get( "secondary_miss_cooldown", SecondaryMissCooldown );
+                json.get( "secondary_trained_cooldown", SecondaryTrainedCooldown );
+                json.get( "secondary_miss_trained_cooldown", SecondaryMissTrainedCooldown );
             }
         }
 
@@ -176,11 +203,24 @@ namespace weapons
                                 break;
                         }
 
-                        if( m_IsSecondary )
-                            self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
-                        else
-                            self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
+                        float cooldown;
 
+                        if( m_IsSecondary )
+                        {
+                            if( is_trained_personal )
+                                cooldown = gpWeaponConfig.SecondaryMissTrainedCooldown;
+                            else
+                                cooldown = gpWeaponConfig.SecondaryMissCooldown;
+                        }
+                        else
+                        {
+                            if( is_trained_personal )
+                                cooldown = gpWeaponConfig.PrimaryMissTrainedCooldown;
+                            else
+                                cooldown = gpWeaponConfig.PrimaryMissCooldown;
+                        }
+
+                        self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + cooldown;
                         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                         // play wiff or swish sound
@@ -188,6 +228,9 @@ namespace weapons
 
                         // player "shoot" animation
                         player.SetAnimation( PLAYER_ATTACK1 );
+
+                        if( !is_trained_personal )
+                            player.pev.framerate = 0.6f;
                     }
                 }
                 else
@@ -227,10 +270,24 @@ namespace weapons
                             break;
                     }
 
+                    float cooldown;
+
                     if( m_IsSecondary )
-                        self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
+                    {
+                        if( is_trained_personal )
+                            cooldown = gpWeaponConfig.SecondaryMissTrainedCooldown;
+                        else
+                            cooldown = gpWeaponConfig.SecondaryMissCooldown;
+                    }
                     else
-                        self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.4f : 0.8f );
+                    {
+                        if( is_trained_personal )
+                            cooldown = gpWeaponConfig.PrimaryMissTrainedCooldown;
+                        else
+                            cooldown = gpWeaponConfig.PrimaryMissCooldown;
+                    }
+
+                    self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + cooldown;
 
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
@@ -248,8 +305,8 @@ namespace weapons
                         g_WeaponFuncs.ClearMultiDamage();
 
                         // subsequent swings do 50% damage
-                        float subsequent = ( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time ) ? 1.0 : 0.5f;
-                        pEntity.TraceAttack( player.pev, ( m_IsSecondary ? 14.0f : 20.0f ) * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
+                        float subsequent = ( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time ) ? 1.0 : gpWeaponConfig.SubsequentDeduction;
+                        pEntity.TraceAttack( player.pev, ( m_IsSecondary ? gpWeaponConfig.SecondaryDamage : gpWeaponConfig.PrimaryDamage ) * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
 
                         g_WeaponFuncs.ApplyMultiDamage( player.pev, player.pev );
 
