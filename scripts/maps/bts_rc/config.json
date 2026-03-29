@@ -10,5 +10,12 @@
     // Whatever turrets should have laser aims
     "turret_lasers": true,
     // Whatever to force player models
-    "force_playermodels": true
+    "force_playermodels": true,
+
+    // Configuration contexts
+    "weapon_axe":
+    {
+        // Attack distance
+        "attack_distance": 45
+    }
 }
