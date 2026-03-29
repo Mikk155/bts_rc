@@ -8,6 +8,28 @@ namespace weapons
 {
     namespace weapon_bts_axe
     {
+        class CAxeConfig : IConfigContext
+        {
+            float AttackDistance = 45.0f;
+
+            CAxeConfig()
+            {
+                ConfigContext::Register( this );
+            }
+
+            string GetName()
+            {
+                return "weapon_axe";
+            }
+
+            void Parse( dictionary@ json )
+            {
+                json.get( "attack_distance", AttackDistance );
+            }
+        }
+
+        CAxeConfig gpWeaponConfig;
+
         enum ANIM
         {
             IDLE1 = 0,
@@ -34,7 +56,15 @@ namespace weapons
 
             bool Deploy()
             {
-                return deploy( get_player(), self, "models/bts_rc/weapons/v_axe.mdl", "models/bts_rc/weapons/p_axe.mdl", ANIM::DRAW, "crowbar", 1 );
+                return deploy(
+                    get_player(),
+                    self,
+                    "models/bts_rc/weapons/v_axe.mdl",
+                    "models/bts_rc/weapons/p_axe.mdl",
+                    ANIM::DRAW,
+                    "crowbar",
+                    1
+                );
             }
 
             void Spawn()
@@ -122,7 +152,7 @@ namespace weapons
                 Math.MakeVectors( player.pev.v_angle );
 
                 Vector vecSrc = player.GetGunPosition();
-                Vector vecEnd = vecSrc + g_Engine.v_forward * 45.0f;
+                Vector vecEnd = vecSrc + g_Engine.v_forward * gpWeaponConfig.AttackDistance;
 
                 g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
 
