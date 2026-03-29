@@ -9,6 +9,8 @@
 #include "../../mikk155/meta_api"
 #include "../../mikk155/meta_api/json"
 
+#include "util/ConfigContext"
+
 // Contain models/sprites ID
 #include "misc/Precache"
 #include "misc/models"
@@ -56,14 +58,16 @@ void MapActivate()
     lasers::MapActivate();
 }
 
-dictionary g_Config;
-
 void MapInit()
 {
+    dictionary g_Config;
+
     if( !meta_api::json::Deserialize( "bts_rc/config.json", g_Config ) )
     {
         g_Game.AlertMessage( at_console, "[ERROR] Can not open \"scripts/maps/bts_rc/config.json\"\n" );
     }
+
+    ConfigContext::MapInit( g_Config );
 
     if( g_Config.get( "voice_responses", g_VoiceResponse.Active ) && g_VoiceResponse.Active )
     {
