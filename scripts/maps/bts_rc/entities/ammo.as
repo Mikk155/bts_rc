@@ -17,30 +17,6 @@ mixin class bts_ammo_base
     }
 };
 
-class ammo_bts_beretta : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/hlclassic/w_9mmclip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, weapon_bts_beretta::AMMO_GIVE, "9mm", weapon_bts_beretta::MAX_CARRY );
-    }
-}
-
-class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, weapon_bts_beretta::AMMO_GIVE2, "bts:battery", weapon_bts_beretta::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
-    }
-}
-
 class ammo_bts_eagle : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()

@@ -55,11 +55,12 @@ namespace weapons
 
     void RegisterWeapon(
         const string &in entityName,
+        const string &in primaryName = String::EMPTY_STRING,
+        const string &in secondaryName = String::EMPTY_STRING,
         const string &in primaryObject = String::EMPTY_STRING,
-        const string &in primaryEntity = String::EMPTY_STRING,
         const string &in secondaryObject = String::EMPTY_STRING,
-        const string &in secondaryEntity = String::EMPTY_STRING,
-        const string &in remapEntity = String::EMPTY_STRING )
+        const string &in remapEntity = String::EMPTY_STRING
+    )
     {
         if( !remapEntity.IsEmpty() )
         {
@@ -70,13 +71,30 @@ namespace weapons
         string objectName;
         snprintf( objectName, "weapons::%1::%1", entityName, entityName );
         g_CustomEntityFuncs.RegisterCustomEntity( objectName, entityName );
-        g_ItemRegistry.RegisterWeapon( entityName, "bts_rc/weapons", primaryObject, secondaryObject, primaryEntity, secondaryEntity );
+
+        if( secondaryObject != String::EMPTY_STRING && !g_CustomEntityFuncs.IsCustomEntity( secondaryObject ) )
+        {
+            string secondaryAmmoClass;
+            snprintf( secondaryAmmoClass, "weapons::%1::%1", entityName, secondaryObject );
+            g_CustomEntityFuncs.RegisterCustomEntity( secondaryAmmoClass, secondaryObject );
+        }
+
+        if( secondaryObject != String::EMPTY_STRING && !g_CustomEntityFuncs.IsCustomEntity( primaryObject ) )
+        {
+            string secondaryAmmoClass;
+            snprintf( secondaryAmmoClass, "weapons::%1::%1", entityName, primaryObject );
+            g_CustomEntityFuncs.RegisterCustomEntity( secondaryAmmoClass, primaryObject );
+        }
+
+        g_ItemRegistry.RegisterWeapon( entityName, "bts_rc/weapons", primaryObject, secondaryObject, primaryName, secondaryName );
+
         gpWeaponNames.insertLast( entityName );
     }
 
     void MapInit()
     {
         RegisterWeapon( "weapon_bts_axe" );
+        RegisterWeapon( "weapon_bts_beretta", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
 
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( gpItemMapping );
@@ -88,7 +106,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAMETHROWER::flame_proj", "flame_proj" );
         // Weapon Entities
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_pipewrench::weapon_bts_pipewrench", "weapon_bts_pipewrench" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_beretta::weapon_bts_beretta", "weapon_bts_beretta" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_crowbar::weapon_bts_crowbar", "weapon_bts_crowbar" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_eagle::weapon_bts_eagle", "weapon_bts_eagle" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_flare::weapon_bts_flare", "weapon_bts_flare" );
@@ -120,8 +137,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sbshotgun::weapon_bts_sbshotgun", "weapon_bts_sbshotgun" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_screwdriver::weapon_bts_screwdriver", "weapon_bts_screwdriver" );
         // Ammo
-        g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_beretta", "ammo_bts_beretta" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_beretta_battery", "ammo_bts_beretta_battery" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_eagle", "ammo_bts_eagle" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_eagle_battery", "ammo_bts_eagle_battery" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_eagle", "ammo_bts_dreagle" );
@@ -163,7 +178,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_uzisd", "ammo_bts_uzisd" );
 
         g_ItemRegistry.RegisterWeapon( "weapon_bts_pipewrench", "bts_rc/weapons" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_crowbar", "bts_rc/weapons" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", "357", "bts:battery", "ammo_bts_eagle", "ammo_bts_eagle_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_flare", "bts_rc/weapons", "weapon_bts_flare", "", "weapon_bts_flare", "" );
