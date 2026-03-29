@@ -272,7 +272,7 @@ namespace weapons
                         }
                     }
 
-                    trace_effect( tr, Bullet::BULLET_PLAYER_CROWBAR, 0.2f );
+                    trace_effect( tr, Bullet::BULLET_PLAYER_CROWBAR, 0.15f );
 
                     player.m_iWeaponVolume = int( flVol * 512 );
                 }
