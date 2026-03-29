@@ -17,6 +17,9 @@
     // Whatever to force player models
     "force_playermodels": true,
 
+    // Whatever melee weapons can pull allied players like the crowbar does
+    "melee_weapons_pull": true,
+
     // Configuration contexts
     "weapon_axe":
     {
