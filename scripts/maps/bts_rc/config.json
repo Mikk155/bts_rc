@@ -1,14 +1,19 @@
 {
     // Whatever player voices are enabled
     "voice_responses": true,
+
     // Whatever to enable blood puddles
     "blood_puddles": true,
+
     // Whatever that enemies should splash extra blood
     "blood_splash": true,
+
     // Whatever machine enemies should splash sparks
     "sparks_splash": true,
+
     // Whatever turrets should have laser aims
     "turret_lasers": true,
+
     // Whatever to force player models
     "force_playermodels": true,
 
@@ -16,6 +21,22 @@
     "weapon_axe":
     {
         // Attack distance
-        "attack_distance": 45
+        "attack_distance": 45,
+
+        // Attack cooldown
+        "primary_cooldown": 0.8,
+        "primary_miss_cooldown": 1.25,
+        "primary_trained_cooldown": 0.4,
+        "primary_miss_trained_cooldown": 0.90,
+        "secondary_cooldown": 0.5,
+        "secondary_trained_cooldown": 0.25,
+        "secondary_miss_cooldown": 1.35,
+        "secondary_miss_trained_cooldown": 1.0,
+
+        // 50% damage on subsequent hits
+        "subsequent_hits_deduction": 0.5,
+
+        "primary_damage": 20,
+        "secondary_damage": 14
     }
 }
