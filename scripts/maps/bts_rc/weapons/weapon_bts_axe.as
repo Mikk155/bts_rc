@@ -146,8 +146,11 @@ namespace weapons
                                 break;
                         }
 
-                        self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
-                        self.m_flNextSecondaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
+                        if( m_IsSecondary )
+                            self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 1.0f : 1.35f );
+                        else
+                            self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.90f : 1.25f );
+
                         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                         // play wiff or swish sound
