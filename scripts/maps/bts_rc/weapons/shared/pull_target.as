@@ -5,11 +5,11 @@ namespace weapons
      **/
     bool pull_target( const Vector &in source, CBaseEntity@ target )
     {
-        if( target !is null && target.IsPlayer() )
-        {
-            target.pev.velocity = target.pev.velocity + ( source - target.pev.origin ).Normalize() * 120.0f;
-            return true;
-        }
-        return false;
+        if( !gpAllowMeleePull || target is null || !target.IsPlayer() )
+            return false;
+
+        target.pev.velocity = target.pev.velocity + ( source - target.pev.origin ).Normalize() * 120.0f;
+
+        return true;
     }
 }
