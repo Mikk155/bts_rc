@@ -52,25 +52,5 @@ HookReturnCode player_takedamage( DamageInfo@ pDamageInfo )
         }
     }
 
-    if( g_VoiceResponse.Active && ( pDamageInfo.pAttacker is null || pDamageInfo.pAttacker.IRelationship( player ) != R_AL ) )
-    {
-        CVoices@ voices = g_VoiceResponse[player];
-
-        if( voices !is null )
-        {
-            // Player will be dead
-            if( ( player.pev.health - pDamageInfo.flDamage ) <= 0 )
-            {
-                if( voices.killed !is null )
-                    voices.killed.PlaySound( player );
-            }
-            else
-            {
-                if( voices.takedamage !is null )
-                    voices.takedamage.PlaySound( player );
-            }
-        }
-    }
-
     return HOOK_CONTINUE;
 }
