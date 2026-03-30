@@ -128,6 +128,41 @@ class CVoiceResponse
 
     void Register()
     {
+        g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, PlayerTakeDamageHook( function( DamageInfo@ info )
+        {
+            if( info.flDamage <= 0 || info.pVictim is null )
+                return HOOK_CONTINUE;
+
+            CBasePlayer@ player = cast<CBasePlayer@>( info.pVictim );
+
+            if( player is null || ( info.pAttacker is null || info.pAttacker.IRelationship( player ) == R_AL ) )
+                return HOOK_CONTINUE;
+
+            CVoices@ voices = g_VoiceResponse[player];
+
+            if( voices !is null && voices.takedamage !is null )
+            {
+                voices.takedamage.PlaySound( player );
+            }
+
+            return HOOK_CONTINUE;
+        } ) );
+
+        g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, PlayerKilledHook( function( CBasePlayer@ player, CBaseEntity@ attacker, int gib )
+        {
+            if( player is null )
+                return HOOK_CONTINUE;
+
+            CVoices@ voices = g_VoiceResponse[player];
+
+            if( voices !is null && voices.killed !is null )
+            {
+                voices.killed.PlaySound( player );
+            }
+
+            return HOOK_CONTINUE;
+        } ) );
+
         // Initialize handlers for specific classes
         CVoices@ scientist = @CVoices( "scientist" );
         CVoices@ barney = @CVoices( "barney" );
@@ -139,14 +174,14 @@ class CVoiceResponse
         CVoices@ bscientist = @CVoices( "bscientist" );
 
         // Save them in the voice responses class
-        g_VoiceResponse.voices["scientist"] = @scientist;
-        g_VoiceResponse.voices["barney"] = @barney;
-        g_VoiceResponse.voices["construction"] = @construction;
-        g_VoiceResponse.voices["helmet"] = @helmet;
-        g_VoiceResponse.voices["cleansuit"] = @cleansuit;
-        g_VoiceResponse.voices["veteran"] = @veteran;
-        g_VoiceResponse.voices["otis"] = @otis;
-        g_VoiceResponse.voices["bscientist"] = @bscientist;
+        this.voices["scientist"] = @scientist;
+        this.voices["barney"] = @barney;
+        this.voices["construction"] = @construction;
+        this.voices["helmet"] = @helmet;
+        this.voices["cleansuit"] = @cleansuit;
+        this.voices["veteran"] = @veteran;
+        this.voices["otis"] = @otis;
+        this.voices["bscientist"] = @bscientist;
 
         // Constructor
         construction.takedamage.cooldown = 1.0;
