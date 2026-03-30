@@ -42,10 +42,14 @@ namespace lasers
 
     void MapActivate()
     {
+#if METAMOD_DEBUG
+        auto chrono = Server::chrono();
+#endif
         const array<string> turrets = {
             "monster_sentry",
             "monster_turret",
-            "monster_miniturret" };
+            "monster_miniturret"
+        };
 
         for( uint ui = 0; ui < turrets.length(); ui++ )
         {
@@ -56,6 +60,10 @@ namespace lasers
                 handles.insertLast( EHandle( entity ) );
             }
         }
+#if METAMOD_DEBUG
+        chrono.Stop();
+        g_Log.PrintF( "[BTS_RC] Done configurating sentry lasers. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
+#endif
     }
 }
 

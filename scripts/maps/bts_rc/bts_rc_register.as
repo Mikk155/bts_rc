@@ -8,6 +8,9 @@
 
 #include "../../mikk155/meta_api"
 #include "../../mikk155/meta_api/json"
+#if METAMOD_DEBUG
+#include "../../mikk155/Server/chrono"
+#endif
 
 #include "util/ConfigContext"
 
@@ -61,6 +64,10 @@ void MapActivate()
 
 void MapInit()
 {
+#if METAMOD_DEBUG
+    auto chrono = Server::chrono();
+#endif
+
     dictionary g_Config;
 
     if( !meta_api::json::Deserialize( "bts_rc/config.json", g_Config ) )
@@ -117,6 +124,12 @@ void MapInit()
     g_Config.get( "sparks_splash", gpTraceSparks );
     g_Config.get( "melee_weapons_pull", gpAllowMeleePull );
 
+#if METAMOD_DEBUG
+    chrono.Stop();
+    g_Log.PrintF( "[BTS_RC] Done configurating json. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
+    chrono.Restart();
+#endif
+
     Precache();
 
     weapons::MapInit();
@@ -152,6 +165,11 @@ void MapInit()
     {
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
     }
+
+#if METAMOD_DEBUG
+    chrono.Stop();
+    g_Log.PrintF( "[BTS_RC] Done registering entities & hooks. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
+#endif
 }
 
 // sven only has 8192 edicts at any given time
