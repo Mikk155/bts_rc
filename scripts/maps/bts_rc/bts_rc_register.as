@@ -34,11 +34,11 @@
 
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
+#include "gamemodes/radioactivity"
 
 #include "Hooks/monster_killed"
 #include "Hooks/monster_takedamage"
 #include "Hooks/player_connect" /* -TODO Remove this line in 5.27 */
-#include "Hooks/player_takedamage"
 #include "Hooks/player_think"
 
 #include "weapons/main"
@@ -158,7 +158,6 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_sprayaid", "item_bts_sprayaid" );
 
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_think );
-    g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @player_takedamage );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @monster_killed );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @monster_takedamage );
     /* -TODO Remove this line in 5.27 */ if( g_Game.GetGameVersion() == 526 )
