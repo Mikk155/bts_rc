@@ -74,14 +74,9 @@ void MapInit()
     }
 
     ConfigContext::MapInit( g_Config );
-
-    if( g_Config.get( "voice_responses", g_VoiceResponse.Active ) && g_VoiceResponse.Active )
-    {
-        g_VoiceResponse.Register();
-    }
-
     bloodpuddle::Register( @g_Config );
     lasers::Register( @g_Config );
+    g_VoiceResponse.Register( @g_Config );
 
     if( g_Config.get( "force_playermodels", gpForcepModels ) && gpForcepModels )
     {
