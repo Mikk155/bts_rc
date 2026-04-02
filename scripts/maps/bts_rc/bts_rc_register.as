@@ -14,6 +14,7 @@
 
 #include "util/CommandContext"
 #include "util/ConfigContext"
+#include "util/Logger"
 
 // Contain models/sprites ID
 #include "misc/Precache"
@@ -72,6 +73,8 @@ void MapInit()
     {
         g_Game.AlertMessage( at_console, "[ERROR] Can not open \"scripts/maps/bts_rc/config.json\"\n" );
     }
+
+    g_Logger.__Register__( cast<dictionary@>( g_Config[ "log" ] ) );
 
     ConfigContext::MapInit( g_Config );
     bloodpuddle::Register( @g_Config );
