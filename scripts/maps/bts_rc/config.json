@@ -20,7 +20,73 @@
     // Whatever melee weapons can pull allied players like the crowbar does
     "melee_weapons_pull": true,
 
-    // Configuration contexts
+    // ===========================
+    // Start of configuration contexts
+    // ===========================
+
+    // what monsters drop upon death
+    "deathdrop":
+    {
+        // Finds by either classname or model name. model has priority.
+        // Values are the classname of entities to spawn, null to have a chance of nothing. "grenade" to spawn a living grenade
+        "monster_zombie":
+        [
+            "ammo_bts_battery",
+            "weapon_bts_flare",
+            "ammo_bts_dglocksd",
+            "item_bts_sprayaid",
+            null, // Few chances of droping nothing
+            null,
+            null
+        ],
+
+        "monster_zombie_barney":
+        [
+            "ammo_bts_dglocksd",
+            "ammo_bts_dreagle",
+            "ammo_bts_shotshell",
+            "ammo_bts_beretta",
+            null,
+            null,
+            null
+        ],
+
+        "monster_human_grunt":
+        [
+            "ammo_bts_556round"
+        ],
+
+        "models/bts_rc/monsters/zombie_medic.mdl":
+        [
+            "item_bts_sprayaid",
+            "item_healthkit"
+        ],
+
+        "monster_zombie_soldier":
+        [
+            "ammo_bts_shotshell",
+            "ammo_bts_9mmbox",
+            "ammo_bts_556round",
+            "ammo_bts_357cyl",
+            "ammo_bts_dreagle",
+            "ammo_bts_dglocksd",
+            "item_bts_hevbattery",
+            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
+        ],
+
+        "monster_gonome":
+        [
+            "ammo_bts_shotshell",
+            "ammo_bts_9mmbox",
+            "ammo_bts_556round",
+            "ammo_bts_357cyl",
+            "ammo_bts_dreagle",
+            "ammo_bts_dglocksd",
+            "item_bts_hevbattery",
+            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
+        ]
+    },
+
     "weapon_axe":
     {
         // Attack distance
