@@ -30,6 +30,7 @@
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 
 #include "gamemodes/bloodpuddle"
+#include "gamemodes/deathdrop"
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
 #include "gamemodes/radioactivity"
