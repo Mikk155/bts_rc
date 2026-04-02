@@ -12,6 +12,7 @@
 #include "../../mikk155/Server/chrono"
 #endif
 
+#include "util/CommandContext"
 #include "util/ConfigContext"
 
 // Contain models/sprites ID
@@ -46,7 +47,6 @@
 *   - Start of variables for server operators. Modify these in config.json
 ==========================================================================*/
 bool gpForcepModels;
-bool gpLaserSentries;
 bool gpTraceBlood;
 bool gpTraceSparks;
 bool gpAllowMeleePull;
@@ -81,12 +81,7 @@ void MapInit()
     }
 
     bloodpuddle::Register( @g_Config );
-
-    if( g_Config.get( "turret_lasers", gpLaserSentries ) && gpLaserSentries )
-    {
-        g_Scheduler.SetInterval( "lasers_think", 0.01f, g_Scheduler.REPEAT_INFINITE_TIMES );
-        g_Game.PrecacheModel( "sprites/glow01.spr" );
-    }
+    lasers::Register( @g_Config );
 
     if( g_Config.get( "force_playermodels", gpForcepModels ) && gpForcepModels )
     {
