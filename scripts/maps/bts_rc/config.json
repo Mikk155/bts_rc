@@ -24,6 +24,16 @@
     // Start of configuration contexts
     // ===========================
 
+    // Loggers
+    "log":
+    {
+        "error": true,
+        "info": true,
+        "trace": true,
+        "warning": true,
+        "critical": true
+    },
+
     // what monsters drop upon death
     "deathdrop":
     {
