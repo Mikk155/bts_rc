@@ -1,0 +1,27 @@
+/*
+*   Author: Mikk
+*/
+
+const bool __HazardSuitRadioactivity__ = g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage,
+PlayerTakeDamageHook( function( DamageInfo@ info )
+{
+    if( info.flDamage > 0 && info.pVictim !is null && ( info.bitsDamageType & DMG_RADIATION ) != 0 )
+    {
+        switch( g_PlayerClass[ cast<CBasePlayer@>( info.pVictim ), true ] )
+        {
+            case PM::CLSUIT:
+            {
+                float dmg = info.flDamage * 0.3;
+                if( dmg > 1.0 )
+                    info.flDamage = dmg;
+                break;
+            }
+            case PM::HELMET:
+            {
+                info.flDamage = 0;
+                return HOOK_CONTINUE;
+            }
+        }
+    }
+    return HOOK_CONTINUE;
+} ) );
