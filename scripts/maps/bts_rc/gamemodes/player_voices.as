@@ -138,6 +138,11 @@ class CVoiceResponse
             if( player is null || ( info.pAttacker is null || info.pAttacker.IRelationship( player ) == R_AL ) )
                 return HOOK_CONTINUE;
 
+            // Hooks call ordering is reversed from the registering orden so we have to do this check anyways from gamemodes/radioactivity
+            // https://discord.com/channels/818989352411463731/819002186574594118/1489052351435378770
+            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && g_PlayerClass[ player, true ] == PM::HELMET ) )
+                return HOOK_CONTINUE;
+
             CVoices@ voices = g_VoiceResponse[player];
 
             if( voices !is null && voices.takedamage !is null )
