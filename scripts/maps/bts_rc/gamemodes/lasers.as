@@ -15,27 +15,10 @@ namespace lasers
             @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.01f, g_Scheduler.REPEAT_INFINITE_TIMES );
             g_Game.PrecacheModel( "sprites/glow01.spr" );
 
-            RegisterCommand( "turret_lasers", "0/1", "toggle turret lasers state", 
+            RegisterCommand( "turret_lasers", "", "toggle turret lasers state", 
                 CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
                 {
-                    if( arguments !is null )
-                    {
-                        if( arguments[0] == "1" )
-                        {
-                            if( __think__ is null )
-                            {
-                                @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.01f, g_Scheduler.REPEAT_INFINITE_TIMES );
-                            }
-                            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Enabled laser turrets\n" );
-                        }
-                        else
-                        {
-                            g_Scheduler.RemoveTimer( @__think__ );
-                            @__think__ = null;
-                            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Disabled laser turrets\n" );
-                        }
-                    }
-                    else if( __think__ is null )
+                    if( __think__ is null )
                     {
                         @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.01f, g_Scheduler.REPEAT_INFINITE_TIMES );
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Enabled laser turrets\n" );
