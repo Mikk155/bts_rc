@@ -126,11 +126,14 @@ class CVoiceResponse
         }
     }
 
-    void Register()
+    void Register( dictionary@ config )
     {
+        if( !config.get( "voice_responses", this.Active ) || !this.Active )
+            return;
+
         g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, PlayerTakeDamageHook( function( DamageInfo@ info )
         {
-            if( info.flDamage <= 0 || info.pVictim is null )
+            if( !g_VoiceResponse.Active || info.flDamage <= 0 || info.pVictim is null )
                 return HOOK_CONTINUE;
 
             CBasePlayer@ player = cast<CBasePlayer@>( info.pVictim );
@@ -155,7 +158,7 @@ class CVoiceResponse
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, PlayerKilledHook( function( CBasePlayer@ player, CBaseEntity@ attacker, int gib )
         {
-            if( player is null )
+            if( !g_VoiceResponse.Active || player is null )
                 return HOOK_CONTINUE;
 
             CVoices@ voices = g_VoiceResponse[player];
@@ -167,6 +170,17 @@ class CVoiceResponse
 
             return HOOK_CONTINUE;
         } ) );
+
+        RegisterCommand( "player_voices", "", "toggle player voices state", 
+            CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
+            {
+                g_VoiceResponse.Active = !g_VoiceResponse.Active;
+                if( g_VoiceResponse.Active )
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Enabled player voices\n" );
+                else
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Disabled player voices\n" );
+            }
+        ), true );
 
         // Initialize handlers for specific classes
         CVoices@ scientist = @CVoices( "scientist" );
