@@ -138,60 +138,6 @@ HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int
                     item.pev.spawnflags |= 1024; // no more respawn
                 }
             }
-
-            if( gpBloodPuddles and freeedicts( 30 )
-                /* Do not create for non-bleedable npcs */
-                and monster.m_bloodColor != DONT_BLEED
-                /* I'm sure Kern fixed this but just in case of a future update, we wouldn't want a bunch of puddles overflow x[ */
-                and !user_data.exists( "bloodpuddle" ) )
-            {
-                CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
-
-                if( entity !is null )
-                {
-                    env_bloodpuddle::env_bloodpuddle@ bloodpuddle = cast<env_bloodpuddle::env_bloodpuddle@>( CastToScriptClass( entity ) );
-
-                    if( bloodpuddle !is null )
-                    {
-                        if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
-                        {
-                            bloodpuddle.pev.skin = 1;
-                        }
-
-                        if( monster.pev.classname == "monster_headcrab" || monster.pev.classname == "monster_houndeye" || monster.pev.classname == "monster_babycrab" )
-                        {
-                            bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
-                        }
-                        else
-                        {
-                            bloodpuddle.pev.scale = Math.RandomFloat( 1.5, 2.5 );
-                        }
-
-                        /* Monster gibed? Set it to full gib */
-                        if( monster.ShouldGibMonster( gib ) )
-                        {
-                            bloodpuddle.state = env_bloodpuddle::BLOOD_STATE::EXPANDED;
-                            // Think right away
-                            bloodpuddle.pev.nextthink = g_Engine.time + 0.1f;
-                        }
-                        else
-                        {
-                            bloodpuddle.pev.nextthink = g_Engine.time + 0.8f;
-                        }
-
-                        bloodpuddle.Spawn();
-                    }
-                    else
-                    {
-                        entity.pev.flags |= FL_KILLME;
-                    }
-                }
-                else
-                {
-                }
-
-                user_data["bloodpuddle"] = true;
-            }
         }
     }
 

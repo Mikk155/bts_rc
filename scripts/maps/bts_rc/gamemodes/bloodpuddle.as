@@ -1,10 +1,10 @@
 /*
-    Author: Mikk
-    Original Code: Gaftherman
-    Original Idea: EdgarBarney (Trinity Rendering)
+*   Author: Mikk
+*   Original Code: Gaftherman
+*   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-namespace env_bloodpuddle
+namespace bloodpuddle
 {
     enum BLOOD_STATE
     {
@@ -95,5 +95,67 @@ namespace env_bloodpuddle
                 }
             }
         }
+    }
+
+    void Register( dictionary@ config )
+    {
+        bool register;
+
+        if( config.get( "blood_puddles", register ) && register )
+        {
+            g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @bloodpuddle::monster_killed );
+            g_CustomEntityFuncs.RegisterCustomEntity( "bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
+            g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+        }
+    }
+
+    HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
+    {
+        if( monster is null || !freeedicts( 30 ) || monster.m_bloodColor == DONT_BLEED )
+            return HOOK_CONTINUE;
+
+        dictionary@ user_data = monster.GetUserData();
+
+        CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
+
+        if( entity is null )
+            return HOOK_CONTINUE;
+
+        auto bloodpuddle = cast<env_bloodpuddle@>( CastToScriptClass( entity ) );
+
+        if( bloodpuddle is null )
+        {
+            entity.pev.flags |= FL_KILLME;
+            return HOOK_CONTINUE;
+        }
+
+        if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
+            bloodpuddle.pev.skin = 1;
+
+        // Small monsters
+        if(monster.pev.classname == "monster_headcrab"
+        ||  monster.pev.classname == "monster_houndeye"
+        ||  monster.pev.classname == "monster_babycrab"
+        ) {
+            bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
+        }
+        else {
+            bloodpuddle.pev.scale = Math.RandomFloat( 1.5, 2.5 );
+        }
+
+        /* Monster gibed? Set it to full gib */
+        if( monster.ShouldGibMonster( gib ) )
+        {
+            bloodpuddle.state = BLOOD_STATE::EXPANDED;
+            bloodpuddle.pev.nextthink = g_Engine.time + 0.1f;
+        }
+        else
+        {
+            bloodpuddle.pev.nextthink = g_Engine.time + 0.8f;
+        }
+
+        bloodpuddle.Spawn();
+
+        return HOOK_CONTINUE;
     }
 }

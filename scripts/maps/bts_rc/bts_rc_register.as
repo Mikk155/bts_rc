@@ -18,12 +18,10 @@
 #include "misc/Precache"
 #include "misc/models"
 
-
 #include "callbacks/Hellbound"
 #include "callbacks/survival"
 
 #include "entities/ammo"
-#include "entities/env_bloodpuddle"
 #include "entities/func_bts_recharger"
 #include "entities/items"
 #include "entities/point_checkpoint"
@@ -31,7 +29,7 @@
 #include "entities/trigger_update_class"
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 
-
+#include "gamemodes/bloodpuddle"
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
 #include "gamemodes/radioactivity"
@@ -46,7 +44,6 @@
 /*==========================================================================
 *   - Start of variables for server operators. Modify these in config.json
 ==========================================================================*/
-bool gpBloodPuddles;
 bool gpForcepModels;
 bool gpLaserSentries;
 bool gpTraceBlood;
@@ -82,11 +79,7 @@ void MapInit()
         g_VoiceResponse.Register();
     }
 
-    if( g_Config.get( "blood_puddles", gpBloodPuddles ) && gpBloodPuddles )
-    {
-        g_CustomEntityFuncs.RegisterCustomEntity( "env_bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
-        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
-    }
+    bloodpuddle::Register( @g_Config );
 
     if( g_Config.get( "turret_lasers", gpLaserSentries ) && gpLaserSentries )
     {
