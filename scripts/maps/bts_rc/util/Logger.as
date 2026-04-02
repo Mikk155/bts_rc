@@ -51,6 +51,17 @@ class CLogger
         {
             g_EngineFuncs.ServerPrint( buffer );
         }
+        // Host is not yet fully connected, print to server console not network client
+        else if( g_Engine.time < 5 )
+        {
+            auto host = g_PlayerFuncs.FindPlayerByIndex(0);
+
+            if( host is null || !host.IsConnected() )
+            {
+                g_EngineFuncs.ServerPrint( buffer );
+                return;
+            }
+        }
 
         g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
     }
