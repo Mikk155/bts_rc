@@ -28,16 +28,16 @@
     "deathdrop":
     {
         // Finds by either classname or model name. model has priority.
-        // Values are the classname of entities to spawn, null to have a chance of nothing. "grenade" to spawn a living grenade
+        // Values are the classname of entities to spawn, empty to have a chance of nothing. "grenade" to spawn a living grenade
         "monster_zombie":
         [
             "ammo_bts_battery",
             "weapon_bts_flare",
             "ammo_bts_dglocksd",
             "item_bts_sprayaid",
-            null, // Few chances of droping nothing
-            null,
-            null
+            "", // Few chances of droping nothing
+            "",
+            ""
         ],
 
         "monster_zombie_barney":
@@ -46,9 +46,9 @@
             "ammo_bts_dreagle",
             "ammo_bts_shotshell",
             "ammo_bts_beretta",
-            null,
-            null,
-            null
+            "",
+            "",
+            ""
         ],
 
         "monster_human_grunt":
