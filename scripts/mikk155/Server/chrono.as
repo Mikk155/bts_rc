@@ -2,6 +2,7 @@ namespace Server
 {
     class chrono
     {
+        private float m_enginetime;
         private uint64 m_ms;
         private TimeDifference m_Difference;
         private DateTime m_Time;
@@ -24,7 +25,9 @@ namespace Server
         {
             DateTime now = DateTime();
             this.m_Difference = now - this.m_Time;
-            this.m_ms = uint64( uint( now.GetMilliseconds() - this.m_Time.GetMilliseconds() ) );
+            // this.m_ms = uint64( uint( now.GetMilliseconds() - this.m_Time.GetMilliseconds() ) ); nowork
+            // No real mili seconds, estimated time by frame rate
+            this.m_ms = uint64( double( g_Engine.time - this.m_enginetime ) + uint( int( 1.0f / g_Engine.frametime ) ) );
             this.m_Difference.MakeAbsolute();
         }
 
@@ -44,6 +47,7 @@ namespace Server
         **/
         void Restart()
         {
+            this.m_enginetime = g_Engine.time;
             this.m_Time = DateTime();
         }
 
