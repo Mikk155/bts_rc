@@ -232,6 +232,10 @@ namespace player_models
         Register( "bts_barney2", barney );
         Register( "bts_barney3", barney );
 
+        Register( "bts_otis", barney );
+        Register( "bts_otis2", barney );
+        Register( "bts_otis_blk", barney );
+
         Register( "bts_cleansuit", null );
         Register( "bts_helmet", null );
 
@@ -254,9 +258,6 @@ namespace player_models
         Register( "bts_op_band", operative );
         Register( "bts_op_free", operative );
         Register( "bts_op_hurt", operative );
-        Register( "bts_otis", operative );
-        Register( "bts_otis2", operative );
-        Register( "bts_otis_blk", operative );
         Register( "bts_op_back", operative );
         Register( "bts_op_demo", operative );
         Register( "bts_op_dual", operative );
