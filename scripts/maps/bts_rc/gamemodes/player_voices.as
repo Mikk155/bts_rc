@@ -117,9 +117,6 @@ class CVoiceResponse
             case PM::BARNEY:
                 return cast<CVoices@>( this.voices["barney"] );
 
-            case PM::VETERAN:
-                return cast<CVoices@>( this.voices["veteran"] );
-
             case PM::CONSTRUCTION:
                 return cast<CVoices@>( this.voices["construction"] );
 
@@ -199,7 +196,6 @@ class CVoiceResponse
         CVoices@ construction = @CVoices( "construction" );
         CVoices@ helmet = @CVoices( "helmet" );
         CVoices@ cleansuit = @CVoices( "cleansuit" );
-        CVoices@ veteran = @CVoices( "veteran" );
 
         // Save them in the voice responses class
         this.voices["scientist"] = @scientist;
@@ -207,7 +203,6 @@ class CVoiceResponse
         this.voices["construction"] = @construction;
         this.voices["helmet"] = @helmet;
         this.voices["cleansuit"] = @cleansuit;
-        this.voices["veteran"] = @veteran;
 
         // Constructor
         construction.takedamage.cooldown = 1.0;
@@ -230,23 +225,6 @@ class CVoiceResponse
         barney.killed.push_back( "barney/ba_die1.wav" );
         barney.killed.push_back( "barney/ba_die2.wav" );
         barney.killed.push_back( "barney/ba_die3.wav" );
-
-        // Veteran
-        veteran.takedamage.cooldown = 1.0;
-        veteran.takedamage.pitch = 103.0f;
-        veteran.killed.pitch = 103.0f;
-        veteran.takedamage.push_back( "fgrunt/gr_pain1.wav" );
-        veteran.takedamage.push_back( "fgrunt/gr_pain2.wav" );
-        veteran.takedamage.push_back( "fgrunt/gr_pain3.wav" );
-        veteran.takedamage.push_back( "fgrunt/gr_pain4.wav" );
-        veteran.takedamage.push_back( "fgrunt/gr_pain5.wav" );
-        veteran.takedamage.push_back( "fgrunt/gr_pain6.wav" );
-        veteran.killed.push_back( "fgrunt/death1.wav" );
-        veteran.killed.push_back( "fgrunt/death2.wav" );
-        veteran.killed.push_back( "fgrunt/death3.wav" );
-        veteran.killed.push_back( "fgrunt/death4.wav" );
-        veteran.killed.push_back( "fgrunt/death5.wav" );
-        veteran.killed.push_back( "fgrunt/death6.wav" );
 
         // H.E.V
         helmet.takedamage.cooldown = 1.0;

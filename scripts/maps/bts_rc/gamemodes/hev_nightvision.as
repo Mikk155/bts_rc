@@ -5,7 +5,7 @@
 const bool __HEV_NightVision__ = g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink,
 PlayerPostThinkHook( function( CBasePlayer@ player )
 {
-    if( player is null )
+    if( player is null || player_models::GetClass(player, true) == PM::UNSET )
         return HOOK_CONTINUE;
 
     if( !player_models::IsHEV( player ) )
