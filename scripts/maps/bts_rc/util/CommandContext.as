@@ -23,6 +23,9 @@ final class RegisterCommand
         const string&in section = String::EMPTY_STRING
     )
     {
+        if( g_Logger.info )
+            g_Logger.info = snprintf( glog, "Registering command %1", command );
+
         this.Command = command;
         this.Arguments = arguments;
         this.Help = help;

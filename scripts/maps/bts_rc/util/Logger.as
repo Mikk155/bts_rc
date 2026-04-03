@@ -6,7 +6,7 @@ class CLogger
     bool __info__;
     bool __trace__;
     bool __warning__;
-    bool __critical__ = true;;
+    bool __critical__ = true;
 
     bool Toggle( const string&in loggerName )
     {

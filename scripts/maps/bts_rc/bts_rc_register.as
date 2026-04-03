@@ -8,9 +8,7 @@
 
 #include "../../mikk155/meta_api"
 #include "../../mikk155/meta_api/json"
-#if METAMOD_DEBUG
 #include "../../mikk155/Server/chrono"
-#endif
 
 #include "util/CommandContext"
 #include "util/ConfigContext"
@@ -63,20 +61,33 @@ void MapActivate()
 
 void MapInit()
 {
-#if METAMOD_DEBUG
-    auto chrono = Server::chrono();
-#endif
+    Server::chrono@ chrono = Server::chrono();
+    Server::chrono@ chronoMapInit = Server::chrono();
 
     dictionary g_Config;
 
     if( !meta_api::json::Deserialize( "bts_rc/config.json", g_Config ) )
     {
-        g_Game.AlertMessage( at_console, "[ERROR] Can not open \"scripts/maps/bts_rc/config.json\"\n" );
+        g_Logger.critical = snprintf( glog, "Could not parse \"scripts/maps/bts_rc/config.json\"" );
     }
 
     g_Logger.__Register__( cast<dictionary@>( g_Config[ "log" ] ) );
 
+    if( g_Logger.info )
+    {
+        chrono.Stop();
+        g_Logger.info = snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+        chrono.Restart();
+    }
+
     ConfigContext::MapInit( g_Config );
+
+    if( g_Logger.info )
+    {
+        chrono.Stop();
+        g_Logger.info = snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+    }
+
     bloodpuddle::Register( @g_Config );
     lasers::Register( @g_Config );
     g_VoiceResponse.Register( @g_Config );
@@ -110,12 +121,6 @@ void MapInit()
     g_Config.get( "blood_splash", gpTraceBlood );
     g_Config.get( "sparks_splash", gpTraceSparks );
     g_Config.get( "melee_weapons_pull", gpAllowMeleePull );
-
-#if METAMOD_DEBUG
-    chrono.Stop();
-    g_Log.PrintF( "[BTS_RC] Done configurating json. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
-    chrono.Restart();
-#endif
 
     Precache();
 
@@ -152,10 +157,11 @@ void MapInit()
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
     }
 
-#if METAMOD_DEBUG
-    chrono.Stop();
-    g_Log.PrintF( "[BTS_RC] Done registering entities & hooks. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
-#endif
+    if( g_Logger.info )
+    {
+        chronoMapInit.Stop();
+        g_Logger.info = snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+    }
 }
 
 // sven only has 8192 edicts at any given time
