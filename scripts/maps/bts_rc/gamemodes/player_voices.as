@@ -109,7 +109,7 @@ class CVoiceResponse
         if( player is null )
             return null;
 
-        const PM player_class = player_models::GetClass( player, true );
+        const PM player_class = player_models::GetClass( player );
 
         switch( player_class )
         {

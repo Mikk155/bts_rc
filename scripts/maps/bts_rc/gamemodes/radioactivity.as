@@ -7,7 +7,7 @@ PlayerTakeDamageHook( function( DamageInfo@ info )
 {
     if( info.flDamage > 0 && info.pVictim !is null && ( info.bitsDamageType & DMG_RADIATION ) != 0 )
     {
-        switch( player_models::GetClass( cast<CBasePlayer@>( info.pVictim ), true ) )
+        switch( player_models::GetClass( cast<CBasePlayer@>( info.pVictim ) ) )
         {
             case PM::CLSUIT:
             case PM::CLSUIT_CIVIL:
