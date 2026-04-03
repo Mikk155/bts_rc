@@ -338,7 +338,7 @@ namespace weapon_bts_medkit
         void SecondaryAttack()
         {
             auto PlayerClass = player_models::GetClass( player );
-            if( PlayerClass == PM::SCIENTIST || PlayerClass == PM::BSCIENTIST || PlayerClass == PM::HELMET || PlayerClass == PM::VETERAN || PlayerClass == PM::CLSUIT )
+            if( PlayerClass == PM::SCIENTIST || PlayerClass == PM::HELMET || PlayerClass == PM::VETERAN || PlayerClass == PM::CLSUIT )
             { // lmao
                 if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= REVIVE_COST )
                 {

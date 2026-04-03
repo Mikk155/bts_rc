@@ -44,8 +44,31 @@ class CVoice
 
         const string sound = this.voices[Math.RandomLong( 0, this.voices.length() - 1 )];
 
-        // If pitchOverride == -1 → use class pitch
-        const int finalPitch = ( pitchOverride == -1 ? int( this.pitch ) : pitchOverride );
+        int finalPitch = int( this.pitch );
+        
+        if( pitchOverride > 0 )
+        {
+            finalPitch = pitchOverride;
+        }
+        else
+        {
+            auto player = cast<CBasePlayer@>(target);
+            auto watchyoutone = player_models::GetViewmodel(player);
+
+            if( watchyoutone == PM_Hands::WhiteBlackHands || watchyoutone == PM_Hands::BlueBlackHands )
+            {
+                finalPitch = 94;
+            }
+            else if( watchyoutone == PM_Hands::Blue )
+            {
+                string watchyouweight = string( player.GetUserData()["pm"] );
+
+                if( watchyouweight == "bts_otis" || watchyouweight == "bts_otis2" )
+                {
+                    finalPitch = 94;
+                }
+            }
+        }
 
         g_SoundSystem.PlaySound( target.edict(), CHAN_VOICE, sound, volume, ATTN_NORM, flags, finalPitch, 0, true, target.GetOrigin() );
 
@@ -79,14 +102,7 @@ class CVoiceResponse
 {
     bool Active = false;
 
-    dictionary@ voices = {
-        { "barney", null },
-        { "veteran", null },
-        { "scientist", null },
-        { "construction", null },
-        { "helmet", null },
-        { "otis", null },
-        { "bscientist", null } };
+    dictionary voices;
 
     CVoices@ opIndex( CBasePlayer@ player ) const
     {
@@ -101,13 +117,9 @@ class CVoiceResponse
             case PM::BARNEY:
                 return cast<CVoices@>( this.voices["barney"] );
 
-            case PM::BOTIS:
-                return cast<CVoices@>( this.voices["otis"] );
-
             case PM::VETERAN:
                 return cast<CVoices@>( this.voices["veteran"] );
 
-            case PM::GCONSTRUCTION:
             case PM::CONSTRUCTION:
                 return cast<CVoices@>( this.voices["construction"] );
 
@@ -116,9 +128,6 @@ class CVoiceResponse
 
             case PM::CLSUIT:
                 return cast<CVoices@>( this.voices["cleansuit"] );
-
-            case PM::BSCIENTIST:
-                return cast<CVoices@>( this.voices["bscientist"] );
 
             case PM::SCIENTIST:
             default:
@@ -189,8 +198,6 @@ class CVoiceResponse
         CVoices@ helmet = @CVoices( "helmet" );
         CVoices@ cleansuit = @CVoices( "cleansuit" );
         CVoices@ veteran = @CVoices( "veteran" );
-        CVoices@ otis = @CVoices( "otis" );
-        CVoices@ bscientist = @CVoices( "bscientist" );
 
         // Save them in the voice responses class
         this.voices["scientist"] = @scientist;
@@ -199,8 +206,6 @@ class CVoiceResponse
         this.voices["helmet"] = @helmet;
         this.voices["cleansuit"] = @cleansuit;
         this.voices["veteran"] = @veteran;
-        this.voices["otis"] = @otis;
-        this.voices["bscientist"] = @bscientist;
 
         // Constructor
         construction.takedamage.cooldown = 1.0;
@@ -218,24 +223,11 @@ class CVoiceResponse
         barney.takedamage.push_back( "barney/ba_pain1.wav" );
         barney.takedamage.push_back( "barney/ba_pain2.wav" );
         barney.takedamage.push_back( "barney/ba_pain3.wav" );
+        barney.takedamage.push_back( "barney/aghh.wav" );
+        barney.takedamage.push_back( "barney/ba_die3.wav" );
         barney.killed.push_back( "barney/ba_die1.wav" );
         barney.killed.push_back( "barney/ba_die2.wav" );
         barney.killed.push_back( "barney/ba_die3.wav" );
-
-        // Otis
-        otis.takedamage.cooldown = 1.0;
-        otis.takedamage.pitch = 94.0f;
-        otis.killed.pitch = 94.0f;
-        otis.takedamage.push_back( "otis/scar.wav" );
-        otis.takedamage.push_back( "barney/ba_pain1.wav" );
-        otis.takedamage.push_back( "barney/ba_pain2.wav" );
-        otis.takedamage.push_back( "barney/ba_pain3.wav" );
-        otis.takedamage.push_back( "barney/aghh.wav" );
-        otis.takedamage.push_back( "barney/ba_die3.wav" );
-        otis.takedamage.push_back( "barney/ba_pain3.wav" );
-        otis.killed.push_back( "barney/ba_die1.wav" );
-        otis.killed.push_back( "barney/ba_die2.wav" );
-        otis.killed.push_back( "barney/ba_die3.wav" );
 
         // Veteran
         veteran.takedamage.cooldown = 1.0;
@@ -277,28 +269,6 @@ class CVoiceResponse
         cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death2.wav" );
         cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death3.wav" );
         cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death4.wav" );
-
-        // Black Scientist
-        bscientist.takedamage.cooldown = 1.0;
-        bscientist.takedamage.pitch = 94.0f;
-        bscientist.killed.pitch = 94.0f;
-        bscientist.takedamage.push_back( "scientist/sci_pain1.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain2.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain3.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain4.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain5.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain6.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain7.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain8.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain9.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_pain10.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_fear11.wav" );
-        bscientist.takedamage.push_back( "scientist/sci_fear15.wav" );
-        bscientist.killed.push_back( "scientist/sci_die1.wav" );
-        bscientist.killed.push_back( "scientist/sci_die2.wav" );
-        bscientist.killed.push_back( "scientist/sci_die3.wav" );
-        bscientist.killed.push_back( "scientist/scream21.wav" );
-        bscientist.killed.push_back( "scientist/scream23.wav" );
 
         // Scientist
         scientist.takedamage.cooldown = 1.0;

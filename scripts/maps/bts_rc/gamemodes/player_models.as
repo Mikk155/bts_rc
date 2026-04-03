@@ -7,13 +7,24 @@ enum PM
     BARNEY,
     SCIENTIST,
     CONSTRUCTION,
-    BSCIENTIST,
-    HELMET,
+    HELMET = 4,
     CLSUIT,
     OPERATIVE,
-    BOTIS,
-    GCONSTRUCTION,
     VETERAN
+};
+
+enum PM_Hands
+{
+    Blue = 0,
+    White,
+    Orange,
+    WhiteBlackHands,
+    Hevsuit,
+    Cleansuit,
+    Gray,
+    BlueBlackHands,
+    Green,
+    GrayGloves
 };
 
 namespace player_models
@@ -43,16 +54,54 @@ namespace player_models
         }
     }
 
+    const PM_Hands GetViewmodel( CBasePlayer@ player )
+    {
+        PM pm = GetClass( player );
+
+        switch( pm )
+        {
+            case PM::BARNEY:
+            {
+                if( string( player.GetUserData()["pm"] ) == "bts_otis_blk" )
+                    return PM_Hands::BlueBlackHands;
+                return PM_Hands::Blue;
+            }
+            case PM::SCIENTIST:
+            {
+                if( string( player.GetUserData()["pm"] ) == "bts_scientist3" )
+                    return PM_Hands::WhiteBlackHands;
+                return PM_Hands::White;
+            }
+            case PM::CONSTRUCTION:
+            {
+                if( string( player.GetUserData()["pm"] ) == "bts_construction2" )
+                    return PM_Hands::Green;
+                return PM_Hands::Orange;
+            }
+            case PM::HELMET:
+            {
+                return PM_Hands::Hevsuit;
+            }
+            case PM::CLSUIT:
+            {
+                return PM_Hands::Cleansuit;
+            }
+            case PM::OPERATIVE:
+            {
+                if( string( player.GetUserData()["pm"] ) == "bts_op_demo" )
+                    return PM_Hands::GrayGloves;
+                return PM_Hands::Gray;
+            }
+        }
+
+        return PM_Hands::White;
+    }
+
     // Return a player model for the given class
     string GetModel( const PM player_class )
     {
         switch( player_class )
         {
-            case PM::SCIENTIST:
-            {
-                scientistLast = ( scientistLast >= scientist.length() - 1 ) ? 0 : scientistLast + 1;
-                return scientist[scientistLast];
-            }
             case PM::CONSTRUCTION:
             {
                 constructorLast = ( constructorLast >= constructor.length() - 1 ) ? 0 : constructorLast + 1;
@@ -76,8 +125,13 @@ namespace player_models
             {
                 return "bts_helmet";
             }
+            case PM::SCIENTIST:
+            default:
+            {
+                scientistLast = ( scientistLast >= scientist.length() - 1 ) ? 0 : scientistLast + 1;
+                return scientist[scientistLast];
+            }
         }
-        return "bts_op3";
     }
 
     bool IsTrainedPersonal( CBasePlayer@ player )
@@ -87,7 +141,6 @@ namespace player_models
         switch( pm )
         {
             case PM::BARNEY:
-            case PM::BOTIS:
             case PM::VETERAN:
             case PM::OPERATIVE:
             case PM::HELMET:
@@ -100,20 +153,6 @@ namespace player_models
     void SetClass( CBasePlayer@ player, PM player_class )
     {
         const string model = GetModel( player_class );
-
-        // Update class for view model bodygroups
-        if( model == "bts_scientist3" )
-        {
-            player_class = PM::BSCIENTIST;
-        }
-        else if( model == "bts_construction2" )
-        {
-            player_class = PM::GCONSTRUCTION;
-        }
-        else if( model == "bts_otis_blk" )
-        {
-            player_class = PM::BOTIS;
-        }
 
         dictionary@ data = player.GetUserData();
 

@@ -465,20 +465,20 @@ namespace trigger_update_class
                             switch( Math.RandomLong( 1, 4 ) )
                             {
                                 case 1:
-                                    player_models::SetClass( player, PM::BOTIS );
                                     player.GetUserData()["pm"] = "bts_otis_blk";
+                                    player_models::SetClass( player, PM::BARNEY );
                                     break;
                                 case 2:
-                                    player_models::SetClass( player, PM::BARNEY );
                                     player.GetUserData()["pm"] = "bts_otis";
+                                    player_models::SetClass( player, PM::BARNEY );
                                     break;
                                 case 3:
-                                    player_models::SetClass( player, PM::BARNEY );
                                     player.GetUserData()["pm"] = "bts_otis2";
+                                    player_models::SetClass( player, PM::BARNEY );
                                     break;
                                 case 4:
-                                    player_models::SetClass( player, PM::BOTIS );
                                     player.GetUserData()["pm"] = "bts_otis_blk";
+                                    player_models::SetClass( player, PM::BARNEY );
                                     break;
                             }
                             break;
