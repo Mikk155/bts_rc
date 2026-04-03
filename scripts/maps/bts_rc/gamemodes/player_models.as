@@ -195,7 +195,7 @@ namespace player_models
         // Set appropiate class for hev/cleansuit for IsTrainedPersonal
         if( player_class == PM::HELMET || player_class == PM::CLSUIT )
         {
-            auto oldClass = GetClass( player, true );
+            auto oldClass = GetClass( player );
 
             if( oldClass != PM::UNSET )
             {
@@ -249,48 +249,17 @@ namespace player_models
         }
     }
 
-    const PM GetClass( CBasePlayer@ player, bool DontSet = false )
+    const PM GetClass( CBasePlayer@ player )
     {
         if( player !is null )
         {
             dictionary@ data = player.GetUserData();
 
-            if( !data.exists( "class" ) )
-            {
-                if( DontSet )
-                {
-                    return PM::UNSET;
-                }
-
-                switch( Math.RandomLong( 0, 3 ) )
-                {
-                    case 0:
-                    {
-                        SetClass( player, PM::SCIENTIST );
-                        return PM::SCIENTIST;
-                    }
-                    case 1:
-                    {
-                        SetClass( player, PM::BARNEY );
-                        return PM::BARNEY;
-                    }
-                    case 2:
-                    {
-                        SetClass( player, PM::CONSTRUCTION );
-                        return PM::CONSTRUCTION;
-                    }
-                    case 3:
-                    {
-                        SetClass( player, PM::OPERATIVE );
-                        return PM::OPERATIVE;
-                    }
-                }
-            }
-
-            return PM( data["class"] );
+            if( data.exists( "class" ) )
+                return PM( data["class"] );
         }
 
-        return PM::SCIENTIST;
+        return PM::UNSET;
     }
 
     void Register( dictionary@ config )

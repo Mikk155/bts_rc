@@ -313,7 +313,7 @@ namespace point_checkpoint
 
                 // Only respawn if the player died before this checkpoint was activated
                 // Prevents exploitation
-                if( pPlayer !is null && !pPlayer.IsAlive() && pPlayer.m_fDeadTime < m_flRespawnStartTime )
+                if( pPlayer !is null && !pPlayer.IsAlive() && pPlayer.m_fDeadTime < m_flRespawnStartTime && player_models::GetClass(pPlayer) != PM::UNSET )
                 {
                     // Revive player and move to this checkpoint
                     pPlayer.GetObserver().RemoveDeadBody();

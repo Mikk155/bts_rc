@@ -76,7 +76,7 @@ HookReturnCode player_think( CBasePlayer@ player )
         }
 
         // Do not update the class here, Only weapons should do that so we assume the game hasn't started yet.
-        const PM player_class = player_models::GetClass( player, true );
+        const PM player_class = player_models::GetClass( player );
 
         // Clases not yet set? Then there's nothing to do here.
         if( player_class == PM::UNSET )

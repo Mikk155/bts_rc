@@ -48,6 +48,7 @@
 /*==========================================================================
 *   - Start of variables for server operators. Modify these in config.json
 ==========================================================================*/
+bool gpGameStarted;
 bool gpTraceBlood;
 bool gpTraceSparks;
 bool gpAllowMeleePull;
@@ -63,6 +64,10 @@ void MapActivate()
 
 void MapInit()
 {
+#if METAMOD_DEBUG
+    gpGameStarted = true;
+#endif
+
     Server::chrono@ chrono = Server::chrono();
     Server::chrono@ chronoMapInit = Server::chrono();
 
