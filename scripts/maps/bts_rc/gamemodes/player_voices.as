@@ -124,9 +124,11 @@ class CVoiceResponse
                 return cast<CVoices@>( this.voices["construction"] );
 
             case PM::HELMET:
+            case PM::HELMET_CIVIL:
                 return cast<CVoices@>( this.voices["helmet"] );
 
             case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
                 return cast<CVoices@>( this.voices["cleansuit"] );
 
             case PM::SCIENTIST:
@@ -152,7 +154,7 @@ class CVoiceResponse
 
             // Hooks call ordering is reversed from the registering orden so we have to do this check anyways from gamemodes/radioactivity
             // https://discord.com/channels/818989352411463731/819002186574594118/1489052351435378770
-            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && player_models::GetClass( player, true ) == PM::HELMET ) )
+            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && player_models::IsHEV( player ) ) )
                 return HOOK_CONTINUE;
 
             CVoices@ voices = g_VoiceResponse[player];

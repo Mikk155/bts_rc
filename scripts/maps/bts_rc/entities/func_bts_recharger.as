@@ -85,7 +85,7 @@ namespace func_bts_recharger
             }
 
             // if there is no juice left, make the deny noise
-            if( m_juice <= 0 || player.pev.armorvalue == 100 || PM::HELMET != player_models::GetClass( player, true ) )
+            if( m_juice <= 0 || player.pev.armorvalue == 100 || !player_models::IsHEV( player ) )
             {
                 if( m_flSoundTime <= g_Engine.time )
                 {
