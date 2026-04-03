@@ -10,6 +10,7 @@ PlayerTakeDamageHook( function( DamageInfo@ info )
         switch( player_models::GetClass( cast<CBasePlayer@>( info.pVictim ), true ) )
         {
             case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
             {
                 float dmg = info.flDamage * 0.3;
                 if( dmg > 1.0 )
@@ -17,6 +18,7 @@ PlayerTakeDamageHook( function( DamageInfo@ info )
                 break;
             }
             case PM::HELMET:
+            case PM::HELMET_CIVIL:
             {
                 info.flDamage = 0;
                 return HOOK_CONTINUE;
