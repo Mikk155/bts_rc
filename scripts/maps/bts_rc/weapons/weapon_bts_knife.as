@@ -185,7 +185,7 @@ namespace weapon_bts_knife
                             self.SendWeaponAnim( ATTACK3MISS, 0, pev.body );
                             break;
                     }
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal( m_pPlayer ) ? 0.5f : 0.75f );
+                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( player_models::IsTrainedPersonal( m_pPlayer ) ? 0.5f : 0.75f );
                     self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                     // play wiff or swish sound
@@ -226,7 +226,7 @@ namespace weapon_bts_knife
                         break;
                 }
 
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( g_PlayerClass.is_trained_personal( m_pPlayer ) ? 0.25f : 0.35f );
+                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( player_models::IsTrainedPersonal( m_pPlayer ) ? 0.25f : 0.35f );
                 self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
 
                 // player "shoot" animation

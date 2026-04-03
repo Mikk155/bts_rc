@@ -48,7 +48,7 @@ namespace weapon_bts_sw637
         {
             int mdl = g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_sw637.mdl" );
 
-            pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, BODYGROUP_HANDS, g_PlayerClass[m_pPlayer] );
+            pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, BODYGROUP_HANDS, player_models::GetClass(m_pPlayer) );
 
             pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, BODYGROUP_ROUNDS, self.m_iClip );
         }
@@ -159,7 +159,7 @@ namespace weapon_bts_sw637
                     break;
             }
 
-            m_pPlayer.pev.punchangle.x = g_PlayerClass.is_trained_personal( m_pPlayer ) ? -3.0f : -7.0f;
+            m_pPlayer.pev.punchangle.x = player_models::IsTrainedPersonal( m_pPlayer ) ? -3.0f : -7.0f;
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.25f;
             self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
