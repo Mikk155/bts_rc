@@ -219,7 +219,7 @@ mixin class CBaseWeapon
     {
         auto player = get_player();
 
-        if( g_PlayerClass.is_trained_personal( player ) )
+        if( player_models::IsTrainedPersonal( player ) )
         {
             if( ( player.pev.button & IN_DUCK ) != 0 )
             {

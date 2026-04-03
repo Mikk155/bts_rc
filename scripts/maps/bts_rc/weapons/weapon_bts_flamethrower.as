@@ -172,7 +172,7 @@ namespace BTS_FLAMETHROWER
             self.SendWeaponAnim( Math.RandomLong( FLTHRW_FIRE1, FLTHRW_FIRE4 ), 0, pev.body );
             m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
+            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
 
             m_pPlayer.pev.punchangle.x -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
             m_pPlayer.pev.punchangle.y -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );

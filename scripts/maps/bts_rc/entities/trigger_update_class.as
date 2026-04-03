@@ -159,7 +159,7 @@ namespace trigger_update_class
 
             string playerName = string( player.pev.netname );
 
-            g_PlayerClass.set_class( player, m_class );
+            player_models::SetClass( player, m_class );
 
             Vector fadeColor;
 
@@ -264,7 +264,7 @@ namespace trigger_update_class
                             AddItems( player, { { "weapon_bts_medkit", 1 }, { "weapon_bts_eagle", 1 }, { "item_bts_helmet", 1 } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: POOR MAN'S MEDIC" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: POOR MAN'S MEDIC.\n" );
-                            g_PlayerClass.set_class( player, PM::VETERAN );
+                            player_models::SetClass( player, PM::VETERAN );
                             player.GetUserData()["pm"] = "bts_op_band";
                             break;
                         }
@@ -273,7 +273,7 @@ namespace trigger_update_class
                             AddItems( player, { { "weapon_bts_flashlight", 1 }, { "ammo_bts_m16_grenade", 1 }, { "weapon_bts_flare", 1 }, { "item_bts_helmet", 2 }, { "weapon_bts_handgrenade", 4 } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: LOCKSMITh" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: LOCKSMITH.\n" );
-                            g_PlayerClass.set_class( player, PM::VETERAN );
+                            player_models::SetClass( player, PM::VETERAN );
                             player.GetUserData()["pm"] = "bts_op5";
                             break;
                         }
@@ -347,7 +347,7 @@ namespace trigger_update_class
                             AddItems( player, { { "weapon_bts_medkit", 1 } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: DOCTOR" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: DOCTOR.\n" );
-                            g_PlayerClass.set_class( player, PM::VETERAN );
+                            player_models::SetClass( player, PM::VETERAN );
                             player.GetUserData()["pm"] = "bts_op4";
                             break;
                         }
@@ -365,7 +365,7 @@ namespace trigger_update_class
                             AddItemInventory( player, { { "item_name", "CLEANSUIT_ID" }, { "item_group", "IMMUNE" }, { "target_on_collect", "GAMEMODE_ITEM_TXT" }, { "description", "Suit used for protection while going into highly toxic locations." }, { "display_name", "Blackmesa Cleansuit" }, { "target_cant_collect", "GAMEMODE_FULL_TXT" }, { "weight", "1.0" }, { "carried_hidden", "1" }, { "return_timelimit", "120" }, { "holder_timelimit_wait_until_activated", "0" }, { "holder_can_drop", "0" }, { "holder_keep_on_death", "1" }, { "holder_keep_on_respawn", "1" }, { "model", "models/w_security.mdl" } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: CLEANSUIT TEAM" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: CLEANSUIT TEAM.\n" );
-                            g_PlayerClass.set_class( player, PM::CLSUIT );
+                            player_models::SetClass( player, PM::CLSUIT );
                             break;
                         }
                         case 28:
@@ -373,7 +373,7 @@ namespace trigger_update_class
                             AddItems( player, { { "weapon_bts_shotgun", 1 }, { "ammo_bts_shotshell", Math.RandomLong( 0, 5 ) }, { "weapon_bts_poolstick", 1 }, { "item_bts_helmet", Math.RandomLong( 0, 3 ) } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: HEAVY SECURITY" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: HEAVY SECURITY\n" );
-                            g_PlayerClass.set_class( player, PM::VETERAN );
+                            player_models::SetClass( player, PM::VETERAN );
                             player.GetUserData()["pm"] = "bts_op";
                             break;
                         }
@@ -391,7 +391,7 @@ namespace trigger_update_class
                             AddItems( player, { { "item_bts_helmet", 1 }, { "weapon_bts_crowbar", 1 }, { "ammo_9mmclip", Math.RandomLong( 3, 4 ) }, { "weapon_bts_uzi", 1 } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: ILLEGAL FIREARM" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: ILLEGAL FIREARM.\n" );
-                            g_PlayerClass.set_class( player, PM::VETERAN );
+                            player_models::SetClass( player, PM::VETERAN );
                             player.GetUserData()["pm"] = "bts_op2";
                             break;
                         }
@@ -434,7 +434,7 @@ namespace trigger_update_class
                             AddKeyCard( player, { { "skin", "2" }, { "description", "Blackmesa Research Clearance level 1" }, { "display_name", "Research Keycard lvl 1" }, { "item_name", "Blackmesa_Research_Clearance_1" }, { "item_icon", "bts_rc/inv_card_research.spr" } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: NON TRAINED PERSONNEL" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled 49th Loadout: NON TRAINED PERSONNEL.\n" );
-                            g_PlayerClass.set_class( player, PM::SCIENTIST );
+                            player_models::SetClass( player, PM::SCIENTIST );
                             break;
                         }
                         case 34:
@@ -465,19 +465,19 @@ namespace trigger_update_class
                             switch( Math.RandomLong( 1, 4 ) )
                             {
                                 case 1:
-                                    g_PlayerClass.set_class( player, PM::OTIS );
+                                    player_models::SetClass( player, PM::BOTIS );
                                     player.GetUserData()["pm"] = "bts_otis_blk";
                                     break;
                                 case 2:
-                                    g_PlayerClass.set_class( player, PM::BARNEY );
+                                    player_models::SetClass( player, PM::BARNEY );
                                     player.GetUserData()["pm"] = "bts_otis";
                                     break;
                                 case 3:
-                                    g_PlayerClass.set_class( player, PM::BARNEY );
+                                    player_models::SetClass( player, PM::BARNEY );
                                     player.GetUserData()["pm"] = "bts_otis2";
                                     break;
                                 case 4:
-                                    g_PlayerClass.set_class( player, PM::OTIS );
+                                    player_models::SetClass( player, PM::BOTIS );
                                     player.GetUserData()["pm"] = "bts_otis_blk";
                                     break;
                             }

@@ -16,7 +16,7 @@ class item_bts_armorvest : ScriptBasePlayerAmmoEntity
         if( player is null )
             return false;
 
-        auto PlayerClass = g_PlayerClass[player];
+        auto PlayerClass = player_models::GetClass( player );
 
         if( PlayerClass == PM::HELMET or PlayerClass == PM::CLSUIT )
             return false;
@@ -62,7 +62,7 @@ class item_bts_helmet : ScriptBasePlayerAmmoEntity
         if( player is null )
             return false;
 
-        auto PlayerClass = g_PlayerClass[player];
+        auto PlayerClass = player_models::GetClass( player );
 
         if( PlayerClass == PM::HELMET or PlayerClass == PM::CLSUIT )
             return false;
@@ -108,7 +108,7 @@ class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
         if( player is null )
             return false;
 
-        auto PlayerClass = g_PlayerClass[player];
+        auto PlayerClass = player_models::GetClass( player );
 
         if( PlayerClass != PM::HELMET and PlayerClass != PM::CLSUIT )
             return false;
@@ -126,7 +126,7 @@ class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
         m.WriteString( "item_battery" );
         m.End();
 
-        if( PM::HELMET == g_PlayerClass[player, true] )
+        if( PM::HELMET == player_models::GetClass( player, true ) )
         {
             int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
 

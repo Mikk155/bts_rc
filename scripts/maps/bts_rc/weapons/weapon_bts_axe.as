@@ -183,7 +183,7 @@ namespace weapons
 
                 g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
 
-                bool is_trained_personal = g_PlayerClass.is_trained_personal( player );
+                bool is_trained_personal = player_models::IsTrainedPersonal( player );
 
                 if( tr.flFraction >= 1.0f )
                 {

@@ -242,7 +242,7 @@ namespace weapons
                 float x, y;
                 g_Utility.GetCircularGaussianSpread( x, y );
 
-                bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
+                bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
 
                 float CONE = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
                 CONE *= 0.6f;
@@ -272,7 +272,7 @@ namespace weapons
                 Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
                 g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shell, TE_BOUNCE_SHELL );
 
-                if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
+                if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass( m_pPlayer ) == PM::HELMET )
                     m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
                 self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;

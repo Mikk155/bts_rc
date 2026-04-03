@@ -93,7 +93,7 @@ class CVoiceResponse
         if( player is null )
             return null;
 
-        const PM player_class = g_PlayerClass[player, true];
+        const PM player_class = player_models::GetClass( player, true );
 
         switch( player_class )
         {
@@ -101,7 +101,7 @@ class CVoiceResponse
             case PM::BARNEY:
                 return cast<CVoices@>( this.voices["barney"] );
 
-            case PM::OTIS:
+            case PM::BOTIS:
                 return cast<CVoices@>( this.voices["otis"] );
 
             case PM::VETERAN:
@@ -143,7 +143,7 @@ class CVoiceResponse
 
             // Hooks call ordering is reversed from the registering orden so we have to do this check anyways from gamemodes/radioactivity
             // https://discord.com/channels/818989352411463731/819002186574594118/1489052351435378770
-            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && g_PlayerClass[ player, true ] == PM::HELMET ) )
+            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && player_models::GetClass( player, true ) == PM::HELMET ) )
                 return HOOK_CONTINUE;
 
             CVoices@ voices = g_VoiceResponse[player];
