@@ -11,8 +11,7 @@ enum PM
     CLSUIT,
     OPERATIVE,
     HELMET_CIVIL,
-    CLSUIT_CIVIL,
-    VETERAN
+    CLSUIT_CIVIL
 };
 
 enum PM_Hands
@@ -132,6 +131,11 @@ namespace player_models
     {
         switch( player_class )
         {
+            case PM::SCIENTIST:
+            {
+                scientistLast = ( scientistLast >= scientist.length() - 1 ) ? 0 : scientistLast + 1;
+                return scientist[scientistLast];
+            }
             case PM::CONSTRUCTION:
             {
                 constructorLast = ( constructorLast >= constructor.length() - 1 ) ? 0 : constructorLast + 1;
@@ -157,11 +161,10 @@ namespace player_models
             {
                 return "bts_helmet";
             }
-            case PM::SCIENTIST:
+            case PM::UNSET:
             default:
             {
-                scientistLast = ( scientistLast >= scientist.length() - 1 ) ? 0 : scientistLast + 1;
-                return scientist[scientistLast];
+                return String::EMPTY_STRING;
             }
         }
     }
@@ -173,7 +176,6 @@ namespace player_models
         switch( pm )
         {
             case PM::BARNEY:
-            case PM::VETERAN:
             case PM::OPERATIVE:
             case PM::HELMET:
             case PM::CLSUIT:
@@ -190,32 +192,30 @@ namespace player_models
 
         data["pm"] = model;
 
-        // Set appropiate class for hev/cleansuit
-        auto oldClass = GetClass( player, true );
-
-        if( oldClass != PM::UNSET )
+        // Set appropiate class for hev/cleansuit for IsTrainedPersonal
+        if( player_class == PM::HELMET || player_class == PM::CLSUIT )
         {
+            auto oldClass = GetClass( player, true );
+
+            if( oldClass != PM::UNSET )
+            {
+                switch( oldClass )
+                {
+                    case PM::SCIENTIST:
+                    case PM::CONSTRUCTION:
+                        if( player_class == PM::HELMET )
+                            player_class = PM::HELMET_CIVIL;
+                        if( player_class == PM::CLSUIT )
+                            player_class = PM::CLSUIT_CIVIL;
+                    break;
+                }
+            }
         }
 
         data["class"] = player_class;
 
         // Hide flashlight icon.
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
-
-        switch( player_class )
-        {
-            case PM::HELMET:
-            case PM::HELMET_CIVIL:
-                player.pev.armortype = 100;
-            break;
-            case PM::CLSUIT:
-            case PM::CLSUIT_CIVIL:
-                player.pev.armortype = 75;
-            break;
-            default:
-                player.pev.armortype = 50;
-            break;
-        }
 
         // Re-Deploy weapon to update view model hands
         if( player.m_hActiveItem.IsValid() )
@@ -231,6 +231,21 @@ namespace player_models
                     weapon.Deploy();
                 }
             }
+        }
+
+        switch( player_class )
+        {
+            case PM::HELMET:
+            case PM::HELMET_CIVIL:
+                player.pev.armortype = 100;
+            break;
+            case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
+                player.pev.armortype = 75;
+            break;
+            default:
+                player.pev.armortype = 50;
+            break;
         }
     }
 
