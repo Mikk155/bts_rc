@@ -31,7 +31,13 @@ namespace deathdrop
                 for( uint ui2 = 0; ui2 < valuesSize; ui2++ )
                 {
                     itemNames[ui2] = string( values[ui2] );
+
+                    if( g_Logger.info )
+                        g_Logger.info = snprintf( glog, "Adding drop \"%1\" for \"%2\"", itemNames[ui2], monster );
                 }
+
+                if( g_Logger.info )
+                    g_Logger.info = snprintf( glog, "Drops for \"%1\" with %2 percent chance for each.", monster, 100.0f / itemNames.length() );
 
                 m_Monsters[ monster ] = itemNames;
             }
@@ -59,6 +65,9 @@ namespace deathdrop
 
         if( drop.IsEmpty() )
             return HOOK_CONTINUE;
+
+        if( g_Logger.trace )
+            g_Logger.trace = snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() );
 
         if( drop == "grenade" )
         {
