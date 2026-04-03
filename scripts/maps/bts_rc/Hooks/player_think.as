@@ -86,9 +86,6 @@ HookReturnCode player_think( CBasePlayer@ player )
 
         dictionary@ user_data = player.GetUserData();
 
-        if( gpForcepModels )
-            player.SetOverriddenPlayerModel( string( user_data["pm"] ) );
-
         // New *feature* "No pressing E while shooting" xD
         if( ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0 )
         {
