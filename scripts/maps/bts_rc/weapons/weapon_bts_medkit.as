@@ -337,95 +337,83 @@ namespace weapon_bts_medkit
 
         void SecondaryAttack()
         {
-            auto PlayerClass = player_models::GetClass( player );
-            if( PlayerClass == PM::SCIENTIST || PlayerClass == PM::HELMET || PlayerClass == PM::VETERAN || PlayerClass == PM::CLSUIT )
-            { // lmao
-                if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= REVIVE_COST )
-                {
-                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
-                    self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                    m_reviveChargedTime = 0;
-                    return;
-                }
+            if( m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= REVIVE_COST )
+            {
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
+                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+                m_reviveChargedTime = 0;
+                return;
+            }
 
-                CBaseEntity@ pBestTarget = null;
-                float flBestDist = REVIVE_RADIUS;
+            CBaseEntity@ pBestTarget = null;
+            float flBestDist = REVIVE_RADIUS;
 
-                CBaseEntity@ pEntity;
-                while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname" ) ) !is null )
-                {
-                    if( pEntity is null || !IsValidReviveTarget( pEntity ) )
-                        continue;
+            CBaseEntity@ pEntity;
+            while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, m_pPlayer.GetOrigin(), REVIVE_RADIUS, "*", "classname" ) ) !is null )
+            {
+                if( pEntity is null || !IsValidReviveTarget( pEntity ) )
+                    continue;
 
-                    float flDist = ( pEntity.pev.origin - m_pPlayer.pev.origin ).Length();
-
-                    if( pBestTarget is null )
-                    {
-                        flBestDist = flDist;
-                        @pBestTarget = pEntity;
-                        continue;
-                    }
-
-                    if( IsBetterReviveTarget( pEntity, pBestTarget, flDist, flBestDist ) )
-                    {
-                        flBestDist = flDist;
-                        @pBestTarget = pEntity;
-                    }
-                }
+                float flDist = ( pEntity.pev.origin - m_pPlayer.pev.origin ).Length();
 
                 if( pBestTarget is null )
                 {
-                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
-                    self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                    m_reviveChargedTime = 0;
-                    return;
+                    flBestDist = flDist;
+                    @pBestTarget = pEntity;
+                    continue;
                 }
 
-                if( pBestTarget.m_fCanFadeStart )
+                if( IsBetterReviveTarget( pEntity, pBestTarget, flDist, flBestDist ) )
                 {
-                    pBestTarget.pev.renderamt = 255;
-                    pBestTarget.pev.nextthink = g_Engine.time + 2.0f;
+                    flBestDist = flDist;
+                    @pBestTarget = pEntity;
                 }
-
-                if( m_reviveChargedTime == 0.0f )
-                {
-                    self.SendWeaponAnim( LONGUSE, 0, pev.body );
-                    m_reviveChargedTime = g_Engine.time + 2.0f;
-                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "items/suitchargeok1.wav", 1.0f, ATTN_NORM );
-                    return;
-                }
-
-                if( m_reviveChargedTime < g_Engine.time )
-                {
-                    m_reviveChargedTime = 0;
-                    m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-                    self.SendWeaponAnim( SHORTUSE, 0, pev.body );
-                    g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM );
-                    self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
-
-                    CBaseMonster@ pMonster = ( pBestTarget.GetClassname() == "deadplayer" ) ? cast<CBaseMonster@>( g_EntityFuncs.Instance( int( pBestTarget.pev.renderamt ) ) ) : pBestTarget.MyMonsterPointer();
-                    pMonster.Revive();
-                    pMonster.pev.health = ( pMonster.pev.max_health / 2 );
-
-                    // m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
-
-                    // https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
-                    pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
-                    pMonster.ClearSchedule();
-
-                    m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - REVIVE_COST - 1 );
-                }
-
-                self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
             }
-            else
+
+            if( pBestTarget is null )
             {
                 g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
-                self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
-                self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
-                self.SendWeaponAnim( IDK, 0, pev.body );
-                g_EngineFuncs.ClientPrintf( m_pPlayer, print_center, "Revival is only for doctors." );
+                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+                m_reviveChargedTime = 0;
+                return;
             }
+
+            if( pBestTarget.m_fCanFadeStart )
+            {
+                pBestTarget.pev.renderamt = 255;
+                pBestTarget.pev.nextthink = g_Engine.time + 2.0f;
+            }
+
+            if( m_reviveChargedTime == 0.0f )
+            {
+                self.SendWeaponAnim( LONGUSE, 0, pev.body );
+                m_reviveChargedTime = g_Engine.time + 2.0f;
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "items/suitchargeok1.wav", 1.0f, ATTN_NORM );
+                return;
+            }
+
+            if( m_reviveChargedTime < g_Engine.time )
+            {
+                m_reviveChargedTime = 0;
+                m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
+                self.SendWeaponAnim( SHORTUSE, 0, pev.body );
+                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "weapons/electro4.wav", 1.0f, ATTN_NORM );
+                self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
+
+                CBaseMonster@ pMonster = ( pBestTarget.GetClassname() == "deadplayer" ) ? cast<CBaseMonster@>( g_EntityFuncs.Instance( int( pBestTarget.pev.renderamt ) ) ) : pBestTarget.MyMonsterPointer();
+                pMonster.Revive();
+                pMonster.pev.health = ( pMonster.pev.max_health / 2 );
+
+                // m_pPlayer.GetPointsForDamage(-pBestTarget.pev.health);
+
+                // https://github.com/KernCore91/-SC-Cry-of-Fear-Weapons-Project/blob/aeb624bd55b890c90df20f993a76979c86eac25b/scripts/maps/cof/special/weapon_cofsyringe.as#L306-L307
+                pMonster.Forget( bits_MEMORY_PROVOKED | bits_MEMORY_SUSPICIOUS );
+                pMonster.ClearSchedule();
+
+                m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType, m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) - REVIVE_COST - 1 );
+            }
+
+            self.m_flNextSecondaryAttack = g_Engine.time + 2.0f;
         }
 
         bool CanHealTarget( CBaseEntity@ pEntity )

@@ -177,7 +177,7 @@ namespace weapon_bts_shotgun
             Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass(m_pPlayer) == PM::HELMET )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::IsHEV( m_pPlayer ) )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             if( !is_trained_personal )
@@ -269,7 +269,7 @@ namespace weapon_bts_shotgun
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity2, m_pPlayer.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass(m_pPlayer) == PM::HELMET )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::IsHEV( m_pPlayer ) )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;

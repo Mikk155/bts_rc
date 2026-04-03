@@ -133,7 +133,7 @@ namespace weapon_bts_flaregun
             // m_pPlayer.pev.punchangle.x = -10.0; // Recoil
             m_pPlayer.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass( m_pPlayer ) == PM::HELMET )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::IsHEV( m_pPlayer ) )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;

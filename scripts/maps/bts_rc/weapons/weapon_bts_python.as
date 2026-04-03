@@ -140,7 +140,7 @@ namespace weapon_bts_python
             }
             m_pPlayer.pev.punchangle.x = player_models::IsTrainedPersonal( m_pPlayer ) ? -10.0f : -16.0f;
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass( m_pPlayer ) == PM::HELMET )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::IsHEV( m_pPlayer ) )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;

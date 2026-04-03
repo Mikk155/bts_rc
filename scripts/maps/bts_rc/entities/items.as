@@ -13,15 +13,7 @@ class item_bts_armorvest : ScriptBasePlayerAmmoEntity
 
         CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-        if( player is null )
-            return false;
-
-        auto PlayerClass = player_models::GetClass( player );
-
-        if( PlayerClass == PM::HELMET or PlayerClass == PM::CLSUIT )
-            return false;
-
-        if( player.pev.armorvalue >= player.pev.armortype )
+        if( player is null || player.pev.armorvalue >= player.pev.armortype || player_models::CanPickBattery(player) )
             return false;
 
         player.pev.armorvalue += Math.RandomFloat( 20, 30 );
@@ -59,15 +51,7 @@ class item_bts_helmet : ScriptBasePlayerAmmoEntity
 
         CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-        if( player is null )
-            return false;
-
-        auto PlayerClass = player_models::GetClass( player );
-
-        if( PlayerClass == PM::HELMET or PlayerClass == PM::CLSUIT )
-            return false;
-
-        if( player.pev.armorvalue >= player.pev.armortype )
+        if( player is null || player.pev.armorvalue >= player.pev.armortype || player_models::CanPickBattery(player) )
             return false;
 
         player.pev.armorvalue += Math.RandomFloat( 7, 10 );
@@ -105,15 +89,7 @@ class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
 
         CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-        if( player is null )
-            return false;
-
-        auto PlayerClass = player_models::GetClass( player );
-
-        if( PlayerClass != PM::HELMET and PlayerClass != PM::CLSUIT )
-            return false;
-
-        if( player.pev.armorvalue >= player.pev.armortype )
+        if( player is null || player.pev.armorvalue >= player.pev.armortype || !player_models::CanPickBattery(player) )
             return false;
 
         player.pev.armorvalue += Math.RandomFloat( 10, 25 );
@@ -126,7 +102,7 @@ class item_bts_hevbattery : ScriptBasePlayerAmmoEntity
         m.WriteString( "item_battery" );
         m.End();
 
-        if( PM::HELMET == player_models::GetClass( player, true ) )
+        if( player_models::IsHEV( player ) )
         {
             int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
 

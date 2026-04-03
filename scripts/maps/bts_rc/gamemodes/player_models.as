@@ -10,6 +10,8 @@ enum PM
     HELMET = 4,
     CLSUIT,
     OPERATIVE,
+    HELMET_CIVIL,
+    CLSUIT_CIVIL,
     VETERAN
 };
 
@@ -54,6 +56,32 @@ namespace player_models
         }
     }
 
+    bool IsHEV( CBasePlayer@ player )
+    {
+        switch( player_models::GetClass( player ) )
+        {
+            case PM::HELMET:
+            case PM::HELMET_CIVIL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    bool CanPickBattery( CBasePlayer@ player )
+    {
+        switch( player_models::GetClass( player ) )
+        {
+            case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
+            case PM::HELMET:
+            case PM::HELMET_CIVIL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     const PM_Hands GetViewmodel( CBasePlayer@ player )
     {
         PM pm = GetClass( player );
@@ -79,10 +107,12 @@ namespace player_models
                 return PM_Hands::Orange;
             }
             case PM::HELMET:
+            case PM::HELMET_CIVIL:
             {
                 return PM_Hands::Hevsuit;
             }
             case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
             {
                 return PM_Hands::Cleansuit;
             }
@@ -118,10 +148,12 @@ namespace player_models
                 return operative[operativeLast];
             }
             case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
             {
                 return "bts_cleansuit";
             }
             case PM::HELMET:
+            case PM::HELMET_CIVIL:
             {
                 return "bts_helmet";
             }
@@ -173,9 +205,11 @@ namespace player_models
         switch( player_class )
         {
             case PM::HELMET:
+            case PM::HELMET_CIVIL:
                 player.pev.armortype = 100;
             break;
             case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
                 player.pev.armortype = 75;
             break;
             default:

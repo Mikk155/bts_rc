@@ -365,7 +365,7 @@ namespace trigger_update_class
                             AddItemInventory( player, { { "item_name", "CLEANSUIT_ID" }, { "item_group", "IMMUNE" }, { "target_on_collect", "GAMEMODE_ITEM_TXT" }, { "description", "Suit used for protection while going into highly toxic locations." }, { "display_name", "Blackmesa Cleansuit" }, { "target_cant_collect", "GAMEMODE_FULL_TXT" }, { "weight", "1.0" }, { "carried_hidden", "1" }, { "return_timelimit", "120" }, { "holder_timelimit_wait_until_activated", "0" }, { "holder_can_drop", "0" }, { "holder_keep_on_death", "1" }, { "holder_keep_on_respawn", "1" }, { "model", "models/w_security.mdl" } } );
                             g_PlayerFuncs.HudMessage( player, msgParams, "RANDOM USER MODE SELECTED\nGEAR NAME: CLEANSUIT TEAM" );
                             g_PlayerFuncs.SayTextAll( player, playerName + " rolled: CLEANSUIT TEAM.\n" );
-                            player_models::SetClass( player, PM::CLSUIT );
+                            player_models::SetClass( player, PM::CLSUIT_CIVIL );
                             break;
                         }
                         case 28:
