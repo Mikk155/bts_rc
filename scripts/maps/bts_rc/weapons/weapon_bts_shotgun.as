@@ -165,7 +165,7 @@ namespace weapon_bts_shotgun
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
+            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
 
             self.SendWeaponAnim( SHOOT, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 93 + Math.RandomLong( 0, 0x1f ) );
@@ -177,7 +177,7 @@ namespace weapon_bts_shotgun
             Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass(m_pPlayer) == PM::HELMET )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             if( !is_trained_personal )
@@ -255,7 +255,7 @@ namespace weapon_bts_shotgun
                 }
             }
 
-            bool is_trained_personal = g_PlayerClass.is_trained_personal( m_pPlayer );
+            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
 
             self.SendWeaponAnim( SHOOT2, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), ATTN_NORM, 0, 85 + Math.RandomLong( 0, 0x1f ) );
@@ -269,7 +269,7 @@ namespace weapon_bts_shotgun
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity2, m_pPlayer.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && g_PlayerClass[m_pPlayer] == PM::HELMET )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::GetClass(m_pPlayer) == PM::HELMET )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
