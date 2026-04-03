@@ -11,7 +11,24 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
     if( !player_models::IsHEV( player ) )
     {
         // Deny flashlight in other than hev
-        if( player.pev.impulse == 100 ) {
+        if( player.pev.impulse == 100 )
+        {
+            // Try to use the lantern in the equiped weapon
+            if( player.m_hActiveItem.IsValid() )
+            {
+                CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
+
+                if( active_item !is null )
+                {
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
+
+                    
+                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                    {
+                        weapon.SecondaryAttack();
+                    }
+                }
+            }
             player.pev.impulse = 0;
         }
         return HOOK_CONTINUE;
