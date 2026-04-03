@@ -67,14 +67,16 @@ namespace lasers
         if( entity !is null )
         {
             handles.insertLast( EHandle( entity ) );
+
+            if( g_Logger.trace )
+                g_Logger.trace = snprintf( glog, "Added %1 to lasers list at index %2.\n", entity.GetClassname(), handles.length() );
         }
     }
 
     void MapActivate()
     {
-#if METAMOD_DEBUG
         auto chrono = Server::chrono();
-#endif
+
         const array<string> turrets = {
             "monster_sentry",
             "monster_turret",
@@ -90,10 +92,12 @@ namespace lasers
                 handles.insertLast( EHandle( entity ) );
             }
         }
-#if METAMOD_DEBUG
-        chrono.Stop();
-        g_Log.PrintF( "[BTS_RC] Done configurating sentry lasers. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
-#endif
+
+        if( g_Logger.info )
+        {
+            chrono.Stop();
+            g_Logger.info = snprintf( glog, "Done configurating sentry lasers. time elapsed: %1.%2 seconds.\n", chrono.Seconds, chrono.Miliseconds );
+        }
     }
 }
 
@@ -105,6 +109,9 @@ void __lasers_think__()
 
         if( !handle.IsValid() )
         {
+            if( g_Logger.warning )
+                g_Logger.warning = snprintf( glog, "Got an invalid handle for laser turrets at index %1 removing...", i );
+
             lasers::handles.removeAt( i );
             continue;
         }
@@ -113,6 +120,9 @@ void __lasers_think__()
 
         if( entity is null || !entity.IsAlive() )
         {
+            if( g_Logger.trace )
+                g_Logger.trace = snprintf( glog, "Got an invalid/dead entity for laser turrets at index %1 removing...", i );
+
             lasers::handles.removeAt( i );
             continue;
         }

@@ -17,6 +17,9 @@ namespace ConfigContext
     void Register( IConfigContext@ context )
     {
         g_ConfigContexts.insertLast( context );
+
+        if( g_Logger.info )
+            g_Logger.info = snprintf( glog, "Registering config context \"%1\"", context.GetName() );
     }
 
     void MapInit( dictionary@ data )
@@ -30,7 +33,9 @@ namespace ConfigContext
 
             if( data.exists( name ) )
             {
-                g_Log.PrintF( "Parsing configuration context for \"%1\"\n", context.GetName() );
+                if( g_Logger.info )
+                    g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", context.GetName() );
+
                 context.Parse( cast<dictionary@>( data[ name ] ) );
             }
         }
