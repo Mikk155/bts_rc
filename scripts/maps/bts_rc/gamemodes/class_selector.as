@@ -72,8 +72,6 @@ namespace player_models
                         player_models::SetClass( player, PM::SCIENTIST );
                     break;
                 }
-
-                trigger_update_class::EquipPlayer(player);
             }
         }
     }
