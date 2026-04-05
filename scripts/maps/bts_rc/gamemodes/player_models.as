@@ -363,19 +363,39 @@ namespace player_models
             // Not in hev? Try to activate the lantern on the active weapon if available
             if( !isInHEVSuit )
             {
-                if( player.m_hActiveItem.IsValid() )
-                {
-                    CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
-                    if( active_item !is null )
+                if( weapon !is null && ( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" ) )
+                    @weapon = null;
+
+                if( weapon is null )
+                {
+                    for( int i = 0; i < MAX_ITEM_TYPES; i++ )
                     {
-                        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
-                        
-                        if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                        CBasePlayerItem@ item = player.m_rgpPlayerItems(i);
+
+                        while( item !is null )
                         {
-                            weapon.SecondaryAttack();
+                            @weapon = cast<CBasePlayerWeapon@>( item );
+
+                            if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                            {
+                                player.SelectItem( weapon.pev.classname );
+                                weapon.Deploy();
+                                i = MAX_ITEM_TYPES; // Break for loop
+                                break;
+                            }
+
+                            @weapon = null;
+                            @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
                         }
                     }
+                }
+
+                if( weapon !is null )
+                {
+                    weapon.m_flNextSecondaryAttack = g_Engine.time;
+                    weapon.SecondaryAttack();
                 }
             }
 
