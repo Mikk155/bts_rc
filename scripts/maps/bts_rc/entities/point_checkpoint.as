@@ -323,6 +323,9 @@ namespace point_checkpoint
                     if( player_models::GetClass(pPlayer) == PM::UNSET )
                         player_models::SetRandomClass( pPlayer, { PM::BARNEY, PM::SCIENTIST, PM::CONSTRUCTION, PM::OPERATIVE } );
 
+                    if( !pPlayer.HasWeapons() )
+                        trigger_update_class::EquipPlayer( pPlayer );
+
                     // Call player equip
                     // Only disable default giving if there are game_player_equip entities in give mode
                     CBaseEntity@ pEquipEntity = null;
