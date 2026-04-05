@@ -32,7 +32,6 @@
 
 #include "gamemodes/bloodpuddle"
 #include "gamemodes/deathdrop"
-#include "gamemodes/hev_nightvision"
 #include "gamemodes/lasers"
 #include "gamemodes/player_models"
 #include "gamemodes/player_voices"

@@ -1,199 +1,82 @@
-/*
-*   Author: Mikk
-*/
-
-const bool __HEV_NightVision__ = g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink,
-PlayerPostThinkHook( function( CBasePlayer@ player )
+namespace player_models
 {
-    if( player is null )
-        return HOOK_CONTINUE;
-
-    PM player_class = player_models::GetClass(player);
-
-    dictionary@ user_data = player.GetUserData();
-
-    if( player_class == PM::UNSET )
+    namespace hev_nightvision
     {
-        if( gpGameStarted )
+        void Think( CBasePlayer@ player )
         {
-            if( float( user_data[ "pm_selectcd" ] ) > g_Engine.time )
-                return HOOK_CONTINUE;
+            if( player is null )
+                return;
 
-            int current = int( user_data[ "pm_select" ] );
+            dictionary@ user_data = player.GetUserData();
 
-            string name;
+            int state = int( user_data["helmet_nv_state"] );
 
-            if( current < 0 )
+            // Not enough power, Shut down
+            if( player.pev.armorvalue <= 0 )
             {
-                user_data[ "pm_select" ] = current = 3;
-            }
-            else if( current > 3 )
-            {
-                user_data[ "pm_select" ] = current = 0;
-            }
-
-            switch( current )
-            {
-                case 1:
-                    name = "Security";
-                break;
-                case 2:
-                    name = "Maintenance";
-                break;
-                case 3:
-                    name = "Operator";
-                break;
-                case 0:
-                    name = "Scientist";
-                break;
-            }
-
-            string buffer;
-            snprintf( buffer, "<- +moveleft | +moveright ->\n+use select %1\n", name );
-            g_PlayerFuncs.PrintKeyBindingString( player, buffer );
-
-            if( ( player.pev.button & IN_MOVELEFT ) != 0 )
-            {
-                user_data[ "pm_select" ] = current-1;
-                user_data[ "pm_selectcd" ] = g_Engine.time + 0.5f;
-            }
-            else if( ( player.pev.button & IN_MOVERIGHT ) != 0 )
-            {
-                user_data[ "pm_select" ] = current+1;
-                user_data[ "pm_selectcd" ] = g_Engine.time + 0.5f;
-            }
-            else if( ( player.pev.button & IN_USE ) != 0 )
-            {
-                switch( current )
+                if( state == 1 )
                 {
-                    case 1:
-                        player_models::SetClass( player, PM::BARNEY );
-                    break;
-                    case 2:
-                        player_models::SetClass( player, PM::CONSTRUCTION );
-                    break;
-                    case 3:
-                        player_models::SetClass( player, PM::OPERATIVE );
-                    break;
-                    case 0:
-                        player_models::SetClass( player, PM::SCIENTIST );
-                    break;
+                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/nvg_off.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
+                }
+                else if( player.pev.impulse == 100 )
+                {
+                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
                 }
 
-                trigger_update_class::EquipPlayer(player);
+                user_data["helmet_nv_state"] = state = 0;
             }
-        }
-
-        return HOOK_CONTINUE;
-    }
-
-    if( !player_models::IsHEV( player ) )
-    {
-        // Deny flashlight in other than hev
-        if( player.pev.impulse == 100 )
-        {
-            // Try to use the lantern in the equiped weapon
-            if( player.m_hActiveItem.IsValid() )
+            // Catch impulse command and toggle night vision state
+            else if( player.pev.impulse == 100 )
             {
-                CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
+                user_data["helmet_nv_state"] = ( state == 1 ? 0 : 1 );
 
-                if( active_item !is null )
+                if( state == 1 )
+                    user_data["helmet_nv_startup"] = 0;
+
+                g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
+            }
+
+            // Night vision ON, drain and light.
+            if( state == 1 )
+            {
+                // Show even when dead lying.
+                if( !player.GetObserver().IsObserver() )
                 {
-                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
-
-                    
-                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                    if( float( user_data["helmet_nv_drain"] ) <= g_Engine.time )
                     {
-                        weapon.SecondaryAttack();
+                        player.pev.armorvalue--;
+                        user_data["helmet_nv_drain"] = 12 + g_Engine.time;
                     }
+
+                    int nv_radius = int( user_data["helmet_nv_startup"] );
+
+                    if( nv_radius <= 40 )
+                    {
+                        nv_radius++;
+                        user_data["helmet_nv_startup"] = nv_radius;
+                    }
+
+                    NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
+                        m.WriteByte( TE_DLIGHT );
+                        m.WriteCoord( player.pev.origin.x );
+                        m.WriteCoord( player.pev.origin.y );
+                        m.WriteCoord( player.pev.origin.z );
+                        m.WriteByte( nv_radius );
+                        m.WriteByte( 255 );
+                        m.WriteByte( 255 );
+                        m.WriteByte( 255 );
+                        m.WriteByte( 2 );
+                        m.WriteByte( 1 );
+                    m.End();
+                }
+                else
+                {
+                    g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
+                    user_data["helmet_nv_state"] = 0;
                 }
             }
-            player.pev.impulse = 0;
-        }
-        return HOOK_CONTINUE;
-    }
-
-    int state = int( user_data["helmet_nv_state"] );
-
-    // Not enough power, Shut down
-    if( player.pev.armorvalue <= 0 )
-    {
-        if( state == 1 )
-        {
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/nvg_off.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
-            g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
-        }
-        else if( player.pev.impulse == 100 )
-        {
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
-        }
-
-        user_data["helmet_nv_state"] = state = 0;
-    }
-    // Catch impulse command and toggle night vision state
-    else if( player.pev.impulse == 100 )
-    {
-        user_data["helmet_nv_state"] = ( state == 1 ? 0 : 1 );
-
-        if( state == 1 )
-            user_data["helmet_nv_startup"] = 0;
-
-        g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
-
-        g_SoundSystem.EmitSoundDyn(
-            player.edict(),
-            CHAN_WEAPON,
-            ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ),
-            1.0,
-            ATTN_NORM,
-            0,
-            PITCH_NORM );
-    }
-
-    // Night vision ON, drain and light.
-    if( state == 1 )
-    {
-        // Show even when dead lying.
-        if( !player.GetObserver().IsObserver() )
-        {
-            if( float( user_data["helmet_nv_drain"] ) <= g_Engine.time )
-            {
-                player.pev.armorvalue--;
-                user_data["helmet_nv_drain"] = 12 + g_Engine.time;
-            }
-
-            int nv_radius = int( user_data["helmet_nv_startup"] );
-
-            if( nv_radius <= 40 )
-            {
-                nv_radius++;
-                user_data["helmet_nv_startup"] = nv_radius;
-            }
-
-            NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
-            m.WriteByte( TE_DLIGHT );
-            m.WriteCoord( player.pev.origin.x );
-            m.WriteCoord( player.pev.origin.y );
-            m.WriteCoord( player.pev.origin.z );
-            m.WriteByte( nv_radius );
-            m.WriteByte( 255 );
-            m.WriteByte( 255 );
-            m.WriteByte( 255 );
-            m.WriteByte( 2 );
-            m.WriteByte( 1 );
-            m.End();
-        }
-        else
-        {
-            g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
-            user_data["helmet_nv_state"] = 0;
         }
     }
-
-    // Deny flashlight as we use our own.
-    if( player.pev.impulse == 100 ) {
-        player.pev.impulse = 0;
-    }
-
-    return HOOK_CONTINUE;
-} ) );
+}

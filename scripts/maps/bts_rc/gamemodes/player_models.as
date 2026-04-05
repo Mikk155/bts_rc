@@ -1,6 +1,9 @@
 /*
     Author: Mikk
 */
+#include "class_selector"
+#include "hev_nightvision"
+
 enum PM
 {
     UNSET = -1,
@@ -328,5 +331,58 @@ namespace player_models
         barneyLast = Math.RandomLong( 0, barney.length() - 1 );
         operativeLast = Math.RandomLong( 0, operative.length() - 1 );
         constructorLast = Math.RandomLong( 0, constructor.length() - 1 );
+
+        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_models::OnPlayerThink );
+    }
+
+    HookReturnCode OnPlayerThink( CBasePlayer@ player )
+    {
+        if( player is null )
+            return HOOK_CONTINUE;
+
+        PM player_class = player_models::GetClass(player);
+
+        dictionary@ user_data = player.GetUserData();
+
+        if( player_class == PM::UNSET )
+        {
+            if( gpGameStarted ) // Allow newly join players to choose a class
+                class_selector::Think( player );
+            return HOOK_CONTINUE;
+        }
+
+        bool isInHEVSuit = IsHEV( player );
+
+        if( isInHEVSuit )
+        {
+            hev_nightvision::Think( player );
+        }
+
+        if( player.pev.impulse == 100 )
+        {
+            // Not in hev? Try to activate the lantern on the active weapon if available
+            if( !isInHEVSuit )
+            {
+                if( player.m_hActiveItem.IsValid() )
+                {
+                    CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
+
+                    if( active_item !is null )
+                    {
+                        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( active_item );
+                        
+                        if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                        {
+                            weapon.SecondaryAttack();
+                        }
+                    }
+                }
+            }
+
+            // Deny flashlight as we use our own.
+            player.pev.impulse = 0;
+        }
+
+        return HOOK_CONTINUE;
     }
 }
