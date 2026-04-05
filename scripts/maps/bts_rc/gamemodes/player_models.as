@@ -335,6 +335,47 @@ namespace player_models
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_models::OnPlayerThink );
     }
 
+    bool UseWeaponFlashlight( CBasePlayer@ player )
+    {
+        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
+
+        if( weapon !is null && ( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" ) )
+            @weapon = null;
+
+        if( weapon is null )
+        {
+            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
+            {
+                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
+
+                while( item !is null )
+                {
+                    @weapon = cast<CBasePlayerWeapon@>( item );
+
+                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                    {
+                        player.SelectItem( weapon.pev.classname );
+                        weapon.Deploy();
+                        ui = MAX_ITEM_TYPES; // Break for loop
+                        break;
+                    }
+
+                    @weapon = null;
+                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
+                }
+            }
+        }
+
+        if( weapon !is null )
+        {
+            weapon.m_flNextSecondaryAttack = g_Engine.time;
+            weapon.SecondaryAttack();
+            return true;
+        }
+
+        return false;
+    }
+
     HookReturnCode OnPlayerThink( CBasePlayer@ player )
     {
         if( player is null )
@@ -353,54 +394,15 @@ namespace player_models
 
         bool isInHEVSuit = IsHEV( player );
 
+        if( player.pev.impulse == 100 && ( !isInHEVSuit || player.pev.armorvalue <= 0 ))
+        {
+            UseWeaponFlashlight( player );
+            player.pev.impulse = 0;
+        }
+
         if( isInHEVSuit )
         {
             hev_nightvision::Think( player );
-        }
-
-        if( player.pev.impulse == 100 )
-        {
-            // Not in hev? Try to activate the lantern on the active weapon if available
-            if( !isInHEVSuit )
-            {
-                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-
-                if( weapon !is null && ( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" ) )
-                    @weapon = null;
-
-                if( weapon is null )
-                {
-                    for( int i = 0; i < MAX_ITEM_TYPES; i++ )
-                    {
-                        CBasePlayerItem@ item = player.m_rgpPlayerItems(i);
-
-                        while( item !is null )
-                        {
-                            @weapon = cast<CBasePlayerWeapon@>( item );
-
-                            if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
-                            {
-                                player.SelectItem( weapon.pev.classname );
-                                weapon.Deploy();
-                                i = MAX_ITEM_TYPES; // Break for loop
-                                break;
-                            }
-
-                            @weapon = null;
-                            @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
-                        }
-                    }
-                }
-
-                if( weapon !is null )
-                {
-                    weapon.m_flNextSecondaryAttack = g_Engine.time;
-                    weapon.SecondaryAttack();
-                }
-            }
-
-            // Deny flashlight as we use our own.
-            player.pev.impulse = 0;
         }
 
         return HOOK_CONTINUE;

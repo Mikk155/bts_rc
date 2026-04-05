@@ -22,6 +22,7 @@ namespace player_models
                 else if( player.pev.impulse == 100 )
                 {
                     g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    player.pev.impulse = 0;
                 }
 
                 user_data["helmet_nv_state"] = state = 0;
@@ -36,6 +37,7 @@ namespace player_models
 
                 g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
                 g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
+                player.pev.impulse = 0;
             }
 
             // Night vision ON, drain and light.
