@@ -187,6 +187,11 @@ namespace player_models
         return false;
     }
 
+    void SetRandomClass( CBasePlayer@ player, array<PM>@ range )
+    {
+        SetClass( player, range[ Math.RandomLong( 0, range.length() - 1 ) ] );;
+    }
+
     void SetClass( CBasePlayer@ player, PM player_class )
     {
         const string model = GetModel( player_class );
