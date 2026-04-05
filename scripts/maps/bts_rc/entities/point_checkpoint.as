@@ -313,12 +313,15 @@ namespace point_checkpoint
 
                 // Only respawn if the player died before this checkpoint was activated
                 // Prevents exploitation
-                if( pPlayer !is null && !pPlayer.IsAlive() && pPlayer.m_fDeadTime < m_flRespawnStartTime && player_models::GetClass(pPlayer) != PM::UNSET )
+                if( pPlayer !is null && !pPlayer.IsAlive() && pPlayer.m_fDeadTime < m_flRespawnStartTime )
                 {
                     // Revive player and move to this checkpoint
                     pPlayer.GetObserver().RemoveDeadBody();
                     pPlayer.SetOrigin( self.pev.origin );
                     pPlayer.Revive();
+
+                    if( player_models::GetClass(pPlayer) == PM::UNSET )
+                        player_models::SetRandomClass( pPlayer, { PM::BARNEY, PM::SCIENTIST, PM::CONSTRUCTION, PM::OPERATIVE } );
 
                     // Call player equip
                     // Only disable default giving if there are game_player_equip entities in give mode
