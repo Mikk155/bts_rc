@@ -26,7 +26,6 @@
 #include "entities/func_bts_recharger"
 #include "entities/items"
 #include "entities/point_checkpoint"
-#include "entities/randomizer"
 #include "entities/trigger_update_class"
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 
@@ -36,6 +35,7 @@
 #include "gamemodes/player_models"
 #include "gamemodes/player_voices"
 #include "gamemodes/radioactivity"
+#include "gamemodes/randomizer"
 
 #include "Hooks/monster_killed"
 #include "Hooks/monster_takedamage"
@@ -114,15 +114,6 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
     g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
-
-    // Randomizer
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_npc", "randomizer_npc" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_item", "randomizer_item" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_hull", "randomizer_hull" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_boss", "randomizer_boss" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_wave", "randomizer_wave" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_headcrab", "randomizer_headcrab" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::randomizer_hullwave", "randomizer_hullwave" );
 
     // Items
     g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_armorvest", "item_bts_armorvest" );
