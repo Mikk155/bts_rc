@@ -1,5 +1,7 @@
 namespace weapons
 {
+    bool gpAllowMeleePull;
+
     /**
      *   @brief Pull target
      **/

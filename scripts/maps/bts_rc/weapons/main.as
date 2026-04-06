@@ -91,8 +91,12 @@ namespace weapons
         gpWeaponNames.insertLast( entityName );
     }
 
-    void MapInit()
+    void Register( dictionary@ data )
     {
+        data.get( "blood_splash", gpTraceBlood );
+        data.get( "sparks_splash", gpTraceSparks );
+        data.get( "melee_weapons_pull", gpAllowMeleePull );
+
         RegisterWeapon( "weapon_bts_axe" );
         RegisterWeapon( "weapon_bts_beretta", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
 

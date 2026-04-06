@@ -1,5 +1,8 @@
 namespace weapons
 {
+    bool gpTraceBlood;
+    bool gpTraceSparks;
+
     void trace_effect( TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE, float delay = 0 )
     {
         if( delay > 0 )

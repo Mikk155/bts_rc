@@ -44,16 +44,8 @@
 
 #include "weapons/main"
 
-/*==========================================================================
-*   - Start of variables for server operators. Modify these in config.json
-==========================================================================*/
+// Has the game started in the map?
 bool gpGameStarted;
-bool gpTraceBlood;
-bool gpTraceSparks;
-bool gpAllowMeleePull;
-/*==========================================================================
-*   - End
-==========================================================================*/
 
 void MapActivate()
 {
@@ -100,13 +92,9 @@ void MapInit()
 
     g_VoiceResponse.Register( @g_Config );
 
-    g_Config.get( "blood_splash", gpTraceBlood );
-    g_Config.get( "sparks_splash", gpTraceSparks );
-    g_Config.get( "melee_weapons_pull", gpAllowMeleePull );
-
     Precache();
 
-    weapons::MapInit();
+    weapons::Register( g_Config );
 
     /*==========================================================================
     *   - Start of custom entities registry
