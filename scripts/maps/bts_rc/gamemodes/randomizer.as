@@ -68,6 +68,9 @@ namespace randomizer
                         @randomizer.pev.owner = @squad.edict();
                         @squad.pev.owner = @randomizer.edict();
                         g_EntityFuncs.SetOrigin( squad, randomizer.GetOrigin() );
+
+                        if( g_Logger.trace )
+                            g_Logger.trace = snprintf( glog, "Randomized %1 to %2 at %3", squad.GetClassname(), randomizer.GetClassname(), randomizer.GetOrigin().ToString() );
                     }
                     break;
                 }
@@ -75,7 +78,7 @@ namespace randomizer
         }
     }
 
-    void Initialize( const string&in entityName, array<string>@ EntityList )
+    void Initialize( const string&in entityName, array<string>@ entityList )
     {
         array<int> randomized(0);
 
@@ -87,27 +90,33 @@ namespace randomizer
             randomized.insertLast( pRandomizer.entindex() );
         }
 
-        // Swaps a list for initial result of Vectors.
-        array<int> swaps = randomized;
-        for( int i = swaps.length() - 1; i > 0; i-- )
+        if( g_Logger.info )
+            g_Logger.info = snprintf( glog, "Got %1 %2", randomized.length(), entityName );
+
+        uint entityList_size = entityList.length();
+        uint randomizer_size = randomized.length();
+
+        // Swaps the list elements to randomize it. improve the logic here for a better result if you want.
+        for( int i = randomizer_size - 1; i > 0; i-- )
         {
             int j = Math.RandomLong( 0, i );
-            int temp = swaps[i];
-            swaps[i] = swaps[j];
-            swaps[j] = temp;
+            int temp = randomized[i];
+            randomized[i] = randomized[j];
+            randomized[j] = temp;
         }
-        randomized = swaps;
 
-        // Clamp to the smallest list size
-        int count = Math.min( int( EntityList.length() ), int( randomized.length() ) );
+        if( g_Logger.critical && entityList_size > randomized.length() )
+            g_Logger.critical = snprintf( glog, "Not enough randomizers for all the entities required! expected at least %1 %2", entityList_size, entityName );
 
-        for( int i = 0; i < count; i++ )
+        for( uint ui = 0; ui < randomizer_size; ui++ )
         {
-            int randIndex = randomized[ randomized.length() - 1 - i ];
-            @pRandomizer = g_EntityFuncs.Instance( randIndex );
+            @pRandomizer = g_EntityFuncs.Instance( randomized[ui] );
+
+            if( ui > entityList_size - 1 )
+                break; // Case we have more randomizer entities than the given list of entity names. these would be used for randomize_squad
 
             if( pRandomizer !is null )
-                pRandomizer.Use( g_EntityFuncs.FindEntityByTargetname( null, EntityList[i] ), pRandomizer, USE_SET );
+                pRandomizer.Use( g_EntityFuncs.FindEntityByTargetname( null, entityList[ui] ), pRandomizer, USE_SET );
         }
 
         g_Randomizers[entityName] = randomized;
