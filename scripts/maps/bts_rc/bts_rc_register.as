@@ -47,10 +47,16 @@
 // Has the game started in the map?
 bool gpGameStarted;
 
+Server::chrono@ MapLoadedChrono = Server::chrono();
+
 void MapActivate()
 {
     meta_api::NoticeInstallation();
     lasers::MapActivate();
+
+    MapLoadedChrono.Stop();
+    g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
+    @MapLoadedChrono = null;
 }
 
 void MapInit()
