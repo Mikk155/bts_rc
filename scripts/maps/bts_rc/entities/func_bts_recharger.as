@@ -5,71 +5,49 @@
 
 namespace func_bts_recharger
 {
-    enum sound_status
-    {
-        OFF = 0,
-        ON = 1,
-        LOOP = 2
-    };
-
     class func_bts_recharger : ScriptBaseEntity
     {
-        protected float m_recharge_time = -1;
-        protected int m_customjuice = 30;
-        protected float m_last_use;
-        protected int m_juice = 30;
-        protected int pitch = 115;
-        protected int m_sound_status;
-        protected float m_flSoundTime;
-        protected string_t fire_on_empty;
-        protected string_t fire_on_refilled;
-
         void Spawn()
         {
             self.pev.solid = SOLID_BSP;
             self.pev.movetype = MOVETYPE_PUSH;
-
             g_EntityFuncs.SetOrigin( self, self.pev.origin ); // set size and link into world
             g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
             g_EntityFuncs.SetModel( self, self.pev.model );
-
-            m_juice = m_customjuice;
             self.pev.frame = 0;
+            self.pev.health = 30;
         }
 
-        bool KeyValue( const string& in szKeyName, const string& in szValue )
-        {
-            if( "CustomJuice" == szKeyName )
-            {
-                m_customjuice = atoi( szValue );
-            }
-            else if( "CustomRechargeTime" == szKeyName )
-            {
-                m_recharge_time = atoi( szValue );
-            }
-            else if( "TriggerOnEmpty" == szKeyName )
-            {
-                fire_on_empty = string_t( szValue );
-            }
-            else if( "TriggerOnRecharged" == szKeyName )
-            {
-                fire_on_refilled = string_t( szValue );
-            }
-            else
-            {
-                return BaseClass.KeyValue( szKeyName, szValue );
-            }
-            return true;
+        int ObjectCaps() {
+            return ( FCAP_CONTINUOUS_USE );
         }
 
-        int ObjectCaps()
+        void Think()
         {
-            return ( BaseClass.ObjectCaps() | FCAP_CONTINUOUS_USE ) & ~FCAP_ACROSS_TRANSITION;
+            self.pev.nextthink = g_Engine.time + 0.1f;
+
+            if( self.pev.health <= 0 )
+            {
+                if( self.pev.frame == 1 )
+                {
+                    self.pev.health = 32;
+                    self.pev.frame = 0;
+                    g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
+                    return;
+                }
+                else
+                {
+                    self.pev.frame = 1;
+                    self.pev.nextthink = g_Engine.time + 300.0f;
+                    g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
+                }
+                return;
+            }
         }
 
-        void Use( CBaseEntity@ activator, CBaseEntity@ pCaller, USE_TYPE useType, float value )
+        void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
         {
-            if( activator is null || !activator.IsPlayer() || !activator.IsAlive() )
+            if( activator is null || !activator.IsAlive() || !activator.IsPlayer() )
                 return;
 
             CBasePlayer@ player = cast<CBasePlayer@>( activator );
@@ -77,96 +55,45 @@ namespace func_bts_recharger
             if( player is null )
                 return;
 
-            // if there is no juice left, turn it off
-            if( m_juice <= 0 )
-            {
-                self.pev.frame = 1;
-                Off();
-            }
+            dictionary@ data = activator.GetUserData();
+            float cooldown = float( data[ "recharger_cooldown" ] );
 
-            // if there is no juice left, make the deny noise
-            if( m_juice <= 0 || player.pev.armorvalue == 100 || !player_models::IsHEV( player ) )
+            if( self.pev.health <= 0 || !player_models::IsHEV( player ) || player.pev.armorvalue >= player.pev.armortype )
             {
-                if( m_flSoundTime <= g_Engine.time )
+                if( cooldown <= g_Engine.time )
                 {
-                    m_flSoundTime = g_Engine.time + 0.62;
-                    g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
+                    g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
+                    data[ "recharger_cooldown" ] = g_Engine.time + 0.62;
                 }
                 return;
             }
 
-            self.pev.nextthink = g_Engine.time + 0.25;
-            SetThink( ThinkFunction( Off ) );
-
-            // Time to recharge yet?
-            if( m_last_use >= g_Engine.time )
-                return;
-
-            pitch = pitch - int( m_juice / 13.5 );
-
-            // Play the on sound or the looping charging sound
-            if( m_sound_status == sound_status::OFF )
+            if( g_Engine.time > cooldown + 1.0 )
             {
-                m_sound_status++;
-                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM, 0, pitch );
-                m_flSoundTime = 0.56 + g_Engine.time;
+                g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
+                data[ "recharger_cooldown" ] = g_Engine.time + 0.56;
             }
-            if( m_sound_status == sound_status::ON && m_flSoundTime <= g_Engine.time )
+            else if( g_Engine.time > cooldown )
             {
-                m_sound_status++;
-                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_STATIC, "bts_rc/items/suitcharge1.wav", 1.0, ATTN_NORM, 0, pitch );
-            }
-            if( m_sound_status >= sound_status::LOOP )
-            {
-                g_SoundSystem.StopSound( self.edict(), CHAN_STATIC, "bts_rc/items/suitcharge1.wav" );
-            }
-            m_sound_status = sound_status::OFF;
+                data[ "recharger_cooldown" ] = g_Engine.time + 0.35;
 
-            // charge the player
-            if( activator.TakeArmor( 1, DMG_GENERIC ) )
-            {
-                m_juice--;
+                if( player.TakeArmor( 1, DMG_GENERIC ) )
+                    self.pev.health -= 1;
 
-                if( m_juice <= 0 )
-                {
-                    g_EntityFuncs.FireTargets( fire_on_empty, activator, self, USE_TOGGLE );
-                }
+                g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", 1.0, ATTN_NORM );
+                g_Scheduler.SetTimeout( @this, "StopSound", 0.56, EHandle( player ) );
             }
-
-            // govern the rate of charge
-            m_last_use = g_Engine.time + 0.1;
         }
 
-        void Recharge()
+        void StopSound( EHandle hplayer )
         {
-            self.pev.frame = 0;
-            m_juice = m_customjuice;
-            g_EntityFuncs.FireTargets( fire_on_refilled, self, self, USE_TOGGLE );
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
-            SetThink( null );
-        }
+            auto entity = hplayer.GetEntity();
 
-        void Off()
-        {
-            if( m_juice <= 0 )
+            if( entity !is null )
             {
-                if( m_recharge_time > -1 )
-                {
-                    SetThink( ThinkFunction( Recharge ) );
-                    self.pev.nextthink = g_Engine.time + m_recharge_time;
-                }
-                else
-                {
-                    SetThink( null );
-                }
+                if( ( entity.pev.button & IN_USE ) == 0 || self.pev.health <= 0 )
+                    g_SoundSystem.StopSound( entity.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", true );
             }
-
-            // Stop looping sound.
-            if( m_sound_status >= sound_status::LOOP )
-            {
-                g_SoundSystem.StopSound( self.edict(), CHAN_STATIC, "bts_rc/items/suitcharge1.wav" );
-            }
-            m_sound_status = sound_status::OFF;
         }
     }
 }
