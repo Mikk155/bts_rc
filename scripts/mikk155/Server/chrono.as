@@ -27,7 +27,7 @@ namespace Server
             this.m_Difference = now - this.m_Time;
             // this.m_ms = uint64( uint( now.GetMilliseconds() - this.m_Time.GetMilliseconds() ) ); nowork
             // No real mili seconds, estimated time by frame rate
-            this.m_ms = uint64( double( g_Engine.time - this.m_enginetime ) + uint( int( 1.0f / g_Engine.frametime ) ) );
+            this.m_ms = uint64( double( g_Engine.time - this.m_enginetime ) + uint( ( g_Engine.frametime > 0.0f ? int( 1.0f / g_Engine.frametime ) : 0 ) ) );
             this.m_Difference.MakeAbsolute();
         }
 
