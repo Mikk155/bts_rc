@@ -142,7 +142,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "items/gunpickup2.wav" );
     g_SoundSystem.PrecacheSound( "items/medshot4.wav" );
     g_SoundSystem.PrecacheSound( "items/medshotno1.wav" );
-    g_SoundSystem.PrecacheSound( "items/suitcharge1.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
     g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
     g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
     g_SoundSystem.PrecacheSound( "vox/authorized.wav" );
