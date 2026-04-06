@@ -5,6 +5,17 @@
 
 namespace func_bts_recharger
 {
+    const bool IsRegistered = Register();
+
+    const bool Register()
+    {
+        g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+        return true;
+    }
+
     class func_bts_recharger : ScriptBaseEntity
     {
         void Spawn()

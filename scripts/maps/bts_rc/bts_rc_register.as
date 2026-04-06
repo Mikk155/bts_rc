@@ -111,7 +111,6 @@ void MapInit()
     /*==========================================================================
     *   - Start of custom entities registry
     ==========================================================================*/
-    g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
     g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
     g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
