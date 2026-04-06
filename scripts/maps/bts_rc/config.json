@@ -97,6 +97,15 @@
         ]
     },
 
+    "wall_recharger":
+    {
+        "juice": 35,
+        // Time until the charge refills
+        "recharge_time": 300,
+        // Player charge rate
+        "speed_rate": 0.15
+    },
+
     "weapon_axe":
     {
         // Attack distance
