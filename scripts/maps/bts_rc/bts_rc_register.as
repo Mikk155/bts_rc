@@ -36,6 +36,9 @@
 #include "gamemodes/radioactivity"
 #include "gamemodes/randomizer"
 
+#include "Hooks/PlayerRevive"
+#include "Hooks/PlayerSpawn"
+
 #include "Hooks/monster_killed"
 #include "Hooks/monster_takedamage"
 #include "Hooks/player_connect" /* -TODO Remove this line in 5.27 */
