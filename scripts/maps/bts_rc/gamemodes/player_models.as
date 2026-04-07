@@ -70,7 +70,7 @@ namespace player_models
         }
     }
 
-    bool CanPickBattery( CBasePlayer@ player )
+    bool HasHazardSuit( CBasePlayer@ player )
     {
         switch( player_models::GetClass( player ) )
         {
