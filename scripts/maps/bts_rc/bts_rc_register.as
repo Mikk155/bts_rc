@@ -33,11 +33,11 @@
 #include "gamemodes/lasers"
 #include "gamemodes/player_models"
 #include "gamemodes/player_voices"
-#include "gamemodes/radioactivity"
 #include "gamemodes/randomizer"
 
 #include "Hooks/PlayerRevive"
 #include "Hooks/PlayerSpawn"
+#include "Hooks/PlayerTakeDamage"
 
 #include "Hooks/monster_killed"
 #include "Hooks/monster_takedamage"
