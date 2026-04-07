@@ -32,7 +32,7 @@ namespace items
 
         void Spawn()
         {
-            string pModel = this.GetModel();
+            string pModel = this.model;
             g_Game.PrecacheModel( self, pModel );
             g_EntityFuncs.SetModel( self, pModel );
 
