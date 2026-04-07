@@ -24,7 +24,6 @@
 
 #include "entities/ammo"
 #include "entities/func_bts_recharger"
-#include "entities/items"
 #include "entities/point_checkpoint"
 #include "entities/trigger_update_class"
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
@@ -41,6 +40,8 @@
 #include "Hooks/monster_takedamage"
 #include "Hooks/player_connect" /* -TODO Remove this line in 5.27 */
 #include "Hooks/player_think"
+
+#include "items/main"
 
 #include "weapons/main"
 
@@ -100,6 +101,7 @@ void MapInit()
 
     Precache();
 
+    items::Register( g_Config );
     weapons::Register( g_Config );
 
     /*==========================================================================
