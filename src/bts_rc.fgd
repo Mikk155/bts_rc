@@ -80,10 +80,18 @@
 [
 ]
 
-@PointClass base(CItem, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl"  ) = item_bts_hevbattery : "Suit power" : "Equip 10-25 battery to a cleansuit/hevsuit player"
+@PointClass base(CItem, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl" ) = item_bts_hevbattery : "Suit power" : "Equip 10-25 battery to a cleansuit/hevsuit player"
 [
 ]
 
-@PointClass base(CItem, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl"  ) = item_bts_sprayaid : "Health" : "Equip 10-20 health to player"
+@PointClass base(CItem, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl" ) = item_bts_sprayaid : "Health" : "Equip 10-20 health to player"
+[
+]
+
+@PointClass base(CItem, Mandatory) studio( "models/hlclassic/w_suit.mdl" ) = item_bts_hevsuit : "Suit" : "Suit"
+[
+]
+
+@PointClass base(CItem, Mandatory) studio( "models/w_hazmat.mdl" ) = item_bts_clsuit : "CleanSuit" : "CleanSuit"
 [
 ]

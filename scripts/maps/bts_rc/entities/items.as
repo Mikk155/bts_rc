@@ -16,14 +16,18 @@ namespace items
     class CItem : ScriptBasePlayerAmmoEntity
     {
         /// Get entity model. if pev.model is empty set to this.GetModel()
-        string_t model {
+        string model {
             get {
-                if( self.pev.model == "" )
-                    self.pev.model = string_t( GetModel() );
-                return self.pev.model;
+                string mdl = string( self.pev.model );
+                if( mdl.IsEmpty() )
+                {
+                    mdl = this.GetModel();
+                    self.pev.model = string_t(mdl);
+                }
+                return mdl;
             }
             set {
-                self.pev.model = value;
+                self.pev.model = string_t( value );
             }
         }
 
@@ -49,15 +53,21 @@ namespace items
             return( player !is null && player.IsPlayer() && player.IsAlive() );
         }
 
-        void PickupObject( CBasePlayer@ player, const string&in name, const string&in sound )
+        void PickupObject( CBasePlayer@ player, const string&in name = String::EMPTY_STRING, const string&in sound = String::EMPTY_STRING )
         {
             g_EntityFuncs.FireTargets( self.pev.target, player, self, USE_TOGGLE, 0, 0 );
 
-            NetworkMessage message( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
-                message.WriteString( name );
-            message.End();
+            if( !name.IsEmpty() )
+            {
+                NetworkMessage message( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );
+                    message.WriteString( name );
+                message.End();
+            }
 
-            g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, sound, 1, ATTN_NORM );
+            if( !sound.IsEmpty() )
+            {
+                g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, sound, 1, ATTN_NORM );
+            }
 
             if( ( self.pev.spawnflags & 1 ) == 0 )
             {
@@ -193,7 +203,7 @@ namespace items
     class item_bts_sprayaid : CItem
     {
         protected const string& GetModel() override {
-            return "models/bts_rc/weapons/w_medkits.mdl";
+            return "models/bts_rc/items/w_medkits.mdl";
         }
 
         bool AddAmmo( CBaseEntity@ other )
@@ -202,6 +212,62 @@ namespace items
                 return false;
 
             PickupObject( cast<CBasePlayer@>(other), "item_healthkit", "items/medshot4.wav" );
+
+            return true;
+        }
+    }
+
+    class item_bts_hevsuit : CItem
+    {
+        protected const string& GetModel() override {
+            return "models/hlclassic/w_suit.mdl";
+        }
+
+        bool AddAmmo( CBaseEntity@ other )
+        {
+            if( !IsValid( other ) )
+                return false;
+
+            CBasePlayer@ player = cast<CBasePlayer@>( other );
+
+            if( player is null || player_models::HasHazardSuit(player) )
+                return false;
+
+            if( player_models::IsTrainedPersonal(player) )
+                player_models::SetClass( player, PM::HELMET );
+            else
+                player_models::SetClass( player, PM::HELMET_CIVIL );
+
+            PickupObject( player );
+
+            g_SoundSystem.EmitSoundSuit( player.edict(), "!HEV_A0" );
+
+            return true; 
+        }
+    }
+
+    class item_bts_clsuit : CItem
+    {
+        protected const string& GetModel() override {
+            return "models/w_hazmat.mdl";
+        }
+
+        bool AddAmmo( CBaseEntity@ other )
+        {
+            if( !IsValid( other ) )
+                return false;
+
+            CBasePlayer@ player = cast<CBasePlayer@>( other );
+
+            if( player is null || player_models::HasHazardSuit(player) )
+                return false;
+
+            if( player_models::IsTrainedPersonal(player) )
+                player_models::SetClass( player, PM::CLSUIT );
+            else
+                player_models::SetClass( player, PM::CLSUIT_CIVIL );
+
+            PickupObject( player );
 
             return true;
         }
