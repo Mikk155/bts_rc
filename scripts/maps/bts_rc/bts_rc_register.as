@@ -109,12 +109,6 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
-    // Items
-    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_armorvest", "item_bts_armorvest" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_helmet", "item_bts_helmet" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_hevbattery", "item_bts_hevbattery" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "item_bts_sprayaid", "item_bts_sprayaid" );
-
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_think );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @monster_killed );
     g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @monster_takedamage );
