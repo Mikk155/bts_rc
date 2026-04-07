@@ -1,9 +1,53 @@
-@PointClass color(140 0 130) = trigger_update_class : "Trigger class update"
+@BaseClass = Mandatory
 [
+    ondestroyfn(string) : "OnDestroy Function"
+    angles(string) : "Pitch Yaw Roll (X Y Z)"
+    spawnflags(Flags) =
+    [
+        2048 : "Not in Deathmatch" : 0
+    ]
     targetname(target_source) : "Name"
+]
 
-    // Index of the class, It's used in the code for setting the proper view models and some more operations
-    m_class(choices) : "Player Class" : "0" =
+@BaseClass = ZHLTbmodel
+[
+    zhlt_usemodel(string) : "ZHLT Template Model Target"
+    zhlt_copylight(string) : "ZHLT Copy Lighting From Target"
+    zhlt_noclip(choices) : "ZHLT Disable Clipping" : 0 =
+    [
+        0 : "Default"
+        1 : "Always non-solid"
+    ]
+    zhlt_invisible(choices) : "ZHLT Invisible" : 0 =
+    [
+        0 : "Visible (default)"
+        1 : "Invisible"
+    ]
+    zhlt_customshadow(string) : "ZHLT Custom Shadow (when opaque)"
+    zhlt_embedlightmap(choices) : "ZHLT Embed Light Map (when translucent)" : 0 =
+    [
+        0 : "No (default)"
+        1 : "Yes"
+    ]
+    zhlt_embedlightmapresolution(integer) : "ZHLT Embed Light Map Resolution" : 4
+]
+
+@BaseClass base(ZHLTbmodel) = ZHLT
+[
+    zhlt_lightflags(choices) : "ZHLT Light Flags" : 0 =
+    [
+        0 : "Default"
+        1 : "Embedded Fix"
+        2 : "Opaque (blocks light)"
+        3 : "Opaque + Embedded fix"
+        6 : "Opaque + Concave Fix"
+    ]
+    light_origin(string) : "ZHLT Light Origin Target"
+]
+
+@PointClass base(Mandatory) color(140 0 130) = trigger_update_class : "Trigger class update" : "Update player classification role"
+[
+    m_class(choices) : "Player Class" : "0" : "Index of the class, It's used in the code for setting the proper view models and some more operations" =
     [
         "0" : "Barney"
         "1" : "Scientist"
@@ -12,4 +56,34 @@
         "5" : "Cleansuit"
         "6" : "Operative"
     ]
+]
+
+@SolidClass base(Mandatory, ZHLT) = func_bts_recharger: "Wall hev armor recharger"
+[
+]
+
+@BaseClass = CItem
+[
+    spawnflags(Flags) =
+    [
+        1 : "Allow respawn" : 0
+    ]
+    target(target_destination) : "Target on pickup" : "" : "Fire after pickup pass the player as activator"
+    model(studio) : "Custom model" : ""
+]
+
+@PointClass base(CItem, Mandatory) studio( "models/bshift/barney_vest.mdl" ) = item_bts_armorvest : "Suit power" : "Equip 20-30 battery to a non-cleansuit/hevsuit player"
+[
+]
+
+@PointClass base(CItem, Mandatory) studio( "models/bshift/barney_helmet.mdl" ) = item_bts_helmet : "Suit power" : "Equip 7-10 battery to a non-cleansuit/hevsuit player"
+[
+]
+
+@PointClass base(CItem, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl"  ) = item_bts_hevbattery : "Suit power" : "Equip 10-25 battery to a cleansuit/hevsuit player"
+[
+]
+
+@PointClass base(CItem, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl"  ) = item_bts_sprayaid : "Health" : "Equip 10-20 health to player"
+[
 ]
