@@ -241,20 +241,7 @@ namespace player_models
             }
         }
 
-        switch( player_class )
-        {
-            case PM::HELMET:
-            case PM::HELMET_CIVIL:
-                player.pev.armortype = 100;
-            break;
-            case PM::CLSUIT:
-            case PM::CLSUIT_CIVIL:
-                player.pev.armortype = 75;
-            break;
-            default:
-                player.pev.armortype = 50;
-            break;
-        }
+        UpdatePlayerArmor(player);
     }
 
     const PM GetClass( CBasePlayer@ player )
@@ -338,6 +325,57 @@ namespace player_models
         constructorLast = Math.RandomLong( 0, constructor.length() - 1 );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_models::OnPlayerThink );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @player_models::OnPlayerSpawn );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @player_models::OnPlayerRevive );
+    }
+
+    void UpdatePlayerArmor( CBasePlayer@ player )
+    {
+        PM player_class = GetClass(player);
+
+        switch( player_class )
+        {
+            case PM::HELMET:
+            case PM::HELMET_CIVIL:
+            {
+                player.pev.armortype = 100;
+                player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
+                break;
+            }
+            case PM::CLSUIT:
+            case PM::CLSUIT_CIVIL:
+            {
+                player.pev.armortype = 75;
+                player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
+                break;
+            }
+            default:
+            {
+                player.pev.armortype = 50;
+                player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
+                break;
+            }
+        }
+    }
+
+    HookReturnCode OnPlayerSpawn( CBasePlayer@ player )
+    {
+        if( player is null )
+            return HOOK_CONTINUE;
+
+        UpdatePlayerArmor(player);
+
+        return HOOK_CONTINUE;
+    }
+
+    HookReturnCode OnPlayerRevive( CBasePlayer@ player )
+    {
+        if( player is null )
+            return HOOK_CONTINUE;
+
+        UpdatePlayerArmor(player);
+
+        return HOOK_CONTINUE;
     }
 
     bool UseWeaponFlashlight( CBasePlayer@ player )
