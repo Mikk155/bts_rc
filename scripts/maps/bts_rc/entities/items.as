@@ -5,6 +5,8 @@ namespace items
         g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_armorvest", "item_bts_armorvest" );
         g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_helmet", "item_bts_helmet" );
         g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_hevbattery", "item_bts_hevbattery" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_hevsuit", "item_bts_hevsuit" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_clsuit", "item_bts_clsuit" );
         g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_sprayaid", "item_bts_sprayaid" );
         return true;
     }
@@ -79,7 +81,7 @@ namespace items
 
             CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            if( player is null || player_models::CanPickBattery(player) || !player.TakeArmor( Math.RandomFloat( 20, 30 ), DMG_GENERIC ) )
+            if( player is null || player_models::HasHazardSuit(player) || !player.TakeArmor( Math.RandomFloat( 20, 30 ), DMG_GENERIC ) )
                 return false;
 
             PickupObject( player, "item_battery", "bts_rc/items/armor_pickup1.wav" );
@@ -101,7 +103,7 @@ namespace items
 
             CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            if( player is null || player_models::CanPickBattery(player) || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
+            if( player is null || player_models::HasHazardSuit(player) || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
                 return false;
 
             PickupObject( player, "item_battery", "bts_rc/items/armor_pickup1.wav" );
@@ -125,7 +127,7 @@ namespace items
 
             CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            if( player is null || !player_models::CanPickBattery(player) || !player.TakeArmor( Math.RandomFloat( 10, 25 ), DMG_GENERIC ) )
+            if( player is null || !player_models::HasHazardSuit(player) || !player.TakeArmor( Math.RandomFloat( 10, 25 ), DMG_GENERIC ) )
                 return false;
 
             if( player_models::IsHEV( player ) )
