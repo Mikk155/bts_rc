@@ -20,6 +20,9 @@
     // Whatever melee weapons can pull allied players like the crowbar does
     "melee_weapons_pull": true,
 
+    // Whatever HEV battery should emit light
+    "battery_lighting": true,
+
     // ===========================
     // Start of configuration contexts
     // ===========================
