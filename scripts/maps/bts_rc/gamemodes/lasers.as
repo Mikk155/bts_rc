@@ -12,7 +12,7 @@ namespace lasers
 
         if( config.get( "turret_lasers", register ) && register )
         {
-            @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.01f, g_Scheduler.REPEAT_INFINITE_TIMES );
+            @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
             g_Game.PrecacheModel( "sprites/glow01.spr" );
 
             RegisterCommand( "turret_lasers", "", "toggle turret lasers state", 
@@ -20,7 +20,7 @@ namespace lasers
                 {
                     if( __think__ is null )
                     {
-                        @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.01f, g_Scheduler.REPEAT_INFINITE_TIMES );
+                        @__think__ = g_Scheduler.SetInterval( "__lasers_think__", 0.1f, g_Scheduler.REPEAT_INFINITE_TIMES );
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Enabled laser turrets\n" );
                     }
                     else
