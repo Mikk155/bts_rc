@@ -37,6 +37,8 @@ namespace items
             g_EntityFuncs.SetModel( self, pModel );
 
             BaseClass.Spawn();
+
+            g_EntityFuncs.SetSize( self.pev, Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) );
         }
 
         // Whatever player is not null, is a player and is alive
