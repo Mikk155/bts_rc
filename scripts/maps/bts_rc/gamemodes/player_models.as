@@ -325,8 +325,6 @@ namespace player_models
         constructorLast = Math.RandomLong( 0, constructor.length() - 1 );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_models::OnPlayerThink );
-        g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @player_models::OnPlayerSpawn );
-        g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @player_models::OnPlayerRevive );
     }
 
     void UpdatePlayerArmor( CBasePlayer@ player )
@@ -356,26 +354,6 @@ namespace player_models
                 break;
             }
         }
-    }
-
-    HookReturnCode OnPlayerSpawn( CBasePlayer@ player )
-    {
-        if( player is null )
-            return HOOK_CONTINUE;
-
-        UpdatePlayerArmor(player);
-
-        return HOOK_CONTINUE;
-    }
-
-    HookReturnCode OnPlayerRevive( CBasePlayer@ player )
-    {
-        if( player is null )
-            return HOOK_CONTINUE;
-
-        UpdatePlayerArmor(player);
-
-        return HOOK_CONTINUE;
     }
 
     bool UseWeaponFlashlight( CBasePlayer@ player )
