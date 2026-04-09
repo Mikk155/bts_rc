@@ -14,6 +14,7 @@
 #include "util/ConfigContext"
 #include "util/freeedicts"
 #include "util/Logger"
+#include "util/PlayerClass"
 
 // Contain models/sprites ID
 #include "misc/Precache"
@@ -31,13 +32,14 @@
 #include "gamemodes/bloodpuddle"
 #include "gamemodes/deathdrop"
 #include "gamemodes/lasers"
-#include "gamemodes/player_models"
 #include "gamemodes/player_voices"
+#include "gamemodes/PlayerClass"
 #include "gamemodes/randomizer"
 
 #include "Hooks/PlayerRevive"
 #include "Hooks/PlayerSpawn"
 #include "Hooks/PlayerTakeDamage"
+#include "Hooks/PlayerThink"
 
 #include "Hooks/monster_killed"
 #include "Hooks/monster_takedamage"
@@ -98,7 +100,7 @@ void MapInit()
 
     bloodpuddle::Register( @g_Config );
     lasers::Register( @g_Config );
-    player_models::Register( @g_Config );
+    RegisterPlayerClass( @g_Config );
 
     g_VoiceResponse.Register( @g_Config );
 

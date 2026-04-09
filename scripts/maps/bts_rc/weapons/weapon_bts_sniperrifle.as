@@ -142,7 +142,7 @@ namespace weapon_bts_sniperrifle
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_2DEGREES );
 
-            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
+            bool is_trained_personal = util::IsTrainedPersonal( m_pPlayer );
 
             float CONE = 0.01f;
 

@@ -142,7 +142,7 @@ namespace weapon_bts_saw
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
             Vector vecSpread;
 
-            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
+            bool is_trained_personal = util::IsTrainedPersonal( m_pPlayer );
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
 
@@ -190,7 +190,7 @@ namespace weapon_bts_saw
             Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, m_bAlternatingEject ? m_iLink : models::saw_shell, TE_BOUNCE_SHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::IsHEV( m_pPlayer ) )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( m_pPlayer ) )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
@@ -272,7 +272,7 @@ namespace weapon_bts_saw
             SetThink( null );
             roundsBody = self.m_iClip;
             pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( self.GetV_Model( "models/bts_rc/weapons/v_saw.mdl" ) ), pev.body, 2, roundsBody ); // HACKY HACK HAACKS
-            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_saw.mdl" ), pev.body, 1, player_models::GetClass(m_pPlayer) );
+            pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/v_saw.mdl" ), pev.body, 1, util::GetClass(m_pPlayer) );
             self.SendWeaponAnim( RELOAD_END, 0, pev.body );
             g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_ITEM, "bts_rc/weapons/saw_reload2.wav", VOL_NORM, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 15 ) );
         }

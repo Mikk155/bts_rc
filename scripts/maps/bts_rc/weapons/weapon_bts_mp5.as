@@ -176,7 +176,7 @@ namespace weapon_bts_mp5
             Vector vecSrc = m_pPlayer.GetGunPosition();
             Vector vecAiming = m_pPlayer.GetAutoaimVector( AUTOAIM_5DEGREES );
 
-            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
+            bool is_trained_personal = util::IsTrainedPersonal( m_pPlayer );
 
             float CONE = Accuracy( ( m_pPlayer.IsMoving() ? 0.02618f : 0.01f ), ( m_pPlayer.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
             if( m_iFireMode == BURST )
@@ -243,7 +243,7 @@ namespace weapon_bts_mp5
             Vector vecVelocity = m_pPlayer.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, m_pPlayer.pev.v_angle.y, models::shell, TE_BOUNCE_SHELL );
 
-            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && player_models::IsHEV( m_pPlayer ) )
+            if( self.m_iClip <= 0 && m_pPlayer.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( m_pPlayer ) )
                 m_pPlayer.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
             self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
