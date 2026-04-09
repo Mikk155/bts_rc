@@ -27,7 +27,7 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
         {
             string name;
             int current = int( data[ "pm_select" ] );
-            data[ "pm_select" ] = current = ( current < 0 ? 3 : 0 );
+            data[ "pm_select" ] = current = Math.clamp( 0, 3, current );
 
             data[ "pm_selectcd" ] = g_Engine.time + 0.5f;
 
