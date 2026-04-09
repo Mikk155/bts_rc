@@ -13,13 +13,12 @@ namespace items
 
             CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            if( player is null || player_models::HasHazardSuit(player) )
+            auto character = GetCharacter(player);
+
+            if( player is null || character is null || character.IsHEV || character.IsHazard )
                 return false;
 
-            if( player_models::IsTrainedPersonal(player) )
-                player_models::SetClass( player, PM::HELMET );
-            else
-                player_models::SetClass( player, PM::HELMET_CIVIL );
+            SetClass( player, Classification::HEV );
 
             PickupObject( player );
 

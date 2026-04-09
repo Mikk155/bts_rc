@@ -15,10 +15,12 @@ namespace items
 
             CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            if( player is null || !player_models::HasHazardSuit(player) || !player.TakeArmor( Math.RandomFloat( 10, 25 ), DMG_GENERIC ) )
+            auto character = GetCharacter(player);
+
+            if( player is null || character is null || !character.IsHEV || !character.IsHazard || !player.TakeArmor( Math.RandomFloat( 10, 25 ), DMG_GENERIC ) )
                 return false;
 
-            if( player_models::IsHEV( player ) )
+            if( character.IsHEV )
             {
                 int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
 
