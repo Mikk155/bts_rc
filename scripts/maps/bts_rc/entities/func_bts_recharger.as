@@ -78,7 +78,7 @@ namespace func_bts_recharger
             dictionary@ data = activator.GetUserData();
             float cooldown = float( data[ "recharger_cooldown" ] );
 
-            if( self.pev.iuser1 <= 0 || !player_models::IsHEV( player ) || player.pev.armorvalue >= player.pev.armortype )
+            if( self.pev.iuser1 <= 0 || !util::IsHEV( player ) || player.pev.armorvalue >= player.pev.armortype )
             {
                 if( cooldown <= g_Engine.time )
                 {

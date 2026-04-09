@@ -320,8 +320,8 @@ namespace point_checkpoint
                     pPlayer.SetOrigin( self.pev.origin );
                     pPlayer.Revive();
 
-                    if( player_models::GetClass(pPlayer) == PM::UNSET )
-                        player_models::SetRandomClass( pPlayer, { PM::BARNEY, PM::SCIENTIST, PM::CONSTRUCTION, PM::OPERATIVE } );
+                    if( util::GetClass(pPlayer) == Classification::Unset )
+                        SetRandomClass( pPlayer, { Classification::Security, Classification::Scientist, Classification::Maintenance, Classification::Operative } );
 
                     if( !pPlayer.HasWeapons() )
                         trigger_update_class::EquipPlayer( pPlayer );

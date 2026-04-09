@@ -6,7 +6,7 @@ PlayerRevivedHook( function( CBasePlayer@ player )
     if( player is null )
         return HOOK_CONTINUE;
 
-    player_models::UpdatePlayerArmor(player);
+    UpdateArmor(player);
 
     return HOOK_CONTINUE;
 } ) );

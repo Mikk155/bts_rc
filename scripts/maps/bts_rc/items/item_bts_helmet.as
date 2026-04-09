@@ -13,7 +13,9 @@ namespace items
 
             CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            if( player is null || player_models::HasHazardSuit(player) || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
+            auto character = GetCharacter(player);
+
+            if( player is null || character is null || character.IsHEV || character.IsHazard || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
                 return false;
 
             PickupObject( player, "item_battery", "bts_rc/items/armor_pickup1.wav" );

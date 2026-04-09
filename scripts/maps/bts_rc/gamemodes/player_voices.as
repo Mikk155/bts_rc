@@ -53,20 +53,11 @@ class CVoice
         else
         {
             auto player = cast<CBasePlayer@>(target);
-            auto watchyoutone = player_models::GetViewmodel(player);
+            auto watchyoutone = GetCharacter(player);
 
-            if( watchyoutone == PM_Hands::WhiteBlackHands || watchyoutone == PM_Hands::BlueBlackHands )
+            if( watchyoutone.HandsGroup == Hands::WhiteBlackHands || watchyoutone.HandsGroup == Hands::BlueBlackHands || watchyoutone.Name == "bts_otis" || watchyoutone.Name == "bts_otis2" )
             {
                 finalPitch = 94;
-            }
-            else if( watchyoutone == PM_Hands::Blue )
-            {
-                string watchyouweight = string( player.GetUserData()["pm"] );
-
-                if( watchyouweight == "bts_otis" || watchyouweight == "bts_otis2" )
-                {
-                    finalPitch = 94;
-                }
             }
         }
 
@@ -109,26 +100,24 @@ class CVoiceResponse
         if( player is null )
             return null;
 
-        const PM player_class = player_models::GetClass( player );
+        const Classification player_class = util::GetClass( player );
 
         switch( player_class )
         {
-            case PM::OPERATIVE:
-            case PM::BARNEY:
+            case Classification::Operative:
+            case Classification::Security:
                 return cast<CVoices@>( this.voices["barney"] );
 
-            case PM::CONSTRUCTION:
+            case Classification::Maintenance:
                 return cast<CVoices@>( this.voices["construction"] );
 
-            case PM::HELMET:
-            case PM::HELMET_CIVIL:
+            case Classification::HEV:
                 return cast<CVoices@>( this.voices["helmet"] );
 
-            case PM::CLSUIT:
-            case PM::CLSUIT_CIVIL:
+            case Classification::Hazard:
                 return cast<CVoices@>( this.voices["cleansuit"] );
 
-            case PM::SCIENTIST:
+            case Classification::Scientist:
             default:
                 return cast<CVoices@>( this.voices["scientist"] );
         }
@@ -151,7 +140,7 @@ class CVoiceResponse
 
             // Hooks call ordering is reversed from the registering orden so we have to do this check anyways from gamemodes/radioactivity
             // https://discord.com/channels/818989352411463731/819002186574594118/1489052351435378770
-            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && player_models::IsHEV( player ) ) )
+            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && util::IsHEV( player ) ) )
                 return HOOK_CONTINUE;
 
             CVoices@ voices = g_VoiceResponse[player];

@@ -349,7 +349,7 @@ namespace weapon_bts_pipewrench
                 }
             }
 
-            bool is_trained_personal = player_models::IsTrainedPersonal( m_pPlayer );
+            bool is_trained_personal = util::IsTrainedPersonal( m_pPlayer );
 
             if( tr.flFraction >= 1.0f )
             {

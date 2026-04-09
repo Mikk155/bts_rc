@@ -73,11 +73,11 @@ namespace trigger_update_class
         string title;
         Vector color;
 
-        auto player_class = player_models::GetClass( player );
+        auto player_class = util::GetClass( player );
 
         switch( player_class )
         {
-        case PM::BARNEY:
+        case Classification::Security:
         {
             role = "Security";
             title = "Blackmesa Security Force";
@@ -127,7 +127,7 @@ namespace trigger_update_class
             AddItems( player, { { barney_wpn_type, 1 }, { barney_ammo_type, 2 }, { "weapon_bts_flashlight", 1 }, { "item_bts_helmet", 1 }, { "item_bts_armorvest", 1 } } );
             break;
         }
-        case PM::SCIENTIST:
+        case Classification::Scientist:
         {
             role = "Scientist";
             title = "Blackmesa Science team";
@@ -161,7 +161,7 @@ namespace trigger_update_class
             }
             break;
         }
-        case PM::CONSTRUCTION:
+        case Classification::Maintenance:
         {
             role = "Maintenance";
             title = "Blackmesa Maintenance";
@@ -207,17 +207,15 @@ namespace trigger_update_class
             }
             break;
         }
-        case PM::HELMET:
-        case PM::HELMET_CIVIL:
+        case Classification::HEV:
         {
             return;
         }
-        case PM::CLSUIT:
-        case PM::CLSUIT_CIVIL:
+        case Classification::Hazard:
         {
             return;
         }
-        case PM::OPERATIVE:
+        case Classification::Operative:
         {
             break;
         }
@@ -234,7 +232,7 @@ namespace trigger_update_class
 
     class trigger_update_class : ScriptBaseEntity
     {
-        private PM m_class = PM::SCIENTIST;
+        private Classification m_class = Classification::Scientist;
 
         void Spawn()
         {
@@ -264,7 +262,7 @@ namespace trigger_update_class
         {
             if( szKeyName == 'm_class' )
             {
-                m_class = PM( atoi( szValue ) );
+                m_class = Classification( atoi( szValue ) );
                 return true;
             }
             return BaseClass.KeyValue( szKeyName, szValue );
@@ -282,7 +280,7 @@ namespace trigger_update_class
 
             string playerName = string( player.pev.netname );
 
-            player_models::SetClass( player, m_class );
+            SetClass( player, m_class );
 
             EquipPlayer( player );
         }
