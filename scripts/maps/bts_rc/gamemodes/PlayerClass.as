@@ -15,10 +15,10 @@ enum Classification
     Maintenance,
     // HEV suit
     HEV = 4,
-    // Operative security officer
-    Operative,
     // Hazard suit
     Hazard,
+    // Operative security officer
+    Operative,
     // Just a end of enum for size reference.
     __Size__
 };
