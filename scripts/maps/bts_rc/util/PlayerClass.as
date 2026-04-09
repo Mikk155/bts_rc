@@ -11,7 +11,7 @@ namespace util
     bool IsHEV( CBaseEntity@ player )
     {
         auto character = GetCharacter(player);
-        return ( character !is null && character.IsHazard );
+        return ( character !is null && character.IsHEV );
     }
 
     /// Is the player a weapon-trained personal?
