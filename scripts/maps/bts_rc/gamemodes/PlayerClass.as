@@ -246,21 +246,32 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
 
     @data[ "character" ] = character;
 
-    // Re-Deploy weapon to update view model hands
-    if( player.m_hActiveItem.IsValid() )
+    auto playerData = util::GetPlayerData(player);
+
+    if( player.IsAlive() )
     {
-        CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
-
-        if( active_item !is null )
+        // Re-Deploy weapon to update view model hands
+        if( player.m_hActiveItem.IsValid() )
         {
-            CBasePlayerItem@ weapon = cast<CBasePlayerItem@>( active_item );
+            CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
 
-            if( weapon !is null )
+            if( active_item !is null )
             {
-                weapon.Deploy();
+                CBasePlayerItem@ weapon = cast<CBasePlayerItem@>( active_item );
+
+                if( weapon !is null )
+                {
+                    weapon.Deploy();
+                }
             }
         }
     }
+    else if( !playerData.HasStartedPlaying )
+    {
+        g_PlayerFuncs.RespawnPlayer( player, false, true );
+    }
+
+    playerData.HasStartedPlaying = true;
 
     UpdateArmor( player, classify );
 }
