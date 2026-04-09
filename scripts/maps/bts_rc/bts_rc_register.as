@@ -15,6 +15,7 @@
 #include "util/freeedicts"
 #include "util/Logger"
 #include "util/PlayerClass"
+#include "util/PlayerData"
 
 // Contain models/sprites ID
 #include "misc/Precache"
