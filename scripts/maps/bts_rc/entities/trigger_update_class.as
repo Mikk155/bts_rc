@@ -223,7 +223,7 @@ namespace trigger_update_class
         break;
         }
 
-        snprintf( buffer, "%1\n%2 Enrolled as %3\nWith: %4", title, player.pev.netname, role, buffer );
+        snprintf( buffer, "%1\n%2 Enrolled as %3\nWith: %4\n", title, player.pev.netname, role, buffer );
         g_PlayerFuncs.HudMessageAll( msgParams, buffer );
         g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
         g_PlayerFuncs.ScreenFade( player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT );
