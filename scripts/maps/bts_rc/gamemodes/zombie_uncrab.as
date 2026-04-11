@@ -101,7 +101,6 @@ namespace zombie_uncrab
                     // Make crab think earlier so it does drop to floor before relocate is called
                     headcrab.pev.nextthink = g_Engine.time;
 
-                    // -TODO Pass on some model attachment for consistent Z position? SetOrigin at RelocateHeadcrab
                     g_Scheduler.SetTimeout( @gpConfig, "RelocateHeadcrab", 0.05f, EHandle(headcrab), origin.z );
 
                     return HOOK_CONTINUE;
