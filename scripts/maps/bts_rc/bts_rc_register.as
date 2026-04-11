@@ -36,6 +36,7 @@
 #include "gamemodes/player_voices"
 #include "gamemodes/PlayerClass"
 #include "gamemodes/randomizer"
+#include "gamemodes/zombie_uncrab"
 
 #include "Hooks/PlayerRevive"
 #include "Hooks/PlayerSpawn"
@@ -43,8 +44,6 @@
 #include "Hooks/PlayerThink"
 #include "Hooks/SquadmakerSpawn"
 
-#include "Hooks/monster_killed"
-#include "Hooks/monster_takedamage"
 #include "Hooks/player_connect" /* -TODO Remove this line in 5.27 */
 #include "Hooks/player_think"
 
@@ -118,8 +117,6 @@ void MapInit()
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_think );
-    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @monster_killed );
-    g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @monster_takedamage );
     /* -TODO Remove this line in 5.27 */ if( g_Game.GetGameVersion() == 526 )
     {
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
