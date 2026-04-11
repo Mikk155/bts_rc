@@ -209,10 +209,7 @@ void Precache()
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_uzi.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_uzisd.txt" );
 
-    g_Game.PrecacheModel( "models/bshift/barney_helmet.mdl" );
-    g_Game.PrecacheModel( "models/bshift/barney_vest.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/items/w_medkits.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmARGL.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmar.mdl" );
@@ -318,8 +315,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_m40a1.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzisd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
-    g_Game.PrecacheModel( "models/hlclassic/w_suit.mdl" );
-    g_Game.PrecacheModel( "models/hlclassic/w_hazmat.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/grenade.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/p_357.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmhandgun.mdl" );
@@ -338,7 +333,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_357ammo.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_357ammobox.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/w_battery.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_crowbar.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_shotbox.mdl" );
