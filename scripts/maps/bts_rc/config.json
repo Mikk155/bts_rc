@@ -55,6 +55,15 @@
         }
     },
 
+    "zombie_uncrab":
+    {
+        // Whatever to enable headcrabs jumping from zombies
+        "active": true,
+
+        // Whatever track zombie headcrab damage before spawning a crab. if this is set to false the headcrab will always spawn and full health.
+        "track_health": true
+    },
+
     // what monsters drop upon death
     "deathdrop":
     {
