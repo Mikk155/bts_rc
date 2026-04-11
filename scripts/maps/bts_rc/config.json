@@ -2,9 +2,6 @@
     // Whatever player voices are enabled
     "voice_responses": true,
 
-    // Whatever to enable blood puddles
-    "blood_puddles": true,
-
     // Whatever that enemies should splash extra blood
     "blood_splash": true,
 
@@ -35,6 +32,24 @@
         "trace": true,
         "warning": true,
         "critical": true
+    },
+
+    // Blood puddle config
+    "bloodpuddle":
+    {
+        // Whatever to enable blood puddles
+        "active": true,
+
+        // Default pev->scale (random min/max)
+        "default_size": [ 1.5, 2.5 ],
+
+        // same as default_size but for specific monster classnames
+        "custom_size":
+        {
+            "monster_headcrab": [ 0.5, 1.5 ],
+            "monster_houndeye": [ 1.0, 2.0 ],
+            "monster_babycrab": [ 0.3, 0.8 ]
+        }
     },
 
     // what monsters drop upon death
