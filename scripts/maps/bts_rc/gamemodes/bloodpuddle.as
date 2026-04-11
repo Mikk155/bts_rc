@@ -10,6 +10,7 @@ namespace bloodpuddle
     {
         array<float> DefaultSize;
         dictionary CustomSizes;
+        bool Persistent;
 
         CBloodPuddleConfig()
         {
@@ -41,6 +42,8 @@ namespace bloodpuddle
                 g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
 
                 DefaultSize = GetSize( json[ "default_size" ] );
+
+                json.get( "persistent", Persistent );
 
                 dictionary@ custom_size = cast<dictionary@>( json[ "custom_size" ] );
                 array<string>@ monsterNames = custom_size.getKeys();
@@ -103,9 +106,16 @@ namespace bloodpuddle
             {
                 case 2: // Expanded
                 {
+                    if( gpConfig.Persistent )
+                    {
+                        SetThink( null );
+                        return;
+                    }
+
                     if( self.pev.renderamt <= 1 )
                     {
                         self.pev.flags |= FL_KILLME;
+                        SetThink( null );
                         return;
                     }
 

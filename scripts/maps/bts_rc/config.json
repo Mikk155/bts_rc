@@ -40,6 +40,9 @@
         // Whatever to enable blood puddles
         "active": true,
 
+        // Whatever blood puddles should persist in the map. set to false for a removal fade out
+        "persistent": true,
+
         // Default pev->scale (random min/max)
         "default_size": [ 1.5, 2.5 ],
 
