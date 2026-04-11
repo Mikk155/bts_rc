@@ -86,7 +86,10 @@ namespace zombie_uncrab
                             return HOOK_CONTINUE;
                     }
 
-                    auto headcrab = g_EntityFuncs.Create( "monster_headcrab", monster.pev.origin, monster.pev.angles, false, monster.edict() );
+                    Vector origin, angles;
+                    monster.GetAttachment( 0, origin, angles );
+
+                    auto headcrab = g_EntityFuncs.Create( "monster_headcrab", origin, monster.pev.angles, false, monster.edict() );
 
                     if( headcrab is null )
                         return HOOK_CONTINUE;
@@ -99,14 +102,14 @@ namespace zombie_uncrab
                     headcrab.pev.nextthink = g_Engine.time;
 
                     // -TODO Pass on some model attachment for consistent Z position? SetOrigin at RelocateHeadcrab
-                    g_Scheduler.SetTimeout( @gpConfig, "RelocateHeadcrab", 0.05f, EHandle(headcrab) );
+                    g_Scheduler.SetTimeout( @gpConfig, "RelocateHeadcrab", 0.05f, EHandle(headcrab), origin.z );
 
                     return HOOK_CONTINUE;
                 } ) );
             }
         }
 
-        void RelocateHeadcrab( EHandle entity )
+        void RelocateHeadcrab( EHandle entity, float height )
         {
             if( !entity.IsValid() )
                 return;
@@ -120,7 +123,8 @@ namespace zombie_uncrab
             headcrab.pev.sequence = 10;
 
             headcrab.pev.flags &= ~FL_ONGROUND;
-            g_EntityFuncs.SetOrigin( headcrab, headcrab.pev.origin + Vector( 0, 0, 72 ) );
+            headcrab.pev.origin.z = height;
+            g_EntityFuncs.SetOrigin( headcrab, headcrab.pev.origin );
 
             headcrab.pev.velocity.x = Math.RandomFloat( -50, 50 );
             headcrab.pev.velocity.y = Math.RandomFloat( -50, 50 );
