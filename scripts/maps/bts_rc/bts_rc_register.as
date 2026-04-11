@@ -41,6 +41,7 @@
 #include "Hooks/PlayerSpawn"
 #include "Hooks/PlayerTakeDamage"
 #include "Hooks/PlayerThink"
+#include "Hooks/SquadmakerSpawn"
 
 #include "Hooks/monster_killed"
 #include "Hooks/monster_takedamage"
