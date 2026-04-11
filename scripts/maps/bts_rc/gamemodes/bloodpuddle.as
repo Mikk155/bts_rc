@@ -70,6 +70,7 @@ namespace bloodpuddle
             self.pev.angles.y = Math.RandomFloat( 0, 359 );
 
             SetThink( ThinkFunction( this.think ) );
+            self.pev.nextthink = g_Engine.time + 0.1;
 
             g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
 
@@ -109,7 +110,6 @@ namespace bloodpuddle
                     }
 
                     self.pev.renderamt -= 1;
-                    self.pev.nextthink = g_Engine.time + 4.0;
                     break;
                 }
                 case 0: // Idle
@@ -126,10 +126,11 @@ namespace bloodpuddle
                         self.pev.rendermode = kRenderTransTexture;
                         state = 2; // Set to expanded if the owner has disapear or anything
                     }
-                    self.pev.nextthink = g_Engine.time + 0.1;
                     break;
                 }
             }
+
+            self.pev.nextthink = g_Engine.time + 0.1;
         }
     }
 
