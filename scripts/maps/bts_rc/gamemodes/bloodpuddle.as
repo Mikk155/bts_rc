@@ -6,6 +6,56 @@
 
 namespace bloodpuddle
 {
+    class CBloodPuddleConfig : IConfigContext
+    {
+        array<float> DefaultSize;
+        dictionary CustomSizes;
+
+        CBloodPuddleConfig()
+        {
+            ConfigContext::Register( this );
+        }
+
+        string GetName()
+        {
+            return "bloodpuddle";
+        }
+
+        array<float> GetSize( dictionaryValue@ data )
+        {
+            dictionary@ dict = cast<dictionary@>(data);
+            array<float> list(2);
+            dict.get( "0", list[0] );
+            dict.get( "1", list[1] );
+            return list;
+        }
+
+        void Parse( dictionary@ json )
+        {
+            bool register;
+
+            if( json.get( "active", register ) && register )
+            {
+                g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @bloodpuddle::monster_killed );
+                g_CustomEntityFuncs.RegisterCustomEntity( "bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
+                g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+
+                DefaultSize = GetSize( json[ "default_size" ] );
+
+                dictionary@ custom_size = cast<dictionary@>( json[ "custom_size" ] );
+                array<string>@ monsterNames = custom_size.getKeys();
+                uint monsterSize = monsterNames.length();
+                for( uint ui = 0; ui < monsterSize; ui++ )
+                {
+                    string name = monsterNames[ui];
+                    CustomSizes[ name ] = GetSize( custom_size[ name ] );
+                }
+            }
+        }
+    }
+
+    CBloodPuddleConfig gpConfig;
+
     enum BLOOD_STATE
     {
         IDLE = 0,
@@ -68,14 +118,6 @@ namespace bloodpuddle
                     self.pev.nextthink = g_Engine.time + 4.0;
                     break;
                 }
-
-                    /*  case BLOOD_STATE::EXPANDED:
-                        {
-                            // Puddle stays forever instead.
-                            self.pev.nextthink = g_Engine.time + 1.0;
-                            break;
-                        }*/
-
                 case BLOOD_STATE::IDLE:
                 case BLOOD_STATE::EXPANDING:
                 default:
@@ -94,18 +136,6 @@ namespace bloodpuddle
                     break;
                 }
             }
-        }
-    }
-
-    void Register( dictionary@ config )
-    {
-        bool register;
-
-        if( config.get( "blood_puddles", register ) && register )
-        {
-            g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @bloodpuddle::monster_killed );
-            g_CustomEntityFuncs.RegisterCustomEntity( "bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
-            g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
         }
     }
 
@@ -132,16 +162,12 @@ namespace bloodpuddle
         if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
             bloodpuddle.pev.skin = 1;
 
-        // Small monsters
-        if(monster.pev.classname == "monster_headcrab"
-        ||  monster.pev.classname == "monster_houndeye"
-        ||  monster.pev.classname == "monster_babycrab"
-        ) {
-            bloodpuddle.pev.scale = Math.RandomFloat( 0.5, 1.5 );
-        }
-        else {
-            bloodpuddle.pev.scale = Math.RandomFloat( 1.5, 2.5 );
-        }
+        array<float> sizes;
+
+        if( !gpConfig.CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes is null )
+            sizes = gpConfig.DefaultSize;
+
+        bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
 
         /* Monster gibed? Set it to full gib */
         if( monster.ShouldGibMonster( gib ) )
