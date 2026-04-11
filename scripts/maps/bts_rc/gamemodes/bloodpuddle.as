@@ -56,16 +56,9 @@ namespace bloodpuddle
 
     CBloodPuddleConfig gpConfig;
 
-    enum BLOOD_STATE
-    {
-        IDLE = 0,
-        EXPANDING,
-        EXPANDED
-    };
-
     class env_bloodpuddle : ScriptBaseAnimating
     {
-        BLOOD_STATE state = BLOOD_STATE::IDLE;
+        uint8 state = 0;
         private float last_time = 0;
         private uint uisize = 0;
 
@@ -81,7 +74,7 @@ namespace bloodpuddle
 
             switch( state )
             {
-                case BLOOD_STATE::EXPANDED:
+                case 2: // Expanded
                 {
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
@@ -89,7 +82,7 @@ namespace bloodpuddle
                     break;
                 }
 
-                case BLOOD_STATE::IDLE:
+                case 0: // Idle
                 default:
                 {
                     self.pev.sequence = 1;
@@ -106,7 +99,7 @@ namespace bloodpuddle
         {
             switch( state )
             {
-                case BLOOD_STATE::EXPANDED:
+                case 2: // Expanded
                 {
                     if( self.pev.renderamt <= 1 )
                     {
@@ -118,8 +111,8 @@ namespace bloodpuddle
                     self.pev.nextthink = g_Engine.time + 4.0;
                     break;
                 }
-                case BLOOD_STATE::IDLE:
-                case BLOOD_STATE::EXPANDING:
+                case 0: // Idle
+                case 1: // Expanding
                 default:
                 {
                     if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
@@ -130,7 +123,7 @@ namespace bloodpuddle
                     {
                         self.pev.renderamt = 255;
                         self.pev.rendermode = kRenderTransTexture;
-                        state = BLOOD_STATE::EXPANDED;
+                        state = 2; // Set to expanded if the owner has disapear or anything
                     }
                     self.pev.nextthink = g_Engine.time + 0.1;
                     break;
@@ -172,7 +165,7 @@ namespace bloodpuddle
         /* Monster gibed? Set it to full gib */
         if( monster.ShouldGibMonster( gib ) )
         {
-            bloodpuddle.state = BLOOD_STATE::EXPANDED;
+            bloodpuddle.state = 2; // Epanded
             bloodpuddle.pev.nextthink = g_Engine.time + 0.1f;
         }
         else
