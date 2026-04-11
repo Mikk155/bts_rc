@@ -99,7 +99,6 @@ void MapInit()
         g_Logger.info = snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
 
-    bloodpuddle::Register( @g_Config );
     lasers::Register( @g_Config );
     RegisterPlayerClass( @g_Config );
 
