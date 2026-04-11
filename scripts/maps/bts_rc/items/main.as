@@ -53,6 +53,10 @@ namespace items
             return String::EMPTY_STRING;
         }
 
+        protected const array<Vector>@ GetSize() {
+            return { Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) };
+        }
+
         void Precache()
         {
             g_Game.PrecacheModel( self, this.model );
@@ -64,9 +68,13 @@ namespace items
 
             g_EntityFuncs.SetModel( self, this.model );
 
+            auto entitySize = GetSize();
+
+            g_EntityFuncs.SetSize( self.pev, entitySize[0], entitySize[1] );
+
             BaseClass.Spawn();
 
-            g_EntityFuncs.SetSize( self.pev, Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) );
+            g_EntityFuncs.SetSize( self.pev, entitySize[0], entitySize[1] );
         }
 
         // Whatever player is not null, is a player and is alive
