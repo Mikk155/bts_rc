@@ -87,7 +87,7 @@ namespace zombie_uncrab
                     }
 
                     Vector origin, angles;
-                    monster.GetAttachment( 0, origin, angles );
+                    monster.GetAttachment( ( monster.GetClassnae() == "monster_gonome" ? 1 : 0 ), origin, angles );
 
                     auto headcrab = g_EntityFuncs.Create( "monster_headcrab", origin, monster.pev.angles, false, monster.edict() );
 
