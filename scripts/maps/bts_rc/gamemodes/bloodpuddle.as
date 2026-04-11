@@ -67,6 +67,7 @@ namespace bloodpuddle
             self.pev.movetype = MOVETYPE_TOSS;
             self.pev.solid = SOLID_NOT;
             g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
+            self.pev.angles.y = Math.RandomFloat( 0, 359 );
 
             SetThink( ThinkFunction( this.think ) );
 
