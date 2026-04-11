@@ -61,27 +61,15 @@ namespace lasers
         return null;
     }
 
-    void add_sentry( CBaseMonster@ squad, CBaseEntity@ entity )
-    {
-        // Sentries are spawned via squadmaker so we can't find them.
-        if( entity !is null )
-        {
-            handles.insertLast( EHandle( entity ) );
-
-            if( g_Logger.trace )
-                g_Logger.trace = snprintf( glog, "Added %1 to lasers list at index %2.\n", entity.GetClassname(), handles.length() );
-        }
-    }
+    const array<string> turrets = {
+        "monster_sentry",
+        "monster_turret",
+        "monster_miniturret"
+    };
 
     void MapActivate()
     {
         auto chrono = Server::chrono();
-
-        const array<string> turrets = {
-            "monster_sentry",
-            "monster_turret",
-            "monster_miniturret"
-        };
 
         for( uint ui = 0; ui < turrets.length(); ui++ )
         {

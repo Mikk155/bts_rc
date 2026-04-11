@@ -3,27 +3,6 @@ namespace randomizer
     // List of array<int> containing indexes for matched entities for each randomizer type.
     dictionary g_Randomizers;
 
-    // Swap a specific squadmaker to a random location.
-    void randomize_squad( CBaseMonster@ squad, CBaseEntity@ entity )
-    {
-        if( squad is null )
-            return;
-
-        if( g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
-        {
-            CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
-
-            if( owner_spot !is null )
-            {
-                owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
-                return;
-            }
-        }
-
-        if( g_Logger.error )
-            g_Logger.error = snprintf( glog, "Failed to swap squad at %1", squad.pev.origin.ToString() );
-    }
-
     class CRandomizerEntity : ScriptBaseEntity
     {
         void Spawn()
