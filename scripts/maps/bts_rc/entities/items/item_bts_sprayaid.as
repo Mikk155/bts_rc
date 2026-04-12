@@ -6,7 +6,7 @@ namespace items
             return "items/medshot4.wav";
         }
 
-        protected const string& GetModel() override {
+        const string& get_m_Model() override {
             return "models/bts_rc/items/w_medkits.mdl";
         }
 

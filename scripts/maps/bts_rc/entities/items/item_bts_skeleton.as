@@ -2,11 +2,11 @@ namespace items
 {
     class item_bts_skeleton : item_bts_armorvest
     {
-        bool m_IsEmpty = false;
-
-        protected const string& GetModel() override {
+        const string& get_m_Model() override {
             return "models/bts_rc/items/skeleton_guard.mdl";
         }
+
+        bool m_IsEmpty = false;
 
         void Precache()
         {
