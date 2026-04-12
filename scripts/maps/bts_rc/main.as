@@ -99,6 +99,7 @@ void MapInit()
 
     Precache();
 
+    ammo::Register( g_Config );
     items::Register( g_Config );
     weapons::Register( g_Config );
 

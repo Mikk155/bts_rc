@@ -25,25 +25,6 @@ namespace weapons
             FLASH
         };
 
-        class ammo_bts_beretta : ScriptBasePlayerAmmoEntity
-        {
-            void Spawn()
-            {
-                g_EntityFuncs.SetModel( self, "models/hlclassic/w_9mmclip.mdl" );
-                BaseClass.Spawn();
-            }
-
-            bool AddAmmo( CBaseEntity@ other )
-            {
-                if( other !is null && other.GiveAmmo( 12, "9mm", 12 ) != -1 )
-                {
-                    g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0f, ATTN_NORM );
-                    return true;
-                }
-                return false;
-            }
-        }
-
         class ammo_bts_beretta_battery : ScriptBasePlayerAmmoEntity
         {
             void Spawn()
