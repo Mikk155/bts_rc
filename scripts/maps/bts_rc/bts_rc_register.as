@@ -38,13 +38,13 @@
 #include "gamemodes/randomizer"
 #include "gamemodes/zombie_uncrab"
 
+#include "Hooks/ClientInitialized"
 #include "Hooks/PlayerRevive"
 #include "Hooks/PlayerSpawn"
 #include "Hooks/PlayerTakeDamage"
 #include "Hooks/PlayerThink"
 #include "Hooks/SquadmakerSpawn"
 
-#include "Hooks/player_connect" /* -TODO Remove this line in 5.27 */
 #include "Hooks/player_think"
 
 #include "items/main"
@@ -117,10 +117,6 @@ void MapInit()
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
     g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_think );
-    /* -TODO Remove this line in 5.27 */ if( g_Game.GetGameVersion() == 526 )
-    {
-        g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @notice_assets::player_connect );
-    }
 
     if( g_Logger.info )
     {
