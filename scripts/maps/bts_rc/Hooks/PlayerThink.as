@@ -13,6 +13,38 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
     if( !data.exists( "connected" ) )
         ClientInitialized(player);
 
+    // Change impulse 101 command with our own weapons.
+    if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+    {
+        uint length = weapons::gpWeaponNames.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            const string weapon_name = weapons::gpWeaponNames[ui];
+
+            player.GiveNamedItem( weapon_name );
+
+            CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+
+            if( item !is null )
+            {
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                if( weapon !is null )
+                {
+                    if( weapon.m_iPrimaryAmmoType > 0 )
+                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                    
+                    weapon.m_iClip = weapon.iMaxClip();
+
+                    if( weapon.m_iSecondaryAmmoType > 0 )
+                        player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                }
+            }
+        }
+        player.pev.impulse = 0;
+    }
+
     if( character is null )
     {
         if( gpGameStarted )
