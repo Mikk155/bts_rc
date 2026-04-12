@@ -5,17 +5,6 @@
 
 namespace func_bts_recharger
 {
-    const bool IsRegistered = Register();
-
-    const bool Register()
-    {
-        g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
-        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
-        return true;
-    }
-
     class CConfig : IConfigContext
     {
         int juice = 35;
@@ -37,6 +26,11 @@ namespace func_bts_recharger
             json.get( "juice", juice );
             json.get( "recharge_time", recharge_time );
             json.get( "speed_rate", speed_rate );
+
+            g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
+            g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
+            g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
+            g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
         }
     }
 

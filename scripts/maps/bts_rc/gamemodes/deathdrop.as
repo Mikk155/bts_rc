@@ -1,10 +1,10 @@
 namespace deathdrop
 {
-    class CDeathDropConfig : IConfigContext
+    class CConfig : IConfigContext
     {
         dictionary m_Monsters;
 
-        CDeathDropConfig()
+        CConfig()
         {
             ConfigContext::Register( this );
         }
@@ -46,7 +46,7 @@ namespace deathdrop
         }
     }
 
-    CDeathDropConfig gpConfig;
+    CConfig gpConfig;
 
     HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
     {

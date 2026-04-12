@@ -1,28 +1,25 @@
-namespace items
+class item_bts_clsuit : BTS_Item
 {
-    class item_bts_clsuit : BTS_Item
+    const string& get_m_Model() override {
+        return "models/w_hazmat.mdl";
+    }
+
+    bool AddAmmo( CBaseEntity@ other )
     {
-        const string& get_m_Model() override {
-            return "models/w_hazmat.mdl";
-        }
+        if( !IsValid( other ) )
+            return false;
 
-        bool AddAmmo( CBaseEntity@ other )
-        {
-            if( !IsValid( other ) )
-                return false;
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            CBasePlayer@ player = cast<CBasePlayer@>( other );
+        auto character = GetCharacter(player);
 
-            auto character = GetCharacter(player);
+        if( player is null || character is null || character.IsHEV || character.IsHazard )
+            return false;
 
-            if( player is null || character is null || character.IsHEV || character.IsHazard )
-                return false;
+        SetClass( player, Classification::Hazard );
 
-            SetClass( player, Classification::Hazard );
+        PickupObject( player, "suit_empty" );
 
-            PickupObject( player, "suit_empty" );
-
-            return true;
-        }
+        return true;
     }
 }

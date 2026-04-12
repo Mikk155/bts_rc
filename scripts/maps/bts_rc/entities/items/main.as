@@ -14,20 +14,13 @@ namespace items
     {
         data.get( "battery_lighting", gpBatteryLighting );
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_armorvest", "item_bts_armorvest" );
-        g_Game.PrecacheOther( "item_bts_armorvest" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_clsuit", "item_bts_clsuit" );
-        g_Game.PrecacheOther( "item_bts_clsuit" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_helmet", "item_bts_helmet" );
-        g_Game.PrecacheOther( "item_bts_helmet" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_hevbattery", "item_bts_hevbattery" );
-        g_Game.PrecacheOther( "item_bts_hevbattery" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_hevsuit", "item_bts_hevsuit" );
-        g_Game.PrecacheOther( "item_bts_hevsuit" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_skeleton", "item_bts_skeleton" );
-        g_Game.PrecacheOther( "item_bts_skeleton" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "items::item_bts_sprayaid", "item_bts_sprayaid" );
-        g_Game.PrecacheOther( "item_bts_sprayaid" );
+        CustomEntity( "item_bts_armorvest", true );
+        CustomEntity( "item_bts_clsuit", true );
+        CustomEntity( "item_bts_helmet", true );
+        CustomEntity( "item_bts_hevbattery", true );
+        CustomEntity( "item_bts_hevsuit", true );
+        CustomEntity( "item_bts_skeleton", true );
+        CustomEntity( "item_bts_sprayaid", true );
     }
 }
 

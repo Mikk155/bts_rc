@@ -6,13 +6,13 @@
 
 namespace zombie_uncrab
 {
-    class CZombieUncrabConfig : IConfigContext
+    class CConfig : IConfigContext
     {
         bool TrackHealth;
 
         const Cvar@ sk_headcrab_health = g_EngineFuncs.CVarGetPointer( "sk_headcrab_health" );
 
-        CZombieUncrabConfig()
+        CConfig()
         {
             ConfigContext::Register( this );
         }
@@ -131,5 +131,5 @@ namespace zombie_uncrab
         }
     }
 
-    CZombieUncrabConfig gpConfig;
+    CConfig gpConfig;
 }

@@ -5,6 +5,7 @@
 
 #include "CommandContext"
 #include "ConfigContext"
+#include "CustomEntity"
 #include "freeedicts"
 #include "Logger"
 #include "models"
