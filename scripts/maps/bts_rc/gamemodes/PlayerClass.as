@@ -188,12 +188,10 @@ CCharacter@ SetRandomCharacter( CBasePlayer@ player, const Classification&in cla
     if( size == 1 ) // HEV/Hazard
         return list[0];
 
-    uint last = g_LastSelectedCharacter[classify];
+    uint last = g_LastSelectedCharacter[classify] + 1;
 
-    if( last >= size - 1 )
-        g_LastSelectedCharacter[classify] = 0;
-    else
-        last++;
+    if( last >= size )
+        last = 0;
 
     g_LastSelectedCharacter[classify] = last;
 
