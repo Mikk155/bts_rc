@@ -125,7 +125,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/rgrunt/rbhw_shield_smash.ogg" );
     g_SoundSystem.PrecacheSound( "debris/wood1.wav" );
     g_SoundSystem.PrecacheSound( "debris/wood2.wav" );
-    g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_reload1.wav" );
@@ -322,7 +321,6 @@ void Precache()
     g_Game.PrecacheModel( "models/hlclassic/w_357ammo.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_357ammobox.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_9mmarclip.mdl" );
-    g_Game.PrecacheModel( "models/hlclassic/w_9mmclip.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons//w_9mmhandgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_glock17f.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_glock18.mdl" );

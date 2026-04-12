@@ -1,25 +1,18 @@
+#include "ammo_bts_beretta"
+
 namespace ammo
 {
     void Register( dictionary@ data )
     {
-        CustomEntity( "", true );
+        CustomEntity( "ammo_bts_beretta", true );
     }
 }
 
 class BTS_Ammo : BTS_Item
 {
-    protected string m_PickupSound;
-
-    void Spawn()
+    bool PickupObject( CBaseEntity@ player, const int give, const string&in ammoName, const int max )
     {
-        if( !m_PickupSound.IsEmpty() )
-        {
-        }
-    }
-
-    bool PickupObject( CBasePlayer@ player, const int give, const string&in ammoName, const int max )
-    {
-        if( IsValid(player) && player.GiveAmmo( give, ammoName, max ) != -1 )
+        if( IsValid( player ) && player.GiveAmmo( give, ammoName, max ) != -1 )
         {
             g_EntityFuncs.FireTargets( self.pev.target, player, self, USE_TOGGLE, 0, 0 );
 
@@ -30,9 +23,11 @@ class BTS_Ammo : BTS_Item
                 msg.End();
             }
 
-            if( !m_PickupSound.IsEmpty() )
+            const string pickupSound = m_PlaySound;
+
+            if( !pickupSound.IsEmpty() )
             {
-                g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, m_PickupSound, 1.0f, ATTN_NORM );
+                g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, pickupSound, 1.0f, ATTN_NORM );
             }
 
             if( ( self.pev.spawnflags & 1 ) == 0 )
@@ -41,6 +36,7 @@ class BTS_Ammo : BTS_Item
                 self.pev.flags |= FL_KILLME;
                 self.pev.targetname = String::EMPTY_STRING;
             }
+
             return true;
         }
         return false;
