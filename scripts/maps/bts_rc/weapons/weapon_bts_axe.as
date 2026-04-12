@@ -8,7 +8,7 @@ namespace weapons
 {
     namespace weapon_bts_axe
     {
-        class CAxeConfig : IConfigContext
+        class CConfig : IConfigContext
         {
             float AttackDistance = 45.0f;
             float PrimaryDamage = 20;
@@ -25,7 +25,7 @@ namespace weapons
             float SecondaryTrainedCooldown = 0.25f;
             float SecondaryMissTrainedCooldown = 1.0f;
 
-            CAxeConfig()
+            CConfig()
             {
                 ConfigContext::Register( this );
             }
@@ -55,7 +55,7 @@ namespace weapons
             }
         }
 
-        CAxeConfig gpWeaponConfig;
+        CConfig gpWeaponConfig;
 
         enum ANIM
         {

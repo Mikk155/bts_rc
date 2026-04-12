@@ -1,30 +1,27 @@
-namespace items
+class item_bts_helmet : BTS_Item
 {
-    class item_bts_helmet : BTS_Item
+    const string& get_m_PlaySound() override {
+        return "bts_rc/items/armor_pickup1.wav";
+    }
+
+    const string& get_m_Model() override {
+        return "models/bshift/barney_helmet.mdl";
+    }
+
+    bool AddAmmo( CBaseEntity@ other )
     {
-        const string& get_m_PlaySound() override {
-            return "bts_rc/items/armor_pickup1.wav";
-        }
+        if( !IsValid( other ) || other.pev.armorvalue >= other.pev.armortype )
+            return false;
 
-        const string& get_m_Model() override {
-            return "models/bshift/barney_helmet.mdl";
-        }
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-        bool AddAmmo( CBaseEntity@ other )
-        {
-            if( !IsValid( other ) || other.pev.armorvalue >= other.pev.armortype )
-                return false;
+        auto character = GetCharacter(player);
 
-            CBasePlayer@ player = cast<CBasePlayer@>( other );
+        if( player is null || character is null || character.IsHEV || character.IsHazard || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
+            return false;
 
-            auto character = GetCharacter(player);
+        PickupObject( player, "suit_empty" );
 
-            if( player is null || character is null || character.IsHEV || character.IsHazard || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
-                return false;
-
-            PickupObject( player, "suit_empty" );
-
-            return true;
-        }
+        return true;
     }
 }

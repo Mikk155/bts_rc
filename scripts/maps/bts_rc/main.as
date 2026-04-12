@@ -102,7 +102,6 @@ void MapInit()
     items::Register( g_Config );
     weapons::Register( g_Config );
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
     if( g_Logger.info )
