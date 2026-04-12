@@ -10,6 +10,9 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
 
     dictionary@ data = player.GetUserData();
 
+    if( !data.exists( "connected" ) )
+        ClientInitialized(player);
+
     if( character is null )
     {
         if( gpGameStarted )
