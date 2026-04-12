@@ -1,30 +1,27 @@
-namespace items
+class item_bts_hevsuit : BTS_Item
 {
-    class item_bts_hevsuit : BTS_Item
+    const string& get_m_Model() override {
+        return "models/hlclassic/w_suit.mdl";
+    }
+
+    bool AddAmmo( CBaseEntity@ other )
     {
-        const string& get_m_Model() override {
-            return "models/hlclassic/w_suit.mdl";
-        }
+        if( !IsValid( other ) )
+            return false;
 
-        bool AddAmmo( CBaseEntity@ other )
-        {
-            if( !IsValid( other ) )
-                return false;
+        CBasePlayer@ player = cast<CBasePlayer@>( other );
 
-            CBasePlayer@ player = cast<CBasePlayer@>( other );
+        auto character = GetCharacter(player);
 
-            auto character = GetCharacter(player);
+        if( player is null || character is null || character.IsHEV || character.IsHazard )
+            return false;
 
-            if( player is null || character is null || character.IsHEV || character.IsHazard )
-                return false;
+        SetClass( player, Classification::HEV );
 
-            SetClass( player, Classification::HEV );
+        PickupObject( player, "suit_empty" );
 
-            PickupObject( player, "suit_empty" );
+        g_SoundSystem.EmitSoundSuit( player.edict(), "!HEV_A0" );
 
-            g_SoundSystem.EmitSoundSuit( player.edict(), "!HEV_A0" );
-
-            return true; 
-        }
+        return true; 
     }
 }

@@ -6,13 +6,13 @@
 
 namespace bloodpuddle
 {
-    class CBloodPuddleConfig : IConfigContext
+    class CConfig : IConfigContext
     {
         array<float> DefaultSize;
         dictionary CustomSizes;
         bool Persistent;
 
-        CBloodPuddleConfig()
+        CConfig()
         {
             ConfigContext::Register( this );
         }
@@ -57,7 +57,7 @@ namespace bloodpuddle
         }
     }
 
-    CBloodPuddleConfig gpConfig;
+    CConfig gpConfig;
 
     class env_bloodpuddle : ScriptBaseAnimating
     {
