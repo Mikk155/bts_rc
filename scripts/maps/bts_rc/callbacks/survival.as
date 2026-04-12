@@ -4,5 +4,6 @@ namespace survival
     {
         gpGameStarted = true;
         g_SurvivalMode.Activate();
+        item_tracker::Initialize();
     }
 }

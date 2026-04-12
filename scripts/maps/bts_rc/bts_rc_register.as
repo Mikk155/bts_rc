@@ -31,6 +31,7 @@
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 
 #include "gamemodes/bloodpuddle"
+#include "gamemodes/item_tracker"
 #include "gamemodes/deathdrop"
 #include "gamemodes/lasers"
 #include "gamemodes/player_voices"
@@ -44,8 +45,6 @@
 #include "Hooks/PlayerTakeDamage"
 #include "Hooks/PlayerThink"
 #include "Hooks/SquadmakerSpawn"
-
-#include "Hooks/player_think"
 
 #include "items/main"
 
@@ -64,14 +63,14 @@ void MapActivate()
     MapLoadedChrono.Stop();
     g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
     @MapLoadedChrono = null;
+
+#if METAMOD_DEBUG
+    survival::activate(null, null, USE_TOGGLE, 0);
+#endif
 }
 
 void MapInit()
 {
-#if METAMOD_DEBUG
-    gpGameStarted = true;
-#endif
-
     Server::chrono@ chrono = Server::chrono();
     Server::chrono@ chronoMapInit = Server::chrono();
 
@@ -116,68 +115,9 @@ void MapInit()
     g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
-    g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @player_think );
-
     if( g_Logger.info )
     {
         chronoMapInit.Stop();
         g_Logger.info = snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
-    }
-}
-
-namespace item_tracker
-{
-    // Last frame we did an operation.
-    float time;
-    // String containing all the information.
-    string buffer;
-}
-
-//================================================================================================
-//  Shows a MOTD message to the player
-//  Code by Giegue. Taken from: https://github.com/JulianR0/TPvP/blob/master/src/plugins/TPvP.as#L7375
-//================================================================================================
-namespace motd
-{
-    void open( CBasePlayer@ player, const string&in buffer )
-    {
-        if( player !is null && player.IsConnected() )
-        {
-            uint iChars = 0;
-
-            string szSplitMsg = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-
-            for( uint uChars = 0; uChars < item_tracker::buffer.Length(); uChars++ )
-            {
-                szSplitMsg.SetCharAt( iChars, char( item_tracker::buffer[uChars] ) );
-                iChars++;
-
-                if( iChars == 32 )
-                {
-                    NetworkMessage motd_append( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                    motd_append.WriteByte( 0 );
-                    motd_append.WriteString( szSplitMsg );
-                    motd_append.End();
-
-                    iChars = 0;
-                }
-            }
-
-            // If we reached the end, send the last letters of the message
-            if( iChars > 0 )
-            {
-                szSplitMsg.Truncate( iChars );
-
-                NetworkMessage motd_fix( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-                motd_fix.WriteByte( 0 );
-                motd_fix.WriteString( szSplitMsg );
-                motd_fix.End();
-            }
-
-            NetworkMessage motd_open( MSG_ONE_UNRELIABLE, NetworkMessages::MOTD, player.edict() );
-            motd_open.WriteByte( 1 );
-            motd_open.WriteString( "\n" );
-            motd_open.End();
-        }
     }
 }
