@@ -1,7 +1,11 @@
 namespace items
 {
-    class item_bts_helmet : CItem
+    class item_bts_helmet : BTS_Item
     {
+        const string& get_m_PlaySound() override {
+            return "bts_rc/items/armor_pickup1.wav";
+        }
+
         protected const string& GetModel() override {
             return "models/bshift/barney_helmet.mdl";
         }
@@ -18,7 +22,7 @@ namespace items
             if( player is null || character is null || character.IsHEV || character.IsHazard || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
                 return false;
 
-            PickupObject( player, "item_battery", "bts_rc/items/armor_pickup1.wav" );
+            PickupObject( player, "item_battery" );
 
             return true;
         }

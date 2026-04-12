@@ -11,12 +11,12 @@ namespace items
         void Precache()
         {
             g_Game.PrecacheModel( self, "models/skeleton.mdl" );
-            CItem::Precache();
+            BTS_Item::Precache();
         }
 
         void Spawn()
         {
-            CItem::Spawn();
+            BTS_Item::Spawn();
             self.pev.spawnflags |= 1; // Don't kill
         }
 

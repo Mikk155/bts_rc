@@ -1,6 +1,6 @@
 namespace items
 {
-    class item_bts_hevsuit : CItem
+    class item_bts_hevsuit : BTS_Item
     {
         protected const string& GetModel() override {
             return "models/hlclassic/w_suit.mdl";
