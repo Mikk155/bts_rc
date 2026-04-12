@@ -6,11 +6,11 @@ namespace items
             return "items/gunpickup2.wav";
         }
 
-        CSprite@ m_Sprite;
-
-        protected const string& GetModel() override {
+        const string& get_m_Model() override {
             return "models/bts_rc/weapons/w_battery.mdl";
         }
+
+        CSprite@ m_Sprite;
 
         bool AddAmmo( CBaseEntity@ other )
         {

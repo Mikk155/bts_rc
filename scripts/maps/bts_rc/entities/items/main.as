@@ -33,7 +33,13 @@ namespace items
 
 class BTS_Item : ScriptBasePlayerAmmoEntity
 {
+    /// Override method to play the given sound on pickup
     const string& get_m_PlaySound() {
+        return String::EMPTY_STRING;
+    }
+
+    /// Override method to set a defaul model for this.model
+    const string& get_m_Model() {
         return String::EMPTY_STRING;
     }
 
@@ -43,7 +49,7 @@ class BTS_Item : ScriptBasePlayerAmmoEntity
             string mdl = string( self.pev.model );
             if( mdl.IsEmpty() )
             {
-                mdl = this.GetModel();
+                mdl = this.m_Model;
                 self.pev.model = string_t(mdl);
             }
             return mdl;
@@ -53,12 +59,7 @@ class BTS_Item : ScriptBasePlayerAmmoEntity
         }
     }
 
-    /// Override method to set a defaul model for this.model
-    protected const string& GetModel() {
-        return String::EMPTY_STRING;
-    }
-
-    protected const array<Vector>@ GetSize() {
+    const array<Vector>@ get_m_Size() {
         return { Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) };
     }
 
@@ -83,7 +84,7 @@ class BTS_Item : ScriptBasePlayerAmmoEntity
 
         g_EntityFuncs.SetModel( self, this.model );
 
-        auto entitySize = GetSize();
+        auto entitySize = this.m_Size;
 
         g_EntityFuncs.SetSize( self.pev, entitySize[0], entitySize[1] );
 

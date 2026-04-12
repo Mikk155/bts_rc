@@ -1,7 +1,6 @@
 // Precached all here to avoid multiple calls to the script module. is faster than asking the script for every entity's Precache method.
 void Precache()
 {
-    g_SoundSystem.PrecacheSound( "bts_rc/items/armor_pickup1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
@@ -139,8 +138,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/sbarrel1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/scock1.wav" );
     g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
-    g_SoundSystem.PrecacheSound( "items/gunpickup2.wav" );
-    g_SoundSystem.PrecacheSound( "items/medshot4.wav" );
     g_SoundSystem.PrecacheSound( "items/medshotno1.wav" );
     g_SoundSystem.PrecacheSound( "vox/authorized.wav" );
     g_SoundSystem.PrecacheSound( "vox/maintenance.wav" );
