@@ -1,7 +1,11 @@
 namespace items
 {
-    class item_bts_hevbattery : CItem
+    class item_bts_hevbattery : BTS_Item
     {
+        const string& get_m_PlaySound() override {
+            return "items/gunpickup2.wav";
+        }
+
         CSprite@ m_Sprite;
 
         protected const string& GetModel() override {
@@ -37,7 +41,7 @@ namespace items
 
             g_EntityFuncs.Remove( m_Sprite );
 
-            PickupObject( player, "item_battery", "items/gunpickup2.wav" );
+            PickupObject( player, "item_battery" );
 
             return true;
         }
