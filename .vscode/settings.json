@@ -3,6 +3,14 @@
 
     "files.associations":
     {
-        "*.json": "jsonc"
-    }
+        "*.json": "jsonc",
+        "*.as": "angelscript"
+    },
+
+    "angelScript.explicitPropertyAccessor": false,
+    "angelScript.implicitMutualInclusion": false,
+    "angelScript.supportsForEach": false,
+    "angelScript.forceIncludePredefined": [
+        "as.predefined"
+    ]
 }

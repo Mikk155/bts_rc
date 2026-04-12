@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compress scripts
+        run: |
+          zip -r bts_rc.zip scripts/
+
+      - name: Release scripts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: bts_rc.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

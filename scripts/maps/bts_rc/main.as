@@ -1,10 +1,29 @@
 /*
-    Author: Mikk
+*   MIT License
+*
+*   Copyright (c) 2026 Mikk155
+*
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software and associated documentation files (the "Software"), to deal
+*   in the Software without restriction, including without limitation the rights
+*   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*   copies of the Software, and to permit persons to whom the Software is
+*   furnished to do so, subject to the following conditions:
+*
+*   The above copyright notice and this permission notice shall be included in all
+*   copies or substantial portions of the Software.
+*
+*   A url to the original project must be provided for reference and as credits source for the project's contributors.
+*   https://github.com/Mikk155/bts_rc
+*
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*   SOFTWARE.
 */
-
-/*==========================================================================
-*   - Start of includes
-==========================================================================*/
 
 #include "util/utils"
 #include "misc/Precache"
@@ -21,15 +40,18 @@ Server::chrono@ MapLoadedChrono = Server::chrono();
 /// Called by the map through trigger_script the moment that the map gameplay has started
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
+    if( activator !is null && activator.GetClassname() == "trigger_script" )
+        activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
+
     gpGameStarted = true;
     g_SurvivalMode.Activate();
+    randomizer::Initialize();
     item_tracker::Initialize();
+    lasers::MapActivate();
 }
 
 void MapActivate()
 {
-    lasers::MapActivate();
-
     MapLoadedChrono.Stop();
     g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
     @MapLoadedChrono = null;
@@ -80,9 +102,6 @@ void MapInit()
     items::Register( g_Config );
     weapons::Register( g_Config );
 
-    /*==========================================================================
-    *   - Start of custom entities registry
-    ==========================================================================*/
     g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
