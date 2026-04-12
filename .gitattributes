@@ -1,0 +1,2 @@
+*.as linguist-language=AngelScript
+*.json linguist-language=JSON

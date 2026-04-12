@@ -1,0 +1,24 @@
+# Authors
+
+- [AraseFiq](https://github.com/AraseFiq)
+    - General programming
+- [Mikk155](https://github.com/Mikk155)
+    - General programming
+- [Rizulix](https://github.com/Rizulix)
+    - General programming
+- [Gaftherman](https://github.com/Gaftherman)
+    - General programming
+- [Erty](https://github.com/Erty-Gamedev)
+    - Loadout entity
+- [Solokiller](https://github.com/SamVanheer)
+    - Help Support
+- [H²](https://github.com/h2whoa)
+    - Help Support
+- [Zode](https://github.com/Zode)
+    - Help Support
+- [KernCore](https://github.com/KernCore91)
+    - Code references
+- [Nero0](https://github.com/Neyami)
+    - Code references
+- [Giegue](https://github.com/JulianR0)
+    - Code references

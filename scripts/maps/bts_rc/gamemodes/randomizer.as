@@ -116,11 +116,8 @@ namespace randomizer
     const bool IsRegistered = Register();
 
     // Swap all squads to a random and unique location.
-    void randomize( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    void Initialize()
     {
-        if( pActivator !is null && pActivator.GetClassname() == "trigger_script" )
-            pActivator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
-
         Initialize( "randomizer_hullwave", {
             "GM_R_BGARG_S1",
             "GM_R_VOLT_S1",
