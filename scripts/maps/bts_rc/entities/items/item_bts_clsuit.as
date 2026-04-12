@@ -2,7 +2,7 @@ namespace items
 {
     class item_bts_clsuit : BTS_Item
     {
-        protected const string& GetModel() override {
+        const string& get_m_Model() override {
             return "models/w_hazmat.mdl";
         }
 
@@ -20,7 +20,7 @@ namespace items
 
             SetClass( player, Classification::Hazard );
 
-            PickupObject( player );
+            PickupObject( player, "suit_empty" );
 
             return true;
         }

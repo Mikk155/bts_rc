@@ -2,7 +2,7 @@ namespace items
 {
     class item_bts_hevsuit : BTS_Item
     {
-        protected const string& GetModel() override {
+        const string& get_m_Model() override {
             return "models/hlclassic/w_suit.mdl";
         }
 
@@ -20,7 +20,7 @@ namespace items
 
             SetClass( player, Classification::HEV );
 
-            PickupObject( player );
+            PickupObject( player, "suit_empty" );
 
             g_SoundSystem.EmitSoundSuit( player.edict(), "!HEV_A0" );
 
