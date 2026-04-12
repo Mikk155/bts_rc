@@ -100,10 +100,12 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
         return HOOK_CONTINUE;
     }
 
+    item_tracker::Think(player);
+
     player.SetOverriddenPlayerModel( character.Name );
 
     // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
-    if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ))
+    if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
     {
         CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
