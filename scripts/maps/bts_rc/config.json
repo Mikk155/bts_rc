@@ -11,9 +11,6 @@
     // Whatever turrets should have laser aims
     "turret_lasers": true,
 
-    // Whatever to force player models
-    "force_playermodels": true,
-
     // Whatever melee weapons can pull allied players like the crowbar does
     "melee_weapons_pull": true,
 

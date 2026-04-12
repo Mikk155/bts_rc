@@ -12,6 +12,14 @@ void PlayerFadeOutScreen( CBasePlayer@ player, Vector color )
 
 namespace trigger_update_class
 {
+    const bool IsRegistered = Register();
+
+    const bool Register()
+    {
+        g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
+        return true;
+    }
+
     HUDTextParams msgParams;
 
     void AddItemInventory( CBasePlayer@ player, dictionary@ kvObj )
