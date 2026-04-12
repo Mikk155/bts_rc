@@ -1,3 +1,4 @@
+// Contain models/sprites ID
 namespace models
 {
     uint WXplo1 = g_Game.PrecacheModel( "sprites/WXplo1.spr" );

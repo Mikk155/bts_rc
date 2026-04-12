@@ -6,48 +6,11 @@
 *   - Start of includes
 ==========================================================================*/
 
-#include "../../mikk155/meta_api"
-#include "../../mikk155/meta_api/json"
-#include "../../mikk155/Server/chrono"
-
-#include "util/CommandContext"
-#include "util/ConfigContext"
-#include "util/freeedicts"
-#include "util/Logger"
-#include "util/PlayerClass"
-#include "util/PlayerData"
-
-// Contain models/sprites ID
+#include "util/utils"
 #include "misc/Precache"
-#include "misc/models"
-
-#include "callbacks/Hellbound"
-#include "callbacks/survival"
-
-#include "entities/ammo"
-#include "entities/func_bts_recharger"
-#include "entities/point_checkpoint"
-#include "entities/trigger_update_class"
-#include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
-
-#include "gamemodes/bloodpuddle"
-#include "gamemodes/item_tracker"
-#include "gamemodes/deathdrop"
-#include "gamemodes/lasers"
-#include "gamemodes/player_voices"
-#include "gamemodes/PlayerClass"
-#include "gamemodes/randomizer"
-#include "gamemodes/zombie_uncrab"
-
-#include "Hooks/ClientInitialized"
-#include "Hooks/PlayerRevive"
-#include "Hooks/PlayerSpawn"
-#include "Hooks/PlayerTakeDamage"
-#include "Hooks/PlayerThink"
-#include "Hooks/SquadmakerSpawn"
-
-#include "items/main"
-
+#include "entities/main"
+#include "gamemodes/main"
+#include "Hooks/main"
 #include "weapons/main"
 
 // Has the game started in the map?
@@ -55,9 +18,16 @@ bool gpGameStarted;
 
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
+/// Called by the map through trigger_script the moment that the map gameplay has started
+void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+{
+    gpGameStarted = true;
+    g_SurvivalMode.Activate();
+    item_tracker::Initialize();
+}
+
 void MapActivate()
 {
-    meta_api::NoticeInstallation();
     lasers::MapActivate();
 
     MapLoadedChrono.Stop();
@@ -65,8 +35,10 @@ void MapActivate()
     @MapLoadedChrono = null;
 
 #if METAMOD_DEBUG
-    survival::activate(null, null, USE_TOGGLE, 0);
+    MapBegin(null, null, USE_TOGGLE, 0);
 #endif
+
+    meta_api::NoticeInstallation();
 }
 
 void MapInit()
@@ -111,7 +83,6 @@ void MapInit()
     /*==========================================================================
     *   - Start of custom entities registry
     ==========================================================================*/
-    g_CustomEntityFuncs.RegisterCustomEntity( "trigger_update_class::trigger_update_class", "trigger_update_class" );
     g_CustomEntityFuncs.RegisterCustomEntity( "point_checkpoint::point_checkpoint", "point_checkpoint" );
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
