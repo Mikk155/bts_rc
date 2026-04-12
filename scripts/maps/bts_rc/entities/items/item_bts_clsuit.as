@@ -1,6 +1,6 @@
 namespace items
 {
-    class item_bts_clsuit : CItem
+    class item_bts_clsuit : BTS_Item
     {
         protected const string& GetModel() override {
             return "models/w_hazmat.mdl";
