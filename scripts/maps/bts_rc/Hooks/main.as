@@ -1,0 +1,6 @@
+#include "ClientInitialized"
+#include "PlayerRevive"
+#include "PlayerSpawn"
+#include "PlayerTakeDamage"
+#include "PlayerThink"
+#include "SquadmakerSpawn"
