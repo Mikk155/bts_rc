@@ -2,12 +2,14 @@
 
 namespace weapons
 {
+    bool gpAllowMeleePush;
     bool gpAllowMeleePull;
     bool gpTraceBlood;
     bool gpTraceSparks;
 
     void Register( dictionary@ data )
     {
+        data.get( "melee_weapons_push", gpAllowMeleePush );
         data.get( "melee_weapons_pull", gpAllowMeleePull );
         data.get( "blood_splash", gpTraceBlood );
         data.get( "sparks_splash", gpTraceSparks );
@@ -508,6 +510,13 @@ class BTS_MeleeWeapon : BTS_Weapon
             if( weapons::gpAllowMeleePull && hit.IsPlayer() )
             {
                 hit.pev.velocity = hit.pev.velocity + ( owner.pev.origin - hit.pev.origin ).Normalize() * 120.0f;
+            }
+
+            if( weapons::gpAllowMeleePush && ( hit.pev.flags & FL_ONGROUND ) == 0 && "monster_headcrab" == hit.GetClassname() )
+            {
+                hit.pev.velocity = ( hit.pev.origin - player.pev.origin ).Normalize() * 300.0f;
+                hit.pev.velocity.z = 200.0f;
+                hit.pev.nextthink = g_Engine.time + 0.2f;
             }
 
             g_WeaponFuncs.ClearMultiDamage();

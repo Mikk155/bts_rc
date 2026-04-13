@@ -14,6 +14,9 @@
     // Whatever melee weapons can pull allied players like the crowbar does
     "melee_weapons_pull": true,
 
+    // Allow melee weapons to push small monsters like you do to headcrabs in Half-Life 2
+    "melee_weapons_push": true,
+
     // Whatever HEV battery should emit light
     "battery_lighting": true,
 
