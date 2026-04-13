@@ -70,7 +70,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
     {
         if( g_Engine.time > self.m_flTimeWeaponIdle )
         {
-            switch( Math.RandomLong( 0, 2 ) )
+            switch( RandomUint(2) )
             {
                 case 0: self.SendWeaponAnim( WeaponAxeAnim::Idle1, 0, pev.body ); break;
                 case 1: self.SendWeaponAnim( WeaponAxeAnim::Idle2, 0, pev.body ); break;
@@ -99,7 +99,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
         {
             case AttackType::Primary:
             {
-                switch( Math.RandomLong( 0, 2 ) )
+                switch( RandomUint(2) )
                 {
                     case 0: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack1Miss : WeaponAxeAnim::Attack1Hit ), 0, pev.body ); break;
                     case 1: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack2Miss : WeaponAxeAnim::Attack2Hit ), 0, pev.body ); break;
@@ -109,7 +109,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
             }
             case AttackType::Secondary:
             {
-                switch( Math.RandomLong( 0, 2 ) )
+                switch( RandomUint(2) )
                 {
                     case 0: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), 0, pev.body ); break;
                     case 1: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMissAlt : WeaponAxeAnim::ShoveAlt ), 0, pev.body ); break;
@@ -121,7 +121,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
 
         if( miss )
         {
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM );
         }
         else
         {
@@ -129,7 +129,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
 
             if( this.IsFlesh(hit) )
             {
-                switch( Math.RandomLong( 0, 2 ) )
+                switch( RandomUint(2) )
                 {
                     case 0: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM ); break;
                     case 1: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM ); break;
@@ -138,12 +138,10 @@ class weapon_bts_axe : BTS_MeleeWeapon
             }
             else if( this.IsBrush(hit) )
             {
-                int pitch = ( type == AttackType::Secondary ? 93 : 98 ) + Math.RandomLong( 0, 3 );
-
-                switch( Math.RandomLong( 0, 1 ) )
+                switch( RandomUint(1) )
                 {
-                    case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
-                    case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
+                    case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM ); break;
+                    case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM ); break;
                 }
             }
         }
