@@ -127,9 +127,10 @@ class weapon_bts_axe : BTS_MeleeWeapon
         }
         else
         {
+            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+
             if( this.IsFlesh(hit) )
             {
-                // play thwack or smack sound
                 switch( Math.RandomLong( 0, 2 ) )
                 {
                     case 0: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM ); break;
@@ -139,8 +140,6 @@ class weapon_bts_axe : BTS_MeleeWeapon
             }
             else if( this.IsBrush(hit) )
             {
-                g_SoundSystem.PlayHitSound( tr, player.GetGunPosition(), tr.vecEndPos, BULLET_PLAYER_CROWBAR );
-
                 int pitch = ( type == AttackType::Secondary ? 93 : 98 ) + Math.RandomLong( 0, 3 );
 
                 switch( Math.RandomLong( 0, 1 ) )
@@ -148,8 +147,6 @@ class weapon_bts_axe : BTS_MeleeWeapon
                     case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
                     case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
                 }
-
-                g_WeaponFuncs.DecalGunshot( tr, Bullet::BULLET_PLAYER_CROWBAR );
             }
         }
 
