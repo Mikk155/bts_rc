@@ -1,5 +1,6 @@
 #include "ammo/main"
 #include "items/main"
+#include "weapons/main"
 
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 

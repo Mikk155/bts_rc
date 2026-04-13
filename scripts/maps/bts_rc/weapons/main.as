@@ -8,7 +8,6 @@
 #include "proj/flare"
 #include "proj/m79_rocket"
 
-#include "weapon_bts_axe"
 #include "weapon_bts_beretta"
 #include "weapon_bts_crowbar"
 #include "weapon_bts_eagle"
@@ -91,13 +90,11 @@ namespace weapons
         gpWeaponNames.insertLast( entityName );
     }
 
-    void Register( dictionary@ data )
+    void Registerfake( dictionary@ data )
     {
         data.get( "blood_splash", gpTraceBlood );
         data.get( "sparks_splash", gpTraceSparks );
-        data.get( "melee_weapons_pull", gpAllowMeleePull );
 
-        RegisterWeapon( "weapon_bts_axe" );
         RegisterWeapon( "weapon_bts_beretta", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
 
         g_ClassicMode.ForceItemRemap( true );
