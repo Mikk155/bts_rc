@@ -73,6 +73,8 @@ class BTS_Item : ScriptBasePlayerAmmoEntity
 
     void Spawn()
     {
+        int seq = self.pev.sequence;
+
         Precache();
 
         g_EntityFuncs.SetModel( self, this.model );
@@ -84,6 +86,8 @@ class BTS_Item : ScriptBasePlayerAmmoEntity
         BaseClass.Spawn();
 
         g_EntityFuncs.SetSize( self.pev, entitySize[0], entitySize[1] );
+
+        self.pev.sequence = seq;
     }
 
     // Whatever player is not null, is a player and is alive
