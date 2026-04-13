@@ -92,9 +92,6 @@ namespace weapons
 
     void Registerfake( dictionary@ data )
     {
-        data.get( "blood_splash", gpTraceBlood );
-        data.get( "sparks_splash", gpTraceSparks );
-
         RegisterWeapon( "weapon_bts_beretta", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
 
         g_ClassicMode.ForceItemRemap( true );
