@@ -442,6 +442,28 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
             }
         }
     }
+
+    uint8 __last_random__ = 0;
+
+    // Get a random number between 0 and max. if RandomUint was called before the result will be stored in __last_random__ to avoid repeating the same number in a row
+    uint8 RandomUint( uint8 max )
+    {
+        if( max == 0 )
+        {
+            if( g_Logger.critical )
+                g_Logger.critical = snprintf( glog, "RandomUint called with an argument of zero!" );
+            return 0;
+        }
+
+        uint8 rand;
+
+        do{ rand = Math.RandomLong( 0, max ); }
+        while( rand == this.__last_random__ );
+
+        this.__last_random__ = rand;
+
+        return rand;
+    }
 }
 
 enum AttackType
