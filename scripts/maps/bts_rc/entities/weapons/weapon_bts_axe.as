@@ -121,7 +121,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
 
         if( miss )
         {
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM );
+            PlaySound( "bts_rc/weapons/axe_miss1.wav" );
         }
         else
         {
@@ -131,17 +131,17 @@ class weapon_bts_axe : BTS_MeleeWeapon
             {
                 switch( RandomUint(2) )
                 {
-                    case 0: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM ); break;
-                    case 1: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM ); break;
-                    case 2: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM ); break;
+                    case 0: PlaySound( "bts_rc/weapons/axe_hitbod3.wav" ); break;
+                    case 1: PlaySound( "bts_rc/weapons/axe_hitbod2.wav" ); break;
+                    case 2: PlaySound( "bts_rc/weapons/axe_hitbod1.wav" ); break;
                 }
             }
             else if( this.IsBrush(hit) )
             {
                 switch( RandomUint(1) )
                 {
-                    case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM ); break;
-                    case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM ); break;
+                    case 0: PlaySound( "bts_rc/weapons/axe_hit2.wav" ); break;
+                    case 1: PlaySound( "bts_rc/weapons/axe_hit1.wav" ); break;
                 }
             }
         }
