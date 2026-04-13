@@ -2,6 +2,9 @@
 
 namespace weapons
 {
+    array<ItemMapping@> gpItemMapping(0);
+    array<string> gpWeaponNames(0);
+
     bool gpAllowMeleePush;
     bool gpAllowMeleePull;
     bool gpTraceBlood;
@@ -14,6 +17,42 @@ namespace weapons
         data.get( "blood_splash", gpTraceBlood );
         data.get( "sparks_splash", gpTraceSparks );
     }
+
+    
+    void Register(
+        const string& in szName,
+        const CBaseWeaponConfig@ pData = null,
+        const string& in szPrimaryAmmoName = String::EMPTY_STRING,
+        const string& in szSecondaryAmmoName = String::EMPTY_STRING,
+        const string& in szPrimaryAmmoClass = String::EMPTY_STRING,
+        const string& in szSecondaryAmmoClass = String::EMPTY_STRING,
+        const string& in remapEntity = String::EMPTY_STRING
+    )
+    {
+        if( !remapEntity.IsEmpty() )
+        {
+            auto remap = ItemMapping( remapEntity, szName );
+            gpItemMapping.insertLast( @remap );
+        }
+
+        if( pData !is null )
+        {
+            g_Game.PrecacheModel( pData.view_model );
+            g_Game.PrecacheModel( pData.world_model );
+            g_Game.PrecacheModel( pData.player_model );
+        }
+
+        g_CustomEntityFuncs.RegisterCustomEntity( szName, szName );
+
+        g_ItemRegistry.RegisterWeapon( szName, "bts_rc/weapons" );
+
+        string szSpriteDir; // Precache HUD text definition
+        snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", szName );
+        g_Game.PrecacheGeneric( szSpriteDir );
+
+        gpWeaponNames.insertLast( szName );
+    }
+
 }
 
 // General shared configuration for weapons
@@ -129,19 +168,8 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return @m_owner;
     }
 
-    void Precache()
-    {
-        auto config = this.DefaultConfig;
-
-        g_Game.PrecacheModel( config.view_model );
-        g_Game.PrecacheModel( config.world_model );
-        g_Game.PrecacheModel( config.player_model );
-    }
-
     void Spawn()
     {
-        Precache();
-
         g_EntityFuncs.SetModel( self, this.DefaultConfig.world_model );
 
         self.FallInit();

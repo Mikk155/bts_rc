@@ -47,10 +47,8 @@ class CWeaponAxeConfig : IConfigContext
         data.animation_extension = "crowbar";
         data.animation_draw = WeaponAxeAnim::Draw;
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_axe", "weapon_bts_axe" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_axe", "bts_rc/weapons" );
+        weapons::Register( "weapon_bts_axe", @data );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_axe.txt" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod1.wav" );
