@@ -464,6 +464,11 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
         return rand;
     }
+
+    void PlaySound( const string&in soundName, float volume = 1.0f, int pitch = PITCH_NORM, float attenuation = ATTN_NORM )
+    {
+        g_SoundSystem.EmitSoundDyn( self.edict(), SOUND_CHANNEL::CHAN_WEAPON, soundName, volume, attenuation, 0, pitch );
+    }
 }
 
 enum AttackType
