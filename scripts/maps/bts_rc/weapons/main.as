@@ -47,9 +47,6 @@
 
 namespace weapons
 {
-    array<ItemMapping@> gpItemMapping( 0 );
-    array<string> gpWeaponNames( 0 );
-
     const int gpDefaultFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
     void RegisterWeapon(
@@ -93,10 +90,6 @@ namespace weapons
     void Registerfake( dictionary@ data )
     {
         RegisterWeapon( "weapon_bts_beretta", "9mm", "bts:battery", "ammo_bts_beretta", "ammo_bts_beretta_battery" );
-
-        g_ClassicMode.ForceItemRemap( true );
-        g_ClassicMode.SetItemMappings( gpItemMapping );
-        gpItemMapping.resize( 0 );
 
         // Projectiles
         g_CustomEntityFuncs.RegisterCustomEntity( "M79_ROCKET::CM79Rocket", "m79_rocket" );

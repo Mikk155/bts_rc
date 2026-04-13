@@ -105,6 +105,10 @@ void MapInit()
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
+    g_ClassicMode.ForceItemRemap( true );
+    g_ClassicMode.SetItemMappings( weapons::gpItemMapping );
+    weapons::gpItemMapping.resize(0);
+
     if( g_Logger.info )
     {
         chronoMapInit.Stop();
