@@ -1,0 +1,163 @@
+/*
+*   Emergency Fire Axe
+*   Rewrited by Rizulix for bts_rc (january 2025)
+*   Rewrited by mikk 27/3/26
+*/
+
+enum WeaponAxeAnim
+{
+    Idle1 = 0,
+    Draw,
+    Holster,
+    Attack1Hit,
+    Attack1Miss,
+    Attack2Miss,
+    Attack2Hit,
+    Attack3Miss,
+    Attack3Hit,
+    Idle2,
+    Idle3,
+    Shove,
+    ShoveAlt,
+    ShoveMiss,
+    ShoveMissAlt
+};
+
+class CWeaponAxeConfig : IConfigContext
+{
+    CBaseWeaponConfig@ data;
+
+    CWeaponAxeConfig()
+    {
+        ConfigContext::Register( this );
+    }
+
+    string GetName()
+    {
+        return "weapon_axe";
+    }
+
+    void Parse( dictionary@ json )
+    {
+        @data = CBaseWeaponConfig( json );
+
+        data.world_model = "models/bts_rc/weapons/w_axe.mdl";
+        data.player_model = "models/bts_rc/weapons/p_axe.mdl";
+        data.view_model = "models/bts_rc/weapons/v_axe.mdl";
+        data.animation_extension = "crowbar";
+        data.animation_draw = WeaponAxeAnim::Draw;
+
+        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_axe", "weapon_bts_axe" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_axe", "bts_rc/weapons" );
+
+        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_axe.txt" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit2.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod2.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod3.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_miss1.wav" );
+    }
+}
+
+CWeaponAxeConfig gpWeaponAxeConfig;
+
+class weapon_bts_axe : BTS_MeleeWeapon
+{
+    CBaseWeaponConfig@ get_DefaultConfig() override {
+        return @gpWeaponAxeConfig.data;
+    }
+
+    void WeaponIdle()
+    {
+        if( g_Engine.time > self.m_flTimeWeaponIdle )
+        {
+            switch( Math.RandomLong( 0, 2 ) )
+            {
+                case 0: self.SendWeaponAnim( WeaponAxeAnim::Idle1, 0, pev.body ); break;
+                case 1: self.SendWeaponAnim( WeaponAxeAnim::Idle2, 0, pev.body ); break;
+                case 2: self.SendWeaponAnim( WeaponAxeAnim::Idle3, 0, pev.body ); break;
+            }
+
+            self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
+        }
+    }
+
+    void Attack( CBasePlayer@ player, AttackType type )
+    {
+        if( type == AttackType::Tertriary )
+            return;
+
+        TraceResult tr;
+        CBaseEntity@ hit = null;
+
+        bool miss = this.Hit(tr, type, hit);
+
+        bool is_trained_personal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( is_trained_personal, miss, type );
+
+        switch( type )
+        {
+            case AttackType::Primary:
+            {
+                switch( Math.RandomLong( 0, 2 ) )
+                {
+                    case 0: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack1Miss : WeaponAxeAnim::Attack1Hit ), 0, pev.body ); break;
+                    case 1: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack2Miss : WeaponAxeAnim::Attack2Hit ), 0, pev.body ); break;
+                    case 2: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack3Miss : WeaponAxeAnim::Attack3Hit ), 0, pev.body ); break;
+                }
+                break;
+            }
+            case AttackType::Secondary:
+            {
+                switch( Math.RandomLong( 0, 2 ) )
+                {
+                    case 0: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), 0, pev.body ); break;
+                    case 1: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMissAlt : WeaponAxeAnim::ShoveAlt ), 0, pev.body ); break;
+                    case 2: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), 0, pev.body ); break;
+                }
+                break;
+            }
+        }
+
+        if( miss )
+        {
+            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
+        }
+        else
+        {
+            if( this.IsFlesh(hit) )
+            {
+                // play thwack or smack sound
+                switch( Math.RandomLong( 0, 2 ) )
+                {
+                    case 0: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod3.wav", 1.0f, ATTN_NORM ); break;
+                    case 1: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod2.wav", 1.0f, ATTN_NORM ); break;
+                    case 2: g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hitbod1.wav", 1.0f, ATTN_NORM ); break;
+                }
+            }
+            else if( this.IsBrush(hit) )
+            {
+                g_SoundSystem.PlayHitSound( tr, player.GetGunPosition(), tr.vecEndPos, BULLET_PLAYER_CROWBAR );
+
+                int pitch = ( type == AttackType::Secondary ? 93 : 98 ) + Math.RandomLong( 0, 3 );
+
+                switch( Math.RandomLong( 0, 1 ) )
+                {
+                    case 0: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit2.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
+                    case 1: g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/weapons/axe_hit1.wav", 1.0f, ATTN_NORM, 0, pitch ); break;
+                }
+
+                g_WeaponFuncs.DecalGunshot( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            }
+        }
+
+        // player "shoot" animation
+        player.SetAnimation( PLAYER_ATTACK1 );
+
+        // Slower player anim so it looks "heavier" for not trained personal
+        if( !is_trained_personal )
+            player.pev.framerate = 0.6f;
+    }
+}
