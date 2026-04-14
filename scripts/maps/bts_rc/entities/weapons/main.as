@@ -94,26 +94,28 @@ class CBaseWeaponConfig
     // Weapon damage for secondary attack
     float SecondaryDamage;
     // Weapon cooldown for primary attack
-    float PrimaryCooldown = 1.0f;
+    float PrimaryCooldown;
     // Weapon cooldown for primary attack for trained personal
-    float PrimaryTrainedCooldown = 1.0f;
+    float PrimaryTrainedCooldown;
     // Weapon cooldown for secondary attack
-    float SecondaryCooldown = 1.0f;
+    float SecondaryCooldown;
     // Weapon cooldown for secondary attack for trained personal
-    float SecondaryTrainedCooldown = 1.0f;
+    float SecondaryTrainedCooldown;
     // Weapon cooldown for tertriary attack
-    float TertriaryCooldown = 1.0f;
+    float TertriaryCooldown;
     // Weapon cooldown for tertriary attack for trained personal
-    float TertriaryTrainedCooldown = 1.0f;
+    float TertriaryTrainedCooldown;
 
     /// Melee weapon attack distance
-    float AttackDistance = 45.0f;
+    float PrimaryDistance;
+    float SecondaryDistance;
+    float TertriaryDistance;
     // Melee weapon subsequent hits damage deduction
     float SubsequentDeduction = 0.5f;
-    float PrimaryMissCooldown = 1.25f;
-    float SecondaryMissCooldown = 1.35f;
-    float PrimaryMissTrainedCooldown = 0.90f;
-    float SecondaryMissTrainedCooldown = 1.0f;
+    float PrimaryMissCooldown;
+    float SecondaryMissCooldown;
+    float PrimaryMissTrainedCooldown;
+    float SecondaryMissTrainedCooldown;
 
     CBaseWeaponConfig() {}
 
@@ -128,8 +130,11 @@ class CBaseWeaponConfig
         json.get( "position", iPosition );
         json.get( "weight", iWeight );
 
-        json.get( "attack_distance", AttackDistance );
-        json.get( "subsequent_hits_deduction", SubsequentDeduction );
+        json.get( "primary_distance", PrimaryDistance );
+        if( !json.get( "secondary_distance", SecondaryDistance ) )
+            SecondaryDistance = PrimaryDistance;
+        if( !json.get( "tertriary_distance", TertriaryDistance ) )
+            TertriaryDistance = PrimaryDistance;
         json.get( "subsequent_hits_deduction", SubsequentDeduction );
         json.get( "primary_damage", PrimaryDamage );
         json.get( "secondary_damage", SecondaryDamage );
@@ -540,7 +545,24 @@ class BTS_MeleeWeapon : BTS_Weapon
         auto player = this.owner;
         Math.MakeVectors( player.pev.v_angle );
         Vector vecSrc = player.GetGunPosition();
-        Vector vecEnd = vecSrc + g_Engine.v_forward * this.DefaultConfig.AttackDistance;
+        Vector vecDirection = g_Engine.v_forward;
+
+        switch( type )
+        {
+            case AttackType::Tertriary:
+                vecDirection = vecDirection * this.DefaultConfig.TertriaryDistance;
+            break;
+            case AttackType::Secondary:
+                vecDirection = vecDirection * this.DefaultConfig.SecondaryDistance;
+            break;
+            case AttackType::Primary:
+            default:
+                vecDirection = vecDirection * this.DefaultConfig.PrimaryDistance;
+            break;
+        }
+
+        Vector vecEnd = vecSrc + vecDirection;
+
         g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
 
         if( tr.flFraction >= 1.0f )
