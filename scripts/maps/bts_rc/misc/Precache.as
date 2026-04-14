@@ -111,8 +111,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fire1.ogg" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/saw_reload.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/rgrunt/rbhw_shield_smash.ogg" );
-    g_SoundSystem.PrecacheSound( "debris/wood1.wav" );
-    g_SoundSystem.PrecacheSound( "debris/wood2.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_reload1.wav" );
@@ -138,10 +136,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "weapons/ric5.wav" );
     g_SoundSystem.PrecacheSound( "weapons/cbar_hit1.wav" );
     g_SoundSystem.PrecacheSound( "weapons/cbar_hit2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/cbar_miss1.wav" );
     g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
     g_SoundSystem.PrecacheSound( "weapons/electro4.wav" );
     g_SoundSystem.PrecacheSound( "weapons/knife1.wav" );
@@ -182,7 +176,6 @@ void Precache()
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_mp5.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_mp5gl.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_pipe.txt" );
-    g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_poolstick.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_python.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_saw.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_sawsd.txt" );
@@ -215,7 +208,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_medkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_pipe.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_pipe_wrench.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/p_poolstick.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_saw.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_sawsd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_sbshotgun.mdl" );
@@ -248,7 +240,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_medkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_pipe.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_pipe_wrench.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/v_poolstick.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m40a1.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_saw.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_sawsd.mdl" );
@@ -281,7 +272,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_pmedkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_pipe.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_pipe_wrench.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/w_poolstick.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_saw.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_sawsd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_saw_clip.mdl" );

@@ -1,4 +1,5 @@
 #include "weapon_bts_axe"
+#include "weapon_bts_poolstick"
 #include "weapon_bts_screwdriver"
 
 namespace weapons
@@ -231,6 +232,19 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return true;
     }
 
+    float Idle()
+    {
+        return 1.0f;
+    }
+
+    void WeaponIdle()
+    {
+        if( self.m_flTimeWeaponIdle < g_Engine.time )
+        {
+            self.m_flTimeWeaponIdle = Idle();
+        }
+    }
+
     bool AddToPlayer( CBasePlayer@ player )
     {
         if( !BaseClass.AddToPlayer( player ) )
@@ -301,8 +315,11 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
     // Set weapon cooldown
     void SetCooldown( bool is_trained_personal, AttackType type )
     {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle =
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack =
             g_Engine.time + this.GetCooldown( is_trained_personal, type );
+
+        if( self.m_flTimeWeaponIdle < self.m_flNextPrimaryAttack )
+            self.m_flTimeWeaponIdle= self.m_flNextPrimaryAttack;
     }
 
     void TraceEffects( TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE )
@@ -535,8 +552,11 @@ class BTS_MeleeWeapon : BTS_Weapon
     // Set weapon cooldown
     void SetCooldown( bool is_trained_personal, bool miss, AttackType type )
     {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle =
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack =
             g_Engine.time + this.GetCooldown( is_trained_personal, miss, type );
+
+        if( self.m_flTimeWeaponIdle < self.m_flNextPrimaryAttack )
+            self.m_flTimeWeaponIdle= self.m_flNextPrimaryAttack;
     }
 
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with DefaultConfig data

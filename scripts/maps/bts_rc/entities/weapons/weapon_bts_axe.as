@@ -66,19 +66,16 @@ class weapon_bts_axe : BTS_MeleeWeapon
         return @gpWeaponAxeConfig.data;
     }
 
-    void WeaponIdle()
+    float Idle() override
     {
-        if( g_Engine.time > self.m_flTimeWeaponIdle )
+        switch( RandomUint(2) )
         {
-            switch( RandomUint(2) )
-            {
-                case 0: self.SendWeaponAnim( WeaponAxeAnim::Idle1, 0, pev.body ); break;
-                case 1: self.SendWeaponAnim( WeaponAxeAnim::Idle2, 0, pev.body ); break;
-                case 2: self.SendWeaponAnim( WeaponAxeAnim::Idle3, 0, pev.body ); break;
-            }
-
-            self.m_flTimeWeaponIdle = g_Engine.time + 5.5f;
+            case 0: self.SendWeaponAnim( WeaponAxeAnim::Idle1, 0, pev.body ); break;
+            case 1: self.SendWeaponAnim( WeaponAxeAnim::Idle2, 0, pev.body ); break;
+            case 2: self.SendWeaponAnim( WeaponAxeAnim::Idle3, 0, pev.body ); break;
         }
+
+        return 5.5f;
     }
 
     void Attack( CBasePlayer@ player, AttackType type )
