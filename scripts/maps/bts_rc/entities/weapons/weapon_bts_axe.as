@@ -1,5 +1,5 @@
 /*
-*   Emergency Fire Axe
+*   Author: AraseFiq
 *   Rewrited by Rizulix for bts_rc (january 2025)
 *   Rewrited by mikk 27/3/26
 */
