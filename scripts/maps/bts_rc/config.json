@@ -149,8 +149,8 @@
 
         // Attack cooldown
         "primary_cooldown": 0.8,
-        "primary_miss_cooldown": 1.25,
         "primary_trained_cooldown": 0.4,
+        "primary_miss_cooldown": 1.25,
         "primary_miss_trained_cooldown": 0.90,
         "secondary_cooldown": 0.5,
         "secondary_trained_cooldown": 0.25,
@@ -163,5 +163,19 @@
         // Damage
         "primary_damage": 20,
         "secondary_damage": 14
+    },
+
+    "weapon_screwdriver":
+    {
+        "slot": 0,
+        "position": 8,
+        "weight": 10,
+        "attack_distance": 32,
+        "primary_damage": 9,
+        "primary_cooldown": 0.35,
+        "primary_trained_cooldown": 0.25,
+        "primary_miss_cooldown": 0.6,
+        "primary_miss_trained_cooldown": 0.5,
+        "subsequent_hits_deduction": 0.5,
     }
 }

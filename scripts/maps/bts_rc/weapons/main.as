@@ -36,7 +36,6 @@
 #include "weapon_bts_saw"
 #include "weapon_bts_sawsd"
 #include "weapon_bts_sbshotgun"
-#include "weapon_bts_screwdriver"
 #include "weapon_bts_shotgun"
 #include "weapon_bts_sniperrifle"
 #include "weapon_bts_sw637"
@@ -126,7 +125,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_saw::weapon_bts_saw", "weapon_bts_saw" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sawsd::weapon_bts_sawsd", "weapon_bts_sawsd" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sbshotgun::weapon_bts_sbshotgun", "weapon_bts_sbshotgun" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_screwdriver::weapon_bts_screwdriver", "weapon_bts_screwdriver" );
         // Ammo
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_eagle", "ammo_bts_eagle" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_eagle_battery", "ammo_bts_eagle_battery" );
@@ -198,7 +196,6 @@ namespace weapons
         g_ItemRegistry.RegisterWeapon( "weapon_bts_saw", "bts_rc/weapons", "556", "", "ammo_bts_saw", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_sawsd", "bts_rc/weapons", "556", "", "ammo_bts_sawsd", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_sbshotgun", "bts_rc/weapons", "buckshot", "bts:battery", "ammo_bts_sbshotgun", "ammo_bts_sbshotgun_battery" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_screwdriver", "bts_rc/weapons" );
         BTS_XBOW::Register();
         weapon_bts_sniperrifle::Register();
         BTS_FLAMETHROWER::Register();
