@@ -176,6 +176,6 @@
         "primary_trained_cooldown": 0.25,
         "primary_miss_cooldown": 0.6,
         "primary_miss_trained_cooldown": 0.5,
-        "subsequent_hits_deduction": 0.5,
+        "subsequent_hits_deduction": 0.5
     }
 }
