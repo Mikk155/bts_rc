@@ -31,7 +31,6 @@
 #include "weapon_bts_mp5gl"
 #include "weapon_bts_pipe"
 #include "weapon_bts_pipewrench"
-#include "weapon_bts_poolstick"
 #include "weapon_bts_python"
 #include "weapon_bts_saw"
 #include "weapon_bts_sawsd"
@@ -117,7 +116,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_mp5gl::weapon_bts_mp5gl", "weapon_bts_mp5gl" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_mp5::weapon_bts_mp5", "weapon_bts_mp5" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_pipe::weapon_bts_pipe", "weapon_bts_pipe" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_poolstick::weapon_bts_poolstick", "weapon_bts_poolstick" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_python::weapon_bts_python", "weapon_bts_python" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_shotgun::weapon_bts_shotgun", "weapon_bts_shotgun" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_uzi::weapon_bts_uzi", "weapon_bts_uzi" );
@@ -188,7 +186,6 @@ namespace weapons
         g_ItemRegistry.RegisterWeapon( "weapon_bts_mp5gl", "bts_rc/weapons", "9mm", "ARgrenades", "ammo_bts_mp5gl", "ammo_bts_mp5gl_grenade" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_mp5", "bts_rc/weapons", "9mm", "", "ammo_bts_mp5", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_pipe", "bts_rc/weapons" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_poolstick", "bts_rc/weapons" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_python", "bts_rc/weapons", "357", "", "ammo_bts_python", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_shotgun", "bts_rc/weapons", "buckshot", "", "ammo_bts_shotgun", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_uzi", "bts_rc/weapons", "9mm", "", "ammo_bts_uzi", "" );

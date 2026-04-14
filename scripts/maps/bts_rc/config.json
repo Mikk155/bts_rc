@@ -145,7 +145,7 @@
         "weight": 10,
 
         // Attack distance
-        "attack_distance": 45,
+        "primary_distance": 45,
 
         // Attack cooldown
         "primary_cooldown": 0.8,
@@ -170,12 +170,30 @@
         "slot": 0,
         "position": 8,
         "weight": 10,
-        "attack_distance": 32,
+        "primary_distance": 32,
         "primary_damage": 9,
         "primary_cooldown": 0.35,
         "primary_trained_cooldown": 0.25,
         "primary_miss_cooldown": 0.6,
         "primary_miss_trained_cooldown": 0.5,
+        "subsequent_hits_deduction": 0.5
+    },
+
+    "weapon_poolstick":
+    {
+        "slot": 0,
+        "position": 7,
+        "weight": 10,
+        "primary_distance": 48,
+        "primary_damage": 11,
+        "secondary_distance": 54,
+        "secondary_damage": 8,
+        "primary_cooldown": 0.4,
+        "primary_trained_cooldown": 0.3,
+        "primary_miss_cooldown": 0.5,
+        "primary_miss_trained_cooldown": 0.65,
+        "secondary_miss_cooldown": 0.8,
+        "secondary_miss_trained_cooldown": 0.75,
         "subsequent_hits_deduction": 0.5
     }
 }
