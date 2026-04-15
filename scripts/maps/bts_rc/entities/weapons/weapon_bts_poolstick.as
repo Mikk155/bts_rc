@@ -69,11 +69,11 @@ class weapon_bts_poolstick : BTS_MeleeWeapon
 
         if( flRand <= 0.99 )
         {
-            self.SendWeaponAnim( WeaponPoolstickAnim::Idle1, 0, pev.body );
+            PlayAnim( WeaponPoolstickAnim::Idle1, false );
             return g_PlayerFuncs.SharedRandomFloat( player.random_seed, 10, 15 );
         }
 
-        self.SendWeaponAnim( WeaponPoolstickAnim::Idle2, 0, pev.body );
+        PlayAnim( WeaponPoolstickAnim::Idle2, false );
         return 5.0f;
     }
 
@@ -95,21 +95,21 @@ class weapon_bts_poolstick : BTS_MeleeWeapon
         {
             case AttackType::Secondary:
             {
-                self.SendWeaponAnim( ( miss ? WeaponPoolstickAnim::Attack3Miss : WeaponPoolstickAnim::Attack3Hit ), 0, pev.body );
+                PlayAnim( ( miss ? WeaponPoolstickAnim::Attack3Miss : WeaponPoolstickAnim::Attack3Hit ) );
                 break;
             }
             case AttackType::Primary:
             {
                 if( miss )
                 {
-                    self.SendWeaponAnim( WeaponPoolstickAnim::Attack2Miss, 0, pev.body );
+                    PlayAnim( WeaponPoolstickAnim::Attack2Miss );
                 }
                 else
                 {
                     switch( RandomUint(1) )
                     {
-                        case 0: self.SendWeaponAnim( WeaponPoolstickAnim::Attack1Hit, 0, pev.body ); break;
-                        case 1: self.SendWeaponAnim( WeaponPoolstickAnim::Attack2Hit, 0, pev.body ); break;
+                        case 0: PlayAnim( WeaponPoolstickAnim::Attack1Hit ); break;
+                        case 1: PlayAnim( WeaponPoolstickAnim::Attack2Hit ); break;
                     }
                 }
                 break;
@@ -142,7 +142,5 @@ class weapon_bts_poolstick : BTS_MeleeWeapon
                 }
             }
         }
-
-        player.SetAnimation( PLAYER_ATTACK1 );
     }
 }
