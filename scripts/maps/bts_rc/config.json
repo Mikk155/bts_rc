@@ -195,5 +195,23 @@
         "secondary_miss_cooldown": 0.8,
         "secondary_miss_trained_cooldown": 0.75,
         "subsequent_hits_deduction": 0.5
+    },
+
+    "weapon_pipe":
+    {
+        "slot": 0,
+        "position": 6,
+        "weight": 10,
+        "primary_distance": 32,
+        "primary_damage": 16,
+        "secondary_distance": 35,
+        "secondary_damage": 27,
+        "primary_cooldown": 0.75,
+        "primary_trained_cooldown": 0.45,
+        "primary_miss_cooldown": 1.34,
+        "primary_miss_trained_cooldown": 1.1,
+        "secondary_miss_cooldown": 0.7,
+        "secondary_miss_trained_cooldown": 0.7,
+        "subsequent_hits_deduction": 0.5
     }
 }
