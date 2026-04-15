@@ -70,9 +70,9 @@ class weapon_bts_axe : BTS_MeleeWeapon
     {
         switch( RandomUint(2) )
         {
-            case 0: self.SendWeaponAnim( WeaponAxeAnim::Idle1, 0, pev.body ); break;
-            case 1: self.SendWeaponAnim( WeaponAxeAnim::Idle2, 0, pev.body ); break;
-            case 2: self.SendWeaponAnim( WeaponAxeAnim::Idle3, 0, pev.body ); break;
+            case 0: PlayAnim( WeaponAxeAnim::Idle1 ); break;
+            case 1: PlayAnim( WeaponAxeAnim::Idle2 ); break;
+            case 2: PlayAnim( WeaponAxeAnim::Idle3 ); break;
         }
 
         return 5.5f;
@@ -98,9 +98,9 @@ class weapon_bts_axe : BTS_MeleeWeapon
             {
                 switch( RandomUint(2) )
                 {
-                    case 0: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack1Miss : WeaponAxeAnim::Attack1Hit ), 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack2Miss : WeaponAxeAnim::Attack2Hit ), 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::Attack3Miss : WeaponAxeAnim::Attack3Hit ), 0, pev.body ); break;
+                    case 0: PlayAnim( ( miss ? WeaponAxeAnim::Attack1Miss : WeaponAxeAnim::Attack1Hit ) ); break;
+                    case 1: PlayAnim( ( miss ? WeaponAxeAnim::Attack2Miss : WeaponAxeAnim::Attack2Hit ) ); break;
+                    case 2: PlayAnim( ( miss ? WeaponAxeAnim::Attack3Miss : WeaponAxeAnim::Attack3Hit ) ); break;
                 }
                 break;
             }
@@ -108,9 +108,9 @@ class weapon_bts_axe : BTS_MeleeWeapon
             {
                 switch( RandomUint(2) )
                 {
-                    case 0: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), 0, pev.body ); break;
-                    case 1: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMissAlt : WeaponAxeAnim::ShoveAlt ), 0, pev.body ); break;
-                    case 2: self.SendWeaponAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), 0, pev.body ); break;
+                    case 0: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ) ); break;
+                    case 1: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMissAlt : WeaponAxeAnim::ShoveAlt ) ); break;
+                    case 2: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ) ); break;
                 }
                 break;
             }
@@ -142,9 +142,6 @@ class weapon_bts_axe : BTS_MeleeWeapon
                 }
             }
         }
-
-        // player "shoot" animation
-        player.SetAnimation( PLAYER_ATTACK1 );
 
         // Slower player anim so it looks "heavier" for not trained personal
         if( !is_trained_personal )

@@ -85,9 +85,9 @@ class weapon_bts_screwdriver : BTS_MeleeWeapon
 
         switch( RandomUint(2) )
         {
-            case 0: self.SendWeaponAnim( ( miss ? WeaponScrewDriverAnim::Attack1Miss : WeaponScrewDriverAnim::Attack1Hit ), 0, pev.body ); break;
-            case 1: self.SendWeaponAnim( ( miss ? WeaponScrewDriverAnim::Attack2Miss : WeaponScrewDriverAnim::Attack2Hit ), 0, pev.body ); break;
-            case 2: self.SendWeaponAnim( ( miss ? WeaponScrewDriverAnim::Attack3Miss : WeaponScrewDriverAnim::Attack3Hit ), 0, pev.body ); break;
+            case 0: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack1Miss : WeaponScrewDriverAnim::Attack1Hit ) ); break;
+            case 1: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack2Miss : WeaponScrewDriverAnim::Attack2Hit ) ); break;
+            case 2: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack3Miss : WeaponScrewDriverAnim::Attack3Hit ) ); break;
         }
 
         if( miss )
@@ -116,7 +116,5 @@ class weapon_bts_screwdriver : BTS_MeleeWeapon
                 }
             }
         }
-
-        player.SetAnimation( PLAYER_ATTACK1 );
     }
 }

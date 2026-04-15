@@ -322,6 +322,14 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
             self.m_flTimeWeaponIdle= self.m_flNextPrimaryAttack;
     }
 
+    void PlayAnim( uint8 animation, bool player_attack_animation = true )
+    {
+        self.SendWeaponAnim( animation, 0, pev.body );
+
+        if( player_attack_animation )
+            this.owner.SetAnimation( PLAYER_ANIM::PLAYER_ATTACK1 );
+    }
+
     void TraceEffects( TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE )
     {
         auto player = this.owner;
