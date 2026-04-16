@@ -132,13 +132,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "weapons/cbar_hit2.wav" );
     g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
     g_SoundSystem.PrecacheSound( "weapons/electro4.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife3.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/38_shot1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/38_shot2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/sw_bullet_insert_1.wav" );
@@ -160,7 +153,6 @@ void Precache()
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_glock18.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_glocksd.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_handgrenade.txt" );
-    g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_knife.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m16.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m16sd.txt" );
     g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_m4.txt" );
@@ -223,7 +215,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_glock17f.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_glock18.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_grenade.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/v_knife.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m16a2.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m16a2sd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m4.mdl" );
@@ -291,8 +282,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_crowbar.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_shotbox.mdl" );
-    g_Game.PrecacheModel( "models/opfor/p_knife.mdl" );
-    g_Game.PrecacheModel( "models/opfor/w_knife.mdl" );
     g_Game.PrecacheModel( "models/tool_box.mdl" );
     g_Game.PrecacheModel( "models/w_security.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/items/w_antidote.mdl" );
