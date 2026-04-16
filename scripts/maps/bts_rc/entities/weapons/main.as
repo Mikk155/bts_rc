@@ -1,4 +1,5 @@
 #include "weapon_bts_axe"
+#include "weapon_bts_knife"
 #include "weapon_bts_pipe"
 #include "weapon_bts_poolstick"
 #include "weapon_bts_screwdriver"
@@ -140,6 +141,7 @@ class CBaseWeaponConfig
         json.get( "subsequent_hits_deduction", SubsequentDeduction );
         json.get( "primary_damage", PrimaryDamage );
         json.get( "secondary_damage", SecondaryDamage );
+        json.get( "deploy_time", deploy_time );
 
         json.get( "primary_cooldown", PrimaryCooldown );
         json.get( "primary_miss_cooldown", PrimaryMissCooldown );
