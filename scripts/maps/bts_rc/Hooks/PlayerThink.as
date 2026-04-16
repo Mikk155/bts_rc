@@ -44,6 +44,10 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
         }
         player.pev.impulse = 0;
     }
+#if METAMOD_DEBUG
+    if( character is null )
+        SetClass( player, Classification::Security );
+#endif
 
     if( character is null )
     {
@@ -55,45 +59,45 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
             {
                 observer.StartObserver( player.pev.origin, player.pev.angles, false );
             }
-        }
 
-        // Let late joined players join a role
-        if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
-        {
-            string name;
-            int current = int( data[ "pm_select" ] );
-            data[ "pm_select" ] = current = Math.clamp( 0, 3, current );
-
-            data[ "pm_selectcd" ] = g_Engine.time + 0.5f;
-
-            switch( current )
+            // Let late joined players join a role
+            if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
             {
-                case 1: name = "Security"; break;
-                case 2: name = "Maintenance"; break;
-                case 3: name = "Operator"; break;
-                case 0: name = "Scientist"; break;
-            }
+                string name;
+                int current = int( data[ "pm_select" ] );
+                data[ "pm_select" ] = current = Math.clamp( 0, 3, current );
 
-            string buffer;
-            snprintf( buffer, "<- +moveleft | +moveright ->\n+use select %1\n", name );
-            g_PlayerFuncs.PrintKeyBindingString( player, buffer );
+                data[ "pm_selectcd" ] = g_Engine.time + 0.5f;
 
-            if( ( player.pev.button & IN_MOVELEFT ) != 0 )
-            {
-                data[ "pm_select" ] = current-1;
-            }
-            else if( ( player.pev.button & IN_MOVERIGHT ) != 0 )
-            {
-                data[ "pm_select" ] = current+1;
-            }
-            else if( ( player.pev.button & IN_USE ) != 0 )
-            {
                 switch( current )
                 {
-                    case 1: SetClass( player, Classification::Security ); break;
-                    case 2: SetClass( player, Classification::Maintenance ); break;
-                    case 3: SetClass( player, Classification::Operative ); break;
-                    case 0: SetClass( player, Classification::Scientist ); break;
+                    case 1: name = "Security"; break;
+                    case 2: name = "Maintenance"; break;
+                    case 3: name = "Operator"; break;
+                    case 0: name = "Scientist"; break;
+                }
+
+                string buffer;
+                snprintf( buffer, "<- +moveleft | +moveright ->\n+use select %1\n", name );
+                g_PlayerFuncs.PrintKeyBindingString( player, buffer );
+
+                if( ( player.pev.button & IN_MOVELEFT ) != 0 )
+                {
+                    data[ "pm_select" ] = current-1;
+                }
+                else if( ( player.pev.button & IN_MOVERIGHT ) != 0 )
+                {
+                    data[ "pm_select" ] = current+1;
+                }
+                else if( ( player.pev.button & IN_USE ) != 0 )
+                {
+                    switch( current )
+                    {
+                        case 1: SetClass( player, Classification::Security ); break;
+                        case 2: SetClass( player, Classification::Maintenance ); break;
+                        case 3: SetClass( player, Classification::Operative ); break;
+                        case 0: SetClass( player, Classification::Scientist ); break;
+                    }
                 }
             }
         }
