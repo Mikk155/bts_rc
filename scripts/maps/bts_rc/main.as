@@ -97,13 +97,10 @@ void MapInit()
 
     ammo::Register( g_Config );
     items::Register( g_Config );
-    weapons::Register( g_Config );
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
-    g_ClassicMode.ForceItemRemap( true );
-    g_ClassicMode.SetItemMappings( weapons::gpItemMapping );
-    weapons::gpItemMapping.resize(0);
+    g_WeaponsConfig.MapInit();
 
     if( g_Logger.info )
     {

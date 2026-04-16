@@ -6,10 +6,12 @@ enum AttackType
 };
 
 // Base class for all weapons
-class BTS_Weapon : ScriptBasePlayerWeaponEntity
+abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 {
-    CBaseWeaponConfig@ get_DefaultConfig() {
-        return @gpDefaultWeaponData;
+    ASWeaponConfig@ get_config() {
+        if( g_Logger.critical )
+            g_Logger.critical = snprintf( glog, "%1 does not override ASWeaponConfig@ BTS_Weapon::get_config()" );
+        return null;
     }
 
     CBasePlayer@ m_owner = null;
@@ -21,36 +23,34 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
         {
             @m_owner = cast<CBasePlayer>( self.m_hPlayer.GetEntity() );
         }
-
         return @m_owner;
     }
 
     void Spawn()
     {
-        g_EntityFuncs.SetModel( self, this.DefaultConfig.world_model );
+        g_EntityFuncs.SetModel( self, this.config.world_model );
         self.FallInit();
     }
 
     bool Deploy()
     {
-        auto config = this.DefaultConfig;
         auto player = this.owner;
 
-        player.pev.viewmodel = config.view_model;
-        player.pev.weaponmodel = config.player_model;
+        player.pev.viewmodel = this.config.view_model;
+        player.pev.weaponmodel = this.config.player_model;
 
-        player.set_m_szAnimExtension( config.animation_extension );
+        player.set_m_szAnimExtension( this.config.animation_extension );
 
         auto character = GetCharacter(player);
         Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
 
         // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
-        self.pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( config.view_model ), self.pev.body, config.hands_group, handGroup );
+        self.pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( this.config.view_model ), self.pev.body, this.config.hands_group, handGroup );
 
-        self.SendWeaponAnim( config.animation_draw, 0, self.pev.body );
+        self.SendWeaponAnim( this.config.animation_draw, 0, self.pev.body );
 
-        player.m_flNextAttack = config.deploy_time;
-        float globalized_deploy = config.deploy_time + g_Engine.time;
+        player.m_flNextAttack = this.config.deploy_time;
+        float globalized_deploy = this.config.deploy_time + g_Engine.time;
 
         if( self.m_flNextPrimaryAttack < globalized_deploy )
             self.m_flNextPrimaryAttack = globalized_deploy;
@@ -66,18 +66,16 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     bool GetItemInfo( ItemInfo& out info )
     {
-        auto config = this.DefaultConfig;
-
-        info.iMaxAmmo1 = config.iMaxAmmo1;
-        info.iAmmo1Drop = config.iAmmo1Drop;
-        info.iMaxAmmo2 = config.iMaxAmmo2;
-        info.iAmmo2Drop = config.iAmmo2Drop;
-        info.iMaxClip = config.iMaxClip;
-        info.iSlot = config.iSlot;
-        info.iPosition = config.iPosition;
+        info.iMaxAmmo1 = this.config.primary_maxammo;
+        info.iAmmo1Drop = this.config.primary_dropammo;
+        info.iMaxAmmo2 = this.config.secondary_maxammo;
+        info.iAmmo2Drop = this.config.secondary_dropammo;
+        info.iMaxClip = this.config.max_clip;
+        info.iSlot = this.config.slot;
+        info.iPosition = this.config.position;
+        info.iWeight = this.config.weight;
         info.iId = g_ItemRegistry.GetIdForName( self.pev.classname );
-        info.iFlags = gpDefaultWeaponFlags;
-
+        info.iFlags = gpDefaultWeaponFlags; // -TODO To "weapons" context?
         return true;
     }
 
@@ -149,15 +147,15 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
         switch( type )
         {
             case AttackType::Primary:
-                return ( is_trained_personal ? this.DefaultConfig.PrimaryTrainedCooldown : this.DefaultConfig.PrimaryCooldown );
+                return ( is_trained_personal ? this.config.primary_trained_cooldown : this.config.primary_cooldown );
             case AttackType::Secondary:
             {
-                return ( is_trained_personal ? this.DefaultConfig.SecondaryTrainedCooldown : this.DefaultConfig.SecondaryCooldown );
+                return ( is_trained_personal ? this.config.secondary_trained_cooldown : this.config.secondary_cooldown );
             }
             case AttackType::Tertriary:
             default:
             {
-                return ( is_trained_personal ? this.DefaultConfig.TertriaryTrainedCooldown : this.DefaultConfig.TertriaryCooldown );
+                return ( is_trained_personal ? this.config.tertriary_trained_cooldown : this.config.tertriary_cooldown );
             }
         }
     }
@@ -247,7 +245,7 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
         || ( @monster = cast<CBaseMonster@>(hit) ) is null )
             return;
 
-        if( weapons::gpTraceBlood && monster.m_bloodColor != DONT_BLEED )
+        if( g_WeaponsConfig.blood_splash && monster.m_bloodColor != DONT_BLEED )
         {
             CSprite@ spr = null;
 
@@ -279,7 +277,7 @@ class BTS_Weapon : ScriptBasePlayerWeaponEntity
             }
         }
 
-        if( weapons::gpTraceSparks )
+        if( g_WeaponsConfig.sparks_splash )
         {
             bool should_sparks = true;
 

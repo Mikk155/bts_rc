@@ -2,20 +2,8 @@
     // Whatever player voices are enabled
     "voice_responses": true,
 
-    // Whatever that enemies should splash extra blood
-    "blood_splash": true,
-
-    // Whatever machine enemies should splash sparks
-    "sparks_splash": true,
-
     // Whatever turrets should have laser aims
     "turret_lasers": true,
-
-    // Whatever melee weapons can pull allied players like the crowbar does
-    "melee_weapons_pull": true,
-
-    // Allow melee weapons to push small monsters like you do to headcrabs in Half-Life 2
-    "melee_weapons_push": true,
 
     // Whatever HEV battery should emit light
     "battery_lighting": true,
@@ -72,7 +60,7 @@
         "monster_zombie":
         [
             "ammo_bts_battery",
-            "weapon_bts_flare",
+            "weapon_bts_bts_flare",
             "ammo_bts_dglocksd",
             "item_bts_sprayaid",
             "", // Few chances of droping nothing
@@ -136,7 +124,19 @@
         "speed_rate": 0.15
     },
 
-    "weapon_axe":
+    "weapons":
+    {
+        // Whatever melee weapons can pull allied players like the crowbar does
+        "melee_weapons_pull": true,
+        // Allow melee weapons to push small monsters like you do to headcrabs in Half-Life 2
+        "melee_weapons_push": true,
+        // Whatever that enemies should splash extra blood
+        "blood_splash": true,
+        // Whatever machine enemies should splash sparks
+        "sparks_splash": true
+    },
+
+    "weapon_bts_axe":
     {
         "slot": 0,
         "position": 10,
@@ -165,7 +165,7 @@
         "secondary_damage": 14
     },
 
-    "weapon_screwdriver":
+    "weapon_bts_screwdriver":
     {
         "slot": 0,
         "position": 8,
@@ -181,7 +181,7 @@
         "subsequent_hits_deduction": 0.5
     },
 
-    "weapon_poolstick":
+    "weapon_bts_poolstick":
     {
         "slot": 0,
         "position": 7,
@@ -201,7 +201,7 @@
         "subsequent_hits_deduction": 0.5
     },
 
-    "weapon_pipe":
+    "weapon_bts_pipe":
     {
         "slot": 0,
         "position": 6,
@@ -221,7 +221,7 @@
         "subsequent_hits_deduction": 0.5
     },
 
-    "weapon_knife":
+    "weapon_bts_knife":
     {
         "slot": 0,
         "position": 10,
