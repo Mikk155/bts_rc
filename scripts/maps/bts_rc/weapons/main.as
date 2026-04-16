@@ -20,7 +20,6 @@
 #include "weapon_bts_glock18"
 #include "weapon_bts_glocksd"
 #include "weapon_bts_handgrenade"
-#include "weapon_bts_knife"
 #include "weapon_bts_m16"
 #include "weapon_bts_m16sd"
 #include "weapon_bts_m4"
@@ -104,7 +103,6 @@ namespace weapons
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_glock17f::weapon_bts_glock17f", "weapon_bts_glock17f" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_glock18::weapon_bts_glock18", "weapon_bts_glock18" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_glocksd::weapon_bts_glocksd", "weapon_bts_glocksd" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_knife::weapon_bts_knife", "weapon_bts_knife" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_handgrenade::weapon_bts_handgrenade", "weapon_bts_handgrenade" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_m4::weapon_bts_m4", "weapon_bts_m4" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_m4sd::weapon_bts_m4sd", "weapon_bts_m4sd" );
@@ -173,7 +171,6 @@ namespace weapons
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glock17f", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_glock17f", "ammo_bts_glock17f_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glock18", "bts_rc/weapons", "9mm", "", "ammo_bts_glock18", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glocksd", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_glocksd", "ammo_bts_glocksd_battery" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_knife", "bts_rc/weapons" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_handgrenade", "bts_rc/weapons", "Hand Grenade", "", "weapon_bts_handgrenade", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m4", "bts_rc/weapons", "556", "", "ammo_bts_m4", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m4sd", "bts_rc/weapons", "556", "", "ammo_bts_m4sd", "" );

@@ -170,6 +170,8 @@
         "slot": 0,
         "position": 8,
         "weight": 10,
+        // Weapon deploy time before being able to attack
+        "deploy_time": 0.3,
         "primary_distance": 32,
         "primary_damage": 9,
         "primary_cooldown": 0.35,
@@ -214,6 +216,28 @@
         "primary_miss_trained_cooldown": 1.1,
         "secondary_cooldown": 0.7,
         "secondary_trained_cooldown": 0.7,
+        "secondary_miss_cooldown": 0.7,
+        "secondary_miss_trained_cooldown": 0.7,
+        "subsequent_hits_deduction": 0.5
+    },
+
+    "weapon_knife":
+    {
+        "slot": 0,
+        "position": 10,
+        "weight": 10,
+        "primary_distance": 32,
+        "primary_damage": 18,
+        "secondary_distance": 35,
+        "secondary_damage": 35,
+        "deploy_time": 0.6,
+        "primary_cooldown": 0.35,
+        "primary_trained_cooldown": 0.25,
+        "primary_miss_cooldown": 0.75,
+        "primary_miss_trained_cooldown": 0.5,
+
+        "secondary_cooldown": 0.64,
+        "secondary_trained_cooldown": 0.64,
         "secondary_miss_cooldown": 0.7,
         "secondary_miss_trained_cooldown": 0.7,
         "subsequent_hits_deduction": 0.5
