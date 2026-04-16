@@ -1,4 +1,4 @@
-class BTS_FireWeapon : BTS_Weapon
+abstract class BTS_FireWeapon : BTS_Weapon
 {
     float Accuracy( float tr, float def, float trd, float defd )
     {

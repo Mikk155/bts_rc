@@ -23,32 +23,35 @@ enum WeaponPipeAnim
     AttackBigLoop
 };
 
-class CWeaponPipeConfig : IConfigContext
+class CWeaponPipeConfig : ASMeleeWeaponConfig
 {
-    CBaseWeaponConfig@ data;
-
-    CWeaponPipeConfig()
+    string GetName() override
     {
-        ConfigContext::Register( this );
+        return "weapon_bts_pipe";
     }
 
-    string GetName()
-    {
-        return "weapon_pipe";
+    const string& get_player_model() override {
+        return "models/bts_rc/weapons/p_pipe.mdl";
     }
 
-    void Parse( dictionary@ json )
+    const string& get_world_model() override {
+        return "models/bts_rc/weapons/w_pipe.mdl";
+    }
+
+    const string& get_view_model() override {
+        return "models/bts_rc/weapons/v_pipe.mdl";
+    }
+
+    const string& get_animation_extension() override {
+        return "crowbar";
+    }
+
+    uint8 get_animation_draw() override {
+        return WeaponPipeAnim::Draw;
+    }
+
+    void Precache() override
     {
-        @data = CBaseWeaponConfig( json );
-
-        data.world_model = "models/bts_rc/weapons/w_pipe.mdl";
-        data.player_model = "models/bts_rc/weapons/p_pipe.mdl";
-        data.view_model = "models/bts_rc/weapons/v_pipe.mdl";
-        data.animation_extension = "crowbar";
-        data.animation_draw = WeaponPipeAnim::Draw;
-
-        weapons::Register( "weapon_bts_pipe", @data );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_miss1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod2.wav" );
@@ -62,8 +65,8 @@ CWeaponPipeConfig gpWeaponPipeConfig;
 
 class weapon_bts_pipe : BTS_MeleeCharge
 {
-    CBaseWeaponConfig@ get_DefaultConfig() override {
-        return @gpWeaponPipeConfig.data;
+    ASWeaponConfig@ get_config() {
+        return @gpWeaponPipeConfig;
     }
 
     void Attack( CBasePlayer@ player, AttackType type )

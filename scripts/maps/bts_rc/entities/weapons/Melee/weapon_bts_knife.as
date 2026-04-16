@@ -24,33 +24,39 @@ enum WeaponKnifeAnim
     Stab
 };
 
-class CWeaponKnifeConfig : IConfigContext
+class CWeaponKnifeConfig : ASMeleeWeaponConfig
 {
-    CBaseWeaponConfig@ data;
-
-    CWeaponKnifeConfig()
+    string GetName() override
     {
-        ConfigContext::Register( this );
+        return "weapon_bts_knife";
     }
 
-    string GetName()
-    {
-        return "weapon_knife";
+    const string& get_player_model() override {
+        return "models/opfor/p_knife.mdl";
     }
 
-    void Parse( dictionary@ json )
+    const string& get_world_model() override {
+        return "models/opfor/w_knife.mdl";
+    }
+
+    const string& get_view_model() override {
+        return "models/bts_rc/weapons/v_knife.mdl";
+    }
+
+    const string& get_animation_extension() override {
+        return "crowbar";
+    }
+
+    uint8 get_animation_draw() override {
+        return WeaponKnifeAnim::Draw;
+    }
+
+    uint8 get_hands_group() override {
+        return 0;
+    }
+
+    void Precache() override
     {
-        @data = CBaseWeaponConfig( json );
-
-        data.world_model = "models/opfor/w_knife.mdl";
-        data.player_model = "models/opfor/p_knife.mdl";
-        data.view_model = "models/bts_rc/weapons/v_knife.mdl";
-        data.animation_extension = "crowbar";
-        data.animation_draw = WeaponKnifeAnim::Draw;
-        data.hands_group = 0;
-
-        weapons::Register( "weapon_bts_knife", @data );
-
         g_SoundSystem.PrecacheSound( "weapons/knife1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/knife2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/knife3.wav" );
@@ -65,8 +71,8 @@ CWeaponKnifeConfig gpWeaponKnifeConfig;
 
 class weapon_bts_knife : BTS_MeleeCharge
 {
-    CBaseWeaponConfig@ get_DefaultConfig() override {
-        return @gpWeaponKnifeConfig.data;
+    ASWeaponConfig@ get_config() {
+        return @gpWeaponKnifeConfig;
     }
 
     float Idle()

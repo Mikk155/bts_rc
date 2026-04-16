@@ -16,11 +16,12 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
     // Change impulse 101 command with our own weapons.
     if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
     {
-        uint length = weapons::gpWeaponNames.length();
+        const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
+        uint length = weaponNames.length();
 
         for( uint ui = 0; ui < length; ui++ )
         {
-            const string weapon_name = weapons::gpWeaponNames[ui];
+            const string weapon_name = weaponNames[ui];
 
             player.GiveNamedItem( weapon_name );
 

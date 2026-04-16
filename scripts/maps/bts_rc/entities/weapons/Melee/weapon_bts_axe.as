@@ -23,32 +23,35 @@ enum WeaponAxeAnim
     ShoveMissAlt
 };
 
-class CWeaponAxeConfig : IConfigContext
+class CWeaponAxeConfig : ASMeleeWeaponConfig
 {
-    CBaseWeaponConfig@ data;
-
-    CWeaponAxeConfig()
+    string GetName() override
     {
-        ConfigContext::Register( this );
+        return "weapon_bts_axe";
     }
 
-    string GetName()
-    {
-        return "weapon_axe";
+    const string& get_player_model() override {
+        return "models/bts_rc/weapons/p_axe.mdl";
     }
 
-    void Parse( dictionary@ json )
+    const string& get_world_model() override {
+        return "models/bts_rc/weapons/w_axe.mdl";
+    }
+
+    const string& get_view_model() override {
+        return "models/bts_rc/weapons/v_axe.mdl";
+    }
+
+    const string& get_animation_extension() override {
+        return "crowbar";
+    }
+
+    uint8 get_animation_draw() override {
+        return WeaponAxeAnim::Draw;
+    }
+
+    void Precache() override
     {
-        @data = CBaseWeaponConfig( json );
-
-        data.world_model = "models/bts_rc/weapons/w_axe.mdl";
-        data.player_model = "models/bts_rc/weapons/p_axe.mdl";
-        data.view_model = "models/bts_rc/weapons/v_axe.mdl";
-        data.animation_extension = "crowbar";
-        data.animation_draw = WeaponAxeAnim::Draw;
-
-        weapons::Register( "weapon_bts_axe", @data );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hit2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod1.wav" );
@@ -62,8 +65,8 @@ CWeaponAxeConfig gpWeaponAxeConfig;
 
 class weapon_bts_axe : BTS_MeleeWeapon
 {
-    CBaseWeaponConfig@ get_DefaultConfig() override {
-        return @gpWeaponAxeConfig.data;
+    ASWeaponConfig@ get_config() {
+        return @gpWeaponAxeConfig;
     }
 
     float Idle() override
