@@ -81,7 +81,6 @@ class weapon_bts_knife : BTS_MeleeCharge
         return 5.33f;
     }
 
-
     void Attack( CBasePlayer@ player, AttackType type )
     {
         bool miss;

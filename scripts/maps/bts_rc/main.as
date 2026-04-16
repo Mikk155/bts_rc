@@ -56,10 +56,6 @@ void MapActivate()
     g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
     @MapLoadedChrono = null;
 
-#if METAMOD_DEBUG
-    MapBegin(null, null, USE_TOGGLE, 0);
-#endif
-
     meta_api::NoticeInstallation();
 }
 
