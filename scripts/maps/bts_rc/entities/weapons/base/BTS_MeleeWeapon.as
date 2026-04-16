@@ -1,5 +1,9 @@
-class BTS_MeleeWeapon : BTS_Weapon
+abstract class BTS_MeleeWeapon : BTS_Weapon
 {
+    ASMeleeWeaponConfig@ get_configMelee() {
+        return cast<ASMeleeWeaponConfig@>( this.config );
+    }
+
     // Amount of swings in a raw
     int m_iSwing = 0;
 
@@ -12,14 +16,14 @@ class BTS_MeleeWeapon : BTS_Weapon
             case AttackType::Primary:
             {
                 if( is_trained_personal )
-                    return ( miss ? this.DefaultConfig.PrimaryMissTrainedCooldown : this.DefaultConfig.PrimaryCooldown );
-                return ( miss ? this.DefaultConfig.PrimaryMissCooldown : this.DefaultConfig.PrimaryCooldown );
+                    return ( miss ? this.configMelee.primary_miss_trained_cooldown : this.configMelee.primary_cooldown );
+                return ( miss ? this.configMelee.primary_miss_cooldown : this.configMelee.primary_cooldown );
             }
             case AttackType::Secondary:
             {
                 if( is_trained_personal )
-                    return ( miss ? this.DefaultConfig.SecondaryMissTrainedCooldown : this.DefaultConfig.SecondaryTrainedCooldown );
-                return ( miss ? this.DefaultConfig.SecondaryMissCooldown : this.DefaultConfig.SecondaryCooldown );
+                    return ( miss ? this.configMelee.secondary_miss_trained_cooldown : this.configMelee.secondary_trained_cooldown );
+                return ( miss ? this.configMelee.secondary_miss_cooldown : this.configMelee.secondary_cooldown );
             }
             case AttackType::Tertriary:
             default:
@@ -39,7 +43,7 @@ class BTS_MeleeWeapon : BTS_Weapon
             self.m_flTimeWeaponIdle= self.m_flNextPrimaryAttack;
     }
 
-    // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with DefaultConfig data
+    // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data
     bool Hit( TraceResult&out tr, AttackType type, CBaseEntity@&out hit )
     {
         auto player = this.owner;
@@ -50,14 +54,14 @@ class BTS_MeleeWeapon : BTS_Weapon
         switch( type )
         {
             case AttackType::Tertriary:
-                vecDirection = vecDirection * this.DefaultConfig.TertriaryDistance;
+                vecDirection = vecDirection * this.configMelee.tertriary_distance;
             break;
             case AttackType::Secondary:
-                vecDirection = vecDirection * this.DefaultConfig.SecondaryDistance;
+                vecDirection = vecDirection * this.configMelee.secondary_distance;
             break;
             case AttackType::Primary:
             default:
-                vecDirection = vecDirection * this.DefaultConfig.PrimaryDistance;
+                vecDirection = vecDirection * this.configMelee.primary_distance;
             break;
         }
 
@@ -85,12 +89,12 @@ class BTS_MeleeWeapon : BTS_Weapon
         if( hit !is null || ( tr.pHit !is null && ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) !is null ) )
         {
             // Pull players just like the crowbar does
-            if( weapons::gpAllowMeleePull && hit.IsPlayer() )
+            if( g_WeaponsConfig.melee_weapons_pull && hit.IsPlayer() )
             {
                 hit.pev.velocity = hit.pev.velocity + ( owner.pev.origin - hit.pev.origin ).Normalize() * 120.0f;
             }
 
-            if( weapons::gpAllowMeleePush && ( hit.pev.flags & FL_ONGROUND ) == 0 && "monster_headcrab" == hit.GetClassname() )
+            if( g_WeaponsConfig.melee_weapons_push && ( hit.pev.flags & FL_ONGROUND ) == 0 && "monster_headcrab" == hit.GetClassname() )
             {
                 hit.pev.velocity = ( hit.pev.origin - player.pev.origin ).Normalize() * 300.0f;
                 hit.pev.velocity.z = 200.0f;
@@ -99,16 +103,18 @@ class BTS_MeleeWeapon : BTS_Weapon
 
             g_WeaponFuncs.ClearMultiDamage();
 
+            auto localconfigMelee = this.configMelee;
+
             // subsequent swings do % less damage
-            float subsequent = ( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time ) ? 1.0 : this.DefaultConfig.SubsequentDeduction;
+            float subsequent = ( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time ) ? 1.0 : localconfigMelee.subsequent_hits_deduction;
 
             switch( type )
             {
                 case AttackType::Primary:
-                    hit.TraceAttack( player.pev, this.DefaultConfig.PrimaryDamage * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
+                    hit.TraceAttack( player.pev, localconfigMelee.primary_damage * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
                 break;
                 case AttackType::Secondary:
-                    hit.TraceAttack( player.pev, this.DefaultConfig.SecondaryDamage * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
+                    hit.TraceAttack( player.pev, localconfigMelee.secondary_damage * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
                 break;
             }
 

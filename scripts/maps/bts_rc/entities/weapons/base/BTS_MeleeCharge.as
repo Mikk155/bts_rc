@@ -7,7 +7,7 @@ enum WhackState
 
 // Inheriting from this class will make the Secondary attack be called twice when start holding right click and when releasing.
 // ifm_WhackState is Holding then the attack wasn't released but started charging
-class BTS_MeleeCharge : BTS_MeleeWeapon
+abstract class BTS_MeleeCharge : BTS_MeleeWeapon
 {
     WhackState m_WhackState = WhackState::Idle;
 

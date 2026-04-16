@@ -18,32 +18,35 @@ enum WeaponPoolstickAnim
     Idle2
 };
 
-class CWeaponPoolstickConfig : IConfigContext
+class CWeaponPoolstickConfig : ASMeleeWeaponConfig
 {
-    CBaseWeaponConfig@ data;
-
-    CWeaponPoolstickConfig()
+    string GetName() override
     {
-        ConfigContext::Register( this );
+        return "weapon_bts_poolstick";
     }
 
-    string GetName()
-    {
-        return "weapon_poolstick";
+    const string& get_player_model() override {
+        return "models/bts_rc/weapons/p_poolstick.mdl";
     }
 
-    void Parse( dictionary@ json )
+    const string& get_world_model() override {
+        return "models/bts_rc/weapons/w_poolstick.mdl";
+    }
+
+    const string& get_view_model() override {
+        return "models/bts_rc/weapons/v_poolstick.mdl";
+    }
+
+    const string& get_animation_extension() override {
+        return "crowbar";
+    }
+
+    uint8 get_animation_draw() override {
+        return WeaponPoolstickAnim::Draw;
+    }
+
+    void Precache() override
     {
-        @data = CBaseWeaponConfig( json );
-
-        data.world_model = "models/bts_rc/weapons/w_poolstick.mdl";
-        data.player_model = "models/bts_rc/weapons/p_poolstick.mdl";
-        data.view_model = "models/bts_rc/weapons/v_poolstick.mdl";
-        data.animation_extension = "crowbar";
-        data.animation_draw = WeaponPoolstickAnim::Draw;
-
-        weapons::Register( "weapon_bts_poolstick", @data );
-
         g_SoundSystem.PrecacheSound( "weapons/cbar_miss1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod2.wav" );
@@ -57,8 +60,8 @@ CWeaponPoolstickConfig gpWeaponPoolstickConfig;
 
 class weapon_bts_poolstick : BTS_MeleeWeapon
 {
-    CBaseWeaponConfig@ get_DefaultConfig() override {
-        return @gpWeaponPoolstickConfig.data;
+    ASWeaponConfig@ get_config() {
+        return @gpWeaponPoolstickConfig;
     }
 
     float Idle() override

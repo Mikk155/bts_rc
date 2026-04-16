@@ -19,32 +19,35 @@ enum WeaponScrewDriverAnim
     Idle3
 };
 
-class CWeaponScrewDriverConfig : IConfigContext
+class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
 {
-    CBaseWeaponConfig@ data;
-
-    CWeaponScrewDriverConfig()
+    string GetName() override
     {
-        ConfigContext::Register( this );
+        return "weapon_bts_screwdriver";
     }
 
-    string GetName()
-    {
-        return "weapon_screwdriver";
+    const string& get_player_model() override {
+        return "models/bts_rc/weapons/p_screwdriver.mdl";
     }
 
-    void Parse( dictionary@ json )
+    const string& get_world_model() override {
+        return "models/bts_rc/weapons/w_screwdriver.mdl";
+    }
+
+    const string& get_view_model() override {
+        return "models/bts_rc/weapons/v_screwdriver.mdl";
+    }
+
+    const string& get_animation_extension() override {
+        return "crowbar";
+    }
+
+    uint8 get_animation_draw() override {
+        return WeaponScrewDriverAnim::Draw;
+    }
+
+    void Precache() override
     {
-        @data = CBaseWeaponConfig( json );
-
-        data.world_model = "models/bts_rc/weapons/w_screwdriver.mdl";
-        data.player_model = "models/bts_rc/weapons/p_screwdriver.mdl";
-        data.view_model = "models/bts_rc/weapons/v_screwdriver.mdl";
-        data.animation_extension = "crowbar";
-        data.animation_draw = WeaponScrewDriverAnim::Draw;
-
-        weapons::Register( "weapon_bts_screwdriver", @data );
-
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_miss1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hitbod1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hitbod2.wav" );
@@ -58,8 +61,8 @@ CWeaponScrewDriverConfig gpWeaponScrewDriverConfig;
 
 class weapon_bts_screwdriver : BTS_MeleeWeapon
 {
-    CBaseWeaponConfig@ get_DefaultConfig() override {
-        return @gpWeaponScrewDriverConfig.data;
+    ASWeaponConfig@ get_config() {
+        return @gpWeaponScrewDriverConfig;
     }
 
     void Attack( CBasePlayer@ player, AttackType type )

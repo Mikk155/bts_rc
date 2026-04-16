@@ -54,33 +54,6 @@ namespace weapons
         const string &in remapEntity = String::EMPTY_STRING
     )
     {
-        if( !remapEntity.IsEmpty() )
-        {
-            auto remap = ItemMapping( remapEntity, entityName );
-            gpItemMapping.insertLast( @remap );
-        }
-
-        string objectName;
-        snprintf( objectName, "weapons::%1::%1", entityName, entityName );
-        g_CustomEntityFuncs.RegisterCustomEntity( objectName, entityName );
-
-        if( secondaryObject != String::EMPTY_STRING && !g_CustomEntityFuncs.IsCustomEntity( secondaryObject ) )
-        {
-            string secondaryAmmoClass;
-            snprintf( secondaryAmmoClass, "weapons::%1::%1", entityName, secondaryObject );
-            g_CustomEntityFuncs.RegisterCustomEntity( secondaryAmmoClass, secondaryObject );
-        }
-
-        if( secondaryObject != String::EMPTY_STRING && !g_CustomEntityFuncs.IsCustomEntity( primaryObject ) )
-        {
-            string secondaryAmmoClass;
-            snprintf( secondaryAmmoClass, "weapons::%1::%1", entityName, primaryObject );
-            g_CustomEntityFuncs.RegisterCustomEntity( secondaryAmmoClass, primaryObject );
-        }
-
-        g_ItemRegistry.RegisterWeapon( entityName, "bts_rc/weapons", primaryObject, secondaryObject, primaryName, secondaryName );
-
-        gpWeaponNames.insertLast( entityName );
     }
 
     void Registerfake( dictionary@ data )
