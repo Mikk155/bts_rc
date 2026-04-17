@@ -47,7 +47,7 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
     }
 #if METAMOD_DEBUG
     if( character is null )
-        SetClass( player, Classification::Security );
+        SetClass( player, Classification::Scientist );
 #endif
 
     if( character is null )
