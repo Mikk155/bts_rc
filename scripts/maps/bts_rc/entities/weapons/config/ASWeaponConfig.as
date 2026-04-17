@@ -85,10 +85,8 @@ abstract class ASWeaponConfig : IConfigContext
         return value;
     }
 
-    void Parse( dictionary@ json )
+    void ParseDefaultVariables( dictionary@ json )
     {
-        this.Precache();
-
         this.primary_maxammo = int( this.Get( @json, "primary_maxammo", WEAPON_NOCLIP ) );
         this.secondary_maxammo = int( this.Get( @json, "secondary_maxammo", WEAPON_NOCLIP ) );
 
@@ -109,12 +107,11 @@ abstract class ASWeaponConfig : IConfigContext
         this.position = uint( this.Get( @json, "position", 0 ) );
         this.weight = uint( this.Get( @json, "weight", 10 ) );
         this.deploy_time = this.Get( @json, "deploy_time", 1.0f );
+    }
 
+    void RegisterWeapon()
+    {
         string weaponName = this.GetName();
-
-        g_Game.PrecacheModel( this.view_model );
-        g_Game.PrecacheModel( this.world_model );
-        g_Game.PrecacheModel( this.player_model );
 
         if( !this.remap.IsEmpty() )
         {
@@ -129,5 +126,18 @@ abstract class ASWeaponConfig : IConfigContext
         string szSpriteDir; // Precache HUD text definition
         snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", weaponName );
         g_Game.PrecacheGeneric( szSpriteDir );
+    }
+ 
+    void Parse( dictionary@ json )
+    {
+        this.Precache();
+
+        this.ParseDefaultVariables( json );
+
+        g_Game.PrecacheModel( this.view_model );
+        g_Game.PrecacheModel( this.world_model );
+        g_Game.PrecacheModel( this.player_model );
+
+        this.RegisterWeapon();
     }
 }
