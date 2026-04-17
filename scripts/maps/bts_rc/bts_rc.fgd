@@ -58,9 +58,7 @@
     ]
 ]
 
-@SolidClass base(Mandatory, ZHLT) = func_bts_recharger: "Wall hev armor recharger"
-[
-]
+@SolidClass base(Mandatory, ZHLT) = func_bts_recharger: "Wall hev armor recharger" [ ]
 
 @BaseClass = BTS_Item
 [
@@ -72,29 +70,17 @@
     model(studio) : "Custom model" : ""
 ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/bshift/barney_vest.mdl" ) = item_bts_armorvest : "Suit power" : "Equip 20-30 battery to a non-cleansuit/hevsuit player"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bshift/barney_vest.mdl" ) = item_bts_armorvest : "Suit power" : "Equip 20-30 battery to a non-cleansuit/hevsuit player" [ ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/bshift/barney_helmet.mdl" ) = item_bts_helmet : "Suit power" : "Equip 7-10 battery to a non-cleansuit/hevsuit player"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bshift/barney_helmet.mdl" ) = item_bts_helmet : "Suit power" : "Equip 7-10 battery to a non-cleansuit/hevsuit player" [ ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl" ) = item_bts_hevbattery : "Suit power" : "Equip 10-25 battery to a cleansuit/hevsuit player"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl" ) = item_bts_hevbattery : "Suit power" : "Equip 10-25 battery to a cleansuit/hevsuit player" [ ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl" ) = item_bts_sprayaid : "Health" : "Equip 10-20 health to player"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_battery.mdl" ) = item_bts_sprayaid : "Health" : "Equip 10-20 health to player" [ ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_suit.mdl" ) = item_bts_hevsuit : "Suit" : "Suit"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_suit.mdl" ) = item_bts_hevsuit : "Suit" : "Suit" [ ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/w_hazmat.mdl" ) = item_bts_clsuit : "CleanSuit" : "CleanSuit"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/w_hazmat.mdl" ) = item_bts_clsuit : "CleanSuit" : "CleanSuit" [ ]
 
 @PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/items/skeleton_guard.mdl" ) = item_bts_skeleton : "Skeleton prop with suit power" : "skeleton prop working the same as item_bts_armorvest"
 [
@@ -107,10 +93,10 @@
     ]
 ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_axe.mdl" ) = weapon_bts_axe : "Weapon" : "Weapon entity"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_axe.mdl" ) = weapon_bts_axe : "Weapon" : "Weapon entity" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/opfor/w_knife.mdl" ) = weapon_bts_knife : "Weapon" : "Weapon entity" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_pipe.mdl" ) = weapon_bts_pipe : "Weapon" : "Weapon entity" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_poolstick.mdl" ) = weapon_bts_poolstick : "Weapon" : "Weapon entity" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_screwdriver.mdl" ) = weapon_bts_screwdriver : "Weapon" : "Weapon entity" [ ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_9mmclip.mdl" ) = ammo_bts_beretta : "Ammo" : "Ammo entity"
-[
-]
+@PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_9mmclip.mdl" ) = ammo_bts_beretta : "Ammo" : "Ammo entity" [ ]
