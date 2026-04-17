@@ -5,12 +5,5 @@
     {
         "*.json": "jsonc",
         "*.as": "angelscript"
-    },
-
-    "angelScript.explicitPropertyAccessor": false,
-    "angelScript.implicitMutualInclusion": true,
-    "angelScript.supportsForEach": false,
-    "angelScript.forceIncludePredefined": [
-        "as.predefined"
-    ]
+    }
 }
