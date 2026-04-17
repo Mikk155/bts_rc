@@ -1,0 +1,252 @@
+{
+    // Whatever player voices are enabled
+    "voice_responses": true,
+
+    // Whatever turrets should have laser aims
+    "turret_lasers": true,
+
+    // Whatever HEV battery should emit light
+    "battery_lighting": true,
+
+    // ===========================
+    // Start of configuration contexts
+    // ===========================
+
+    // Loggers
+    "log":
+    {
+        "error": true,
+        "info": true,
+        "trace": true,
+        "warning": true,
+        "critical": true
+    },
+
+    // Blood puddle config
+    "bloodpuddle":
+    {
+        // Whatever to enable blood puddles
+        "active": true,
+
+        // Whatever blood puddles should persist in the map. set to false for a removal fade out
+        "persistent": true,
+
+        // Default pev->scale (random min/max)
+        "default_size": [ 1.5, 2.5 ],
+
+        // same as default_size but for specific monster classnames
+        "custom_size":
+        {
+            "monster_headcrab": [ 0.5, 1.5 ],
+            "monster_houndeye": [ 1.0, 2.0 ],
+            "monster_babycrab": [ 0.3, 0.8 ]
+        }
+    },
+
+    "zombie_uncrab":
+    {
+        // Whatever to enable headcrabs jumping from zombies
+        "active": true,
+
+        // Whatever track zombie headcrab damage before spawning a crab. if this is set to false the headcrab will always spawn and full health.
+        "track_health": true
+    },
+
+    // what monsters drop upon death
+    "deathdrop":
+    {
+        // Finds by either classname or model name. model has priority.
+        // Values are the classname of entities to spawn, empty to have a chance of nothing. "grenade" to spawn a living grenade
+        "monster_zombie":
+        [
+            "ammo_bts_battery",
+            "weapon_bts_bts_flare",
+            "ammo_bts_dglocksd",
+            "item_bts_sprayaid",
+            "", // Few chances of droping nothing
+            "",
+            ""
+        ],
+
+        "monster_zombie_barney":
+        [
+            "ammo_bts_dglocksd",
+            "ammo_bts_dreagle",
+            "ammo_bts_shotshell",
+            "ammo_bts_beretta",
+            "",
+            "",
+            ""
+        ],
+
+        "monster_human_grunt":
+        [
+            "ammo_bts_556round"
+        ],
+
+        "models/bts_rc/monsters/zombie_medic.mdl":
+        [
+            "item_bts_sprayaid",
+            "item_healthkit"
+        ],
+
+        "monster_zombie_soldier":
+        [
+            "ammo_bts_shotshell",
+            "ammo_bts_9mmbox",
+            "ammo_bts_556round",
+            "ammo_bts_357cyl",
+            "ammo_bts_dreagle",
+            "ammo_bts_dglocksd",
+            "item_bts_hevbattery",
+            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
+        ],
+
+        "monster_gonome":
+        [
+            "ammo_bts_shotshell",
+            "ammo_bts_9mmbox",
+            "ammo_bts_556round",
+            "ammo_bts_357cyl",
+            "ammo_bts_dreagle",
+            "ammo_bts_dglocksd",
+            "item_bts_hevbattery",
+            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
+        ]
+    },
+
+    "wall_recharger":
+    {
+        "juice": 35,
+        // Time until the charge refills
+        "recharge_time": 300,
+        // Player charge rate
+        "speed_rate": 0.15
+    },
+
+    "weapons":
+    {
+        // Whatever melee weapons can pull allied players like the crowbar does
+        "melee_weapons_pull": true,
+        // Allow melee weapons to push small monsters like you do to headcrabs in Half-Life 2
+        "melee_weapons_push": true,
+        // Whatever that enemies should splash extra blood
+        "blood_splash": true,
+        // Whatever machine enemies should splash sparks
+        "sparks_splash": true
+    },
+
+    "weapon_bts_axe":
+    {
+        "slot": 0,
+        "position": 10,
+
+        // Weigth defines the priority to select the weapon when pickup comparing to the current active weapon's weigth
+        "weight": 10,
+
+        // Weapon deploy time before being able to attack
+        "deploy_time": 0.7,
+
+        // Attack distance
+        "primary_distance": 45,
+
+        // Attack cooldown
+        "primary_cooldown": 0.8,
+        "primary_trained_cooldown": 0.4,
+        "primary_miss_cooldown": 1.25,
+        "primary_miss_trained_cooldown": 0.90,
+        "secondary_cooldown": 0.5,
+        "secondary_trained_cooldown": 0.25,
+        "secondary_miss_cooldown": 1.35,
+        "secondary_miss_trained_cooldown": 1.0,
+
+        // 50% damage on subsequent hits
+        "subsequent_hits_deduction": 0.5,
+
+        // Damage
+        "primary_damage": 20,
+        "secondary_damage": 14
+    },
+
+    "weapon_crowbar":
+    {
+    },
+
+    "weapon_bts_screwdriver":
+    {
+        "slot": 0,
+        "position": 8,
+        "weight": 10,
+        "deploy_time": 0.3,
+        "primary_distance": 32,
+        "primary_damage": 9,
+        "primary_cooldown": 0.35,
+        "primary_trained_cooldown": 0.25,
+        "primary_miss_cooldown": 0.6,
+        "primary_miss_trained_cooldown": 0.5,
+        "subsequent_hits_deduction": 0.5
+    },
+
+    "weapon_bts_poolstick":
+    {
+        "slot": 0,
+        "position": 7,
+        "weight": 10,
+        "deploy_time": 0.5,
+        "primary_distance": 48,
+        "primary_damage": 11,
+        "secondary_distance": 54,
+        "secondary_damage": 8,
+        "primary_cooldown": 0.4,
+        "primary_trained_cooldown": 0.3,
+        "primary_miss_cooldown": 0.5,
+        "primary_miss_trained_cooldown": 0.65,
+        "secondary_cooldown": 0.75,
+        "secondary_trained_cooldown": 0.70,
+        "secondary_miss_cooldown": 0.8,
+        "secondary_miss_trained_cooldown": 0.75,
+        "subsequent_hits_deduction": 0.5
+    },
+
+    "weapon_bts_pipe":
+    {
+        "slot": 0,
+        "position": 6,
+        "weight": 10,
+        "deploy_time": 0.7,
+        "primary_distance": 32,
+        "primary_damage": 16,
+        "secondary_distance": 35,
+        "secondary_damage": 27,
+        "primary_cooldown": 0.75,
+        "primary_trained_cooldown": 0.45,
+        "primary_miss_cooldown": 1.34,
+        "primary_miss_trained_cooldown": 1.1,
+        "secondary_cooldown": 0.7,
+        "secondary_trained_cooldown": 0.7,
+        "secondary_miss_cooldown": 0.7,
+        "secondary_miss_trained_cooldown": 0.7,
+        "subsequent_hits_deduction": 0.5
+    },
+
+    "weapon_bts_knife":
+    {
+        "slot": 0,
+        "position": 10,
+        "weight": 10,
+        "primary_distance": 32,
+        "primary_damage": 18,
+        "secondary_distance": 35,
+        "secondary_damage": 35,
+        "deploy_time": 0.6,
+        "primary_cooldown": 0.35,
+        "primary_trained_cooldown": 0.25,
+        "primary_miss_cooldown": 0.75,
+        "primary_miss_trained_cooldown": 0.5,
+        "secondary_cooldown": 0.64,
+        "secondary_trained_cooldown": 0.64,
+        "secondary_miss_cooldown": 0.7,
+        "secondary_miss_trained_cooldown": 0.7,
+        "subsequent_hits_deduction": 0.5
+    }
+}

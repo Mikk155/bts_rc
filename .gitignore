@@ -1,27 +1,6 @@
-maps/soundcache/*
-steam_autocloud.vdf
 
-# Game assets
-models/*
-sound/*
-sprites/*
-bts_rc.wad
-developer_plates-1.wad
-
-
-src/halflife*
-src/stuff/*
-resource/GameMenu.res
-src/bts_rc_test_chamber.max
-src/bts_rc_test_chamber.rmx
-maps/bts_rc.*
-maps/bts_rc_motd.txt
-maps/bts_rc_skl.cfg
-maps/bts_rc_test_chamber.wa_
-maps/bts_rc_test_chamber.prt
-maps/bts_rc_test_chamber.log
-maps/bts_rc_test_chamber.ext
-maps/bts_rc_test_chamber.map
-
-Release*
-Debug*
+maps/*
+!maps/bts_rc_test_chamber.as
+!maps/bts_rc_test_chamber.bsp
+!maps/bts_rc_test_chamber.cfg
+!maps/bts_rc_test_chamber.map
