@@ -94,7 +94,6 @@ void MapInit()
 
     Precache();
 
-    ammo::Register( g_Config );
     items::Register( g_Config );
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
