@@ -144,6 +144,9 @@
         // Weigth defines the priority to select the weapon when pickup comparing to the current active weapon's weigth
         "weight": 10,
 
+        // Weapon deploy time before being able to attack
+        "deploy_time": 0.7,
+
         // Attack distance
         "primary_distance": 45,
 
@@ -167,9 +170,6 @@
 
     "weapon_crowbar":
     {
-        "slot": 0,
-        "position": 10,
-        "weight": 10
     },
 
     "weapon_bts_screwdriver":
@@ -177,7 +177,6 @@
         "slot": 0,
         "position": 8,
         "weight": 10,
-        // Weapon deploy time before being able to attack
         "deploy_time": 0.3,
         "primary_distance": 32,
         "primary_damage": 9,
@@ -193,6 +192,7 @@
         "slot": 0,
         "position": 7,
         "weight": 10,
+        "deploy_time": 0.5,
         "primary_distance": 48,
         "primary_damage": 11,
         "secondary_distance": 54,
@@ -213,6 +213,7 @@
         "slot": 0,
         "position": 6,
         "weight": 10,
+        "deploy_time": 0.7,
         "primary_distance": 32,
         "primary_damage": 16,
         "secondary_distance": 35,
@@ -242,7 +243,6 @@
         "primary_trained_cooldown": 0.25,
         "primary_miss_cooldown": 0.75,
         "primary_miss_trained_cooldown": 0.5,
-
         "secondary_cooldown": 0.64,
         "secondary_trained_cooldown": 0.64,
         "secondary_miss_cooldown": 0.7,
