@@ -169,7 +169,7 @@ namespace bloodpuddle
 
         array<float> sizes;
 
-        if( !gpConfig.CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes is null )
+        if( !gpConfig.CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
             sizes = gpConfig.DefaultSize;
 
         bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
