@@ -36,14 +36,18 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
     void Precache() override
     {
-        g_Game.PrecacheModel( this.view_model );
         g_Game.PrecacheModel( this.world_model );
         g_Game.PrecacheModel( this.player_model );
+        this.viewmodelIndex = g_Game.PrecacheModel( this.view_model );
     }
+
+    uint viewmodelIndex;
 
     void Parse( dictionary@ json ) override
     {
         this.Precache();
+
+        this.viewmodelIndex = g_ModelFuncs.ModelIndex( gpWeaponCrowbarConfig.view_model );
 
         this.ParseDefaultVariables( json );
 
@@ -59,21 +63,11 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
             auto character = GetCharacter(player);
 
-            dictionary@ data = player.GetUserData();
-
             if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
             {
                 player.pev.viewmodel = gpWeaponCrowbarConfig.view_model;
-                data.delete( "crowbar_seq" );
-            }
-
-            int crowbar_seq;
-            if( !data.get( "crowbar_seq", crowbar_seq ) || crowbar_seq != player.pev.weaponanim )
-            {
-                Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponCrowbarConfig.view_model ), weapon.pev.body, 0, handGroup );
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
-                data[ "crowbar_seq" ] = player.pev.weaponanim;
+                weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, ( character !is null ? character.HandsGroup : Hands::Gray ) );
+                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body ); // Resend the current animation to update the bodygroup
             }
 
             return HOOK_CONTINUE;
