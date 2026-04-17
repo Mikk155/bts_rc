@@ -24,4 +24,4 @@ jobs:
         with:
           files: bts_rc.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
