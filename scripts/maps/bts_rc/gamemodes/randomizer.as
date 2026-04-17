@@ -1,0 +1,390 @@
+namespace randomizer
+{
+    // List of array<int> containing indexes for matched entities for each randomizer type.
+    dictionary g_Randomizers;
+
+    class CRandomizerEntity : ScriptBaseEntity
+    {
+        void Spawn()
+        {
+            self.pev.solid = SOLID_NOT;
+            self.pev.effects |= EF_NODRAW;
+            self.pev.movetype = MOVETYPE_NONE;
+        }
+
+        // Swap the given squadmaker with the given randomizer position.
+        void Use( CBaseEntity@ squad, CBaseEntity@ randomizer, USE_TYPE use, float value )
+        {
+            switch( use )
+            {
+                case USE_TOGGLE:
+                {
+                    // Repeat in case we matched this same entity
+                    for( int i = 0; i < 5; i++ )
+                    {
+                        array<int>@ Randomized;
+
+                        g_Randomizers.get( self.GetClassname(), Randomized );
+
+                        // Pick a random randomizer from the list of indexes.
+                        @randomizer = g_EntityFuncs.Instance( Randomized[ Math.RandomLong( 0, Randomized.length() - 1 ) ] );
+
+                        if( randomizer !is null && randomizer !is self )
+                        {
+                            // Swap owners
+                            self.Use( g_EntityFuncs.Instance( self.pev.owner ), self, USE_SET );
+                            self.Use( ( randomizer !is null ? g_EntityFuncs.Instance( randomizer.pev.owner ) : null ), randomizer, USE_SET );
+                            break;
+                        }
+                    }
+                    break;
+                }
+
+                case USE_SET:
+                {
+                    if( squad !is null && randomizer !is null )
+                    {
+                        @randomizer.pev.owner = @squad.edict();
+                        @squad.pev.owner = @randomizer.edict();
+                        g_EntityFuncs.SetOrigin( squad, randomizer.GetOrigin() );
+
+                        if( g_Logger.trace )
+                            g_Logger.trace = snprintf( glog, "Randomized %1 to %2 at %3", squad.GetClassname(), randomizer.GetClassname(), randomizer.GetOrigin().ToString() );
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    void Initialize( const string&in entityName, array<string>@ entityList )
+    {
+        array<int> randomized(0);
+
+        // Find all randomizers and store them in g_Randomizers
+        CBaseEntity@ pRandomizer = null;
+
+        while( ( @pRandomizer = g_EntityFuncs.FindEntityByClassname( pRandomizer, entityName ) ) !is null )
+        {
+            randomized.insertLast( pRandomizer.entindex() );
+        }
+
+        if( g_Logger.info )
+            g_Logger.info = snprintf( glog, "Got %1 %2", randomized.length(), entityName );
+
+        uint entityList_size = entityList.length();
+        uint randomizer_size = randomized.length();
+
+        // Swaps the list elements to randomize it. improve the logic here for a better result if you want.
+        for( int i = randomizer_size - 1; i > 0; i-- )
+        {
+            int j = Math.RandomLong( 0, i );
+            int temp = randomized[i];
+            randomized[i] = randomized[j];
+            randomized[j] = temp;
+        }
+
+        if( g_Logger.critical && entityList_size > randomized.length() )
+            g_Logger.critical = snprintf( glog, "Not enough randomizers for all the entities required! expected at least %1 %2", entityList_size, entityName );
+
+        for( uint ui = 0; ui < randomizer_size; ui++ )
+        {
+            @pRandomizer = g_EntityFuncs.Instance( randomized[ui] );
+
+            if( ui > entityList_size - 1 )
+                break; // Case we have more randomizer entities than the given list of entity names. these would be used for randomize_squad
+
+            if( pRandomizer !is null )
+                pRandomizer.Use( g_EntityFuncs.FindEntityByTargetname( null, entityList[ui] ), pRandomizer, USE_SET );
+        }
+
+        g_Randomizers[entityName] = randomized;
+    }
+
+    const bool Register()
+    {
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_npc" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_item" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_hull" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_boss" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_wave" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_headcrab" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "randomizer::CRandomizerEntity", "randomizer_hullwave" );
+        return true;
+    }
+
+    const bool IsRegistered = Register();
+
+    // Swap all squads to a random and unique location.
+    void Initialize()
+    {
+        Initialize( "randomizer_hullwave", {
+            "GM_R_BGARG_S1",
+            "GM_R_VOLT_S1",
+            "GM_R_VOLT_S2",
+            "GM_R_AGRUNT_S1",
+            "GM_R_AGRUNT_S2",
+            "GM_R_AGRUNT_S3",
+            "GM_R_AGRUNT_S4",
+            "GM_AGRUNT_TORTURED1",
+            "GM_AGRUNT_TORTURED2",
+            "GM_AGRUNT_TORTURED_A51",
+            "GM_AGRUNT_TORTURED_A52",
+            "GM_R_BULL_S1",
+            "GM_R_BULL_S2",
+            "GM_R_BULL_S3",
+            "GM_R_BULL_S4",
+            "GM_SNAP_R_S1",
+            "GM_SNAP_R_S2"
+        } );
+        Initialize( "randomizer_wave", {
+            "GM_R_SLAVE_S1",
+            "GM_R_SLAVE_S2",
+            "GM_R_SLAVE_S3",
+            "GM_R_SLAVE_S4",
+            "GM_R_SLAVE_S5",
+            "GM_R_SLAVE_S6",
+            "GM_R_HOUND_S3",
+            "GM_R_HOUND_S4",
+            "GM_R_HOUND_S5",
+            "GM_R_HOUND_S6",
+            "GM_R_SNARK_S1",
+            "GM_R_SNARK_S2",
+            "GM_R_PITDRONE_S1",
+            "GM_R_PITDRONE_S2",
+            "GM_R_PITDRONE_S3",
+            "GM_R_CRAB_S1",
+            "GM_R_CRAB_S2",
+            "GM_R_CRAB_S3",
+            "GM_R_CRAB_S4",
+            "GM_R_CRAB_S5",
+            "GM_CHUM_S1", // TORT ONLY
+            "GM_BABYVOLT_S1",
+            "GM_BABYVOLT_S2",
+            "GM_GONOME_S5",
+            "GM_GONOME_S6"
+        } );
+        Initialize( "randomizer_npc", {
+            "GM_SNAP_S1",
+            "GM_STUK_S1",
+            "GM_STUK_S2",
+            "GM_SLAVE_S1",
+            "GM_SLAVE_S2",
+            "GM_SLAVE_S3",
+            "GM_SLAVE_S4",
+            "GM_SLAVE_S5",
+            "GM_SLAVE_S6",
+            "GM_SLAVE_S7",
+            "GM_SLAVE_S8",
+            "GM_PITDRONE_S1",
+            "GM_PITDRONE_S2",
+            "GM_SNARK_S1",
+            "GM_SNARK_S2",
+            "GM_SNARK_S3",
+            "GM_HOUND_S1",
+            "GM_HOUND_S2",
+            "GM_HOUND_S3",
+            "GM_HOUND_S4",
+            "GM_HOUND_S5",
+            "GM_HOUND_S6",
+            "GM_GONOME_S1",
+            "GM_GONOME_S2",
+            "GM_SHOCK_S1",
+            "GM_ZM_S1",
+            "GM_ZM_S2",
+            "GM_ZM_S3",
+            "GM_ZM_S4",
+            "GM_ZM_S5",
+            "GM_ZM_S6",
+            "GM_ZM_S7",
+            "GM_ZM_S8",
+            "GM_ZM_S9",
+            "GM_ZM_S10",
+            "GM_ZM_S11",
+            "GM_ZM_S12",
+            "GM_ZM_S13",
+            "GM_ZM_S14",
+            "GM_ZM_S15",
+            "GM_ZM_S16",
+            "GM_ZM_S17",
+            "GM_ZM_S18",
+            "GM_ZM_S19",
+            "GM_ZM_S20",
+            "GM_ZM_S21",
+            "GM_ZM_S22",
+            "GM_ZM_S23",
+            "GM_ZM_S24",
+            "GM_ZM_S25",
+            "GM_ZM_S26",
+            "GM_ZM_S27",
+            "GM_ZM_S28",
+            "GM_ZM_S29",
+            "GM_ZM_S30",
+            "GM_ZM_CS_1",
+            "GM_ZM_CS_2",
+            "GM_ZM_ENG1",
+            "GM_ZM_ENG2"
+        } );
+        Initialize( "randomizer_boss", {
+            "GM_KPIN_S1",
+            "GM_TOR_S1",
+            "GM_VOLT_S2",
+            "GM_BGARG_S1"
+        } );
+        Initialize( "randomizer_hull", {
+            "GM_GONOME_S7",
+            "GM_PITDRONE_S3",
+            "GM_PITDRONE_S4",
+            "GM_GONOME_S3",
+            "GM_GONOME_S4",
+            "GM_AGRUNT_S1",
+            "GM_R_SLAVE_S7",
+            "GM_R_SLAVE_S8",
+            "GM_R_HOUND_S1",
+            "GM_R_HOUND_S2",
+            "GM_SHOCK_S2",
+            "GM_VOLT_S1",
+            "GM_BULL_S1",
+            "GM_BULL_S2",
+            "GM_BULL_S3",
+            "GM_ZM_CS_3",
+            "GM_ZM_CS_4",
+            "GM_ZM_ENG3",
+            "GM_ZM_ENG4"
+        } );
+        Initialize( "randomizer_item", {
+            // WEAPONS
+            "GM_SG_1",
+            "GM_SG_2",
+            "GM_SG_3",
+            "GM_SG_4",
+            "GM_CB_1",
+            "GM_CB_2",
+            "GM_CB_3",
+            "GM_CB_4",
+            "GM_KN_1",
+            "GM_PIPE_1",
+            "GM_PIPE_2",
+            "GM_PS_1",
+            "GM_SD_1",
+            "GM_AXE_1",
+            "GM_MAG_1",
+            "GM_MAG_2",
+            "GM_DE_1",
+            "GM_DE_2",
+            "GM_HG_1",
+            "GM_HG_2",
+            "GM_HG_3",
+            "GM_HG_4",
+            "GM_HG_5",
+            "GM_HG_6",
+            "GM_HG_7",
+            "GM_HG_8",
+            "GM_FGUN_1",
+            "GM_G18_1",
+            "GM_PHK_1",
+            "GM_PHK_2",
+            "GM_UZI_1",
+            "GM_MP5_1",
+            "GM_MP5_2",
+            "GM_M4_1",
+            "GM_M16_1",
+            "GM_SAW_1",
+            // ITEMS
+            "GM_HK_1",
+            "GM_HK_2",
+            "GM_HK_3",
+            // AMMO
+            "GM_AMMO_1",
+            "GM_AMMO_2",
+            "GM_AMMO_3",
+            "GM_AMMO_4",
+            "GM_AMMO_5",
+            "GM_AMMO_6",
+            "GM_AMMO_7",
+            "GM_AMMO_8",
+            "GM_AMMO_9",
+            "GM_AMMO_10",
+            "GM_AMMO_11",
+            "GM_AMMO_12",
+            "GM_AMMO_13",
+            "GM_AMMO_14",
+            "GM_AMMO_15",
+            "GM_AMMO_16",
+            "GM_AMMO_17",
+            "GM_AMMO_18",
+            "GM_AMMO_19",
+            "GM_AMMO_20",
+            "GM_AMMO_21",
+            "GM_AMMO_22",
+            "GM_AMMO_23",
+            "GM_AMMO_24",
+            "GM_AMMO_25",
+            "GM_AMMO_26",
+            "GM_AMMO_27",
+            "GM_AMMO_28",
+            "GM_AMMO_29",
+            "GM_AMMO_30",
+            "AU_AMMO_1",
+            "AU_AMMO_2",
+            "AU_AMMO_3",
+            "AU_AMMO_4",
+            "AU_AMMO_5",
+            "AU_AMMO_6",
+            "AU_AMMO_7",
+            "AU_AMMO_8",
+            "AU_AMMO_9",
+            "AU_AMMO_10",
+            "AU_AMMO_11",
+            "AU_AMMO_12",
+            // PLAYER COUNT AMMO
+            "GM_AMMO_PC1",
+            "GM_AMMO_PC2",
+            "GM_AMMO_PC3",
+            "GM_AMMO_PC4",
+            "GM_AMMO_PC5",
+            "GM_AMMO_PC6",
+            "GM_AMMO_PC7",
+            // BATTERIES
+            "GM_BA_1",
+            "GM_BA_2",
+            "GM_BA_3",
+            "GM_BA_4",
+            "GM_BA_5",
+            // ITEMS
+            "objective_dorms_key3",
+            "objective_dorms_key4",
+            "GM_ANTIDOTE_1",
+            "GM_ANTIDOTE_2",
+            "GM_ANTIDOTE_3",
+            "GM_ANTIDOTE_4",
+            "GM_FLR_1",
+            "GM_FLR_2",
+            "GM_FLR_3",
+            "GM_FLR_4",
+            "GM_FLR_5",
+            "GM_FLR_6",
+            "GM_FLASH_1",
+            "GM_FLASH_2",
+            "GM_FLASH_3",
+            "GM_FLASH_4",
+            "GM_TOOLBOX_1",
+            "GM_TOOLBOX_2"
+        } );
+        Initialize( "randomizer_headcrab", {
+            "GM_HEAD_S1",
+            "GM_HEAD_S2",
+            "GM_HEAD_S3",
+            "GM_HEAD_S4",
+            "GM_HEAD_S5",
+            "GM_HEAD_S6",
+            "GM_HEAD_S7",
+            "GM_HEAD_S8",
+            "GM_HEADZOEA_S1",
+            "GM_HEADZOEA_S2",
+            "GM_HEADZOEA_S3",
+            "GM_HEADZOEA_S4",
+            "GM_SNAP_S2"
+        } );
+    }
+}

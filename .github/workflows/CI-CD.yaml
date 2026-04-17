@@ -1,40 +1,27 @@
-name: CI CD
+name: Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - "*"
 
 jobs:
   release:
-    name: CI-CD
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Clean up
-      run: |
-        Remove-Item -Path Debug.zip -Force -ErrorAction Ignore
-        Remove-Item -Path Release.zip -Force -ErrorAction Ignore
+      - name: Compress scripts
+        run: |
+          zip -r bts_rc.zip scripts/
 
-    - name: Build zips
-      run: python build.py
-
-    - name: Release Release.zip
-      uses: xresloader/upload-to-github-release@v1.6.0
-      with:
-        file: Release.zip
-        token: ${{ secrets.TOKEN }}
-        default_release_name: ${{ github.ref_name }}
-        tag_name: ${{ github.ref_name }}
-        draft: false
-
-    - name: Release Debug.zip
-      uses: xresloader/upload-to-github-release@v1.6.0
-      with:
-        file: Debug.zip
-        token: ${{ secrets.TOKEN }}
-        default_release_name: ${{ github.ref_name }}
-        tag_name: ${{ github.ref_name }}
-        draft: false
+      - name: Release scripts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: bts_rc.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,9 @@
+#include "ammo/main"
+#include "items/main"
+#include "weapons/main"
+
+#include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
+
+#include "func_bts_recharger"
+#include "point_checkpoint"
+#include "trigger_update_class"

@@ -1,0 +1,154 @@
+
+body
+{
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #1a1a1a, #000);
+    color: #ddd;
+}
+
+header
+{
+    background: linear-gradient(90deg, #111, #222);
+    padding: 40px;
+    text-align: center;
+    border-bottom: 2px solid orange;
+}
+
+h1
+{
+    color: orange;
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.rescasc
+{
+    color: rgb( 255, 0, 0);
+}
+
+.play-btn
+{
+    margin-top: 20px;
+    padding: 20px 60px;
+    font-size: 2em;
+    background: orange;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.play-btn:hover
+{
+    background: #ff6600;
+    transform: scale(1.05);
+}
+
+.container
+{
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section
+{
+    margin-bottom: 40px;
+}
+
+.card
+{
+    background: #111;
+    padding: 20px;
+    border: 1px solid #333;
+    border-left: 4px solid orange;
+    margin-bottom: 20px;
+}
+
+.grid
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+img
+{
+    width: 100%;
+    border: 1px solid #333;
+}
+
+footer
+{
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    border-top: 1px solid #222;
+}
+
+/*Video container*/
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    border: 2px solid orange;
+    box-shadow: 0 0 20px rgba(255,140,0,0.3);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*Changelog*/
+.changelog-item
+{
+    border: 1px solid #333;
+    margin-bottom: 10px;
+    background: #111;
+}
+
+.changelog-header
+{
+    padding: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    color: orange;
+    background: #1a1a1a;
+    transition: 0.2s;
+}
+
+.changelog-header:hover
+{
+    background: #222;
+}
+
+.changelog-content
+{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 15px;
+}
+
+.changelog-content.open
+{
+    max-height: 500px; /* suficiente para contenido */
+    padding: 15px;
+}
+
+.changelog-content li
+{
+    margin-left: 20px;
+}
+
+.changelog-content code
+{
+    background: #222;
+    padding: 2px 5px;
+    color: #0f0;
+}
