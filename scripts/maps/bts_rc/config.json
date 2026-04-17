@@ -165,6 +165,13 @@
         "secondary_damage": 14
     },
 
+    "weapon_crowbar":
+    {
+        "slot": 0,
+        "position": 10,
+        "weight": 10
+    },
+
     "weapon_bts_screwdriver":
     {
         "slot": 0,

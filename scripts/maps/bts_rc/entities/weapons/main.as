@@ -11,6 +11,7 @@
 #include "Melee/weapon_bts_pipe"
 #include "Melee/weapon_bts_poolstick"
 #include "Melee/weapon_bts_screwdriver"
+#include "Melee/weapon_crowbar"
 
 #include "base/BTS_FireWeapon"
 
