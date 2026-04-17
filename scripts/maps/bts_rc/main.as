@@ -30,7 +30,6 @@
 #include "entities/main"
 #include "gamemodes/main"
 #include "Hooks/main"
-#include "weapons/main"
 
 // Has the game started in the map?
 bool gpGameStarted;
