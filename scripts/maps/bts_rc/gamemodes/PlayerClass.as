@@ -294,7 +294,7 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
 
     __JoinedPlayers__[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] = true;
 
-    UpdateArmor( player, classify );
+    UpdatePlayerData( player, classify );
 }
 
 void SetRandomClass( CBasePlayer@ player, array<Classification>@ range )
@@ -302,36 +302,25 @@ void SetRandomClass( CBasePlayer@ player, array<Classification>@ range )
     SetClass( player, range[ Math.RandomLong( 0, range.length() - 1 ) ] );;
 }
 
-float gpMaxArmorHEV; // -TODO To json?
-float gpMaxArmorHazard;
-float gpMaxArmorDefault;
+void SerPlayerDurability( CBasePlayer@ player, float health, float armor )
+{
+    player.pev.armortype = armor;
+    player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
+    player.pev.max_health = health;
+    player.pev.health = Math.min( player.pev.health, player.pev.max_health );
+}
 
-void UpdateArmor( CBasePlayer@ player, const Classification&in classify )
+void UpdatePlayerData( CBasePlayer@ player, const Classification&in classify )
 {
     switch( classify )
     {
-        case Classification::HEV:
-        {
-            player.pev.armortype = 100;
-            player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
-            break;
-        }
-        case Classification::Hazard:
-        {
-            player.pev.armortype = 75;
-            player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
-            break;
-        }
-        default:
-        {
-            player.pev.armortype = 50;
-            player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
-            break;
-        }
+        case Classification::HEV: SerPlayerDurability( player, 100, 100 ); break;
+        case Classification::Hazard: SerPlayerDurability( player, 75, 75 ); break;
+        default: SerPlayerDurability( player, 50, 50 ); break;
     }
 }
 
-void UpdateArmor( CBasePlayer@ player )
+void UpdatePlayerData( CBasePlayer@ player )
 {
-    UpdateArmor( player, util::GetClass( player ) );
+    UpdatePlayerData( player, util::GetClass( player ) );
 }
