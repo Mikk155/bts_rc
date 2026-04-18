@@ -44,7 +44,8 @@ code:hover
 */
 
 /* title text */
-#title1{
+#title1
+{
     font-size: 20px;
     text-align: center;
     color: white;
@@ -134,7 +135,8 @@ footer
 }
 
 /*Video container*/
-.video-container {
+.video-container
+{
     position: relative;
     width: 100%;
     padding-top: 56.25%; /* 16:9 */
@@ -142,7 +144,8 @@ footer
     box-shadow: 0 0 20px rgba(255,140,0,0.3);
 }
 
-.video-container iframe {
+.video-container iframe
+{
     position: absolute;
     top: 0;
     left: 0;
@@ -239,7 +242,8 @@ footer
     color: #888;
 }
 
-.copy-btn {
+.copy-btn
+{
     background: #222;
     border: 1px solid #333;
     color: #0f0;
@@ -249,18 +253,21 @@ footer
     transition: 0.2s;
 }
 
-.copy-btn:hover {
+.copy-btn:hover
+{
     background: #333;
 }
 
-pre {
+pre
+{
     margin: 0;
     padding: 15px;
     overflow-x: auto;
 }
 
 /* links and buttons */
-a, button{
+a, button
+{
     cursor: default;
     color: var(--orange);
     text-decoration: none;
@@ -270,7 +277,8 @@ a, button{
     font-weight: bold;
 }
 /* link hover */
-a:hover, button:hover{
+a:hover, button:hover
+{
     color: #FFF94D;
     text-shadow: 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 15px var(--orange);
     text-decoration: none;
@@ -285,21 +293,24 @@ a:active
     transition-duration: 0.02s;
 }
 
-.inactive{
+.inactive
+{
     pointer-events: none;
     color: #646464;
 }
 
 /* animations */
 /* Background image changing */
-.bg-slider {
+.bg-slider
+{
     position: fixed;
     inset: 0;
     z-index: -1;
     overflow: hidden;
 }
 
-.bg-slide {
+.bg-slide
+{
     position: absolute;
     inset: 0;
 
@@ -310,22 +321,26 @@ a:active
     transition: opacity 1.5s ease;
 }
 
-.bg-slide.active {
+.bg-slide.active
+{
     opacity: 1;
 }
 
-.bg-slider::after {
+.bg-slider::after
+{
     content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(circle, transparent, black 80%);
 }
 
-.bg-slide.active {
+.bg-slide.active
+{
     animation: zoom 6s ease forwards;
 }
 
-@keyframes zoom {
+@keyframes zoom
+{
     from { transform: scale(1); }
     to { transform: scale(1.05); }
 }
