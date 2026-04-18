@@ -57,14 +57,14 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         return "models/bts_rc/weapons/v_crowbar.mdl";
     }
 
+    uint viewmodelIndex;
+
     void Precache() override
     {
-        g_Game.PrecacheModel( this.world_model );
-        g_Game.PrecacheModel( this.player_model );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
         this.viewmodelIndex = g_Game.PrecacheModel( this.view_model );
+        ASMeleeWeaponConfig::Precache();
     }
-
-    uint viewmodelIndex;
 
     void Parse( dictionary@ json ) override
     {
@@ -88,6 +88,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
             if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
             {
+                g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NONE );
                 player.pev.viewmodel = gpWeaponCrowbarConfig.view_model;
                 weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, ( character !is null ? character.HandsGroup : Hands::Gray ) );
                 weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body ); // Resend the current animation to update the bodygroup
@@ -95,6 +96,8 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
             return HOOK_CONTINUE;
         } ) );
+
+        g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", this.primary_damage );
     }
 }
 

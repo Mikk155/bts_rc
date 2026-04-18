@@ -100,17 +100,9 @@
     {
         "slot": 0,
         "position": 10,
-
-        // Weigth defines the priority to select the weapon when pickup comparing to the current active weapon's weigth
         "weight": 10,
-
-        // Weapon deploy time before being able to attack
         "deploy_time": 0.7,
-
-        // Attack distance
         "primary_distance": 45,
-
-        // Attack cooldown
         "primary_cooldown": 0.8,
         "primary_trained_cooldown": 0.4,
         "primary_miss_cooldown": 1.25,
@@ -119,19 +111,15 @@
         "secondary_trained_cooldown": 0.25,
         "secondary_miss_cooldown": 1.35,
         "secondary_miss_trained_cooldown": 1.0,
-
-        // 50% damage on subsequent hits
         "subsequent_hits_deduction": 0.5,
-
-        // Damage
         "primary_damage": 20,
         "secondary_damage": 14
     },
-
     "weapon_crowbar":
     {
+        "primary_damage": 13,
+        "deploy_time": 0.4
     },
-
     "weapon_bts_screwdriver":
     {
         "slot": 0,
@@ -146,7 +134,6 @@
         "primary_miss_trained_cooldown": 0.5,
         "subsequent_hits_deduction": 0.5
     },
-
     "weapon_bts_poolstick":
     {
         "slot": 0,
@@ -167,7 +154,6 @@
         "secondary_miss_trained_cooldown": 0.75,
         "subsequent_hits_deduction": 0.5
     },
-
     "weapon_bts_pipe":
     {
         "slot": 0,
@@ -188,7 +174,6 @@
         "secondary_miss_trained_cooldown": 0.7,
         "subsequent_hits_deduction": 0.5
     },
-
     "weapon_bts_knife":
     {
         "slot": 0,
