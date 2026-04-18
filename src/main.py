@@ -22,6 +22,9 @@ def Main() -> int:
 
     if LOCAL_BUILDER:
 
+        from PyLicense import PyLicense;
+        Builders.append( PyLicense() );
+
         from PyDocumentation import PyDocumentation;
         Builders.append( PyDocumentation() );
 
