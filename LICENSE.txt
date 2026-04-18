@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Mikk155
+Copyright (c) 2025 Mikk155 https://github.com/Mikk155/bts_rc
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
