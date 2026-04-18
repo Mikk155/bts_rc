@@ -28,6 +28,42 @@ enum AttackType
     Tertriary
 };
 
+namespace weapons
+{
+    bool Deploy( CBasePlayerWeapon@ weapon, CBasePlayer@ player, ASWeaponConfig@ config )
+    {
+        if( weapon is null || player is null || config is null )
+            return false;
+
+        player.pev.viewmodel = config.view_model;
+        player.pev.weaponmodel = config.player_model;
+
+        player.set_m_szAnimExtension( config.animation_extension );
+
+        auto character = GetCharacter(player);
+        Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
+
+        // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( config.view_model ), weapon.pev.body, config.hands_group, handGroup );
+
+        weapon.SendWeaponAnim( config.animation_draw, 0, weapon.pev.body );
+
+        player.m_flNextAttack = config.deploy_time;
+        float globalized_deploy = config.deploy_time + g_Engine.time;
+
+        if( weapon.m_flNextPrimaryAttack < globalized_deploy )
+            weapon.m_flNextPrimaryAttack = globalized_deploy;
+
+        if( weapon.m_flTimeWeaponIdle < globalized_deploy )
+            weapon.m_flTimeWeaponIdle = globalized_deploy;
+
+        if( weapon.m_flNextSecondaryAttack < globalized_deploy )
+            weapon.m_flNextSecondaryAttack = globalized_deploy;
+
+        return true;
+    }
+}
+
 // Base class for all weapons
 abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 {
@@ -55,36 +91,8 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         self.FallInit();
     }
 
-    bool Deploy()
-    {
-        auto player = this.owner;
-
-        player.pev.viewmodel = this.config.view_model;
-        player.pev.weaponmodel = this.config.player_model;
-
-        player.set_m_szAnimExtension( this.config.animation_extension );
-
-        auto character = GetCharacter(player);
-        Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
-
-        // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
-        self.pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( this.config.view_model ), self.pev.body, this.config.hands_group, handGroup );
-
-        self.SendWeaponAnim( this.config.animation_draw, 0, self.pev.body );
-
-        player.m_flNextAttack = this.config.deploy_time;
-        float globalized_deploy = this.config.deploy_time + g_Engine.time;
-
-        if( self.m_flNextPrimaryAttack < globalized_deploy )
-            self.m_flNextPrimaryAttack = globalized_deploy;
-
-        if( self.m_flTimeWeaponIdle < globalized_deploy )
-            self.m_flTimeWeaponIdle = globalized_deploy;
-
-        if( self.m_flNextSecondaryAttack < globalized_deploy )
-            self.m_flNextSecondaryAttack = globalized_deploy;
-
-        return true;
+    bool Deploy() {
+        return weapons::Deploy( self, this.owner, this.config );
     }
 
     bool GetItemInfo( ItemInfo& out info )
