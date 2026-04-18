@@ -49,11 +49,6 @@ abstract class ASWeaponConfig : IConfigContext
     // Weapon classname to add ItemMapping
     const string& get_remap() { return String::EMPTY_STRING; }
 
-    // Precache required assets. NOTE: v, p and w models are precached automatically.
-    void Precache()
-    {
-    }
-
     // Weapon deploy time cooldown for attacking. automatically set in BTS_Weapon::Deploy
     float deploy_time;
     // Weapon primary max ammo capacity. automatically set in BTS_Weapon::GetItemInfo
@@ -151,15 +146,19 @@ abstract class ASWeaponConfig : IConfigContext
         g_Game.PrecacheGeneric( szSpriteDir );
     }
  
+    // Precache required assets. NOTE: v, p and w models are precached automatically.
+    void Precache()
+    {
+        g_Game.PrecacheModel( this.view_model );
+        g_Game.PrecacheModel( this.world_model );
+        g_Game.PrecacheModel( this.player_model );
+    }
+
     void Parse( dictionary@ json )
     {
         this.Precache();
 
         this.ParseDefaultVariables( json );
-
-        g_Game.PrecacheModel( this.view_model );
-        g_Game.PrecacheModel( this.world_model );
-        g_Game.PrecacheModel( this.player_model );
 
         this.RegisterWeapon();
     }
