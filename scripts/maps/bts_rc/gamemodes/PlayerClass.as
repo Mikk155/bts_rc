@@ -218,6 +218,8 @@ CCharacter@ GetCharacter( CBaseEntity@ player )
     return GetCharacter( cast<CBasePlayer@>(player) );
 }
 
+dictionary __JoinedPlayers__;
+
 /// Set the player class
 void SetClass( CBasePlayer@ player, const Classification&in classify )
 {
@@ -244,8 +246,6 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
 
     @data[ "character" ] = character;
 
-    auto playerData = util::GetPlayerData(player);
-
     if( player.IsAlive() )
     {
         // Re-Deploy weapon to update view model hands
@@ -264,12 +264,12 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
             }
         }
     }
-    else if( !playerData.HasStartedPlaying )
+    else if( !__JoinedPlayers__.exists( g_EngineFuncs.GetPlayerAuthId( player.edict() ) ) )
     {
         g_PlayerFuncs.RespawnPlayer( player, false, true );
     }
 
-    playerData.HasStartedPlaying = true;
+    __JoinedPlayers__[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] = true;
 
     UpdateArmor( player, classify );
 }
