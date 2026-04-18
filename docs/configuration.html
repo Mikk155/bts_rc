@@ -1,0 +1,441 @@
+
+<table class="schema-table">
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+</tr>
+</thead>
+<tbody>
+
+
+<tr class="schema-row" data-description="Reference to the JSON schema file used for validation and editor hinting.">
+    <td>
+        <span class="prop-name" data-copy="$schema">
+            $schema
+        </span>
+    </td>
+    <td>string</td>
+    <td>Reference to the JSON schema file used for validation and editor hinting.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Enable or disable player voice responses.">
+    <td>
+        <span class="prop-name" data-copy="voice_responses">
+            voice_responses
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Enable or disable player voice responses.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Enable laser aiming visuals for turrets.">
+    <td>
+        <span class="prop-name" data-copy="turret_lasers">
+            turret_lasers
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Enable laser aiming visuals for turrets.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="If enabled, HEV batteries will emit dynamic light.">
+    <td>
+        <span class="prop-name" data-copy="battery_lighting">
+            battery_lighting
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>If enabled, HEV batteries will emit dynamic light.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Logging configuration per severity level.">
+    <td>
+        <span class="prop-name" data-copy="log">
+            log
+        </span>
+    </td>
+    <td>object</td>
+    <td>Logging configuration per severity level.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="error">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>error
+        </span>
+    </td>
+    <td>boolean</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="info">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>info
+        </span>
+    </td>
+    <td>boolean</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="trace">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>trace
+        </span>
+    </td>
+    <td>boolean</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="warning">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>warning
+        </span>
+    </td>
+    <td>boolean</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="critical">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>critical
+        </span>
+    </td>
+    <td>boolean</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="Controls blood puddle behavior and appearance.">
+    <td>
+        <span class="prop-name" data-copy="bloodpuddle">
+            bloodpuddle
+        </span>
+    </td>
+    <td>object</td>
+    <td>Controls blood puddle behavior and appearance.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Enable or disable blood puddle generation.">
+    <td>
+        <span class="prop-name" data-copy="active">
+            <span class="prop-object">bloodpuddle</span><span class="prop-separator">-></span>active
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Enable or disable blood puddle generation.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="If true, puddles remain indefinitely. Otherwise they fade out.">
+    <td>
+        <span class="prop-name" data-copy="persistent">
+            <span class="prop-object">bloodpuddle</span><span class="prop-separator">-></span>persistent
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>If true, puddles remain indefinitely. Otherwise they fade out.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Random size range for puddles (min, max).">
+    <td>
+        <span class="prop-name" data-copy="default_size">
+            <span class="prop-object">bloodpuddle</span><span class="prop-separator">-></span>default_size
+        </span>
+    </td>
+    <td>array</td>
+    <td>Random size range for puddles (min, max).</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Per-monster custom puddle size overrides.">
+    <td>
+        <span class="prop-name" data-copy="custom_size">
+            <span class="prop-object">bloodpuddle</span><span class="prop-separator">-></span>custom_size
+        </span>
+    </td>
+    <td>object</td>
+    <td>Per-monster custom puddle size overrides.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="additionalProperties">
+            <span class="prop-object"><span class="prop-object">bloodpuddle</span><span class="prop-separator">-></span>custom_size</span><span class="prop-separator">-></span><span class="prop-separator">[</span>array<span class="prop-separator">]</span>
+        </span>
+    </td>
+    <td>array</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="Controls headcrab detachment behavior from zombies.">
+    <td>
+        <span class="prop-name" data-copy="zombie_uncrab">
+            zombie_uncrab
+        </span>
+    </td>
+    <td>object</td>
+    <td>Controls headcrab detachment behavior from zombies.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Enable headcrabs detaching from zombies.">
+    <td>
+        <span class="prop-name" data-copy="active">
+            <span class="prop-object">zombie_uncrab</span><span class="prop-separator">-></span>active
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Enable headcrabs detaching from zombies.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="If true, spawning depends on damage dealt. Otherwise always spawns with full health.">
+    <td>
+        <span class="prop-name" data-copy="track_health">
+            <span class="prop-object">zombie_uncrab</span><span class="prop-separator">-></span>track_health
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>If true, spawning depends on damage dealt. Otherwise always spawns with full health.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Defines item drop tables for entities (by classname or model).">
+    <td>
+        <span class="prop-name" data-copy="deathdrop">
+            deathdrop
+        </span>
+    </td>
+    <td>object</td>
+    <td>Defines item drop tables for entities (by classname or model).</td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="additionalProperties">
+            <span class="prop-object">deathdrop</span><span class="prop-separator">-></span><span class="prop-separator">[</span>array<span class="prop-separator">]</span>
+        </span>
+    </td>
+    <td>array</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="Configuration for wall-mounted chargers.">
+    <td>
+        <span class="prop-name" data-copy="wall_recharger">
+            wall_recharger
+        </span>
+    </td>
+    <td>object</td>
+    <td>Configuration for wall-mounted chargers.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Maximum available charge.">
+    <td>
+        <span class="prop-name" data-copy="juice">
+            <span class="prop-object">wall_recharger</span><span class="prop-separator">-></span>juice
+        </span>
+    </td>
+    <td>number</td>
+    <td>Maximum available charge.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Time (seconds) required to fully recharge.">
+    <td>
+        <span class="prop-name" data-copy="recharge_time">
+            <span class="prop-object">wall_recharger</span><span class="prop-separator">-></span>recharge_time
+        </span>
+    </td>
+    <td>number</td>
+    <td>Time (seconds) required to fully recharge.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Charge transfer rate to player.">
+    <td>
+        <span class="prop-name" data-copy="speed_rate">
+            <span class="prop-object">wall_recharger</span><span class="prop-separator">-></span>speed_rate
+        </span>
+    </td>
+    <td>number</td>
+    <td>Charge transfer rate to player.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Global weapon-related gameplay modifiers.">
+    <td>
+        <span class="prop-name" data-copy="weapons">
+            weapons
+        </span>
+    </td>
+    <td>object</td>
+    <td>Global weapon-related gameplay modifiers.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Allow melee weapons to pull allied players.">
+    <td>
+        <span class="prop-name" data-copy="melee_weapons_pull">
+            <span class="prop-object">weapons</span><span class="prop-separator">-></span>melee_weapons_pull
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Allow melee weapons to pull allied players.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Allow melee weapons to push small enemies.">
+    <td>
+        <span class="prop-name" data-copy="melee_weapons_push">
+            <span class="prop-object">weapons</span><span class="prop-separator">-></span>melee_weapons_push
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Allow melee weapons to push small enemies.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Enable extra blood effects on hit.">
+    <td>
+        <span class="prop-name" data-copy="blood_splash">
+            <span class="prop-object">weapons</span><span class="prop-separator">-></span>blood_splash
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Enable extra blood effects on hit.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Enable spark effects when hitting armored enemies.">
+    <td>
+        <span class="prop-name" data-copy="sparks_splash">
+            <span class="prop-object">weapons</span><span class="prop-separator">-></span>sparks_splash
+        </span>
+    </td>
+    <td>boolean</td>
+    <td>Enable spark effects when hitting armored enemies.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="weapon_bts_axe">
+            weapon_bts_axe
+        </span>
+    </td>
+    <td>object</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="primary_distance">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>primary_distance
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="secondary_distance">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>secondary_distance
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="tertriary_distance">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>tertriary_distance
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="Damage multiplier applied to consecutive hits.">
+    <td>
+        <span class="prop-name" data-copy="subsequent_hits_deduction">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>subsequent_hits_deduction
+        </span>
+    </td>
+    <td>number</td>
+    <td>Damage multiplier applied to consecutive hits.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="primary_miss_cooldown">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>primary_miss_cooldown
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="primary_miss_trained_cooldown">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>primary_miss_trained_cooldown
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="secondary_miss_cooldown">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>secondary_miss_cooldown
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="secondary_miss_trained_cooldown">
+            <span class="prop-object">weapon_bts_axe</span><span class="prop-separator">-></span>secondary_miss_trained_cooldown
+        </span>
+    </td>
+    <td>number</td>
+    <td></td>
+</tr>
+
+</tbody></table>

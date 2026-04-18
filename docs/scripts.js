@@ -15,6 +15,7 @@ document.addEventListener( "DOMContentLoaded", () =>
     initUISounds();
     initSlider();
     loadChangelog();
+    loadSchemaDocs();
 } );
 
 function initUISounds()
@@ -228,5 +229,56 @@ function copyCode( button )
     navigator.clipboard.writeText( code ).then( () => {
         button.innerText = "✅ Copied";
         setTimeout(() => { button.innerText = "Copy"; }, 1500 );
+    } );
+}
+
+async function loadSchemaDocs()
+{
+    const res = await fetch( "configuration.html" );
+    const html = await res.text();
+
+    const container = document.getElementById( "schema-container" );
+    container.innerHTML = html;
+
+    setupInteractions();
+}
+
+function setupInteractions()
+{
+/*
+    document.querySelectorAll( ".schema-row" ).forEach(row =>
+    {
+        row.addEventListener( "mouseenter", e =>
+        {
+            const desc = row.dataset.description;
+
+            if( !desc )
+                return;
+
+            const tooltip = document.createElement( "div" );
+            tooltip.className = "tooltip";
+            tooltip.innerText = desc;
+
+            document.body.appendChild( tooltip );
+
+            row._tooltip = tooltip;
+        } );
+
+        row.addEventListener( "mouseleave", () =>
+        {
+            if( row._tooltip )
+            {
+                row._tooltip.remove();
+            }
+        } );
+    } );
+*/
+
+    document.querySelectorAll( ".prop-name" ).forEach( el =>
+    {
+        el.addEventListener( "click", () =>
+        {
+            navigator.clipboard.writeText( el.dataset.copy );
+        } );
     } );
 }

@@ -265,6 +265,50 @@ pre
     overflow-x: auto;
 }
 
+/* map json schema configuration data */
+.schema-table
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.schema-table td, .schema-table th
+{
+    border: 1px solid #444;
+    padding: 8px;
+}
+
+.prop-name
+{
+    cursor: pointer;
+    color: #4fc3f7;
+}
+
+.prop-separator
+{
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+}
+
+.prop-object
+{
+    cursor: pointer;
+    color: #00ff88
+}
+
+/*
+.tooltip
+{
+    position: fixed;
+    background: #222;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    pointer-events: none;
+}
+*/
+
 /* links and buttons */
 a, button
 {

@@ -1,3 +1,4 @@
+__pycache__/
 
 maps/*
 !maps/bts_rc_test_chamber.as
