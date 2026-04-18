@@ -7,6 +7,7 @@
 #include "ConfigContext"
 #include "CustomEntity"
 #include "freeedicts"
+#include "json"
 #include "Logger"
 #include "models"
 #include "PlayerClass"

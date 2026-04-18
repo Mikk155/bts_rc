@@ -91,10 +91,15 @@ class CLogger
         set { this.print( "critical" ); }
     }
 
-    void __Register__( dictionary@ json )
+    void __Register__( BTS_Json@ json )
     {
-        if( json.get( "error", this.__error__ ) && this.__error__ )
-            g_Game.AlertMessage( at_console, "Enabled \"error\" logger\n" );
+        dictionary@ data = json[ "log" ];
+
+        json.get( "error", this.__error__, true, false, data );
+#if METAMOD_DEBUG
+        data[ "description" ] = "Should the game display error messages?";
+#endif
+/*
         if( json.get( "info", this.__info__ ) && this.__info__ )
             g_Game.AlertMessage( at_console, "Enabled \"info\" logger\n" );
         if( json.get( "trace", this.__trace__ ) && this.__trace__ )
@@ -103,7 +108,7 @@ class CLogger
             g_Game.AlertMessage( at_console, "Enabled \"warning\" logger\n" );
         if( json.get( "critical", this.__critical__ ) && this.__critical__ )
             g_Game.AlertMessage( at_console, "Enabled \"critical\" logger\n" );
-
+*/
         RegisterCommand( "log", "<string logger>", "Toggle log levels. one of; error, info, trace, warning, critical.", 
             CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
