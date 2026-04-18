@@ -77,6 +77,7 @@ class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hit1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hit2.wav" );
+        ASMeleeWeaponConfig::Precache();
     }
 }
 

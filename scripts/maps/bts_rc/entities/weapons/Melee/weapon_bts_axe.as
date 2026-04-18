@@ -81,6 +81,7 @@ class CWeaponAxeConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_miss1.wav" );
+        ASMeleeWeaponConfig::Precache();
     }
 }
 

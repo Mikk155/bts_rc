@@ -76,6 +76,7 @@ class CWeaponPoolstickConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "debris/wood1.wav" );
         g_SoundSystem.PrecacheSound( "debris/wood2.wav" );
+        ASMeleeWeaponConfig::Precache();
     }
 }
 
