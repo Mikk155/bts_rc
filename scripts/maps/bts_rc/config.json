@@ -1,4 +1,7 @@
 {
+    // Schema validation. use Visual Studio code to get proper hinting or visit the website documentation: https://mikk155.github.io/bts_rc/
+    "$schema": "schema.json",
+
     // Whatever player voices are enabled
     "voice_responses": true,
 
