@@ -1,5 +1,12 @@
+*.bsp binary
+*.map binary
+*.png binary
+*.wav binary
+*.ico binary
+*.res linguist-vendored
 *.as linguist-language=AngelScript
 *.json linguist-language=AngelScript
+docs/* linguist-documentation=false
 *.py linguist-language=Python
 *.js linguist-language=JavaScript
 *.html linguist-language=HTML
