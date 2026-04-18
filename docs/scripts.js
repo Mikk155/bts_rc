@@ -1,7 +1,7 @@
 const sounds = {
-    hover: new Audio("buttonrollover.wav"),
-    click: new Audio("buttonclick.wav"),
-    release: new Audio("buttonclickrelease.wav")
+    hover: new Audio( "buttonrollover.wav" ),
+    click: new Audio( "buttonclick.wav" ),
+    release: new Audio( "buttonclickrelease.wav" )
 };
 
 function playSound( sound )
@@ -107,7 +107,7 @@ function initSlider()
 
     const slides = document.querySelectorAll( ".bg-slide" );
 
-    if ( slides.length < 2 )
+    if( slides.length < 2 )
     {
         console.warn( "Slider necesita al menos 2 .bg-slide" );
         return;
@@ -154,14 +154,16 @@ async function loadChangelog()
 
 function parseMarkdown( md )
 {
-    const lines = md.split("\n");
+    const lines = md.split( "\n" );
     let html = "";
 
     let currentContent = "";
     let currentTitle = "";
 
-    function flushBlock() {
-        if (!currentTitle) return;
+    function flushBlock()
+    {
+        if( !currentTitle )
+            return;
 
         html += `
         <div class="changelog-item">
@@ -175,21 +177,25 @@ function parseMarkdown( md )
         currentContent = "";
     }
 
-    for (let line of lines) {
+    for( let line of lines )
+    {
 
-        if (line.startsWith("# ")) {
+        if( line.startsWith( "# " ) )
+        {
             flushBlock();
             currentTitle = line.substring(2);
             continue;
         }
 
-        if (line.startsWith("- ")) {
-            currentContent += `<li>${inlineParse(line.substring(2))}</li>`;
+        if( line.startsWith( "- " ) )
+        {
+            currentContent += `<li>${inlineParse( line.substring(2) )}</li>`;
             continue;
         }
 
-        if (line.trim() !== "") {
-            currentContent += `<p>${inlineParse(line)}</p>`;
+        if( line.trim() !== "" )
+        {
+            currentContent += `<p>${inlineParse( line )}</p>`;
         }
     }
 
@@ -198,19 +204,21 @@ function parseMarkdown( md )
     return html;
 }
 
-function inlineParse(text) {
-    text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-    text = text.replace(/`(.*?)`/g, "<code>$1</code>");
+function inlineParse( text )
+{
+    text = text.replace( /\*\*(.*?)\*\*/g, "<b>$1</b>" );
+    text = text.replace( /`(.*?)`/g, "<code>$1</code>" );
     return text;
 }
 
-function attachToggleEvents() {
-    document.querySelectorAll(".changelog-header").forEach( header => {
-        header.addEventListener("click", () => {
+function attachToggleEvents()
+{
+    document.querySelectorAll( ".changelog-header" ).forEach( header => {
+        header.addEventListener( "click", () => {
             const content = header.nextElementSibling;
-            content.classList.toggle("open");
-        });
-    });
+            content.classList.toggle( "open" );
+        } );
+    } );
 }
 
 function copyCode( button )
