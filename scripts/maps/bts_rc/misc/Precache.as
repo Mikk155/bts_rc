@@ -64,7 +64,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/saw_reload2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_clip.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/g_bounce3.wav" );
-    g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_pinpull.wav" );
     g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hit1.wav" );
     g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hit2.wav" );
