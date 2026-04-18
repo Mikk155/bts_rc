@@ -87,6 +87,7 @@ class CWeaponKnifeConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh2.wav" );
+        ASMeleeWeaponConfig::Precache();
     }
 }
 
