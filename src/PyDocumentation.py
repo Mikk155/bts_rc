@@ -3,15 +3,15 @@ import json;
 import pathlib;
 from main import *
 
-class PyDocumentation:
+class PyDocumentation( PyBuilder ):
 
-    def Build() -> bool:
+    def Build(self) -> bool:
 
         def loadSchemaObject() -> dict:
             schemaPath: str = os.path.join( gpWorkspace, "scripts", "maps", "bts_rc", "schema.json" );
-            with open( os.path.join( gpWorkspace, "scripts", "maps", "bts_rc", "schema.json" ), "r", encoding="utf-8" ) as file:
+            with open( schemaPath, "r", encoding="utf-8" ) as file:
                 return json.load( file );
-            print( "Error: Couldn't open {}".format( schemaPath ) );
+            self.Log( "Error: Couldn't open {}", schemaPath );
             sys.exit(1);
 
         # supports only internal refs (#/$defs/...)
@@ -112,6 +112,6 @@ class PyDocumentation:
 
         documentationFile.write_text( html, encoding="utf-8" );
 
-        print( "Generated {}".format( documentationPath ) );
+        self.Log( "Generated documentation at {}", documentationPath.replace( gpWorkspace, "" ) );
 
         return True;

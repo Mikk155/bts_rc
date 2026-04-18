@@ -7,6 +7,7 @@
 
 import os;
 import sys;
+from PyBuilder import PyBuilder;
 from typing import Literal, LiteralString, Optional
 
 gpEmptyString: Literal[ "" ] = "";
@@ -15,11 +16,27 @@ gpWorkspace: LiteralString = os.path.dirname( os.path.dirname( __file__ ) );
 
 def Main() -> int:
 
-    BUILD_DOCUMENTATION: bool = ( len(sys.argv) == 1 );
+    Builders: list[PyBuilder] = [];
 
-    if BUILD_DOCUMENTATION:
+    LOCAL_BUILDER: bool = ( len(sys.argv) == 1 );
+
+    if LOCAL_BUILDER:
+
         from PyDocumentation import PyDocumentation;
-        if PyDocumentation.Build() is False:
+        Builders.append( PyDocumentation() );
+
+    for builder in Builders:
+
+        ok = True;
+
+        try:
+            ok = builder.Build();
+        except Exception as e:
+            print( f"{builder.Name}: throw an exception: {e}" );
+            return 1;
+
+        if ok is False:
+            print( f"{builder.Name}: Failed build." );
             return 1;
 
     return 0;
