@@ -1,5 +1,5 @@
 name "bts"
-title "Sven Co-op bts"
+title "Black Mesa Training Simulation: Resonance Cascade"
 time_start "01-01 00:00:00"
 time_end "12-31 23:59:59"
 priority "1100"
