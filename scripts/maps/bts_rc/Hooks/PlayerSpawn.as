@@ -32,7 +32,7 @@ PlayerSpawnHook( function( CBasePlayer@ player )
     // Hide flashlight icon.
     player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
-    UpdateArmor(player);
+    UpdatePlayerData(player);
 
     return HOOK_CONTINUE;
 } ) );

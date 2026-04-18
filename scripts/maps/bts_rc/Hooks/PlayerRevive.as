@@ -29,7 +29,7 @@ PlayerRevivedHook( function( CBasePlayer@ player )
     if( player is null )
         return HOOK_CONTINUE;
 
-    UpdateArmor(player);
+    UpdatePlayerData(player);
 
     return HOOK_CONTINUE;
 } ) );
