@@ -18,8 +18,8 @@ body
 header, footer
 {
     background: url( "background.png" );
-    padding: 40px;
     text-align: center;
+    padding: 40px;
     border-bottom: 2px solid var(--orangered);
 }
 
@@ -291,6 +291,45 @@ a:active
 }
 
 /* animations */
+/* Background image changing */
+.bg-slider {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-slide {
+    position: absolute;
+    inset: 0;
+
+    background-size: cover;
+    background-position: center;
+
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.bg-slide.active {
+    opacity: 1;
+}
+
+.bg-slider::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, transparent, black 80%);
+}
+
+.bg-slide.active {
+    animation: zoom 6s ease forwards;
+}
+
+@keyframes zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
 /* title animation */
 @keyframes move
 {
