@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
 
     "type": "object",
     "properties":
@@ -7,12 +7,308 @@
         "$schema":
         {
             "type": "string",
-            "description": "JSON Schema validation"
+            "description": "Reference to the JSON schema file used for validation and editor hinting."
+        },
+        "voice_responses":
+        {
+            "type": "boolean",
+            "description": "Enable or disable player voice responses."
+        },
+        "turret_lasers":
+        {
+            "type": "boolean",
+            "description": "Enable laser aiming visuals for turrets."
+        },
+        "battery_lighting":
+        {
+            "type": "boolean",
+            "description": "If enabled, HEV batteries will emit dynamic light."
+        },
+        "log":
+        {
+            "type": "object",
+            "description": "Logging configuration per severity level.",
+            "properties":
+            {
+                "error":
+                {
+                    "type": "boolean"
+                },
+                "info":
+                {
+                    "type": "boolean"
+                },
+                "trace":
+                {
+                    "type": "boolean"
+                },
+                "warning":
+                {
+                    "type": "boolean"
+                },
+                "critical":
+                {
+                    "type": "boolean" }
+            }
+        },
+        "bloodpuddle":
+        {
+            "type": "object",
+            "description": "Controls blood puddle behavior and appearance.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "description": "Enable or disable blood puddle generation."
+                },
+                "persistent":
+                {
+                    "type": "boolean",
+                    "description": "If true, puddles remain indefinitely. Otherwise they fade out."
+                },
+                "default_size":
+                {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items":
+                    {
+                        "minimum": 0.1,
+                        "type": "number"
+                    },
+                    "description": "Random size range for puddles (min, max)."
+                },
+                "custom_size":
+                {
+                    "type": "object",
+                    "additionalProperties":
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items":
+                        {
+                            "minimum": 0.1,
+                            "type": "number"
+                        }
+                    },
+                    "description": "Per-monster custom puddle size overrides."
+                }
+            }
+        },
+        "zombie_uncrab":
+        {
+            "type": "object",
+            "description": "Controls headcrab detachment behavior from zombies.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "description": "Enable headcrabs detaching from zombies."
+                },
+
+                "track_health":
+                {
+                    "type": "boolean",
+                    "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health."
+                }
+            }
+        },
+        "deathdrop":
+        {
+            "type": "object",
+            "description": "Defines item drop tables for entities (by classname or model).",
+            "additionalProperties":
+            {
+                "type": "array",
+                "items":
+                {
+                    "type": "string",
+                    "description": "Entity classname to spawn. Empty string means no drop chance."
+                }
+            }
+        },
+        "wall_recharger":
+        {
+            "type": "object",
+            "description": "Configuration for wall-mounted chargers.",
+            "properties":
+            {
+                "juice":
+                {
+                    "type": "number",
+                    "description": "Maximum available charge."
+                },
+                "recharge_time":
+                {
+                    "type": "number",
+                    "description": "Time (seconds) required to fully recharge."
+                },
+                "speed_rate":
+                {
+                    "type": "number",
+                    "description": "Charge transfer rate to player."
+                }
+            }
+        },
+        "weapons":
+        {
+            "type": "object",
+            "description": "Global weapon-related gameplay modifiers.",
+            "properties":
+            {
+                "melee_weapons_pull":
+                {
+                    "type": "boolean",
+                    "description": "Allow melee weapons to pull allied players."
+                },
+                "melee_weapons_push":
+                {
+                    "type": "boolean",
+                    "description": "Allow melee weapons to push small enemies."
+                },
+                "blood_splash":
+                {
+                    "type": "boolean",
+                    "description": "Enable extra blood effects on hit."
+                },
+                "sparks_splash":
+                {
+                    "type": "boolean",
+                    "description": "Enable spark effects when hitting armored enemies."
+                }
+            }
+        },
+        "weapon_bts_axe":
+        {
+            "$ref": "#/$defs/ASWeaponMelee"
         }
     },
-    "additionalProperties": false,
-    "required":
-    [
-        "version"
-    ]
+    "$defs":
+    {
+        "ASWeaponConfig":
+        {
+            "type": "object",
+            "description": "Base weapon configuration shared across all weapons.",
+            "properties":
+            {
+                "primary_maxammo":
+                {
+                    "type": "integer"
+                },
+                "secondary_maxammo":
+                {
+                    "type": "integer"
+                },
+                "primary_dropammo":
+                {
+                    "type": "integer"
+                },
+                "secondary_dropammo":
+                {
+                    "type": "integer"
+                },
+                "primary_damage":
+                {
+                    "type": "number"
+                },
+                "secondary_damage":
+                {
+                    "type": "number"
+                },
+                "primary_cooldown":
+                {
+                    "type": "number"
+                },
+                "primary_trained_cooldown":
+                {
+                    "type": "number"
+                },
+                "secondary_cooldown":
+                {
+                    "type": "number"
+                },
+                "secondary_trained_cooldown":
+                {
+                    "type": "number"
+                },
+                "max_clip":
+                {
+                    "type": "integer"
+                },
+                "slot":
+                {
+                    "type": "integer"
+                },
+                "position":
+                {
+                    "type": "integer"
+                },
+                "weight":
+                {
+                    "type": "integer"
+                },
+
+                "deploy_time":
+                {
+                    "type": "number" }
+            }
+        },
+        "ASWeaponMelee":
+        {
+            "allOf":
+            [
+                { "$ref": "#/$defs/ASWeaponConfig" }
+            ],
+            "type": "object",
+            "description": "Melee-specific weapon behavior.",
+            "properties":
+            {
+                "primary_distance":
+                {
+                    "type": "number"
+                },
+                "secondary_distance":
+                {
+                    "type": "number"
+                },
+                "tertriary_distance":
+                {
+                    "type": "number"
+                },
+                "subsequent_hits_deduction":
+                {
+                    "type": "number",
+                    "description": "Damage multiplier applied to consecutive hits."
+                },
+                "primary_miss_cooldown":
+                {
+                    "type": "number"
+                },
+                "primary_miss_trained_cooldown":
+                {
+                    "type": "number"
+                },
+                "secondary_miss_cooldown":
+                {
+                    "type": "number"
+                },
+                "secondary_miss_trained_cooldown":
+                {
+                    "type": "number"
+                }
+            }
+        },
+
+        "ASBaseMelee":
+        {
+            "allOf":
+            [
+                { "$ref": "#/$defs/ASWeaponMelee" }
+            ],
+            "description": "Current default base class for all weapon_* entries."
+        }
+    }
 }

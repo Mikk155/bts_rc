@@ -1,21 +1,9 @@
 {
     // Schema validation. use Visual Studio code to get proper hinting or visit the website documentation: https://mikk155.github.io/bts_rc/
     "$schema": "schema.json",
-
-    // Whatever player voices are enabled
     "voice_responses": true,
-
-    // Whatever turrets should have laser aims
     "turret_lasers": true,
-
-    // Whatever HEV battery should emit light
     "battery_lighting": true,
-
-    // ===========================
-    // Start of configuration contexts
-    // ===========================
-
-    // Loggers
     "log":
     {
         "error": true,
@@ -24,20 +12,11 @@
         "warning": true,
         "critical": true
     },
-
-    // Blood puddle config
     "bloodpuddle":
     {
-        // Whatever to enable blood puddles
         "active": true,
-
-        // Whatever blood puddles should persist in the map. set to false for a removal fade out
         "persistent": true,
-
-        // Default pev->scale (random min/max)
         "default_size": [ 1.5, 2.5 ],
-
-        // same as default_size but for specific monster classnames
         "custom_size":
         {
             "monster_headcrab": [ 0.5, 1.5 ],
@@ -45,21 +24,13 @@
             "monster_babycrab": [ 0.3, 0.8 ]
         }
     },
-
     "zombie_uncrab":
     {
-        // Whatever to enable headcrabs jumping from zombies
         "active": true,
-
-        // Whatever track zombie headcrab damage before spawning a crab. if this is set to false the headcrab will always spawn and full health.
         "track_health": true
     },
-
-    // what monsters drop upon death
     "deathdrop":
     {
-        // Finds by either classname or model name. model has priority.
-        // Values are the classname of entities to spawn, empty to have a chance of nothing. "grenade" to spawn a living grenade
         "monster_zombie":
         [
             "ammo_bts_battery",
@@ -70,7 +41,6 @@
             "",
             ""
         ],
-
         "monster_zombie_barney":
         [
             "ammo_bts_dglocksd",
@@ -81,18 +51,15 @@
             "",
             ""
         ],
-
         "monster_human_grunt":
         [
             "ammo_bts_556round"
         ],
-
         "models/bts_rc/monsters/zombie_medic.mdl":
         [
             "item_bts_sprayaid",
             "item_healthkit"
         ],
-
         "monster_zombie_soldier":
         [
             "ammo_bts_shotshell",
@@ -104,7 +71,6 @@
             "item_bts_hevbattery",
             "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
         ],
-
         "monster_gonome":
         [
             "ammo_bts_shotshell",
@@ -117,28 +83,19 @@
             "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
         ]
     },
-
     "wall_recharger":
     {
         "juice": 35,
-        // Time until the charge refills
         "recharge_time": 300,
-        // Player charge rate
         "speed_rate": 0.15
     },
-
     "weapons":
     {
-        // Whatever melee weapons can pull allied players like the crowbar does
         "melee_weapons_pull": true,
-        // Allow melee weapons to push small monsters like you do to headcrabs in Half-Life 2
         "melee_weapons_push": true,
-        // Whatever that enemies should splash extra blood
         "blood_splash": true,
-        // Whatever machine enemies should splash sparks
         "sparks_splash": true
     },
-
     "weapon_bts_axe":
     {
         "slot": 0,
