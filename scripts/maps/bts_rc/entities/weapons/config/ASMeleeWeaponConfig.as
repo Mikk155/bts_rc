@@ -47,4 +47,19 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
 
         ASWeaponConfig::Parse(json);
     }
+
+    void ParseDefaultVariables( dictionary@ json ) override
+    {
+        ASWeaponConfig::ParseDefaultVariables(json);
+    }
+
+    void RegisterWeapon() override
+    {
+        ASWeaponConfig::RegisterWeapon();
+    }
+
+    void Precache() override
+    {
+        ASWeaponConfig::Precache();
+    }
 }
