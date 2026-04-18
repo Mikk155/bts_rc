@@ -30,6 +30,8 @@
 // Has the game started in the map?
 bool gpGameStarted;
 
+const uint32 gpGameVersion = g_Game.GetGameVersion();
+
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
 /// Called by the map through trigger_script the moment that the map gameplay has started
