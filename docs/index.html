@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+Set local path to subdirectories htmls
+<base href="../">
+-->
 <head>
     <link rel="icon" href="favicon.ico">
     <meta property="og:title" content="bts_rc">
@@ -17,8 +21,7 @@
 <body>
 
 <header>
-    <h1>Black Mesa Training Simulation: <h1 class="rescasc">Resonance Cascade</h1></h1>
-
+    <h1 id="title1">Black Mesa Training Simulation: Resonance Cascade<span id="blink">Black Mesa Training Simulation: Resonance Cascade</span></h1>
     <button class="play-btn" onclick="playMap()">
         ▶ PLAY
     </button>
@@ -31,7 +34,9 @@
             <h2>📄 Description</h2>
             <p>
                 You have been selected for a high-level simulation inside Black Mesa.
+                <br><br>
                 This scenario recreates a possible resonance cascade event.
+                <br><br>
                 Explore, survive, and adapt.
             </p>
         </div>
@@ -40,20 +45,36 @@
     <div class="section">
         <h2>🧪 Features</h2>
         <div class="grid">
-            <div class="card">Randomized items & enemies</div>
-            <div class="card">Inventory-based gameplay</div>
-            <div class="card">Multiple difficulty modes</div>
-            <div class="card">Non-linear exploration</div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>👨‍🔬 Classes</h2>
-        <div class="grid">
-            <div class="card">Security</div>
-            <div class="card">Maintenance</div>
-            <div class="card">Research</div>
-            <div class="card">Operative</div>
+            <div class="card">
+                Players will be randomly placed around the map and be made to survive the resonance cascade, the first map currently features various areas which include:
+                <br>
+                <br>
+                <li>Area 1 Dormitories</li>
+                <br>
+                <li>Area 2 Warehousing</li>
+                <br>
+                <li>Aera 3 Maintenance Level 2</li>
+                <br>
+                <li>Area 4 Security facilities</li>
+                <br>
+                <li>Area 5 Administration</li>
+            </div>
+            <div class="card">
+                All items are randomly generated around the map and go into the inventory with the exception of ammo and armor items.
+                <br><br><br>
+                Map events are random, so if a scientist is present 1 round and not the next - it's normal
+                <br><br><br>
+                Each Difficulty has its own perks.. Storymode is recommended for the first playthrough
+            </div>
+            <div class="card">
+                Everything you come across will need to be interacted with to pick up, weapons will go into your inventory and so will health kits.
+                <br><br>
+                <br><br>
+                You can then activate these items and it will then be given to you, this Is to allow players to carry multiple weapons for other players.
+                <br><br>
+                <br><br>
+                You can however activate the multiple weapons and it will give you the ammo
+            </div>
         </div>
     </div>
 
@@ -64,27 +85,46 @@
             allowfullscreen>
         </iframe>
     </div>
-<!--
-    <div class="section">
-        <h2>🖼 Screenshots</h2>
-        <div class="grid">
-            <img src="https://scmapdb.wikidot.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot2" />
-            <img src="https://scmapdb.wikidot.com/local--files/map:blackmesa-training-simulation:resonance-cascade/aa_bts_rc.png" />
+
+    <div class="section" id="documentation">
+        <h2>📝 <a href="#documentation">Documentation</a></h2>
+        <div class="card">
+            <li><a href="#Contributing">Contributing</a></li>
+            <li><a href="#section_changelog">Changelogs</a></li>
         </div>
     </div>
--->
 
-    <div class="section">
-        <h2>📝 Latest Changelog</h2>
+    <div class="section" id="Contributing">
+        <h2>📝 <a href="#Contributing">Contributing</a></h2>
+        <div class="card">
+            Open a cmd and navigate to your <code>Sven Co-op</code> installation and install the repository using git.
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Install repository</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+<pre><code class="code_terminal">git clone https://github.com/Mikk155/bts_rc svencoop_event_bts</code></pre>
+            </div>
+By installing the reposository as an event it will override any installation of bts_rc in your game.
+<br><br>
+in the <code>maps/</code> directory there's a test map you can modify and compile if needed.
+<br><br>
+Once you've commit your changes open a pull request and wait for a review.
+        </div>
+    </div>
+
+    <div class="section" id="section_changelog">
+        <h2>📝 <a href="#section_changelog">Changelog</a></h2>
         <div class="card" id="changelog">
             Loading...
         </div>
+        Older changelogs are not availables.
     </div>
 
 </div>
 
 <footer>
-    Black Mesa Research Facility ©
+  <a href="https://github.com/Mikk155/bts_rc?tab=MIT-1-ov-file" target="_blank">© Copyright</a>
 </footer>
 
 </body>

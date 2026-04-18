@@ -1,5 +1,13 @@
 document.addEventListener( "DOMContentLoaded", () =>
 {
+    const elements = document.querySelectorAll( "button, a[href]" );
+
+    elements.forEach( el => {
+        el.addEventListener( "mouseenter", () => { playSound( sounds.hover ); } );
+        el.addEventListener( "mousedown", () => { playSound( sounds.click ); } );
+//        el.addEventListener( "mouseup", () => { playSound( sounds.hover ); } );
+        el.addEventListener( "mouseleave", () => { playSound(sounds.release); } );
+    });
 } );
 
 function playMap()
@@ -75,6 +83,28 @@ function attachToggleEvents() {
             content.classList.toggle("open");
         });
     });
+}
+
+function copyCode( button )
+{
+    const code = button.closest( ".terminal" ).querySelector( "code" ).innerText;
+
+    navigator.clipboard.writeText( code ).then( () => {
+        button.innerText = "✅ Copied";
+        setTimeout(() => { button.innerText = "Copy"; }, 1500 );
+    } );
+}
+
+const sounds = {
+    hover: new Audio("buttonrollover.wav"),
+    click: new Audio("buttonclick.wav"),
+    release: new Audio("buttonclickrelease.wav")
+};
+
+function playSound( sound )
+{
+    sound.currentTime = 0;
+    sound.play().catch( () => {} );
 }
 
 loadChangelog();

@@ -4,6 +4,8 @@ Scripts used for the Sven Co-op map "[Black-Mesa training simulation: Resonance 
 
 ---
 
+[Documentation](https://mikk155.github.io/bts_rc/)
+
 [Credits](AUTHORS.md)
 
 [Contributing](CONTRIBUTING.md)

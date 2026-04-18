@@ -1,14 +1,5 @@
-# V5.50A - Post Final Update
-- Fixed resonance cascade instability
-- Improved enemy spawn system
+# 17/4/2026
+- Set up this website.
 
-# V5.20
-- Added new simulation zones
-- Optimized performance
-
-# V5.00
-- Major release
-- Inventory system added
-
-# V4.00
-- "Consequences" update
+# 16/4/2026
+- Reworked melee weapons
