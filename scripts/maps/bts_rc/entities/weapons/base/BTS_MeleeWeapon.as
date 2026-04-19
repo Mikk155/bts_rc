@@ -38,7 +38,7 @@ abstract class BTS_MeleeWeapon : BTS_Weapon
     }
 
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data
-    bool Hit( TraceResult&out tr, AttackType type, CBaseEntity@&out hit ) {
-        return weapons::Hit( self, this.owner, tr, type, hit, configMelee );
+    bool Hit( TraceResult&out tr, AttackType type, CBaseEntity@&out hit, bool Shove = false ) {
+        return weapons::Hit( self, this.owner, tr, type, hit, configMelee, Shove );
     }
 }

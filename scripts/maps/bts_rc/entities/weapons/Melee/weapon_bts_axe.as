@@ -112,7 +112,7 @@ class weapon_bts_axe : BTS_MeleeWeapon
         TraceResult tr;
         CBaseEntity@ hit = null;
 
-        bool miss = this.Hit(tr, type, hit);
+        bool miss = this.Hit( tr, type, hit, ( type == AttackType::Secondary ) );
 
         bool is_trained_personal = util::IsTrainedPersonal( player );
 

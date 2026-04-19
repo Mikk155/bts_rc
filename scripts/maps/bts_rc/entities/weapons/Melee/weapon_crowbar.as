@@ -100,7 +100,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
         weapon.PrimaryAttack();
 
-        bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig );
+        bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig, true );
 
         if( miss )
         {
