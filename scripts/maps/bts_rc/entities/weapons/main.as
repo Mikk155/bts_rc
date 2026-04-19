@@ -21,6 +21,9 @@
 *   SOFTWARE.
 */
 
+// Vanilla weapons override interface
+#include "base/WeaponOverrider"
+
 // Base
 #include "config/ASWeaponConfig"
 #include "base/BTS_Weapon"

@@ -24,6 +24,9 @@
 // Inherit from this class. override GetName and Parse then call back ASWeaponConfig::Parse(json)
 abstract class ASWeaponConfig : IConfigContext
 {
+    // Dictionary constructor
+    ASWeaponConfig() {}
+
     ASWeaponConfig()
     {
         @g_WeaponsConfig.Interfaces[ this.GetName() ] = this;

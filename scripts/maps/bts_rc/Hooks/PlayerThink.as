@@ -132,45 +132,58 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
 
     player.SetOverriddenPlayerModel( character.Name );
 
-    // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
-    if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
+    if( player.m_hActiveItem.IsValid() )
     {
-        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-
-        if( weapon !is null && ( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" ) )
-            @weapon = null;
-
-        if( weapon is null )
-        {
-            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
-            {
-                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
-
-                while( item !is null )
-                {
-                    @weapon = cast<CBasePlayerWeapon@>( item );
-
-                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
-                    {
-                        player.SelectItem( weapon.pev.classname );
-                        weapon.Deploy();
-                        ui = MAX_ITEM_TYPES; // Break for loop
-                        break;
-                    }
-
-                    @weapon = null;
-                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
-                }
-            }
-        }
+        auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
         if( weapon !is null )
         {
-            weapon.m_flNextSecondaryAttack = g_Engine.time;
-            weapon.SecondaryAttack();
-        }
+            const string classname = weapon.GetClassname();
 
-        player.pev.impulse = 0;
+            WeaponOverrider@ wpnOverride = null;
+
+            if( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.PlayerThink !is null )
+                wpnOverride.PlayerThink( player, weapon );
+
+            // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
+            if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
+            {
+                // If the current active weapon doesn't has flashlight then do a loadout check
+                if( weapon !is null && ( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" ) )
+                {
+                    @weapon = null;
+
+                    for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
+                    {
+                        CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
+
+                        while( item !is null )
+                        {
+                            @weapon = cast<CBasePlayerWeapon@>( item );
+
+                            if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                            {
+                                player.SelectItem( weapon.pev.classname );
+                                weapon.Deploy();
+                                ui = MAX_ITEM_TYPES; // Break for loop
+                                break;
+                            }
+
+                            @weapon = null;
+                            @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
+                        }
+                    }
+
+                    if( weapon !is null )
+                    {
+                        weapon.m_flNextSecondaryAttack = g_Engine.time;
+                        weapon.SecondaryAttack();
+                    }
+
+                    player.pev.impulse = 0;
+                }
+            }
+        }
     }
 
     if( character.IsHEV )
