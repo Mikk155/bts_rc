@@ -48,7 +48,7 @@ namespace weapons
             // Pull players just like the crowbar does
             if( g_WeaponsConfig.melee_weapons_pull && !Shove && hit.IsPlayer() )
             {
-                hit.pev.velocity = hit.pev.velocity + ( player.pev.origin - hit.pev.origin ).Normalize() * 120.0f;
+                hit.pev.velocity = hit.pev.velocity + ( player.pev.origin - hit.pev.origin ).Normalize() * g_WeaponsConfig.melee_weapons_push_force;
             }
 
             if( g_WeaponsConfig.melee_weapons_push )
