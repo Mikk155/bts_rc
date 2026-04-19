@@ -44,6 +44,8 @@ abstract class BTS_MeleeCharge : BTS_MeleeWeapon
     {
         auto player = this.owner;
 
+        player.pev.button |= IN_ATTACK2;
+
         self.m_flTimeWeaponIdle = Math.max( self.m_flTimeWeaponIdle, g_Engine.time + 0.5f );
 
         switch( m_WhackState )

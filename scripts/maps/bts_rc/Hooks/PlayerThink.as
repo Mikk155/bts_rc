@@ -159,11 +159,12 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                 {
                     if( weapon.m_flNextPrimaryAttack < g_Engine.time )
                     {
+                        player.pev.button &= ~IN_ATTACK;
+
                         if( wpnOverride !is null && wpnOverride.WeaponPrimaryAttack !is null )
                             wpnOverride.WeaponPrimaryAttack( player, weapon, GetCharacter(player) );
                         else
                             weapon.PrimaryAttack();
-                        player.pev.button &= ~IN_ATTACK;
                     }
                 }
 
@@ -171,11 +172,12 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                 {
                     if( weapon.m_flNextSecondaryAttack < g_Engine.time )
                     {
+                        player.pev.button &= ~IN_ATTACK2;
+
                         if( wpnOverride !is null && wpnOverride.WeaponSecondaryAttack !is null )
                             wpnOverride.WeaponSecondaryAttack( player, weapon, GetCharacter(player) );
                         else
                             weapon.SecondaryAttack();
-                        player.pev.button &= ~IN_ATTACK2;
                     }
                 }
             }
