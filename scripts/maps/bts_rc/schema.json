@@ -213,15 +213,7 @@
         },
         "weapon_crowbar":
         {
-            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ],
-            "properties": {
-                "throw_bonus":
-                {
-                    "type": "number",
-                    "minimum": 1.0,
-                    "description": "Damage multiplier bonus for throwing the crowbar. the math is based on primary_damage * throw_bonus"
-                }
-            }
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         }
     },
     "$defs":

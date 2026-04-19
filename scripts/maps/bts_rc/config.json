@@ -120,7 +120,6 @@
     "weapon_crowbar":
     {
         "deploy_time": 0.4,
-        "throw_bonus": 1.5,
         "primary_damage": 13,
         "primary_distance": 32,
         "primary_miss_cooldown": 0.95,
@@ -132,7 +131,8 @@
         "secondary_miss_cooldown": 1.1,
         "secondary_miss_trained_cooldown": 1.0,
         "secondary_cooldown": 1.0,
-        "secondary_trained_cooldown": 0.5
+        "secondary_trained_cooldown": 0.5,
+        "tertriary_damage": 17
     },
     "weapon_bts_screwdriver":
     {
