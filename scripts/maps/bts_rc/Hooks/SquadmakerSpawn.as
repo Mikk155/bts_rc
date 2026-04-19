@@ -40,7 +40,7 @@ void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity )
             g_Logger.trace = snprintf( glog, "Added %1 to lasers list at index %2.\n", classname, lasers::handles.length() );
     }
 
-    auto ckv = entity.GetCustomKeyvalues();
+    auto ckv = squad.GetCustomKeyvalues();
 
     // Swap a specific squadmaker to a random location.
     if( ckv.GetKeyvalue( "$i_randomize_squad" ).GetInteger() == 1 )
