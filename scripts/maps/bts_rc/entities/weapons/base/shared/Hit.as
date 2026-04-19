@@ -55,13 +55,13 @@ namespace weapons
             {
                 if( ( hit.pev.flags & FL_ONGROUND ) == 0 && "monster_headcrab" == hit.GetClassname() )
                 {
-                    hit.pev.velocity = ( hit.pev.origin - player.pev.origin ).Normalize() * 300.0f;
+                    hit.pev.velocity = ( hit.pev.origin - player.pev.origin ).Normalize() * g_WeaponsConfig.melee_weapons_pull_force;
                     hit.pev.velocity.z = 200.0f;
                     hit.pev.nextthink = g_Engine.time + 0.2f;
                 }
                 else if( Shove && ( hit.IsMonster() || hit.IsPlayer() ) )
                 {
-                    hit.pev.velocity = hit.pev.velocity + ( player.pev.origin - hit.pev.origin ).Normalize() * -200;
+                    hit.pev.velocity = hit.pev.velocity + ( player.pev.origin - hit.pev.origin ).Normalize() * -g_WeaponsConfig.melee_weapons_pull_force;
                 }
             }
 

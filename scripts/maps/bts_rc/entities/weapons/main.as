@@ -61,6 +61,7 @@ class CGlobalWeaponConfig : IConfigContext
     }
 
     bool melee_weapons_pull;
+    float melee_weapons_pull_force;
     bool melee_weapons_push;
     bool blood_splash;
     bool sparks_splash;
@@ -87,6 +88,7 @@ class CGlobalWeaponConfig : IConfigContext
 
     void Parse( dictionary@ json )
     {
+        json.get( "melee_weapons_pull_force", melee_weapons_pull_force );
         json.get( "melee_weapons_pull", melee_weapons_pull );
         json.get( "melee_weapons_push", melee_weapons_push );
         json.get( "blood_splash", blood_splash );
