@@ -70,14 +70,13 @@ abstract class BTS_MeleeCharge : BTS_MeleeWeapon
         {
             CBasePlayer@ player = this.owner;
 
-            if( ( player .pev.button & IN_ATTACK2 ) == 0 )
+            if( ( player.pev.button & IN_ATTACK2 ) == 0 )
             {
                 player.m_flNextAttack = 0.5f;
                 m_WhackState = WhackState::Released;
                 BTS_MeleeWeapon::SecondaryAttack();
                 ForcePlayerAnim( 27, 30 ); // ref_shoot_wrench, crouch_shoot_wrench
                 m_WhackState = WhackState::Idle;
-
             }
         }
 

@@ -139,7 +139,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     // Set weapon cooldown
     void SetCooldown( bool is_trained_personal, AttackType type ) {
-        weapons::SetCooldown( self, config.GetCooldown( is_trained_personal, type ) );
+        weapons::SetCooldown( self, this.owner, config.GetCooldown( is_trained_personal, type ) );
     }
 
     // Play the given animation for this weapon. if player_attack_animation is true (by default) it makes the player animation to PLAYER_ATTACK1

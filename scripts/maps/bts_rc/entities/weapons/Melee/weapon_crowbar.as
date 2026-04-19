@@ -83,22 +83,25 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
     void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
+        TraceResult tr;
+        float prevCooldown = weapon.m_flNextPrimaryAttack;
         weapon.PrimaryAttack();
-        TraceResult tr; // Effects
+        weapon.m_flNextPrimaryAttack = prevCooldown;
+
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Primary, void, gpWeaponCrowbarConfig );
 
         if( !miss )
             weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
 
-        weapons::SetCooldown( weapon, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Primary, miss ) );
+        weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Primary, miss ) );
     }
 
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
-        TraceResult tr; // Effects
-        bool is_trained_personal = util::IsTrainedPersonal( player );
-
+        TraceResult tr;
+        float prevCooldown = weapon.m_flNextSecondaryAttack;
         weapon.PrimaryAttack();
+        weapon.m_flNextSecondaryAttack = weapon.m_flNextPrimaryAttack = prevCooldown;
 
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig, true );
 
@@ -123,7 +126,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
             weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
         }
 
-        weapons::SetCooldown( weapon, gpWeaponCrowbarConfig.GetCooldown( is_trained_personal, AttackType::Secondary, miss ) );
+        weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary, miss ) );
     }
 
     WeaponOverrider@ overrider;

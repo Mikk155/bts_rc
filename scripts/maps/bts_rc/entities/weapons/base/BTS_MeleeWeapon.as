@@ -34,7 +34,7 @@ abstract class BTS_MeleeWeapon : BTS_Weapon
 
     // Set weapon cooldown
     void SetCooldown( bool is_trained_personal, bool miss, AttackType type ) {
-        weapons::SetCooldown( self, configMelee.GetCooldown( is_trained_personal, type, miss ) );
+        weapons::SetCooldown( self, this.owner, configMelee.GetCooldown( is_trained_personal, type, miss ) );
     }
 
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data
