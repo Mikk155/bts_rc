@@ -40,8 +40,7 @@ namespace zombie_uncrab
             ConfigContext::Register( this );
         }
 
-        string GetName()
-        {
+        const string& get_Name() override {
             return "zombie_uncrab";
         }
 

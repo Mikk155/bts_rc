@@ -40,8 +40,7 @@ namespace bloodpuddle
             ConfigContext::Register( this );
         }
 
-        string GetName()
-        {
+        const string& get_Name() override {
             return "bloodpuddle";
         }
 

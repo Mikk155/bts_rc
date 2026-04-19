@@ -39,8 +39,7 @@ namespace func_bts_recharger
             ConfigContext::Register( this );
         }
 
-        string GetName()
-        {
+        const string& get_Name() override {
             return "wall_recharger";
         }
 

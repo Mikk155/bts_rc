@@ -50,8 +50,7 @@ class CGlobalWeaponConfig : IConfigContext
         ConfigContext::Register( this );
     }
 
-    string GetName()
-    {
+    const string& get_Name() override {
         return "weapons";
     }
 

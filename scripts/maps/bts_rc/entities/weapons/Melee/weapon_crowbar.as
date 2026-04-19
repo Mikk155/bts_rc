@@ -48,8 +48,7 @@ enum WeaponCrowbarAnim
 
 class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 {
-    string GetName() override
-    {
+    const string& get_Name() override {
         return "weapon_crowbar";
     }
 
@@ -88,8 +87,9 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
         this.ParseDefaultVariables( json );
 
-        @this.overrider = WeaponOverrider( this.GetName() );
-        @this.overrider.PlayerThink = PlayerThinkOverride( @this.PlayerThink );
+        @this.overrider = WeaponOverrider( this )
+            .SetPlayerThink( WeaponOverriderCallback( @this.PlayerThink ) );
+
 
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", this.primary_damage );
     }

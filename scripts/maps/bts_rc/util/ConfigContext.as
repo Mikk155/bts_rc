@@ -26,9 +26,9 @@
 interface IConfigContext
 {
     /// Unique name for this context
-    string GetName();
+    const string& get_Name();
 
-    /// Called at MapInit for parsing the object from the json with this class's GetName()
+    /// Called at MapInit for parsing the object from the json with this class's Name
     void Parse( dictionary@ json );
 }
 
@@ -42,7 +42,7 @@ namespace ConfigContext
         g_ConfigContexts.insertLast( context );
 
         if( g_Logger.info )
-            g_Logger.info = snprintf( glog, "Registering config context \"%1\"", context.GetName() );
+            g_Logger.info = snprintf( glog, "Registering config context \"%1\"", context.Name );
     }
 
     void MapInit( dictionary@ data )
@@ -52,14 +52,19 @@ namespace ConfigContext
         for( uint ui = 0; ui < length; ui++ )
         {
             auto context = g_ConfigContexts[ui];
-            string name = context.GetName();
+            string name = context.Name;
 
             if( data.exists( name ) )
             {
                 if( g_Logger.info )
-                    g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", context.GetName() );
+                    g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", context.Name );
 
                 context.Parse( cast<dictionary@>( data[ name ] ) );
+            }
+            else
+            {
+                if( g_Logger.critical )
+                    g_Logger.critical = snprintf( glog, "Failed to find context \"%1\" in config.json", context.Name );
             }
         }
     }
