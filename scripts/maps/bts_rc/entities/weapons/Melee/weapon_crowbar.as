@@ -66,9 +66,16 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
-        g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "Called thing for " + this.GetName() + "\n" );
+        if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
+        {
+            g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NONE );
+
+            player.pev.viewmodel = gpWeaponCrowbarConfig.view_model;
+            weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, ( character !is null ? character.HandsGroup : Hands::Gray ) );
+            weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body ); // Resend the current animation to update the bodygroup
+        }
     }
 
     WeaponOverrider@ overrider;
@@ -83,29 +90,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
         @this.overrider = WeaponOverrider( this.GetName() );
         @this.overrider.PlayerThink = PlayerThinkOverride( @this.PlayerThink );
-
-        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, PlayerPostThinkHook( function( CBasePlayer@ player )
-        {
-            if( player is null || !player.m_hActiveItem.IsValid() )
-                return HOOK_CONTINUE;
-
-            auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-
-            if( weapon is null || weapon.GetClassname() != "weapon_crowbar" )
-                return HOOK_CONTINUE;
-
-            auto character = GetCharacter(player);
-
-            if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
-            {
-                g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NONE );
-                player.pev.viewmodel = gpWeaponCrowbarConfig.view_model;
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, ( character !is null ? character.HandsGroup : Hands::Gray ) );
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body ); // Resend the current animation to update the bodygroup
-            }
-
-            return HOOK_CONTINUE;
-        } ) );
 
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", this.primary_damage );
     }
