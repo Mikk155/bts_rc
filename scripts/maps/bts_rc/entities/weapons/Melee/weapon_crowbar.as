@@ -63,7 +63,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
     }
 
     uint viewmodelIndex;
-    float throw_bonus;
 
     void Precache() override
     {
@@ -144,9 +143,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
             .SetWeaponPrimayAttack( WeaponOverriderCallback( @this.WeaponPrimaryAttack ) )
             .SetWeaponSecondaryAttack( WeaponOverriderCallback( @this.WeaponSecondaryAttack ) );
 
-        // Tertriary attack
-        this.throw_bonus = float( this.Get( @json, "throw_bonus", 1.5 ) );
-
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         MonsterTakeDamageHook( function( DamageInfo@ info )
         {
@@ -154,7 +150,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
             {
                 if( info.pInflictor.GetClassname() == "weapon_crowbar" )
                 {
-                    info.flDamage = gpWeaponCrowbarConfig.primary_damage * gpWeaponCrowbarConfig.throw_bonus;
+                    info.flDamage = gpWeaponCrowbarConfig.tertriary_damage;
                     TraceResult tr; // Effects
                     g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
                     weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
