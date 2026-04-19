@@ -92,6 +92,7 @@
     "weapons":
     {
         "melee_weapons_pull": true,
+        "melee_weapons_pull_force": 300,
         "melee_weapons_push": true,
         "blood_splash": true,
         "sparks_splash": true

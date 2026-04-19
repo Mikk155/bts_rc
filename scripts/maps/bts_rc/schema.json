@@ -164,6 +164,11 @@
                     "type": "boolean",
                     "description": "Allow melee weapons to pull allied players."
                 },
+                "melee_weapons_pull_force":
+                {
+                    "type": "integer",
+                    "description": "Force of push if melee_weapons_pull is true"
+                },
                 "melee_weapons_push":
                 {
                     "type": "boolean",
