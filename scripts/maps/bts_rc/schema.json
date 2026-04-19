@@ -172,7 +172,12 @@
                 "melee_weapons_push":
                 {
                     "type": "boolean",
-                    "description": "Allow melee weapons to push small enemies."
+                    "description": "Allow melee weapons to push enemies."
+                },
+                "melee_weapons_push_force":
+                {
+                    "type": "integer",
+                    "description": "Force of push if melee_weapons_push is true"
                 },
                 "blood_splash":
                 {
