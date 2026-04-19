@@ -1,4 +1,4 @@
-funcdef void PlayerThinkOverride( CBasePlayer@ player, CBasePlayerWeapon@ weapon );
+funcdef void PlayerThinkOverride( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character );
 
 dictionary gpWeaponsOverride;
 
