@@ -187,10 +187,14 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
                 {
                     data[ "526_weaponsequence" ] = player.pev.weaponanim;
 
-                    Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
+                    Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
 
                     weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, handsGroup );
                     weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
+                }
+                else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
+                {
+                    data[ "526_weaponsequence" ] = -1;
                 }
             } ) );
         }
