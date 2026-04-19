@@ -86,8 +86,44 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapon.PrimaryAttack();
         TraceResult tr; // Effects
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Primary, void, gpWeaponCrowbarConfig );
-        weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+
+        if( !miss )
+            weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+
         weapons::SetCooldown( weapon, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Primary, miss ) );
+    }
+
+    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        TraceResult tr; // Effects
+        bool is_trained_personal = util::IsTrainedPersonal( player );
+
+        weapon.PrimaryAttack();
+
+        bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig );
+
+        if( miss )
+        {
+            switch( RandomUint( 2, player ) )
+            {
+                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, weapon.pev.body ); break;
+                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAltMiss, 0, weapon.pev.body ); break;
+                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, weapon.pev.body ); break;
+            }
+        }
+        else
+        {
+            switch( RandomUint( 2, player ) )
+            {
+                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, weapon.pev.body ); break;
+                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAlt, 0, weapon.pev.body ); break;
+                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, weapon.pev.body ); break;
+            }
+
+            weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+        }
+
+        weapons::SetCooldown( weapon, gpWeaponCrowbarConfig.GetCooldown( is_trained_personal, AttackType::Secondary, miss ) );
     }
 
     WeaponOverrider@ overrider;
@@ -102,7 +138,8 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) )
-            .SetWeaponPrimayAttack( WeaponOverriderCallback( @this.WeaponPrimaryAttack ) );
+            .SetWeaponPrimayAttack( WeaponOverriderCallback( @this.WeaponPrimaryAttack ) )
+            .SetWeaponSecondaryAttack( WeaponOverriderCallback( @this.WeaponSecondaryAttack ) );
 
         // Tertriary attack
         this.throw_bonus = float( this.Get( @json, "throw_bonus", 1.5 ) );

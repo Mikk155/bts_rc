@@ -32,3 +32,30 @@
 #include "Logger"
 #include "models"
 #include "PlayerClass"
+
+// Get a random number between 0 and max. if RandomUint was called before the result will be stored in player data as "RandomUint" to avoid repeating the same number in a row
+uint8 RandomUint( uint8 max, CBasePlayer@ player )
+{
+    if( player is null )
+        return 0;
+
+    if( max == 0 )
+    {
+        if( g_Logger.critical )
+            g_Logger.critical = snprintf( glog, "RandomUint called with an argument of zero!" );
+        return 0;
+    }
+
+    dictionary@ data = player.GetUserData();
+
+    uint8 lastRand;
+    data.get( "RandomUint", lastRand );
+    uint8 rand;
+
+    do{ rand = Math.RandomLong( 0, max ); }
+    while( rand == lastRand );
+
+    data[ "RandomUint" ]  = rand;
+
+    return rand;
+}
