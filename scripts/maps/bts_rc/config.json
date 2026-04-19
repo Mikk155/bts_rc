@@ -124,10 +124,13 @@
         "primary_miss_cooldown": 0.95,
         "primary_miss_trained_cooldown": 0.75,
         "primary_cooldown": 0.5,
-        "primary_trained_cooldown": 0.25
-/*
-                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
-*/
+        "primary_trained_cooldown": 0.25,
+        "secondary_damage": 11,
+        "secondary_distance": 32,
+        "secondary_miss_cooldown": 1.1,
+        "secondary_miss_trained_cooldown": 1.0,
+        "secondary_cooldown": 1.0,
+        "secondary_trained_cooldown": 0.5
     },
     "weapon_bts_screwdriver":
     {
