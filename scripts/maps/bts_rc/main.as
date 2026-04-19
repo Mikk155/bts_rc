@@ -31,6 +31,7 @@
 bool gpGameStarted;
 
 const uint32 gpGameVersion = g_Game.GetGameVersion();
+const uint8 DMG_BTS_WEAPON = DMG_SHOWNHUD;
 
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
