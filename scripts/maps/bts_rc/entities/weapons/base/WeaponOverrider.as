@@ -32,4 +32,10 @@ class WeaponOverrider
         @this.WeaponDeploy = callback;
         return this;
     }
+
+    WeaponOverriderCallback@ WeaponPrimaryAttack;
+    WeaponOverrider@ SetWeaponPrimayAttack( WeaponOverriderCallback@ callback ) {
+        @this.WeaponPrimaryAttack = callback;
+        return this;
+    }
 }
