@@ -94,15 +94,44 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         MonsterTakeDamageHook( function( DamageInfo@ info )
         {
-            if( info.pVictim !is null && info.pInflictor !is null && info.pInflictor.GetClassname() == "weapon_crowbar" )
+            if( info.pInflictor !is null )
             {
-                TraceResult tr;
-                g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
-                weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
-                info.flDamage = gpWeaponCrowbarConfig.primary_damage * gpWeaponCrowbarConfig.throw_bonus;
+                bool bEffect = false;
+
+                if( info.pInflictor.GetClassname() == "weapon_crowbar" )
+                {
+                    info.flDamage = gpWeaponCrowbarConfig.primary_damage * gpWeaponCrowbarConfig.throw_bonus;
+                    bEffect = true;
+                }
+                // Melee attack
+                else if( info.pInflictor is info.pAttacker && info.pInflictor.IsPlayer() )
+                {
+                    auto player = cast<CBasePlayer@>( info.pInflictor );
+
+                    if( player !is null && player.m_hActiveItem.IsValid() &&  player.m_hActiveItem.GetEntity().GetClassname() == "weapon_crowbar" )
+                    {
+                        info.flDamage = gpWeaponCrowbarConfig.primary_damage;
+                        bEffect = true;
+                    }
+                }
+
+                if( bEffect )
+                {
+                    TraceResult tr;
+                    g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
+                    weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                }
             }
+                if( info.pAttacker !is null )
+                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "pAttacker: " + info.pAttacker.pev.classname + "\n" );
+                if( info.pInflictor !is null )
+                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "pInflictor: " + info.pInflictor.pev.classname + "\n" );
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "flDamage: " + info.flDamage + "\n" );
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "throw_bonus: " + gpWeaponCrowbarConfig.throw_bonus + "\n" );
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "bitsDamageType: " + info.bitsDamageType + "\n" );
             return HOOK_CONTINUE;
         } ) );
+
         // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
         if( gpGameVersion == 526 )
         {
@@ -127,8 +156,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
                 }
             } ) );
         }
-
-        g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", this.primary_damage );
     }
 }
 
