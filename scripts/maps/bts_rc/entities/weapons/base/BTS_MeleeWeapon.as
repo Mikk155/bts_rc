@@ -32,38 +32,9 @@ abstract class BTS_MeleeWeapon : BTS_Weapon
 
     bool m_IsSecondary = false;
 
-    float GetCooldown( bool is_trained_personal, bool miss, AttackType type )
-    {
-        switch( type )
-        {
-            case AttackType::Primary:
-            {
-                if( is_trained_personal )
-                    return ( miss ? this.configMelee.primary_miss_trained_cooldown : this.configMelee.primary_cooldown );
-                return ( miss ? this.configMelee.primary_miss_cooldown : this.configMelee.primary_cooldown );
-            }
-            case AttackType::Secondary:
-            {
-                if( is_trained_personal )
-                    return ( miss ? this.configMelee.secondary_miss_trained_cooldown : this.configMelee.secondary_trained_cooldown );
-                return ( miss ? this.configMelee.secondary_miss_cooldown : this.configMelee.secondary_cooldown );
-            }
-            case AttackType::Tertriary:
-            default:
-            {
-                return GetCooldown( is_trained_personal, type );
-            }
-        }
-    }
-
     // Set weapon cooldown
-    void SetCooldown( bool is_trained_personal, bool miss, AttackType type )
-    {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack =
-            g_Engine.time + this.GetCooldown( is_trained_personal, miss, type );
-
-        if( self.m_flTimeWeaponIdle < self.m_flNextPrimaryAttack )
-            self.m_flTimeWeaponIdle= self.m_flNextPrimaryAttack;
+    void SetCooldown( bool is_trained_personal, bool miss, AttackType type ) {
+        weapons::SetCooldown( self, configMelee.GetCooldown( is_trained_personal, type, miss ) );
     }
 
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data

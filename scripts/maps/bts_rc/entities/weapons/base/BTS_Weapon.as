@@ -137,32 +137,9 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         BaseClass.Holster( skiplocal );
     }
 
-    float GetCooldown( bool is_trained_personal, AttackType type )
-    {
-        switch( type )
-        {
-            case AttackType::Primary:
-                return ( is_trained_personal ? this.config.primary_trained_cooldown : this.config.primary_cooldown );
-            case AttackType::Secondary:
-            {
-                return ( is_trained_personal ? this.config.secondary_trained_cooldown : this.config.secondary_cooldown );
-            }
-            case AttackType::Tertriary:
-            default:
-            {
-                return ( is_trained_personal ? this.config.tertriary_trained_cooldown : this.config.tertriary_cooldown );
-            }
-        }
-    }
-
     // Set weapon cooldown
-    void SetCooldown( bool is_trained_personal, AttackType type )
-    {
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack =
-            g_Engine.time + this.GetCooldown( is_trained_personal, type );
-
-        if( self.m_flTimeWeaponIdle < self.m_flNextPrimaryAttack )
-            self.m_flTimeWeaponIdle= self.m_flNextPrimaryAttack;
+    void SetCooldown( bool is_trained_personal, AttackType type ) {
+        weapons::SetCooldown( self, config.GetCooldown( is_trained_personal, type ) );
     }
 
     // Play the given animation for this weapon. if player_attack_animation is true (by default) it makes the player animation to PLAYER_ATTACK1

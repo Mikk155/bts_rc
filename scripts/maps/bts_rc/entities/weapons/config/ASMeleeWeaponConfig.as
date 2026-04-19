@@ -34,6 +34,30 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
     float primary_miss_trained_cooldown;
     float secondary_miss_trained_cooldown;
 
+    float GetCooldown( bool is_trained_personal, AttackType type, bool miss )
+    {
+        switch( type )
+        {
+            case AttackType::Primary:
+            {
+                if( is_trained_personal )
+                    return ( miss ? this.primary_miss_trained_cooldown : this.primary_cooldown );
+                return ( miss ? this.primary_miss_cooldown : this.primary_cooldown );
+            }
+            case AttackType::Secondary:
+            {
+                if( is_trained_personal )
+                    return ( miss ? this.secondary_miss_trained_cooldown : this.secondary_trained_cooldown );
+                return ( miss ? this.secondary_miss_cooldown : this.secondary_cooldown );
+            }
+            case AttackType::Tertriary:
+            default:
+            {
+                return ASWeaponConfig::GetCooldown( is_trained_personal, type );
+            }
+        }
+    }
+
     void Parse( dictionary@ json ) override
     {
         this.primary_distance = this.Get( @json, "primary_distance", 10 );
