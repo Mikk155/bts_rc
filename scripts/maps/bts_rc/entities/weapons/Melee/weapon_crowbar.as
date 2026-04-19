@@ -57,6 +57,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
     }
 
     uint viewmodelIndex;
+    float throw_bonus;
 
     void Precache() override
     {
@@ -87,6 +88,21 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) );
 
+        // Tertriary attack
+        this.throw_bonus = float( this.Get( @json, "throw_bonus", 1.5 ) );
+
+        g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
+        MonsterTakeDamageHook( function( DamageInfo@ info )
+        {
+            if( info.pVictim !is null && info.pInflictor !is null && info.pInflictor.GetClassname() == "weapon_crowbar" )
+            {
+                TraceResult tr;
+                g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
+                weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                info.flDamage = gpWeaponCrowbarConfig.primary_damage * gpWeaponCrowbarConfig.throw_bonus;
+            }
+            return HOOK_CONTINUE;
+        } ) );
         // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
         if( gpGameVersion == 526 )
         {

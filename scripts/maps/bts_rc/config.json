@@ -118,7 +118,8 @@
     "weapon_crowbar":
     {
         "primary_damage": 13,
-        "deploy_time": 0.4
+        "deploy_time": 0.4,
+        "throw_bonus": 1.5
     },
     "weapon_bts_screwdriver":
     {

@@ -183,7 +183,25 @@
         },
         "weapon_bts_axe":
         {
-            "$ref": "#/$defs/ASWeaponMelee"
+            "allOf":
+            [
+                { "$ref": "#/$defs/ASWeaponMelee" }
+            ],
+        },
+        "weapon_crowbar":
+        {
+            "allOf":
+            [
+                { "$ref": "#/$defs/ASWeaponMelee" }
+            ],
+            "properties": {
+                "throw_bonus":
+                {
+                    "type": "number",
+                    "minimum": 1.0,
+                    "description": "Damage multiplier bonus for throwing the crowbar. the math is based on primary_damage * throw_bonus"
+                }
+            }
         }
     },
     "$defs":
@@ -300,15 +318,6 @@
                     "type": "number"
                 }
             }
-        },
-
-        "ASBaseMelee":
-        {
-            "allOf":
-            [
-                { "$ref": "#/$defs/ASWeaponMelee" }
-            ],
-            "description": "Current default base class for all weapon_* entries."
         }
     }
 }

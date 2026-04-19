@@ -7,7 +7,7 @@ namespace weapons
         if( bullet != Bullet::BULLET_NONE )
         {
             g_WeaponFuncs.DecalGunshot( tr, bullet );
-            g_SoundSystem.PlayHitSound( tr, player.GetGunPosition(), tr.vecEndPos, bullet );
+            g_SoundSystem.PlayHitSound( tr, ( player !is null ? player.GetGunPosition() : g_vecZero ), tr.vecEndPos, bullet );
 
             switch( bullet )
             {
@@ -19,7 +19,10 @@ namespace weapons
                 case Bullet::BULLET_PLAYER_EAGLE:
                 case Bullet::BULLET_PLAYER_BUCKSHOT:
                 {
-                    player.pev.effects |= EF_MUZZLEFLASH;
+                    if( player !is null )
+                    {
+                        player.pev.effects |= EF_MUZZLEFLASH;
+                    }
                     break;
                 }
                 case Bullet::BULLET_PLAYER_CROWBAR:
