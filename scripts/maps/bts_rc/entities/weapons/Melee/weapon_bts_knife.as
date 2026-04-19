@@ -49,8 +49,7 @@ enum WeaponKnifeAnim
 
 class CWeaponKnifeConfig : ASMeleeWeaponConfig
 {
-    string GetName() override
-    {
+    const string& get_Name() override {
         return "weapon_bts_knife";
     }
 

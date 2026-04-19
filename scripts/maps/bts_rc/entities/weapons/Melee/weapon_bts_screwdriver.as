@@ -44,8 +44,7 @@ enum WeaponScrewDriverAnim
 
 class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
 {
-    string GetName() override
-    {
+    const string& get_Name() override {
         return "weapon_bts_screwdriver";
     }
 

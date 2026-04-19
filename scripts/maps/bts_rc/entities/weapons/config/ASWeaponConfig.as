@@ -26,12 +26,14 @@ abstract class ASWeaponConfig : IConfigContext
 {
     ASWeaponConfig()
     {
-        @g_WeaponsConfig.Interfaces[ this.GetName() ] = this;
+        @g_WeaponsConfig.Interfaces[ this.Name ] = this;
         ConfigContext::Register( this );
     }
 
     // json unique object name
-    string GetName() { return String::EMPTY_STRING; }
+    const string& get_Name() override {
+        return String::EMPTY_STRING;
+    }
 
     // Weapon view model. automatically precached in BTS_Weapon::Precache and set in BTS_Weapon::Deploy
     const string& get_view_model() { return String::EMPTY_STRING; }
@@ -92,13 +94,13 @@ abstract class ASWeaponConfig : IConfigContext
         if( !json.get( keyName, value ) )
         {
             if( g_Logger.warning )
-                g_Logger.warning = snprintf( glog, "Failed to get \"%1\" from context \"%2\" setting default value \"%3\"", keyName, this.GetName(), defaultValue );
+                g_Logger.warning = snprintf( glog, "Failed to get \"%1\" from context \"%2\" setting default value \"%3\"", keyName, this.Name, defaultValue );
 
             return defaultValue;
         }
 
         if( g_Logger.trace )
-            g_Logger.trace = snprintf( glog, "Getting key \"%1\" for context \"%2\" setting value \"%3\"", keyName, this.GetName(), value );
+            g_Logger.trace = snprintf( glog, "Getting key \"%1\" for context \"%2\" setting value \"%3\"", keyName, this.Name, value );
 
         return value;
     }
@@ -129,20 +131,18 @@ abstract class ASWeaponConfig : IConfigContext
 
     void RegisterWeapon()
     {
-        string weaponName = this.GetName();
-
         if( !this.remap.IsEmpty() )
         {
-            auto remap = ItemMapping( this.remap, weaponName );
+            auto remap = ItemMapping( this.remap, this.Name );
             g_WeaponsConfig.ItemMappingList.insertLast( @remap );
         }
 
-        g_CustomEntityFuncs.RegisterCustomEntity( weaponName, weaponName );
+        g_CustomEntityFuncs.RegisterCustomEntity( this.Name, this.Name );
 
-        g_ItemRegistry.RegisterWeapon( weaponName, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo );
+        g_ItemRegistry.RegisterWeapon( this.Name, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo );
 
         string szSpriteDir; // Precache HUD text definition
-        snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", weaponName );
+        snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", this.Name );
         g_Game.PrecacheGeneric( szSpriteDir );
     }
  
