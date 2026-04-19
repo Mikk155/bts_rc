@@ -153,28 +153,31 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                 @data[ "current_weapon" ] = weapon;
             }
 
-            if( ( player.pev.button & IN_ATTACK ) != 0 )
+            if( player.m_flNextAttack <= 0 )
             {
-                if( weapon.m_flNextPrimaryAttack < g_Engine.time )
+                if( ( player.pev.button & IN_ATTACK ) != 0 )
                 {
-                    if( wpnOverride !is null && wpnOverride.WeaponPrimaryAttack !is null )
-                        wpnOverride.WeaponPrimaryAttack( player, weapon, GetCharacter(player) );
-                    else
-                        weapon.PrimaryAttack();
+                    if( weapon.m_flNextPrimaryAttack < g_Engine.time )
+                    {
+                        if( wpnOverride !is null && wpnOverride.WeaponPrimaryAttack !is null )
+                            wpnOverride.WeaponPrimaryAttack( player, weapon, GetCharacter(player) );
+                        else
+                            weapon.PrimaryAttack();
+                        player.pev.button &= ~IN_ATTACK;
+                    }
                 }
-                player.pev.button &= ~IN_ATTACK;
-            }
 
-            if( ( player.pev.button & IN_ATTACK2 ) != 0 )
-            {
-                if( weapon.m_flNextSecondaryAttack < g_Engine.time )
+                if( ( player.pev.button & IN_ATTACK2 ) != 0 )
                 {
-                    if( wpnOverride !is null && wpnOverride.WeaponSecondaryAttack !is null )
-                        wpnOverride.WeaponSecondaryAttack( player, weapon, GetCharacter(player) );
-                    else
-                        weapon.SecondaryAttack();
+                    if( weapon.m_flNextSecondaryAttack < g_Engine.time )
+                    {
+                        if( wpnOverride !is null && wpnOverride.WeaponSecondaryAttack !is null )
+                            wpnOverride.WeaponSecondaryAttack( player, weapon, GetCharacter(player) );
+                        else
+                            weapon.SecondaryAttack();
+                        player.pev.button &= ~IN_ATTACK2;
+                    }
                 }
-                player.pev.button &= ~IN_ATTACK2;
             }
 
             if( wpnOverride !is null && wpnOverride.PlayerThink !is null )
