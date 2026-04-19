@@ -81,7 +81,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
         this.viewmodelIndex = g_ModelFuncs.ModelIndex( gpWeaponCrowbarConfig.view_model );
 
-        this.ParseDefaultVariables( json );
+        ASMeleeWeaponConfig::ParseDefaultVariables( json );
 
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) );
@@ -94,12 +94,12 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         {
             if( info.pInflictor !is null )
             {
-                bool bEffect = false;
-
                 if( info.pInflictor.GetClassname() == "weapon_crowbar" )
                 {
                     info.flDamage = gpWeaponCrowbarConfig.primary_damage * gpWeaponCrowbarConfig.throw_bonus;
-                    bEffect = true;
+                    TraceResult tr; // Effects
+                    g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
+                    weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
                 }
                 // Melee attack
                 else if( info.pInflictor is info.pAttacker && info.pInflictor.IsPlayer() )
@@ -109,16 +109,22 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
                     if( player !is null && player.m_hActiveItem.IsValid() &&  player.m_hActiveItem.GetEntity().GetClassname() == "weapon_crowbar" )
                     {
                         info.flDamage = gpWeaponCrowbarConfig.primary_damage;
-                        bEffect = true;
                     }
                 }
+            }
+            return HOOK_CONTINUE;
+        } ) );
 
-                if( bEffect )
-                {
-                    TraceResult tr;
-                    g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
-                    weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
-                }
+        g_Hooks.RegisterHook( Hooks::Weapon::WeaponPrimaryAttack,
+        WeaponPrimaryAttackHook( function( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+        {
+            if( weapon !is null && player !is null && weapon.GetClassname() == "weapon_crowbar" )
+            {
+                CBaseEntity@ hit;
+                TraceResult tr; // Effects
+                bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, hit, gpWeaponCrowbarConfig );
+                weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                weapons::SetCooldown( weapon, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Primary, miss ) );
             }
             return HOOK_CONTINUE;
         } ) );

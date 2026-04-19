@@ -117,9 +117,17 @@
     },
     "weapon_crowbar":
     {
-        "primary_damage": 13,
         "deploy_time": 0.4,
-        "throw_bonus": 1.5
+        "throw_bonus": 1.5,
+        "primary_damage": 13,
+        "primary_distance": 32,
+        "primary_miss_cooldown": 0.95,
+        "primary_miss_trained_cooldown": 0.75,
+        "primary_cooldown": 0.5,
+        "primary_trained_cooldown": 0.25
+/*
+                self.m_flNextPrimaryAttack = g_Engine.time + ( is_trained_personal ? 0.25f : 0.5f );
+*/
     },
     "weapon_bts_screwdriver":
     {
