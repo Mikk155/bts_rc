@@ -66,6 +66,13 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
+    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    {
+        g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "Called thing for " + this.GetName() + "\n" );
+    }
+
+    WeaponOverrider@ overrider;
+
     void Parse( dictionary@ json ) override
     {
         this.Precache();
@@ -73,6 +80,9 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         this.viewmodelIndex = g_ModelFuncs.ModelIndex( gpWeaponCrowbarConfig.view_model );
 
         this.ParseDefaultVariables( json );
+
+        @this.overrider = WeaponOverrider( this.GetName() );
+        @this.overrider.PlayerThink = PlayerThinkOverride( @this.PlayerThink );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, PlayerPostThinkHook( function( CBasePlayer@ player )
         {
