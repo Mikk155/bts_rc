@@ -141,20 +141,43 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
         {
             const string classname = weapon.GetClassname();
 
-            WeaponOverrider@ wpnOverride = null;
+            WeaponOverrider@ wpnOverride = cast<WeaponOverrider@>( gpWeaponsOverride[ classname ] );
 
             CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
             if( lastWeapon is null || lastWeapon != weapon )
             {
-                if( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.WeaponDeploy !is null )
+                if( wpnOverride !is null && wpnOverride.WeaponDeploy !is null )
                     wpnOverride.WeaponDeploy( player, weapon, character );
 
                 @data[ "current_weapon" ] = weapon;
             }
 
-            if( ( wpnOverride !is null && wpnOverride.PlayerThink !is null ) // Maybe it was valid from deploy?
-            || ( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.PlayerThink !is null ) )
+            if( ( player.pev.button & IN_ATTACK ) != 0 )
+            {
+                if( weapon.m_flNextPrimaryAttack < g_Engine.time )
+                {
+                    if( wpnOverride !is null && wpnOverride.WeaponPrimaryAttack !is null )
+                        wpnOverride.WeaponPrimaryAttack( player, weapon, GetCharacter(player) );
+                    else
+                        weapon.PrimaryAttack();
+                }
+                player.pev.button &= ~IN_ATTACK;
+            }
+
+            if( ( player.pev.button & IN_ATTACK2 ) != 0 )
+            {
+                if( weapon.m_flNextSecondaryAttack < g_Engine.time )
+                {
+                    if( wpnOverride !is null && wpnOverride.WeaponSecondaryAttack !is null )
+                        wpnOverride.WeaponSecondaryAttack( player, weapon, GetCharacter(player) );
+                    else
+                        weapon.SecondaryAttack();
+                }
+                player.pev.button &= ~IN_ATTACK2;
+            }
+
+            if( wpnOverride !is null && wpnOverride.PlayerThink !is null )
                 wpnOverride.PlayerThink( player, weapon, character );
 
             // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight

@@ -83,6 +83,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
     void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
+        weapon.PrimaryAttack();
         TraceResult tr; // Effects
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Primary, void, gpWeaponCrowbarConfig );
         weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
