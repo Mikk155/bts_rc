@@ -27,3 +27,4 @@
 #include "PlayerTakeDamage"
 #include "PlayerThink"
 #include "SquadmakerSpawn"
+#include "WeaponAttack"
