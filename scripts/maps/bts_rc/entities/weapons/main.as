@@ -23,6 +23,7 @@
 
 // Shared functions
 #include "base/shared/Deploy"
+#include "base/shared/Hit"
 #include "base/shared/SetCooldown"
 #include "base/shared/TraceEffects"
 
