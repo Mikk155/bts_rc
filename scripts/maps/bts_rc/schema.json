@@ -256,11 +256,11 @@
                 {
                     "type": "number"
                 },
-                "primary_cooldown":
+                "tertriary_damage":
                 {
                     "type": "number"
                 },
-                "primary_trained_cooldown":
+                "primary_cooldown":
                 {
                     "type": "number"
                 },
@@ -268,7 +268,19 @@
                 {
                     "type": "number"
                 },
+                "tertriary_cooldown":
+                {
+                    "type": "number"
+                },
+                "primary_trained_cooldown":
+                {
+                    "type": "number"
+                },
                 "secondary_trained_cooldown":
+                {
+                    "type": "number"
+                },
+                "tertriary_trained_cooldown":
                 {
                     "type": "number"
                 },
