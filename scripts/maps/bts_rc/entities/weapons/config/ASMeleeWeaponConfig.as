@@ -60,6 +60,11 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
 
     void Parse( dictionary@ json ) override
     {
+        ASWeaponConfig::Parse(json);
+    }
+
+    void ParseDefaultVariables( dictionary@ json ) override
+    {
         this.primary_distance = this.Get( @json, "primary_distance", 10 );
         this.secondary_distance = this.Get( @json, "secondary_distance", primary_distance );
         this.tertriary_distance = this.Get( @json, "tertriary_distance", primary_distance );
@@ -69,11 +74,6 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
         this.secondary_miss_cooldown = this.Get( @json, "secondary_miss_cooldown", primary_miss_cooldown );
         this.secondary_miss_trained_cooldown = this.Get( @json, "secondary_miss_trained_cooldown", secondary_miss_cooldown );
 
-        ASWeaponConfig::Parse(json);
-    }
-
-    void ParseDefaultVariables( dictionary@ json ) override
-    {
         ASWeaponConfig::ParseDefaultVariables(json);
     }
 
