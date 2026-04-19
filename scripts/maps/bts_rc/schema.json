@@ -65,7 +65,7 @@
                 "persistent":
                 {
                     "type": "boolean",
-                    "description": "If true, puddles remain indefinitely. Otherwise they fade out."
+                    "description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
                 },
                 "default_size":
                 {

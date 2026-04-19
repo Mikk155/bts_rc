@@ -130,7 +130,9 @@ namespace bloodpuddle
                 {
                     if( gpConfig.Persistent )
                     {
-                        SetThink( null );
+                        self.pev.nextthink = g_Engine.time + 30.0;
+                        if( !freeedicts( 100 ) )
+                            g_EntityFuncs.Remove( self );
                         return;
                     }
 
