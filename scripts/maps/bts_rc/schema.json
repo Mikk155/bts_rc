@@ -183,17 +183,27 @@
         },
         "weapon_bts_axe":
         {
-            "allOf":
-            [
-                { "$ref": "#/$defs/ASWeaponMelee" }
-            ],
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
+        },
+        "weapon_bts_screwdriver":
+        {
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
+        },
+        "weapon_bts_poolstick":
+        {
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
+        },
+        "weapon_bts_pipe":
+        {
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
+        },
+        "weapon_bts_knife":
+        {
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_crowbar":
         {
-            "allOf":
-            [
-                { "$ref": "#/$defs/ASWeaponMelee" }
-            ],
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ],
             "properties": {
                 "throw_bonus":
                 {
@@ -319,5 +329,6 @@
                 }
             }
         }
-    }
+    },
+    "additionalProperties": false
 }
