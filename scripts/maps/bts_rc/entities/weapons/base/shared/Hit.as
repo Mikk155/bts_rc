@@ -68,14 +68,17 @@ namespace weapons
             g_WeaponFuncs.ClearMultiDamage();
 
             // subsequent swings do % less damage
-            float subsequent = ( weapon.m_flNextPrimaryAttack + 1.0f < g_Engine.time ) ? 1.0 : config.subsequent_hits_deduction;
+            float subsequent = config.subsequent_hits_deduction;
+
 
             switch( type )
             {
                 case AttackType::Primary:
+                    subsequent = Math.max( 0.1, ( g_Engine.time > weapon.m_flNextPrimaryAttack + 1.0 ? 1.0 : subsequent ) );
                     hit.TraceAttack( player.pev, config.primary_damage * subsequent, g_Engine.v_forward, tr, ( DMG_SLASH | DMG_CLUB | DMG_BTS_WEAPON ) );
                 break;
                 case AttackType::Secondary:
+                    subsequent = Math.max( 0.1, ( g_Engine.time > weapon.m_flNextSecondaryAttack + 1.0 ? 1.0 : subsequent ) );
                     hit.TraceAttack( player.pev, config.secondary_damage * subsequent, g_Engine.v_forward, tr, ( DMG_SLASH | DMG_CLUB | DMG_BTS_WEAPON ) );
                 break;
             }
