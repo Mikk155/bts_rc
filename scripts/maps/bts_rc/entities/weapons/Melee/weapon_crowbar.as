@@ -70,10 +70,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
         {
             g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NONE );
-
-            player.pev.viewmodel = gpWeaponCrowbarConfig.view_model;
-            weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, ( character !is null ? character.HandsGroup : Hands::Gray ) );
-            weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body ); // Resend the current animation to update the bodygroup
+            weapons::Deploy( weapon, player, gpWeaponCrowbarConfig );
         }
     }
 
