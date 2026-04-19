@@ -189,7 +189,7 @@
     "weapon_bts_knife":
     {
         "slot": 0,
-        "position": 10,
+        "position": 11,
         "weight": 10,
         "primary_distance": 32,
         "primary_damage": 18,
