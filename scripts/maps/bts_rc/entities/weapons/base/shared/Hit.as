@@ -70,7 +70,6 @@ namespace weapons
             // subsequent swings do % less damage
             float subsequent = config.subsequent_hits_deduction;
 
-
             switch( type )
             {
                 case AttackType::Primary:
