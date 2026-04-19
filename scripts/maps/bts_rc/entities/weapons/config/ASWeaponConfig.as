@@ -87,6 +87,24 @@ abstract class ASWeaponConfig : IConfigContext
     // Weapon cooldown for tertriary attack for trained personal
     float tertriary_trained_cooldown;
 
+    float GetCooldown( bool is_trained_personal, AttackType type )
+    {
+        switch( type )
+        {
+            case AttackType::Primary:
+                return ( is_trained_personal ? this.primary_trained_cooldown : this.primary_cooldown );
+            case AttackType::Secondary:
+            {
+                return ( is_trained_personal ? this.secondary_trained_cooldown : this.secondary_cooldown );
+            }
+            case AttackType::Tertriary:
+            default:
+            {
+                return ( is_trained_personal ? this.tertriary_trained_cooldown : this.tertriary_cooldown );
+            }
+        }
+    }
+
     float Get( const dictionary@&in json, const string&in keyName, float defaultValue )
     {
         float value;
