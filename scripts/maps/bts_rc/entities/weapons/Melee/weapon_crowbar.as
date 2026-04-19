@@ -87,6 +87,31 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) );
 
+        // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
+        if( gpGameVersion == 526 )
+        {
+            this.overrider.SetPlayerThink( WeaponOverriderCallback(
+            function( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+            {
+                dictionary@ data = player.GetUserData();
+
+                uint8 sequence;
+
+                if( !data.get( "526_weaponsequence", sequence ) )
+                    sequence = -1;
+
+                if( sequence != player.pev.weaponanim )
+                {
+                    data[ "526_weaponsequence" ] = player.pev.weaponanim;
+
+                    Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
+
+                    weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, handsGroup );
+                    weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
+                }
+            } ) );
+        }
+
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", this.primary_damage );
     }
 }
