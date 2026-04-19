@@ -74,6 +74,7 @@ abstract class ASWeaponConfig : IConfigContext
     float primary_damage;
     // Weapon damage for secondary attack
     float secondary_damage;
+    float tertriary_damage;
     // Weapon cooldown for primary attack
     float primary_cooldown;
     // Weapon cooldown for primary attack for trained personal
@@ -133,12 +134,16 @@ abstract class ASWeaponConfig : IConfigContext
 
         this.primary_damage = this.Get( @json, "primary_damage", 1 );
         this.secondary_damage = this.Get( @json, "secondary_damage", 1 );
+        this.tertriary_damage = this.Get( @json, "tertriary_damage", 1 );
 
         this.primary_cooldown = this.Get( @json, "primary_cooldown", 1 );
         this.primary_trained_cooldown = this.Get( @json, "primary_trained_cooldown", primary_cooldown );
 
         this.secondary_cooldown = this.Get( @json, "secondary_cooldown", primary_cooldown );
         this.secondary_trained_cooldown = this.Get( @json, "secondary_trained_cooldown", secondary_cooldown );
+
+        this.tertriary_cooldown = this.Get( @json, "tertriary_cooldown", primary_cooldown );
+        this.tertriary_trained_cooldown = this.Get( @json, "tertriary_trained_cooldown", tertriary_cooldown );
 
         this.max_clip = int( this.Get( @json, "max_clip", WEAPON_NOCLIP ) );
         this.slot = uint( this.Get( @json, "slot", 0 ) );
