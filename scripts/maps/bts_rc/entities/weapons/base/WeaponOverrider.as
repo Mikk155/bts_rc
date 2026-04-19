@@ -9,7 +9,6 @@ class WeaponOverrider
         return @this.m_Owner;
     }
 
-    private string m_Classname;
     const string& get_classname() {
         return this.m_Owner.Name;
     }
@@ -19,16 +18,18 @@ class WeaponOverrider
     WeaponOverrider( ASWeaponConfig@ owner )
     {
         @this.m_Owner = owner;
-        @gpWeaponsOverride[ this.m_Classname ] = this;
+        @gpWeaponsOverride[ this.m_Owner.Name ] = this;
     }
 
-    private WeaponOverriderCallback@ m_PlayerThink;
-    WeaponOverriderCallback@ get_PlayerThink() {
-        return @this.m_PlayerThink;
-    }
-
+    WeaponOverriderCallback@ PlayerThink;
     WeaponOverrider@ SetPlayerThink( WeaponOverriderCallback@ callback ) {
-        @this.m_PlayerThink = callback;
+        @this.PlayerThink = callback;
+        return this;
+    }
+
+    WeaponOverriderCallback@ WeaponDeploy;
+    WeaponOverrider@ SetWeaponDeploy( WeaponOverriderCallback@ callback ) {
+        @this.WeaponDeploy = callback;
         return this;
     }
 }

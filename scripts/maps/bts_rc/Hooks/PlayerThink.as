@@ -143,7 +143,18 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
 
             WeaponOverrider@ wpnOverride = null;
 
-            if( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.PlayerThink !is null )
+            CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
+
+            if( lastWeapon is null || lastWeapon != weapon )
+            {
+                if( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.WeaponDeploy !is null )
+                    wpnOverride.WeaponDeploy( player, weapon, character );
+
+                @data[ "current_weapon" ] = weapon;
+            }
+
+            if( ( wpnOverride !is null && wpnOverride.PlayerThink !is null ) // Maybe it was valid from deploy?
+            || ( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.PlayerThink !is null ) )
                 wpnOverride.PlayerThink( player, weapon, character );
 
             // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight

@@ -65,7 +65,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
         if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
         {
@@ -88,8 +88,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         this.ParseDefaultVariables( json );
 
         @this.overrider = WeaponOverrider( this )
-            .SetPlayerThink( WeaponOverriderCallback( @this.PlayerThink ) );
-
+            .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) );
 
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", this.primary_damage );
     }
