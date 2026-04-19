@@ -66,10 +66,10 @@ namespace weapons
             switch( type )
             {
                 case AttackType::Primary:
-                    hit.TraceAttack( player.pev, config.primary_damage * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
+                    hit.TraceAttack( player.pev, config.primary_damage * subsequent, g_Engine.v_forward, tr, ( DMG_SLASH | DMG_CLUB | DMG_BTS_WEAPON ) );
                 break;
                 case AttackType::Secondary:
-                    hit.TraceAttack( player.pev, config.secondary_damage * subsequent, g_Engine.v_forward, tr, DMG_SLASH | DMG_CLUB );
+                    hit.TraceAttack( player.pev, config.secondary_damage * subsequent, g_Engine.v_forward, tr, ( DMG_SLASH | DMG_CLUB | DMG_BTS_WEAPON ) );
                 break;
             }
 
