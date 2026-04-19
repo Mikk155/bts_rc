@@ -68,6 +68,7 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
         }
         player.pev.impulse = 0;
     }
+
 #if METAMOD_DEBUG
     if( character is null )
         SetClass( player, Classification::Scientist );
@@ -143,7 +144,7 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
             WeaponOverrider@ wpnOverride = null;
 
             if( gpWeaponsOverride.get( classname, @wpnOverride ) && wpnOverride !is null && wpnOverride.PlayerThink !is null )
-                wpnOverride.PlayerThink( player, weapon );
+                wpnOverride.PlayerThink( player, weapon, character );
 
             // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
             if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
