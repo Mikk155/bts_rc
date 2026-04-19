@@ -54,6 +54,14 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         return "models/bts_rc/weapons/v_crowbar.mdl";
     }
 
+    const string& get_player_model() override {
+        return "models/hlclassic/p_crowbar.mdl";
+    }
+
+    const string& get_animation_extension() override {
+        return "crowbar";
+    }
+
     uint viewmodelIndex;
     float throw_bonus;
 
