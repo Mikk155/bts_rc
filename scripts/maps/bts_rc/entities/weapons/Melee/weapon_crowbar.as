@@ -22,9 +22,7 @@
 */
 
 /*
-*   Author: AraseFiq
-*   Rewrited by Rizulix for bts_rc (january 2025)
-*   Rewrited by mikk 14/4/26
+*   Author: mikk
 */
 
 enum WeaponCrowbarAnim
@@ -122,13 +120,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
                     weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
                 }
             }
-                if( info.pAttacker !is null )
-                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "pAttacker: " + info.pAttacker.pev.classname + "\n" );
-                if( info.pInflictor !is null )
-                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "pInflictor: " + info.pInflictor.pev.classname + "\n" );
-                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "flDamage: " + info.flDamage + "\n" );
-                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "throw_bonus: " + gpWeaponCrowbarConfig.throw_bonus + "\n" );
-                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "bitsDamageType: " + info.bitsDamageType + "\n" );
             return HOOK_CONTINUE;
         } ) );
 
