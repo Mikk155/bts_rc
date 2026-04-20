@@ -50,6 +50,33 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
 void MapActivate()
 {
+    uint numents = g_EngineFuncs.NumberOfEntities();
+
+    for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
+    {
+        auto entity = g_EntityFuncs.Instance( entityIndex );
+
+        if( entity is null )
+            continue;
+
+        CBaseMonster@ monster = null;
+
+        if( entity.IsMonster() )
+            @monster = cast<CBaseMonster@>(entity);
+
+        auto ckv = entity.GetCustomKeyvalues();
+
+        uint length = gpEntityOverriden.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EntityOverriden@ overrider = gpEntityOverriden[ui];
+
+            if( overrider !is null )
+                overrider.AddEntity( entityIndex, entity, ckv, monster );
+        }
+    }
+
     MapLoadedChrono.Stop();
     g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
     @MapLoadedChrono = null;
