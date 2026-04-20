@@ -42,6 +42,21 @@ void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity )
 
     auto ckv = squad.GetCustomKeyvalues();
 
+    CBaseMonster@ monster = null;
+
+    if( entity.IsMonster() )
+        @monster = cast<CBaseMonster@>(entity);
+
+    uint length = gpEntityOverriden.length();
+
+    for( uint ui = 0; ui < length; ui++ )
+    {
+        EntityOverriden@ overrider = gpEntityOverriden[ui];
+
+        if( overrider !is null )
+            overrider.AddEntity( entity.entindex(), entity, ckv, monster );
+    }
+
     // Swap a specific squadmaker to a random location.
     if( ckv.GetKeyvalue( "$i_randomize_squad" ).GetInteger() == 1 )
     {
