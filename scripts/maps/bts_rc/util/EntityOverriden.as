@@ -1,5 +1,12 @@
 array<EntityOverriden@> gpEntityOverriden(0);
 
+enum EntityOverridenAction
+{
+    None = 0,
+    Remove = ( 1 << 0 ),
+    Break = ( 1 << 1 )
+};
+
 /// Inherit from this class to make changes into map entities
 abstract class EntityOverriden : IConfigContext
 {
@@ -20,28 +27,26 @@ abstract class EntityOverriden : IConfigContext
         m_Handles.insertLast( EHandle( entity ) );
     }
 
-    CScheduledFunction@ m_Think = null;
-
-    // Called every this.nextthink for every entity in this.m_Handles. return false to remove the entity from the list
-    bool EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster )
+    // Called every frame for every entity in this.m_Handles. See EntityOverridenAction for bits
+    uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster )
     {
-        return true;
+        return EntityOverridenAction::None;
     }
 
-    // Called every this.nextthink before EntityThink
+    // Called every frame before EntityThink.
     void Think()
     {
-        for( int i = this.m_Handles.length(); i-- > 0; )
+        for( int index = this.m_Handles.length(); index-- > 0; )
         {
-            EHandle handle = this.m_Handles[i];
+            EHandle handle = this.m_Handles[index];
 
             CBaseEntity@ entity = null;
 
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
                 if( g_Logger.warning )
-                    g_Logger.warning = snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.Name, i );
-                this.m_Handles.removeAt(i);
+                    g_Logger.warning = snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.Name, index );
+                this.m_Handles.removeAt(index);
                 continue;
             }
 
@@ -50,37 +55,23 @@ abstract class EntityOverriden : IConfigContext
             if( entity.IsMonster() )
                 @monster = cast<CBaseMonster@>(entity);
 
-            if( !EntityThink( entity.entindex(), entity, monster ) )
+            uint flags = EntityThink( index, entity, monster );
+
+            if( ( flags & EntityOverridenAction::Remove ) != 0 )
             {
                 if( g_Logger.trace )
-                    g_Logger.trace = snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.Name, i );
-                this.m_Handles.removeAt(i);
+                    g_Logger.trace = snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.Name, index );
+                this.m_Handles.removeAt(index);
+            }
+
+            if( ( flags & EntityOverridenAction::Break ) != 0 )
+            {
+                break;
             }
         }
     }
 
-    private float m_ThinkTime;
-
-    float nextthink
-    {
-        get {
-            return m_ThinkTime;
-        }
-        set {
-            if( m_Think !is null )
-            {
-                g_Scheduler.RemoveTimer( this.m_Think );
-                @this.m_Think = null;
-            }
-
-            this.m_ThinkTime = value;
-
-            if( this.m_ThinkTime > 0 )
-            {
-                @this.m_Think = g_Scheduler.SetInterval( @this, "Think", this.m_ThinkTime, g_Scheduler.REPEAT_INFINITE_TIMES );
-            }
-        }
-    }
+    float nextthink;
 
     void Parse( dictionary@ json )
     {
