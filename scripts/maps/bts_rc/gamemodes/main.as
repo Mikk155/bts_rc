@@ -24,6 +24,7 @@
 #include "bloodpuddle"
 #include "item_tracker"
 #include "deathdrop"
+#include "flashbang"
 #include "Hellbound"
 #include "lasers"
 #include "player_voices"
