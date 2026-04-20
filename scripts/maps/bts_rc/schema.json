@@ -39,6 +39,16 @@
                 {
                     "type": "number",
                     "description": "Global cooldown for blackops to throw grenades"
+                },
+                "detonate_time":
+                {
+                    "type": "number",
+                    "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
+                },
+                "interval":
+                {
+                    "type": "number",
+                    "description": "Internal think rate interval. lower values more cpu usage"
                 }
             }
         },
