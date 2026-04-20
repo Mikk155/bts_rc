@@ -24,6 +24,24 @@
             "type": "boolean",
             "description": "If enabled, HEV batteries will emit dynamic light."
         },
+        "blackops_flashbang":
+        {
+            "type": "object",
+            "description": "Controls blackops flashbangs feature",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "description": "Should blackops throw flashbang instead of regular grenades?"
+                },
+                "throw_flash_cooldown":
+                {
+                    "type": "number",
+                    "description": "Global cooldown for blackops to throw grenades"
+                }
+            }
+        },
         "log":
         {
             "type": "object",

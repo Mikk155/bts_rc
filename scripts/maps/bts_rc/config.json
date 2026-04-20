@@ -4,6 +4,11 @@
     "voice_responses": true,
     "turret_lasers": true,
     "battery_lighting": true,
+    "blackops_flashbang":
+    {
+        "active": true,
+        "throw_flash_cooldown": 30
+    },
     "log":
     {
         "error": true,
