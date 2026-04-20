@@ -28,6 +28,7 @@
 #include "CommandContext"
 #include "ConfigContext"
 #include "CustomEntity"
+#include "EntityOverriden"
 #include "freeedicts"
 #include "Logger"
 #include "models"
