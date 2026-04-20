@@ -7,7 +7,9 @@
     "blackops_flashbang":
     {
         "active": true,
-        "throw_flash_cooldown": 30
+        "throw_flash_cooldown": 3,
+        "detonate_time": 6,
+        "interval": 0.4
     },
     "log":
     {

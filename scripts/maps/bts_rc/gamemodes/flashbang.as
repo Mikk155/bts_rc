@@ -21,17 +21,15 @@
 *   SOFTWARE.
 */
 
-/*
-    Author: Mikk
-*/
-
 class BlackOpsFlashbang : EntityOverriden
 {
     const string& get_Name() {
         return "blackops_flashbang";
     }
 
-    float throw_flash_cooldown;
+    private float throw_flash_cooldown;
+    private float detonate_time;
+    private float interval;
 
     void Parse( dictionary@ json ) override
     {
@@ -40,10 +38,12 @@ class BlackOpsFlashbang : EntityOverriden
         if( json.get( "active", active ) && !active )
             return;
 
-        if( !json.get( "throw_flash_cooldown", throw_flash_cooldown ) )
-            throw_flash_cooldown = 30;
+        this.interval = Math.max( 0.1, float( json[ "interval" ] ) );
+        this.detonate_time = Math.max( 1, float( json[ "detonate_time" ] ) );
+        this.throw_flash_cooldown = Math.max( 2, float( json[ "throw_flash_cooldown" ] ) );
 
-        this.nextthink = 0.4f;
+        this.nextthink = this.interval;
+
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
     }
 
@@ -53,52 +53,105 @@ class BlackOpsFlashbang : EntityOverriden
             EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 
-    float flLastGrenadeThrown;
-
-    void TrackGrenade( EHandle hOwner )
+    uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        CBaseEntity@ owner = null;
+        if( monster is null || !monster.IsAlive() )
+            return EntityOverridenAction::Remove;
 
-        if( !hOwner.IsValid() || ( @owner = hOwner.GetEntity() ) is null || !owner.IsAlive() )
+        // Force somebody to throw a grenade.
+        if( monster.m_hEnemy.IsValid() && monster.pev.sequence != 6 && monster.m_MonsterState != MONSTERSTATE::MONSTERSTATE_SCRIPT )
         {
-            this.flLastGrenadeThrown = 0; // Try again with someone else
-            return;
+            // let some seconds til he creates the grenade entity
+            this.m_flTracking = g_Engine.time + 5.0f;
+
+            this.m_uiTrackingOwner = index;
+
+            monster.m_IdealActivity = ACT_RANGE_ATTACK2;
+            monster.SetState( MONSTERSTATE::MONSTERSTATE_SCRIPT );
+            monster.SetActivity( ACT_RANGE_ATTACK2 );
+
+            return EntityOverridenAction::Break;
         }
 
-        edict_t@ ownerEdict = owner.edict();
-        CBaseEntity@ grenade = null;
-
-        while( ( @grenade = g_EntityFuncs.FindEntityByClassname( grenade, "grenade" ) ) !is null && grenade.pev.owner is ownerEdict )
-        {
-            g_EntityFuncs.SetModel( grenade, "models/bts_rc/weapons/w_fgrenade.mdl" );
-            g_Scheduler.SetTimeout( @this, "FlashbangThink", 0.1f, EHandle(grenade) );
-            return;
-        }
-
-        g_Scheduler.SetTimeout( @this, "TrackGrenade", 0.1f, EHandle(owner) );
+        return EntityOverridenAction::None;
     }
 
-    void FlashbangThink( EHandle hFlashbang )
-    {
-    }
+    // Flashbang grenade
+    private EHandle m_hGrenade;
+    private float m_flTracking;
+    private uint m_uiTrackingOwner;
 
-    bool EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
+    void Think() override
     {
-        if( this.flLastGrenadeThrown > g_Engine.time || monster is null || !monster.IsAlive() )
-            return false;
+        this.nextthink = g_Engine.time + this.interval;
 
-        if( monster.m_hEnemy.IsValid() )
+        CGrenade@ grenade = null;
+
+        if( m_hGrenade.IsValid() && ( @grenade = cast<CGrenade@>( m_hGrenade.GetEntity() ) ) !is null )
         {
-            // Force somebody to throw a grenade.
-            if( this.flLastGrenadeThrown < g_Engine.time && monster.pev.sequence != 6 )
+            Vector color( 255, 255, 255 );
+
+            for( int i = 1; i <= g_Engine.maxClients; i++ )
             {
-                monster.SetActivity( ACT_RANGE_ATTACK2 );
-                this.flLastGrenadeThrown = g_Engine.time + this.throw_flash_cooldown;
-                g_Scheduler.SetTimeout( @this, "TrackGrenade", 0.1f, EHandle(entity) );
+                auto player = g_PlayerFuncs.FindPlayerByIndex(i);
+
+                if( player !is null )
+                {
+                    Math.MakeVectors( player.pev.v_angle );
+                    Vector vecSrc = player.pev.origin + player.pev.view_ofs;
+                    Vector vecToTarget = ( grenade.pev.origin - vecSrc ).Normalize();
+                    float dot = DotProduct( g_Engine.v_forward, vecToTarget );
+                    
+                    if( dot >= 0.5f )
+                    {
+                        g_PlayerFuncs.ScreenFade( player, color, 3.0, 1.0, 255, 0 );
+                    }
+                }
             }
+            g_EntityFuncs.Remove( grenade );
+            this.nextthink = g_Engine.time + this.throw_flash_cooldown;
+            return;
         }
 
-        return true;
+        if( m_flTracking > g_Engine.time )
+        {
+            EHandle ownerHandle = this.m_Handles[this.m_uiTrackingOwner];
+
+            if( ownerHandle.IsValid() )
+            {
+                CBaseEntity@ ownerEntity = ownerHandle.GetEntity();
+
+                if( ownerEntity !is null )
+                {
+                    edict_t@ ownerEdict = ownerEntity.edict();
+
+                    CBaseEntity@ grenade = null;
+                    CBaseEntity@ bestGrenade = null;
+                    
+                    while( ( @grenade = g_EntityFuncs.FindEntityByClassname( grenade, "grenade" ) ) !is null && grenade.pev.owner is ownerEdict )
+                    {
+                        // Done this way in case there's already a grenade (non flashbang) thrown by this owner
+                        if( bestGrenade is null || ( bestGrenade.pev.origin - ownerEntity.pev.origin ).Length() > ( grenade.pev.origin - ownerEntity.pev.origin ).Length() )
+                            @bestGrenade = grenade;
+                    }
+
+                    if( bestGrenade !is null )
+                    {
+                        @bestGrenade.pev.owner = null;
+                        bestGrenade.pev.dmgtime = g_Engine.time + this.detonate_time + 1.0f;
+                        g_EntityFuncs.SetModel( bestGrenade, "models/bts_rc/weapons/w_fgrenade.mdl" );
+
+                        this.m_flTracking = 0;
+                        this.m_hGrenade = EHandle( bestGrenade );
+                        this.nextthink = g_Engine.time + this.detonate_time;
+                    }
+                }
+            }
+            return;
+        }
+
+        // Call on EntityThink
+        EntityOverriden::Think();
     }
 }
 
