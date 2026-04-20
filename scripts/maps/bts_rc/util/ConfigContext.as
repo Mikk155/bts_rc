@@ -63,8 +63,10 @@ namespace ConfigContext
             }
             else
             {
+                context.Parse( {} );
+
                 if( g_Logger.critical )
-                    g_Logger.critical = snprintf( glog, "Failed to find context \"%1\" in config.json", context.Name );
+                    g_Logger.critical = snprintf( glog, "Failed to find context \"%1\" in config.json calling with empty data!", context.Name );
             }
         }
     }
