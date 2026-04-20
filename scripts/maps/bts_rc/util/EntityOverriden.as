@@ -40,7 +40,7 @@ abstract class EntityOverriden : IConfigContext
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
                 if( g_Logger.warning )
-                    g_Logger.warning = snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", i, this.Name );
+                    g_Logger.warning = snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.Name, i );
                 this.m_Handles.removeAt(i);
                 continue;
             }
@@ -53,7 +53,7 @@ abstract class EntityOverriden : IConfigContext
             if( !EntityThink( entity.entindex(), entity, monster ) )
             {
                 if( g_Logger.trace )
-                    g_Logger.trace = snprintf( glog, "%1 requested to remove a entity at index %2 removing...", i, this.Name );
+                    g_Logger.trace = snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.Name, i );
                 this.m_Handles.removeAt(i);
             }
         }
