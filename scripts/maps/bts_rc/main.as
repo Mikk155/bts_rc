@@ -27,6 +27,8 @@
 #include "gamemodes/main"
 #include "Hooks/main"
 
+#include "../bts_rc_weapons/main"
+
 // Has the game started in the map?
 bool gpGameStarted;
 
@@ -131,4 +133,6 @@ void MapInit()
         chronoMapInit.Stop();
         g_Logger.info = snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
+
+    oldweapons::init();
 }
