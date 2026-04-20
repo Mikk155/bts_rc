@@ -84,6 +84,8 @@ void MapActivate()
     @MapLoadedChrono = null;
 
     meta_api::NoticeInstallation();
+
+    Hooks::StartFrame();
 }
 
 void MapInit()
