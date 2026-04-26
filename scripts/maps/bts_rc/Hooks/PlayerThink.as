@@ -180,6 +180,19 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                             weapon.SecondaryAttack();
                     }
                 }
+
+                if( ( player.pev.button & IN_ALT1 ) != 0 )
+                {
+                    if( weapon.m_flNextTertiaryAttack < g_Engine.time )
+                    {
+                        player.pev.button &= ~IN_ALT1;
+
+                        if( wpnOverride !is null && wpnOverride.WeaponTertriaryAttack !is null )
+                            wpnOverride.WeaponTertriaryAttack( player, weapon, GetCharacter(player) );
+                        else
+                            weapon.SecondaryAttack();
+                    }
+                }
             }
 
             if( wpnOverride !is null )
