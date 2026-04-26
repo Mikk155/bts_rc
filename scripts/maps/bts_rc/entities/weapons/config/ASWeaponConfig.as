@@ -51,6 +51,14 @@ abstract class ASWeaponConfig : IConfigContext
     // Weapon classname to add ItemMapping
     const string& get_remap() { return String::EMPTY_STRING; }
 
+    private int m_view_model_index = -1;
+    // Do not override. is automatic.
+    int get_view_model_index() {
+        if( this.m_view_model_index == -1 )
+            this.m_view_model_index = g_ModelFuncs.ModelIndex( this.view_model );
+        return this.m_view_model_index;
+    }
+
     // Weapon deploy time cooldown for attacking. automatically set in BTS_Weapon::Deploy
     float deploy_time;
     // Weapon primary max ammo capacity. automatically set in BTS_Weapon::GetItemInfo
