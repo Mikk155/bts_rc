@@ -45,6 +45,25 @@
     light_origin(string) : "ZHLT Light Origin Target"
 ]
 
+@PointClass base(Mandatory) studio( "models/mikk/misc/devcommentary.mdl" ) = env_commentary : "Developer commentary"
+[
+    spawnflags(Flags) =
+    [
+        1 : "No sound" : 0
+    ]
+    message(string) : "Commentary filename"
+    target(target_destination) : "Target when start using"
+    noise(target_destination) : "Target after duration ends"
+    netname(string) : "Title for the motd popup"
+    frags(choices) : "Display MOTD" : 0 =
+    [
+        0: "Yes"
+        1: "No"
+    ]
+    health(float) : "Duration to block the player"
+    noise1(target_destination) : "Target on removal (Clean up)"
+]
+
 @PointClass base(Mandatory) color(140 0 130) = trigger_update_class : "Trigger class update" : "Update player classification role"
 [
     m_class(choices) : "Player Class" : "0" : "Index of the class, It's used in the code for setting the proper view models and some more operations" =
