@@ -145,6 +145,7 @@
     {
         "slot": 4,
         "position": 14,
+        "primary_maxammo": 120,
         "deploy_time": 0.6,
         "health_ammount": 10,
         "health_gain": 10,
