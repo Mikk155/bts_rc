@@ -144,6 +144,12 @@
     "weapon_medkit":
     {
         "deploy_time": 0.6,
+        "health_ammount": 10,
+        "health_gain": 10,
+        "health_cost": 30,
+        // "trained" cooldowns are not accounted for medkit.
+        "primary_cooldown": 2.0,
+        "secondary_cooldown": 2.0,
         "tertiary_cooldown": 2.0
     },
     "weapon_bts_screwdriver":

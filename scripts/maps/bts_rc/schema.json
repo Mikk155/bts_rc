@@ -27,6 +27,7 @@
         "blackops_flashbang":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Controls blackops flashbangs feature",
             "properties":
             {
@@ -55,6 +56,7 @@
         "log":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Logging configuration per severity level.",
             "properties":
             {
@@ -82,6 +84,7 @@
         "bloodpuddle":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Controls blood puddle behavior and appearance.",
             "properties":
             {
@@ -128,6 +131,7 @@
         "zombie_uncrab":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Controls headcrab detachment behavior from zombies.",
             "properties":
             {
@@ -147,6 +151,7 @@
         "deathdrop":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Defines item drop tables for entities (by classname or model).",
             "additionalProperties":
             {
@@ -161,6 +166,7 @@
         "wall_recharger":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Configuration for wall-mounted chargers.",
             "properties":
             {
@@ -184,6 +190,7 @@
         "weapons":
         {
             "type": "object",
+            "unevaluatedProperties": false,
             "description": "Global weapon-related gameplay modifiers.",
             "properties":
             {
@@ -221,31 +228,54 @@
         },
         "weapon_bts_axe":
         {
+            "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_bts_screwdriver":
         {
+            "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_bts_poolstick":
         {
+            "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_bts_pipe":
         {
+            "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_bts_knife":
         {
+            "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_crowbar":
         {
+            "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
         "weapon_medkit":
         {
-            "allOf": [ { "$ref": "#/$defs/ASWeaponConfig" } ]
+            "unevaluatedProperties": false,
+            "allOf": [ { "$ref": "#/$defs/ASWeaponConfig" } ],
+            "properties":
+            {
+                "health_ammount":
+                {
+                    "type": "integer",
+                    "description": "Ammount of health to heal"
+                },
+                "health_gain":
+                {
+                    "type": "integer"
+                },
+                "health_cost":
+                {
+                    "type": "integer"
+                }
+            }
         }
     },
     "$defs":
@@ -324,18 +354,15 @@
                 {
                     "type": "integer"
                 },
-
                 "deploy_time":
                 {
-                    "type": "number" }
+                    "type": "number"
+                }
             }
         },
         "ASWeaponMelee":
         {
-            "allOf":
-            [
-                { "$ref": "#/$defs/ASWeaponConfig" }
-            ],
+            "allOf": [ { "$ref": "#/$defs/ASWeaponConfig" } ],
             "type": "object",
             "description": "Melee-specific weapon behavior.",
             "properties":
@@ -376,5 +403,5 @@
             }
         }
     },
-    "additionalProperties": false
+    "unevaluatedProperties": false
 }
