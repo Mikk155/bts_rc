@@ -149,7 +149,9 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
             // I don't have time to redesign this nor i care.
             if( weaponConfig is null )
             {
+#if METAMOD_DEBUG
                 player.RemovePlayerItem( weapon );
+#endif
                 return HOOK_CONTINUE;
             }
 
