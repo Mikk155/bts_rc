@@ -44,8 +44,8 @@ abstract class ASWeaponConfig : IConfigContext
     // Weapon deploy extension. automatically set in BTS_Weapon::Deploy
     const string& get_animation_extension() { return String::EMPTY_STRING; }
     // Weapon deploy bodygroup value. some models has their hands bodgroup on a different value. automatically set in BTS_Weapon::Deploy
-    uint8 get_hands_group() { return 1; }
-    uint8 get_animation_draw() { return 1; }
+    const uint8 get_hands_group() { return 1; }
+    const uint8 get_animation_draw() { return 1; }
     const string& get_primary_ammo() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
     // Weapon classname to add ItemMapping
@@ -53,7 +53,7 @@ abstract class ASWeaponConfig : IConfigContext
 
     private int m_view_model_index = -1;
     // Do not override. is automatic.
-    int get_view_model_index() {
+    const int get_view_model_index() {
         if( this.m_view_model_index == -1 )
             this.m_view_model_index = g_ModelFuncs.ModelIndex( this.view_model );
         return this.m_view_model_index;

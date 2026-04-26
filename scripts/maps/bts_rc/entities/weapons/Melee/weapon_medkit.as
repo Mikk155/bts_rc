@@ -51,7 +51,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
         return "models/bts_rc/weapons/p_medkit.mdl";
     }
 
-    uint8 get_animation_draw() override {
+    const uint8 get_animation_draw() override {
         return WeaponMedkitAnim::Draw;
     }
 

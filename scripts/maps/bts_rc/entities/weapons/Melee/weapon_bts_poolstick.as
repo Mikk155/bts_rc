@@ -63,7 +63,7 @@ class CWeaponPoolstickConfig : ASMeleeWeaponConfig
         return "crowbar";
     }
 
-    uint8 get_animation_draw() override {
+    const uint8 get_animation_draw() override {
         return WeaponPoolstickAnim::Draw;
     }
 
