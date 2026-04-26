@@ -69,11 +69,11 @@ class CWeaponKnifeConfig : ASMeleeWeaponConfig
         return "crowbar";
     }
 
-    uint8 get_animation_draw() override {
+    const uint8 get_animation_draw() override {
         return WeaponKnifeAnim::Draw;
     }
 
-    uint8 get_hands_group() override {
+    const uint8 get_hands_group() override {
         return 0;
     }
 
