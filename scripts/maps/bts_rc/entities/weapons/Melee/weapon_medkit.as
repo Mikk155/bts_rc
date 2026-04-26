@@ -59,7 +59,6 @@ class CWeaponMedkitConfig : ASWeaponConfig
         return "trip";
     }
 
-    uint viewmodelIndex;
     float SELF_HEAL_AMMOUNT = 10;
     float SELF_HEAL_HP_GAIN = 10;
     float SELF_HEAL_AMMO_COST = 30;
@@ -67,8 +66,6 @@ class CWeaponMedkitConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
-        this.viewmodelIndex = g_Game.PrecacheModel( this.view_model );
         ASWeaponConfig::Precache();
     }
 
@@ -146,40 +143,11 @@ class CWeaponMedkitConfig : ASWeaponConfig
     {
         this.Precache();
 
-//        this.viewmodelIndex = g_ModelFuncs.ModelIndex( gpWeaponMedkitConfig.view_model );
-
         ASWeaponConfig::ParseDefaultVariables( json );
 
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) )
             .SetWeaponPrimayAttack( WeaponOverriderCallback( @this.WeaponPrimaryAttack ) );
-
-        // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-        if( gpGameVersion == 526 )
-        {
-            this.overrider.SetPlayerThink( WeaponOverriderCallback(
-            function( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
-            {
-                dictionary@ data = player.GetUserData();
-
-                int sequence;
-
-                if( !data.get( "526_weaponsequence", sequence ) )
-                    sequence = -1;
-
-                if( sequence != player.pev.weaponanim )
-                {
-                    data[ "526_weaponsequence" ] = player.pev.weaponanim;
-                    Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
-                    weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponMedkitConfig.viewmodelIndex, weapon.pev.body, 1, handsGroup );
-                    weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
-                }
-                else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
-                {
-                    data[ "526_weaponsequence" ] = -1;
-                }
-            } ) );
-        }
     }
 }
 
