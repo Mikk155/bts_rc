@@ -22,6 +22,7 @@
 */
 
 #include "ClientInitialized"
+#include "PlayerCollect"
 #include "PlayerRevive"
 #include "PlayerSpawn"
 #include "PlayerTakeDamage"

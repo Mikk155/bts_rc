@@ -52,6 +52,14 @@ CollectedHook( function( CBaseEntity@ pickup, CBaseEntity@ other )
 
     if( !weaponConfig.IsCustom() )
     {
+        int primaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo1() );
+        if( primaryAmmo != WEAPON_NOCLIP )
+            player.SetMaxAmmo( primaryAmmo, weaponConfig.primary_maxammo );
+
+        int secondaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo2() );
+        if( secondaryAmmo != WEAPON_NOCLIP )
+            player.SetMaxAmmo( secondaryAmmo, weaponConfig.secondary_maxammo );
+
         NetworkMessage m( MSG_ONE, NetworkMessages::WeaponList, player.edict() );
             m.WriteString( weaponConfig.Name );
             m.WriteByte( weapon.m_iPrimaryAmmoType );
