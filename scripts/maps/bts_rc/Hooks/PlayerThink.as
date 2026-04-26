@@ -182,8 +182,15 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                 }
             }
 
-            if( wpnOverride !is null && wpnOverride.PlayerThink !is null )
-                wpnOverride.PlayerThink( player, weapon, character );
+            if( wpnOverride !is null )
+            {
+                if( wpnOverride.PlayerThink !is null )
+                    wpnOverride.PlayerThink( player, weapon, character );
+
+                // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
+                if( gpGameVersion == 526 )
+                    wpnOverride.__526FixViewModels__( player, weapon, character );
+            }
 
             // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
             if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )

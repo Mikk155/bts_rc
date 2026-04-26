@@ -62,12 +62,9 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         return "crowbar";
     }
 
-    uint viewmodelIndex;
-
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
-        this.viewmodelIndex = g_Game.PrecacheModel( this.view_model );
         ASMeleeWeaponConfig::Precache();
     }
 
@@ -134,8 +131,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
     {
         this.Precache();
 
-        this.viewmodelIndex = g_ModelFuncs.ModelIndex( gpWeaponCrowbarConfig.view_model );
-
         ASMeleeWeaponConfig::ParseDefaultVariables( json );
 
         @this.overrider = WeaponOverrider( this )
@@ -169,35 +164,6 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
             }
             return HOOK_CONTINUE;
         } ) );
-
-        // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-        if( gpGameVersion == 526 )
-        {
-            this.overrider.SetPlayerThink( WeaponOverriderCallback(
-            function( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
-            {
-                dictionary@ data = player.GetUserData();
-
-                int sequence;
-
-                if( !data.get( "526_weaponsequence", sequence ) )
-                    sequence = -1;
-
-                if( sequence != player.pev.weaponanim )
-                {
-                    data[ "526_weaponsequence" ] = player.pev.weaponanim;
-
-                    Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
-
-                    weapon.pev.body = g_ModelFuncs.SetBodygroup( gpWeaponCrowbarConfig.viewmodelIndex, weapon.pev.body, 0, handsGroup );
-                    weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
-                }
-                else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
-                {
-                    data[ "526_weaponsequence" ] = -1;
-                }
-            } ) );
-        }
     }
 }
 
