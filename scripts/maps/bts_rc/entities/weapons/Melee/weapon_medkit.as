@@ -59,54 +59,59 @@ class CWeaponMedkitConfig : ASWeaponConfig
         return "trip";
     }
 
-    float SELF_HEAL_AMMOUNT = 10;
-    float SELF_HEAL_HP_GAIN = 10;
-    float SELF_HEAL_AMMO_COST = 30;
-    uint VOLUME = 128;
-
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         weapons::Deploy( weapon, player, gpWeaponMedkitConfig );
     }
 
+    void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        weapon.PrimaryAttack();
+        weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Primary ) );
+    }
+
+    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        weapon.SecondaryAttack();
+        weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
+    }
+
     void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
-        int iAmmoLeft = player.m_rgAmmo( weapon.m_iPrimaryAmmoType );
+        weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Tertiary ) );
 
-        if( iAmmoLeft <= 0 )
-        {
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
-            weapons::SetCooldown( weapon, player, gpWeaponMedkitConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Secondary ) );
-            return;
-        }
+        int iAmmoLeft = player.m_rgAmmo( weapon.m_iPrimaryAmmoType );
 
         float flMissingHP = player.pev.max_health - player.pev.health;
 
-        if( flMissingHP <= 0 )
+        if( iAmmoLeft <= 0 || flMissingHP <= 0 )
+        {
+            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
             return;
+        }
 
         // Clamp desired heal to missing HP
-        float flDesiredHealHP = Math.min( this.SELF_HEAL_HP_GAIN, flMissingHP );
+        float flDesiredHealHP = Math.min( this.health_gain, flMissingHP );
 
         // Convert HP → ammo (3 ammo per 1 HP)
-        float flAmmoNeeded = ( flDesiredHealHP / this.SELF_HEAL_HP_GAIN ) * float( SELF_HEAL_AMMO_COST );
+        float flAmmoNeeded = ( flDesiredHealHP / this.health_gain ) * float( health_cost );
 
         // Clamp by available ammo
         float flAmmoUsed = Math.min( flAmmoNeeded, float( iAmmoLeft ) );
 
         // Convert back ammo → actual heal
-        float flHealAmount = ( flAmmoUsed / float( SELF_HEAL_AMMO_COST ) ) * this.SELF_HEAL_HP_GAIN;
+        float flHealAmount = ( flAmmoUsed / float( health_cost ) ) * this.health_gain;
 
         // Apply same diminishing behavior as normal heal
-        if( iAmmoLeft <= SELF_HEAL_AMMOUNT * 0.75f )
-            flHealAmount = Math.min( SELF_HEAL_AMMOUNT * 0.2f, flHealAmount );
-        else if( iAmmoLeft < SELF_HEAL_AMMOUNT * 1.5f )
-            flHealAmount = Math.min( SELF_HEAL_AMMOUNT * 0.2f, flHealAmount );
-        else if( iAmmoLeft < SELF_HEAL_AMMOUNT * 6 )
-            flHealAmount = Math.min( SELF_HEAL_AMMOUNT * 0.5f, flHealAmount );
+        if( iAmmoLeft <= health_ammount * 0.75f )
+            flHealAmount = Math.min( health_ammount * 0.2f, flHealAmount );
+        else if( iAmmoLeft < health_ammount * 1.5f )
+            flHealAmount = Math.min( health_ammount * 0.2f, flHealAmount );
+        else if( iAmmoLeft < health_ammount * 6 )
+            flHealAmount = Math.min( health_ammount * 0.5f, flHealAmount );
 
         flHealAmount = int( Math.Ceil( flHealAmount ) );
-        flAmmoUsed = int( Math.Ceil( ( flHealAmount / this.SELF_HEAL_HP_GAIN ) * SELF_HEAL_AMMO_COST ) );
+        flAmmoUsed = int( Math.Ceil( ( flHealAmount / this.health_gain ) * health_cost ) );
 
         if( flHealAmount <= 0 || flAmmoUsed <= 0 )
             return;
@@ -114,26 +119,28 @@ class CWeaponMedkitConfig : ASWeaponConfig
         // Execute heal
         player.SetAnimation( PLAYER_ATTACK1 );
         weapon.SendWeaponAnim( WeaponMedkitAnim::Heal, 0, weapon.pev.body );
-        player.m_iWeaponVolume = VOLUME;
 
         player.TakeHealth( flHealAmount, DMG_MEDKITHEAL );
-        player.m_rgAmmo(
-            weapon.m_iPrimaryAmmoType,
-            iAmmoLeft - int( flAmmoUsed ) );
+        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, iAmmoLeft - int( flAmmoUsed ) );
 
         int pitch = Math.RandomLong( 50, 60 );
-        if( iAmmoLeft < SELF_HEAL_AMMOUNT * 13 )
+
+        if( iAmmoLeft < health_ammount * 13 )
             pitch += int( float( iAmmoLeft ) / 1.25f );
 
         g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/medshot4.wav", 1.0f, ATTN_NORM, 0, pitch );
-
-        weapon.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-        weapon.m_flNextTertiaryAttack = g_Engine.time + 2.0f;
-        weapons::SetCooldown( weapon, player, gpWeaponMedkitConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Tertiary ) );
     }
+
+    float health_ammount;
+    float health_gain;
+    float health_cost;
 
     void Parse( dictionary@ json ) override
     {
+        this.health_ammount = int( this.Get( @json, "health_ammount", 10 ) );
+        this.health_gain = int( this.Get( @json, "health_gain", 10 ) );
+        this.health_cost = int( this.Get( @json, "health_cost", 30 ) );
+
         ASWeaponConfig::Parse( json );
     }
 }
