@@ -1,4 +1,5 @@
 # 26/4/2026
+- Using weapons will now emit audible sounds to monsters. they can hear you!
 - Added weapon_medkit replacement
 - Added weapon_crowbar replacement
 - Added env_commentary entity for developer commentary
