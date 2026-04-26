@@ -64,4 +64,10 @@ class WeaponOverrider
         @this.WeaponSecondaryAttack = callback;
         return this;
     }
+
+    WeaponOverriderCallback@ WeaponTertriaryAttack;
+    WeaponOverrider@ SetWeaponTertriaryAttack( WeaponOverriderCallback@ callback ) {
+        @this.WeaponTertriaryAttack = callback;
+        return this;
+    }
 }

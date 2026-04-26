@@ -74,7 +74,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
         weapons::Deploy( weapon, player, gpWeaponMedkitConfig );
     }
 
-    void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponTertriaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
         int iAmmoLeft = player.m_rgAmmo( weapon.m_iPrimaryAmmoType );
 
@@ -147,7 +147,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
 
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) )
-            .SetWeaponPrimayAttack( WeaponOverriderCallback( @this.WeaponPrimaryAttack ) );
+            .SetWeaponTertriaryAttack( WeaponOverriderCallback( @this.WeaponTertriaryAttack ) );
     }
 }
 
