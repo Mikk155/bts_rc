@@ -105,7 +105,7 @@ class weapon_bts_poolstick : BTS_MeleeWeapon
 
     void Attack( CBasePlayer@ player, AttackType type )
     {
-        if( type == AttackType::Tertriary )
+        if( type == AttackType::Tertiary )
             return;
 
         TraceResult tr;

@@ -138,7 +138,7 @@ class weapon_bts_pipe : BTS_MeleeCharge
                 this.PlayAnim( ( miss ? WeaponPipeAnim::AttackBigMiss : WeaponPipeAnim::AttackBigHit ) );
                 break;
             }
-            case AttackType::Tertriary:
+            case AttackType::Tertiary:
             {
                 return;
             }

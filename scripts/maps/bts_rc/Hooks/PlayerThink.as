@@ -187,8 +187,8 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                     {
                         player.pev.button &= ~IN_ALT1;
 
-                        if( wpnOverride !is null && wpnOverride.WeaponTertriaryAttack !is null )
-                            wpnOverride.WeaponTertriaryAttack( player, weapon, GetCharacter(player) );
+                        if( wpnOverride !is null && wpnOverride.WeaponTertiaryAttack !is null )
+                            wpnOverride.WeaponTertiaryAttack( player, weapon, GetCharacter(player) );
                         else
                             weapon.SecondaryAttack();
                     }

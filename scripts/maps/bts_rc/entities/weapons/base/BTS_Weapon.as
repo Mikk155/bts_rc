@@ -25,7 +25,7 @@ enum AttackType
 {
     Primary = 0,
     Secondary,
-    Tertriary
+    Tertiary
 };
 
 // Base class for all weapons

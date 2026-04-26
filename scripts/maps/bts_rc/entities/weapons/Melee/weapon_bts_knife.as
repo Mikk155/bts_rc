@@ -156,7 +156,7 @@ class weapon_bts_knife : BTS_MeleeCharge
                 this.PlayAnim( WeaponKnifeAnim::Stab );
                 break;
             }
-            case AttackType::Tertriary:
+            case AttackType::Tertiary:
             {
                 return;
             }

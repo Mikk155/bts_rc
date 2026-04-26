@@ -9,8 +9,8 @@ namespace weapons
 
         switch( type )
         {
-            case AttackType::Tertriary:
-                vecDirection = vecDirection * config.tertriary_distance;
+            case AttackType::Tertiary:
+                vecDirection = vecDirection * config.tertiary_distance;
             break;
             case AttackType::Secondary:
                 vecDirection = vecDirection * config.secondary_distance;
