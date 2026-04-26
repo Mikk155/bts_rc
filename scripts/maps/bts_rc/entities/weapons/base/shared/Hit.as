@@ -35,7 +35,6 @@ namespace weapons
                 // This is and approximation of the "best" intersection
                 if( tr.pHit !is null && ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) is null || hit.IsBSPModel() )
                 {
-                    
                     g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, player.edict() );
                 }
 

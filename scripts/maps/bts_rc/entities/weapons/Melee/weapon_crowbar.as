@@ -126,6 +126,12 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary, miss ) );
     }
 
+    void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        weapon.GetUserData()[ "thrown" ] = true;
+        weapon.TertiaryAttack();
+    }
+
     void Parse( dictionary@ json ) override
     {
         ASMeleeWeaponConfig::Parse( json );
@@ -133,25 +139,23 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         MonsterTakeDamageHook( function( DamageInfo@ info )
         {
-            if( info.pInflictor !is null )
+            if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
             {
-                if( info.pInflictor.GetClassname() == "weapon_crowbar" )
+                dictionary@ data = info.pInflictor.GetUserData();
+                
+                if( bool( data[ "thrown" ] ) )
                 {
+                    data[ "thrown" ] = false;
                     info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
+                    int lastHitgroup = g_Engine.trace_hitgroup;
+                    Vector endPos = g_Engine.trace_endpos;
                     TraceResult tr; // Effects
                     g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
+                    tr.vecEndPos = endPos;
+                    @tr.pHit = info.pVictim.edict();
+                    //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
+                    tr.iHitgroup = lastHitgroup;
                     weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
-                }
-                // Melee attack
-                else if( ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 && info.pInflictor is info.pAttacker && info.pInflictor.IsPlayer() )
-                {
-                    auto player = cast<CBasePlayer@>( info.pInflictor );
-
-                    if( player !is null && player.m_hActiveItem.IsValid() &&  player.m_hActiveItem.GetEntity().GetClassname() == "weapon_crowbar" )
-                    {
-                        info.flDamage = 0;
-                        return HOOK_HANDLED;
-                    }
                 }
             }
             return HOOK_CONTINUE;
