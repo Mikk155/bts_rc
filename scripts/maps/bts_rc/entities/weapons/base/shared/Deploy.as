@@ -14,7 +14,7 @@ namespace weapons
         Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
 
         // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
-        weapon.pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( config.view_model ), weapon.pev.body, config.hands_group, handGroup );
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( config.view_model_index, weapon.pev.body, config.hands_group, handGroup );
 
         weapon.SendWeaponAnim( config.animation_draw, 0, weapon.pev.body );
 
