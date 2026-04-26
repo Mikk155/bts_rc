@@ -45,6 +45,9 @@
 #include "Melee/weapon_bts_screwdriver"
 #include "Melee/weapon_crowbar"
 
+// Special
+#include "Melee/weapon_medkit"
+
 #include "base/BTS_FireWeapon"
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
