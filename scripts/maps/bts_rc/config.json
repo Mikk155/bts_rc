@@ -143,6 +143,8 @@
     },
     "weapon_medkit":
     {
+        "slot": 4,
+        "position": 14,
         "deploy_time": 0.6,
         "health_ammount": 10,
         "health_gain": 10,
