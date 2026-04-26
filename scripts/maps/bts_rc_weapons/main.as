@@ -26,7 +26,6 @@
 #include "weapon_bts_m4"
 #include "weapon_bts_m4sd"
 #include "weapon_bts_m79"
-#include "weapon_bts_medkit"
 #include "weapon_bts_mp5"
 #include "weapon_bts_mp5gl"
 #include "weapon_bts_pipewrench"
@@ -68,7 +67,6 @@ namespace oldweapons
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_m16::weapon_bts_m16", "weapon_bts_m16" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_m16sd::weapon_bts_m16sd", "weapon_bts_m16sd" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_m79::weapon_bts_m79", "weapon_bts_m79" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_medkit::weapon_bts_medkit", "weapon_bts_medkit" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_mp5gl::weapon_bts_mp5gl", "weapon_bts_mp5gl" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_mp5::weapon_bts_mp5", "weapon_bts_mp5" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_python::weapon_bts_python", "weapon_bts_python" );
@@ -137,7 +135,6 @@ namespace oldweapons
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m16", "bts_rc/weapons", "556", "ARgrenades", "ammo_bts_m16", "ammo_bts_m16_grenade" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m16sd", "bts_rc/weapons", "556", "ARgrenades", "ammo_bts_m16sd", "ammo_bts_m16sd_grenade" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m79", "bts_rc/weapons", "ARgrenades", "", "ammo_bts_m79", "" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_medkit", "bts_rc/weapons", "health", "", "ammo_medkit" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_mp5gl", "bts_rc/weapons", "9mm", "ARgrenades", "ammo_bts_mp5gl", "ammo_bts_mp5gl_grenade" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_mp5", "bts_rc/weapons", "9mm", "", "ammo_bts_mp5", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_python", "bts_rc/weapons", "357", "", "ammo_bts_python", "" );
@@ -170,7 +167,6 @@ namespace oldweapons
         g_Game.PrecacheOther( "weapon_bts_m16" );
         g_Game.PrecacheOther( "weapon_bts_m16sd" );
         g_Game.PrecacheOther( "weapon_bts_m79" );
-        g_Game.PrecacheOther( "weapon_bts_medkit" );
         g_Game.PrecacheOther( "weapon_bts_mp5gl" );
         g_Game.PrecacheOther( "weapon_bts_mp5" );
         g_Game.PrecacheOther( "weapon_bts_python" );
@@ -203,7 +199,6 @@ namespace oldweapons
        @g_WeaponsConfig.Interfaces[ "weapon_bts_m16" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_m16sd" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_m79" ] = null;
-       @g_WeaponsConfig.Interfaces[ "weapon_bts_medkit" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_mp5gl" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_mp5" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_python" ] = null;
