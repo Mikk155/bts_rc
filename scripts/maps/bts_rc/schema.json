@@ -280,7 +280,7 @@
                 {
                     "type": "number"
                 },
-                "tertriary_damage":
+                "tertiary_damage":
                 {
                     "type": "number"
                 },
@@ -292,7 +292,7 @@
                 {
                     "type": "number"
                 },
-                "tertriary_cooldown":
+                "tertiary_cooldown":
                 {
                     "type": "number"
                 },
@@ -304,7 +304,7 @@
                 {
                     "type": "number"
                 },
-                "tertriary_trained_cooldown":
+                "tertiary_trained_cooldown":
                 {
                     "type": "number"
                 },
@@ -348,7 +348,7 @@
                 {
                     "type": "number"
                 },
-                "tertriary_distance":
+                "tertiary_distance":
                 {
                     "type": "number"
                 },

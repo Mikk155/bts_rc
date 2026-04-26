@@ -145,7 +145,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
             {
                 if( info.pInflictor.GetClassname() == "weapon_crowbar" )
                 {
-                    info.flDamage = gpWeaponCrowbarConfig.tertriary_damage;
+                    info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
                     TraceResult tr; // Effects
                     g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
                     weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );

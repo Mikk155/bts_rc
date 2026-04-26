@@ -74,7 +74,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
         weapons::Deploy( weapon, player, gpWeaponMedkitConfig );
     }
 
-    void WeaponTertriaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
         int iAmmoLeft = player.m_rgAmmo( weapon.m_iPrimaryAmmoType );
 
@@ -134,7 +134,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
 
         weapon.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
         weapon.m_flNextTertiaryAttack = g_Engine.time + 2.0f;
-        weapons::SetCooldown( weapon, player, gpWeaponMedkitConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Tertriary ) );
+        weapons::SetCooldown( weapon, player, gpWeaponMedkitConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Tertiary ) );
     }
 
     WeaponOverrider@ overrider;
@@ -147,7 +147,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
 
         @this.overrider = WeaponOverrider( this )
             .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) )
-            .SetWeaponTertriaryAttack( WeaponOverriderCallback( @this.WeaponTertriaryAttack ) );
+            .SetWeaponTertiaryAttack( WeaponOverriderCallback( @this.WeaponTertiaryAttack ) );
     }
 }
 

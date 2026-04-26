@@ -92,7 +92,7 @@ class weapon_bts_screwdriver : BTS_MeleeWeapon
     {
         switch( type )
         {
-            case AttackType::Tertriary:
+            case AttackType::Tertiary:
             case AttackType::Secondary:
                 return;
             case AttackType::Primary:
