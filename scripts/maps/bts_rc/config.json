@@ -141,6 +141,11 @@
         "secondary_trained_cooldown": 0.5,
         "tertriary_damage": 17
     },
+    "weapon_medkit":
+    {
+        "deploy_time": 0.6,
+        "tertriary_cooldown": 2.0
+    },
     "weapon_bts_screwdriver":
     {
         "slot": 0,
