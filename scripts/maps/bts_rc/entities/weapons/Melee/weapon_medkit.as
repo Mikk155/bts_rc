@@ -67,6 +67,10 @@ class CWeaponMedkitConfig : ASWeaponConfig
     void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         weapon.PrimaryAttack();
+
+        if( player.pev.weaponanim == WeaponMedkitAnim::Idle )
+            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_ITEM, "items/medshotno1.wav", 1.0f, ATTN_NORM );
+
         weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Primary ) );
     }
 
