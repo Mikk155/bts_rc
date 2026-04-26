@@ -156,7 +156,7 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
             CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
             // Call deploy for vanilla weapons to update their models
-            if( lastWeapon !is weapon )
+            if( lastWeapon !is weapon || player.pev.viewmodel != weaponConfig.view_model )
             {
                 weaponConfig.WeaponDeploy( player, weapon, character );
                 @data[ "current_weapon" ] = weapon;
