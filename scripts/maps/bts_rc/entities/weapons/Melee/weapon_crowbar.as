@@ -155,7 +155,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
                     @tr.pHit = info.pVictim.edict();
                     //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
                     tr.iHitgroup = lastHitgroup;
-                    weapons::TraceEffects( null, null, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                    weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
                 }
             }
             return HOOK_CONTINUE;

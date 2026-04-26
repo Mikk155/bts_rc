@@ -23,7 +23,6 @@
 
 namespace weapons
 {
-
     // Play effects
     void TraceEffects( CBasePlayerWeapon@ weapon, CBasePlayer@ player, ASWeaponConfig@ config, TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE )
     {
@@ -31,6 +30,9 @@ namespace weapons
         {
             g_WeaponFuncs.DecalGunshot( tr, bullet );
             g_SoundSystem.PlayHitSound( tr, ( player !is null ? player.GetGunPosition() : g_vecZero ), tr.vecEndPos, bullet );
+
+            CSoundEnt@ sound = GetSoundEntInstance();
+            sound.InsertSound( bits_SOUND_COMBAT, player.pev.origin, 2048, 0.3, player );
 
             switch( bullet )
             {
@@ -46,6 +48,9 @@ namespace weapons
                     {
                         player.pev.effects |= EF_MUZZLEFLASH;
                     }
+
+                    // Bullet impact
+                    sound.InsertSound( bits_SOUND_COMBAT, tr.vecEndPos, 1024, 0.3, player );
                     break;
                 }
                 case Bullet::BULLET_PLAYER_CROWBAR:
