@@ -160,6 +160,12 @@ abstract class ASWeaponConfig : IConfigContext
         this.deploy_time = this.Get( @json, "deploy_time", 1.0f );
     }
 
+    private bool m_IsCustom;
+    // Whatever this is a custom weapon
+    const bool IsCustom() {
+        return this.m_IsCustom;
+    }
+
     void RegisterWeapon()
     {
         if( !this.remap.IsEmpty() )
@@ -170,14 +176,19 @@ abstract class ASWeaponConfig : IConfigContext
 
         g_CustomEntityFuncs.RegisterCustomEntity( this.Name, this.Name );
 
-        g_ItemRegistry.RegisterWeapon( this.Name, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo );
+        this.m_IsCustom = g_CustomEntityFuncs.IsCustomEntity( this.Name );
 
-        string szSpriteDir; // Precache HUD text definition
-        snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", this.Name );
-        g_Game.PrecacheGeneric( szSpriteDir );
+        if( this.m_IsCustom )
+        {
+            g_ItemRegistry.RegisterWeapon( this.Name, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo );
+
+            string szSpriteDir; // Precache HUD text definition
+            snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", this.Name );
+            g_Game.PrecacheGeneric( szSpriteDir );
+        }
     }
  
-    // Precache required assets. NOTE: v, p and w models are precached automatically.
+    // Precache required assets
     void Precache()
     {
         g_Game.PrecacheModel( this.view_model );
@@ -188,9 +199,42 @@ abstract class ASWeaponConfig : IConfigContext
     void Parse( dictionary@ json )
     {
         this.Precache();
-
         this.ParseDefaultVariables( json );
-
         this.RegisterWeapon();
+    }
+
+    // Called when the weapon is deployed. this is too late!
+    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    // Pre call of PrimaryAttack
+    void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    // Pre call of SecondaryAttack
+    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    // Pre call of TertiaryAttack
+    void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    // PlayerThink call after Weapon's deploy and attack methods of this class has been called
+    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
+        if( gpGameVersion == 526 && !this.IsCustom() )
+        {
+            dictionary@ data = player.GetUserData();
+
+            int sequence;
+
+            if( !data.get( "526_weaponsequence", sequence ) )
+                sequence = -1;
+
+            if( sequence != player.pev.weaponanim )
+            {
+                data[ "526_weaponsequence" ] = player.pev.weaponanim;
+                Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
+                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, handsGroup );
+                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
+            }
+            else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
+            {
+                data[ "526_weaponsequence" ] = -1;
+            }
+        }
     }
 }

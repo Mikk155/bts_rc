@@ -27,9 +27,6 @@
 #include "base/shared/SetCooldown"
 #include "base/shared/TraceEffects"
 
-// Vanilla weapons override interface
-#include "base/WeaponOverrider"
-
 // Base
 #include "config/ASWeaponConfig"
 #include "base/BTS_Weapon"
