@@ -131,7 +131,7 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
 
     item_tracker::Think(player);
 
-    player.SetOverriddenPlayerModel( character.Name );
+    player.SetOverriddenPlayerModel(character.Name);
 
     if( player.m_hActiveItem.IsValid() )
     {
@@ -141,69 +141,47 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
         {
             const string classname = weapon.GetClassname();
 
-            WeaponOverrider@ wpnOverride = cast<WeaponOverrider@>( gpWeaponsOverride[ classname ] );
+            ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ classname ] );
+
+            // We assume weaponConfig is not null.
+            // If it is null then is a third party weapon.
+            // the map is not designed to have other weapons than ours.
+            // I don't have time to redesign this nor i care.
+            if( weaponConfig is null )
+            {
+                player.RemovePlayerItem( weapon );
+                return HOOK_CONTINUE;
+            }
 
             CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
-            if( lastWeapon is null || lastWeapon != weapon )
+            // Call deploy for vanilla weapons to update their models
+            if( lastWeapon !is weapon )
             {
-                if( wpnOverride !is null && wpnOverride.WeaponDeploy !is null )
-                    wpnOverride.WeaponDeploy( player, weapon, character );
-
+                weaponConfig.WeaponDeploy( player, weapon, character );
                 @data[ "current_weapon" ] = weapon;
             }
 
+            // Can we attack?
             if( player.m_flNextAttack <= 0 )
             {
-                if( ( player.pev.button & IN_ATTACK ) != 0 )
-                {
+                if( ( player.pev.button & IN_ATTACK ) != 0 ) {
                     if( weapon.m_flNextPrimaryAttack < g_Engine.time )
-                    {
-                        player.pev.button &= ~IN_ATTACK;
-
-                        if( wpnOverride !is null && wpnOverride.WeaponPrimaryAttack !is null )
-                            wpnOverride.WeaponPrimaryAttack( player, weapon, GetCharacter(player) );
-                        else
-                            weapon.PrimaryAttack();
-                    }
+                        weaponConfig.WeaponPrimaryAttack( player, weapon, character );
                 }
 
-                if( ( player.pev.button & IN_ATTACK2 ) != 0 )
-                {
+                if( ( player.pev.button & IN_ATTACK2 ) != 0 ) {
                     if( weapon.m_flNextSecondaryAttack < g_Engine.time )
-                    {
-                        player.pev.button &= ~IN_ATTACK2;
-
-                        if( wpnOverride !is null && wpnOverride.WeaponSecondaryAttack !is null )
-                            wpnOverride.WeaponSecondaryAttack( player, weapon, GetCharacter(player) );
-                        else
-                            weapon.SecondaryAttack();
-                    }
+                        weaponConfig.WeaponSecondaryAttack( player, weapon, character );
                 }
 
-                if( ( player.pev.button & IN_ALT1 ) != 0 )
-                {
+                if( ( player.pev.button & IN_ALT1 ) != 0 ) {
                     if( weapon.m_flNextTertiaryAttack < g_Engine.time )
-                    {
-                        player.pev.button &= ~IN_ALT1;
-
-                        if( wpnOverride !is null && wpnOverride.WeaponTertiaryAttack !is null )
-                            wpnOverride.WeaponTertiaryAttack( player, weapon, GetCharacter(player) );
-                        else
-                            weapon.SecondaryAttack();
-                    }
+                        weaponConfig.WeaponTertiaryAttack( player, weapon, character );
                 }
             }
 
-            if( wpnOverride !is null )
-            {
-                if( wpnOverride.PlayerThink !is null )
-                    wpnOverride.PlayerThink( player, weapon, character );
-
-                // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-                if( gpGameVersion == 526 )
-                    wpnOverride.__526FixViewModels__( player, weapon, character );
-            }
+            weaponConfig.PlayerThink( player, weapon, character );
 
             // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
             if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )

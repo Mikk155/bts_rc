@@ -62,22 +62,23 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         return "crowbar";
     }
 
+    uint8 get_hands_group() override {
+        return 0;
+    }
+
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
         ASMeleeWeaponConfig::Precache();
     }
 
-    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
-        if( player.pev.viewmodel != gpWeaponCrowbarConfig.view_model )
-        {
-            g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NONE );
-            weapons::Deploy( weapon, player, gpWeaponCrowbarConfig );
-        }
+        g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NONE );
+        weapons::Deploy( weapon, player, gpWeaponCrowbarConfig );
     }
 
-    void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         TraceResult tr;
         float prevCooldown = weapon.m_flNextPrimaryAttack;
@@ -92,7 +93,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Primary, miss ) );
     }
 
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         TraceResult tr;
         float prevCooldown = weapon.m_flNextSecondaryAttack;
@@ -125,18 +126,9 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary, miss ) );
     }
 
-    WeaponOverrider@ overrider;
-
     void Parse( dictionary@ json ) override
     {
-        this.Precache();
-
-        ASMeleeWeaponConfig::ParseDefaultVariables( json );
-
-        @this.overrider = WeaponOverrider( this )
-            .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) )
-            .SetWeaponPrimayAttack( WeaponOverriderCallback( @this.WeaponPrimaryAttack ) )
-            .SetWeaponSecondaryAttack( WeaponOverriderCallback( @this.WeaponSecondaryAttack ) );
+        ASMeleeWeaponConfig::Parse( json );
 
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         MonsterTakeDamageHook( function( DamageInfo@ info )

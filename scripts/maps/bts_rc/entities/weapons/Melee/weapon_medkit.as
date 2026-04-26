@@ -64,17 +64,12 @@ class CWeaponMedkitConfig : ASWeaponConfig
     float SELF_HEAL_AMMO_COST = 30;
     uint VOLUME = 128;
 
-    void Precache() override
-    {
-        ASWeaponConfig::Precache();
-    }
-
-    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         weapons::Deploy( weapon, player, gpWeaponMedkitConfig );
     }
 
-    void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         int iAmmoLeft = player.m_rgAmmo( weapon.m_iPrimaryAmmoType );
 
@@ -137,17 +132,9 @@ class CWeaponMedkitConfig : ASWeaponConfig
         weapons::SetCooldown( weapon, player, gpWeaponMedkitConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Tertiary ) );
     }
 
-    WeaponOverrider@ overrider;
-
     void Parse( dictionary@ json ) override
     {
-        this.Precache();
-
-        ASWeaponConfig::ParseDefaultVariables( json );
-
-        @this.overrider = WeaponOverrider( this )
-            .SetWeaponDeploy( WeaponOverriderCallback( @this.WeaponDeploy ) )
-            .SetWeaponTertiaryAttack( WeaponOverriderCallback( @this.WeaponTertiaryAttack ) );
+        ASWeaponConfig::Parse( json );
     }
 }
 
