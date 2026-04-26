@@ -178,7 +178,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
             {
                 dictionary@ data = player.GetUserData();
 
-                uint8 sequence;
+                int sequence;
 
                 if( !data.get( "526_weaponsequence", sequence ) )
                     sequence = -1;
