@@ -1,4 +1,7 @@
 # 26/4/2026
+- Added weapon_bts_pipewrench (custom due to sk_plr_wrench not working.)
+
+# 26/4/2026
 - Using weapons will now emit audible sounds to monsters. they can hear you!
 - Added weapon_medkit replacement
 - Added weapon_crowbar replacement

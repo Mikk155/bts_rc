@@ -65,8 +65,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_clip.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/g_bounce3.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_pinpull.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hit1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hit2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_draw.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw1.wav" );
     g_SoundSystem.PrecacheSound( "zombie/claw_strike1.wav" );
@@ -94,16 +92,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "sound/weapons/sniper_reload_second_seq.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/sniper_bolt1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/sniper_bolt2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hitbod1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hitbod2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_big_miss.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_hit1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_hit2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_hitbod1.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_hitbod2.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_hitbod3.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
-    g_SoundSystem.PrecacheSound( "weapons/pwrench_miss1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload3.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbshotgun_fire1.wav" );

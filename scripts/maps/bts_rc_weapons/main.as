@@ -28,7 +28,6 @@
 #include "weapon_bts_m79"
 #include "weapon_bts_mp5"
 #include "weapon_bts_mp5gl"
-#include "weapon_bts_pipewrench"
 #include "weapon_bts_python"
 #include "weapon_bts_saw"
 #include "weapon_bts_sawsd"
@@ -50,7 +49,6 @@ namespace oldweapons
         g_CustomEntityFuncs.RegisterCustomEntity( "BTS_FLAMETHROWER::flame_proj", "flame_proj" );
         // Weapon Entities
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_beretta::weapon_bts_beretta", "weapon_bts_beretta" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_pipewrench::weapon_bts_pipewrench", "weapon_bts_pipewrench" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_crowbar::weapon_bts_crowbar", "weapon_bts_crowbar" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_eagle::weapon_bts_eagle", "weapon_bts_eagle" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_flare::weapon_bts_flare", "weapon_bts_flare" );
@@ -117,7 +115,6 @@ namespace oldweapons
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_uzi", "ammo_bts_uzi" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_uzisd", "ammo_bts_uzisd" );
 
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_pipewrench", "bts_rc/weapons" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_crowbar", "bts_rc/weapons" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", "357", "bts:battery", "ammo_bts_eagle", "ammo_bts_eagle_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_flare", "bts_rc/weapons", "weapon_bts_flare", "", "weapon_bts_flare", "" );
@@ -149,7 +146,6 @@ namespace oldweapons
         BTS_FLAMETHROWER::Register();
         weapon_bts_sw637::Register();
 
-        g_Game.PrecacheOther( "weapon_bts_pipewrench" );
         g_Game.PrecacheOther( "weapon_bts_crowbar" );
         g_Game.PrecacheOther( "weapon_bts_eagle" );
         g_Game.PrecacheOther( "weapon_bts_flare" );
@@ -181,7 +177,6 @@ namespace oldweapons
         g_Game.PrecacheOther( "weapon_bts_sw637" );
         g_Game.PrecacheOther( "weapon_bts_flamethrower" );
 
-       @g_WeaponsConfig.Interfaces[ "weapon_bts_pipewrench" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_crowbar" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_eagle" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_flare" ] = null;
