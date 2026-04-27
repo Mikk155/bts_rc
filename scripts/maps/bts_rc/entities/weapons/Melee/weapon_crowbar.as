@@ -136,13 +136,15 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
     {
         ASMeleeWeaponConfig::Parse( json );
 
+        g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
+
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         MonsterTakeDamageHook( function( DamageInfo@ info )
         {
             if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
             {
                 dictionary@ data = info.pInflictor.GetUserData();
-                
+
                 if( bool( data[ "thrown" ] ) )
                 {
                     data[ "thrown" ] = false;
