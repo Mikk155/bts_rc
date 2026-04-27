@@ -186,7 +186,8 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
             // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
             if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
             {
-                weaponConfig.WeaponFlashlight( player, weapon, character );
+                if( player.m_flNextAttack <= 0 )
+                    weaponConfig.WeaponFlashlight( player, weapon, character );
                 player.pev.impulse = 0;
             }
 
