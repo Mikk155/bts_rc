@@ -36,26 +36,6 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
     if( !data.exists( "connected" ) )
         ClientInitialized(player);
 
-        HUDSpriteParams params;
-        params.channel = 4;
-
-        // Default mode is additive, so no flag is needed to assign it
-        params.flags = HUD_ELEM_SCR_CENTER_X | HUD_ELEM_SCR_CENTER_Y |HUD_ELEM_DYNAMIC_ALPHA;
-        params.spritename = "ofch1.spr";
-        params.left = 0;
-        params.top = 0;
-        params.width = 24;
-        params.height = 24;
-        params.color1 = RGBA_SVENCOOP; //¿Mb hacer que el jugador pueda tener su crosshair de el color que quiera?
-        params.frame = 0;
-        params.numframes = 1;
-        params.framerate = 0;
-        params.fadeinTime = 0;
-        params.fadeoutTime = 0;
-        params.holdTime = 0;
-        params.effect = HUD_EFFECT_NONE;
-
-            g_PlayerFuncs.HudCustomSprite( player, params );
     // Change impulse 101 command with our own weapons.
     if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
     {
