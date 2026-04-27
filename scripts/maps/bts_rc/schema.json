@@ -256,6 +256,11 @@
             "unevaluatedProperties": false,
             "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         },
+        "weapon_bts_pipewrench":
+        {
+            "unevaluatedProperties": false,
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
+        },
         "weapon_medkit":
         {
             "unevaluatedProperties": false,

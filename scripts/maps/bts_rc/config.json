@@ -141,6 +141,22 @@
         "secondary_trained_cooldown": 0.5,
         "tertiary_damage": 17
     },
+    "weapon_bts_pipewrench":
+    {
+        "slot": 0,
+        "position": 5,
+        "deploy_time": 0.6,
+        "primary_damage": 14,
+        "primary_distance": 32,
+        "primary_cooldown": 0.75,
+        "primary_trained_cooldown": 0.5,
+        "primary_miss_cooldown": 0.75,
+        "primary_miss_trained_cooldown": 0.5,
+        "secondary_damage": 28,
+        "secondary_distance": 35,
+        "secondary_cooldown": 0.64,
+        "secondary_miss_cooldown": 0.85
+    },
     "weapon_medkit":
     {
         "slot": 4,
