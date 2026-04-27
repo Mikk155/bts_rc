@@ -211,6 +211,42 @@ abstract class ASWeaponConfig : IConfigContext
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of TertiaryAttack
     void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
+    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        // If the current active weapon doesn't has flashlight then do a loadout check
+        if( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" )
+        {
+            @weapon = null;
+
+            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
+            {
+                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
+
+                while( item !is null )
+                {
+                    @weapon = cast<CBasePlayerWeapon@>(item);
+
+                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                    {
+                        player.SelectItem( weapon.pev.classname );
+                        weapon.Deploy();
+                        ui = MAX_ITEM_TYPES; // Break for loop
+                        break;
+                    }
+
+                    @weapon = null;
+                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
+                }
+            }
+        }
+
+        if( weapon !is null )
+        {
+            weapon.SecondaryAttack();
+        }
+    }
+
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
