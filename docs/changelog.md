@@ -1,5 +1,6 @@
 # 26/4/2026
 - Added weapon_bts_pipewrench (custom due to sk_plr_wrench not working.)
+- Fixed flashlight being able to be toggled when busy (attack, reload etc)
 
 # 26/4/2026
 - Using weapons will now emit audible sounds to monsters. they can hear you!
