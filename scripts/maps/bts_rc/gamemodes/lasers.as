@@ -31,19 +31,14 @@ class TurretsLasers : EntityOverriden
         return "turret_lasers";
     }
 
-    private float interval;
-    private bool active = true;
-
     void Parse( dictionary@ json ) override
     {
-        if( json.get( "active", active ) && !active )
-            return;
+        EntityOverriden::Parse( json );
 
-        this.interval = Math.max( 0.1, float( json[ "interval" ] ) );
-
-        this.nextthink = this.interval;
-
-        g_Game.PrecacheModel( "sprites/glow01.spr" );
+        if( this.active )
+        {
+            g_Game.PrecacheModel( "sprites/glow01.spr" );
+        }
     }
 
     void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
@@ -52,6 +47,31 @@ class TurretsLasers : EntityOverriden
 
         if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
             EntityOverriden::AddEntity( index, entity, ckv, monster );
+    }
+
+    CSprite@ sprite( Vector &in VecPos )
+    {
+        NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+            m.WriteByte( TE_DLIGHT );
+            m.WriteCoord( VecPos.x );
+            m.WriteCoord( VecPos.y );
+            m.WriteCoord( VecPos.z );
+            m.WriteByte( 8 );   // radius
+            m.WriteByte( 100 ); // R
+            m.WriteByte( 0 );   // G
+            m.WriteByte( 0 );   // B
+            m.WriteByte( 1 );   // life in 0.1's
+            m.WriteByte( 1 );   // decay in 0.1's
+        m.End();
+
+        CSprite@ spr = g_EntityFuncs.CreateSprite( "sprites/glow01.spr", VecPos, true );
+
+        if( spr !is null )
+        {
+            spr.AnimateAndDie( 10.0f );
+            return @spr;
+        }
+        return null;
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
@@ -118,36 +138,8 @@ class TurretsLasers : EntityOverriden
         return EntityOverridenAction::None;
     }
 
-    void Think() override
-    {
-        // 2 sprites 3 temporary entity
-        if( active && freeedicts( 5 ))
-            EntityOverriden::Think();
-    }
-
-    CSprite@ sprite( Vector &in VecPos )
-    {
-        NetworkMessage m2( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-        m2.WriteByte( TE_DLIGHT );
-        m2.WriteCoord( VecPos.x );
-        m2.WriteCoord( VecPos.y );
-        m2.WriteCoord( VecPos.z );
-        m2.WriteByte( 8 );   // radius
-        m2.WriteByte( 100 ); // R
-        m2.WriteByte( 0 );   // G
-        m2.WriteByte( 0 );   // B
-        m2.WriteByte( 1 );   // life in 0.1's
-        m2.WriteByte( 1 );   // decay in 0.1's
-        m2.End();
-
-        CSprite@ spr = g_EntityFuncs.CreateSprite( "sprites/glow01.spr", VecPos, true );
-
-        if( spr !is null )
-        {
-            spr.AnimateAndDie( 10.0f );
-            return @spr;
-        }
-        return null;
+    bool ShouldThink() override {
+        return ( EntityOverriden::ShouldThink() && freeedicts( 5 ) ); // 2 sprites 3 temporary entity
     }
 }
 

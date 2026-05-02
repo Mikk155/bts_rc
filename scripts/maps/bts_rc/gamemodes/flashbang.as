@@ -33,25 +33,20 @@ class BlackOpsFlashbang : EntityOverriden
 
     private float throw_flash_cooldown;
     private float detonate_time;
-    private float interval;
-    private bool active = true;
 
     void Parse( dictionary@ json ) override
     {
-        if( json.get( "active", active ) && !active )
-            return;
+        if( active )
+        {
+            this.detonate_time = Math.max( 1, float( json[ "detonate_time" ] ) );
+            this.throw_flash_cooldown = Math.max( 2, float( json[ "throw_flash_cooldown" ] ) );
 
-        this.interval = Math.max( 0.1, float( json[ "interval" ] ) );
-        this.detonate_time = Math.max( 1, float( json[ "detonate_time" ] ) );
-        this.throw_flash_cooldown = Math.max( 2, float( json[ "throw_flash_cooldown" ] ) );
+            g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
+            g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
+            g_SoundSystem.PrecacheSound( "mikk/player/earringing_left.wav" );
 
-        this.nextthink = this.interval;
-
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing_left.wav" );
-
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+        }
     }
 
     void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
@@ -90,7 +85,7 @@ class BlackOpsFlashbang : EntityOverriden
 
     void Think() override
     {
-        if( !active )
+        if( !this.ShouldThink() )
             return;
 
         this.nextthink = g_Engine.time + this.interval;
