@@ -18,19 +18,10 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "allOf": [ { "$ref": "#/$defs/EntityOverriden" } ],
             "description": "Controls laser aiming visuals for turrets.",
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "description": "Should blackops throw flashbang instead of regular grenades?"
-                },
-                "interval":
-                {
-                    "type": "number",
-                    "description": "Internal think rate interval. lower values more cpu usage"
-                }
             }
         },
         "battery_lighting":
@@ -42,14 +33,10 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "allOf": [ { "$ref": "#/$defs/EntityOverriden" } ],
             "description": "Controls blackops flashbangs feature",
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "description": "Should blackops throw flashbang instead of regular grenades?"
-                },
                 "throw_flash_cooldown":
                 {
                     "type": "number",
@@ -59,11 +46,6 @@
                 {
                     "type": "number",
                     "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
-                },
-                "interval":
-                {
-                    "type": "number",
-                    "description": "Internal think rate interval. lower values more cpu usage"
                 }
             }
         },
@@ -286,6 +268,25 @@
     },
     "$defs":
     {
+        "EntityOverriden":
+        {
+            "type": "object",
+            "description": "Base weapon configuration shared across all weapons.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "description": "Should this context be active?"
+                },
+                "interval":
+                {
+                    "minimum": 0.1,
+                    "type": "number",
+                    "description": "Internal think rate interval. lower values more cpu usage"
+                }
+            }
+        },
         "ASWeaponConfig":
         {
             "type": "object",
