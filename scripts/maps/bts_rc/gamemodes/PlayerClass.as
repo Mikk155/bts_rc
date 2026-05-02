@@ -61,47 +61,6 @@ enum Hands
     GrayGloves
 };
 
-void RegisterPlayerClass( dictionary@ data )
-{
-    RegisterCharacter( "bts_cleansuit", Hands::Cleansuit, Classification::Hazard );
-    RegisterCharacter( "bts_helmet", Hands::Hevsuit, Classification::HEV );
-
-    RegisterCharacter( "bts_barney", Hands::Blue, Classification::Security );
-    RegisterCharacter( "bts_barney2", Hands::Blue, Classification::Security );
-    RegisterCharacter( "bts_barney3", Hands::Blue, Classification::Security );
-    RegisterCharacter( "bts_otis", Hands::Blue, Classification::Security );
-    RegisterCharacter( "bts_otis2", Hands::Blue, Classification::Security );
-    RegisterCharacter( "bts_otis_blk", Hands::BlueBlackHands, Classification::Security );
-
-    RegisterCharacter( "bts_scientist", Hands::White, Classification::Scientist );
-    RegisterCharacter( "bts_scientist2", Hands::White, Classification::Scientist );
-    RegisterCharacter( "bts_scientist3", Hands::WhiteBlackHands, Classification::Scientist );
-    RegisterCharacter( "bts_scientist4", Hands::White, Classification::Scientist );
-    RegisterCharacter( "bts_scientist5", Hands::White, Classification::Scientist );
-    RegisterCharacter( "bts_scientist6", Hands::White, Classification::Scientist );
-    
-    RegisterCharacter( "bts_construction", Hands::Orange, Classification::Maintenance );
-    RegisterCharacter( "bts_construction2", Hands::Green, Classification::Maintenance );
-    RegisterCharacter( "bts_construction3", Hands::Orange, Classification::Maintenance );
-
-    RegisterCharacter( "bts_op", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op2", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op3", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op4", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op6", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_band", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_free", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_hurt", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_back", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_demo", Hands::GrayGloves, Classification::Operative );
-    RegisterCharacter( "bts_op_dual", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_medic", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_otis", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_pissed", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_signal", Hands::Gray, Classification::Operative );
-    RegisterCharacter( "bts_op_vet", Hands::Gray, Classification::Operative );
-}
-
 array<CCharacter@> g_ScienceTeam;
 array<CCharacter@> g_MaintenanceTeam;
 array<CCharacter@> g_SecurityTeam;
