@@ -103,7 +103,6 @@ void MapActivate()
 void MapInit()
 {
     Server::chrono@ chrono = Server::chrono();
-    Server::chrono@ chronoMapInit = Server::chrono();
 
     dictionary config;
 
@@ -120,10 +119,20 @@ void MapInit()
     {
         chrono.Stop();
         g_Logger.info = snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
-        chrono.Restart();
     }
 
-    ConfigContext::MapInit( @config );
+    uint length = g_ConfigContexts.length();
+
+    for( uint ui = 0; ui < length; ui++ )
+    {
+        IConfigContext@ context = g_ConfigContexts[ui];
+        string name = context.Name;
+
+        if( g_Logger.info )
+            g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", context.Name );
+
+        context.Parse( cast<dictionary@>( config[ name ] ) );
+    }
 
     if( g_Logger.info )
     {
@@ -146,7 +155,7 @@ void MapInit()
 
     if( g_Logger.info )
     {
-        chronoMapInit.Stop();
+        chrono.Stop();
         g_Logger.info = snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
 
