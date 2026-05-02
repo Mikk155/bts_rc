@@ -60,25 +60,12 @@
             "description": "Logging configuration per severity level.",
             "properties":
             {
-                "error":
-                {
-                    "type": "boolean"
-                },
-                "info":
-                {
-                    "type": "boolean"
-                },
-                "trace":
-                {
-                    "type": "boolean"
-                },
-                "warning":
-                {
-                    "type": "boolean"
-                },
-                "critical":
-                {
-                    "type": "boolean" }
+                "trace": { "type": "boolean" },
+                "debug": { "type": "boolean" },
+                "info": { "type": "boolean" },
+                "warning": { "type": "boolean" },
+                "error": { "type": "boolean" },
+                "critical": { "type": "boolean" }
             }
         },
         "bloodpuddle":
