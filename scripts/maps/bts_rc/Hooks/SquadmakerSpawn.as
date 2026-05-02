@@ -30,16 +30,6 @@ void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity )
 
     string classname = entity.GetClassname();
 
-    // Add sentries to the lasers list
-//    if( lasers::turrets.find( classname ) >= 0 )
-    if( classname == "monster_sentry")
-    {
-        lasers::handles.insertLast( EHandle( entity ) );
-
-        if( g_Logger.trace )
-            g_Logger.trace = snprintf( glog, "Added %1 to lasers list at index %2.\n", classname, lasers::handles.length() );
-    }
-
     auto ckv = squad.GetCustomKeyvalues();
 
     CBaseMonster@ monster = null;

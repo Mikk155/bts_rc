@@ -16,8 +16,22 @@
         },
         "turret_lasers":
         {
-            "type": "boolean",
-            "description": "Enable laser aiming visuals for turrets."
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Controls laser aiming visuals for turrets.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "description": "Should blackops throw flashbang instead of regular grenades?"
+                },
+                "interval":
+                {
+                    "type": "number",
+                    "description": "Internal think rate interval. lower values more cpu usage"
+                }
+            }
         },
         "battery_lighting":
         {

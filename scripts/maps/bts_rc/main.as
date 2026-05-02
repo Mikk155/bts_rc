@@ -47,7 +47,6 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     g_SurvivalMode.Activate();
     randomizer::Initialize();
     item_tracker::Initialize();
-    lasers::MapActivate();
     
     auto ckv = activator.GetCustomKeyvalues();
 
@@ -183,8 +182,6 @@ void MapInit()
         chrono.Stop();
         g_Logger.info = snprintf( glog, "Finish initializing player characters in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
-
-    lasers::Register( @config );
 
     g_VoiceResponse.Register( @config );
 

@@ -21,6 +21,10 @@
 *   SOFTWARE.
 */
 
+/*
+    Author: Mikk
+*/
+
 class BlackOpsFlashbang : EntityOverriden
 {
     const string& get_Name() {
