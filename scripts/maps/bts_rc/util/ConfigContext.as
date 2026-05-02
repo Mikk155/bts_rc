@@ -32,42 +32,16 @@ interface IConfigContext
     void Parse( dictionary@ json );
 }
 
+/// List containing all the registered IConfigContext instances for registration.
+array<IConfigContext@> g_ConfigContexts;
+
 namespace ConfigContext
 {
-    /// List containing all the registered IConfigContext instances for registration.
-    array<IConfigContext@> g_ConfigContexts;
-
     void Register( IConfigContext@ context )
     {
         g_ConfigContexts.insertLast( context );
 
         if( g_Logger.info )
             g_Logger.info = snprintf( glog, "Registering config context \"%1\"", context.Name );
-    }
-
-    void MapInit( dictionary@ data )
-    {
-        uint length = g_ConfigContexts.length();
-
-        for( uint ui = 0; ui < length; ui++ )
-        {
-            auto context = g_ConfigContexts[ui];
-            string name = context.Name;
-
-            if( data.exists( name ) )
-            {
-                if( g_Logger.info )
-                    g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", context.Name );
-
-                context.Parse( cast<dictionary@>( data[ name ] ) );
-            }
-            else
-            {
-                context.Parse( {} );
-
-                if( g_Logger.critical )
-                    g_Logger.critical = snprintf( glog, "Failed to find context \"%1\" in config.json calling with empty data!", context.Name );
-            }
-        }
     }
 }
