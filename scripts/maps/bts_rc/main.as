@@ -105,14 +105,16 @@ void MapInit()
     Server::chrono@ chrono = Server::chrono();
     Server::chrono@ chronoMapInit = Server::chrono();
 
-    dictionary g_Config;
+    dictionary config;
 
-    if( !meta_api::json::Deserialize( "bts_rc/config.json", g_Config ) )
+    if( !meta_api::json::Deserialize( "bts_rc/config.json", config ) )
     {
-        g_Logger.critical = snprintf( glog, "Could not parse \"scripts/maps/bts_rc/config.json\"" );
+        g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
     }
 
-    g_Logger.__Register__( cast<dictionary@>( g_Config[ "log" ] ) );
+    BTSJson@ json = BTSJson( @config );
+
+    g_Logger.Register( json.FirstOrDefault( "log" ) );
 
     if( g_Logger.info )
     {
@@ -121,7 +123,7 @@ void MapInit()
         chrono.Restart();
     }
 
-    ConfigContext::MapInit( g_Config );
+    ConfigContext::MapInit( @config );
 
     if( g_Logger.info )
     {
@@ -129,14 +131,14 @@ void MapInit()
         g_Logger.info = snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
 
-    lasers::Register( @g_Config );
-    RegisterPlayerClass( @g_Config );
+    lasers::Register( @config );
+    RegisterPlayerClass( @config );
 
-    g_VoiceResponse.Register( @g_Config );
+    g_VoiceResponse.Register( @config );
 
     Precache();
 
-    items::Register( g_Config );
+    items::Register( config );
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 

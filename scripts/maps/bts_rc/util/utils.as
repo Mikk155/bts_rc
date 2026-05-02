@@ -30,6 +30,7 @@
 #include "CustomEntity"
 #include "EntityOverriden"
 #include "freeedicts"
+#include "json"
 #include "Logger"
 #include "models"
 #include "PlayerClass"
