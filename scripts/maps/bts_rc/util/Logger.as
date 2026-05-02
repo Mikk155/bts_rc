@@ -25,22 +25,25 @@ string glog;
 
 class CLogger
 {
-    bool __error__;
-    bool __info__;
     bool __trace__;
+    bool __debug__;
+    bool __info__;
     bool __warning__;
-    bool __critical__ = true;
+    bool __error__;
+    bool __critical__;
 
     bool Toggle( const string&in loggerName )
     {
-        if( loggerName == "error" )
-            this.__error__ = !this.__error__;
+        if( loggerName == "trace" )
+            this.__trace__ = !this.__trace__;
+        else if( loggerName == "debug" )
+            this.__debug__ = !this.__debug__;
         else if( loggerName == "info" )
             this.__info__ = !this.__info__;
-        else if( loggerName == "trace" )
-            this.__trace__ = !this.__trace__;
         else if( loggerName == "warning" )
             this.__warning__ = !this.__warning__;
+        else if( loggerName == "error" )
+            this.__error__ = !this.__error__;
         else if( loggerName == "critical" )
             this.__critical__ = !this.__critical__;
         else
@@ -51,14 +54,16 @@ class CLogger
 
     bool IsActive( const string&in loggerName )
     {
-        if( loggerName == "error" )
-            return this.__error__;
+        if( loggerName == "trace" )
+            return this.__trace__;
+        else if( loggerName == "debug" )
+            return this.__debug__;
         else if( loggerName == "info" )
             return this.__info__;
-        else if( loggerName == "trace" )
-            return this.__trace__;
         else if( loggerName == "warning" )
             return this.__warning__;
+        else if( loggerName == "error" )
+            return this.__error__;
         else if( loggerName == "critical" )
             return this.__critical__;
         return false;
@@ -89,9 +94,14 @@ class CLogger
         g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
     }
 
-    bool error {
-        get { return this.__error__; }
-        set { this.print( "error" ); }
+    bool trace {
+        get { return this.__trace__; }
+        set { this.print( "trace" ); }
+    }
+
+    bool debug {
+        get { return this.__debug__; }
+        set { this.print( "debug" ); }
     }
 
     bool info {
@@ -99,14 +109,14 @@ class CLogger
         set { this.print( "info" ); }
     }
 
-    bool trace {
-        get { return this.__trace__; }
-        set { this.print( "trace" ); }
-    }
-
     bool warning {
         get { return this.__warning__; }
         set { this.print( "warning" ); }
+    }
+
+    bool error {
+        get { return this.__error__; }
+        set { this.print( "error" ); }
     }
 
     bool critical {
@@ -130,17 +140,18 @@ class CLogger
 
         this.m_IsRegistered = true;
 
-        this.__critical__ = this.GetLoggerState( "critical", json );
-        this.__error__ = this.GetLoggerState( "error", json );
-        this.__warning__ = this.GetLoggerState( "warning", json );
-        this.__info__ = this.GetLoggerState( "info", json );
         this.__trace__ = this.GetLoggerState( "trace", json );
+        this.__debug__ = this.GetLoggerState( "debug", json );
+        this.__info__ = this.GetLoggerState( "info", json );
+        this.__warning__ = this.GetLoggerState( "warning", json );
+        this.__error__ = this.GetLoggerState( "error", json );
+        this.__critical__ = this.GetLoggerState( "critical", json );
 
-        RegisterCommand( "log", "<string logger>", "Toggle log levels. one of; error, info, trace, warning, critical.", 
+        RegisterCommand( "log", "<string logger>", "Toggle log levels. one of; trace, debug, info, warning, error, critical.", 
             CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
                 if( arguments is null || arguments.length() <= 0 || !g_Logger.Toggle( arguments[0] ) )
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "You have to provide a valid argument! one of; error, info, trace, warning, critical.\n" );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "You have to provide a valid argument! one of; trace, debug, info, warning, error, critical.\n" );
                 else
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Toggled logger " + arguments[0] + " to " + ( g_Logger.IsActive( arguments[0] ) ? "true" : "false" ) + ".\n" );
             }

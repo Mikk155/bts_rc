@@ -13,10 +13,11 @@
     },
     "log":
     {
-        "error": true,
-        "info": true,
         "trace": true,
+        "debug": true,
+        "info": true,
         "warning": true,
+        "error": true,
         "critical": true
     },
     "bloodpuddle":
