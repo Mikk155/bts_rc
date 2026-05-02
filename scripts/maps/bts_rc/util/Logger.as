@@ -114,18 +114,27 @@ class CLogger
         set { this.print( "critical" ); }
     }
 
-    void __Register__( dictionary@ json )
+    private bool GetLoggerState( const string&in loggerName, BTSJson@ json )
     {
-        if( json.get( "error", this.__error__ ) && this.__error__ )
-            g_Game.AlertMessage( at_console, "Enabled \"error\" logger\n" );
-        if( json.get( "info", this.__info__ ) && this.__info__ )
-            g_Game.AlertMessage( at_console, "Enabled \"info\" logger\n" );
-        if( json.get( "trace", this.__trace__ ) && this.__trace__ )
-            g_Game.AlertMessage( at_console, "Enabled \"trace\" logger\n" );
-        if( json.get( "warning", this.__warning__ ) && this.__warning__ )
-            g_Game.AlertMessage( at_console, "Enabled \"warning\" logger\n" );
-        if( json.get( "critical", this.__critical__ ) && this.__critical__ )
-            g_Game.AlertMessage( at_console, "Enabled \"critical\" logger\n" );
+        bool level = json.FirstOrDefault( loggerName, true );
+        g_Game.AlertMessage( at_console, "Set logger \"%1\" state to %2\n", loggerName, ( level ? "Enabled" : "Disabled" ) );
+        return level;
+    }
+    
+    private bool m_IsRegistered;
+
+    void Register( BTSJson@ json )
+    {
+        if( this.m_IsRegistered )
+            return;
+
+        this.m_IsRegistered = true;
+
+        this.__critical__ = this.GetLoggerState( "critical", json );
+        this.__error__ = this.GetLoggerState( "error", json );
+        this.__warning__ = this.GetLoggerState( "warning", json );
+        this.__info__ = this.GetLoggerState( "info", json );
+        this.__trace__ = this.GetLoggerState( "trace", json );
 
         RegisterCommand( "log", "<string logger>", "Toggle log levels. one of; error, info, trace, warning, critical.", 
             CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
