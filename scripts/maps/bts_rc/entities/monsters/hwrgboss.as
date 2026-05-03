@@ -529,7 +529,7 @@ namespace btscm
             if( pEntity.pev.solid != SOLID_NOT ) // just in case
                 pEntity.Killed( null, GIB_NEVER );
 
-            if( freeedicts( 1 ) )
+            if( FreeEdicts( 1 ) )
             {
                 CBeam@ pBeam = g_EntityFuncs.CreateBeam( SPRITE_ANTIFLARE, 50 );
                 if( pBeam !is null )
@@ -545,7 +545,7 @@ namespace btscm
                 }
             }
 
-            if( freeedicts( 1 ) )
+            if( FreeEdicts( 1 ) )
             {
                 NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pEntity.pev.origin );
                 m1.WriteByte( TE_SMOKE );

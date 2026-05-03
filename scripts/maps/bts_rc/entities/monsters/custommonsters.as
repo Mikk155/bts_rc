@@ -176,13 +176,6 @@ bool RandomChance( int iPercentage )
 {
     return Math.RandomLong( 1, 100 ) <= iPercentage;
 }
-
-//TEMP!! REMOVE BEFORE RELEASE!!
-bool freeedicts(int overhead = 1)
-{
-    return (g_EngineFuncs.NumberOfEntities() < g_Engine.maxEntities - (16 * g_Engine.maxClients) - 100 - overhead);
-}
-
 } //namespace btscm END
 
 

@@ -72,7 +72,7 @@ namespace deathdrop
 
     HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
     {
-        if( monster is null || !freeedicts( 1 ) )
+        if( monster is null || !FreeEdicts( 1 ) )
             return HOOK_CONTINUE;
 
         array<string>@ drops;

@@ -131,7 +131,7 @@ namespace bloodpuddle
                     if( gpConfig.Persistent )
                     {
                         self.pev.nextthink = g_Engine.time + 30.0;
-                        if( !freeedicts( 100 ) )
+                        if( !FreeEdicts( 100 ) )
                             g_EntityFuncs.Remove( self );
                         return;
                     }
@@ -170,7 +170,7 @@ namespace bloodpuddle
 
     HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
     {
-        if( monster is null || !freeedicts( 30 ) || monster.m_bloodColor == DONT_BLEED )
+        if( monster is null || !FreeEdicts( 30 ) || monster.m_bloodColor == DONT_BLEED )
             return HOOK_CONTINUE;
 
         dictionary@ user_data = monster.GetUserData();

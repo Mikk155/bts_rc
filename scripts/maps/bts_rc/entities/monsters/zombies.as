@@ -166,7 +166,7 @@ namespace btscm
 
     void DoCanisterSmoke( CBaseEntity@ pMonster )
     {
-        if( !freeedicts( 1 ) )
+        if( !FreeEdicts( 1 ) )
             return;
 
         if( pMonster is null )

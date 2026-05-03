@@ -90,7 +90,7 @@ namespace zombie_uncrab
                 g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled,
                 MonsterKilledHook( function( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
                 {
-                    if( !freeedicts(1) || !gpConfig.IsValid( monster ) )
+                    if( !FreeEdicts(1) || !gpConfig.IsValid( monster ) )
                         return HOOK_CONTINUE;
 
                     const float headcrab_damage = int( monster.GetUserData()[ "headcrab_damage" ] );

@@ -29,11 +29,20 @@
 #include "ConfigContext"
 #include "CustomEntity"
 #include "EntityOverriden"
-#include "freeedicts"
 #include "json"
 #include "Logger"
 #include "models"
 #include "PlayerClass"
+
+// sven only has 8192 edicts at any given time
+// so assume each player carries exactly 10 weapons, and then leave 100 slots free for various temporary things. -Zode
+const int __freedicts_overgead__ = g_Engine.maxEntities - ( 10 * g_Engine.maxClients ) - 100;
+
+// Return whatever there's space in the server to spawn "overhead" amount of entities
+bool FreeEdicts( int overhead = 1 )
+{
+    return ( g_EngineFuncs.NumberOfEntities() < __freedicts_overgead__ - overhead );
+}
 
 // Get a random number between 0 and max. if RandomUint was called before the result will be stored in player data as "RandomUint" to avoid repeating the same number in a row
 uint8 RandomUint( uint8 max, CBasePlayer@ player )
