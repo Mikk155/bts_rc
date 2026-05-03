@@ -3,6 +3,7 @@
 - Moved laser sentry code to an optimized structure
 - Added many custom monster updates by Nero
 - Refactored and optimized many hook structures
+- Allow admins to use impulse 101 regardless sv_cheats
 
 # 27/4/2026
 - Added weapon_bts_pipewrench (custom due to sk_plr_wrench not working.)
