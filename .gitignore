@@ -5,3 +5,4 @@ maps/*
 !maps/bts_rc_test_chamber.bsp
 !maps/bts_rc_test_chamber.cfg
 !maps/bts_rc_test_chamber.map
+as-clang-format.exe
