@@ -139,7 +139,7 @@ class TurretsLasers : EntityOverriden
     }
 
     bool ShouldThink() override {
-        return ( EntityOverriden::ShouldThink() && freeedicts( 5 ) ); // 2 sprites 3 temporary entity
+        return ( EntityOverriden::ShouldThink() && FreeEdicts( 5 ) ); // 2 sprites 3 temporary entity
     }
 }
 

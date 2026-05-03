@@ -331,7 +331,7 @@ namespace btscm
 
         SpawnExplosion( pMonster.pev.origin, 0.0, 0.0, EXPLODE_DAMAGE );
 
-        if( freeedicts( 15 ) )
+        if( FreeEdicts( 15 ) )
         {
             NetworkMessage gib1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pMonster.pev.origin );
             gib1.WriteByte( TE_BREAKMODEL );
@@ -352,7 +352,7 @@ namespace btscm
             gib1.End();
         }
 
-        if( freeedicts( 15 ) )
+        if( FreeEdicts( 15 ) )
         {
             NetworkMessage gib2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pMonster.pev.origin );
             gib2.WriteByte( TE_BREAKMODEL );
@@ -375,7 +375,7 @@ namespace btscm
 
         g_SoundSystem.EmitSoundDyn( pMonster.edict(), CHAN_BODY, "debris/beamstart14.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
-        if( freeedicts( 1 ) )
+        if( FreeEdicts( 1 ) )
         {
             CBaseEntity@ pSmoker = g_EntityFuncs.Create( "env_smoker", pMonster.pev.origin, g_vecZero, false );
             pSmoker.pev.health = 1;                      // 1 smoke balls
@@ -422,7 +422,7 @@ namespace btscm
                 vecOrigin.y = pMonster.pev.absmin.y + pMonster.pev.size.y * ( Math.RandomFloat( 0, 1 ) );
                 vecOrigin.z = pMonster.pev.absmin.z + pMonster.pev.size.z * ( Math.RandomFloat( 0, 1 ) ) + 1; // absmin.z is in the floor because the engine subtracts 1 to enlarge the box
 
-                if( freeedicts( 1 ) )
+                if( FreeEdicts( 1 ) )
                 {
                     NetworkMessage m1( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
                     m1.WriteByte( TE_SMOKE );

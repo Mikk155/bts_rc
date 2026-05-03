@@ -63,7 +63,7 @@ namespace weapons
         CBaseEntity@ hit = null;
         CBaseMonster@ monster = null;
 
-        if( !freeedicts( 5 )
+        if( !FreeEdicts( 5 )
         || !g_EntityFuncs.IsValidEntity( tr.pHit )
         || ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) is null
         || !hit.IsMonster()
