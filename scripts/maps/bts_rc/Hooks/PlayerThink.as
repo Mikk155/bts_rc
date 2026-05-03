@@ -40,9 +40,8 @@ namespace Hooks
         }
 
         // Change impulse 101 command with our own weapons
-        if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+        if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
         {
-            // -TODO Confirm if pev.impulse is not set to 101 if the player doesn't has admin. to remove the last two conditions.
             const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
             uint length = weaponNames.length();
 
