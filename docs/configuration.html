@@ -32,14 +32,14 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Enable laser aiming visuals for turrets.">
+<tr class="schema-row" data-description="Controls laser aiming visuals for turrets.">
     <td>
         <span class="prop-name" data-copy="turret_lasers">
             turret_lasers
         </span>
     </td>
-    <td>boolean</td>
-    <td>Enable laser aiming visuals for turrets.</td>
+    <td>object</td>
+    <td>Controls laser aiming visuals for turrets.</td>
 </tr>
 
 
@@ -65,17 +65,6 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Should blackops throw flashbang instead of regular grenades?">
-    <td>
-        <span class="prop-name" data-copy="active">
-            <span class="prop-object">blackops_flashbang</span><span class="prop-separator">-></span>active
-        </span>
-    </td>
-    <td>boolean</td>
-    <td>Should blackops throw flashbang instead of regular grenades?</td>
-</tr>
-
-
 <tr class="schema-row" data-description="Global cooldown for blackops to throw grenades">
     <td>
         <span class="prop-name" data-copy="throw_flash_cooldown">
@@ -98,17 +87,6 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Internal think rate interval. lower values more cpu usage">
-    <td>
-        <span class="prop-name" data-copy="interval">
-            <span class="prop-object">blackops_flashbang</span><span class="prop-separator">-></span>interval
-        </span>
-    </td>
-    <td>number</td>
-    <td>Internal think rate interval. lower values more cpu usage</td>
-</tr>
-
-
 <tr class="schema-row" data-description="Logging configuration per severity level.">
     <td>
         <span class="prop-name" data-copy="log">
@@ -122,8 +100,19 @@
 
 <tr class="schema-row" data-description="">
     <td>
-        <span class="prop-name" data-copy="error">
-            <span class="prop-object">log</span><span class="prop-separator">-></span>error
+        <span class="prop-name" data-copy="trace">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>trace
+        </span>
+    </td>
+    <td>boolean</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="debug">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>debug
         </span>
     </td>
     <td>boolean</td>
@@ -144,8 +133,8 @@
 
 <tr class="schema-row" data-description="">
     <td>
-        <span class="prop-name" data-copy="trace">
-            <span class="prop-object">log</span><span class="prop-separator">-></span>trace
+        <span class="prop-name" data-copy="warning">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>warning
         </span>
     </td>
     <td>boolean</td>
@@ -155,8 +144,8 @@
 
 <tr class="schema-row" data-description="">
     <td>
-        <span class="prop-name" data-copy="warning">
-            <span class="prop-object">log</span><span class="prop-separator">-></span>warning
+        <span class="prop-name" data-copy="error">
+            <span class="prop-object">log</span><span class="prop-separator">-></span>error
         </span>
     </td>
     <td>boolean</td>
