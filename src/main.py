@@ -29,6 +29,10 @@ def Main() -> int:
         from PyDocumentation import PyDocumentation;
         Builders.append( PyDocumentation() );
 
+        from PyClangFormat import PyClangFormat;
+        # Disabled for now due to lack of features
+        # Builders.append( PyClangFormat() );
+
     for builder in Builders:
 
         ok = True;

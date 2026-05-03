@@ -1,0 +1,39 @@
+Language: Cpp
+BasedOnStyle: Microsoft
+PointerAlignment: Left 
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+NamespaceIndentation: All
+BreakBeforeBraces: Allman
+Cpp11BracedListStyle: Block
+AllowShortBlocksOnASingleLine: false
+InsertNewlineAtEOF: true
+SpaceBeforeParens: false
+SpacesInParentheses: true
+AllowShortLambdasOnASingleLine: None
+LambdaBodyIndentation: OuterScope
+ColumnLimit: 0
+SortIncludes: false
+BraceWrapping:
+  BeforeLambdaBody: false
+  AfterFunction: true
+
+AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 1000000
+AllowShortFunctionsOnASingleLine: All
+
+# -TODO Remove this line and format sources when issue gets fixed: https://github.com/Mikk155/as-clang-format/issues/2
+AccessModifierOffset: -2
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: Always
+
+IndentCaseLabels: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortCaseExpressionOnASingleLine: true
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseColons: false
