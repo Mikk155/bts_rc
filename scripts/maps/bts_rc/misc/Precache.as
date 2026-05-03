@@ -329,5 +329,4 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/bts_rc_snapbug.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/tfchud07.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/gametitle.spr" );
 }

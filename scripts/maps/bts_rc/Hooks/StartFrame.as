@@ -23,7 +23,7 @@
 
 namespace Hooks
 {
-    class __CStartFrame__ : ScriptBaseEntity
+    class CASStartFrame : ScriptBaseEntity
     {
         void Spawn()
         {
@@ -51,18 +51,5 @@ namespace Hooks
 
             self.pev.nextthink = g_Engine.time;
         }
-    }
-
-    const bool __StartFrameRegister__()
-    {
-        g_CustomEntityFuncs.RegisterCustomEntity( "Hooks::__CStartFrame__", "StartFrame" );
-        return true;
-    }
-
-    const bool __StartFrame__ = __StartFrameRegister__();
-
-    void StartFrame()
-    {
-        g_EntityFuncs.Create( "StartFrame", g_vecZero, g_vecZero, false, null );
     }
 }

@@ -23,50 +23,50 @@
 
 namespace Hooks
 {
-void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity )
-{
-    if( entity is null )
-        return;
-
-    string classname = entity.GetClassname();
-
-    auto ckv = squad.GetCustomKeyvalues();
-
-    CBaseMonster@ monster = null;
-
-    if( entity.IsMonster() )
-        @monster = cast<CBaseMonster@>(entity);
-
-    uint length = gpEntityOverriden.length();
-
-    for( uint ui = 0; ui < length; ui++ )
+    void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity )
     {
-        EntityOverriden@ overrider = gpEntityOverriden[ui];
-
-        if( overrider !is null )
-            overrider.AddEntity( entity.entindex(), entity, ckv, monster );
-    }
-
-    // Swap a specific squadmaker to a random location.
-    if( ckv.GetKeyvalue( "$i_randomize_squad" ).GetInteger() == 1 )
-    {
-        if( squad !is null || !g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
-        {
-            if( g_Logger.error )
-                g_Logger.error = snprintf( glog, "Failed to swap squad at %1 Null squadmaker", entity.pev.origin.ToString() );
+        if( entity is null )
             return;
+
+        string classname = entity.GetClassname();
+
+        auto ckv = squad.GetCustomKeyvalues();
+
+        CBaseMonster@ monster = null;
+
+        if( entity.IsMonster() )
+            @monster = cast<CBaseMonster@>(entity);
+
+        uint length = gpEntityOverriden.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EntityOverriden@ overrider = gpEntityOverriden[ui];
+
+            if( overrider !is null )
+                overrider.AddEntity( entity.entindex(), entity, ckv, monster );
         }
 
-        CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
-
-        if( owner_spot is null )
+        // Swap a specific squadmaker to a random location.
+        if( ckv.GetKeyvalue( "$i_randomize_squad" ).GetInteger() == 1 )
         {
-            if( g_Logger.error )
-                g_Logger.error = snprintf( glog, "Failed to swap squad at %1 Null squadmaker's owner (randomizer entity)", entity.pev.origin.ToString() );
-            return;
-        }
+            if( squad !is null || !g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
+            {
+                if( g_Logger.error )
+                    g_Logger.error = snprintf( glog, "Failed to swap squad at %1 Null squadmaker", entity.pev.origin.ToString() );
+                return;
+            }
 
-        owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
+            CBaseEntity@ owner_spot = g_EntityFuncs.Instance( squad.pev.owner );
+
+            if( owner_spot is null )
+            {
+                if( g_Logger.error )
+                    g_Logger.error = snprintf( glog, "Failed to swap squad at %1 Null squadmaker's owner (randomizer entity)", entity.pev.origin.ToString() );
+                return;
+            }
+
+            owner_spot.Use( null, null, USE_TOGGLE ); // Do not change USE_TYPE input.
+        }
     }
-}
 }

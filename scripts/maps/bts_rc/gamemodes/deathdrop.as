@@ -63,17 +63,15 @@ namespace deathdrop
 
                 m_Monsters[ monster ] = itemNames;
             }
-
-            g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @deathdrop::monster_killed );
         }
     }
 
     CConfig gpConfig;
 
-    HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
+    void MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
     {
         if( monster is null || !FreeEdicts( 1 ) )
-            return HOOK_CONTINUE;
+            return;
 
         array<string>@ drops;
 
@@ -81,12 +79,12 @@ namespace deathdrop
             gpConfig.m_Monsters.get( monster.GetClassname(), @drops );
 
         if( drops is null || drops.length() <= 0 )
-            return HOOK_CONTINUE;
+            return;
 
         string drop = drops[ Math.RandomLong( 0, drops.length() - 1 ) ];
 
         if( drop.IsEmpty() )
-            return HOOK_CONTINUE;
+            return;
 
         if( g_Logger.trace )
             g_Logger.trace = snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() );
@@ -94,14 +92,12 @@ namespace deathdrop
         if( drop == "grenade" )
         {
             g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
-            return HOOK_CONTINUE;
+            return;
         }
 
         CBaseEntity@ item = g_EntityFuncs.Create( drop, monster.Center(), g_vecZero, false, monster.edict() );
 
         if( item !is null )
             item.pev.spawnflags |= 1024; // no more respawn
-
-        return HOOK_CONTINUE;
     }
 }

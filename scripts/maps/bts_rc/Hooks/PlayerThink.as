@@ -23,60 +23,62 @@
 
 namespace Hooks
 {
-bool PlayerThink = g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink,
-PlayerPostThinkHook( function( CBasePlayer@ player )
-{
-    if( player is null || !player.IsConnected() )
-        return HOOK_CONTINUE;
-
-    auto character = GetCharacter(player);
-
-    dictionary@ data = player.GetUserData();
-
-    if( !data.exists( "connected" ) )
-        ClientInitialized(player);
-
-    // Change impulse 101 command with our own weapons.
-    if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+    HookReturnCode PlayerThink( CBasePlayer@ player )
     {
-        const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
-        uint length = weaponNames.length();
+        if( player is null || !player.IsConnected() )
+            return HOOK_CONTINUE;
 
-        for( uint ui = 0; ui < length; ui++ )
+        auto character = GetCharacter(player);
+
+        dictionary@ data = player.GetUserData();
+
+        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
+        if( !data.exists( "connected" ) && player.pev.button != 0 )
         {
-            const string weapon_name = weaponNames[ui];
+            data[ "connected" ] = true;
+            PlayerInitialized( player, data );
+        }
 
-            player.GiveNamedItem( weapon_name );
+        // Change impulse 101 command with our own weapons
+        if( player.pev.impulse == 101 && g_EngineFuncs.CVarGetFloat( "sv_cheats" ) > 0 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+        {
+            // -TODO Confirm if pev.impulse is not set to 101 if the player doesn't has admin. to remove the last two conditions.
+            const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
+            uint length = weaponNames.length();
 
-            CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
-
-            if( item !is null )
+            for( uint ui = 0; ui < length; ui++ )
             {
-                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+                const string weapon_name = weaponNames[ui];
 
-                if( weapon !is null )
+                player.GiveNamedItem( weapon_name );
+
+                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+
+                if( item !is null )
                 {
-                    if( weapon.m_iPrimaryAmmoType > 0 )
-                        player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
-                    
-                    weapon.m_iClip = weapon.iMaxClip();
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
 
-                    if( weapon.m_iSecondaryAmmoType > 0 )
-                        player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                    if( weapon !is null )
+                    {
+                        if( weapon.m_iPrimaryAmmoType > 0 )
+                            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                        
+                        weapon.m_iClip = weapon.iMaxClip();
+
+                        if( weapon.m_iSecondaryAmmoType > 0 )
+                            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                    }
                 }
             }
+            player.pev.impulse = 0;
         }
-        player.pev.impulse = 0;
-    }
 
 #if METAMOD_DEBUG
-    if( character is null )
-        SetClass( player, Classification::Scientist );
+        if( character is null )
+            SetClass( player, Classification::Scientist );
 #endif
 
-    if( character is null )
-    {
-        if( gpGameStarted )
+        if( character is null )
         {
             auto observer = player.GetObserver();
 
@@ -125,150 +127,148 @@ PlayerPostThinkHook( function( CBasePlayer@ player )
                     }
                 }
             }
+            return HOOK_CONTINUE;
         }
-        return HOOK_CONTINUE;
-    }
 
-    item_tracker::Think(player);
+        item_tracker::Think(player);
 
-    player.SetOverriddenPlayerModel(character.Name);
+        player.SetOverriddenPlayerModel(character.Name);
 
-    if( player.m_hActiveItem.IsValid() )
-    {
-        auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-
-        if( weapon !is null )
+        if( player.m_hActiveItem.IsValid() )
         {
-            const string classname = weapon.GetClassname();
+            auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
-            ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ classname ] );
-
-            // We assume weaponConfig is not null.
-            // If it is null then is a third party weapon.
-            // the map is not designed to have other weapons than ours.
-            // I don't have time to redesign this nor i care.
-            if( weaponConfig is null )
+            if( weapon !is null )
             {
-#if METAMOD_DEBUG
-                player.RemovePlayerItem( weapon );
-#endif
-                return HOOK_CONTINUE;
-            }
+                const string classname = weapon.GetClassname();
 
-            CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
+                ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ classname ] );
 
-            // Call deploy for vanilla weapons to update their models
-            if( lastWeapon !is weapon || player.pev.viewmodel != weaponConfig.view_model )
-            {
-                weaponConfig.WeaponDeploy( player, weapon, character );
-                @data[ "current_weapon" ] = weapon;
-            }
-
-            // Can we attack?
-            if( player.m_flNextAttack <= 0 )
-            {
-                if( ( player.pev.button & IN_ATTACK ) != 0 ) {
-                    if( weapon.m_flNextPrimaryAttack < g_Engine.time )
-                        weaponConfig.WeaponPrimaryAttack( player, weapon, character );
+                // We assume weaponConfig is not null.
+                // If it is null then is a third party weapon.
+                // the map is not designed to have other weapons than ours.
+                // I don't have time to redesign this nor i care.
+                if( weaponConfig is null )
+                {
+                    player.RemovePlayerItem( weapon );
                 }
+                else
+                {
+                    CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
-                if( ( player.pev.button & IN_ATTACK2 ) != 0 ) {
-                    if( weapon.m_flNextSecondaryAttack < g_Engine.time )
-                        weaponConfig.WeaponSecondaryAttack( player, weapon, character );
-                }
+                    // Call deploy for vanilla weapons to update their models
+                    if( lastWeapon !is weapon || player.pev.viewmodel != weaponConfig.view_model )
+                    {
+                        weaponConfig.WeaponDeploy( player, weapon, character );
+                        @data[ "current_weapon" ] = weapon;
+                    }
 
-                if( ( player.pev.button & IN_ALT1 ) != 0 ) {
-                    if( weapon.m_flNextTertiaryAttack < g_Engine.time )
-                        weaponConfig.WeaponTertiaryAttack( player, weapon, character );
+                    // Can we attack?
+                    if( player.m_flNextAttack <= 0 )
+                    {
+                        if( ( player.pev.button & IN_ATTACK ) != 0 ) {
+                            if( weapon.m_flNextPrimaryAttack < g_Engine.time )
+                                weaponConfig.WeaponPrimaryAttack( player, weapon, character );
+                        }
+
+                        if( ( player.pev.button & IN_ATTACK2 ) != 0 ) {
+                            if( weapon.m_flNextSecondaryAttack < g_Engine.time )
+                                weaponConfig.WeaponSecondaryAttack( player, weapon, character );
+                        }
+
+                        if( ( player.pev.button & IN_ALT1 ) != 0 ) {
+                            if( weapon.m_flNextTertiaryAttack < g_Engine.time )
+                                weaponConfig.WeaponTertiaryAttack( player, weapon, character );
+                        }
+                    }
+
+                    // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
+                    if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
+                    {
+                        if( player.m_flNextAttack <= 0 )
+                            weaponConfig.WeaponFlashlight( player, weapon, character );
+                        player.pev.impulse = 0;
+                    }
+
+                    weaponConfig.PlayerThink( player, weapon, character );
                 }
             }
-
-            // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
-            if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
-            {
-                if( player.m_flNextAttack <= 0 )
-                    weaponConfig.WeaponFlashlight( player, weapon, character );
-                player.pev.impulse = 0;
-            }
-
-            weaponConfig.PlayerThink( player, weapon, character );
         }
-    }
 
-    if( character.IsHEV )
-    {
-        int state = int( data["helmet_nv_state"] );
-
-        // Not enough power, Shut down
-        if( player.pev.armorvalue <= 0 )
+        if( character.IsHEV )
         {
-            if( state == 1 )
+            int state = int( data["helmet_nv_state"] );
+
+            // Not enough power, Shut down
+            if( player.pev.armorvalue <= 0 )
             {
-                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/nvg_off.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
-                g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
+                if( state == 1 )
+                {
+                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/nvg_off.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, 2 );
+                }
+                else if( player.pev.impulse == 100 )
+                {
+                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                    player.pev.impulse = 0;
+                }
+
+                data["helmet_nv_state"] = state = 0;
             }
+            // Catch impulse command and toggle night vision state
             else if( player.pev.impulse == 100 )
             {
-                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
+                data["helmet_nv_state"] = ( state == 1 ? 0 : 1 );
+
+                if( state == 1 )
+                    data["helmet_nv_startup"] = 0;
+
+                g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
+                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
                 player.pev.impulse = 0;
             }
 
-            data["helmet_nv_state"] = state = 0;
-        }
-        // Catch impulse command and toggle night vision state
-        else if( player.pev.impulse == 100 )
-        {
-            data["helmet_nv_state"] = ( state == 1 ? 0 : 1 );
-
+            // Night vision ON, drain and light.
             if( state == 1 )
-                data["helmet_nv_startup"] = 0;
-
-            g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
-            player.pev.impulse = 0;
-        }
-
-        // Night vision ON, drain and light.
-        if( state == 1 )
-        {
-            // Show even when dead lying.
-            if( !player.GetObserver().IsObserver() )
             {
-                if( float( data["helmet_nv_drain"] ) <= g_Engine.time )
+                // Show even when dead lying.
+                if( !player.GetObserver().IsObserver() )
                 {
-                    player.pev.armorvalue--;
-                    data["helmet_nv_drain"] = 12 + g_Engine.time;
+                    if( float( data["helmet_nv_drain"] ) <= g_Engine.time )
+                    {
+                        player.pev.armorvalue--;
+                        data["helmet_nv_drain"] = 12 + g_Engine.time;
+                    }
+
+                    int nv_radius = int( data["helmet_nv_startup"] );
+
+                    if( nv_radius <= 40 )
+                    {
+                        nv_radius++;
+                        data["helmet_nv_startup"] = nv_radius;
+                    }
+
+                    NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
+                        m.WriteByte( TE_DLIGHT );
+                        m.WriteCoord( player.pev.origin.x );
+                        m.WriteCoord( player.pev.origin.y );
+                        m.WriteCoord( player.pev.origin.z );
+                        m.WriteByte( nv_radius );
+                        m.WriteByte( 255 );
+                        m.WriteByte( 255 );
+                        m.WriteByte( 255 );
+                        m.WriteByte( 2 );
+                        m.WriteByte( 1 );
+                    m.End();
                 }
-
-                int nv_radius = int( data["helmet_nv_startup"] );
-
-                if( nv_radius <= 40 )
+                else
                 {
-                    nv_radius++;
-                    data["helmet_nv_startup"] = nv_radius;
+                    g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
+                    data["helmet_nv_state"] = 0;
                 }
-
-                NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
-                    m.WriteByte( TE_DLIGHT );
-                    m.WriteCoord( player.pev.origin.x );
-                    m.WriteCoord( player.pev.origin.y );
-                    m.WriteCoord( player.pev.origin.z );
-                    m.WriteByte( nv_radius );
-                    m.WriteByte( 255 );
-                    m.WriteByte( 255 );
-                    m.WriteByte( 255 );
-                    m.WriteByte( 2 );
-                    m.WriteByte( 1 );
-                m.End();
-            }
-            else
-            {
-                g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.0f, 0.0f, 0.0f, ( FFADE_OUT | FFADE_STAYOUT ) );
-                data["helmet_nv_state"] = 0;
             }
         }
+
+        return HOOK_CONTINUE;
     }
-
-    return HOOK_CONTINUE;
-} ) );
 }

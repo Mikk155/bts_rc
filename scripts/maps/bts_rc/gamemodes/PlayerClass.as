@@ -263,6 +263,9 @@ void SetRandomClass( CBasePlayer@ player, array<Classification>@ range )
 
 void SerPlayerDurability( CBasePlayer@ player, float health, float armor )
 {
+    if( player is null )
+        return;
+
     player.pev.armortype = armor;
     player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
     player.pev.max_health = health;
@@ -271,6 +274,16 @@ void SerPlayerDurability( CBasePlayer@ player, float health, float armor )
 
 void UpdatePlayerData( CBasePlayer@ player, const Classification&in classify )
 {
+    if( player is null )
+        return;
+
+    if( gpHellHound )
+    {
+        player.pev.health = player.pev.max_health = 1;
+        player.pev.armortype = player.pev.armorvalue = 0;
+        return;
+    }
+
     switch( classify )
     {
         case Classification::HEV: SerPlayerDurability( player, 100, 100 ); break;
@@ -281,5 +294,8 @@ void UpdatePlayerData( CBasePlayer@ player, const Classification&in classify )
 
 void UpdatePlayerData( CBasePlayer@ player )
 {
+    if( player is null )
+        return;
+
     UpdatePlayerData( player, util::GetClass( player ) );
 }

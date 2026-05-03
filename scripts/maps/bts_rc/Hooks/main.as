@@ -21,11 +21,30 @@
 *   SOFTWARE.
 */
 
-#include "ClientInitialized"
+#include "MonsterKilled"
+#include "MonsterTakeDamage"
 #include "PlayerCollect"
+#include "PlayerInitialized"
 #include "PlayerRevive"
 #include "PlayerSpawn"
 #include "PlayerTakeDamage"
 #include "PlayerThink"
 #include "SquadmakerSpawn"
 #include "StartFrame"
+
+namespace Hooks
+{
+    void Register()
+    {
+        g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
+        g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @MonsterTakeDamage );
+        g_Hooks.RegisterHook( Hooks::PickupObject::Collected, @PlayerCollect );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @PlayerRevive );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PlayerSpawn );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage );
+        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
+
+        g_CustomEntityFuncs.RegisterCustomEntity( "Hooks::CASStartFrame", "bts_startframe" );
+        g_EntityFuncs.Create( "bts_startframe", g_vecZero, g_vecZero, false, null );
+    }
+}

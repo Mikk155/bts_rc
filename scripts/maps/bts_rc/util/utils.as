@@ -34,6 +34,18 @@
 #include "models"
 #include "PlayerClass"
 
+// Has the game started in the map?
+bool gpGameStarted;
+
+// Idk raptor
+bool gpHellHound = false;
+
+// Current game version
+const uint32 gpGameVersion = g_Game.GetGameVersion();
+
+// Alias to DMG_DROWN used to identify TakeDamage has been called by a weapon of ours
+const uint32 DMG_BTS_WEAPON = DMG_DROWN;
+
 // sven only has 8192 edicts at any given time
 // so assume each player carries exactly 10 weapons, and then leave 100 slots free for various temporary things. -Zode
 const int __freedicts_overgead__ = g_Engine.maxEntities - ( 10 * g_Engine.maxClients ) - 100;
@@ -69,4 +81,17 @@ uint8 RandomUint( uint8 max, CBasePlayer@ player )
     data[ "RandomUint" ]  = rand;
 
     return rand;
+}
+
+namespace Hellbound
+{
+    void Startup( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+    {
+        gpHellHound = true;
+
+        for( int i = 0; i <= g_Engine.maxClients; i++ )
+        {
+            UpdatePlayerData( g_PlayerFuncs.FindPlayerByIndex( i ), Classification::Unset );
+        }
+    }
 }

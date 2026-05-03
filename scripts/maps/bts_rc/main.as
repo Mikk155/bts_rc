@@ -29,25 +29,16 @@
 
 #include "../bts_rc_weapons/main"
 
-// Has the game started in the map?
-bool gpGameStarted;
-
-const uint32 gpGameVersion = g_Game.GetGameVersion();
-const uint32 DMG_BTS_WEAPON = DMG_DROWN;
-
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
 /// Called by the map through trigger_script the moment that the map gameplay has started
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
-    if( activator.GetClassname() == "trigger_script" )
-        activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
-
     gpGameStarted = true;
     g_SurvivalMode.Activate();
     randomizer::Initialize();
     item_tracker::Initialize();
-    
+
     auto ckv = activator.GetCustomKeyvalues();
 
     // Remove developer commentary
@@ -59,6 +50,8 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
         }
         g_CustomEntityFuncs.UnRegisterCustomEntity( "env_commentary" );
     }
+
+    activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
 }
 
 void MapActivate()
@@ -96,7 +89,11 @@ void MapActivate()
 
     meta_api::NoticeInstallation();
 
-    Hooks::StartFrame();
+    Hooks::Register();
+
+#if METAMOD_DEBUG
+MapBegin(null, null, USE_TOGGLE, 0 );
+#endif
 }
 
 void MapInit()
@@ -184,6 +181,8 @@ void MapInit()
     }
 
     g_VoiceResponse.Register( @config );
+
+    models::Precache();
 
     Precache();
 

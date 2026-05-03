@@ -53,13 +53,12 @@ namespace bloodpuddle
             return list;
         }
 
+        bool Active;
+
         void Parse( dictionary@ json )
         {
-            bool register;
-
-            if( json.get( "active", register ) && register )
+            if( json.get( "active", Active ) && Active )
             {
-                g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @bloodpuddle::monster_killed );
                 g_CustomEntityFuncs.RegisterCustomEntity( "bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
                 g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
 
@@ -168,24 +167,22 @@ namespace bloodpuddle
         }
     }
 
-    HookReturnCode monster_killed( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
+    void MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
     {
-        if( monster is null || !FreeEdicts( 30 ) || monster.m_bloodColor == DONT_BLEED )
-            return HOOK_CONTINUE;
-
-        dictionary@ user_data = monster.GetUserData();
+        if( !gpConfig.Active || monster.m_bloodColor == DONT_BLEED || !FreeEdicts(1) )
+            return;
 
         CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
 
         if( entity is null )
-            return HOOK_CONTINUE;
+            return;
 
         auto bloodpuddle = cast<env_bloodpuddle@>( CastToScriptClass( entity ) );
 
         if( bloodpuddle is null )
         {
             entity.pev.flags |= FL_KILLME;
-            return HOOK_CONTINUE;
+            return;
         }
 
         if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
@@ -211,6 +208,6 @@ namespace bloodpuddle
 
         bloodpuddle.Spawn();
 
-        return HOOK_CONTINUE;
+        return;
     }
 }
