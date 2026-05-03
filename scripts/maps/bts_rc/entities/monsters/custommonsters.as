@@ -30,10 +30,13 @@
 #include "robogrunts"
 //#include "scientists"
 #include "zombies"
+#include "engineer"
 #include "monster_zombie_grenadier"
 #include "monster_snapbug"
 #include "monster_zombie_gunner"
 #include "monster_panthereye"
+#include "monster_zombie_parasite"
+#include "monster_parasite"
 
 namespace btscm
 {
@@ -46,11 +49,14 @@ void CustomMonsterMapInit()
     HWRGMapInit();
     //ScientistMapInit();
     ZombiesMapInit();
+    EngineerMapInit();
 
     monster_zombie_grenadier::Register();
     monster_snapbug::Register();
     monster_zombie_gunner::Register();
     monster_panthereye::Register();
+    monster_zombie_parasite::Register();
+    monster_parasite::Register();
 
     //handles robots dying
     g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
@@ -71,6 +77,7 @@ void MonsterThink()
     //ScientistThink();
     HWRGThink();
     ZombieThink();
+    EngineerThink();
 }
 
 HookReturnCode MonsterKilled( CBaseMonster@ pMonster, CBaseEntity@ pAttacker, int iGib )
@@ -165,6 +172,11 @@ float ptof( int iPercentage )
     return float( iPercentage ) / 100.0;
 }
 
+bool RandomChance( int iPercentage )
+{
+    return Math.RandomLong( 1, 100 ) <= iPercentage;
+}
+
 //TEMP!! REMOVE BEFORE RELEASE!!
 bool freeedicts(int overhead = 1)
 {
@@ -191,6 +203,14 @@ class bts_rc_base_monster : ScriptBaseMonsterEntity
         }
         else
             return BaseClass.KeyValue( szKey, szValue );
+    }
+
+    int ObjectCaps()
+    {
+        if( self.IsPlayerAlly() )
+            return FCAP_IMPULSE_USE;
+        else
+            return BaseClass.ObjectCaps();
     }
 
     CBaseEntity@ GetEnemy()
