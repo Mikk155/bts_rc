@@ -1,3 +1,9 @@
+# 3/5/2026
+- Added .clang.format support and global formater (Disabled for now due to lack of features)
+- Moved laser sentry code to an optimized structure
+- Added many custom monster updates by Nero
+- Refactored and optimized many hook structures
+
 # 27/4/2026
 - Added weapon_bts_pipewrench (custom due to sk_plr_wrench not working.)
 - Fixed flashlight being able to be toggled when busy (attack, reload etc)

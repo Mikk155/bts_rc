@@ -60,73 +60,13 @@ namespace zombie_uncrab
             return true;
         }
 
+        bool Active;
+
         void Parse( dictionary@ json )
         {
-            bool register;
-
-            if( json.get( "active", register ) && register )
+            if( json.get( "active", Active ) && Active )
             {
-                if( json.get( "track_health", TrackHealth ) && TrackHealth )
-                {
-                    g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
-                    MonsterTakeDamageHook( function( DamageInfo@ info )
-                    {
-                        if( info.flDamage <= 0 || !gpConfig.IsValid( info.pVictim ) )
-                            return HOOK_CONTINUE;
-
-                        CBaseMonster@ monster = cast<CBaseMonster@>( info.pVictim );
-
-                        if( monster is null || monster.m_LastHitGroup != 1 )
-                            return HOOK_CONTINUE;
-
-                        dictionary@ data = info.pVictim.GetUserData();
-
-                        data["headcrab_damage"] = int( data["headcrab_damage"] ) + info.flDamage;
-
-                        return HOOK_CONTINUE;
-                    } ) );
-                }
-
-                g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled,
-                MonsterKilledHook( function( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
-                {
-                    if( !FreeEdicts(1) || !gpConfig.IsValid( monster ) )
-                        return HOOK_CONTINUE;
-
-                    const float headcrab_damage = int( monster.GetUserData()[ "headcrab_damage" ] );
-
-                    // Check if the stored received damage is less than a headcrab's HP
-                    if( gpConfig.TrackHealth && headcrab_damage >= gpConfig.sk_headcrab_health.value )
-                        return HOOK_CONTINUE;
-
-                    monster.SetBodygroup( 1, 1 );
-
-                    if( gib != GIB_ALWAYS )
-                    {
-                        // If the monster hasn't been gibed then make sure it supports the "no crab" bodygroup
-                        if( monster.GetBodygroup( 1 ) != 1 )
-                            return HOOK_CONTINUE;
-                    }
-
-                    Vector origin, angles;
-                    monster.GetAttachment( ( monster.GetClassname() == "monster_gonome" ? 1 : 0 ), origin, angles );
-
-                    auto headcrab = g_EntityFuncs.Create( "monster_headcrab", origin, monster.pev.angles, false, monster.edict() );
-
-                    if( headcrab is null )
-                        return HOOK_CONTINUE;
-
-                    // Damage headcrab based on how much damage the zombie got on the headcrab
-                    if( gpConfig.TrackHealth )
-                        headcrab.TakeDamage( null, null, headcrab_damage, DMG_GENERIC );
-
-                    // Make crab think earlier so it does drop to floor before relocate is called
-                    headcrab.pev.nextthink = g_Engine.time;
-
-                    g_Scheduler.SetTimeout( @gpConfig, "RelocateHeadcrab", 0.05f, EHandle(headcrab), origin.z );
-
-                    return HOOK_CONTINUE;
-                } ) );
+                json.get( "track_health", TrackHealth );
             }
         }
 
@@ -151,6 +91,52 @@ namespace zombie_uncrab
             headcrab.pev.velocity.y = Math.RandomFloat( -50, 50 );
             headcrab.pev.velocity.z = Math.RandomFloat( 50, 150 );
         }
+    }
+
+    void MonsterTakeDamage( DamageInfo@ info, CBaseMonster@ monster, dictionary@ data )
+    {
+        if( !gpConfig.Active || !gpConfig.TrackHealth || info.flDamage <= 0 || monster.m_LastHitGroup != 1 || !gpConfig.IsValid( info.pVictim ) )
+            return;
+
+        data["headcrab_damage"] = int( data["headcrab_damage"] ) + info.flDamage;
+    }
+
+    void MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int gib, dictionary@ data )
+    {
+        if( !gpConfig.Active || !gpConfig.IsValid( monster ) || !FreeEdicts(1) )
+            return;
+
+        const float headcrab_damage = int( data[ "headcrab_damage" ] );
+
+        // Check if the stored received damage is less than a headcrab's HP
+        if( gpConfig.TrackHealth && headcrab_damage >= gpConfig.sk_headcrab_health.value )
+            return;
+
+        monster.SetBodygroup( 1, 1 );
+
+        if( gib != GIB_ALWAYS )
+        {
+            // If the monster hasn't been gibed then make sure it supports the "no crab" bodygroup
+            if( monster.GetBodygroup( 1 ) != 1 )
+                return;
+        }
+
+        Vector origin, angles;
+        monster.GetAttachment( ( monster.GetClassname() == "monster_gonome" ? 1 : 0 ), origin, angles );
+
+        auto headcrab = g_EntityFuncs.Create( "monster_headcrab", origin, monster.pev.angles, false, monster.edict() );
+
+        if( headcrab is null )
+            return;
+
+        // Damage headcrab based on how much damage the zombie got on the headcrab
+        if( gpConfig.TrackHealth )
+            headcrab.TakeDamage( null, null, headcrab_damage, DMG_GENERIC );
+
+        // Make crab think earlier so it does drop to floor before relocate is called
+        headcrab.pev.nextthink = g_Engine.time;
+
+        g_Scheduler.SetTimeout( @gpConfig, "RelocateHeadcrab", 0.05f, EHandle(headcrab), origin.z );
     }
 
     CConfig gpConfig;

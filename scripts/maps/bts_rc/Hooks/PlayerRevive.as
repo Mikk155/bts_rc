@@ -23,14 +23,13 @@
 
 namespace Hooks
 {
-bool PlayerRevive = g_Hooks.RegisterHook( Hooks::Player::PlayerRevived,
-PlayerRevivedHook( function( CBasePlayer@ player )
-{
-    if( player is null )
+    HookReturnCode PlayerRevive( CBasePlayer@ player )
+    {
+        if( player !is null )
+        {
+            UpdatePlayerData(player);
+        }
+
         return HOOK_CONTINUE;
-
-    UpdatePlayerData(player);
-
-    return HOOK_CONTINUE;
-} ) );
+    }
 }
