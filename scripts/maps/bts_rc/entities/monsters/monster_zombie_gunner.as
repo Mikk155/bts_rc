@@ -521,8 +521,7 @@ namespace monster_zombie_gunner
 
     void Register()
     {
-        g_CustomEntityFuncs.RegisterCustomEntity( "monster_zombie_gunner::monster_zombie_gunner", "monster_zombie_gunner" );
-        g_Game.PrecacheOther( "monster_zombie_gunner" );
+        CustomEntity( "monster_zombie_gunner", true, "monster_zombie_gunner::monster_zombie_gunner" );
     }
 
 } // end of namespace monster_zombie_gunner

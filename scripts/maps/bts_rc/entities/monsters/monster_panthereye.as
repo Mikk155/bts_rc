@@ -908,9 +908,7 @@ void InitSnapbugSchedules()
 void Register()
 {
     InitSnapbugSchedules();
-
-    g_CustomEntityFuncs.RegisterCustomEntity( "monster_panthereye::monster_panthereye", "monster_panthereye" );
-    g_Game.PrecacheOther( "monster_panthereye" );
+    CustomEntity( "monster_panthereye", true, "monster_panthereye::monster_panthereye" );
 }
 
 } //end of namespace monster_panthereye

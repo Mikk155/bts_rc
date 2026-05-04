@@ -552,11 +552,8 @@ namespace monster_snapbug
     void Register()
     {
         InitSnapbugSchedules();
-        g_CustomEntityFuncs.RegisterCustomEntity( "monster_snapbug::monster_snapbug", "monster_snapbug" );
-        g_Game.PrecacheOther( "monster_snapbug" );
-
-        g_CustomEntityFuncs.RegisterCustomEntity( "monster_snapbug::snapbug", NPC_CLASSNAME2 );
-        g_Game.PrecacheOther( NPC_CLASSNAME2 );
+        CustomEntity( "monster_snapbug", true, "monster_snapbug::monster_snapbug" );
+        CustomEntity( NPC_CLASSNAME2, true, "monster_snapbug::snapbug" );
     }
 
 } // namespace monster_snapbug END

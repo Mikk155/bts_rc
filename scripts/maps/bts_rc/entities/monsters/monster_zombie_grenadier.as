@@ -455,8 +455,7 @@ namespace monster_zombie_grenadier
 
     void Register()
     {
-        g_CustomEntityFuncs.RegisterCustomEntity( "monster_zombie_grenadier::monster_zombie_grenadier", "monster_zombie_grenadier" );
-        g_Game.PrecacheOther( "monster_zombie_grenadier" );
+        CustomEntity( "monster_zombie_grenadier", true, "monster_zombie_grenadier::monster_zombie_grenadier" );
     }
 
 } // end of namespace monster_zombie_grenadier

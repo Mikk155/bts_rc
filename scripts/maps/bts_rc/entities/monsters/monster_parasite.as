@@ -471,8 +471,7 @@ void Register()
 {
     InitSchedules();
 
-    g_CustomEntityFuncs.RegisterCustomEntity( "monster_parasite::monster_parasite", "monster_parasite" );
-    g_Game.PrecacheOther( "monster_parasite" );
+    CustomEntity( "monster_parasite", true, "monster_parasite::monster_parasite" );
 }
 
 } //namespace monster_parasite END

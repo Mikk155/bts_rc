@@ -649,10 +649,8 @@ class CParasiteZombieCloud : ScriptBaseEntity
 
 void Register()
 {
-    g_CustomEntityFuncs.RegisterCustomEntity( "monster_zombie_parasite::CParasiteZombieCloud", "zombie_parasite_cloud" );
-    g_CustomEntityFuncs.RegisterCustomEntity( "monster_zombie_parasite::monster_zombie_parasite", "monster_zombie_parasite" );
-
-    g_Game.PrecacheOther( "monster_zombie_parasite" );
+    CustomEntity( "zombie_parasite_cloud", true, "monster_zombie_parasite::CParasiteZombieCloud" );
+    CustomEntity( "monster_zombie_parasite", true, "monster_zombie_parasite::monster_zombie_parasite" );
 }
 
 } //end of namespace monster_zombie_parasite
