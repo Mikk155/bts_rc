@@ -112,10 +112,8 @@ class CVoices
     }
 }
 
-class CVoiceResponse
+final class CVoiceResponse : IConfigurable
 {
-    bool Active = false;
-
     dictionary voices;
 
     CVoices@ opIndex( CBasePlayer@ player ) const
@@ -146,56 +144,16 @@ class CVoiceResponse
         }
     }
 
-    void Register( dictionary@ config )
+    void Register( BTSJson@ json ) override
     {
-        if( !config.get( "voice_responses", this.Active ) || !this.Active )
+        if( !this.IsActive() )
             return;
-
-        g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, PlayerTakeDamageHook( function( DamageInfo@ info )
-        {
-            if( !g_VoiceResponse.Active || info.flDamage <= 0 || info.pVictim is null )
-                return HOOK_CONTINUE;
-
-            CBasePlayer@ player = cast<CBasePlayer@>( info.pVictim );
-
-            if( player is null || ( info.pAttacker is null || info.pAttacker.IRelationship( player ) == R_AL ) )
-                return HOOK_CONTINUE;
-
-            // Hooks call ordering is reversed from the registering orden so we have to do this check anyways from gamemodes/radioactivity
-            // https://discord.com/channels/818989352411463731/819002186574594118/1489052351435378770
-            if( ( ( info.bitsDamageType & DMG_RADIATION ) != 0 && util::IsHEV( player ) ) )
-                return HOOK_CONTINUE;
-
-            CVoices@ voices = g_VoiceResponse[player];
-
-            if( voices !is null && voices.takedamage !is null )
-            {
-                voices.takedamage.PlaySound( player );
-            }
-
-            return HOOK_CONTINUE;
-        } ) );
-
-        g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, PlayerKilledHook( function( CBasePlayer@ player, CBaseEntity@ attacker, int gib )
-        {
-            if( !g_VoiceResponse.Active || player is null )
-                return HOOK_CONTINUE;
-
-            CVoices@ voices = g_VoiceResponse[player];
-
-            if( voices !is null && voices.killed !is null )
-            {
-                voices.killed.PlaySound( player );
-            }
-
-            return HOOK_CONTINUE;
-        } ) );
 
         RegisterCommand( "player_voices", "", "toggle player voices state", 
             CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
-                g_VoiceResponse.Active = !g_VoiceResponse.Active;
-                if( g_VoiceResponse.Active )
+                g_VoiceResponse.m_IsActive = !g_VoiceResponse.m_IsActive;
+                if( g_VoiceResponse.m_IsActive )
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Enabled player voices\n" );
                 else
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Disabled player voices\n" );

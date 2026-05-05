@@ -11,8 +11,13 @@
         },
         "voice_responses":
         {
-            "type": "boolean",
-            "description": "Enable or disable player voice responses."
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Controls player voice responses.",
+            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
+            "properties":
+            {
+            }
         },
         "turret_lasers":
         {

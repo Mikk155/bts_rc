@@ -178,8 +178,6 @@ void MapInit()
         g_Logger.info = snprintf( glog, "Finish initializing player characters in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
 
-    g_VoiceResponse.Register( @config );
-
     models::Precache();
 
     Precache();

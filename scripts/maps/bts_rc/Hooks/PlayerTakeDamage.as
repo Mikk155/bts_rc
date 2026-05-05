@@ -40,6 +40,14 @@ namespace Hooks
 
         character.TakeDamage( player, @info );
 
+        if( info.flDamage > 0 && g_VoiceResponse.IsActive() && ( info.pAttacker is null || info.pAttacker.IRelationship( player ) != R_AL ) )
+        {
+            CVoices@ voices = g_VoiceResponse[player];
+
+            if( voices !is null && voices.takedamage !is null )
+                voices.takedamage.PlaySound( player );
+        }
+
         return HOOK_CONTINUE;
     }
 }

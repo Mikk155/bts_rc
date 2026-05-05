@@ -21,34 +21,26 @@
 *   SOFTWARE.
 */
 
-#include "MonsterKilled"
-#include "MonsterTakeDamage"
-#include "PlayerCollect"
-#include "PlayerInitialized"
-#include "PlayerKilled"
-#include "PlayerRevive"
-#include "PlayerSpawn"
-#include "PlayerTakeDamage"
-#include "PlayerThink"
-#include "SquadmakerSpawn"
-#include "StartFrame"
-
 namespace Hooks
 {
-    void Register()
+    HookReturnCode PlayerKilled( CBasePlayer@ player, CBaseEntity@ attacker, int gib )
     {
-        g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
-        g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @MonsterTakeDamage );
+        if( player is null )
+            return HOOK_CONTINUE;
 
-        g_Hooks.RegisterHook( Hooks::PickupObject::Collected, @PlayerCollect );
+        auto character = GetCharacter(player);
 
-        g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PlayerKilled );
-        g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @PlayerRevive );
-        g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PlayerSpawn );
-        g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage );
-        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
+        if( character is null )
+            return HOOK_CONTINUE;
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "Hooks::CASStartFrame", "bts_startframe" );
-        g_EntityFuncs.Create( "bts_startframe", g_vecZero, g_vecZero, false, null );
+        if( gib != GIB_ALWAYS && g_VoiceResponse.IsActive() )
+        {
+            CVoices@ voices = g_VoiceResponse[player];
+
+            if( voices !is null && voices.killed !is null )
+                voices.killed.PlaySound( player );
+        }
+
+        return HOOK_CONTINUE;
     }
 }
