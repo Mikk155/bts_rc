@@ -151,21 +151,28 @@
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Configuration for wall-mounted chargers.",
+            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
             {
                 "juice":
                 {
-                    "type": "number",
-                    "description": "Maximum available charge."
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 35,
+                    "description": "Maximun juice power per station."
                 },
                 "recharge_time":
                 {
-                    "type": "number",
-                    "description": "Time (seconds) required to fully recharge."
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 300,
+                    "description": "Time (In seconds) required to fully recharge. 0 means never recharge"
                 },
                 "speed_rate":
                 {
                     "type": "number",
+                    "minimum": 0.1,
+                    "default": 0.35,
                     "description": "Charge transfer rate to player."
                 }
             }
@@ -268,6 +275,19 @@
     },
     "$defs":
     {
+        "IConfigurable":
+        {
+            "type": "object",
+            "description": "Base configuration",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "description": "Should this context be active?"
+                }
+            }
+        },
         "EntityOverriden":
         {
             "type": "object",

@@ -22,123 +22,134 @@
 */
 
 /*
-    Author: Giegue
-    Modified by Mikk
+    Author Mikk
 */
 
-namespace func_bts_recharger
+final class ASWallRechargerConfig : IConfigurable
 {
-    class CConfig : IConfigContext
+    int juice;
+    int recharge_time;
+    float speed_rate;
+
+    const string& get_Name() override
     {
-        int juice = 35;
-        int recharge_time = 300;
-        float speed_rate = 0.35;
+        return "wall_recharger";
+    }
 
-        CConfig()
+    void Initialize() override
+    {
+        CustomEntity( "func_bts_recharger", true );
+    }
+
+    void Register( BTSJson@ json ) override
+    {
+        this.juice = Math.max( 1, json.FirstOrDefault( "juice", 35 ) );
+        this.recharge_time = Math.max( 0, json.FirstOrDefault( "recharge_time", 300 ) );
+        this.speed_rate = Math.max( 0.1, json.FirstOrDefault( "speed_rate", 0.35f ) );
+    }
+}
+
+ASWallRechargerConfig ConfigWallRecharger;
+
+class func_bts_recharger : ScriptBaseEntity
+{
+    void Precache()
+    {
+        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+    }
+
+    void Spawn()
+    {
+        Precache();
+
+        self.pev.solid = SOLID_BSP;
+        self.pev.movetype = MOVETYPE_PUSH;
+        g_EntityFuncs.SetOrigin( self, self.pev.origin ); // set size and link into world
+        g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
+        g_EntityFuncs.SetModel( self, self.pev.model );
+
+        self.pev.iuser1 = ConfigWallRecharger.juice;
+
+        if( !ConfigWallRecharger.IsActive() )
         {
-            ConfigContext::Register( this );
-        }
-
-        const string& get_Name() override {
-            return "wall_recharger";
-        }
-
-        void Parse( dictionary@ json )
-        {
-            json.get( "juice", juice );
-            json.get( "recharge_time", recharge_time );
-            json.get( "speed_rate", speed_rate );
-
-            g_CustomEntityFuncs.RegisterCustomEntity( "func_bts_recharger::func_bts_recharger", "func_bts_recharger" );
-            g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
-            g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-            g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+            self.pev.iuser1 = 0;
+            self.pev.frame = 1;
         }
     }
 
-    CConfig gpConfig;
-
-    class func_bts_recharger : ScriptBaseEntity
+    int ObjectCaps()
     {
-        void Spawn()
+        return ( BaseClass.ObjectCaps() | FCAP_CONTINUOUS_USE );
+    }
+
+    void Restore()
+    {
+        self.pev.iuser1 = ConfigWallRecharger.juice;
+        self.pev.frame = 0;
+        g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
+    }
+
+    void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+    {
+        if( activator is null || !activator.IsAlive() || !activator.IsPlayer() )
+            return;
+
+        CBasePlayer@ player = cast<CBasePlayer@>( activator );
+
+        if( player is null )
+            return;
+
+        dictionary@ data = activator.GetUserData();
+        float cooldown = float( data[ "recharger_cooldown" ] );
+
+        if( self.pev.iuser1 <= 0 || !util::IsHEV( player ) || player.pev.armorvalue >= player.pev.armortype )
         {
-            self.pev.solid = SOLID_BSP;
-            self.pev.movetype = MOVETYPE_PUSH;
-            g_EntityFuncs.SetOrigin( self, self.pev.origin ); // set size and link into world
-            g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
-            g_EntityFuncs.SetModel( self, self.pev.model );
-            self.pev.iuser1 = gpConfig.juice;
+            if( cooldown <= g_Engine.time )
+            {
+                g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
+                data[ "recharger_cooldown" ] = g_Engine.time + 0.62;
+            }
+            return;
         }
 
-        int ObjectCaps() {
-            return ( BaseClass.ObjectCaps() | FCAP_CONTINUOUS_USE );
-        }
-
-        void Restore()
+        if( g_Engine.time > cooldown + 1.0 )
         {
-            self.pev.iuser1 = gpConfig.juice;
-            self.pev.frame = 0;
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
+            g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
+            data[ "recharger_cooldown" ] = g_Engine.time + 0.56;
         }
-
-        void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+        else if( g_Engine.time > cooldown )
         {
-            if( activator is null || !activator.IsAlive() || !activator.IsPlayer() )
-                return;
+            data[ "recharger_cooldown" ] = g_Engine.time + ConfigWallRecharger.speed_rate;
 
-            CBasePlayer@ player = cast<CBasePlayer@>( activator );
+            if( player.TakeArmor( 1, DMG_GENERIC ) )
+                self.pev.iuser1--;
 
-            if( player is null )
-                return;
-
-            dictionary@ data = activator.GetUserData();
-            float cooldown = float( data[ "recharger_cooldown" ] );
-
-            if( self.pev.iuser1 <= 0 || !util::IsHEV( player ) || player.pev.armorvalue >= player.pev.armortype )
+            if( self.pev.iuser1 <= 0 )
             {
-                if( cooldown <= g_Engine.time )
-                {
-                    g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
-                    data[ "recharger_cooldown" ] = g_Engine.time + 0.62;
-                }
-                return;
+                self.pev.frame = 1;
+                g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
+
+                if( ConfigWallRecharger.recharge_time > 0 )
+                    g_Scheduler.SetTimeout( @this, "Restore", ConfigWallRecharger.recharge_time );
             }
-
-            if( g_Engine.time > cooldown + 1.0 )
+            else
             {
-                g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
-                data[ "recharger_cooldown" ] = g_Engine.time + 0.56;
-            }
-            else if( g_Engine.time > cooldown )
-            {
-                data[ "recharger_cooldown" ] = g_Engine.time + gpConfig.speed_rate;
-
-                if( player.TakeArmor( 1, DMG_GENERIC ) )
-                    self.pev.iuser1--;
-
-                if( self.pev.iuser1 <= 0 )
-                {
-                    self.pev.frame = 1;
-                    g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
-                    g_Scheduler.SetTimeout( @this, "Restore", gpConfig.recharge_time );
-                }
-                else
-                {
-                    g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", 1.0, ATTN_NORM );
-                    g_Scheduler.SetTimeout( @this, "StopSound", gpConfig.speed_rate, EHandle( player ) );
-                }
+                g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", 1.0, ATTN_NORM );
+                g_Scheduler.SetTimeout( @this, "StopSound", ConfigWallRecharger.speed_rate, EHandle( player ) );
             }
         }
+    }
 
-        void StopSound( EHandle hplayer )
+    void StopSound( EHandle hplayer )
+    {
+        auto entity = hplayer.GetEntity();
+
+        if( entity !is null )
         {
-            auto entity = hplayer.GetEntity();
-
-            if( entity !is null )
-            {
-                if( ( entity.pev.button & IN_USE ) == 0 || self.pev.iuser1 <= 0 )
-                    g_SoundSystem.StopSound( entity.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", true );
-            }
+            if( ( entity.pev.button & IN_USE ) == 0 || self.pev.iuser1 <= 0 )
+                g_SoundSystem.StopSound( entity.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", true );
         }
     }
 }

@@ -95,12 +95,6 @@
             "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
         ]
     },
-    "wall_recharger":
-    {
-        "juice": 35,
-        "recharge_time": 300,
-        "speed_rate": 0.15
-    },
     "weapons":
     {
         "melee_weapons_pull": true,
