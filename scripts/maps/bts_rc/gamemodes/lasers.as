@@ -36,7 +36,7 @@ class TurretsLasers : EntityOverriden
     {
         if( this.IsActive() )
         {
-            this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.5f ) );
+            this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.1f ) );
 
             g_Game.PrecacheModel( "sprites/glow01.spr" );
         }
@@ -54,26 +54,15 @@ class TurretsLasers : EntityOverriden
 
     CSprite@ sprite( Vector &in VecPos )
     {
-        NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-            m.WriteByte( TE_DLIGHT );
-            m.WriteCoord( VecPos.x );
-            m.WriteCoord( VecPos.y );
-            m.WriteCoord( VecPos.z );
-            m.WriteByte( 8 );   // radius
-            m.WriteByte( 100 ); // R
-            m.WriteByte( 0 );   // G
-            m.WriteByte( 0 );   // B
-            m.WriteByte( 1 );   // life in 0.1's
-            m.WriteByte( 1 );   // decay in 0.1's
-        m.End();
-
         CSprite@ spr = g_EntityFuncs.CreateSprite( "sprites/glow01.spr", VecPos, true );
 
         if( spr !is null )
         {
-            spr.AnimateAndDie( 10.0f );
+            spr.AnimateAndDie( 1 / this.interval );
+            spr.pev.rendercolor = Vector( 255, 0, 0 );
             return @spr;
         }
+
         return null;
     }
 
@@ -101,42 +90,60 @@ class TurretsLasers : EntityOverriden
         // Offset of 10 units bellow the eye position
         g_Utility.TraceLine( VecStart, monster.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, monster.edict(), tr );
 
-        CSprite@ spr_1 = sprite( VecStart );
-        if( spr_1 !is null )
+        CSprite@ spr;
+
+        // Glow
+        if( ( @spr = sprite( VecStart ) ) !is null )
         {
-            spr_1.pev.rendermode = kRenderGlow;          // Glow
-            spr_1.pev.renderamt = 255;                   // Amt of glow
-            spr_1.pev.rendercolor = Vector( 255, 0, 0 ); // Color of glow
+            spr.pev.rendermode = kRenderGlow;
+            spr.pev.renderamt = 255;
         }
 
-        CSprite@ spr_2 = sprite( tr.vecEndPos );
-        if( spr_2 !is null )
+        if( ( @spr = sprite( tr.vecEndPos ) ) !is null )
         {
-            spr_2.pev.rendermode = kRenderTransAdd;      // Additive
-            spr_2.pev.renderamt = 80;                    // Amt of target's sprite
-            spr_2.pev.rendercolor = Vector( 255, 0, 0 ); // Color of target's sprite
+            spr.pev.rendermode = kRenderTransAdd;
+            spr.pev.renderamt = 80;
         }
 
-        NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
-            m.WriteByte( TE_BEAMPOINTS );
-            m.WriteCoord( VecStart.x );
-            m.WriteCoord( VecStart.y );
-            m.WriteCoord( VecStart.z );
-            m.WriteCoord( tr.vecEndPos.x );
-            m.WriteCoord( tr.vecEndPos.y );
-            m.WriteCoord( tr.vecEndPos.z );
-            m.WriteShort( models::laserbeam );
-            m.WriteByte( 0 );   // starting frame
-            m.WriteByte( 0 );   // frame rate in 0.1's
-            m.WriteByte( 1 );   // life in 0.1's
-            m.WriteByte( 1 );   // line width in 0.1's
-            m.WriteByte( 0 );   // noise amplitude in 0.01's
-            m.WriteByte( 255 ); // R
-            m.WriteByte( 0 );   // G
-            m.WriteByte( 0 );   // B
-            m.WriteByte( 255 ); // brightness
-            m.WriteByte( 0 );   // scrol speed in 0.1's
-        m.End();
+        int clientInterval = int( this.interval / 0.1f );
+
+        {
+            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                m.WriteByte( TE_DLIGHT );
+                m.WriteCoord( tr.vecEndPos.x );
+                m.WriteCoord( tr.vecEndPos.y );
+                m.WriteCoord( tr.vecEndPos.z );
+                m.WriteByte( 8 );   // radius
+                m.WriteByte( 100 ); // R
+                m.WriteByte( 0 );   // G
+                m.WriteByte( 0 );   // B
+                m.WriteByte( clientInterval );   // life in 0.1's
+                m.WriteByte( 1 );   // decay in 0.1's
+            m.End();
+        }
+
+        {
+            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                m.WriteByte( TE_BEAMPOINTS );
+                m.WriteCoord( VecStart.x );
+                m.WriteCoord( VecStart.y );
+                m.WriteCoord( VecStart.z );
+                m.WriteCoord( tr.vecEndPos.x );
+                m.WriteCoord( tr.vecEndPos.y );
+                m.WriteCoord( tr.vecEndPos.z );
+                m.WriteShort( models::laserbeam );
+                m.WriteByte( 0 );   // starting frame
+                m.WriteByte( 1 );   // frame rate in 0.1's
+                m.WriteByte( clientInterval );   // life in 0.1's
+                m.WriteByte( 1 );   // line width in 0.1's
+                m.WriteByte( 0 );   // noise amplitude in 0.01's
+                m.WriteByte( 255 ); // R
+                m.WriteByte( 0 );   // G
+                m.WriteByte( 0 );   // B
+                m.WriteByte( 255 ); // brightness
+                m.WriteByte( 0 );   // scrol speed in 0.1's
+            m.End();
+        }
 
         return EntityOverridenAction::None;
     }
