@@ -58,7 +58,11 @@ final class TurretsLasers : EntityOverriden
         string classname = entity.GetClassname();
 
         if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
+        {
+            monster.pev.armortype = Math.RandomLong( 0, 20 );
+            monster.pev.armorvalue = Math.RandomLong( 0, 1 );
             EntityOverriden::AddEntity( index, entity, ckv, monster );
+        }
     }
 
     protected CSprite@ sprite( Vector &in VecPos )
@@ -100,8 +104,25 @@ final class TurretsLasers : EntityOverriden
         else if( "monster_miniturret" == classname )
             monster.GetBonePosition( 3, VecStart, VecAngles );
 
+        if( int(monster.pev.armorvalue) == 1 )
+        {
+            monster.pev.armortype -= 1;
+
+            if( monster.pev.armortype <= 0 )
+                monster.pev.armorvalue = 0;
+        }
+        else
+        {
+            monster.pev.armortype += 1;
+
+            if( monster.pev.armortype >= 20 )
+            {
+                monster.pev.armorvalue = 1;
+            }
+        }
+
         // Offset of 10 units bellow the eye position
-        g_Utility.TraceLine( VecStart, enemy.EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, monster.edict(), tr );
+        g_Utility.TraceLine( VecStart, enemy.EyePosition() - Vector( Math.RandomFloat(0, 1), Math.RandomFloat(0, 1), monster.pev.armortype ), dont_ignore_monsters, monster.edict(), tr );
 
         CSprite@ spr;
 
