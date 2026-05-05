@@ -139,6 +139,12 @@ class CCharacter
                     info.flDamage = 0;
                     break;
                 }
+                default:
+                {
+                    // Armor perforation
+                    info.bitsDamageType |= DMG_SNIPER;
+                    break;
+                }
             }
         }
     }
