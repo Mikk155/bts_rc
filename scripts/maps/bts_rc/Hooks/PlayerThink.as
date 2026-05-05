@@ -186,7 +186,6 @@ namespace Hooks
                     {
                         if( player.m_flNextAttack <= 0 )
                             weaponConfig.WeaponFlashlight( player, weapon, character );
-                        player.pev.impulse = 0;
                     }
 
                     weaponConfig.PlayerThink( player, weapon, character );
@@ -209,7 +208,6 @@ namespace Hooks
                 else if( player.pev.impulse == 100 )
                 {
                     g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM, 0, PITCH_NORM );
-                    player.pev.impulse = 0;
                 }
 
                 data["helmet_nv_state"] = state = 0;
@@ -224,7 +222,6 @@ namespace Hooks
 
                 g_PlayerFuncs.ScreenFade( player, Vector( 250, 200, 20 ), 1.0f, 0.5f, 255.0f, state == 0 ? 6 : 2 );
                 g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, ( state == 1 ? "bts_rc/items/nvg_off.wav" : "bts_rc/items/nvg_on.wav" ), 1.0, ATTN_NORM, 0, PITCH_NORM );
-                player.pev.impulse = 0;
             }
 
             // Night vision ON, drain and light.
@@ -267,6 +264,9 @@ namespace Hooks
                 }
             }
         }
+
+        if( player.pev.impulse == 100 )
+            player.pev.impulse = 0;
 
         return HOOK_CONTINUE;
     }
