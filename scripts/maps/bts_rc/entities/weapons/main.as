@@ -50,13 +50,8 @@
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
-class CGlobalWeaponConfig : IConfigContext
+class CGlobalWeaponConfig : IConfigurable
 {
-    CGlobalWeaponConfig()
-    {
-        ConfigContext::Register( this );
-    }
-
     const string& get_Name() override {
         return "weapons";
     }
@@ -88,14 +83,16 @@ class CGlobalWeaponConfig : IConfigContext
         this.ItemMappingList.resize(0);
     }
 
-    void Parse( dictionary@ json )
+    void Register( BTSJson@ json )
     {
-        json.get( "melee_weapons_pull_force", melee_weapons_pull_force );
-        json.get( "melee_weapons_pull", melee_weapons_pull );
-        json.get( "melee_weapons_push", melee_weapons_push );
-        json.get( "melee_weapons_push_force", melee_weapons_push_force );
-        json.get( "blood_splash", blood_splash );
-        json.get( "sparks_splash", sparks_splash );
+        this.melee_weapons_pull = json.FirstOrDefault( "melee_weapons_pull", true );
+        this.melee_weapons_pull_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_pull_force", 300 ) );
+
+        this.melee_weapons_push = json.FirstOrDefault( "melee_weapons_push", true );
+        this.melee_weapons_push_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_push_force", 200 ) );
+
+        this.blood_splash = json.FirstOrDefault( "blood_splash", true );
+        this.sparks_splash = json.FirstOrDefault( "sparks_splash", true );
     }
 }
 
