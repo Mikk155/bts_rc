@@ -44,7 +44,7 @@
 #include "Melee/weapon_bts_pipewrench"
 
 // Special
-#include "Melee/weapon_medkit"
+#include "Special/weapon_medkit"
 
 #include "base/BTS_FireWeapon"
 
