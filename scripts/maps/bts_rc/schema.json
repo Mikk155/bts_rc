@@ -182,6 +182,7 @@
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Global weapon-related gameplay modifiers.",
+            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
             {
                 "melee_weapons_pull":
