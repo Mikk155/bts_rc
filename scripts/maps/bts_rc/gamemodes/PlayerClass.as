@@ -120,23 +120,33 @@ class CCharacter
 
     void TakeDamage( CBasePlayer@ player, DamageInfo@ info )
     {
-        // Radiation inmunity/deduction for HEV/Hazard
-        if( info.flDamage > 0 && ( info.bitsDamageType & DMG_RADIATION ) != 0 )
+        if( info.flDamage > 0 )
         {
             switch( Classify )
             {
                 case Classification::Hazard:
                 {
-                    float dmg = info.flDamage * 0.3;
+                    // Radiation deduction for Hazard
+                    if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
+                    {
+                        float dmg = info.flDamage * 0.3;
 
-                    if( dmg > 1.0 )
-                        info.flDamage = dmg;
+                        if( dmg > 1.0 )
+                            info.flDamage = dmg;
+                    }
+                    // Generic damage does deduct 3 of armor no matter the real damage
+                    else if( player.pev.armorvalue > 0 )
+                    {
+                        player.pev.armorvalue = Math.max( 0, player.pev.armorvalue - 3 );
+                    }
 
                     break;
                 }
                 case Classification::HEV:
                 {
-                    info.flDamage = 0;
+                    // Radiation inmunity for HEV
+                    if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
+                        info.flDamage = 0;
                     break;
                 }
                 default:
