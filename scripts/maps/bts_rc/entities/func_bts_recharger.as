@@ -101,7 +101,9 @@ class func_bts_recharger : ScriptBaseEntity
         dictionary@ data = activator.GetUserData();
         float cooldown = float( data[ "recharger_cooldown" ] );
 
-        if( self.pev.iuser1 <= 0 || !util::IsHazard( player ) || player.pev.armorvalue >= player.pev.armortype )
+        auto character = GetCharacter(player);
+
+        if( self.pev.iuser1 <= 0 || character is null || ( !character.IsHazard && !character.IsHEV ) || player.pev.armorvalue >= player.pev.armortype )
         {
             if( cooldown <= g_Engine.time )
             {
