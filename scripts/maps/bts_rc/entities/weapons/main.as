@@ -83,16 +83,20 @@ class CGlobalWeaponConfig : IConfigurable
         this.ItemMappingList.resize(0);
     }
 
-    void Register( BTSJson@ json )
+    void Register( BTSJson@ json ) override
     {
-        this.melee_weapons_pull = json.FirstOrDefault( "melee_weapons_pull", true );
-        this.melee_weapons_pull_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_pull_force", 300 ) );
+        // All false by default if the context is inactive
+        if( this.IsActive() )
+        {
+            this.melee_weapons_pull = json.FirstOrDefault( "melee_weapons_pull", true );
+            this.melee_weapons_pull_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_pull_force", 300 ) );
 
-        this.melee_weapons_push = json.FirstOrDefault( "melee_weapons_push", true );
-        this.melee_weapons_push_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_push_force", 200 ) );
+            this.melee_weapons_push = json.FirstOrDefault( "melee_weapons_push", true );
+            this.melee_weapons_push_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_push_force", 200 ) );
 
-        this.blood_splash = json.FirstOrDefault( "blood_splash", true );
-        this.sparks_splash = json.FirstOrDefault( "sparks_splash", true );
+            this.blood_splash = json.FirstOrDefault( "blood_splash", true );
+            this.sparks_splash = json.FirstOrDefault( "sparks_splash", true );
+        }
     }
 }
 
