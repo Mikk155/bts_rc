@@ -185,6 +185,7 @@
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Defines item drop tables for entities (by classname or model).",
+            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "additionalProperties":
             {
                 "type": "array",

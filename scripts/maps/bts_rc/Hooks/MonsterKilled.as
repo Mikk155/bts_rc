@@ -7,8 +7,8 @@ namespace Hooks
 
         dictionary@ data = monster.GetUserData();
 
+        gpDeathDrop.Create( monster );
         gpBloodPuddle.Create( monster, gib );
-        deathdrop::MonsterKilled( monster, attacker, gib );
         gpZombieUncrab.Create( monster, attacker, gib, data );
 
         return HOOK_CONTINUE;

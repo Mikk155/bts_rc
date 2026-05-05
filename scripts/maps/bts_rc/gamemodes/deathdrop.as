@@ -21,70 +21,78 @@
 *   SOFTWARE.
 */
 
-namespace deathdrop
+class ASDeathDropConfig : IConfigurable
 {
-    class CConfig : IConfigContext
+    dictionary m_Monsters;
+
+    const string& get_Name() override
     {
-        dictionary m_Monsters;
+        return "deathdrop";
+    }
 
-        CConfig()
+    void Register( BTSJson@ json ) override
+    {
+        if( this.IsActive() )
         {
-            ConfigContext::Register( this );
-        }
-
-        const string& get_Name() override {
-            return "deathdrop";
-        }
-
-        void Parse( dictionary@ json )
-        {
-            array<string>@ monsters = json.getKeys();
+            array<string>@ monsters = json.data.getKeys();
             uint size = monsters.length();
 
             for( uint ui = 0; ui < size; ui++ )
             {
                 string monster = monsters[ui];
-                dictionary values = cast<dictionary@>( json[ monster ] );
+                dictionary values = cast<dictionary@>( json.data[ monster ] );
 
                 uint valuesSize = values.getSize();
+
+                dictionary dropsCountLog;
 
                 array<string> itemNames( valuesSize );
 
                 for( uint ui2 = 0; ui2 < valuesSize; ui2++ )
                 {
-                    itemNames[ui2] = string( values[ui2] );
+                    string name = string( values[ui2] );
+                    itemNames[ui2] = name;
 
+                    if( g_Logger.trace )
+                    {
+                        g_Logger.trace = snprintf( glog, "Adding drop \"%1\" for \"%2\"", name, monster );
+                    }
+                
                     if( g_Logger.info )
-                        g_Logger.info = snprintf( glog, "Adding drop \"%1\" for \"%2\"", itemNames[ui2], monster );
+                        dropsCountLog[ name ] = int(dropsCountLog[ name ]) + 1;
                 }
 
                 if( g_Logger.info )
-                    g_Logger.info = snprintf( glog, "Drops for \"%1\" with %2 percent chance for each.", monster, 100.0f / itemNames.length() );
+                {
+                    auto dropsCountKeys = dropsCountLog.getKeys();
+                    for( uint ui2 = 0; ui2 < dropsCountKeys.length(); ui2++ ) {
+                        string name = dropsCountKeys[ui2];
+                        g_Logger.info = snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( dropsCountLog[name] ), ( name.IsEmpty() ? "nothing" : name ) );
+                    }
+                }
 
                 m_Monsters[ monster ] = itemNames;
             }
         }
     }
 
-    CConfig gpConfig;
-
-    void MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
+    CBaseEntity@ Create( CBaseMonster@ monster )
     {
         if( monster is null || !FreeEdicts( 1 ) )
-            return;
+            return null;
 
         array<string>@ drops;
 
-        if( !gpConfig.m_Monsters.get( string( monster.pev.model ), @drops ) )
-            gpConfig.m_Monsters.get( monster.GetClassname(), @drops );
+        if( !gpDeathDrop.m_Monsters.get( string( monster.pev.model ), @drops ) )
+            gpDeathDrop.m_Monsters.get( monster.GetClassname(), @drops );
 
         if( drops is null || drops.length() <= 0 )
-            return;
+            return null;
 
         string drop = drops[ Math.RandomLong( 0, drops.length() - 1 ) ];
 
         if( drop.IsEmpty() )
-            return;
+            return null;
 
         if( g_Logger.trace )
             g_Logger.trace = snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() );
@@ -92,12 +100,16 @@ namespace deathdrop
         if( drop == "grenade" )
         {
             g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
-            return;
+            return null;
         }
 
         CBaseEntity@ item = g_EntityFuncs.Create( drop, monster.Center(), g_vecZero, false, monster.edict() );
 
         if( item !is null )
             item.pev.spawnflags |= 1024; // no more respawn
+
+        return @item;
     }
 }
+
+ASDeathDropConfig gpDeathDrop;
