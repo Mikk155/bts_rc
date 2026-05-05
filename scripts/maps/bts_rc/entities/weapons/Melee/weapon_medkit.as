@@ -139,13 +139,13 @@ class CWeaponMedkitConfig : ASWeaponConfig
     float health_gain;
     float health_cost;
 
-    void Parse( dictionary@ json ) override
+    void Register( BTSJson@ json ) override
     {
-        this.health_ammount = int( this.Get( @json, "health_ammount", 10 ) );
-        this.health_gain = int( this.Get( @json, "health_gain", 10 ) );
-        this.health_cost = int( this.Get( @json, "health_cost", 30 ) );
+        this.health_ammount = json.FirstOrDefault( "health_ammount", 10 );
+        this.health_gain = json.FirstOrDefault( "health_gain", 10 );
+        this.health_cost = json.FirstOrDefault( "health_cost", 30 );
 
-        ASWeaponConfig::Parse( json );
+        ASWeaponConfig::Register( json );
     }
 }
 

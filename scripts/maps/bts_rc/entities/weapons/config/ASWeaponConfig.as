@@ -21,18 +21,12 @@
 *   SOFTWARE.
 */
 
-// Inherit from this class. override GetName and Parse then call back ASWeaponConfig::Parse(json)
-abstract class ASWeaponConfig : IConfigContext
+// Inherit from this class. override get_Name and Register then call back ASWeaponConfig::Register(json)
+abstract class ASWeaponConfig : IConfigurable
 {
     ASWeaponConfig()
     {
         @g_WeaponsConfig.Interfaces[ this.Name ] = this;
-        ConfigContext::Register( this );
-    }
-
-    // json unique object name
-    const string& get_Name() override {
-        return String::EMPTY_STRING;
     }
 
     // Weapon view model. automatically precached in BTS_Weapon::Precache and set in BTS_Weapon::Deploy
@@ -114,50 +108,32 @@ abstract class ASWeaponConfig : IConfigContext
         }
     }
 
-    float Get( const dictionary@&in json, const string&in keyName, float defaultValue )
+    void ParseDefaultVariables( BTSJson@ json )
     {
-        float value;
+        this.primary_maxammo = json.FirstOrDefault( "primary_maxammo", WEAPON_NOCLIP );
+        this.secondary_maxammo = json.FirstOrDefault( "secondary_maxammo", WEAPON_NOCLIP );
 
-        if( !json.get( keyName, value ) )
-        {
-            if( g_Logger.warning )
-                g_Logger.warning = snprintf( glog, "Failed to get \"%1\" from context \"%2\" setting default value \"%3\"", keyName, this.Name, defaultValue );
+        this.primary_dropammo = json.FirstOrDefault( "primary_dropammo", WEAPON_NOCLIP );
+        this.secondary_dropammo = json.FirstOrDefault( "secondary_dropammo", WEAPON_NOCLIP );
 
-            return defaultValue;
-        }
+        this.primary_damage = json.FirstOrDefault( "primary_damage", 1 );
+        this.secondary_damage = json.FirstOrDefault( "secondary_damage", 1 );
+        this.tertiary_damage = json.FirstOrDefault( "tertiary_damage", 1 );
 
-        if( g_Logger.trace )
-            g_Logger.trace = snprintf( glog, "Getting key \"%1\" for context \"%2\" setting value \"%3\"", keyName, this.Name, value );
+        this.primary_cooldown = json.FirstOrDefault( "primary_cooldown", 1 );
+        this.primary_trained_cooldown = json.FirstOrDefault( "primary_trained_cooldown", primary_cooldown );
 
-        return value;
-    }
+        this.secondary_cooldown = json.FirstOrDefault( "secondary_cooldown", primary_cooldown );
+        this.secondary_trained_cooldown = json.FirstOrDefault( "secondary_trained_cooldown", secondary_cooldown );
 
-    void ParseDefaultVariables( dictionary@ json )
-    {
-        this.primary_maxammo = int( this.Get( @json, "primary_maxammo", WEAPON_NOCLIP ) );
-        this.secondary_maxammo = int( this.Get( @json, "secondary_maxammo", WEAPON_NOCLIP ) );
+        this.tertiary_cooldown = json.FirstOrDefault( "tertiary_cooldown", primary_cooldown );
+        this.tertiary_trained_cooldown = json.FirstOrDefault( "tertiary_trained_cooldown", tertiary_cooldown );
 
-        this.primary_dropammo = int( this.Get( @json, "primary_dropammo", WEAPON_NOCLIP ) );
-        this.secondary_dropammo = int( this.Get( @json, "secondary_dropammo", WEAPON_NOCLIP ) );
-
-        this.primary_damage = this.Get( @json, "primary_damage", 1 );
-        this.secondary_damage = this.Get( @json, "secondary_damage", 1 );
-        this.tertiary_damage = this.Get( @json, "tertiary_damage", 1 );
-
-        this.primary_cooldown = this.Get( @json, "primary_cooldown", 1 );
-        this.primary_trained_cooldown = this.Get( @json, "primary_trained_cooldown", primary_cooldown );
-
-        this.secondary_cooldown = this.Get( @json, "secondary_cooldown", primary_cooldown );
-        this.secondary_trained_cooldown = this.Get( @json, "secondary_trained_cooldown", secondary_cooldown );
-
-        this.tertiary_cooldown = this.Get( @json, "tertiary_cooldown", primary_cooldown );
-        this.tertiary_trained_cooldown = this.Get( @json, "tertiary_trained_cooldown", tertiary_cooldown );
-
-        this.max_clip = int( this.Get( @json, "max_clip", WEAPON_NOCLIP ) );
-        this.slot = uint( this.Get( @json, "slot", 0 ) );
-        this.position = uint( this.Get( @json, "position", 0 ) );
-        this.weight = uint( this.Get( @json, "weight", 10 ) );
-        this.deploy_time = this.Get( @json, "deploy_time", 1.0f );
+        this.max_clip = json.FirstOrDefault( "max_clip", WEAPON_NOCLIP );
+        this.slot = json.FirstOrDefault( "slot", 0 );
+        this.position = json.FirstOrDefault( "position", 0 );
+        this.weight = json.FirstOrDefault( "weight", 10 );
+        this.deploy_time = json.FirstOrDefault( "deploy_time", 1.0f );
     }
 
     private bool m_IsCustom;
@@ -196,7 +172,7 @@ abstract class ASWeaponConfig : IConfigContext
         g_Game.PrecacheModel( this.player_model );
     }
 
-    void Parse( dictionary@ json )
+    void Register( BTSJson@ json ) override
     {
         this.Precache();
         this.ParseDefaultVariables( json );

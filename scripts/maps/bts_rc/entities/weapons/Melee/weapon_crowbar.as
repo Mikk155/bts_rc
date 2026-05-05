@@ -132,9 +132,9 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapon.TertiaryAttack();
     }
 
-    void Parse( dictionary@ json ) override
+    void Register( BTSJson@ json ) override
     {
-        ASMeleeWeaponConfig::Parse( json );
+        ASMeleeWeaponConfig::Register( json );
 
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
 
