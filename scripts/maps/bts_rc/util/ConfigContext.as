@@ -44,6 +44,10 @@ abstract class IConfigurable
         return String::EMPTY_STRING;
     }
 
+    /// Called at MapInit for initializing required stuff whatever "active" is true or false
+    void Initialize() {
+    }
+
     /// Called at MapInit for parsing the object from the json with this class's Name. if "active" is not false
     void Register( BTSJson@ json ) {
     }
@@ -77,6 +81,8 @@ namespace ConfigContext
         {
             IConfigurable@ configurable = g_ConfigContexts[ui];
             string name = configurable.Name;
+
+            configurable.Initialize();
 
             if( g_Logger.info )
                 g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", configurable.Name );
