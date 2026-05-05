@@ -22,12 +22,14 @@
 */
 
 #include "ammo_bts_beretta"
+#include "ammo_bts_flashlight"
 
 namespace ammo
 {
     void Register( dictionary@ data )
     {
         CustomEntity( "ammo_bts_beretta", true );
+        CustomEntity( "ammo_bts_flashlight", true );
     }
 }
 
