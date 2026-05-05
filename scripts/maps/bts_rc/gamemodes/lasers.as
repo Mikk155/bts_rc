@@ -140,7 +140,13 @@ final class TurretsLasers : EntityOverriden
 
             if( enemy.IsPlayer() && ( enemy.pev.origin - tr.vecEndPos ).Length() < 64 )
             {
-                g_PlayerFuncs.ScreenFade( enemy, spr.pev.rendercolor, 0.1f, this.interval + 0.1f, this.color.a, FFADE_MODULATE | FFADE_IN );   
+                auto playerClass = util::GetClass(enemy);
+
+                // Dont modulate night vision
+                if( playerClass != Classification::HEV || int( enemy.GetUserData()[ "helmet_nv_state" ] ) == 0 )
+                {
+                    g_PlayerFuncs.ScreenFade( enemy, spr.pev.rendercolor, 0.1f, this.interval + 0.1f, this.color.a, FFADE_MODULATE | FFADE_IN );   
+                }
             }
         }
 
