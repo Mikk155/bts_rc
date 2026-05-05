@@ -53,18 +53,6 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? weapon_bts_flashlight::AMMO_DROP : weapon_bts_flashlight::AMMO_GIVE, "bts:battery", weapon_bts_flashlight::MAX_CARRY, "bts_rc/items/battery_pickup1.wav" );
-    }
-}
-
 class ammo_bts_glock : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()

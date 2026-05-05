@@ -15,7 +15,6 @@
 #include "weapon_bts_flamethrower"
 #include "weapon_bts_flare"
 #include "weapon_bts_flaregun"
-#include "weapon_bts_flashlight"
 #include "weapon_bts_glock"
 #include "weapon_bts_glock17f"
 #include "weapon_bts_glock18"
@@ -53,7 +52,6 @@ namespace oldweapons
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_eagle::weapon_bts_eagle", "weapon_bts_eagle" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_flare::weapon_bts_flare", "weapon_bts_flare" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_flaregun::weapon_bts_flaregun", "weapon_bts_flaregun" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_flashlight::weapon_bts_flashlight", "weapon_bts_flashlight" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_sw637::weapon_bts_sw637", "weapon_bts_sw637" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_glock::weapon_bts_glock", "weapon_bts_glock" );
         g_CustomEntityFuncs.RegisterCustomEntity( "weapon_bts_glock17f::weapon_bts_glock17f", "weapon_bts_glock17f" );
@@ -120,7 +118,6 @@ namespace oldweapons
         g_ItemRegistry.RegisterWeapon( "weapon_bts_flare", "bts_rc/weapons", "weapon_bts_flare", "", "weapon_bts_flare", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_flaregun", "bts_rc/weapons", "bts:flare", "", "ammo_bts_flarebox", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", "9mm", "ammo_bts_beretta", "bts:battery", "ammo_bts_beretta_battery" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_flashlight", "bts_rc/weapons", "bts:battery", "", "ammo_bts_battery", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_sw637", "bts_rc/weapons", "38", "", "ammo_bts_sw637", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glock", "bts_rc/weapons", "9mm", "", "ammo_bts_glock", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glock17f", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_glock17f", "ammo_bts_glock17f_battery" );
@@ -151,7 +148,6 @@ namespace oldweapons
         g_Game.PrecacheOther( "weapon_bts_flare" );
         g_Game.PrecacheOther( "weapon_bts_flaregun" );
         g_Game.PrecacheOther( "weapon_bts_beretta" );
-        g_Game.PrecacheOther( "weapon_bts_flashlight" );
         g_Game.PrecacheOther( "weapon_bts_sw637" );
         g_Game.PrecacheOther( "weapon_bts_glock" );
         g_Game.PrecacheOther( "weapon_bts_glock17f" );
@@ -182,7 +178,6 @@ namespace oldweapons
        @g_WeaponsConfig.Interfaces[ "weapon_bts_flare" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_flaregun" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_beretta" ] = null;
-       @g_WeaponsConfig.Interfaces[ "weapon_bts_flashlight" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_sw637" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_glock" ] = null;
        @g_WeaponsConfig.Interfaces[ "weapon_bts_glock17f" ] = null;
