@@ -22,16 +22,6 @@
 */
 
 /// Interface for configuration contexts
-/// Call ConfigContext::Register( this ) on your class constructor.
-interface IConfigContext
-{
-    /// Unique name for this context
-    const string& get_Name();
-
-    /// Called at MapInit for parsing the object from the json with this class's Name
-    void Parse( dictionary@ json );
-}
-
 abstract class IConfigurable
 {
     IConfigurable()
@@ -88,18 +78,5 @@ namespace ConfigContext
 
             configurable.Register( json.FirstOrDefault( name ) );
         }
-
-        for( uint ui = 0; ui < gptest.length(); ui++ )
-        {
-            IConfigContext@ configurable = gptest[ui];
-            string name = configurable.Name;
-            configurable.Parse( cast<dictionary@>( json.data[ name ] ) );
-        }
-    }
-array<IConfigContext@> gptest;
-
-    void Register( IConfigContext@ context )
-    {
-        gptest.insertLast(context);
     }
 }
