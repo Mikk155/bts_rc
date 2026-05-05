@@ -27,9 +27,6 @@ namespace Hooks
     {
         if( player !is null )
         {
-            // Hide flashlight icon.
-            player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
-
             UpdatePlayerData(player);
         }
 

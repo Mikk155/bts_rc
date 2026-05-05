@@ -96,6 +96,8 @@ namespace Hooks
             PlayerInitialized( player, data );
         }
 
+        player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
+
         // Change impulse 101 command with our own weapons
         if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
         {
