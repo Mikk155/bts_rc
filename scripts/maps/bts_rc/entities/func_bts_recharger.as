@@ -36,13 +36,10 @@ final class ASWallRechargerConfig : IConfigurable
         return "wall_recharger";
     }
 
-    void Initialize() override
-    {
-        CustomEntity( "func_bts_recharger", true );
-    }
-
     void Register( BTSJson@ json ) override
     {
+        CustomEntity( "func_bts_recharger", true );
+
         this.juice = Math.max( 1, json.FirstOrDefault( "juice", 35 ) );
         this.recharge_time = Math.max( 0, json.FirstOrDefault( "recharge_time", 300 ) );
         this.speed_rate = Math.max( 0.1, json.FirstOrDefault( "speed_rate", 0.35f ) );

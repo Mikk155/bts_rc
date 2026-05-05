@@ -44,11 +44,7 @@ abstract class IConfigurable
         return String::EMPTY_STRING;
     }
 
-    /// Called at MapInit for initializing required stuff whatever "active" is true or false
-    void Initialize() {
-    }
-
-    /// Called at MapInit for parsing the object from the json with this class's Name. if "active" is not false
+    /// Called at MapInit for parsing the object from the json with this class's Name. See this.IsActive() to register your stuff
     void Register( BTSJson@ json ) {
     }
 
@@ -82,25 +78,15 @@ namespace ConfigContext
             IConfigurable@ configurable = g_ConfigContexts[ui];
             string name = configurable.Name;
 
-            configurable.Initialize();
-
-            if( g_Logger.info )
-                g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", configurable.Name );
-
             BTSJson@ contextData = json.FirstOrDefault( name );
 
             // If not explicitly false we asume true
             configurable.m_IsActive = contextData.FirstOrDefault( "active", true );
 
-            if( configurable.IsActive() )
-            {
-                configurable.Register( json.FirstOrDefault( name ) );
-            }
-            else if( g_Logger.warning )
-            {
-                g_Logger.warning = snprintf( glog, "Ignoring disabled context \"%1\"", configurable.Name );
-            }
+            if( g_Logger.info )
+                g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\" with state %2", configurable.Name, ( configurable.IsActive() ? "Active" : "Disabled" ) );
 
+            configurable.Register( json.FirstOrDefault( name ) );
         }
 
         for( uint ui = 0; ui < gptest.length(); ui++ )
