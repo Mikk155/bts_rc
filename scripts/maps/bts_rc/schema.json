@@ -22,6 +22,13 @@
             "description": "Controls laser aiming visuals for turrets.",
             "properties":
             {
+                "interval":
+                {
+                    "minimum": 0.01,
+                    "default": 0.1,
+                    "type": "number",
+                    "description": "Internal think rate interval. lower values more cpu usage"
+                }
             }
         },
         "battery_lighting":
@@ -37,14 +44,25 @@
             "description": "Controls blackops flashbangs feature",
             "properties":
             {
+                "interval":
+                {
+                    "minimum": 0.01,
+                    "default": 0.5,
+                    "type": "number",
+                    "description": "Internal think rate interval. lower values more cpu usage"
+                },
                 "throw_flash_cooldown":
                 {
                     "type": "number",
+                    "minimum": 1,
+                    "default": 3,
                     "description": "Global cooldown for blackops to throw grenades"
                 },
                 "detonate_time":
                 {
                     "type": "number",
+                    "minimum": 1,
+                    "default": 6,
                     "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
                 }
             }
@@ -299,19 +317,9 @@
         {
             "type": "object",
             "description": "Base weapon configuration shared across all weapons.",
+            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "description": "Should this context be active?"
-                },
-                "interval":
-                {
-                    "minimum": 0.1,
-                    "type": "number",
-                    "description": "Internal think rate interval. lower values more cpu usage"
-                }
             }
         },
         "ASWeaponConfig":

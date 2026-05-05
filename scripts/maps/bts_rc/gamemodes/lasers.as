@@ -27,18 +27,21 @@
 
 class TurretsLasers : EntityOverriden
 {
-    const string& get_Name() {
+    const string& get_Name() override
+    {
         return "turret_lasers";
     }
 
-    void Parse( dictionary@ json ) override
+    void Register( BTSJson@ json ) override
     {
-        EntityOverriden::Parse( json );
-
-        if( this.active )
+        if( this.IsActive() )
         {
+            this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.5f ) );
+
             g_Game.PrecacheModel( "sprites/glow01.spr" );
         }
+
+        EntityOverriden::Register( json );
     }
 
     void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override

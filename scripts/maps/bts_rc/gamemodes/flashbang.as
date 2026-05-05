@@ -34,12 +34,13 @@ class BlackOpsFlashbang : EntityOverriden
     private float throw_flash_cooldown;
     private float detonate_time;
 
-    void Parse( dictionary@ json ) override
+    void Register( BTSJson@ json ) override
     {
-        if( active )
+        if( this.IsActive() )
         {
-            this.detonate_time = Math.max( 1, float( json[ "detonate_time" ] ) );
-            this.throw_flash_cooldown = Math.max( 2, float( json[ "throw_flash_cooldown" ] ) );
+            this.detonate_time = Math.max( 1, json.FirstOrDefault( "detonate_time", 6 ) );
+            this.throw_flash_cooldown = Math.max( 1, json.FirstOrDefault( "throw_flash_cooldown", 3 ) );
+            this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.5f ) );
 
             g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
             g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
@@ -47,6 +48,8 @@ class BlackOpsFlashbang : EntityOverriden
 
             g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
         }
+
+        EntityOverriden::Register( json );
     }
 
     void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override

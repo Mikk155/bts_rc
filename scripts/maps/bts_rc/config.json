@@ -2,19 +2,7 @@
     // Schema validation. use Visual Studio code to get proper hinting or visit the website documentation: https://mikk155.github.io/bts_rc/
     "$schema": "schema.json",
     "voice_responses": true,
-    "turret_lasers":
-    {
-        "active": true,
-        "interval": 0.1
-    },
     "battery_lighting": true,
-    "blackops_flashbang":
-    {
-        "active": true,
-        "throw_flash_cooldown": 3,
-        "detonate_time": 6,
-        "interval": 0.4
-    },
     "log":
     {
         "trace": true,

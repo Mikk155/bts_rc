@@ -31,16 +31,11 @@ enum EntityOverridenAction
 };
 
 /// Inherit from this class to make changes into map entities
-abstract class EntityOverriden : IConfigContext
+abstract class EntityOverriden : IConfigurable
 {
     EntityOverriden()
     {
         gpEntityOverriden.insertLast(this);
-        ConfigContext::Register(this);
-    }
-
-    const string& get_Name() {
-        return String::EMPTY_STRING;
     }
 
     array<EHandle> m_Handles(0);
@@ -58,7 +53,7 @@ abstract class EntityOverriden : IConfigContext
 
     bool ShouldThink()
     {
-        return ( this.active && this.thinks && g_Engine.time >= this.nextthink );
+        return ( this.IsActive() && this.thinks && g_Engine.time >= this.nextthink );
     }
 
     // Called every frame before EntityThink.
@@ -106,20 +101,19 @@ abstract class EntityOverriden : IConfigContext
         }
     }
 
-    bool active = true;
-
     bool thinks = false;
     float interval;
     float nextthink;
 
-    void Parse( dictionary@ json )
+    void Register( BTSJson@ json ) override
     {
-        json.get( "active", active );
-
-        if( json.get( "interval", this.interval ) && this.interval >= 0.1 )
+        if( this.IsActive() )
         {
-            this.thinks = true;
-            this.nextthink = g_Engine.time + this.interval;
+            if( this.interval >= 0.1 )
+            {
+                this.thinks = true;
+                this.nextthink = g_Engine.time + this.interval;
+            }
         }
     }
 }
