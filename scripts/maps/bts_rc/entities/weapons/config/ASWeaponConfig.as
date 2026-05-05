@@ -190,6 +190,9 @@ abstract class ASWeaponConfig : IConfigurable
     // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
     void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
+        if( player.pev.impulse == 100 )
+            return; // Avoid looping
+
         // If the current active weapon doesn't has flashlight then do a loadout check
         if( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" )
         {
@@ -219,7 +222,9 @@ abstract class ASWeaponConfig : IConfigurable
 
         if( weapon !is null )
         {
-            weapon.SecondaryAttack();
+            player.pev.impulse = 0;
+            ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.pev.classname ] );
+            weaponConfig.WeaponFlashlight( player, weapon, character );
         }
     }
 
