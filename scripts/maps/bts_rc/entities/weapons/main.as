@@ -29,12 +29,13 @@
 
 // Base
 #include "config/ASWeaponConfig"
-#include "base/BTS_Weapon"
-
-// Melee
+#include "config/Flashlight"
 #include "config/ASMeleeWeaponConfig"
+#include "base/BTS_Weapon"
 #include "base/BTS_MeleeWeapon"
 #include "base/BTS_MeleeCharge"
+
+// Melee
 #include "Melee/weapon_bts_axe"
 #include "Melee/weapon_bts_knife"
 #include "Melee/weapon_bts_pipe"
@@ -45,6 +46,7 @@
 
 // Special
 #include "Special/weapon_medkit"
+#include "Special/weapon_bts_flashlight"
 
 #include "base/BTS_FireWeapon"
 

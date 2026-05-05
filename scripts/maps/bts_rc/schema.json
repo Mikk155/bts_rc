@@ -334,6 +334,11 @@
                     "type": "integer"
                 }
             }
+        },
+        "weapon_bts_flashlight":
+        {
+            "unevaluatedProperties": false,
+            "allOf": [ { "$ref": "#/$defs/ASWeaponMelee" } ]
         }
     },
     "$defs":

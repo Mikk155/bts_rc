@@ -204,5 +204,14 @@
         "secondary_miss_cooldown": 0.7,
         "secondary_miss_trained_cooldown": 0.7,
         "subsequent_hits_deduction": 0.5
+    },
+    "weapon_bts_flashlight":
+    {
+        "deploy_time": 0.5,
+        "primary_maxammo": 10,
+        "slot": 4,
+        "position": 4,
+        "primary_distance": 32,
+        "primary_damage": 7
     }
 }
