@@ -5,6 +5,7 @@
 - Hazard suit starts always at max armor
 - Hazard suit always deduct 3 of armor every time is hit
 - Hazard suit can now use wall chargers (fixed issue)
+- Flashlight and night vision is locked while busy (reload, attack etc)
 
 # 3/5/2026
 - Added .clang.format support and global formater (Disabled for now due to lack of features)

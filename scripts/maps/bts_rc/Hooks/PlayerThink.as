@@ -129,6 +129,15 @@ namespace Hooks
             player.pev.impulse = 0;
         }
 
+        // Don't allow flashlight while busy
+        if( player.pev.impulse == 100 )
+        {
+            if( player.m_flNextAttack <= 0 )
+                player.m_flNextAttack = 0.5f;
+            else
+                player.pev.impulse = 0;
+        }
+
         item_tracker::Think(player);
 
         player.SetOverriddenPlayerModel(character.Name);
@@ -184,8 +193,7 @@ namespace Hooks
                     // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
                     if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
                     {
-                        if( player.m_flNextAttack <= 0 )
-                            weaponConfig.WeaponFlashlight( player, weapon, character );
+                        weaponConfig.WeaponFlashlight( player, weapon, character );
                     }
 
                     weaponConfig.PlayerThink( player, weapon, character );
