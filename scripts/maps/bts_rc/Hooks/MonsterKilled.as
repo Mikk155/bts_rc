@@ -7,7 +7,7 @@ namespace Hooks
 
         dictionary@ data = monster.GetUserData();
 
-        bloodpuddle::MonsterKilled( monster, attacker, gib );
+        gpBloodPuddle.Create( monster, gib );
         deathdrop::MonsterKilled( monster, attacker, gib );
         zombie_uncrab::MonsterKilled( monster, attacker, gib, data );
 

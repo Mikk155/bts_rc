@@ -27,162 +27,86 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-namespace bloodpuddle
+final class ASBloodPuddleConfig : IConfigurable
 {
-    class CConfig : IConfigContext
+    array<float> DefaultSize;
+    dictionary CustomSizes;
+    bool persistent;
+
+    const string& get_Name() override
     {
-        array<float> DefaultSize;
-        dictionary CustomSizes;
-        bool Persistent;
+        return "bloodpuddle";
+    }
 
-        CConfig()
+    void Register( BTSJson@ json ) override
+    {
+        if( this.IsActive() )
         {
-            ConfigContext::Register( this );
-        }
+            CustomEntity( "env_bloodpuddle", true );
+            this.persistent = json.FirstOrDefault( "persistent", true );
 
-        const string& get_Name() override {
-            return "bloodpuddle";
-        }
+            auto defaultSize = json.FirstOrDefault( "default_size" );
+            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "0", 1.5f ) ) );
+            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "1", 2.5f ) ) );
 
-        array<float> GetSize( dictionaryValue@ data )
-        {
-            dictionary@ dict = cast<dictionary@>(data);
-            array<float> list(2);
-            dict.get( "0", list[0] );
-            dict.get( "1", list[1] );
-            return list;
-        }
+            dictionary@ custom_size = cast<dictionary@>( json.data[ "custom_size" ] );
 
-        bool Active;
+            array<float> temp(2);
 
-        void Parse( dictionary@ json )
-        {
-            if( json.get( "active", Active ) && Active )
+            if( custom_size is null || custom_size.isEmpty() )
             {
-                g_CustomEntityFuncs.RegisterCustomEntity( "bloodpuddle::env_bloodpuddle", "env_bloodpuddle" );
-                g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+                temp[0] = 0.5f; temp[1] = 1.5f;
+                CustomSizes[ "monster_headcrab" ] = temp;
+                temp[0] = 1.0f; temp[1] = 2.0f;
+                CustomSizes[ "monster_houndeye" ] = temp;
+                temp[0] = 0.3f; temp[1] = 0.8f;
+                CustomSizes[ "monster_babycrab" ] = temp;
 
-                DefaultSize = GetSize( json[ "default_size" ] );
-
-                json.get( "persistent", Persistent );
-
-                dictionary@ custom_size = cast<dictionary@>( json[ "custom_size" ] );
+#if I_HATE_WARNINGS
+                CustomSizes[ "monster_headcrab" ] = array<float>( 0.5f, 1.5f );
+                CustomSizes[ "monster_houndeye" ] = array<float>( 1.0f, 2.0f );
+                CustomSizes[ "monster_babycrab" ] = array<float>( 0.3f, 0.8f );
+#endif
+            }
+            else
+            {
                 array<string>@ monsterNames = custom_size.getKeys();
                 uint monsterSize = monsterNames.length();
                 for( uint ui = 0; ui < monsterSize; ui++ )
                 {
                     string name = monsterNames[ui];
-                    CustomSizes[ name ] = GetSize( custom_size[ name ] );
+                    dictionary@ dict = cast<dictionary@>( custom_size[ name ] );
+
+                    temp[0] = Math.max( 0.1f, float(dict["0"])); temp[1] = Math.max( 0.1f, float(dict["1"]));
+                    CustomSizes[ name ] = temp;
+
+#if I_HATE_WARNINGS
+                    CustomSizes[ name ] = array<float>(
+                        Math.max( 0.1f, float(dict["0"])),
+                        Math.max( 0.1f, float(dict["1"]))
+                    );
+#endif
                 }
             }
         }
     }
 
-    CConfig gpConfig;
-
-    class env_bloodpuddle : ScriptBaseAnimating
+    env_bloodpuddle@ Create( CBaseMonster@ monster, int gib )
     {
-        uint8 state = 0;
-        private float last_time = 0;
-        private uint uisize = 0;
-
-        void Spawn()
-        {
-            self.pev.movetype = MOVETYPE_TOSS;
-            self.pev.solid = SOLID_NOT;
-            g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
-            self.pev.angles.y = Math.RandomFloat( 0, 359 );
-
-            SetThink( ThinkFunction( this.think ) );
-            self.pev.nextthink = g_Engine.time + 0.1;
-
-            g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
-
-            switch( state )
-            {
-                case 2: // Expanded
-                {
-                    self.pev.renderamt = 255;
-                    self.pev.rendermode = kRenderTransTexture;
-                    self.pev.sequence = 0;
-                    break;
-                }
-
-                case 0: // Idle
-                default:
-                {
-                    self.pev.sequence = 1;
-                    self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );
-                    self.pev.frame = 0;
-                    break;
-                }
-            }
-
-            self.ResetSequenceInfo();
-        }
-
-        void think()
-        {
-            switch( state )
-            {
-                case 2: // Expanded
-                {
-                    if( gpConfig.Persistent )
-                    {
-                        self.pev.nextthink = g_Engine.time + 30.0;
-                        if( !FreeEdicts( 100 ) )
-                            g_EntityFuncs.Remove( self );
-                        return;
-                    }
-
-                    if( self.pev.renderamt <= 1 )
-                    {
-                        self.pev.flags |= FL_KILLME;
-                        SetThink( null );
-                        return;
-                    }
-
-                    self.pev.renderamt -= 1;
-                    break;
-                }
-                case 0: // Idle
-                case 1: // Expanding
-                default:
-                {
-                    if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
-                    {
-                        self.StudioFrameAdvance();
-                    }
-                    else
-                    {
-                        self.pev.renderamt = 255;
-                        self.pev.rendermode = kRenderTransTexture;
-                        state = 2; // Set to expanded if the owner has disapear or anything
-                    }
-                    break;
-                }
-            }
-
-            self.pev.nextthink = g_Engine.time + 0.1;
-        }
-    }
-
-    void MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int gib )
-    {
-        if( !gpConfig.Active || monster.m_bloodColor == DONT_BLEED || !FreeEdicts(1) )
-            return;
+        if( !this.IsActive() || monster.m_bloodColor == DONT_BLEED || !FreeEdicts(1) )
+            return null;
 
         CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
 
         if( entity is null )
-            return;
+            return null;
 
         auto bloodpuddle = cast<env_bloodpuddle@>( CastToScriptClass( entity ) );
 
         if( bloodpuddle is null )
         {
             entity.pev.flags |= FL_KILLME;
-            return;
+            return null;
         }
 
         if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
@@ -190,8 +114,8 @@ namespace bloodpuddle
 
         array<float> sizes;
 
-        if( !gpConfig.CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
-            sizes = gpConfig.DefaultSize;
+        if( !gpBloodPuddle.CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
+            sizes = gpBloodPuddle.DefaultSize;
 
         bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
 
@@ -208,6 +132,102 @@ namespace bloodpuddle
 
         bloodpuddle.Spawn();
 
-        return;
+        return @bloodpuddle;
+    }
+}
+
+ASBloodPuddleConfig gpBloodPuddle;
+
+class env_bloodpuddle : ScriptBaseAnimating
+{
+    uint8 state = 0;
+    private float last_time = 0;
+    private uint uisize = 0;
+
+    void Precache()
+    {
+        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+    }
+
+    void Spawn()
+    {
+        Precache();
+
+        self.pev.movetype = MOVETYPE_TOSS;
+        self.pev.solid = SOLID_NOT;
+        g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
+        self.pev.angles.y = Math.RandomFloat( 0, 359 );
+
+        SetThink( ThinkFunction( this.think ) );
+        self.pev.nextthink = g_Engine.time + 0.1;
+
+        g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
+
+        switch( state )
+        {
+            case 2: // Expanded
+            {
+                self.pev.renderamt = 255;
+                self.pev.rendermode = kRenderTransTexture;
+                self.pev.sequence = 0;
+                break;
+            }
+
+            case 0: // Idle
+            default:
+            {
+                self.pev.sequence = 1;
+                self.pev.framerate = Math.RandomFloat( 0.3, 0.6 );
+                self.pev.frame = 0;
+                break;
+            }
+        }
+
+        self.ResetSequenceInfo();
+    }
+
+    void think()
+    {
+        switch( state )
+        {
+            case 2: // Expanded
+            {
+                if( gpBloodPuddle.persistent )
+                {
+                    self.pev.nextthink = g_Engine.time + 30.0;
+                    if( !FreeEdicts( 100 ) )
+                        g_EntityFuncs.Remove( self ); // Right away so other puddle entities knows
+                    return;
+                }
+
+                if( self.pev.renderamt <= 1 )
+                {
+                    self.pev.flags |= FL_KILLME;
+                    SetThink( null );
+                    return;
+                }
+
+                self.pev.renderamt -= 1;
+                break;
+            }
+            case 0: // Idle
+            case 1: // Expanding
+            default:
+            {
+                if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
+                {
+                    self.StudioFrameAdvance();
+                }
+                else
+                {
+                    self.pev.renderamt = 255;
+                    self.pev.rendermode = kRenderTransTexture;
+                    state = 2; // Set to expanded if the owner has disapear or anything
+                }
+                break;
+            }
+        }
+
+        self.pev.nextthink = g_Engine.time + 0.1;
     }
 }

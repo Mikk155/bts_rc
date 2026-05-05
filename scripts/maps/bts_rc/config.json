@@ -24,18 +24,6 @@
         "error": true,
         "critical": true
     },
-    "bloodpuddle":
-    {
-        "active": true,
-        "persistent": true,
-        "default_size": [ 1.5, 2.5 ],
-        "custom_size":
-        {
-            "monster_headcrab": [ 0.5, 1.5 ],
-            "monster_houndeye": [ 1.0, 2.0 ],
-            "monster_babycrab": [ 0.3, 0.8 ]
-        }
-    },
     "zombie_uncrab":
     {
         "active": true,
