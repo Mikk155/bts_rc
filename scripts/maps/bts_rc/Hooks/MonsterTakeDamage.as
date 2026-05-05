@@ -12,7 +12,8 @@ namespace Hooks
 
         dictionary@ data = info.pVictim.GetUserData();
 
-        zombie_uncrab::MonsterTakeDamage( info, victim, data );
+        if( info.flDamage > 0 && victim.m_LastHitGroup == 1 && gpZombieUncrab.IsActive() && gpZombieUncrab.track_health && gpZombieUncrab.IsValid( info.pVictim ) )
+            data["headcrab_damage"] = float( data["headcrab_damage"] ) + info.flDamage;
 
         return HOOK_CONTINUE;
     }

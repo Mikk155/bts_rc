@@ -27,90 +27,77 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-namespace zombie_uncrab
+class ASZombieUncrabConfig : IConfigurable
 {
-    class CConfig : IConfigContext
+    bool track_health;
+
+    const Cvar@ sk_headcrab_health = g_EngineFuncs.CVarGetPointer( "sk_headcrab_health" );
+
+    const string& get_Name() override
     {
-        bool TrackHealth;
+        return "zombie_uncrab";
+    }
 
-        const Cvar@ sk_headcrab_health = g_EngineFuncs.CVarGetPointer( "sk_headcrab_health" );
+    bool IsValid( CBaseEntity@ zombie )
+    {
+        if( zombie is null )
+            return false;
 
-        CConfig()
+        string classname = zombie.GetClassname();
+
+        if( "monster_zombie" != classname
+        && "monster_zombie_soldier" != classname
+        && "monster_zombie_barney" != classname
+        && "monster_gonome" != classname )
+            return false;
+
+        return true;
+    }
+
+    void Register( BTSJson@ json ) override
+    {
+        if( this.IsActive() )
         {
-            ConfigContext::Register( this );
-        }
-
-        const string& get_Name() override {
-            return "zombie_uncrab";
-        }
-
-        bool IsValid( CBaseEntity@ zombie )
-        {
-            if( zombie is null )
-                return false;
-
-            string classname = zombie.GetClassname();
-
-            if( "monster_zombie" != classname
-            && "monster_zombie_soldier" != classname
-            && "monster_zombie_barney" != classname
-            && "monster_gonome" != classname )
-                return false;
-
-            return true;
-        }
-
-        bool Active;
-
-        void Parse( dictionary@ json )
-        {
-            if( json.get( "active", Active ) && Active )
-            {
-                json.get( "track_health", TrackHealth );
-            }
-        }
-
-        void RelocateHeadcrab( EHandle entity, float height )
-        {
-            if( !entity.IsValid() )
-                return;
-
-            auto headcrab = cast<CBaseMonster@>( entity.GetEntity() );
-
-            if( headcrab is null )
-                return;
-
-            // Jump sequence
-            headcrab.pev.sequence = 10;
-
-            headcrab.pev.flags &= ~FL_ONGROUND;
-            headcrab.pev.origin.z = height;
-            g_EntityFuncs.SetOrigin( headcrab, headcrab.pev.origin );
-
-            headcrab.pev.velocity.x = Math.RandomFloat( -50, 50 );
-            headcrab.pev.velocity.y = Math.RandomFloat( -50, 50 );
-            headcrab.pev.velocity.z = Math.RandomFloat( 50, 150 );
+            this.track_health = json.FirstOrDefault( "track_health", true );
         }
     }
 
-    void MonsterTakeDamage( DamageInfo@ info, CBaseMonster@ monster, dictionary@ data )
+    void RelocateHeadcrab( EHandle entity, float height, float headcrab_damage )
     {
-        if( !gpConfig.Active || !gpConfig.TrackHealth || info.flDamage <= 0 || monster.m_LastHitGroup != 1 || !gpConfig.IsValid( info.pVictim ) )
+        if( !entity.IsValid() )
             return;
 
-        data["headcrab_damage"] = int( data["headcrab_damage"] ) + info.flDamage;
+        auto headcrab = cast<CBaseMonster@>( entity.GetEntity() );
+
+        if( headcrab is null )
+            return;
+
+        // Jump sequence
+        headcrab.pev.sequence = 10;
+
+        headcrab.pev.flags &= ~FL_ONGROUND;
+        headcrab.pev.origin.z = height;
+        g_EntityFuncs.SetOrigin( headcrab, headcrab.pev.origin );
+
+        // Damage headcrab based on how much damage the zombie got on the headcrab
+        if( headcrab_damage > 0.0 )
+            headcrab.TakeDamage( null, null, headcrab_damage, ( DMG_GENERIC | DMG_NEVERGIB ) );
+
+        headcrab.pev.velocity.x = Math.RandomFloat( -50, 50 );
+        headcrab.pev.velocity.y = Math.RandomFloat( -50, 50 );
+        headcrab.pev.velocity.z = Math.RandomFloat( 50, 150 );
     }
 
-    void MonsterKilled( CBaseMonster@ monster, CBaseEntity@ attacker, int gib, dictionary@ data )
+    CBaseEntity@ Create( CBaseMonster@ monster, CBaseEntity@ attacker, int gib, dictionary@ data )
     {
-        if( !gpConfig.Active || !gpConfig.IsValid( monster ) || !FreeEdicts(1) )
-            return;
+        if( !this.IsActive() || !this.IsValid( monster ) || !FreeEdicts(1) )
+            return null;
 
-        const float headcrab_damage = int( data[ "headcrab_damage" ] );
+        float headcrab_damage = 0.0f;
 
         // Check if the stored received damage is less than a headcrab's HP
-        if( gpConfig.TrackHealth && headcrab_damage >= gpConfig.sk_headcrab_health.value )
-            return;
+        if( this.track_health )
+            headcrab_damage = float( data[ "headcrab_damage" ] );
 
         monster.SetBodygroup( 1, 1 );
 
@@ -118,7 +105,7 @@ namespace zombie_uncrab
         {
             // If the monster hasn't been gibed then make sure it supports the "no crab" bodygroup
             if( monster.GetBodygroup( 1 ) != 1 )
-                return;
+                return null;
         }
 
         Vector origin, angles;
@@ -127,17 +114,14 @@ namespace zombie_uncrab
         auto headcrab = g_EntityFuncs.Create( "monster_headcrab", origin, monster.pev.angles, false, monster.edict() );
 
         if( headcrab is null )
-            return;
-
-        // Damage headcrab based on how much damage the zombie got on the headcrab
-        if( gpConfig.TrackHealth )
-            headcrab.TakeDamage( null, null, headcrab_damage, DMG_GENERIC );
+            return null;
 
         // Make crab think earlier so it does drop to floor before relocate is called
         headcrab.pev.nextthink = g_Engine.time;
+        g_Scheduler.SetTimeout( @this, "RelocateHeadcrab", 0.05f, EHandle(headcrab), origin.z, headcrab_damage );
 
-        g_Scheduler.SetTimeout( @gpConfig, "RelocateHeadcrab", 0.05f, EHandle(headcrab), origin.z );
+        return @headcrab;
     }
-
-    CConfig gpConfig;
 }
+
+ASZombieUncrabConfig gpZombieUncrab;

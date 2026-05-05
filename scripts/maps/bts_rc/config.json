@@ -24,11 +24,6 @@
         "error": true,
         "critical": true
     },
-    "zombie_uncrab":
-    {
-        "active": true,
-        "track_health": true
-    },
     "deathdrop":
     {
         "monster_zombie":

@@ -9,7 +9,7 @@ namespace Hooks
 
         gpBloodPuddle.Create( monster, gib );
         deathdrop::MonsterKilled( monster, attacker, gib );
-        zombie_uncrab::MonsterKilled( monster, attacker, gib, data );
+        gpZombieUncrab.Create( monster, attacker, gib, data );
 
         return HOOK_CONTINUE;
     }

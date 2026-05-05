@@ -1,3 +1,7 @@
+# 5/5/2026
+- Updated various structures to have default values in case json fails
+- Headcrabs now are always detached even if they're dead
+
 # 3/5/2026
 - Added .clang.format support and global formater (Disabled for now due to lack of features)
 - Moved laser sentry code to an optimized structure

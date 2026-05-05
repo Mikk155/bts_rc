@@ -119,17 +119,13 @@
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Controls headcrab detachment behavior from zombies.",
+            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "description": "Enable headcrabs detaching from zombies."
-                },
-
                 "track_health":
                 {
                     "type": "boolean",
+                    "default": true,
                     "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health."
                 }
             }
