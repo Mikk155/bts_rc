@@ -181,6 +181,8 @@ abstract class ASWeaponConfig : IConfigurable
 
     // Called when the weapon is deployed. this is too late!
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    // Called just before WeaponDeploy at this class
+    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of PrimaryAttack
     void WeaponPrimaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of SecondaryAttack
@@ -190,7 +192,7 @@ abstract class ASWeaponConfig : IConfigurable
     // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
     void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
-        if( player.pev.impulse == 100 )
+        if( player.pev.impulse == 0 )
             return; // Avoid looping
 
         // If the current active weapon doesn't has flashlight then do a loadout check
