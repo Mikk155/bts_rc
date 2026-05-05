@@ -28,49 +28,9 @@ namespace Hooks
         if( player is null || !player.IsConnected() )
             return HOOK_CONTINUE;
 
-        auto character = GetCharacter(player);
-
         dictionary@ data = player.GetUserData();
 
-        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
-        if( !data.exists( "connected" ) && player.pev.button != 0 )
-        {
-            data[ "connected" ] = true;
-            PlayerInitialized( player, data );
-        }
-
-        // Change impulse 101 command with our own weapons
-        if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
-        {
-            const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
-            uint length = weaponNames.length();
-
-            for( uint ui = 0; ui < length; ui++ )
-            {
-                const string weapon_name = weaponNames[ui];
-
-                player.GiveNamedItem( weapon_name );
-
-                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
-
-                if( item !is null )
-                {
-                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
-
-                    if( weapon !is null )
-                    {
-                        if( weapon.m_iPrimaryAmmoType > 0 )
-                            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
-                        
-                        weapon.m_iClip = weapon.iMaxClip();
-
-                        if( weapon.m_iSecondaryAmmoType > 0 )
-                            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
-                    }
-                }
-            }
-            player.pev.impulse = 0;
-        }
+        auto character = GetCharacter(player);
 
 #if METAMOD_DEBUG
         if( character is null )
@@ -127,6 +87,46 @@ namespace Hooks
                 }
             }
             return HOOK_CONTINUE;
+        }
+
+        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
+        if( !data.exists( "connected" ) && player.pev.button != 0 )
+        {
+            data[ "connected" ] = true;
+            PlayerInitialized( player, data );
+        }
+
+        // Change impulse 101 command with our own weapons
+        if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+        {
+            const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
+            uint length = weaponNames.length();
+
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                const string weapon_name = weaponNames[ui];
+
+                player.GiveNamedItem( weapon_name );
+
+                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+
+                if( item !is null )
+                {
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+                    if( weapon !is null )
+                    {
+                        if( weapon.m_iPrimaryAmmoType > 0 )
+                            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+                        
+                        weapon.m_iClip = weapon.iMaxClip();
+
+                        if( weapon.m_iSecondaryAmmoType > 0 )
+                            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+                    }
+                }
+            }
+            player.pev.impulse = 0;
         }
 
         item_tracker::Think(player);
