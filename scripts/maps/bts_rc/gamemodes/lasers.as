@@ -25,7 +25,7 @@
     Author: Mikk
 */
 
-class TurretsLasers : EntityOverriden
+final class TurretsLasers : EntityOverriden
 {
     const string& get_Name() override
     {
@@ -52,7 +52,7 @@ class TurretsLasers : EntityOverriden
             EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 
-    CSprite@ sprite( Vector &in VecPos )
+    protected CSprite@ sprite( Vector &in VecPos )
     {
         CSprite@ spr = g_EntityFuncs.CreateSprite( "sprites/glow01.spr", VecPos, true );
 
@@ -107,6 +107,21 @@ class TurretsLasers : EntityOverriden
 
         int clientInterval = int( this.interval / 0.1f );
 
+        if( classname == "monster_turret" )
+        {
+            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                m.WriteByte( TE_DLIGHT );
+                m.WriteCoord( VecStart.x );
+                m.WriteCoord( VecStart.y );
+                m.WriteCoord( VecStart.z );
+                m.WriteByte( 8 );   // radius
+                m.WriteByte( 100 ); // R
+                m.WriteByte( 0 );   // G
+                m.WriteByte( 0 );   // B
+                m.WriteByte( clientInterval );   // life in 0.1's
+                m.WriteByte( 1 );   // decay in 0.1's
+            m.End();
+        }
         {
             NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
                 m.WriteByte( TE_DLIGHT );
@@ -121,7 +136,6 @@ class TurretsLasers : EntityOverriden
                 m.WriteByte( 1 );   // decay in 0.1's
             m.End();
         }
-
         {
             NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
                 m.WriteByte( TE_BEAMPOINTS );
@@ -149,7 +163,7 @@ class TurretsLasers : EntityOverriden
     }
 
     bool ShouldThink() override {
-        return ( EntityOverriden::ShouldThink() && FreeEdicts( 5 ) ); // 2 sprites 3 temporary entity
+        return ( EntityOverriden::ShouldThink() && FreeEdicts( 6 ) ); // 2 sprites 3-4 temporary entity
     }
 }
 
