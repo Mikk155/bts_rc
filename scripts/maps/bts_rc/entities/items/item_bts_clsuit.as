@@ -41,6 +41,8 @@ class item_bts_clsuit : BTS_Item
 
         SetClass( player, Classification::Hazard );
 
+        player.pev.armorvalue = player.pev.armortype;
+
         PickupObject( player, "suit_empty" );
 
         return true;

@@ -2,6 +2,7 @@
 - Updated various structures to have default values in case json fails
 - Headcrabs now are always detached even if they're dead
 - Radiation damage will be reflected on the health for players not wearing a HEV/Hazard suit
+- Hazard suit starts always at max armor
 
 # 3/5/2026
 - Added .clang.format support and global formater (Disabled for now due to lack of features)
