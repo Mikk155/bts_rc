@@ -137,6 +137,11 @@ final class TurretsLasers : EntityOverriden
         {
             spr.pev.rendermode = kRenderTransAdd;
             spr.pev.renderamt = this.color.a / 2;
+
+            if( enemy.IsPlayer() && ( enemy.pev.origin - tr.vecEndPos ).Length() < 64 )
+            {
+                g_PlayerFuncs.ScreenFade( enemy, spr.pev.rendercolor, 0.1f, this.interval + 0.1f, this.color.a, FFADE_MODULATE | FFADE_IN );   
+            }
         }
 
         int clientInterval = int( this.interval / 0.1f );
