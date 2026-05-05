@@ -39,6 +39,10 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     randomizer::Initialize();
     item_tracker::Initialize();
 
+#if METAMOD_DEBUG
+    if( true ) { return; }
+#endif
+
     auto ckv = activator.GetCustomKeyvalues();
 
     // Remove developer commentary
@@ -107,7 +111,7 @@ void MapInit()
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
     }
 
-    BTSJson@ json = BTSJson( @config );
+    BTSJson@ json = BTSJson( config, "Global Scope" );
 
     g_Logger.Register( json.FirstOrDefault( "log" ) );
 
@@ -117,18 +121,7 @@ void MapInit()
         g_Logger.info = snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
 
-    uint length = g_ConfigContexts.length();
-
-    for( uint ui = 0; ui < length; ui++ )
-    {
-        IConfigContext@ context = g_ConfigContexts[ui];
-        string name = context.Name;
-
-        if( g_Logger.info )
-            g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", context.Name );
-
-        context.Parse( cast<dictionary@>( config[ name ] ) );
-    }
+    ConfigContext::Registry( @json );
 
     if( g_Logger.info )
     {
@@ -136,9 +129,11 @@ void MapInit()
         g_Logger.info = snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
     }
 
+    /// Equipable suits
     RegisterCharacter( "bts_cleansuit", Hands::Cleansuit, Classification::Hazard );
     RegisterCharacter( "bts_helmet", Hands::Hevsuit, Classification::HEV );
 
+    /// Security
     RegisterCharacter( "bts_barney", Hands::Blue, Classification::Security );
     RegisterCharacter( "bts_barney2", Hands::Blue, Classification::Security );
     RegisterCharacter( "bts_barney3", Hands::Blue, Classification::Security );
@@ -146,17 +141,20 @@ void MapInit()
     RegisterCharacter( "bts_otis2", Hands::Blue, Classification::Security );
     RegisterCharacter( "bts_otis_blk", Hands::BlueBlackHands, Classification::Security );
 
+    /// Scientist
     RegisterCharacter( "bts_scientist", Hands::White, Classification::Scientist );
     RegisterCharacter( "bts_scientist2", Hands::White, Classification::Scientist );
     RegisterCharacter( "bts_scientist3", Hands::WhiteBlackHands, Classification::Scientist );
     RegisterCharacter( "bts_scientist4", Hands::White, Classification::Scientist );
     RegisterCharacter( "bts_scientist5", Hands::White, Classification::Scientist );
     RegisterCharacter( "bts_scientist6", Hands::White, Classification::Scientist );
-    
+
+    /// Maintenance
     RegisterCharacter( "bts_construction", Hands::Orange, Classification::Maintenance );
     RegisterCharacter( "bts_construction2", Hands::Green, Classification::Maintenance );
     RegisterCharacter( "bts_construction3", Hands::Orange, Classification::Maintenance );
 
+    /// Operative
     RegisterCharacter( "bts_op", Hands::Gray, Classification::Operative );
     RegisterCharacter( "bts_op2", Hands::Gray, Classification::Operative );
     RegisterCharacter( "bts_op3", Hands::Gray, Classification::Operative );

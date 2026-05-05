@@ -23,28 +23,63 @@
 
 final class BTSJson
 {
-    dictionary @data;
+    string m_name;
+
+    const string& get_Name() {
+        return this.m_name;
+    }
+
+    dictionary data;
 
     BTSJson@ FirstOrDefault( const string&in keyName )
     {
-        if( this.data.exists( keyName ) )
-            return BTSJson( cast<dictionary@>( this.data[ keyName ] ) );
-        return BTSJson();
+        dictionary jsonData;
+        if( this.data.get( keyName, jsonData ) )
+            return BTSJson( jsonData, keyName );
+        return BTSJson( {}, keyName );
     }
 
-    bool FirstOrDefault( const string&in keyName, bool value )
+    bool FirstOrDefault( const string&in keyName, bool defaultValue )
     {
-        bool bvalue;
-        if( this.data.get( keyName, bvalue ) )
-            return bvalue;
-        return value;
+        bool value;
+        if( this.data.get( keyName, value ) )
+            return value;
+        return defaultValue;
     }
 
-    BTSJson() {}
-
-    BTSJson( dictionary@&in data )
+    float FirstOrDefault( const string&in keyName, float defaultValue )
     {
-        @this.data = data;
+        float value;
+        if( this.data.get( keyName, value ) )
+            return value;
+        return defaultValue;
+    }
+
+    int FirstOrDefault( const string&in keyName, int defaultValue )
+    {
+        int value;
+        if( this.data.get( keyName, value ) )
+            return value;
+        return defaultValue;
+    }
+
+    string FirstOrDefault( const string&in keyName, const string&in defaultValue )
+    {
+        string value;
+        if( this.data.get( keyName, value ) )
+            return value;
+        return defaultValue;
+    }
+
+    BTSJson() { }
+
+    BTSJson( dictionary&in jsonData, const string&in name )
+    {
+        this.data = jsonData;
+        this.m_name = name;
+
+        if( this.data.getSize() <= 0 && g_Logger.trace )
+            g_Logger.trace = snprintf( glog, "[JSON] Failed to get object \"%1\"", this.Name );
     }
 
     ~BTSJson()

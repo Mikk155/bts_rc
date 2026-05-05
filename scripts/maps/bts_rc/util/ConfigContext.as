@@ -32,16 +32,82 @@ interface IConfigContext
     void Parse( dictionary@ json );
 }
 
-/// List containing all the registered IConfigContext instances for registration.
-array<IConfigContext@> g_ConfigContexts;
+abstract class IConfigurable
+{
+    IConfigurable()
+    {
+        ConfigContext::Register( this );
+    }
+
+    /// Unique name for this context
+    const string& get_Name() {
+        return String::EMPTY_STRING;
+    }
+
+    /// Called at MapInit for parsing the object from the json with this class's Name. if "active" is not false
+    void Register( BTSJson@ json ) {
+    }
+
+    bool m_IsActive;
+
+    /// Whatever the context is active or not
+    const bool IsActive() {
+        return this.m_IsActive;
+    }
+}
+
+/// List containing all the registered IConfigurable instances for registration.
+array<IConfigurable@> g_ConfigContexts;
 
 namespace ConfigContext
 {
-    void Register( IConfigContext@ context )
+    void Register( IConfigurable@ context )
     {
-        g_ConfigContexts.insertLast( context );
-
         if( g_Logger.info )
             g_Logger.info = snprintf( glog, "Registering config context \"%1\"", context.Name );
+
+        g_ConfigContexts.insertLast( context );
+    }
+
+    void Registry( BTSJson@ json )
+    {
+        uint length = g_ConfigContexts.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            IConfigurable@ configurable = g_ConfigContexts[ui];
+            string name = configurable.Name;
+
+            if( g_Logger.info )
+                g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\"", configurable.Name );
+
+            BTSJson@ contextData = json.FirstOrDefault( name );
+
+            // If not explicitly false we asume true
+            configurable.m_IsActive = contextData.FirstOrDefault( "active", true );
+
+            if( configurable.IsActive() )
+            {
+                configurable.Register( json.FirstOrDefault( name ) );
+            }
+            else if( g_Logger.warning )
+            {
+                g_Logger.warning = snprintf( glog, "Ignoring disabled context \"%1\"", configurable.Name );
+            }
+
+        }
+
+        for( uint ui = 0; ui < gptest.length(); ui++ )
+        {
+            IConfigContext@ configurable = gptest[ui];
+            string name = configurable.Name;
+            configurable.Parse( cast<dictionary@>( json.data[ name ] ) );
+        }
+    }
+array<IConfigContext@> gptest;
+
+    void Register( IConfigContext@ context )
+    {
+        gptest.insertLast(context);
     }
 }
