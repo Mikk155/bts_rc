@@ -27,6 +27,8 @@
 
 final class TurretsLasers : EntityOverriden
 {
+    RGBA color;
+
     const string& get_Name() override
     {
         return "turret_lasers";
@@ -37,6 +39,13 @@ final class TurretsLasers : EntityOverriden
         if( this.IsActive() )
         {
             this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.1f ) );
+
+            this.color = RGBA(
+                Math.min( 255, Math.max( 0, json.FirstOrDefault( "red", 255 ) ) ),
+                Math.min( 255, Math.max( 0, json.FirstOrDefault( "green", 0 ) ) ),
+                Math.min( 255, Math.max( 0, json.FirstOrDefault( "blue", 0 ) ) ),
+                Math.min( 255, Math.max( 0, json.FirstOrDefault( "blue", 150 ) ) )
+             );
 
             g_Game.PrecacheModel( "sprites/glow01.spr" );
         }
@@ -59,7 +68,9 @@ final class TurretsLasers : EntityOverriden
         if( spr !is null )
         {
             spr.AnimateAndDie( 1 / this.interval );
-            spr.pev.rendercolor = Vector( 255, 0, 0 );
+            spr.pev.rendercolor.x = this.color.r;
+            spr.pev.rendercolor.y = this.color.g;
+            spr.pev.rendercolor.z = this.color.b;
             return @spr;
         }
 
@@ -71,7 +82,9 @@ final class TurretsLasers : EntityOverriden
         if( monster is null || !monster.IsAlive() )
             return EntityOverridenAction::Remove;
 
-        if( monster.pev.sequence == 0 || !monster.m_hEnemy.IsValid() )
+        CBaseEntity@ enemy;
+
+        if( monster.pev.sequence == 0 || !monster.m_hEnemy.IsValid() || ( @enemy = monster.m_hEnemy.GetEntity() ) is null )
             return EntityOverridenAction::None;
 
         TraceResult tr;
@@ -88,7 +101,7 @@ final class TurretsLasers : EntityOverriden
             monster.GetBonePosition( 3, VecStart, VecAngles );
 
         // Offset of 10 units bellow the eye position
-        g_Utility.TraceLine( VecStart, monster.m_hEnemy.GetEntity().EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, monster.edict(), tr );
+        g_Utility.TraceLine( VecStart, enemy.EyePosition() - Vector( 0, 0, 10 ), dont_ignore_monsters, monster.edict(), tr );
 
         CSprite@ spr;
 
@@ -96,13 +109,13 @@ final class TurretsLasers : EntityOverriden
         if( ( @spr = sprite( VecStart ) ) !is null )
         {
             spr.pev.rendermode = kRenderGlow;
-            spr.pev.renderamt = 255;
+            spr.pev.renderamt = this.color.a;
         }
 
         if( ( @spr = sprite( tr.vecEndPos ) ) !is null )
         {
             spr.pev.rendermode = kRenderTransAdd;
-            spr.pev.renderamt = 80;
+            spr.pev.renderamt = this.color.a / 2;
         }
 
         int clientInterval = int( this.interval / 0.1f );
@@ -115,11 +128,11 @@ final class TurretsLasers : EntityOverriden
                 m.WriteCoord( VecStart.y );
                 m.WriteCoord( VecStart.z );
                 m.WriteByte( 8 );   // radius
-                m.WriteByte( 100 ); // R
-                m.WriteByte( 0 );   // G
-                m.WriteByte( 0 );   // B
-                m.WriteByte( clientInterval );   // life in 0.1's
-                m.WriteByte( 1 );   // decay in 0.1's
+                m.WriteByte( this.color.r );
+                m.WriteByte( this.color.g );
+                m.WriteByte( this.color.b );
+                m.WriteByte( clientInterval );
+                m.WriteByte( 1 );
             m.End();
         }
         {
@@ -128,12 +141,12 @@ final class TurretsLasers : EntityOverriden
                 m.WriteCoord( tr.vecEndPos.x );
                 m.WriteCoord( tr.vecEndPos.y );
                 m.WriteCoord( tr.vecEndPos.z );
-                m.WriteByte( 8 );   // radius
-                m.WriteByte( 100 ); // R
-                m.WriteByte( 0 );   // G
-                m.WriteByte( 0 );   // B
-                m.WriteByte( clientInterval );   // life in 0.1's
-                m.WriteByte( 1 );   // decay in 0.1's
+                m.WriteByte( 8 );
+                m.WriteByte( this.color.r );
+                m.WriteByte( this.color.g );
+                m.WriteByte( this.color.b );
+                m.WriteByte( clientInterval );
+                m.WriteByte( 1 );
             m.End();
         }
         {
@@ -146,16 +159,16 @@ final class TurretsLasers : EntityOverriden
                 m.WriteCoord( tr.vecEndPos.y );
                 m.WriteCoord( tr.vecEndPos.z );
                 m.WriteShort( models::laserbeam );
-                m.WriteByte( 0 );   // starting frame
-                m.WriteByte( 1 );   // frame rate in 0.1's
-                m.WriteByte( clientInterval );   // life in 0.1's
-                m.WriteByte( 1 );   // line width in 0.1's
-                m.WriteByte( 0 );   // noise amplitude in 0.01's
-                m.WriteByte( 255 ); // R
-                m.WriteByte( 0 );   // G
-                m.WriteByte( 0 );   // B
-                m.WriteByte( 255 ); // brightness
-                m.WriteByte( 0 );   // scrol speed in 0.1's
+                m.WriteByte( 0 );
+                m.WriteByte( 1 );
+                m.WriteByte( clientInterval );
+                m.WriteByte( 1 );
+                m.WriteByte( 0 );
+                m.WriteByte( this.color.r );
+                m.WriteByte( this.color.g );
+                m.WriteByte( this.color.b );
+                m.WriteByte( this.color.a );
+                m.WriteByte( 0 );
             m.End();
         }
 

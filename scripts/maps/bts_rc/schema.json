@@ -28,6 +28,38 @@
                     "default": 0.1,
                     "type": "number",
                     "description": "Internal think rate interval. lower values more cpu usage"
+                },
+                "red":
+                {
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 255,
+                    "type": "integer",
+                    "description": "red color of effects"
+                },
+                "green":
+                {
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 0,
+                    "type": "integer",
+                    "description": "green color of effects"
+                },
+                "blue":
+                {
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 0,
+                    "type": "integer",
+                    "description": "blue color of effects"
+                },
+                "alpha":
+                {
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 150,
+                    "type": "integer",
+                    "description": "alpha color of effects"
                 }
             }
         },
