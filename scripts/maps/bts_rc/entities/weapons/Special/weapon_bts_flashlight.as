@@ -54,7 +54,7 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
     }
 
     const string& get_flashlight_model() {
-        return "models/p_crowbar.mdl";
+        return "models/bts_rc/weapons/p_flashlight_cone.mdl";
     }
 
     const string& get_world_model() override {
