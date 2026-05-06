@@ -1,0 +1,14 @@
+name: Suggestion
+description: Suggestion
+title: "[Suggestion] "
+labels: [ "enchancement" ]
+assignees: [  ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the suggestion
+  - type: textarea
+    attributes:
+      label: "Describe the suggestion"

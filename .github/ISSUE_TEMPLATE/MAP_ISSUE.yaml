@@ -1,0 +1,14 @@
+name: Map issue
+description: Issue related to the map itself
+title: "[Bug] "
+labels: [ "bug", "map" ]
+assignees: [ "RaptorSKA" ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the issue
+  - type: textarea
+    attributes:
+      label: "Describe the issue"

@@ -1,0 +1,14 @@
+name: AngelScript issue
+description: Issue related to the AngelScript map scripts
+title: "[Bug] "
+labels: [ "bug", "scripts" ]
+assignees: [ "mikk155" ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the issue
+  - type: textarea
+    attributes:
+      label: "Describe the issue"
