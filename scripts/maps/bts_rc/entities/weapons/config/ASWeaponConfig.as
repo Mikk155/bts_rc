@@ -41,7 +41,9 @@ abstract class ASWeaponConfig : IConfigurable
     const uint8 get_hands_group() { return 1; }
     const uint8 get_animation_draw() { return 1; }
     const string& get_primary_ammo() { return String::EMPTY_STRING; }
+    const string& get_primary_ammoentity() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
+    const string& get_secondary_ammoentity() { return String::EMPTY_STRING; }
     // Weapon classname to add ItemMapping
     const string& get_remap() { return String::EMPTY_STRING; }
 
@@ -128,7 +130,13 @@ abstract class ASWeaponConfig : IConfigurable
 
         if( this.m_IsCustom )
         {
-            g_ItemRegistry.RegisterWeapon( this.Name, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo );
+            if( !this.primary_ammoentity.IsEmpty() && !g_CustomEntityFuncs.IsCustomEntity( this.primary_ammoentity ) )
+                CustomEntity( this.primary_ammoentity );
+
+            if( !this.secondary_ammoentity.IsEmpty() && !g_CustomEntityFuncs.IsCustomEntity( this.secondary_ammoentity ) )
+                CustomEntity( this.secondary_ammoentity );
+
+            g_ItemRegistry.RegisterWeapon( this.Name, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo, this.primary_ammoentity, this.secondary_ammoentity );
 
             string szSpriteDir; // Precache HUD text definition
             snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", this.Name );
@@ -206,7 +214,7 @@ abstract class ASWeaponConfig : IConfigurable
                 {
                     @weapon = cast<CBasePlayerWeapon@>(item);
 
-                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" )
+                    if( weapon !is null && weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" && Flashlight::HasAnyReserve( player, weapon ) )
                     {
                         player.SelectItem( weapon.pev.classname );
                         weapon.Deploy();

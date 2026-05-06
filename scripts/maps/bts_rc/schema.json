@@ -276,6 +276,20 @@
                 {
                     "type": "boolean",
                     "description": "Enable spark effects when hitting armored enemies."
+                },
+                "flashlight_drain":
+                {
+                    "type": "number",
+                    "default": 0.8,
+                    "minimum": 0.1,
+                    "description": "flashlight drain time"
+                },
+                "flashlight_capacity":
+                {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 0,
+                    "description": "Quantity of ammo carry for flashlight weapons"
                 }
             }
         },
