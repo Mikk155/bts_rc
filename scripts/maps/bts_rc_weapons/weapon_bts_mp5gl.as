@@ -87,7 +87,7 @@ namespace weapon_bts_mp5gl
 
         bool Deploy()
         {
-            return bts_deploy( "models/bts_rc/weapons/v_9mmARGL.mdl", "models/bts_rc/weapons/p_9mmARGL.mdl", DRAW, "mp5", 1 );
+            return bts_deploy( "models/bts_rc/weapons/v_9mmARGL.mdl", "models/bts_rc/weapons/p_9mmargl.mdl", DRAW, "mp5", 1 );
         }
 
         void Holster( int skiplocal = 0 )
