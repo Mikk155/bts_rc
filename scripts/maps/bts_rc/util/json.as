@@ -43,7 +43,13 @@ final class BTSJson
     {
         bool value;
         if( this.data.get( keyName, value ) )
+        {
+            if( g_Logger.debug )
+                g_Logger.debug = snprintf( glog, "[JSON] Got \"%1\" with value %2", keyName, ( value ? "true" : "false" ) );
+            if( g_Logger.warning && value == defaultValue )
+                g_Logger.warning = snprintf( glog, "[JSON] Got \"%1\" with the same value as the code! (%2) remove to save memory.", keyName, ( value ? "true" : "false" ) );
             return value;
+        }
         return defaultValue;
     }
 
@@ -51,7 +57,13 @@ final class BTSJson
     {
         float value;
         if( this.data.get( keyName, value ) )
+        {
+            if( g_Logger.debug )
+                g_Logger.debug = snprintf( glog, "[JSON] Got \"%1\" with value %2", keyName, value );
+            if( g_Logger.warning && value == defaultValue )
+                g_Logger.warning = snprintf( glog, "[JSON] Got \"%1\" with the same value as the code! (%2) remove to save memory.", keyName, value );
             return value;
+        }
         return defaultValue;
     }
 
@@ -59,7 +71,13 @@ final class BTSJson
     {
         int value;
         if( this.data.get( keyName, value ) )
+        {
+            if( g_Logger.debug )
+                g_Logger.debug = snprintf( glog, "[JSON] Got \"%1\" with value %2", keyName, value );
+            if( g_Logger.warning && value == defaultValue )
+                g_Logger.warning = snprintf( glog, "[JSON] Got \"%1\" with the same value as the code! (%2) remove to save memory.", keyName, value );
             return value;
+        }
         return defaultValue;
     }
 
@@ -67,7 +85,13 @@ final class BTSJson
     {
         string value;
         if( this.data.get( keyName, value ) )
+        {
+            if( g_Logger.debug )
+                g_Logger.debug = snprintf( glog, "[JSON] Got \"%1\" with value %2", keyName, value );
+            if( g_Logger.warning && value == defaultValue )
+                g_Logger.warning = snprintf( glog, "[JSON] Got \"%1\" with the same value as the code! (%2) remove to save memory.", keyName, value );
             return value;
+        }
         return defaultValue;
     }
 
@@ -77,9 +101,6 @@ final class BTSJson
     {
         this.data = jsonData;
         this.m_name = name;
-
-        if( this.data.getSize() <= 0 && g_Logger.trace )
-            g_Logger.trace = snprintf( glog, "[JSON] Failed to get object \"%1\"", this.Name );
     }
 
     ~BTSJson()
