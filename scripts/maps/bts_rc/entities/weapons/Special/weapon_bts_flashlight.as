@@ -102,6 +102,18 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
         else
             player.FlashlightTurnOn();
     }
+
+    void Register( BTSJson@ json ) override
+    {
+        this.deploy_time = 0.5;
+        this.primary_maxammo = 10;
+        this.slot = 4;
+        this.position = 4;
+        this.primary_distance = 32;
+        this.primary_damage = 7;
+
+        ASMeleeWeaponConfig::Register( json );
+    }
 }
 
 CWeaponFlashlightConfig gpWeaponFlashlight;

@@ -145,6 +145,14 @@ class CWeaponMedkitConfig : ASWeaponConfig
         this.health_gain = json.FirstOrDefault( "health_gain", 10 );
         this.health_cost = json.FirstOrDefault( "health_cost", 30 );
 
+        this.slot = 4;
+        this.position = 14;
+        this.primary_maxammo = 120;
+        this.deploy_time = 0.6;
+        this.primary_cooldown = 2.0;
+        this.secondary_cooldown = 2.0;
+        this.tertiary_cooldown = 2.0;
+
         ASWeaponConfig::Register( json );
     }
 }

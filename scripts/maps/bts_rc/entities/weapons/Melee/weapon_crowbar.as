@@ -134,6 +134,21 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 
     void Register( BTSJson@ json ) override
     {
+        this.deploy_time = 0.4;
+        this.primary_damage = 13;
+        this.primary_distance = 32;
+        this.primary_miss_cooldown = 0.95;
+        this.primary_miss_trained_cooldown = 0.75;
+        this.primary_cooldown = 0.5;
+        this.primary_trained_cooldown = 0.25;
+        this.secondary_damage = 11;
+        this.secondary_distance = 32;
+        this.secondary_miss_cooldown = 1.1;
+        this.secondary_miss_trained_cooldown = 1.0;
+        this.secondary_cooldown = 1.0;
+        this.secondary_trained_cooldown = 0.5;
+        this.tertiary_damage = 17;
+
         ASMeleeWeaponConfig::Register( json );
 
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );

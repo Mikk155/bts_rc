@@ -28,7 +28,7 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
     float primary_distance;
     float secondary_distance;
     float tertiary_distance;
-    float subsequent_hits_deduction;
+    float subsequent_hits_deduction = 0.5;
     float primary_miss_cooldown;
     float secondary_miss_cooldown;
     float primary_miss_trained_cooldown;
@@ -60,30 +60,15 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
 
     void Register( BTSJson@ json ) override
     {
+        this.primary_distance = json.FirstOrDefault( "primary_distance", this.primary_distance );
+        this.secondary_distance = json.FirstOrDefault( "secondary_distance", this.secondary_distance );
+        this.tertiary_distance = json.FirstOrDefault( "tertiary_distance", this.tertiary_distance );
+        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, json.FirstOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction ) ) );
+        this.primary_miss_cooldown = json.FirstOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
+        this.primary_miss_trained_cooldown = json.FirstOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
+        this.secondary_miss_cooldown = json.FirstOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
+        this.secondary_miss_trained_cooldown = json.FirstOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
+
         ASWeaponConfig::Register(json);
-    }
-
-    void ParseDefaultVariables( BTSJson@ json ) override
-    {
-        this.primary_distance = json.FirstOrDefault( "primary_distance", 10 );
-        this.secondary_distance = json.FirstOrDefault( "secondary_distance", primary_distance );
-        this.tertiary_distance = json.FirstOrDefault( "tertiary_distance", primary_distance );
-        this.subsequent_hits_deduction = json.FirstOrDefault( "subsequent_hits_deduction", 0.5 ); // -TODO Unimplemented yet
-        this.primary_miss_cooldown = json.FirstOrDefault( "primary_miss_cooldown", 1.5 );
-        this.primary_miss_trained_cooldown = json.FirstOrDefault( "primary_miss_trained_cooldown", primary_miss_cooldown );
-        this.secondary_miss_cooldown = json.FirstOrDefault( "secondary_miss_cooldown", primary_miss_cooldown );
-        this.secondary_miss_trained_cooldown = json.FirstOrDefault( "secondary_miss_trained_cooldown", secondary_miss_cooldown );
-
-        ASWeaponConfig::ParseDefaultVariables(json);
-    }
-
-    void RegisterWeapon() override
-    {
-        ASWeaponConfig::RegisterWeapon();
-    }
-
-    void Precache() override
-    {
-        ASWeaponConfig::Precache();
     }
 }
