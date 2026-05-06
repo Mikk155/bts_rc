@@ -21,14 +21,14 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Enable or disable player voice responses.">
+<tr class="schema-row" data-description="Controls player voice responses.">
     <td>
         <span class="prop-name" data-copy="voice_responses">
             voice_responses
         </span>
     </td>
-    <td>boolean</td>
-    <td>Enable or disable player voice responses.</td>
+    <td>object</td>
+    <td>Controls player voice responses.</td>
 </tr>
 
 
@@ -40,6 +40,61 @@
     </td>
     <td>object</td>
     <td>Controls laser aiming visuals for turrets.</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Internal think rate interval. lower values more cpu usage">
+    <td>
+        <span class="prop-name" data-copy="interval">
+            <span class="prop-object">turret_lasers</span><span class="prop-separator">-></span>interval
+        </span>
+    </td>
+    <td>number</td>
+    <td>Internal think rate interval. lower values more cpu usage</td>
+</tr>
+
+
+<tr class="schema-row" data-description="red color of effects">
+    <td>
+        <span class="prop-name" data-copy="red">
+            <span class="prop-object">turret_lasers</span><span class="prop-separator">-></span>red
+        </span>
+    </td>
+    <td>integer</td>
+    <td>red color of effects</td>
+</tr>
+
+
+<tr class="schema-row" data-description="green color of effects">
+    <td>
+        <span class="prop-name" data-copy="green">
+            <span class="prop-object">turret_lasers</span><span class="prop-separator">-></span>green
+        </span>
+    </td>
+    <td>integer</td>
+    <td>green color of effects</td>
+</tr>
+
+
+<tr class="schema-row" data-description="blue color of effects">
+    <td>
+        <span class="prop-name" data-copy="blue">
+            <span class="prop-object">turret_lasers</span><span class="prop-separator">-></span>blue
+        </span>
+    </td>
+    <td>integer</td>
+    <td>blue color of effects</td>
+</tr>
+
+
+<tr class="schema-row" data-description="alpha color of effects">
+    <td>
+        <span class="prop-name" data-copy="alpha">
+            <span class="prop-object">turret_lasers</span><span class="prop-separator">-></span>alpha
+        </span>
+    </td>
+    <td>integer</td>
+    <td>alpha color of effects</td>
 </tr>
 
 
@@ -62,6 +117,17 @@
     </td>
     <td>object</td>
     <td>Controls blackops flashbangs feature</td>
+</tr>
+
+
+<tr class="schema-row" data-description="Internal think rate interval. lower values more cpu usage">
+    <td>
+        <span class="prop-name" data-copy="interval">
+            <span class="prop-object">blackops_flashbang</span><span class="prop-separator">-></span>interval
+        </span>
+    </td>
+    <td>number</td>
+    <td>Internal think rate interval. lower values more cpu usage</td>
 </tr>
 
 
@@ -175,17 +241,6 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Enable or disable blood puddle generation.">
-    <td>
-        <span class="prop-name" data-copy="active">
-            <span class="prop-object">bloodpuddle</span><span class="prop-separator">-></span>active
-        </span>
-    </td>
-    <td>boolean</td>
-    <td>Enable or disable blood puddle generation.</td>
-</tr>
-
-
 <tr class="schema-row" data-description="If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears.">
     <td>
         <span class="prop-name" data-copy="persistent">
@@ -241,17 +296,6 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Enable headcrabs detaching from zombies.">
-    <td>
-        <span class="prop-name" data-copy="active">
-            <span class="prop-object">zombie_uncrab</span><span class="prop-separator">-></span>active
-        </span>
-    </td>
-    <td>boolean</td>
-    <td>Enable headcrabs detaching from zombies.</td>
-</tr>
-
-
 <tr class="schema-row" data-description="If true, spawning depends on damage dealt. Otherwise always spawns with full health.">
     <td>
         <span class="prop-name" data-copy="track_health">
@@ -296,25 +340,25 @@
 </tr>
 
 
-<tr class="schema-row" data-description="Maximum available charge.">
+<tr class="schema-row" data-description="Maximun juice power per station.">
     <td>
         <span class="prop-name" data-copy="juice">
             <span class="prop-object">wall_recharger</span><span class="prop-separator">-></span>juice
         </span>
     </td>
-    <td>number</td>
-    <td>Maximum available charge.</td>
+    <td>integer</td>
+    <td>Maximun juice power per station.</td>
 </tr>
 
 
-<tr class="schema-row" data-description="Time (seconds) required to fully recharge.">
+<tr class="schema-row" data-description="Time (In seconds) required to fully recharge. 0 means never recharge">
     <td>
         <span class="prop-name" data-copy="recharge_time">
             <span class="prop-object">wall_recharger</span><span class="prop-separator">-></span>recharge_time
         </span>
     </td>
-    <td>number</td>
-    <td>Time (seconds) required to fully recharge.</td>
+    <td>integer</td>
+    <td>Time (In seconds) required to fully recharge. 0 means never recharge</td>
 </tr>
 
 
@@ -487,6 +531,17 @@
     <td>
         <span class="prop-name" data-copy="weapon_medkit">
             weapon_medkit
+        </span>
+    </td>
+    <td>object</td>
+    <td></td>
+</tr>
+
+
+<tr class="schema-row" data-description="">
+    <td>
+        <span class="prop-name" data-copy="weapon_bts_flashlight">
+            weapon_bts_flashlight
         </span>
     </td>
     <td>object</td>
