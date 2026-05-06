@@ -61,7 +61,7 @@ namespace weapon_bts_mp5gl
 
         void Spawn()
         {
-            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_9mmARGL.mdl" ) );
+            g_EntityFuncs.SetModel( self, self.GetW_Model( "models/bts_rc/weapons/w_9mmargl.mdl" ) );
             self.m_iDefaultAmmo = Math.RandomLong( 9, MAX_CLIP );
             self.m_iDefaultSecAmmo = Math.RandomLong( 0, 1 );
             self.FallInit();
