@@ -140,8 +140,10 @@ abstract class ASWeaponConfig : IConfigurable
     void Precache()
     {
         g_Game.PrecacheModel( this.view_model );
-        g_Game.PrecacheModel( this.world_model );
         g_Game.PrecacheModel( this.player_model );
+
+        if( !this.view_model.IsEmpty() )
+            g_Game.PrecacheModel( this.world_model );
     }
 
     void Register( BTSJson@ json ) override
