@@ -106,7 +106,7 @@ void MapInit()
 
     dictionary config;
 
-    if( !meta_api::json::Deserialize( "bts_rc/config.json", config ) )
+    if( !meta_api::json::v1::Deserialize( "bts_rc/config.json", config ) )
     {
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
     }
