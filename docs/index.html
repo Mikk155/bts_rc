@@ -118,9 +118,18 @@ Once you've commit your changes open a pull request and wait for a review.
 
     <div class="section" id="Configuring">
         <h2>📝 <a href="#Configuring">Configuring the map</a></h2>
-        <div class="card">
-            <table class="schema-table" id="schema-container">
-            </table>
+        <div class="schema-card">
+            <div id="schema-sidebar">
+                <div id="schema-searchContainer">
+                    <button class="downloadschema-btn" onclick="downloadSchema()">Download schema</button>
+                    <input id="schema-search" type="text" placeholder="Search property..." >
+                </div>
+                <div id="schema-tree"></div>
+                <h1>JSON Schema Wiki</h1>
+                <p>Select a property from the left panel to read information about them.</p>
+            </div>
+            <div id="schema-content">
+            </div>
         </div>
     </div>
 

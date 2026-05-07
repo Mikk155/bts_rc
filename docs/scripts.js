@@ -143,6 +143,28 @@ function playMap()
     );
 }
 
+function downloadSchema()
+{
+    fetch( 'schema.json' )
+    .then( response => {
+        if( !response.ok )
+            throw new Error( 'Failed to download schema.' );
+        return response.blob();
+    } )
+    .then( blob => {
+        const urlBlob = window.URL.createObjectURL( blob );
+        const a = document.createElement( 'a' );
+        a.style.display = 'none';
+        a.href = urlBlob;
+        a.download = 'schema.json'; 
+        document.body.appendChild( a );
+        a.click();
+        window.URL.revokeObjectURL( urlBlob );
+        document.body.removeChild( a );
+    } )
+    .catch( error => console.error( 'Error:', error ) );
+}
+
 async function loadChangelog()
 {
     const res = await fetch( "./changelog.md" );
@@ -232,53 +254,270 @@ function copyCode( button )
     } );
 }
 
+let gpRootSchema = null;
+
+const gpPropertyIndex = {};
+
 async function loadSchemaDocs()
 {
-    const res = await fetch( "configuration.html" );
-    const html = await res.text();
+    document.getElementById( "schema-search" ).addEventListener( "input", () =>
+    {
+        const value = this.value.toLowerCase();
 
-    const container = document.getElementById( "schema-container" );
-    container.innerHTML = html;
+        const nodes = document.querySelectorAll( ".schema-tree-node" );
 
-    setupInteractions();
+        for( const node of nodes )
+        {
+            const visible = node.textContent.toLowerCase().includes( value );
+            node.style.display = visible ? "" : "none";
+        }
+    } );
+
+    const response = await fetch( "./schema.json" );
+
+    gpRootSchema = await response.json();
+
+    BuildIndex();
+    BuildTree();
 }
 
-function setupInteractions()
+function DeepClone( obj )
 {
-/*
-    document.querySelectorAll( ".schema-row" ).forEach(row =>
+    return structuredClone( obj );
+}
+
+function ResolveRef( ref )
+{
+    if( !ref.startsWith( "#/" ) )
+        return null;
+
+    const parts = ref.substring( 2 ).split( "/" );
+
+    let current = gpRootSchema;
+
+    for( const part of parts )
     {
-        row.addEventListener( "mouseenter", e =>
+        current = current[ part ];
+    }
+
+    return current;
+}
+
+function MergeSchemas( base, extra )
+{
+    const result = DeepClone( base );
+
+    for( const key in extra )
+    {
+        if( key === "properties" )
         {
-            const desc = row.dataset.description;
+            result.properties ??= {};
 
-            if( !desc )
-                return;
-
-            const tooltip = document.createElement( "div" );
-            tooltip.className = "tooltip";
-            tooltip.innerText = desc;
-
-            document.body.appendChild( tooltip );
-
-            row._tooltip = tooltip;
-        } );
-
-        row.addEventListener( "mouseleave", () =>
-        {
-            if( row._tooltip )
+            for( const propName in extra.properties )
             {
-                row._tooltip.remove();
+                result.properties[ propName ] = extra.properties[ propName ];
             }
-        } );
-    } );
-*/
-
-    document.querySelectorAll( ".prop-name" ).forEach( el =>
-    {
-        el.addEventListener( "click", () =>
+        }
+        else if( key === "required" )
         {
-            navigator.clipboard.writeText( el.dataset.copy );
-        } );
-    } );
+            result.required = [
+                ...( result.required || [] ),
+                ...( extra.required || [] )
+            ];
+        }
+        else if( key === "allOf" )
+        {
+            continue;
+        }
+        else
+        {
+            result[ key ] = extra[ key ];
+        }
+    }
+
+    return result;
+}
+
+function ResolveSchema( schema, inheritedFrom = null )
+{
+    let resolved = DeepClone( schema );
+
+    resolved.__inheritedFrom = inheritedFrom;
+
+    if( resolved.allOf )
+    {
+        for( const entry of resolved.allOf )
+        {
+            if( entry.$ref )
+            {
+                const refSchema = ResolveRef( entry.$ref );
+                const refName = entry.$ref.split( "/" ).pop();
+                const resolvedRef = ResolveSchema( refSchema, refName );
+                resolved = MergeSchemas( resolvedRef, resolved );
+            }
+        }
+    }
+
+    delete resolved.allOf;
+
+    return resolved;
+}
+
+function BuildIndex()
+{
+    const root = ResolveSchema( gpRootSchema );
+    TraverseSchema( root, "" );
+}
+
+function TraverseSchema( schema, currentPath )
+{
+    if( !schema.properties )
+        return;
+
+    for( const key in schema.properties )
+    {
+        let property = schema.properties[ key ];
+
+        property = ResolveSchema( property );
+
+        const path = currentPath ? `${currentPath}.${key}` : key;
+
+        gpPropertyIndex[ path ] = property;
+
+        if( property.type === "object" )
+        {
+            TraverseSchema( property, path );
+        }
+
+        if( property.additionalProperties )
+        {
+            const dynamicPath = `${path}.<dynamic_key>`;
+
+            gpPropertyIndex[ dynamicPath ] =
+            {
+                ...property.additionalProperties,
+                __dynamic: true,
+                __parent: path
+            };
+        }
+    }
+}
+
+function BuildTree()
+{
+    const tree = document.getElementById( "schema-tree" );
+
+    tree.innerHTML = "";
+
+    const paths = Object.keys( gpPropertyIndex ).sort();
+
+    for( const path of paths )
+    {
+        const prop = gpPropertyIndex[ path ];
+
+        const div = document.createElement( "div" );
+
+        div.className = `schema-tree-node schema-property-${prop.type}`;
+
+        div.textContent = path;
+
+        div.onclick = () =>
+        {
+            ShowProperty( path );
+        };
+
+        tree.appendChild( div );
+    }
+}
+
+function ShowProperty( path )
+{
+    const prop = gpPropertyIndex[ path ];
+
+    const content = document.getElementById( "schema-content" );
+
+    let html = `<h1>${path}</h1>`;
+
+    html += `<div>`;
+
+    html += Badge( prop.type || "unknown" );
+
+    if( prop.__dynamic )
+    {
+        html += Badge( "dynamic", "dynamic" );
+    }
+
+    if( prop.__inheritedFrom )
+    {
+        html += Badge( `inherits ${prop.__inheritedFrom}`, "inherited" );
+    }
+
+    html += `</div><br>`;
+
+    html += `<table>`;
+
+    AddRow( "Type", prop.type );
+    AddRow( "Description", prop.description );
+    AddRow( "Default", JSON.stringify( prop.default ) );
+    AddRow( "Minimum", prop.minimum );
+    AddRow( "Maximum", prop.maximum );
+    AddRow( "Min Items", prop.minItems );
+    AddRow( "Max Items", prop.maxItems );
+    AddRow( "Pattern", prop.pattern );
+    AddRow( "Enum", prop.enum?.join( ", " ) );
+    AddRow( "Path", path );
+    AddRow( "Unevaluated Properties", prop.unevaluatedProperties );
+
+    if( prop.additionalProperties )
+    {
+        AddRow( "Dynamic Properties", JSON.stringify( prop.additionalProperties, null, 4 ) );
+    }
+
+    if( prop.properties )
+    {
+        AddRow( "Children", Object.keys( prop.properties ).join( ", " ) );
+    }
+
+    if( prop.items )
+    {
+        AddRow( "Array Item Type", prop.items.type );
+    }
+
+    html += `</table><br><h2>Raw Schema</h2><pre> ${EscapeHtml( JSON.stringify( prop, null, 4 ) )}</pre>`;
+
+    content.innerHTML = html;
+
+    function AddRow( name, value )
+    {
+        if( value === undefined || value === null )
+            return;
+
+        html += `
+            <tr>
+                <td>${name}</td>
+                <td>
+                    <code>
+                        ${EscapeHtml( String( value ) )}
+                    </code>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+function Badge( text, className = "" )
+{
+    return `
+        <span class="badge ${className}">
+            ${text}
+        </span>
+    `;
+}
+
+function EscapeHtml( text )
+{
+    return text
+        .replaceAll( "&", "&amp;" )
+        .replaceAll( "<", "&lt;" )
+        .replaceAll( ">", "&gt;" );
 }

@@ -266,6 +266,122 @@ pre
 }
 
 /* map json schema configuration data */
+.schema-card
+{
+    background: #111;
+    border: 1px solid #333;
+    border-left: 4px solid var(--orangered);
+    margin-bottom: 20px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#schema-sidebar
+{
+    width: 420px;
+    border-right: 3px solid var(--orange);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#schema-searchContainer
+{
+    padding: 10px;
+    border-bottom: 3px solid var(--orange);
+}
+
+.downloadschema-btn
+{
+    padding: 10px 80px;
+    font-size: 2em;
+    background: rgba(255,140,0, 0.8);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+#schema-search
+{
+    width: 100%;
+    padding: 8px;
+    background: var(--orange);
+    color: #333;
+    box-sizing: border-box;
+}
+
+#schema-content
+{
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+}
+
+#schema-tree
+{
+    overflow: auto;
+    flex: 1;
+    padding: 10px;
+}
+
+.schema-tree-node
+{
+    cursor: pointer;
+    padding: 2px 4px;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.schema-tree-node:hover
+{
+    background: #222;
+}
+
+.schema-tree-children
+{
+    margin-left: 18px;
+}
+
+.schema-property-object
+{
+    color: #4FC3F7;
+}
+
+.schema-property-number
+{
+    color: #81C784;
+}
+
+.schema-property-integer
+{
+    color: #AED581;
+}
+
+.schema-property-string
+{
+    color: #FFB74D;
+}
+
+.schema-property-boolean
+{
+    color: #E57373;
+}
+
+.schema-property-array
+{
+    color: #BA68C8;
+}
+
+
+
+
+
+
+/*
 .schema-table
 {
     border-collapse: collapse;
@@ -296,7 +412,6 @@ pre
     color: #00ff88
 }
 
-/*
 .tooltip
 {
     position: fixed;

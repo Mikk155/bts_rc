@@ -27,7 +27,8 @@ def Main() -> int:
         Builders.append( PyLicense() );
 
         from PyDocumentation import PyDocumentation;
-        Builders.append( PyDocumentation() );
+        # Disabled due to a Javascript implementation parsing schema directly.
+        # Builders.append( PyDocumentation() );
 
         from PyClangFormat import PyClangFormat;
         # Disabled for now due to lack of features
