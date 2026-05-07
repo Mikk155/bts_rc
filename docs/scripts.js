@@ -436,7 +436,7 @@ function ShowProperty( path )
 
     const content = document.getElementById( "schema-content" );
 
-    let html = `<h1>${path}</h1>`;
+    let html = `<h1 class="schema-h1">${path}</h1>`;
 
     html += `<div>`;
 
@@ -444,20 +444,19 @@ function ShowProperty( path )
 
     if( prop.__dynamic )
     {
-        html += Badge( "dynamic", "dynamic" );
+        html += Badge( "dynamic", "schema-dynamic" );
     }
 
     if( prop.__inheritedFrom )
     {
-        html += Badge( `inherits ${prop.__inheritedFrom}`, "inherited" );
+        html += Badge( `inherits ${prop.__inheritedFrom}`, "schema-inherited" );
     }
 
     html += `</div><br>`;
 
-    html += `<table>`;
+    html += `<table class="schema-table">`;
 
     AddRow( "Type", prop.type );
-    AddRow( "Description", prop.description );
     AddRow( "Default", JSON.stringify( prop.default ) );
     AddRow( "Minimum", prop.minimum );
     AddRow( "Maximum", prop.maximum );
@@ -483,7 +482,12 @@ function ShowProperty( path )
         AddRow( "Array Item Type", prop.items.type );
     }
 
-    html += `</table><br><h2>Raw Schema</h2><pre> ${EscapeHtml( JSON.stringify( prop, null, 4 ) )}</pre>`;
+    let description = "";
+
+    if( prop.description )
+        description = `<br><h1 class="schema-h1">Description</h1>${prop.description}<br><br>`;
+
+    html += `</table class="schema-table"><br>${description}<h2>Raw Schema</h2><pre class="terminal-header">${EscapeHtml( JSON.stringify( prop, null, 4 ) )}</pre>`;
 
     content.innerHTML = html;
 
@@ -494,8 +498,8 @@ function ShowProperty( path )
 
         html += `
             <tr>
-                <td>${name}</td>
-                <td>
+                <td class="schema-td">${name}</td>
+                <td class="schema-td">
                     <code>
                         ${EscapeHtml( String( value ) )}
                     </code>
@@ -508,7 +512,7 @@ function ShowProperty( path )
 function Badge( text, className = "" )
 {
     return `
-        <span class="badge ${className}">
+        <span class="schema-badge ${className}">
             ${text}
         </span>
     `;
