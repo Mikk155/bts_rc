@@ -16,7 +16,26 @@ document.addEventListener( "DOMContentLoaded", () =>
     initSlider();
     loadChangelog();
     loadSchemaDocs();
+    LoadLanguageCodeBlocks();
 } );
+
+async function LoadLanguageCodeBlocks()
+{
+    const link = document.createElement( "link" );
+    link.rel = "stylesheet";
+    link.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css";
+    document.head.appendChild(link);
+
+    const script = document.createElement( "script" );
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";
+
+    script.onload = () =>
+    {
+        hljs.highlightAll();
+    };
+
+    document.head.appendChild( script );
+}
 
 function initUISounds()
 {
@@ -487,7 +506,7 @@ function ShowProperty( path )
     if( prop.description )
         description = `<br><h1 class="schema-h1">Description</h1>${prop.description}<br><br>`;
 
-    html += `</table class="schema-table"><br>${description}<h2>Raw Schema</h2><pre class="terminal-header">${EscapeHtml( JSON.stringify( prop, null, 4 ) )}</pre>`;
+    html += `</table class="schema-table"><br>${description}<h2>Raw Schema</h2><pre class="terminal-header"><code class="language-json">${EscapeHtml( JSON.stringify( prop, null, 4 ) )}</code></pre>`;
 
     content.innerHTML = html;
 
@@ -507,6 +526,8 @@ function ShowProperty( path )
             </tr>
         `;
     }
+
+    hljs.highlightAll();
 }
 
 function Badge( text, className = "" )
