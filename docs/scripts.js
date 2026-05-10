@@ -401,6 +401,9 @@ function TraverseSchema( schema, currentPath )
 
         const path = currentPath ? `${currentPath}.${key}` : key;
 
+        if( currentPath )
+            property.parent = currentPath;
+
         gpPropertyIndex[ path ] = property;
 
         if( property.type === "object" )
@@ -497,6 +500,11 @@ function ShowProperty( path )
     AddRow( "Enum", prop.enum?.join( ", " ) );
     AddRow( "Path", path );
     AddRow( "Unevaluated Properties", prop.unevaluatedProperties );
+
+    if( prop.parent )
+    {
+        AddRow( "Parent", `<button class="copy-btn" onclick="ShowProperty('${prop.parent}')">${prop.parent}</button>` );
+    }
 
     if( prop.additionalProperties )
     {
