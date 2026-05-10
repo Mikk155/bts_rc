@@ -13,7 +13,8 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
-            "description": "Controls player voice responses.",
+            "title": "Player voice responses",
+            "description": "Controls player voice responses context.",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
             {
@@ -23,70 +24,77 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
-            "allOf": [ { "$ref": "#/$defs/EntityOverriden" } ],
+            "allOf": [
+                { "$ref": "#/$defs/EntityOverriden" }
+            ],
+            "title": "Turrets lasers",
             "description": "Controls laser aiming visuals for turrets.",
             "properties":
             {
                 "interval":
                 {
-                    "minimum": 0.01,
                     "default": 0.1,
-                    "type": "number",
-                    "description": "Internal think rate interval. lower values more cpu usage"
+                    "$ref": "#/$defs/EntityOverriden_Interval"
                 },
                 "red":
                 {
+                    "title": "Red color",
                     "minimum": 0,
                     "maximum": 255,
                     "default": 255,
                     "type": "integer",
-                    "description": "red color of effects"
+                    "description": "Red color of effects"
                 },
                 "green":
                 {
+                    "title": "Green color",
                     "minimum": 0,
                     "maximum": 255,
                     "default": 0,
                     "type": "integer",
-                    "description": "green color of effects"
+                    "description": "Green color of effects"
                 },
                 "blue":
                 {
+                    "title": "Blue color",
                     "minimum": 0,
                     "maximum": 255,
                     "default": 0,
                     "type": "integer",
-                    "description": "blue color of effects"
+                    "description": "Blue color of effects"
                 },
                 "alpha":
                 {
+                    "title": "Alpha color",
                     "minimum": 0,
                     "maximum": 255,
                     "default": 150,
                     "type": "integer",
-                    "description": "alpha color of effects"
+                    "description": "Alpha color of effects"
                 }
             }
         },
         "battery_lighting":
         {
+            "title": "Lighting battery",
             "type": "boolean",
-            "description": "If enabled, HEV batteries will emit dynamic light."
+            "description": "If enabled, HEV batteries will emit a blue dynamic light."
         },
         "blackops_flashbang":
         {
             "type": "object",
             "unevaluatedProperties": false,
-            "allOf": [ { "$ref": "#/$defs/EntityOverriden" } ],
+            "allOf": [
+                { "$ref": "#/$defs/EntityOverriden" }
+            ],
+            "title": "Blackops flashbangs",
             "description": "Controls blackops flashbangs feature",
             "properties":
             {
                 "interval":
                 {
-                    "minimum": 0.01,
                     "default": 0.5,
-                    "type": "number",
-                    "description": "Internal think rate interval. lower values more cpu usage"
+                    "$ref": "#/$defs/EntityOverriden_Interval"
                 },
                 "throw_flash_cooldown":
                 {
@@ -109,6 +117,7 @@
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Logging configuration per severity level.",
+            "title": "Logging",
             "properties":
             {
                 "trace": { "type": "boolean" },
@@ -123,6 +132,7 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "title": "Blood puddles",
             "description": "Controls blood puddle behavior and appearance.",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
@@ -173,6 +183,7 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "title": "Headcrab detach",
             "description": "Controls headcrab detachment behavior from zombies.",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
@@ -189,6 +200,7 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "title": "Death drop",
             "description": "Defines item drop tables for entities (by classname or model).",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "additionalProperties":
@@ -205,6 +217,7 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "title": "HEV Charger",
             "description": "Configuration for wall-mounted chargers.",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
@@ -236,6 +249,7 @@
         {
             "type": "object",
             "unevaluatedProperties": false,
+            "title": "Weapons config",
             "description": "Global weapon-related gameplay modifiers.",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
@@ -360,28 +374,38 @@
         "IConfigurable":
         {
             "type": "object",
-            "description": "Base configuration",
+            "description": "Base configuration (IConfigurable)",
             "properties":
             {
                 "active":
                 {
                     "type": "boolean",
-                    "description": "Should this context be active?"
+                    "default": true,
+                    "title": "Deactivate context",
+                    "description": "Should this context be active? By default the game will register all contexts unless explicitly set to false."
                 }
             }
         },
         "EntityOverriden":
         {
             "type": "object",
-            "description": "Base weapon configuration shared across all weapons.",
+            "description": "Base configuration for vanilla entity behaviour overrider (EntityOverriden)",
             "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "properties":
             {
             }
         },
+        "EntityOverriden_Interval":
+        {
+            "title": "Think rate",
+            "minimum": 0.01,
+            "type": "number",
+            "description": "Internal think rate interval. the lower the value the more cpu usage"
+        },
         "ASWeaponConfig":
         {
             "type": "object",
+            "title": "Weapon",
             "description": "Base weapon configuration shared across all weapons.",
             "properties":
             {
