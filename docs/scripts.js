@@ -459,7 +459,7 @@ function ShowProperty( path )
 
     html += `<div>`;
 
-    html += Badge( prop.type || "unknown" );
+//    html += Badge( prop.type || "unknown" );
 
     if( prop.__dynamic )
     {
@@ -475,7 +475,19 @@ function ShowProperty( path )
 
     html += `<table class="schema-table">`;
 
-    AddRow( "Type", prop.type );
+    let type = prop.type;
+
+    switch( type )
+    {
+        case "integer": type = `<a class="schema-property-integer" href="https://json-schema.org/understanding-json-schema/reference/numeric#integer" target="_blank">${prop.type}</a>`; break;
+        case "number": type = `<a class="schema-property-number" href="https://json-schema.org/understanding-json-schema/reference/numeric#number" target="_blank">${prop.type}</a>`; break;
+        case "boolean": type = `<a class="schema-property-boolean" href="https://json-schema.org/understanding-json-schema/reference/boolean" target="_blank">${prop.type}</a>`; break;
+        case "object": type = `<a class="schema-property-object" href="https://json-schema.org/understanding-json-schema/reference/object" target="_blank">${prop.type}</a>`; break;
+        case "string": type = `<a class="schema-property-string" href="https://json-schema.org/understanding-json-schema/reference/string" target="_blank">${prop.type}</a>`; break;
+        case "array": type = `<a class="schema-property-integer" href="https://json-schema.org/understanding-json-schema/reference/array" target="_blank">${prop.type}</a>`; break;
+    }
+
+    AddRow( "Type", type );
     AddRow( "Default", JSON.stringify( prop.default ) );
     AddRow( "Minimum", prop.minimum );
     AddRow( "Maximum", prop.maximum );
@@ -520,7 +532,7 @@ function ShowProperty( path )
                 <td class="schema-td">${name}</td>
                 <td class="schema-td">
                     <code>
-                        ${EscapeHtml( String( value ) )}
+                        ${value}
                     </code>
                 </td>
             </tr>
