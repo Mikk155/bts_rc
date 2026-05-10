@@ -361,8 +361,6 @@ function ResolveSchema( schema, inheritedFrom = null )
 {
     let resolved = DeepClone( schema );
 
-    resolved.__inheritedFrom = inheritedFrom;
-
     if( resolved.allOf )
     {
         for( const entry of resolved.allOf )
@@ -462,18 +460,6 @@ function ShowProperty( path )
 
     html += `<div>`;
 
-//    html += Badge( prop.type || "unknown" );
-
-    if( prop.__dynamic )
-    {
-        html += Badge( "dynamic", "schema-dynamic" );
-    }
-
-    if( prop.__inheritedFrom )
-    {
-        html += Badge( `inherits ${prop.__inheritedFrom}`, "schema-inherited" );
-    }
-
     html += `</div><br>`;
 
     html += `<table class="schema-table">`;
@@ -496,19 +482,12 @@ function ShowProperty( path )
     AddRow( "Maximum", prop.maximum );
     AddRow( "Min Items", prop.minItems );
     AddRow( "Max Items", prop.maxItems );
-    AddRow( "Pattern", prop.pattern );
     AddRow( "Enum", prop.enum?.join( ", " ) );
     AddRow( "Path", path );
-    AddRow( "Unevaluated Properties", prop.unevaluatedProperties );
 
     if( prop.parent )
     {
         AddRow( "Parent", `<button class="copy-btn" onclick="ShowProperty('${prop.parent}')">${prop.parent}</button>` );
-    }
-
-    if( prop.additionalProperties )
-    {
-        AddRow( "Dynamic Properties", JSON.stringify( prop.additionalProperties, null, 4 ) );
     }
 
     if( prop.properties )
