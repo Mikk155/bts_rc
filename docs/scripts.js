@@ -455,7 +455,7 @@ function ShowProperty( path )
 
     const content = document.getElementById( "schema-content" );
 
-    let html = `<h1 class="schema-h1">${path}</h1>`;
+    let html = `<h1 class="schema-h1">${ prop.title ? prop.title : path }</h1>`;
 
     html += `<div>`;
 
