@@ -32,8 +32,8 @@ enum AttackType
 abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 {
     ASWeaponConfig@ get_config() {
-        if( g_Logger.critical )
-            g_Logger.critical = snprintf( glog, "%1 does not override ASWeaponConfig@ BTS_Weapon::get_config()" );
+        if( g_Logger.critical.active )
+            g_Logger.critical.print( snprintf( glog, "%1 does not override ASWeaponConfig@ BTS_Weapon::get_config()" ) );
         return null;
     }
 
@@ -188,8 +188,8 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     {
         if( max == 0 )
         {
-            if( g_Logger.critical )
-                g_Logger.critical = snprintf( glog, "RandomUint called with an argument of zero!" );
+            if( g_Logger.critical.active )
+                g_Logger.critical.print( snprintf( glog, "RandomUint called with an argument of zero!" ) );
             return 0;
         }
 

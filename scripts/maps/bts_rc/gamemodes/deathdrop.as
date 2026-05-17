@@ -53,21 +53,21 @@ class ASDeathDropConfig : IConfigurable
                     string name = string( values[ui2] );
                     itemNames[ui2] = name;
 
-                    if( g_Logger.trace )
+                    if( g_Logger.trace.active )
                     {
-                        g_Logger.trace = snprintf( glog, "Adding drop \"%1\" for \"%2\"", name, monster );
+                        g_Logger.trace.print( snprintf( glog, "Adding drop \"%1\" for \"%2\"", name, monster ) );
                     }
                 
-                    if( g_Logger.info )
+                    if( g_Logger.info.active )
                         dropsCountLog[ name ] = int(dropsCountLog[ name ]) + 1;
                 }
 
-                if( g_Logger.info )
+                if( g_Logger.info.active )
                 {
                     auto dropsCountKeys = dropsCountLog.getKeys();
                     for( uint ui2 = 0; ui2 < dropsCountKeys.length(); ui2++ ) {
                         string name = dropsCountKeys[ui2];
-                        g_Logger.info = snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( dropsCountLog[name] ), ( name.IsEmpty() ? "nothing" : name ) );
+                        g_Logger.info.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( dropsCountLog[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                     }
                 }
 
@@ -94,8 +94,8 @@ class ASDeathDropConfig : IConfigurable
         if( drop.IsEmpty() )
             return null;
 
-        if( g_Logger.trace )
-            g_Logger.trace = snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() );
+        if( g_Logger.trace.active )
+            g_Logger.trace.print( snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() ) );
 
         if( drop == "grenade" )
         {

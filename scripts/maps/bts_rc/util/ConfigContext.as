@@ -53,8 +53,8 @@ namespace ConfigContext
 {
     void Register( IConfigurable@ context )
     {
-        if( g_Logger.info )
-            g_Logger.info = snprintf( glog, "Registering config context \"%1\"", context.Name );
+        if( g_Logger.info.active )
+            g_Logger.info.print( snprintf( glog, "Registering config context \"%1\"", context.Name ) );
 
         g_ConfigContexts.insertLast( context );
     }
@@ -73,8 +73,8 @@ namespace ConfigContext
             // If not explicitly false we asume true
             configurable.m_IsActive = contextData.FirstOrDefault( "active", true );
 
-            if( g_Logger.info )
-                g_Logger.info = snprintf( glog, "Parsing configuration context for \"%1\" with state %2", configurable.Name, ( configurable.IsActive() ? "Active" : "Disabled" ) );
+            if( g_Logger.info.active )
+                g_Logger.info.print( snprintf( glog, "Parsing configuration context for \"%1\" with state %2", configurable.Name, ( configurable.IsActive() ? "Active" : "Disabled" ) ) );
 
             configurable.Register( json.FirstOrDefault( name ) );
         }

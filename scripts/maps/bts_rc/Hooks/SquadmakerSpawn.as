@@ -52,8 +52,8 @@ namespace Hooks
         {
             if( squad !is null || !g_EntityFuncs.IsValidEntity( squad.pev.owner ) )
             {
-                if( g_Logger.error )
-                    g_Logger.error = snprintf( glog, "Failed to swap squad at %1 Null squadmaker", entity.pev.origin.ToString() );
+                if( g_Logger.error.active )
+                    g_Logger.error.print( snprintf( glog, "Failed to swap squad at %1 Null squadmaker", entity.pev.origin.ToString() ) );
                 return;
             }
 
@@ -61,8 +61,8 @@ namespace Hooks
 
             if( owner_spot is null )
             {
-                if( g_Logger.error )
-                    g_Logger.error = snprintf( glog, "Failed to swap squad at %1 Null squadmaker's owner (randomizer entity)", entity.pev.origin.ToString() );
+                if( g_Logger.error.active )
+                    g_Logger.error.print( snprintf( glog, "Failed to swap squad at %1 Null squadmaker's owner (randomizer entity)", entity.pev.origin.ToString() ) );
                 return;
             }
 

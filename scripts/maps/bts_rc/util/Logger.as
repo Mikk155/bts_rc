@@ -23,137 +23,241 @@
 
 string glog;
 
+namespace Logger
+{
+    class ASLogger
+    {
+        protected
+            bool m_IsActive = true;
+
+        const bool get_active() const {
+            return this.m_IsActive;
+        }
+
+        void SetLevel( bool value )
+        {
+            this.m_IsActive = value;
+            snprintf( glog, "%1 logger level %2", ( value ? "Enabled" : "Disabled" ), this.id );
+            this.print_buffer();
+        }
+
+        bool ToggleLevel()
+        {
+            SetLevel( !this.active );
+            return this.active;
+        }
+
+        protected
+            string m_Name;
+
+        const string& get_name() const {
+            return this.m_Name;
+        }
+
+        protected
+            string m_Id;
+
+        const string& get_id() const {
+            return this.m_Id;
+        }
+
+        ASLogger( const string&in id, const string&in name )
+        {
+            this.m_Id = id;
+            this.m_Name = name;
+        }
+
+        void print( const string&in message, array<string>@ arguments = null ) const
+        {
+            if( !this.active )
+                return;
+
+            glog = message;
+
+            if( arguments !is null )
+            {
+                uint length = arguments.length();
+
+                for( uint ui = 0; ui < length; ui++ )
+                {
+                    uint index = glog.Find( "{}" );
+
+                    if( index == String::INVALID_INDEX )
+                    {
+                        g_Game.AlertMessage( at_console, "Error: Logger with id \"%1\" is printing more arguments than defined in message!\nIssued message: ", this.id );
+                        break;
+                    }
+                    snprintf( glog, "%1%2%3", glog.SubString( 0, index ), arguments[ui], glog.SubString( index + 2 ) );
+                }
+            }
+
+            this.print_buffer();
+        }
+
+        void print( const bool _snprintf ) const {
+            if( this.active )
+                this.print_buffer();
+        }
+
+        protected
+            void print_buffer() const
+            {
+                string buffer;
+                snprintf( buffer, "[%1] %2\n", this.name, glog );
+                glog = String::EMPTY_STRING;
+
+                if( g_EngineFuncs.IsDedicatedServer() )
+                {
+                    g_EngineFuncs.ServerPrint( buffer );
+                }
+                // Host is not yet fully connected, print to server console not network client
+                else if( g_Engine.time < 5 )
+                {
+                    auto host = g_PlayerFuncs.FindPlayerByIndex(0);
+
+                    if( host is null || !host.IsConnected() )
+                    {
+                        g_EngineFuncs.ServerPrint( buffer );
+                        return;
+                    }
+                }
+
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
+            }
+    }
+}
+
 class CLogger
 {
-    bool __trace__;
-    bool __debug__;
-    bool __info__;
-    bool __warning__;
-    bool __error__;
-    bool __critical__;
-
-    bool Toggle( const string&in loggerName )
+    protected
+        array<Logger::ASLogger@> m_Loggers(0);
+    
+    const array<Logger::ASLogger@>@ get_Loggers()
     {
-        if( loggerName == "trace" )
-            this.__trace__ = !this.__trace__;
-        else if( loggerName == "debug" )
-            this.__debug__ = !this.__debug__;
-        else if( loggerName == "info" )
-            this.__info__ = !this.__info__;
-        else if( loggerName == "warning" )
-            this.__warning__ = !this.__warning__;
-        else if( loggerName == "error" )
-            this.__error__ = !this.__error__;
-        else if( loggerName == "critical" )
-            this.__critical__ = !this.__critical__;
-        else
-            return false;
-
-        return true;
+        return @this.m_Loggers;
     }
 
-    bool IsActive( const string&in loggerName )
+    protected 
+        Logger::ASLogger@ GetLoggerHandle( const string&in id )
+        {
+            uint length = this.m_Loggers.length();
+
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                auto logger = this.m_Loggers[ui];
+
+                if( logger.id == id )
+                {
+                    return @logger;
+                }
+            }
+            return null;
+        }
+
+    const Logger::ASLogger@ GetLogger( const string&in id )
     {
-        if( loggerName == "trace" )
-            return this.__trace__;
-        else if( loggerName == "debug" )
-            return this.__debug__;
-        else if( loggerName == "info" )
-            return this.__info__;
-        else if( loggerName == "warning" )
-            return this.__warning__;
-        else if( loggerName == "error" )
-            return this.__error__;
-        else if( loggerName == "critical" )
-            return this.__critical__;
+        return this.GetLoggerHandle(id);
+    }
+
+    Logger::ASLogger trace( "trace", "Trace" );
+    Logger::ASLogger debug( "debug", "Debug" );
+    Logger::ASLogger info( "info", "Information" );
+    Logger::ASLogger warning( "warning", "Warning" );
+    Logger::ASLogger error( "error", "Error" );
+    Logger::ASLogger critical( "critical", "Critical" );
+
+    bool IsActive( const string&in id )
+    {
+        const auto logger = this.GetLoggerHandle(id);
+        return ( logger !is null && logger.active );
+    }
+
+    bool SetLevel( const string&in id, bool&in value )
+    {
+        auto logger = this.GetLoggerHandle(id);
+
+        if( logger !is null )
+        {
+            logger.SetLevel( value );
+            return true;
+        }
+        g_Game.AlertMessage( at_console, "ERROR: Unexistent logger with name \"%1\"\n", id );
         return false;
     }
 
-    void print( const string&in loggerName )
+    bool Toggle( const string&in id )
     {
-        string buffer;
-        snprintf( buffer, "[%1] %2\n", loggerName, glog );
-        glog = String::EMPTY_STRING;
+        auto logger = this.GetLoggerHandle(id);
 
-        if( g_EngineFuncs.IsDedicatedServer() )
+        if( logger !is null )
         {
-            g_EngineFuncs.ServerPrint( buffer );
+            return logger.ToggleLevel();
         }
-        // Host is not yet fully connected, print to server console not network client
-        else if( g_Engine.time < 5 )
-        {
-            auto host = g_PlayerFuncs.FindPlayerByIndex(0);
-
-            if( host is null || !host.IsConnected() )
-            {
-                g_EngineFuncs.ServerPrint( buffer );
-                return;
-            }
-        }
-
-        g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
+        g_Game.AlertMessage( at_console, "ERROR: Unexistent logger with name \"%1\"\n", id );
+        return false;
     }
 
-    bool trace {
-        get { return this.__trace__; }
-        set { this.print( "trace" ); }
+    protected RegisterCommand@ command;
+    const RegisterCommand@ get_Command() {
+        return @this.command;
     }
 
-    bool debug {
-        get { return this.__debug__; }
-        set { this.print( "debug" ); }
-    }
-
-    bool info {
-        get { return this.__info__; }
-        set { this.print( "info" ); }
-    }
-
-    bool warning {
-        get { return this.__warning__; }
-        set { this.print( "warning" ); }
-    }
-
-    bool error {
-        get { return this.__error__; }
-        set { this.print( "error" ); }
-    }
-
-    bool critical {
-        get { return this.__critical__; }
-        set { this.print( "critical" ); }
-    }
-
-    private bool GetLoggerState( const string&in loggerName, BTSJson@ json )
+    void Register( meta_api::json::v2::json@ json )
     {
-        bool level = json.FirstOrDefault( loggerName, true );
-        g_Game.AlertMessage( at_console, "Set logger \"%1\" state to %2\n", loggerName, ( level ? "Enabled" : "Disabled" ) );
-        return level;
-    }
-    
-    private bool m_IsRegistered;
-
-    void Register( BTSJson@ json )
-    {
-        if( this.m_IsRegistered )
+        if( this.m_Loggers.length() > 0 )
             return;
 
-        this.m_IsRegistered = true;
+        this.m_Loggers = {
+            @this.trace,
+            @this.debug,
+            @this.info,
+            @this.warning,
+            @this.error,
+            @this.critical
+        };
 
-        this.__trace__ = this.GetLoggerState( "trace", json );
-        this.__debug__ = this.GetLoggerState( "debug", json );
-        this.__info__ = this.GetLoggerState( "info", json );
-        this.__warning__ = this.GetLoggerState( "warning", json );
-        this.__error__ = this.GetLoggerState( "error", json );
-        this.__critical__ = this.GetLoggerState( "critical", json );
+        this.trace.SetLevel( json.FirstOrDefault( "trace", false ) );
+        this.debug.SetLevel( json.FirstOrDefault( "debug", false ) );
+        this.info.SetLevel( json.FirstOrDefault( "info", false ) );
+        this.warning.SetLevel( json.FirstOrDefault( "warning", false ) );
+        this.error.SetLevel( json.FirstOrDefault( "error", true ) );
+        this.critical.SetLevel( json.FirstOrDefault( "critical", true ) );
 
-        RegisterCommand( "log", "<string logger>", "Toggle log levels. one of; trace, debug, info, warning, error, critical.", 
+        string commandHelp = "One of: ";
+        uint length = this.m_Loggers.length();
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            auto logger = this.m_Loggers[ui];
+            snprintf( commandHelp, "%1%2%3", commandHelp, ( ui > 0 ? ", " : "" ), logger.id );
+        }
+
+        @command = RegisterCommand( "log", "<string logger>", commandHelp, 
             CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
-                if( arguments is null || arguments.length() <= 0 || !g_Logger.Toggle( arguments[0] ) )
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "You have to provide a valid argument! one of; trace, debug, info, warning, error, critical.\n" );
-                else
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Toggled logger " + arguments[0] + " to " + ( g_Logger.IsActive( arguments[0] ) ? "true" : "false" ) + ".\n" );
+                bool isValid = ( arguments !is null && arguments.length() > 0 );
+
+                const auto levels = g_Logger.Loggers;
+                uint length = levels.length();
+
+                if( isValid )
+                {
+                    string id = arguments[0];
+
+                    for( uint ui = 0; ui < length; ui++ ) {
+                        if( ( isValid = levels[ui].id == id ) )
+                            break;
+                    }
+                }
+
+                if( !isValid )
+                {
+                    string buffer;
+                    snprintf( buffer, "You have to provide a valid argument! %1\n", g_Logger.Command.Help );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                    return;
+                }
+
+                g_Logger.Toggle( arguments[0] );
             }
         ), true );
     }

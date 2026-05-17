@@ -74,8 +74,8 @@ abstract class EntityOverriden : IConfigurable
 
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
-                if( g_Logger.warning )
-                    g_Logger.warning = snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.Name, index );
+                if( g_Logger.warning.active )
+                    g_Logger.warning.print( snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.Name, index ) );
                 this.m_Handles.removeAt(index);
                 continue;
             }
@@ -89,8 +89,8 @@ abstract class EntityOverriden : IConfigurable
 
             if( ( flags & EntityOverridenAction::Remove ) != 0 )
             {
-                if( g_Logger.trace )
-                    g_Logger.trace = snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.Name, index );
+                if( g_Logger.trace.active )
+                    g_Logger.trace.print( snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.Name, index ) );
                 this.m_Handles.removeAt(index);
             }
 

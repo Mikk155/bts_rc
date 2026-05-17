@@ -23,6 +23,7 @@
 
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/meta_api/json/v1"
+#include "../../../mikk155/meta_api/json/v2"
 #include "../../../mikk155/Server/chrono"
 
 #include "CommandContext"
@@ -63,8 +64,8 @@ uint8 RandomUint( uint8 max, CBasePlayer@ player )
 
     if( max == 0 )
     {
-        if( g_Logger.critical )
-            g_Logger.critical = snprintf( glog, "RandomUint called with an argument of zero!" );
+        if( g_Logger.critical.active )
+            g_Logger.critical.print( snprintf( glog, "RandomUint called with an argument of zero!" ) );
         return 0;
     }
 

@@ -111,22 +111,28 @@ void MapInit()
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
     }
 
+    meta_api::json::v2::json@ configuration;
+    if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", configuration ) )
+    {
+        g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
+    }
+
+    g_Logger.Register( configuration.FirstOrDefault( "log" ) );
+
     BTSJson@ json = BTSJson( config, "Global Scope" );
 
-    g_Logger.Register( json.FirstOrDefault( "log" ) );
-
-    if( g_Logger.info )
+    if( g_Logger.info.active )
     {
         chrono.Stop();
-        g_Logger.info = snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+        g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
     ConfigContext::Registry( @json );
 
-    if( g_Logger.info )
+    if( g_Logger.info.active )
     {
         chrono.Stop();
-        g_Logger.info = snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+        g_Logger.info.print( snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
     /// Equipable suits
@@ -172,10 +178,10 @@ void MapInit()
     RegisterCharacter( "bts_op_signal", Hands::Gray, Classification::Operative );
     RegisterCharacter( "bts_op_vet", Hands::Gray, Classification::Operative );
 
-    if( g_Logger.info )
+    if( g_Logger.info.active )
     {
         chrono.Stop();
-        g_Logger.info = snprintf( glog, "Finish initializing player characters in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+        g_Logger.info.print( snprintf( glog, "Finish initializing player characters in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
     models::Precache();
@@ -188,10 +194,10 @@ void MapInit()
 
     g_WeaponsConfig.MapInit();
 
-    if( g_Logger.info )
+    if( g_Logger.info.active )
     {
         chrono.Stop();
-        g_Logger.info = snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds );
+        g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
     oldweapons::init();

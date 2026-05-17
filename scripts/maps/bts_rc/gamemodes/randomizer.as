@@ -71,8 +71,8 @@ namespace randomizer
                         @squad.pev.owner = @randomizer.edict();
                         g_EntityFuncs.SetOrigin( squad, randomizer.GetOrigin() );
 
-                        if( g_Logger.trace )
-                            g_Logger.trace = snprintf( glog, "Randomized %1 to %2 at %3", squad.GetClassname(), randomizer.GetClassname(), randomizer.GetOrigin().ToString() );
+                        if( g_Logger.trace.active )
+                            g_Logger.trace.print( snprintf( glog, "Randomized %1 to %2 at %3", squad.GetClassname(), randomizer.GetClassname(), randomizer.GetOrigin().ToString() ) );
                     }
                     break;
                 }
@@ -92,8 +92,8 @@ namespace randomizer
             randomized.insertLast( pRandomizer.entindex() );
         }
 
-        if( g_Logger.info )
-            g_Logger.info = snprintf( glog, "Got %1 %2", randomized.length(), entityName );
+        if( g_Logger.info.active )
+            g_Logger.info.print( snprintf( glog, "Got %1 %2", randomized.length(), entityName ) );
 
         uint entityList_size = entityList.length();
         uint randomizer_size = randomized.length();
@@ -107,8 +107,8 @@ namespace randomizer
             randomized[j] = temp;
         }
 
-        if( g_Logger.critical && entityList_size > randomized.length() )
-            g_Logger.critical = snprintf( glog, "Not enough randomizers for all the entities required! expected at least %1 %2", entityList_size, entityName );
+        if( g_Logger.critical.active && entityList_size > randomized.length() )
+            g_Logger.critical.print( snprintf( glog, "Not enough randomizers for all the entities required! expected at least %1 %2", entityList_size, entityName ) );
 
         for( uint ui = 0; ui < randomizer_size; ui++ )
         {
