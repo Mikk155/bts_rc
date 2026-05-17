@@ -30,23 +30,26 @@ class ASDeathDropConfig : IConfigurable
         return "deathdrop";
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( this.IsActive() )
         {
-            array<string>@ monsters = json.data.getKeys();
+            array<string>@ monsters = json.Keys;
             uint size = monsters.length();
 
             for( uint ui = 0; ui < size; ui++ )
             {
                 string monster = monsters[ui];
-                dictionary values = cast<dictionary@>( json.data[ monster ] );
+                meta_api::json::v2::json@ values = json.First( monster );
 
-                uint valuesSize = values.getSize();
+                uint valuesSize = values.Length();
 
                 dictionary dropsCountLog;
 
                 array<string> itemNames( valuesSize );
+
+                if( g_Logger.debug.active )
+                    g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", monster ) );
 
                 for( uint ui2 = 0; ui2 < valuesSize; ui2++ )
                 {
@@ -58,16 +61,16 @@ class ASDeathDropConfig : IConfigurable
                         g_Logger.trace.print( snprintf( glog, "Adding drop \"%1\" for \"%2\"", name, monster ) );
                     }
                 
-                    if( g_Logger.info.active )
+                    if( g_Logger.trace.active )
                         dropsCountLog[ name ] = int(dropsCountLog[ name ]) + 1;
                 }
 
-                if( g_Logger.info.active )
+                if( g_Logger.trace.active )
                 {
                     auto dropsCountKeys = dropsCountLog.getKeys();
                     for( uint ui2 = 0; ui2 < dropsCountKeys.length(); ui2++ ) {
                         string name = dropsCountKeys[ui2];
-                        g_Logger.info.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( dropsCountLog[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
+                        g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( dropsCountLog[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                     }
                 }
 
@@ -94,8 +97,8 @@ class ASDeathDropConfig : IConfigurable
         if( drop.IsEmpty() )
             return null;
 
-        if( g_Logger.trace.active )
-            g_Logger.trace.print( snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() ) );
+        if( g_Logger.debug.active )
+            g_Logger.debug.print( snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() ) );
 
         if( drop == "grenade" )
         {

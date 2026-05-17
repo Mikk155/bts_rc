@@ -27,7 +27,7 @@ namespace Flashlight
     int flashlight_capacity;
     int flashlight_ammount;
 
-    void Register( BTSJson@ json )
+    void Register( meta_api::json::v2::json@ json )
     {
         flashlight_drain = Math.max( 0.1f, json.FirstOrDefault( "flashlight_drain", 0.4f ) );
         flashlight_capacity = Math.max( 0, json.FirstOrDefault( "flashlight_capacity", 10 ) );

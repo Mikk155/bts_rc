@@ -87,7 +87,7 @@ class CGlobalWeaponConfig : IConfigurable
         this.ItemMappingList.resize(0);
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.melee_weapons_pull = json.FirstOrDefault( "melee_weapons_pull", true );
         this.melee_weapons_pull_force = Math.max( 1, json.FirstOrDefault( "melee_weapons_pull_force", 300 ) );

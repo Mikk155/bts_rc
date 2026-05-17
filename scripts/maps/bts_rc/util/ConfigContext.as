@@ -35,7 +35,7 @@ abstract class IConfigurable
     }
 
     /// Called at MapInit for parsing the object from the json with this class's Name. See this.IsActive() to register your stuff
-    void Register( BTSJson@ json ) {
+    void Register( meta_api::json::v2::json@ json ) {
     }
 
     bool m_IsActive;
@@ -59,7 +59,7 @@ namespace ConfigContext
         g_ConfigContexts.insertLast( context );
     }
 
-    void Registry( BTSJson@ json )
+    void Registry( meta_api::json::v2::json@ json, Server::chrono@ chrono )
     {
         uint length = g_ConfigContexts.length();
 
@@ -68,7 +68,7 @@ namespace ConfigContext
             IConfigurable@ configurable = g_ConfigContexts[ui];
             string name = configurable.Name;
 
-            BTSJson@ contextData = json.FirstOrDefault( name );
+            meta_api::json::v2::json@ contextData = json.FirstOrDefault(name);
 
             // If not explicitly false we asume true
             configurable.m_IsActive = contextData.FirstOrDefault( "active", true );
@@ -77,6 +77,12 @@ namespace ConfigContext
                 g_Logger.info.print( snprintf( glog, "Parsing configuration context for \"%1\" with state %2", configurable.Name, ( configurable.IsActive() ? "Active" : "Disabled" ) ) );
 
             configurable.Register( json.FirstOrDefault( name ) );
+        }
+        
+        if( g_Logger.info.active )
+        {
+            chrono.Stop();
+            g_Logger.info.print( snprintf( glog, "Configured all config contexts. %1:%2 seconds elapsed since the map started.", chrono.Seconds, chrono.Miliseconds ) );
         }
     }
 }

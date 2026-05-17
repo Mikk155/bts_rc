@@ -54,7 +54,7 @@ class ASZombieUncrabConfig : IConfigurable
         return true;
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( this.IsActive() )
         {

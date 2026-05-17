@@ -38,7 +38,7 @@ final class ASBloodPuddleConfig : IConfigurable
         return "bloodpuddle";
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( this.IsActive() )
         {
@@ -49,11 +49,11 @@ final class ASBloodPuddleConfig : IConfigurable
             this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "0", 1.5f ) ) );
             this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "1", 2.5f ) ) );
 
-            dictionary@ custom_size = cast<dictionary@>( json.data[ "custom_size" ] );
+            meta_api::json::v2::json@ custom_size = json.FirstOrDefault( "custom_size" );
 
             array<float> temp(2);
 
-            if( custom_size is null || custom_size.isEmpty() )
+            if( custom_size.Length() <= 0 )
             {
                 temp[0] = 0.5f; temp[1] = 1.5f;
                 CustomSizes[ "monster_headcrab" ] = temp;
@@ -70,14 +70,14 @@ final class ASBloodPuddleConfig : IConfigurable
             }
             else
             {
-                array<string>@ monsterNames = custom_size.getKeys();
+                array<string>@ monsterNames = custom_size.Keys;
                 uint monsterSize = monsterNames.length();
                 for( uint ui = 0; ui < monsterSize; ui++ )
                 {
                     string name = monsterNames[ui];
-                    dictionary@ dict = cast<dictionary@>( custom_size[ name ] );
+                    meta_api::json::v2::json@ dict = custom_size.First( name );
 
-                    temp[0] = Math.max( 0.1f, float(dict["0"])); temp[1] = Math.max( 0.1f, float(dict["1"]));
+                    temp[0] = Math.max( 0.1f, float(dict[0])); temp[1] = Math.max( 0.1f, float(dict[1]));
                     CustomSizes[ name ] = temp;
 
 #if I_HATE_WARNINGS

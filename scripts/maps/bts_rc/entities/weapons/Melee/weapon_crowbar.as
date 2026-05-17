@@ -132,7 +132,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapon.TertiaryAttack();
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.deploy_time = 0.4;
         this.primary_damage = 13;

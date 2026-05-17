@@ -36,7 +36,7 @@ final class ASWallRechargerConfig : IConfigurable
         return "wall_recharger";
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         CustomEntity( "func_bts_recharger", true );
 

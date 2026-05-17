@@ -105,7 +105,7 @@ abstract class EntityOverriden : IConfigurable
     float interval;
     float nextthink;
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( this.IsActive() )
         {

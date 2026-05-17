@@ -89,7 +89,7 @@ class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 0;
         this.position = 5;

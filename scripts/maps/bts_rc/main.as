@@ -104,13 +104,6 @@ void MapInit()
 {
     Server::chrono@ chrono = Server::chrono();
 
-    dictionary config;
-
-    if( !meta_api::json::v1::Deserialize( "bts_rc/config.json", config ) )
-    {
-        g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
-    }
-
     meta_api::json::v2::json@ json;
     if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", json ) )
     {
@@ -119,21 +112,13 @@ void MapInit()
 
     g_Logger.Register( json.FirstOrDefault( "log" ) );
 
-    BTSJson@ btsjson = BTSJson( config, "Global Scope" );
-
     if( g_Logger.info.active )
     {
         chrono.Stop();
         g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
-    ConfigContext::Registry( @btsjson );
-
-    if( g_Logger.info.active )
-    {
-        chrono.Stop();
-        g_Logger.info.print( snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
-    }
+    ConfigContext::Registry( json, chrono );
 
     RegisterAllCharacters( json.First( "characters" ), chrono );
 

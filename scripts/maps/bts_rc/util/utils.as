@@ -22,14 +22,12 @@
 */
 
 #include "../../../mikk155/meta_api"
-#include "../../../mikk155/meta_api/json/v1"
 #include "../../../mikk155/meta_api/json/v2"
 #include "../../../mikk155/Server/chrono"
 
 #include "CommandContext"
 #include "ConfigContext"
 #include "EntityOverriden"
-#include "json"
 #include "Logger"
 #include "models"
 #include "PlayerClass"

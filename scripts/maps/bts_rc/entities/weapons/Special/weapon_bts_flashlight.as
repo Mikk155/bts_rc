@@ -132,7 +132,7 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
         }
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.deploy_time = 0.5;
         this.slot = 4;

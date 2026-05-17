@@ -58,7 +58,7 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
         }
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.primary_distance = json.FirstOrDefault( "primary_distance", this.primary_distance );
         this.secondary_distance = json.FirstOrDefault( "secondary_distance", this.secondary_distance );

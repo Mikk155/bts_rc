@@ -144,7 +144,7 @@ final class CVoiceResponse : IConfigurable
         }
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( !this.IsActive() )
             return;

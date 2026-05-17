@@ -34,7 +34,7 @@ final class TurretsLasers : EntityOverriden
         return "turret_lasers";
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( this.IsActive() )
         {

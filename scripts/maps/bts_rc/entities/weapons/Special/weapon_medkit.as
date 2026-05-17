@@ -139,7 +139,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
     float health_gain;
     float health_cost;
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.health_ammount = json.FirstOrDefault( "health_ammount", 10 );
         this.health_gain = json.FirstOrDefault( "health_gain", 10 );

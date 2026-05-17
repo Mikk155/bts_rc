@@ -34,7 +34,7 @@ class BlackOpsFlashbang : EntityOverriden
     private float throw_flash_cooldown;
     private float detonate_time;
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         if( this.IsActive() )
         {

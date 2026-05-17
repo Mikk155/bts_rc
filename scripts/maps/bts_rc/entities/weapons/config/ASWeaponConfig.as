@@ -154,7 +154,7 @@ abstract class ASWeaponConfig : IConfigurable
             g_Game.PrecacheModel( this.world_model );
     }
 
-    void Register( BTSJson@ json ) override
+    void Register( meta_api::json::v2::json@ json ) override
     {
         this.primary_maxammo = json.FirstOrDefault( "primary_maxammo", this.primary_maxammo );
         this.secondary_maxammo = json.FirstOrDefault( "secondary_maxammo", this.secondary_maxammo );
