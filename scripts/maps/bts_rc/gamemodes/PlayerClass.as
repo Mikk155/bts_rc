@@ -163,18 +163,65 @@ class CCharacter
 array<array<CCharacter@>> g_Characters(Classification::__Size__);
 array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
-CCharacter@ RegisterCharacter( const string&in modelName, Hands hands, const Classification&in classify )
+void RegisterAllCharacters( meta_api::json::v2::json@ json, Server::chrono@ chrono )
 {
-    array<CCharacter@>@ list = g_Characters[classify];
+    if( json is null )
+        g_Logger.critical.print( "Could not parse \"characters\" from json! things will break!" );
 
-    auto character = CCharacter( modelName, hands, classify );
+    uint length = json.Length();
 
-    list.insertLast( @character );
+    for( uint ui = 0; ui < length; ui++ )
+    {
+        auto character_data = json[ui];
+        string character_name = string( character_data[0] );
+        Classification character_classify = Classification( int( character_data[1] ) );
+        Hands character_hands = Hands( int( character_data[2] ) );
 
-    // For randomization
-    g_LastSelectedCharacter[classify] = Math.RandomLong( 0, list.length() - 1 );
+        array<CCharacter@>@ list = g_Characters[character_classify];
 
-    return @character;
+        CCharacter@ character = CCharacter( character_name, character_hands, character_classify );
+
+        list.insertLast( @character );
+
+        // For randomization
+        g_LastSelectedCharacter[character_classify] = Math.RandomLong( 0, list.length() - 1 );
+
+        if( g_Logger.debug.active )
+        {
+            string strlog;
+            snprintf( strlog, "Registered character \"%1\" at classify %2 ", character_name, int( character_classify ));
+            switch( character_classify )
+            {
+                case Classification::Security: snprintf( strlog, "%1\"%2\"", strlog, "Security" ); break;
+                case Classification::Scientist: snprintf( strlog, "%1\"%2\"", strlog, "Scientist" ); break;
+                case Classification::Maintenance: snprintf( strlog, "%1\"%2\"", strlog, "Maintenance" ); break;
+                case Classification::HEV: snprintf( strlog, "%1\"%2\"", strlog, "HEV" ); break;
+                case Classification::Hazard: snprintf( strlog, "%1\"%2\"", strlog, "Hazard" ); break;
+                case Classification::Operative: snprintf( strlog, "%1\"%2\"", strlog, "Operative" ); break;
+            }
+            snprintf( strlog, "%1 using hands %2 ", strlog, int( character_hands ) );
+            switch( character_hands )
+            {
+                case Hands::Blue: snprintf( strlog, "%1\"%2\"", strlog, "Blue" ); break;
+                case Hands::White: snprintf( strlog, "%1\"%2\"", strlog, "White" ); break;
+                case Hands::Orange: snprintf( strlog, "%1\"%2\"", strlog, "Orange" ); break;
+                case Hands::WhiteBlackHands: snprintf( strlog, "%1\"%2\"", strlog, "WhiteBlackHands" ); break;
+                case Hands::Hevsuit: snprintf( strlog, "%1\"%2\"", strlog, "Hevsuit" ); break;
+                case Hands::Cleansuit: snprintf( strlog, "%1\"%2\"", strlog, "Cleansuit" ); break;
+                case Hands::Gray: snprintf( strlog, "%1\"%2\"", strlog, "Gray" ); break;
+                case Hands::BlueBlackHands: snprintf( strlog, "%1\"%2\"", strlog, "BlueBlackHands" ); break;
+                case Hands::Green: snprintf( strlog, "%1\"%2\"", strlog, "Green" ); break;
+                case Hands::GrayGloves: snprintf( strlog, "%1\"%2\"", strlog, "GrayGloves" ); break;
+            }
+            g_Logger.debug.print( strlog );
+        }
+    }
+
+    if( g_Logger.info.active )
+    {
+        chrono.Stop();
+        g_Logger.info.print( snprintf( glog, "Finish initializing player characters. %1:%2 seconds elapsed since the map started.", chrono.Seconds, chrono.Miliseconds ) );
+    }
 }
 
 CCharacter@ SetRandomCharacter( CBasePlayer@ player, const Classification&in classify )

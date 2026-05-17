@@ -9,6 +9,58 @@
             "type": "string",
             "description": "Reference to the JSON schema file used for validation and editor hinting."
         },
+        "characters":
+        {
+            "type": "array",
+            "unevaluatedProperties": false,
+            "title": "Playable characters",
+            "description": "Define a playable character by name, hands and classification in that order",
+            "items":
+            {
+                "type": "array",
+                "title": "Character definition",
+                "description": "Define a playable character by name, hands and classification in that order",
+                "minItems": 3,
+                "maxItems": 3,
+                "prefixItems":
+                [
+                    {
+                        "type": "string",
+                        "description": "Character model name"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Classification used for the character",
+                        "oneOf":
+                        [
+                            { "const": 0, "description": "Security classify" },
+                            { "const": 1, "description": "Scientist classify" },
+                            { "const": 2, "description": "Maintenance classify" },
+                            { "const": 4, "description": "HEV classify" },
+                            { "const": 5, "description": "Hazard classify" },
+                            { "const": 6, "description": "Operative classify" }
+                        ]
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Hands used for the character",
+                        "oneOf":
+                        [
+                            { "const": 0, "description": "Security arms" },
+                            { "const": 1, "description": "Scientist arms" },
+                            { "const": 2, "description": "Orange Maintenance arms" },
+                            { "const": 3, "description": "Black Scientist arms" },
+                            { "const": 4, "description": "HEV suit arms" },
+                            { "const": 5, "description": "Hazard clean suit arms" },
+                            { "const": 6, "description": "Operative arms" },
+                            { "const": 7, "description": "Black Security arms" },
+                            { "const": 8, "description": "Green Maintenance arms" },
+                            { "const": 9, "description": "Operative with gloves arms" }
+                        ]
+                    }
+                ]
+            }
+        },
         "voice_responses":
         {
             "type": "object",
