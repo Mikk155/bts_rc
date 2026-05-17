@@ -290,90 +290,118 @@ namespace meta_api
                 {
                     return ( this.m_KeyValues.exists( keyName ) && ( @value = cast<meta_api::json::v2::json@>( this.m_KeyValues[ keyName ] ) ) !is null );
                 }
+
+                /// Get the value&out and return whatever the value exists or not
+                /// If strict is false floats and integers are converted to boolean and returned.
+                bool Get( bool&out value, bool strict = true )
+                {
+                    if( strict && this.Type != meta_api::json::v2::Type::Boolean )
+                        return false;
+
+                    switch( this.Type )
+                    {
+                        case meta_api::json::v2::Type::Integer:
+                            value = ( int( this.Value ) > 0 );
+                            return true;
+                        case meta_api::json::v2::Type::Float:
+                            value = ( int( float( this.Value ) ) > 0 );
+                            return true;
+                        case meta_api::json::v2::Type::Boolean:
+                            value = bool( this.Value );
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
                 /// Get the value&out and return whatever the value exists or not
                 /// If strict is false floats and integers are converted to boolean and returned.
                 bool Get( const string&in keyName, bool&out value, bool strict = true )
                 {
                     meta_api::json::v2::json@ obj;
-                    if( this.Get( keyName, obj ) )
-                    {
-                        if( strict && obj.Type != meta_api::json::v2::Type::Boolean )
-                            return false;
-
-                        switch( obj.Type )
-                        {
-                            case meta_api::json::v2::Type::Integer:
-                                value = ( int( obj.Value ) > 0 );
-                                return true;
-                            case meta_api::json::v2::Type::Float:
-                                value = ( int( float( obj.Value ) ) > 0 );
-                                return true;
-                            case meta_api::json::v2::Type::Boolean:
-                                value = bool( obj.Value );
-                                return true;
-                        }
-                    }
-                    return false;
+                    return ( this.Get( keyName, obj ) && obj.Get( value, strict ) );
                 }
+
+                /// Get the value&out and return whatever the value exists or not.
+                /// If strict is false floats and booleans are converted to integer and returned.
+                bool Get( int&out value, bool strict = true )
+                {
+                    if( strict && this.Type != meta_api::json::v2::Type::Integer )
+                        return false;
+
+                    switch( this.Type )
+                    {
+                        case meta_api::json::v2::Type::Boolean:
+                            value = ( bool( this.Value ) ? 1 : 0 );
+                            return true;
+                        case meta_api::json::v2::Type::Float:
+                            value = int( float( this.Value ) );
+                            return true;
+                        case meta_api::json::v2::Type::Integer:
+                            value = int( this.Value );
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
                 /// Get the value&out and return whatever the value exists or not.
                 /// If strict is false floats and booleans are converted to integer and returned.
                 bool Get( const string&in keyName, int&out value, bool strict = true )
                 {
                     meta_api::json::v2::json@ obj;
-                    if( this.Get( keyName, obj ) )
-                    {
-                        if( strict && obj.Type != meta_api::json::v2::Type::Integer )
-                            return false;
-
-                        switch( obj.Type )
-                        {
-                            case meta_api::json::v2::Type::Boolean:
-                                value = ( bool( obj.Value ) ? 1 : 0 );
-                                return true;
-                            case meta_api::json::v2::Type::Float:
-                                value = int( float( obj.Value ) );
-                                return true;
-                            case meta_api::json::v2::Type::Integer:
-                                value = int( obj.Value );
-                                return true;
-                        }
-                    }
-                    return false;
+                    return ( this.Get( keyName, obj ) && obj.Get( value, strict ) );
                 }
+
+                /// Get the value&out and return whatever the value exists or not.
+                /// If strict is false integers and booleans are converted to float and returned.
+                bool Get( float&out value, bool strict = true )
+                {
+                    if( strict && this.Type != meta_api::json::v2::Type::Float )
+                        return false;
+
+                    switch( this.Type )
+                    {
+                        case meta_api::json::v2::Type::Boolean:
+                            value = ( bool( this.Value ) ? 1.0f : 0.0f );
+                            return true;
+                        case meta_api::json::v2::Type::Integer:
+                            value = float( int( this.Value ) );
+                            return true;
+                        case meta_api::json::v2::Type::Float:
+                            value = float( this.Value );
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
                 /// Get the value&out and return whatever the value exists or not.
                 /// If strict is false integers and booleans are converted to float and returned.
                 bool Get( const string&in keyName, float&out value, bool strict = true )
                 {
                     meta_api::json::v2::json@ obj;
-                    if( this.Get( keyName, obj ) )
-                    {
-                        if( strict && obj.Type != meta_api::json::v2::Type::Float )
-                            return false;
-
-                        switch( obj.Type )
-                        {
-                            case meta_api::json::v2::Type::Boolean:
-                                value = ( bool( obj.Value ) ? 1.0f : 0.0f );
-                                return true;
-                            case meta_api::json::v2::Type::Integer:
-                                value = float( int( obj.Value ) );
-                                return true;
-                            case meta_api::json::v2::Type::Float:
-                                value = float( obj.Value );
-                                return true;
-                        }
-                    }
-                    return false;
+                    return ( this.Get( keyName, obj ) && obj.Get( value, strict ) );
                 }
+
+                /// Get the value&out and return whatever the value exists or not
+                bool Get( string&out value )
+                {
+                    switch( this.Type )
+                    {
+                        case meta_api::json::v2::Type::String:
+                            value = string( this.Value );
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
                 /// Get the value&out and return whatever the value exists or not
                 bool Get( const string&in keyName, string&out value )
                 {
                     meta_api::json::v2::json@ obj;
-                    if( this.Get( keyName, obj ) && obj.Type == meta_api::json::v2::Type::String ) {
-                        value = string( obj.Value );
-                        return true;
-                    }
-                    return false;
+                    return ( this.Get( keyName, obj ) && obj.Get( value ) );
                 }
 
                 /// Get the first occurrence of value
@@ -1189,6 +1217,146 @@ namespace meta_api
 
                 return buffer;
             }
-        }
-    }
-}
+
+            namespace fmt
+            {
+                /// If the json is type of Array or Object converts the values to the array type and allocate it in the json.Value set the list handle to that array and updates the type to Handle. return false otherwise
+                bool ToArray( meta_api::json::v2::json@ json, array<float>@&out list, bool strict = false )
+                {
+                    if( json !is null )
+                    {
+                        switch( json.Type )
+                        {
+                            case meta_api::json::v2::Type::Array:
+                            case meta_api::json::v2::Type::Object:
+                            {
+                                @list = {};
+                                uint length = json.Length();
+                                for( uint ui = 0; ui < length; ui++ ) {
+                                    meta_api::json::v2::json@ value = json.opIndex(ui);
+                                    float fvalue;
+                                    if( value.Get( fvalue, strict ) )
+                                        list.insertLast( fvalue );
+                                }
+                                json.SetValue( json.Value.opAssign(@list), meta_api::json::v2::Type::Handle );
+                                return true;
+                            }
+                            case meta_api::json::v2::Type::Handle:
+                            {
+                                array<float>@ ar = cast<array<float>@>( json.Value );
+                                if( ar !is null ) {
+                                    @list = ar;
+                                    return true;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                /// If the json is type of Array or Object converts the values to the array type and allocate it in the json.Value set the list handle to that array and updates the type to Handle. return false otherwise
+                bool ToArray( meta_api::json::v2::json@ json, array<int>@&out list, bool strict = false )
+                {
+                    if( json !is null )
+                    {
+                        switch( json.Type )
+                        {
+                            case meta_api::json::v2::Type::Array:
+                            case meta_api::json::v2::Type::Object:
+                            {
+                                @list = {};
+                                uint length = json.Length();
+                                for( uint ui = 0; ui < length; ui++ ) {
+                                    meta_api::json::v2::json@ value = json.opIndex(ui);
+                                    int fvalue;
+                                    if( value.Get( fvalue, strict ) )
+                                        list.insertLast( fvalue );
+                                }
+                                json.SetValue( json.Value.opAssign(@list), meta_api::json::v2::Type::Handle );
+                                return true;
+                            }
+                            case meta_api::json::v2::Type::Handle:
+                            {
+                                array<int>@ ar = cast<array<int>@>( json.Value );
+                                if( ar !is null ) {
+                                    @list = ar;
+                                    return true;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                /// If the json is type of Array or Object converts the values to the array type and allocate it in the json.Value set the list handle to that array and updates the type to Handle. return false otherwise
+                bool ToArray( meta_api::json::v2::json@ json, array<bool>@&out list, bool strict = false )
+                {
+                    if( json !is null )
+                    {
+                        switch( json.Type )
+                        {
+                            case meta_api::json::v2::Type::Array:
+                            case meta_api::json::v2::Type::Object:
+                            {
+                                @list = {};
+                                uint length = json.Length();
+                                for( uint ui = 0; ui < length; ui++ ) {
+                                    meta_api::json::v2::json@ value = json.opIndex(ui);
+                                    bool fvalue;
+                                    if( value.Get( fvalue, strict ) )
+                                        list.insertLast( fvalue );
+                                }
+                                json.SetValue( json.Value.opAssign(@list), meta_api::json::v2::Type::Handle );
+                                return true;
+                            }
+                            case meta_api::json::v2::Type::Handle:
+                            {
+                                array<bool>@ ar = cast<array<bool>@>( json.Value );
+                                if( ar !is null ) {
+                                    @list = ar;
+                                    return true;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                /// If the json is type of Array or Object converts the values to the array type and allocate it in the json.Value set the list handle to that array and updates the type to Handle. return false otherwise
+                bool ToArray( meta_api::json::v2::json@ json, array<string>@&out list )
+                {
+                    if( json !is null )
+                    {
+                        switch( json.Type )
+                        {
+                            case meta_api::json::v2::Type::Array:
+                            case meta_api::json::v2::Type::Object:
+                            {
+                                @list = {};
+                                uint length = json.Length();
+                                for( uint ui = 0; ui < length; ui++ ) {
+                                    meta_api::json::v2::json@ value = json.opIndex(ui);
+                                    string fvalue;
+                                    if( value.Get( fvalue ) )
+                                        list.insertLast( fvalue );
+                                }
+                                json.SetValue( json.Value.opAssign(@list), meta_api::json::v2::Type::Handle );
+                                return true;
+                            }
+                            case meta_api::json::v2::Type::Handle:
+                            {
+                                array<string>@ ar = cast<array<string>@>( json.Value );
+                                if( ar !is null ) {
+                                    @list = ar;
+                                    return true;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            } // fmt
+        } // v2
+    } // json
+} // meta_api
