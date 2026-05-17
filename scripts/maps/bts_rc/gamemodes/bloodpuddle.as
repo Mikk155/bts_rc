@@ -49,43 +49,19 @@ final class ASBloodPuddleConfig : IConfigurable
             this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "0", 1.5f ) ) );
             this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "1", 2.5f ) ) );
 
-            meta_api::json::v2::json@ custom_size = json.FirstOrDefault( "custom_size" );
+            meta_api::json::v2::json@ custom_size = json.First( "custom_size" );
 
-            array<float> temp(2);
-
-            if( custom_size.Length() <= 0 )
-            {
-                temp[0] = 0.5f; temp[1] = 1.5f;
-                CustomSizes[ "monster_headcrab" ] = temp;
-                temp[0] = 1.0f; temp[1] = 2.0f;
-                CustomSizes[ "monster_houndeye" ] = temp;
-                temp[0] = 0.3f; temp[1] = 0.8f;
-                CustomSizes[ "monster_babycrab" ] = temp;
-
-#if I_HATE_WARNINGS
-                CustomSizes[ "monster_headcrab" ] = array<float>( 0.5f, 1.5f );
-                CustomSizes[ "monster_houndeye" ] = array<float>( 1.0f, 2.0f );
-                CustomSizes[ "monster_babycrab" ] = array<float>( 0.3f, 0.8f );
-#endif
-            }
-            else
+            if( custom_size !is null )
             {
                 array<string>@ monsterNames = custom_size.Keys;
                 uint monsterSize = monsterNames.length();
+
                 for( uint ui = 0; ui < monsterSize; ui++ )
                 {
                     string name = monsterNames[ui];
-                    meta_api::json::v2::json@ dict = custom_size.First( name );
-
-                    temp[0] = Math.max( 0.1f, float(dict[0])); temp[1] = Math.max( 0.1f, float(dict[1]));
-                    CustomSizes[ name ] = temp;
-
-#if I_HATE_WARNINGS
-                    CustomSizes[ name ] = array<float>(
-                        Math.max( 0.1f, float(dict["0"])),
-                        Math.max( 0.1f, float(dict["1"]))
-                    );
-#endif
+                    array<float>@ custom_size_array;
+                    if( meta_api::json::v2::fmt::ToArray( custom_size.First( name ), custom_size_array, false ) )
+                        @CustomSizes[ name ] = custom_size_array;
                 }
             }
         }

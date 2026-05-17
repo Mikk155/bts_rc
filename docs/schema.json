@@ -221,12 +221,12 @@
                         {
                             "minimum": 0.1,
                             "type": "number"
-                        }
-                    },
-                    "default": {
-                        "monster_headcrab": [ 0.5, 1.5 ],
-                        "monster_houndeye": [ 1.0, 2.0 ],
-                        "monster_babycrab": [ 0.3, 0.8 ]
+                        },
+                        "prefixItems":
+                        [
+                            { "description": "Minimun scale size for randomization" },
+                            { "description": "Maximun scale size for randomization" }
+                        ]
                     },
                     "description": "Per-monster custom puddle size overrides."
                 }

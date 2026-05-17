@@ -8,6 +8,15 @@
         "info": true,
         "warning": true
     },
+    "bloodpuddle":
+    {
+        "custom_size":
+        {
+            "monster_headcrab": [ 0.5, 1.5 ],
+            "monster_houndeye": [ 1, 2 ],
+            "monster_babycrab": [ 0.3, 0.8 ]
+        }
+    },
     "deathdrop":
     {
         "monster_zombie":
