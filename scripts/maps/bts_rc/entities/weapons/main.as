@@ -99,6 +99,7 @@ class CGlobalWeaponConfig : IConfigurable
         this.sparks_splash = json.FirstOrDefault( "sparks_splash", true );
 
         Flashlight::Register( json );
+        gpWeaponFlashlight.secondary_maxammo = Flashlight::flashlight_capacity;
     }
 }
 

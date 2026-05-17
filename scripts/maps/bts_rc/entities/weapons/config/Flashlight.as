@@ -38,7 +38,22 @@ namespace Flashlight
 
     void Precache()
     {
-        ammoIndex = g_PlayerFuncs.GetAmmoIndex( "bts:flashlight" );
+        ammoIndex = g_PlayerFuncs.GetAmmoIndex( "bts:battery" );
+    }
+
+    int GetClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    {
+        dictionary@ data = player.GetUserData();
+        const string classname = weapon.GetClassname();
+
+        int Battery;
+        if( !data.get( classname, Battery ) )
+        {
+            Battery = Math.RandomLong( 0, flashlight_ammount );
+            data[ classname ] = Battery;
+        }
+
+        return Battery;
     }
 
     // Call on holstering, turns off flashlight and cancels any reload
@@ -75,11 +90,7 @@ namespace Flashlight
             return State::TurnedOff;
         }
 
-        dictionary@ data = player.GetUserData();
-
-        int Battery;
-        if( !data.get( weapon.GetClassname(), Battery ) )
-            data[ weapon.GetClassname() ] = Battery = Math.RandomLong( 0, flashlight_ammount );
+        int Battery = GetClip( player, weapon );
 
         if( Battery <= 0 )
         {
@@ -122,7 +133,7 @@ namespace Flashlight
 
         player.pev.weaponmodel = flashlight_model;
 
-        int Battery = int( data[ classname ] );
+        int Battery = GetClip( player, weapon );
 
         if( player.FlashlightIsOn() )
         {
@@ -132,8 +143,11 @@ namespace Flashlight
             {
                 data[ "flashlight_nextdrain" ] = g_Engine.time + flashlight_drain;
 
-                if( ( Battery-- ) <= 0 )
+                Battery--;
+
+                if( Battery <= 0 )
                 {
+                    Battery = 0;
                     player.FlashlightTurnOff();
                 }
             }
@@ -144,6 +158,7 @@ namespace Flashlight
         }
 
         // Normalize to a percentaje 0-100 so flashlight_ammount can be anything else than 100.
+        data[ classname ] = Battery;
         player.m_iFlashBattery = int( ( Battery * 100.0f ) / flashlight_ammount + 0.5f );
 
         player.m_iHideHUD &= ~HideHUDFlags::HIDEHUD_FLASHLIGHT;
@@ -151,12 +166,12 @@ namespace Flashlight
 
     bool HasClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
     {
-        return ( int( player.GetUserData()[ weapon.GetClassname() ] ) > 0 );
+        return ( GetClip( player, weapon ) > 0 );
     }
 
     bool HasFullClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
     {
-        return ( int( player.GetUserData()[ weapon.GetClassname() ] ) >= flashlight_ammount );
+        return ( GetClip( player, weapon ) >= flashlight_ammount );
     }
 
     bool HasReserves( CBasePlayer@ player )
@@ -166,7 +181,7 @@ namespace Flashlight
 
     bool HasAnyReserve( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
     {
-        return ( ( int( player.GetUserData()[ weapon.GetClassname() ] ) > 0 ) || ( player.m_rgAmmo( ammoIndex ) > 0 ) );
+        return ( HasClip( player, weapon ) || HasReserves( player ) );
     }
 
     /// Return whatever we have ammo or not.
