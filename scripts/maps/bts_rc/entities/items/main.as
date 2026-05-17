@@ -33,9 +33,9 @@ namespace items
 {
     bool gpBatteryLighting;
 
-    void Register( dictionary@ data )
+    void Register( meta_api::json::v2::json@ json )
     {
-        data.get( "battery_lighting", gpBatteryLighting );
+        gpBatteryLighting = json.FirstOrDefault( "battery_lighting", true );
 
         CustomEntity( "item_bts_armorvest", true );
         CustomEntity( "item_bts_clsuit", true );
@@ -47,7 +47,7 @@ namespace items
     }
 }
 
-class BTS_Item : ScriptBasePlayerAmmoEntity
+abstract class BTS_Item : ScriptBasePlayerAmmoEntity
 {
     /// Override method to play the given sound on pickup
     const string& get_m_PlaySound() {
@@ -102,7 +102,7 @@ class BTS_Item : ScriptBasePlayerAmmoEntity
 
         g_EntityFuncs.SetModel( self, this.model );
 
-        auto entitySize = this.m_Size;
+        const auto entitySize = this.m_Size;
 
         g_EntityFuncs.SetSize( self.pev, entitySize[0], entitySize[1] );
 

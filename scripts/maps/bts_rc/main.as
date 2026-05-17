@@ -111,15 +111,15 @@ void MapInit()
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
     }
 
-    meta_api::json::v2::json@ configuration;
-    if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", configuration ) )
+    meta_api::json::v2::json@ json;
+    if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", json ) )
     {
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
     }
 
-    g_Logger.Register( configuration.FirstOrDefault( "log" ) );
+    g_Logger.Register( json.FirstOrDefault( "log" ) );
 
-    BTSJson@ json = BTSJson( config, "Global Scope" );
+    BTSJson@ btsjson = BTSJson( config, "Global Scope" );
 
     if( g_Logger.info.active )
     {
@@ -127,7 +127,7 @@ void MapInit()
         g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
-    ConfigContext::Registry( @json );
+    ConfigContext::Registry( @btsjson );
 
     if( g_Logger.info.active )
     {
@@ -135,13 +135,13 @@ void MapInit()
         g_Logger.info.print( snprintf( glog, "Configured all config contexts in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
-    RegisterAllCharacters( configuration.First( "characters" ), chrono );
+    RegisterAllCharacters( json.First( "characters" ), chrono );
 
     models::Precache();
 
     Precache();
 
-    items::Register( config );
+    items::Register( json );
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 

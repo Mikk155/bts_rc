@@ -1,7 +1,6 @@
 {
     // Schema validation. use Visual Studio code to get proper hinting or visit the website documentation: https://mikk155.github.io/bts_rc/
     "$schema": "../../../docs/schema.json",
-    "battery_lighting": true,
     "log":
     {
         "trace": true,
