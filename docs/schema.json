@@ -259,6 +259,7 @@
             "additionalProperties":
             {
                 "type": "array",
+                "description": "Entity classname or model path that will spawn the items. model path has priority over classname",
                 "items":
                 {
                     "type": "string",
