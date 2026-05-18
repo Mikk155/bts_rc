@@ -117,7 +117,7 @@ void MapInit()
     if( g_Logger.info.active )
     {
         chrono.Stop();
-        g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" in %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
+        g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" %1:%2 seconds elapsed since the map started.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
     ConfigContext::Registry( json, chrono );

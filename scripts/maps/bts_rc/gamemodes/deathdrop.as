@@ -40,41 +40,33 @@ class ASDeathDropConfig : IConfigurable
             for( uint ui = 0; ui < size; ui++ )
             {
                 string monster = monsters[ui];
-                meta_api::json::v2::json@ values = json.First( monster );
 
-                uint valuesSize = values.Length();
+                array<string>@ itemNames;
 
-                dictionary dropsCountLog;
-
-                array<string> itemNames( valuesSize );
-
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", monster ) );
-
-                for( uint ui2 = 0; ui2 < valuesSize; ui2++ )
+                if( meta_api::json::v2::fmt::ToArray( json.First( monster ), itemNames ) )
                 {
-                    string name = string( values[ui2] );
-                    itemNames[ui2] = name;
-
-                    if( g_Logger.trace.active )
-                    {
-                        g_Logger.trace.print( snprintf( glog, "Adding drop \"%1\" for \"%2\"", name, monster ) );
-                    }
-                
-                    if( g_Logger.trace.active )
-                        dropsCountLog[ name ] = int(dropsCountLog[ name ]) + 1;
+                    if( g_Logger.debug.active )
+                        g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", monster ) );
+                    @m_Monsters[ monster ] = itemNames;
                 }
 
+                // Just debug
                 if( g_Logger.trace.active )
                 {
-                    auto dropsCountKeys = dropsCountLog.getKeys();
-                    for( uint ui2 = 0; ui2 < dropsCountKeys.length(); ui2++ ) {
-                        string name = dropsCountKeys[ui2];
-                        g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( dropsCountLog[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
+                    dictionary count;
+                    for( uint ui = 0; ui < itemNames.length(); ui++ )
+                    {
+                        string name = string( itemNames[ui] );
+                        count[ name ] = int( count[ name ] ) + 1;
+                    }
+
+                    auto dropsCountKeys = count.getKeys();
+                    for( uint ui = 0; ui < dropsCountKeys.length(); ui++ )
+                    {
+                        string name = dropsCountKeys[ui];
+                        g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                     }
                 }
-
-                m_Monsters[ monster ] = itemNames;
             }
         }
     }
