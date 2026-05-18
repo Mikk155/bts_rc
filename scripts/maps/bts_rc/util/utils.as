@@ -28,6 +28,7 @@
 #include "CommandContext"
 #include "ConfigContext"
 #include "EntityOverriden"
+#include "json_v2_tests"
 #include "Logger"
 #include "models"
 #include "PlayerClass"

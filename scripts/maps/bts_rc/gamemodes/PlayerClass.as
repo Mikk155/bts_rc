@@ -165,14 +165,32 @@ array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
 void RegisterAllCharacters( meta_api::json::v2::json@ json, Server::chrono@ chrono )
 {
-    if( json is null )
+    if( json is null || !json.is_array )
+    {
         g_Logger.critical.print( "Could not parse \"characters\" from json! things will break!" );
+        return;
+    }
 
-    uint length = json.Length();
+    int jsonLength = json.Length();
+
+    if( jsonLength <= 0 )
+    {
+        g_Logger.critical.print( "No playable characters were found in json! things will break!" );
+        return;
+    }
+
+    uint length = uint( jsonLength );
 
     for( uint ui = 0; ui < length; ui++ )
     {
         auto character_data = json[ui];
+
+        if( character_data is null || !character_data.is_array || character_data.Length() < 3 )
+        {
+            g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1", ui ) );
+            continue;
+        }
+
         string character_name = string( character_data[0] );
         Classification character_classify = Classification( int( character_data[1] ) );
         Hands character_hands = Hands( int( character_data[2] ) );

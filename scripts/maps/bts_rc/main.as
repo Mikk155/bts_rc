@@ -108,9 +108,11 @@ void MapInit()
     if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", json ) )
     {
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
+        @json = meta_api::json::v2::json();
     }
 
     g_Logger.Register( json.FirstOrDefault( "log" ) );
+    json_v2_tests::RegisterJsonV2TestCommand();
 
     if( g_Logger.info.active )
     {

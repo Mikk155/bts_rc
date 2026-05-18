@@ -241,6 +241,12 @@ namespace meta_api
                 {
                     meta_api::json::v2::json@ old = cast<meta_api::json::v2::json@>( this.m_KeyValues[ keyName ] );
 
+                    if( value is null )
+                    {
+                        print( snprintf( cout, "ERROR: Couldn't set null json value for key \"%1\"", keyName ), Version::V2 );
+                        return @old;
+                    }
+
                     /// Ordering
                     int keyIndex = this.m_KeyNames.find( keyName );
 
@@ -491,8 +497,14 @@ namespace meta_api
                 {
                     if( this.Type != meta_api::json::v2::Type::Array )
                     {
-                        print( snprintf( cout, "ERROR: Couldn't push_back to a json that is not an array!" ) );
-                        @value = null; value.push_back(null);
+                        print( snprintf( cout, "ERROR: Couldn't push_back to a json that is not an array!" ), Version::V2 );
+                        return null;
+                    }
+
+                    if( value is null )
+                    {
+                        print( snprintf( cout, "ERROR: Couldn't push_back a null json value!" ), Version::V2 );
+                        return null;
                     }
 
                     this.Set( string( __unique_index__++ ), value );
@@ -502,6 +514,12 @@ namespace meta_api
                 /// Get the item at the given index
                 meta_api::json::v2::json@ opIndex( uint index )
                 {
+                    if( index >= this.m_KeyNames.length() )
+                    {
+                        print( snprintf( cout, "ERROR: Index %1 is outside json length %2", index, this.m_KeyNames.length() ), Version::V2 );
+                        return null;
+                    }
+
                     return this.First( this.m_KeyNames[ index ] );
                 }
 
@@ -581,7 +599,7 @@ namespace meta_api
                         // Saves some time when iterating the characters.
                         line.Trim( ' ' );
 
-                        if( !line.IsEmpty() && ( line[0] != '/' || line[1] != '/' ) )
+                        if( !line.IsEmpty() && !( line.Length() >= 2 && line[0] == '/' && line[1] == '/' ) )
                             snprintf( serialized, "%1%2\n", serialized, line );
                     }
 
@@ -641,7 +659,142 @@ namespace meta_api
                     return false;
                 }
 
+                return __ReadIgnored__( serialized );
+            }
+
+            bool __IsIgnoredChar__( char c )
+            {
+                return ( c == ' ' || c == '\n' || c == '\r' || c == '\t' );
+            }
+
+            bool __ReadIgnored__( const string&in serialized )
+            {
+                bool reading_commentary = false;
+                bool single_commentary = false;
+
+                while( __Position__ < __Size__ )
+                {
+                    char c( serialized[__Position__] );
+                    __Position__++;
+
+                    if( reading_commentary )
+                    {
+                        if( single_commentary )
+                        {
+                            if( c == '\n' )
+                                single_commentary = reading_commentary = false;
+                        }
+                        else if( c == '/' && serialized[__Position__ - 2] == '*' )
+                        {
+                            reading_commentary = false;
+                        }
+                        continue;
+                    }
+
+                    if( __IsIgnoredChar__( c ) )
+                        continue;
+
+                    if( c == '/' && __Position__ < __Size__ && serialized[__Position__] == '*' )
+                    {
+                        reading_commentary = true;
+                        continue;
+                    }
+
+                    if( c == '/' && __Position__ < __Size__ && serialized[__Position__] == '/' )
+                    {
+                        reading_commentary = single_commentary = true;
+                        continue;
+                    }
+
+                    print( snprintf( cout, "ERROR: (Pos %1): Unexpected trailing data after root json value", string( __Position__ ) ), Version::V2 );
+                    return false;
+                }
+
+                if( reading_commentary )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated commentary after root json value" ), Version::V2 );
+                    return false;
+                }
+
                 return true;
+            }
+
+            bool __SetScalar__( meta_api::json::v2::json@ obj, const string&in key, const string&in value )
+            {
+                if( value == String::EMPTY_STRING )
+                    return false;
+
+                if( g_Utility.IsStringFloat( value ) )
+                {
+                    obj.Set( key, atof( value ) );
+                    return true;
+                }
+
+                if( g_Utility.IsStringInt( value ) )
+                {
+                    obj.Set( key, atoi( value ) );
+                    return true;
+                }
+
+                if( value == "false" )
+                {
+                    obj.Set( key, false );
+                    return true;
+                }
+
+                if( value == "true" )
+                {
+                    obj.Set( key, true );
+                    return true;
+                }
+
+                if( value == "null" )
+                {
+                    obj.Set( key, meta_api::json::v2::Null::Null );
+                    return true;
+                }
+
+                print( snprintf( cout, "ERROR: (Pos %1): Invalid unquoted value \"%2\" for key \"%3\"", string( __Position__ ), value, key ), Version::V2 );
+                return false;
+            }
+
+            bool __PushScalar__( meta_api::json::v2::json@ obj, const string&in value )
+            {
+                if( value == String::EMPTY_STRING )
+                    return false;
+
+                if( g_Utility.IsStringFloat( value ) )
+                {
+                    obj.push_back( atof( value ) );
+                    return true;
+                }
+
+                if( g_Utility.IsStringInt( value ) )
+                {
+                    obj.push_back( atoi( value ) );
+                    return true;
+                }
+
+                if( value == "false" )
+                {
+                    obj.push_back( false );
+                    return true;
+                }
+
+                if( value == "true" )
+                {
+                    obj.push_back( true );
+                    return true;
+                }
+
+                if( value == "null" )
+                {
+                    obj.push_back( meta_api::json::v2::Null::Null );
+                    return true;
+                }
+
+                print( snprintf( cout, "ERROR: (Pos %1): Invalid unquoted array value \"%2\"", string( __Position__ ), value ), Version::V2 );
+                return false;
             }
 
             bool ParseObject( const string&in serialized, meta_api::json::v2::json@ obj )
@@ -657,7 +810,10 @@ namespace meta_api
                 bool single_commentary = false;
                 bool reading_key = true;
                 bool value_is_string = false;
+                bool value_is_complete = false;
                 bool just_parsed_child = false;
+                bool found_end = false;
+                bool can_close = true;
 
                 while( __Position__ < __Size__ )
                 {
@@ -720,12 +876,12 @@ namespace meta_api
                     {
                         if( reading_key && key != String::EMPTY_STRING )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Expected ':' after key", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Expected ':' after key", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
                         else if( !reading_key && ( value != String::EMPTY_STRING || value_is_string || just_parsed_child ) )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' after value for key \"%2\"", string( __Position__ ), key ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' after value for key \"%2\"", string( __Position__ ), key ), Version::V2 );
                             return false;
                         }
 
@@ -735,12 +891,12 @@ namespace meta_api
                     {
                         if( !reading_key )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Unexpected colon ':' in value", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Unexpected colon ':' in value", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
                         if( key == String::EMPTY_STRING )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Found ':' without a preceding valid key", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Found ':' without a preceding valid key", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
@@ -750,43 +906,53 @@ namespace meta_api
                     {
                         if( reading_key )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Objects are not allowed as keys", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Objects are not allowed as keys", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
                         if( value != String::EMPTY_STRING || value_is_string || just_parsed_child )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening a new object", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening a new object", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
                         meta_api::json::v2::json@ objChild = meta_api::json::v2::json();
-                        if( ParseObject( serialized, @objChild ) )
-                            obj.Set( key, objChild );
+                        if( !ParseObject( serialized, @objChild ) )
+                            return false;
+                        obj.Set( key, objChild );
                         just_parsed_child = true;
+                        can_close = true;
                     }
                     else if( c == '[' )
                     {
                         if( reading_key )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Arrays are not allowed as keys", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Arrays are not allowed as keys", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
                         if( value != String::EMPTY_STRING || value_is_string || just_parsed_child )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening an array", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening an array", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
                         meta_api::json::v2::json@ objChild = meta_api::json::v2::json();
-                        if( ParseArray( serialized, @objChild ) )
-                            obj.Set( key, objChild );
+                        if( !ParseArray( serialized, @objChild ) )
+                            return false;
+                        obj.Set( key, objChild );
                         just_parsed_child = true;
+                        can_close = true;
                     }
                     else if( c == ',' || c == '}' )
                     {
+                        if( c == '}' && key == String::EMPTY_STRING && !can_close )
+                        {
+                            print( snprintf( cout, "ERROR: (Pos %1): Trailing comma before closing object", string( __Position__ ) ), Version::V2 );
+                            return false;
+                        }
+
                         if( c == ',' && reading_key && key == String::EMPTY_STRING )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Unexpected comma ','. Expected a key", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Unexpected comma ','. Expected a key", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
@@ -794,7 +960,7 @@ namespace meta_api
                         {
                             if( !reading_key && value == String::EMPTY_STRING && !value_is_string && !just_parsed_child )
                             {
-                                print( snprintf( cout, "ERROR: (Pos %1): Missing value for key \"%2\"", string( __Position__ ), key ), Version::V1 );
+                                print( snprintf( cout, "ERROR: (Pos %1): Missing value for key \"%2\"", string( __Position__ ), key ), Version::V2 );
                                 return false;
                             }
 
@@ -802,69 +968,83 @@ namespace meta_api
                             {
                                 obj.Set( key, value );
                             }
-                            else if( g_Utility.IsStringFloat( value ) )
+                            else if( value != String::EMPTY_STRING && !__SetScalar__( obj, key, value ) )
                             {
-                                obj.Set( key, atof( value ) );
+                                return false;
                             }
-                            else if( g_Utility.IsStringInt( value ) )
-                            {
-                                obj.Set( key, atoi( value ) );
-                            }
-                            else if( value == "false" )
-                            {
-                                obj.Set( key, false );
-                            }
-                            else if( value == "true" )
-                            {
-                                obj.Set( key, true );
-                            }
-                            else if( value == "null" )
-                            {
-                                obj.Set( key, meta_api::json::v2::Null::Null );
-                            }
-                            else if( value != String::EMPTY_STRING )
-                            {
-                                obj.Set( key, value );
-                            }
+
+                            can_close = true;
                         }
 
                         key = String::EMPTY_STRING;
                         value = String::EMPTY_STRING;
                         reading_key = true;
                         value_is_string = false;
+                        value_is_complete = false;
                         just_parsed_child = false;
+
+                        if( c == ',' )
+                            can_close = false;
 
                         if( c == '}' )
                         {
+                            found_end = true;
                             break;
                         }
                     }
-                    else if( c != ' ' && c != '\n' && c != '\r' && c != '\t' )
+                    else if( __IsIgnoredChar__( c ) )
                     {
-                        if( c == '/' && serialized[__Position__] == '*' )
+                        if( !reading_key && value != String::EMPTY_STRING )
+                            value_is_complete = true;
+                    }
+                    else
+                    {
+                        if( c == '/' && __Position__ < __Size__ && serialized[__Position__] == '*' )
                         {
                             reading_commentary = true;
+                            if( !reading_key && value != String::EMPTY_STRING )
+                                value_is_complete = true;
                         }
-                        else if( c == '/' && serialized[__Position__] == '/' )
+                        else if( c == '/' && __Position__ < __Size__ && serialized[__Position__] == '/' )
                         {
                             reading_commentary = single_commentary = true;
+                            if( !reading_key && value != String::EMPTY_STRING )
+                                value_is_complete = true;
                         }
                         else if( reading_key )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Keys must be enclosed in quotes. Invalid character: \"%2\"", string( __Position__ ), string( c ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Keys must be enclosed in quotes. Invalid character: \"%2\"", string( __Position__ ), string( c ) ), Version::V2 );
                             return false;
                         }
                         else
                         {
-                            if( value_is_string || just_parsed_child )
+                            if( value_is_string || just_parsed_child || value_is_complete )
                             {
-                                print( snprintf( cout, "ERROR: (Pos %1): Missing ',' after value for key \"%2\"", string( __Position__ ), key ), Version::V1 );
+                                print( snprintf( cout, "ERROR: (Pos %1): Missing ',' after value for key \"%2\"", string( __Position__ ), key ), Version::V2 );
                                 return false;
                             }
 
                             value += c;
                         }
                     }
+                }
+
+                if( in_string )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated string in object" ), Version::V2 );
+                    return false;
+                }
+
+                if( reading_commentary )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated commentary in object" ), Version::V2 );
+                    return false;
+                }
+
+                if( !found_end )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated object. Expected '}'" ), Version::V2 );
+                    return false;
                 }
 
                 return true;
@@ -881,7 +1061,10 @@ namespace meta_api
                 bool reading_commentary = false;
                 bool single_commentary = false;
                 bool value_is_string = false;
+                bool value_is_complete = false;
                 bool just_parsed_child = false;
+                bool found_end = false;
+                bool can_close = true;
 
                 while( __Position__ < __Size__ )
                 {
@@ -932,7 +1115,7 @@ namespace meta_api
                     {
                         if( value != String::EMPTY_STRING || value_is_string || just_parsed_child )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Missing separating ',' in array before quotes", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Missing separating ',' in array before quotes", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
@@ -942,33 +1125,43 @@ namespace meta_api
                     {
                         if( value != String::EMPTY_STRING || value_is_string || just_parsed_child )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening an object in array", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening an object in array", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
                         meta_api::json::v2::json@ objChild = meta_api::json::v2::json();
-                        if( ParseObject( serialized, @objChild ) )
-                            obj.push_back( objChild );
+                        if( !ParseObject( serialized, @objChild ) )
+                            return false;
+                        obj.push_back( objChild );
                         just_parsed_child = true;
+                        can_close = true;
                     }
                     else if( c == '[' )
                     {
                         if( value != String::EMPTY_STRING || value_is_string || just_parsed_child )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening a sub-array", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Missing ',' before opening a sub-array", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
                         meta_api::json::v2::json@ objChild = meta_api::json::v2::json();
-                        if( ParseArray( serialized, @objChild ) )
-                            obj.push_back( objChild );
+                        if( !ParseArray( serialized, @objChild ) )
+                            return false;
+                        obj.push_back( objChild );
                         just_parsed_child = true;
+                        can_close = true;
                     }
                     else if( c == ',' || c == ']' )
                     {
+                        if( c == ']' && value == String::EMPTY_STRING && !value_is_string && !just_parsed_child && !can_close )
+                        {
+                            print( snprintf( cout, "ERROR: (Pos %1): Trailing comma before closing array", string( __Position__ ) ), Version::V2 );
+                            return false;
+                        }
+
                         if( c == ',' && value == String::EMPTY_STRING && !value_is_string && !just_parsed_child )
                         {
-                            print( snprintf( cout, "ERROR: (Pos %1): Duplicate comma ',' or empty value in array", string( __Position__ ) ), Version::V1 );
+                            print( snprintf( cout, "ERROR: (Pos %1): Duplicate comma ',' or empty value in array", string( __Position__ ) ), Version::V2 );
                             return false;
                         }
 
@@ -980,62 +1173,76 @@ namespace meta_api
                             {
                                 obj.push_back( value );
                             }
-                            else if( g_Utility.IsStringFloat( value ) )
+                            else if( value != String::EMPTY_STRING && !__PushScalar__( obj, value ) )
                             {
-                                obj.push_back( atof( value ) );
+                                return false;
                             }
-                            else if( g_Utility.IsStringInt( value ) )
-                            {
-                                obj.push_back( atoi( value ) );
-                            }
-                            else if( value == "false" )
-                            {
-                                obj.push_back( false );
-                            }
-                            else if( value == "true" )
-                            {
-                                obj.push_back( true );
-                            }
-                            else if( value == "null" )
-                            {
-                                obj.push_back( meta_api::json::v2::Null::Null );
-                            }
-                            else if( value != String::EMPTY_STRING )
-                            {
-                                obj.push_back( value );
-                            }
+
+                            can_close = true;
                         }
 
                         value = String::EMPTY_STRING;
                         value_is_string = false;
+                        value_is_complete = false;
                         just_parsed_child = false;
+
+                        if( c == ',' )
+                            can_close = false;
 
                         if( c == ']' )
                         {
+                            found_end = true;
                             break;
                         }
                     }
-                    else if( c != ' ' && c != '\n' && c != '\r' && c != '\t' )
+                    else if( __IsIgnoredChar__( c ) )
                     {
-                        if( c == '/' && serialized[__Position__] == '*' )
+                        if( value != String::EMPTY_STRING )
+                            value_is_complete = true;
+                    }
+                    else
+                    {
+                        if( c == '/' && __Position__ < __Size__ && serialized[__Position__] == '*' )
                         {
                             reading_commentary = true;
+                            if( value != String::EMPTY_STRING )
+                                value_is_complete = true;
                         }
-                        else if( c == '/' && serialized[__Position__] == '/' )
+                        else if( c == '/' && __Position__ < __Size__ && serialized[__Position__] == '/' )
                         {
                             reading_commentary = single_commentary = true;
+                            if( value != String::EMPTY_STRING )
+                                value_is_complete = true;
                         }
                         else
                         {
-                            if( value_is_string || just_parsed_child )
+                            if( value_is_string || just_parsed_child || value_is_complete )
                             {
-                                print( snprintf( cout, "ERROR: (Pos %1): Missing separating ',' in array", string( __Position__ ) ), Version::V1 );
+                                print( snprintf( cout, "ERROR: (Pos %1): Missing separating ',' in array", string( __Position__ ) ), Version::V2 );
                                 return false;
                             }
 
                             value += c;
                         }
                     }
+                }
+
+                if( in_string )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated string in array" ), Version::V2 );
+                    return false;
+                }
+
+                if( reading_commentary )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated commentary in array" ), Version::V2 );
+                    return false;
+                }
+
+                if( !found_end )
+                {
+                    print( snprintf( cout, "ERROR: Unterminated array. Expected ']'" ), Version::V2 );
+                    return false;
                 }
 
                 return true;
@@ -1069,7 +1276,7 @@ namespace meta_api
                     return true;
                 }
 
-                print( snprintf( cout, "ERROR: Couldn't serialize content to \"%1\"", filename ), Version::V1 );
+                print( snprintf( cout, "ERROR: Couldn't serialize content to \"%1\"", filename ), Version::V2 );
 
                 return false;
             }
@@ -1140,38 +1347,45 @@ namespace meta_api
 
                     meta_api::json::v2::json@ value = obj.First( key );
 
-                    switch( value.Type )
+                    if( value is null )
                     {
-                        case meta_api::json::v2::Type::String:
+                        buffer += "null";
+                    }
+                    else
+                    {
+                        switch( value.Type )
                         {
-                            buffer += EscapeSequences( string( value.Value ), true );
-                            break;
-                        }
-                        case meta_api::json::v2::Type::Null:
-                        {
-                            buffer += "null";
-                            break;
-                        }
-                        case meta_api::json::v2::Type::Float:
-                        {
-                            buffer += float( value.Value );
-                            break;
-                        }
-                        case meta_api::json::v2::Type::Integer:
-                        {
-                            buffer += int( value.Value );
-                            break;
-                        }
-                        case meta_api::json::v2::Type::Boolean:
-                        {
-                            buffer += ( bool( value.Value ) ? "true" : "false" );
-                            break;
-                        }
-                        case meta_api::json::v2::Type::Object:
-                        case meta_api::json::v2::Type::Array:
-                        {
-                            buffer += SerializeObject( value, indents, depth + 1 );
-                            break;
+                            case meta_api::json::v2::Type::String:
+                            {
+                                buffer += EscapeSequences( string( value.Value ), true );
+                                break;
+                            }
+                            case meta_api::json::v2::Type::Null:
+                            {
+                                buffer += "null";
+                                break;
+                            }
+                            case meta_api::json::v2::Type::Float:
+                            {
+                                buffer += float( value.Value );
+                                break;
+                            }
+                            case meta_api::json::v2::Type::Integer:
+                            {
+                                buffer += int( value.Value );
+                                break;
+                            }
+                            case meta_api::json::v2::Type::Boolean:
+                            {
+                                buffer += ( bool( value.Value ) ? "true" : "false" );
+                                break;
+                            }
+                            case meta_api::json::v2::Type::Object:
+                            case meta_api::json::v2::Type::Array:
+                            {
+                                buffer += SerializeObject( value, indents, depth + 1 );
+                                break;
+                            }
                         }
                     }
 
