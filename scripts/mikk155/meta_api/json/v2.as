@@ -5,11 +5,11 @@ namespace meta_api
     namespace json
     {
         /// Version 2 of Json. conversion to/from class.
+        /// Work in progress. expect API changes.
         namespace v2
         {
             // This is not meant to be useable but for storing an existent but null value in json.
             enum Null { Null = 0 };
-//            typedef void Null;
 
             /// Type of value that json is containing
             enum Type
@@ -521,17 +521,17 @@ namespace meta_api
                 /// Array methods
                 /// ======================================
                 /// For arrays, push value to the last index
-                meta_api::json::v2::json@ push_back( meta_api::json::v2::json@ value )
+                meta_api::json::v2::json@ Append( meta_api::json::v2::json@ value )
                 {
                     if( this.Type != meta_api::json::v2::Type::Array )
                     {
-                        print( snprintf( cout, "ERROR: Couldn't push_back to a json that is not an array!" ), Version::V2 );
+                        print( snprintf( cout, "ERROR: Couldn't Append to a json that is not an array!" ), Version::V2 );
                         return null;
                     }
 
                     if( value is null )
                     {
-                        print( snprintf( cout, "ERROR: Couldn't push_back a null json value!" ), Version::V2 );
+                        print( snprintf( cout, "ERROR: Couldn't Append a null json value!" ), Version::V2 );
                         return null;
                     }
 
@@ -552,15 +552,15 @@ namespace meta_api
                 }
 
                 /// For arrays, push value to the last index
-                meta_api::json::v2::json@ push_back( const bool value ) { return this.push_back( meta_api::json::v2::json().opAssign(value) ); }
+                meta_api::json::v2::json@ Append( const bool value ) { return this.Append( meta_api::json::v2::json().opAssign(value) ); }
                 /// For arrays, push value to the last index
-                meta_api::json::v2::json@ push_back( const int value ) { return this.push_back( meta_api::json::v2::json().opAssign(value) ); }
+                meta_api::json::v2::json@ Append( const int value ) { return this.Append( meta_api::json::v2::json().opAssign(value) ); }
                 /// For arrays, push value to the last index
-                meta_api::json::v2::json@ push_back( const float value ) { return this.push_back( meta_api::json::v2::json().opAssign(value) ); }
+                meta_api::json::v2::json@ Append( const float value ) { return this.Append( meta_api::json::v2::json().opAssign(value) ); }
                 /// For arrays, push value to the last index
-                meta_api::json::v2::json@ push_back( const string&in value ) { return this.push_back( meta_api::json::v2::json().opAssign(value) ); }
+                meta_api::json::v2::json@ Append( const string&in value ) { return this.Append( meta_api::json::v2::json().opAssign(value) ); }
                 /// For arrays, push value to the last index
-                meta_api::json::v2::json@ push_back( const meta_api::json::v2::Null&in value ) { return this.push_back( meta_api::json::v2::json().opAssign(value) ); }
+                meta_api::json::v2::json@ Append( const meta_api::json::v2::Null&in value ) { return this.Append( meta_api::json::v2::json().opAssign(value) ); }
 
                 /// Get the value converted to string.
                 /// For objects/arrays this is a serialization with -1 indents.
@@ -793,31 +793,31 @@ namespace meta_api
 
                 if( g_Utility.IsStringFloat( value ) )
                 {
-                    obj.push_back( atof( value ) );
+                    obj.Append( atof( value ) );
                     return true;
                 }
 
                 if( g_Utility.IsStringInt( value ) )
                 {
-                    obj.push_back( atoi( value ) );
+                    obj.Append( atoi( value ) );
                     return true;
                 }
 
                 if( value == "false" )
                 {
-                    obj.push_back( false );
+                    obj.Append( false );
                     return true;
                 }
 
                 if( value == "true" )
                 {
-                    obj.push_back( true );
+                    obj.Append( true );
                     return true;
                 }
 
                 if( value == "null" )
                 {
-                    obj.push_back( meta_api::json::v2::Null::Null );
+                    obj.Append( meta_api::json::v2::Null::Null );
                     return true;
                 }
 
@@ -1160,7 +1160,7 @@ namespace meta_api
                         meta_api::json::v2::json@ objChild = meta_api::json::v2::json();
                         if( !ParseObject( serialized, @objChild ) )
                             return false;
-                        obj.push_back( objChild );
+                        obj.Append( objChild );
                         just_parsed_child = true;
                         can_close = true;
                     }
@@ -1175,7 +1175,7 @@ namespace meta_api
                         meta_api::json::v2::json@ objChild = meta_api::json::v2::json();
                         if( !ParseArray( serialized, @objChild ) )
                             return false;
-                        obj.push_back( objChild );
+                        obj.Append( objChild );
                         just_parsed_child = true;
                         can_close = true;
                     }
@@ -1199,7 +1199,7 @@ namespace meta_api
                         {
                             if( value_is_string )
                             {
-                                obj.push_back( value );
+                                obj.Append( value );
                             }
                             else if( value != String::EMPTY_STRING && !__PushScalar__( obj, value ) )
                             {

@@ -119,15 +119,15 @@ namespace json_v2_tests
             Expect( player, "object node keeps key name", objectValue !is null && objectValue.Name == "object" );
             Expect( player, "nested object value read", objectValue !is null && int( objectValue.First( "value" ) ) == 2 );
 
-            meta_api::json::v2::json@ pushResult = obj.push_back( "something" );
-            Expect( player, "push_back on object returns null", pushResult is null );
+            meta_api::json::v2::json@ pushResult = obj.Append( "something" );
+            Expect( player, "Append on object returns null", pushResult is null );
 
             meta_api::json::v2::json@ arrayValue = obj.First( "array" );
             Expect( player, "array node has expected length", arrayValue !is null && arrayValue.is_array && arrayValue.Length() == 5 );
 
             if( arrayValue !is null )
             {
-                Expect( player, "array push_back appends value", arrayValue.push_back( "something" ) !is null && arrayValue.Length() == 6 && string( arrayValue[5] ) == "something" );
+                Expect( player, "array Append appends value", arrayValue.Append( "something" ) !is null && arrayValue.Length() == 6 && string( arrayValue[5] ) == "something" );
 
                 meta_api::json::v2::json@ nestedObjectInArray = arrayValue[4];
                 Expect( player, "nested object in array keeps key name", nestedObjectInArray !is null && nestedObjectInArray.Name == "4" );
@@ -203,15 +203,15 @@ namespace json_v2_tests
             ExpectServer( "object node keeps key name", objectValue !is null && objectValue.Name == "object" );
             ExpectServer( "nested object value read", objectValue !is null && int( objectValue.First( "value" ) ) == 2 );
 
-            meta_api::json::v2::json@ pushResult = obj.push_back( "something" );
-            ExpectServer( "push_back on object returns null", pushResult is null );
+            meta_api::json::v2::json@ pushResult = obj.Append( "something" );
+            ExpectServer( "Append on object returns null", pushResult is null );
 
             meta_api::json::v2::json@ arrayValue = obj.First( "array" );
             ExpectServer( "array node has expected length", arrayValue !is null && arrayValue.is_array && arrayValue.Length() == 5 );
 
             if( arrayValue !is null )
             {
-                ExpectServer( "array push_back appends value", arrayValue.push_back( "something" ) !is null && arrayValue.Length() == 6 && string( arrayValue[5] ) == "something" );
+                ExpectServer( "array Append appends value", arrayValue.Append( "something" ) !is null && arrayValue.Length() == 6 && string( arrayValue[5] ) == "something" );
 
                 meta_api::json::v2::json@ nestedObjectInArray = arrayValue[4];
                 ExpectServer( "nested object in array keeps key name", nestedObjectInArray !is null && nestedObjectInArray.Name == "4" );
