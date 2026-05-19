@@ -122,7 +122,7 @@ void MapInit()
 
     ConfigContext::Registry( json, chrono );
 
-    RegisterAllCharacters( json.First( "characters" ), chrono );
+    RegisterAllCharacters( json[ "characters" ], chrono );
 
     models::Precache();
 

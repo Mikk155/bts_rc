@@ -43,7 +43,7 @@ class ASDeathDropConfig : IConfigurable
 
                 array<string>@ itemNames;
 
-                if( meta_api::json::v2::fmt::ToArray( json.First( monster ), itemNames ) )
+                if( meta_api::json::v2::fmt::ToArray( json[ monster ], itemNames ) )
                 {
                     if( g_Logger.debug.active )
                         g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", monster ) );

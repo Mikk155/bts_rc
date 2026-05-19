@@ -72,7 +72,7 @@ namespace json_v2_tests
             Expect( player, "strict string read", obj.Get( "string", stringValue ) && stringValue == "text" );
             Expect( player, "null key exists", obj.Contains( "null" ) );
 
-            meta_api::json::v2::json@ nullValue = obj.First( "null" );
+            meta_api::json::v2::json@ nullValue = obj[ "null" ];
             Expect( player, "null value keeps null type", nullValue !is null && nullValue.is_null );
 
             bool rejectedBool = false;
@@ -84,14 +84,14 @@ namespace json_v2_tests
             Expect( player, "ValueOrDefault returns missing default", defaultValue == 42 );
             Expect( player, "ValueOrDefault stores missing default", obj.Get( "missing_integer", storedDefault ) && storedDefault == 42 );
 
-            meta_api::json::v2::json@ objectValue = obj.First( "object" );
+            meta_api::json::v2::json@ objectValue = obj[ "object" ];
             Expect( player, "object node keeps key name", objectValue !is null && objectValue.Name == "object" );
-            Expect( player, "nested object value read", objectValue !is null && int( objectValue.First( "value" ) ) == 2 );
+            Expect( player, "nested object value read", objectValue !is null && int( objectValue[ "value" ] ) == 2 );
 
             meta_api::json::v2::json@ pushResult = obj.Append( "something" );
             Expect( player, "Append on object returns null", pushResult is null );
 
-            meta_api::json::v2::json@ arrayValue = obj.First( "array" );
+            meta_api::json::v2::json@ arrayValue = obj[ "array" ];
             Expect( player, "array node has expected length", arrayValue !is null && arrayValue.is_array && arrayValue.Length() == 5 );
 
             if( arrayValue !is null )
@@ -100,7 +100,7 @@ namespace json_v2_tests
 
                 meta_api::json::v2::json@ nestedObjectInArray = arrayValue[4];
                 Expect( player, "nested object in array keeps key name", nestedObjectInArray !is null && nestedObjectInArray.Name == "4" );
-                Expect( player, "nested object in array value read", nestedObjectInArray !is null && string( nestedObjectInArray.First( "key" ) ) == "value" );
+                Expect( player, "nested object in array value read", nestedObjectInArray !is null && string( nestedObjectInArray[ "key" ] ) == "value" );
                 Expect( player, "array opIndex rejects out of range", arrayValue[32] is null );
             }
 
