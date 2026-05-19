@@ -29,9 +29,9 @@ namespace Flashlight
 
     void Register( meta_api::json::v2::json@ json )
     {
-        flashlight_drain = Math.max( 0.1f, json.FirstOrDefault( "flashlight_drain", 0.4f ) );
-        flashlight_capacity = Math.max( 0, json.FirstOrDefault( "flashlight_capacity", 10 ) );
-        flashlight_ammount = Math.max( 10, json.FirstOrDefault( "flashlight_ammount", 100 ) );
+        flashlight_drain = Math.max( 0.1f, json.ValueOrDefault( "flashlight_drain", 0.4f ) );
+        flashlight_capacity = Math.max( 0, json.ValueOrDefault( "flashlight_capacity", 10 ) );
+        flashlight_ammount = Math.max( 10, json.ValueOrDefault( "flashlight_ammount", 100 ) );
     }
 
     int ammoIndex;

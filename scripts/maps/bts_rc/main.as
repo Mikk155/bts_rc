@@ -111,7 +111,7 @@ void MapInit()
         @json = meta_api::json::v2::json();
     }
 
-    g_Logger.Register( json.FirstOrDefault( "log" ) );
+    g_Logger.Register( json.ValueOrDefault( "log" ) );
     json_v2_tests::RegisterJsonV2TestCommand();
 
     if( g_Logger.info.active )

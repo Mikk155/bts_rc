@@ -141,9 +141,9 @@ class CWeaponMedkitConfig : ASWeaponConfig
 
     void Register( meta_api::json::v2::json@ json ) override
     {
-        this.health_ammount = json.FirstOrDefault( "health_ammount", 10 );
-        this.health_gain = json.FirstOrDefault( "health_gain", 10 );
-        this.health_cost = json.FirstOrDefault( "health_cost", 30 );
+        this.health_ammount = json.ValueOrDefault( "health_ammount", 10 );
+        this.health_gain = json.ValueOrDefault( "health_gain", 10 );
+        this.health_cost = json.ValueOrDefault( "health_cost", 30 );
 
         this.slot = 4;
         this.position = 14;

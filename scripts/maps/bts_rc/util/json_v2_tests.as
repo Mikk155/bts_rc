@@ -79,10 +79,10 @@ namespace json_v2_tests
             Expect( player, "strict bool rejects integer", !obj.Get( "int", rejectedBool ) );
             Expect( player, "non-strict bool converts integer", obj.Get( "int", rejectedBool, false ) && rejectedBool );
 
-            int defaultValue = obj.FirstOrDefault( "missing_integer", 42, true );
+            int defaultValue = obj.ValueOrDefault( "missing_integer", 42, true );
             int storedDefault = 0;
-            Expect( player, "FirstOrDefault returns missing default", defaultValue == 42 );
-            Expect( player, "FirstOrDefault stores missing default", obj.Get( "missing_integer", storedDefault ) && storedDefault == 42 );
+            Expect( player, "ValueOrDefault returns missing default", defaultValue == 42 );
+            Expect( player, "ValueOrDefault stores missing default", obj.Get( "missing_integer", storedDefault ) && storedDefault == 42 );
 
             meta_api::json::v2::json@ objectValue = obj.First( "object" );
             Expect( player, "object node keeps key name", objectValue !is null && objectValue.Name == "object" );

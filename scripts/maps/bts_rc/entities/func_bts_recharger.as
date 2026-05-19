@@ -40,9 +40,9 @@ final class ASWallRechargerConfig : IConfigurable
     {
         CustomEntity( "func_bts_recharger", true );
 
-        this.juice = Math.max( 1, json.FirstOrDefault( "juice", 35 ) );
-        this.recharge_time = Math.max( 0, json.FirstOrDefault( "recharge_time", 300 ) );
-        this.speed_rate = Math.max( 0.1, json.FirstOrDefault( "speed_rate", 0.35f ) );
+        this.juice = Math.max( 1, json.ValueOrDefault( "juice", 35 ) );
+        this.recharge_time = Math.max( 0, json.ValueOrDefault( "recharge_time", 300 ) );
+        this.speed_rate = Math.max( 0.1, json.ValueOrDefault( "speed_rate", 0.35f ) );
     }
 }
 

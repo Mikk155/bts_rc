@@ -68,15 +68,15 @@ namespace ConfigContext
             IConfigurable@ configurable = g_ConfigContexts[ui];
             string name = configurable.Name;
 
-            meta_api::json::v2::json@ contextData = json.FirstOrDefault(name);
+            meta_api::json::v2::json@ contextData = json.ValueOrDefault(name);
 
             // If not explicitly false we asume true
-            configurable.m_IsActive = contextData.FirstOrDefault( "active", true );
+            configurable.m_IsActive = contextData.ValueOrDefault( "active", true );
 
             if( g_Logger.info.active )
                 g_Logger.info.print( snprintf( glog, "Parsing configuration context for \"%1\" with state %2", configurable.Name, ( configurable.IsActive() ? "Active" : "Disabled" ) ) );
 
-            configurable.Register( json.FirstOrDefault( name ) );
+            configurable.Register( json.ValueOrDefault( name ) );
         }
         
         if( g_Logger.info.active )

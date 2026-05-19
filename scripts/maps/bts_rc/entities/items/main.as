@@ -35,7 +35,7 @@ namespace items
 
     void Register( meta_api::json::v2::json@ json )
     {
-        gpBatteryLighting = json.FirstOrDefault( "battery_lighting", true );
+        gpBatteryLighting = json.ValueOrDefault( "battery_lighting", true );
 
         CustomEntity( "item_bts_armorvest", true );
         CustomEntity( "item_bts_clsuit", true );

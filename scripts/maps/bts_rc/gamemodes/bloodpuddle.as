@@ -43,11 +43,11 @@ final class ASBloodPuddleConfig : IConfigurable
         if( this.IsActive() )
         {
             CustomEntity( "env_bloodpuddle", true );
-            this.persistent = json.FirstOrDefault( "persistent", true );
+            this.persistent = json.ValueOrDefault( "persistent", true );
 
-            auto defaultSize = json.FirstOrDefault( "default_size" );
-            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "0", 1.5f ) ) );
-            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.FirstOrDefault( "1", 2.5f ) ) );
+            auto defaultSize = json.ValueOrDefault( "default_size" );
+            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.ValueOrDefault( "0", 1.5f ) ) );
+            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.ValueOrDefault( "1", 2.5f ) ) );
 
             meta_api::json::v2::json@ custom_size = json.First( "custom_size" );
 

@@ -38,9 +38,9 @@ class BlackOpsFlashbang : EntityOverriden
     {
         if( this.IsActive() )
         {
-            this.detonate_time = Math.max( 1, json.FirstOrDefault( "detonate_time", 6 ) );
-            this.throw_flash_cooldown = Math.max( 1, json.FirstOrDefault( "throw_flash_cooldown", 3 ) );
-            this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.5f ) );
+            this.detonate_time = Math.max( 1, json.ValueOrDefault( "detonate_time", 6 ) );
+            this.throw_flash_cooldown = Math.max( 1, json.ValueOrDefault( "throw_flash_cooldown", 3 ) );
+            this.interval = Math.max( 0.01f, json.ValueOrDefault( "interval", 0.5f ) );
 
             g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
             g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );

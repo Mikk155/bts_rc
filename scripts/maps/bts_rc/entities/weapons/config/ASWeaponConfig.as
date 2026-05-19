@@ -156,30 +156,30 @@ abstract class ASWeaponConfig : IConfigurable
 
     void Register( meta_api::json::v2::json@ json ) override
     {
-        this.primary_maxammo = json.FirstOrDefault( "primary_maxammo", this.primary_maxammo );
-        this.secondary_maxammo = json.FirstOrDefault( "secondary_maxammo", this.secondary_maxammo );
+        this.primary_maxammo = json.ValueOrDefault( "primary_maxammo", this.primary_maxammo );
+        this.secondary_maxammo = json.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo );
 
-        this.primary_dropammo = json.FirstOrDefault( "primary_dropammo", this.primary_dropammo );
-        this.secondary_dropammo = json.FirstOrDefault( "secondary_dropammo", this.secondary_dropammo );
+        this.primary_dropammo = json.ValueOrDefault( "primary_dropammo", this.primary_dropammo );
+        this.secondary_dropammo = json.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo );
 
-        this.primary_damage = json.FirstOrDefault( "primary_damage", this.primary_damage );
-        this.secondary_damage = json.FirstOrDefault( "secondary_damage", this.secondary_damage );
-        this.tertiary_damage = json.FirstOrDefault( "tertiary_damage", this.tertiary_damage );
+        this.primary_damage = json.ValueOrDefault( "primary_damage", this.primary_damage );
+        this.secondary_damage = json.ValueOrDefault( "secondary_damage", this.secondary_damage );
+        this.tertiary_damage = json.ValueOrDefault( "tertiary_damage", this.tertiary_damage );
 
-        this.primary_cooldown = json.FirstOrDefault( "primary_cooldown", this.primary_cooldown );
-        this.primary_trained_cooldown = json.FirstOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown );
+        this.primary_cooldown = json.ValueOrDefault( "primary_cooldown", this.primary_cooldown );
+        this.primary_trained_cooldown = json.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown );
 
-        this.secondary_cooldown = json.FirstOrDefault( "secondary_cooldown", this.secondary_cooldown );
-        this.secondary_trained_cooldown = json.FirstOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown );
+        this.secondary_cooldown = json.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown );
+        this.secondary_trained_cooldown = json.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown );
 
-        this.tertiary_cooldown = json.FirstOrDefault( "tertiary_cooldown", this.tertiary_cooldown );
-        this.tertiary_trained_cooldown = json.FirstOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown );
+        this.tertiary_cooldown = json.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown );
+        this.tertiary_trained_cooldown = json.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown );
 
-        this.max_clip = json.FirstOrDefault( "max_clip", this.max_clip );
-        this.slot = json.FirstOrDefault( "slot", this.slot );
-        this.position = json.FirstOrDefault( "position", this.position );
-        this.weight = json.FirstOrDefault( "weight", this.weight );
-        this.deploy_time = json.FirstOrDefault( "deploy_time", this.deploy_time );
+        this.max_clip = json.ValueOrDefault( "max_clip", this.max_clip );
+        this.slot = json.ValueOrDefault( "slot", this.slot );
+        this.position = json.ValueOrDefault( "position", this.position );
+        this.weight = json.ValueOrDefault( "weight", this.weight );
+        this.deploy_time = json.ValueOrDefault( "deploy_time", this.deploy_time );
 
         this.Precache();
         this.RegisterWeapon();

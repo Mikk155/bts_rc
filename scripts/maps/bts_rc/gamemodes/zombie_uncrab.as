@@ -58,7 +58,7 @@ class ASZombieUncrabConfig : IConfigurable
     {
         if( this.IsActive() )
         {
-            this.track_health = json.FirstOrDefault( "track_health", true );
+            this.track_health = json.ValueOrDefault( "track_health", true );
         }
     }
 

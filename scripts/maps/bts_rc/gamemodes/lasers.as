@@ -38,13 +38,13 @@ final class TurretsLasers : EntityOverriden
     {
         if( this.IsActive() )
         {
-            this.interval = Math.max( 0.01f, json.FirstOrDefault( "interval", 0.1f ) );
+            this.interval = Math.max( 0.01f, json.ValueOrDefault( "interval", 0.1f ) );
 
             this.color = RGBA(
-                Math.min( 255, Math.max( 0, json.FirstOrDefault( "red", 255 ) ) ),
-                Math.min( 255, Math.max( 0, json.FirstOrDefault( "green", 0 ) ) ),
-                Math.min( 255, Math.max( 0, json.FirstOrDefault( "blue", 0 ) ) ),
-                Math.min( 255, Math.max( 0, json.FirstOrDefault( "blue", 150 ) ) )
+                Math.min( 255, Math.max( 0, json.ValueOrDefault( "red", 255 ) ) ),
+                Math.min( 255, Math.max( 0, json.ValueOrDefault( "green", 0 ) ) ),
+                Math.min( 255, Math.max( 0, json.ValueOrDefault( "blue", 0 ) ) ),
+                Math.min( 255, Math.max( 0, json.ValueOrDefault( "blue", 150 ) ) )
              );
 
             g_Game.PrecacheModel( "sprites/glow01.spr" );

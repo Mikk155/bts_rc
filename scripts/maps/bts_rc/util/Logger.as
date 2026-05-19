@@ -216,12 +216,12 @@ class CLogger
             @this.critical
         };
 
-        this.trace.SetLevel( json.FirstOrDefault( "trace", false ) );
-        this.debug.SetLevel( json.FirstOrDefault( "debug", false ) );
-        this.info.SetLevel( json.FirstOrDefault( "info", false ) );
-        this.warning.SetLevel( json.FirstOrDefault( "warning", false ) );
-        this.error.SetLevel( json.FirstOrDefault( "error", true ) );
-        this.critical.SetLevel( json.FirstOrDefault( "critical", true ) );
+        this.trace.SetLevel( json.ValueOrDefault( "trace", false ) );
+        this.debug.SetLevel( json.ValueOrDefault( "debug", false ) );
+        this.info.SetLevel( json.ValueOrDefault( "info", false ) );
+        this.warning.SetLevel( json.ValueOrDefault( "warning", false ) );
+        this.error.SetLevel( json.ValueOrDefault( "error", true ) );
+        this.critical.SetLevel( json.ValueOrDefault( "critical", true ) );
 
         string commandHelp = "One of: ";
         uint length = this.m_Loggers.length();

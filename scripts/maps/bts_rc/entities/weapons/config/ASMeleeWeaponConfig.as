@@ -60,14 +60,14 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
 
     void Register( meta_api::json::v2::json@ json ) override
     {
-        this.primary_distance = json.FirstOrDefault( "primary_distance", this.primary_distance );
-        this.secondary_distance = json.FirstOrDefault( "secondary_distance", this.secondary_distance );
-        this.tertiary_distance = json.FirstOrDefault( "tertiary_distance", this.tertiary_distance );
-        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, json.FirstOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction ) ) );
-        this.primary_miss_cooldown = json.FirstOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
-        this.primary_miss_trained_cooldown = json.FirstOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
-        this.secondary_miss_cooldown = json.FirstOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
-        this.secondary_miss_trained_cooldown = json.FirstOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
+        this.primary_distance = json.ValueOrDefault( "primary_distance", this.primary_distance );
+        this.secondary_distance = json.ValueOrDefault( "secondary_distance", this.secondary_distance );
+        this.tertiary_distance = json.ValueOrDefault( "tertiary_distance", this.tertiary_distance );
+        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, json.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction ) ) );
+        this.primary_miss_cooldown = json.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
+        this.primary_miss_trained_cooldown = json.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
+        this.secondary_miss_cooldown = json.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
+        this.secondary_miss_trained_cooldown = json.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
 
         ASWeaponConfig::Register(json);
     }
