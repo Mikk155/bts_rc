@@ -23,6 +23,7 @@
 
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/meta_api/json/v2"
+#include "../../../mikk155/meta_api/json/v2/fmt/ToArray"
 #include "../../../mikk155/Server/chrono"
 
 #include "CommandContext"
