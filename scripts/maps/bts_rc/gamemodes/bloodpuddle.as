@@ -53,7 +53,7 @@ final class ASBloodPuddleConfig : IConfigurable
 
             if( custom_size !is null )
             {
-                array<string>@ monsterNames = custom_size.Keys;
+                const auto monsterNames = custom_size.Keys;
                 uint monsterSize = monsterNames.length();
 
                 for( uint ui = 0; ui < monsterSize; ui++ )

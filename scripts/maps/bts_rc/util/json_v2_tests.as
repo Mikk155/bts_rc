@@ -73,7 +73,7 @@ namespace json_v2_tests
             Expect( player, "null key exists", obj.Contains( "null" ) );
 
             meta_api::json::v2::json@ nullValue = obj[ "null" ];
-            Expect( player, "null value keeps null type", nullValue !is null && nullValue.is_null );
+            Expect( player, "null value keeps null type", nullValue !is null && nullValue.is_null() );
 
             bool rejectedBool = false;
             Expect( player, "strict bool rejects integer", !obj.Get( "int", rejectedBool ) );
@@ -92,7 +92,7 @@ namespace json_v2_tests
             Expect( player, "Append on object returns null", pushResult is null );
 
             meta_api::json::v2::json@ arrayValue = obj[ "array" ];
-            Expect( player, "array node has expected length", arrayValue !is null && arrayValue.is_array && arrayValue.Length() == 5 );
+            Expect( player, "array node has expected length", arrayValue !is null && arrayValue.is_array() && arrayValue.Length() == 5 );
 
             if( arrayValue !is null )
             {
@@ -112,7 +112,7 @@ namespace json_v2_tests
 
         if( rootArray !is null )
         {
-            Expect( player, "root array has expected length", rootArray.is_array && rootArray.Length() == 2 );
+            Expect( player, "root array has expected length", rootArray.is_array() && rootArray.Length() == 2 );
             Expect( player, "root array string read", string( rootArray[0] ) == "string" );
             Expect( player, "root array integer read", int( rootArray[1] ) == 1 );
         }

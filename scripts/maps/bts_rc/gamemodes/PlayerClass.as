@@ -165,7 +165,7 @@ array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
 void RegisterAllCharacters( meta_api::json::v2::json@ json, Server::chrono@ chrono )
 {
-    if( json is null || !json.is_array )
+    if( json is null || !json.is_array() )
     {
         g_Logger.critical.print( "Could not parse \"characters\" from json! things will break!" );
         return;
@@ -185,7 +185,7 @@ void RegisterAllCharacters( meta_api::json::v2::json@ json, Server::chrono@ chro
     {
         auto character_data = json[ui];
 
-        if( character_data is null || !character_data.is_array || character_data.Length() < 3 )
+        if( character_data is null || !character_data.is_array() || character_data.Length() < 3 )
         {
             g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1", ui ) );
             continue;

@@ -34,7 +34,7 @@ class ASDeathDropConfig : IConfigurable
     {
         if( this.IsActive() )
         {
-            array<string>@ monsters = json.Keys;
+            const auto monsters = json.Keys;
             uint size = monsters.length();
 
             for( uint ui = 0; ui < size; ui++ )
