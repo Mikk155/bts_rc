@@ -41,7 +41,6 @@ namespace Hooks
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @MonsterTakeDamage );
 
         g_Hooks.RegisterHook( Hooks::PickupObject::Collected, @PlayerCollect );
-        g_Hooks.RegisterHook( Hooks::Game::EntityCreated, @EntityCreated );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PlayerKilled );
         g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @PlayerRevive );

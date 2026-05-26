@@ -129,23 +129,10 @@ class env_bloodpuddle : ScriptBaseAnimating
     {
         Precache();
 
+        self.pev.movetype = MOVETYPE_TOSS;
         self.pev.solid = SOLID_NOT;
         g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
         self.pev.angles.y = Math.RandomFloat( 0, 359 );
-
-        if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
-        {
-            CBaseEntity@ owner = g_EntityFuncs.Instance( self.pev.owner );
-            if( owner !is null )
-            {
-                self.pev.movetype = owner.pev.movetype;
-                self.pev.velocity = owner.pev.velocity;
-            }
-        }
-        else
-        {
-            self.pev.movetype = MOVETYPE_TOSS;
-        }
 
         SetThink( ThinkFunction( this.think ) );
         self.pev.nextthink = g_Engine.time + 0.1;
