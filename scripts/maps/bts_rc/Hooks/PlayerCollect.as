@@ -72,4 +72,17 @@ namespace Hooks
 
         return HOOK_CONTINUE;
     }
+
+    HookReturnCode EntityCreated( CBaseEntity@ pEntity )
+    {
+        if( pEntity is null )
+            return HOOK_CONTINUE;
+
+        if( pEntity.GetClassname() == "weapon_shockroach" || pEntity.GetClassname() == "monster_shockroach" )
+        {
+            pEntity.pev.flags |= FL_KILLME;
+        }
+
+        return HOOK_CONTINUE;
+    }
 }
