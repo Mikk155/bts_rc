@@ -36,8 +36,7 @@ enum WeaponPoolstickAnim
     Attack1Miss,
     Attack2Miss,
     Attack2Hit,
-    Attack3Miss,
-    Attack3Hit,
+    Attack3,
     Idle2
 };
 
@@ -144,7 +143,7 @@ class weapon_bts_poolstick : BTS_MeleeWeapon
         {
             case AttackType::Secondary:
             {
-                PlayAnim( ( miss ? WeaponPoolstickAnim::Attack3Miss : WeaponPoolstickAnim::Attack3Hit ) );
+                PlayAnim( WeaponPoolstickAnim::Attack3 );
                 break;
             }
             case AttackType::Primary:
