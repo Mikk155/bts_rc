@@ -71,6 +71,17 @@
             "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
         ]
     },
+    "ammo":
+    {
+        "9mm":        [ 8, 17 ],
+        "357":        [ 1, 6 ],
+        "556":        [ 6, 30 ],
+        "buckshot":   [ 3, 8 ],
+        "ARgrenades": [ 1, 2 ],
+        "38":         [ 3, 6 ],
+        "bts:flare":  [ 1, 3 ],
+        "bts:battery":[ 1, 3 ]
+    },
     "characters":
     [
         // Equipable suits

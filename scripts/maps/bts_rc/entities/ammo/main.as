@@ -28,14 +28,16 @@ class BTS_Ammo : BTS_Item
 {
     bool PickupObject( CBaseEntity@ player, const int give, const string&in ammoName, const int max )
     {
-        if( IsValid( player ) && player.GiveAmmo( give, ammoName, max ) != -1 )
+        int finalGive = gpDynamicAmmo.GetAmmoGive( ammoName, give );
+
+        if( IsValid( player ) && player.GiveAmmo( finalGive, ammoName, max ) != -1 )
         {
             g_EntityFuncs.FireTargets( self.pev.target, player, self, USE_TOGGLE, 0, 0 );
 
             {
                 NetworkMessage msg( MSG_ONE, NetworkMessages::AmmoPickup, player.edict() );
                     msg.WriteByte( g_PlayerFuncs.GetAmmoIndex( ammoName ) );
-                    msg.WriteByte( give );
+                    msg.WriteByte( finalGive );
                 msg.End();
             }
 

@@ -24,6 +24,7 @@
 #include "bloodpuddle"
 #include "item_tracker"
 #include "deathdrop"
+#include "dynamic_ammo"
 #include "flashbang"
 #include "lasers"
 #include "player_voices"

@@ -8,7 +8,9 @@ mixin class bts_ammo_base
 
     bool AddAmmo( CBaseEntity@ other, const int give, const string &in type, const int max, const string &in sound = "hlclassic/items/9mmclip1.wav" )
     {
-        if( other !is null && other.GiveAmmo( give, type, max ) != -1 )
+        int finalGive = gpDynamicAmmo.GetAmmoGive( type, give );
+
+        if( other !is null && other.GiveAmmo( finalGive, type, max ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, sound, 1.0f, ATTN_NORM );
             return true;
@@ -25,7 +27,7 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_dreagle" == pev.classname ? Math.RandomLong( 1, 4 ) : 3 ), "357", weapon_bts_eagle::MAX_CARRY, "hlclassic/weapons/357_reload1.wav" );
+        return AddAmmo( other, 3, "357", weapon_bts_eagle::MAX_CARRY, "hlclassic/weapons/357_reload1.wav" );
     }
 }
 
@@ -122,7 +124,7 @@ class ammo_bts_glocksd : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_dglocksd" == pev.classname ? Math.RandomLong( 8, 13 ) : weapon_bts_glocksd::AMMO_GIVE ), "9mm", weapon_bts_glocksd::MAX_CARRY );
+        return AddAmmo( other, weapon_bts_glocksd::AMMO_GIVE, "9mm", weapon_bts_glocksd::MAX_CARRY );
     }
 }
 
@@ -134,7 +136,7 @@ class ammo_bts_m4 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_556mag" == pev.classname ? Math.RandomLong( 6, 12 ) : weapon_bts_m4::AMMO_GIVE ), "556", weapon_bts_m4::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
+        return AddAmmo( other, weapon_bts_m4::AMMO_GIVE, "556", weapon_bts_m4::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
     }
 }
 
@@ -171,7 +173,7 @@ class ammo_bts_m16 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_556round" == pev.classname ? Math.RandomLong( 9, 23 ) : weapon_bts_m16::AMMO_GIVE ), "556", weapon_bts_m16::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
+        return AddAmmo( other, weapon_bts_m16::AMMO_GIVE, "556", weapon_bts_m16::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
     }
 }
 
@@ -233,7 +235,7 @@ class ammo_bts_mp5 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_dmp5" == pev.classname ? Math.RandomLong( 9, 21 ) : weapon_bts_mp5::AMMO_GIVE ), "9mm", weapon_bts_mp5::MAX_CARRY, "bts_rc/weapons/mp5_clip.wav" );
+        return AddAmmo( other, weapon_bts_mp5::AMMO_GIVE, "9mm", weapon_bts_mp5::MAX_CARRY, "bts_rc/weapons/mp5_clip.wav" );
     }
 }
 
@@ -245,7 +247,7 @@ class ammo_bts_mp5gl : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_9mmbox" == pev.classname ? Math.RandomLong( 17, 20 ) : weapon_bts_mp5gl::AMMO_GIVE ), "9mm", weapon_bts_mp5gl::MAX_CARRY, "bts_rc/weapons/mp5_clip.wav" );
+        return AddAmmo( other, weapon_bts_mp5gl::AMMO_GIVE, "9mm", weapon_bts_mp5gl::MAX_CARRY, "bts_rc/weapons/mp5_clip.wav" );
     }
 }
 
@@ -269,7 +271,7 @@ class ammo_bts_python : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_357cyl" == pev.classname ? Math.RandomLong( 2, 4 ) : 3 ), "357", weapon_bts_python::MAX_CARRY, "hlclassic/weapons/357_reload1.wav" );
+        return AddAmmo( other, 3, "357", weapon_bts_python::MAX_CARRY, "hlclassic/weapons/357_reload1.wav" );
     }
 }
 
@@ -281,7 +283,7 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_dsaw" == pev.classname ? Math.RandomLong( 25, 30 ) : weapon_bts_saw::AMMO_DROPPED ), "556", weapon_bts_saw::MAX_CARRY, "bts_rc/weapons/saw_reload2.wav" );
+        return AddAmmo( other, weapon_bts_saw::AMMO_DROPPED, "556", weapon_bts_saw::MAX_CARRY, "bts_rc/weapons/saw_reload2.wav" );
     }
 } class ammo_bts_sawsd : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
@@ -291,7 +293,7 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_dsaw" == pev.classname ? Math.RandomLong( 25, 30 ) : weapon_bts_saw::AMMO_DROPPED ), "556", weapon_bts_saw::MAX_CARRY, "bts_rc/weapons/saw_reload2.wav" );
+        return AddAmmo( other, weapon_bts_saw::AMMO_DROPPED, "556", weapon_bts_saw::MAX_CARRY, "bts_rc/weapons/saw_reload2.wav" );
     }
 }
 /*
@@ -339,7 +341,7 @@ class ammo_bts_shotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, ( "ammo_bts_shotshell" == pev.classname ? 3 : weapon_bts_shotgun::AMMO_GIVE_DROP ), "buckshot", weapon_bts_shotgun::MAX_CARRY, "hlclassic/weapons/reload1.wav" );
+        return AddAmmo( other, weapon_bts_shotgun::AMMO_GIVE_DROP, "buckshot", weapon_bts_shotgun::MAX_CARRY, "hlclassic/weapons/reload1.wav" );
     }
 }
 
