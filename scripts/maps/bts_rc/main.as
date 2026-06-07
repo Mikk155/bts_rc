@@ -112,7 +112,6 @@ void MapInit()
     }
 
     g_Logger.Register( json.ValueOrDefault( "log" ) );
-    json_v2_tests::RegisterJsonV2TestCommand();
 
     if( g_Logger.info.active )
     {
