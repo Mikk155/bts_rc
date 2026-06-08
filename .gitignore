@@ -1,11 +1,6 @@
 __pycache__/
 
 maps/*
-!maps/bts_rc_test_chamber.as
-!maps/bts_rc_test_chamber.bsp
-!maps/bts_rc_test_chamber.cfg
-!maps/bts_rc_test_chamber.map
-!maps/bts_rc.gmr
-!maps/bts_rc.gsr
-!maps/bts_rc.cfg
-as-clang-format.exe
+models/*
+sound/*
+sprites/*
