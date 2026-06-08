@@ -33,6 +33,9 @@
 #include "models"
 #include "PlayerClass"
 
+// Whatever the current map is bts_rc
+const bool g_IsMainMap = ( string( g_Engine.mapname ) == "bts_rc" );
+
 // Has the game started in the map?
 bool gpGameStarted;
 
@@ -43,16 +46,16 @@ bool gpHellHound = false;
 const uint32 gpGameVersion = g_Game.GetGameVersion();
 
 // Alias to DMG_DROWN used to identify TakeDamage has been called by a weapon of ours
-const uint32 DMG_BTS_WEAPON = DMG_DROWN;
+const uint32 DMG_BTS_WEAPON = DMG_DROWN; // -TODO Maybe a new unused bit? Would have to inspect the SDK to actually see DMG_DROWN does nothing
 
 // sven only has 8192 edicts at any given time
 // so assume each player carries exactly 10 weapons, and then leave 100 slots free for various temporary things. -Zode
-const int __freedicts_overgead__ = g_Engine.maxEntities - ( 10 * g_Engine.maxClients ) - 100;
+const int __freedicts_overhead__ = g_Engine.maxEntities - ( 10 * g_Engine.maxClients ) - 100;
 
 // Return whatever there's space in the server to spawn "overhead" amount of entities
 bool FreeEdicts( int overhead = 1 )
 {
-    return ( g_EngineFuncs.NumberOfEntities() < __freedicts_overgead__ - overhead );
+    return ( g_EngineFuncs.NumberOfEntities() < __freedicts_overhead__ - overhead );
 }
 
 // Get a random number between 0 and max. if RandomUint was called before the result will be stored in player data as "RandomUint" to avoid repeating the same number in a row

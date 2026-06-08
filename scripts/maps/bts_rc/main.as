@@ -36,12 +36,14 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 {
     gpGameStarted = true;
     g_SurvivalMode.Activate();
-    randomizer::Initialize();
+
+    if( !g_IsMainMap )
+        return;
+
+    // -TODO Move this initialization to MapActivate's loop
     item_tracker::Initialize();
 
-#if METAMOD_DEBUG
-    if( true ) { return; }
-#endif
+    randomizer::Initialize();
 
     auto ckv = activator.GetCustomKeyvalues();
 
@@ -95,9 +97,8 @@ void MapActivate()
 
     Hooks::Register();
 
-#if METAMOD_DEBUG
-MapBegin(null, null, USE_TOGGLE, 0 );
-#endif
+    if( !g_IsMainMap )
+        MapBegin(null, null, USE_TOGGLE, 0 );
 }
 
 void MapInit()

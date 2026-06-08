@@ -32,10 +32,11 @@ namespace Hooks
 
         auto character = GetCharacter(player);
 
-#if METAMOD_DEBUG
-        if( character is null )
+        if( character is null && !g_IsMainMap )
+        {
             SetClass( player, Classification::Scientist );
-#endif
+            @character = GetCharacter(player);
+        }
 
         if( character is null )
         {
@@ -99,7 +100,7 @@ namespace Hooks
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
         // Change impulse 101 command with our own weapons
-        if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
+        if( !g_IsMainMap || ( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES ) )
         {
             const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
             uint length = weaponNames.length();
