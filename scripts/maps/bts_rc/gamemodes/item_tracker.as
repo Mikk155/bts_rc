@@ -23,143 +23,191 @@
 
 namespace item_tracker
 {
-    dictionary Items;
+    array<ASItemData@> Items(0);
 
-    // Last frame we did an operation.
-    float gptime;
-    // String containing all the information.
-    string gpBuffer;
-
-    // List containing all the item_inventory names
-    const array<string>@ ValidItemNames =
+    class ASItemData
     {
-        "GEAR_1",
-        "GEAR_2",
-        "GEAR_3",
-        "GEAR_4",
-        "RETINA_COMPONENT",
-        "VALVE_1",
-        "WAREHOUSE_YARDKEY",
-        "DORMS_CARD_101",
-        "DORMS_CARD_106",
-        "DORMS_CARD_201",
-        "CODES_1",
-        "Blackmesa_Maintenance_Clearance_2",
-        "d5_officekey",
-        "d5_doctorkey",
-        "TORTURED_ARMORY_KEYCARD",
-        "Blackmesa_Security_Clearance_3"
-    };
+        private
+            CItemInventory@ m_Item;
+
+        bool IsValid() const
+        {
+            if( m_Item is null )
+            {
+                int index = Items.findByRef( this );
+
+                if( g_Logger.info.active )
+                    g_Logger.info.print( snprintf( glog, "Invalid CItemInventory removing from item tracking", m_Item.m_szItemName ) );
+
+                Items.removeAt( index );
+                return false;
+            }
+            return true;
+        }
+
+        string Content( int current, int max ) const
+        {
+            string players;
+
+            string itemName = m_Item.m_szItemName;
+
+            for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
+            {
+                CBasePlayer@ player = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
+
+                if( player !is null && player.IsConnected() )
+                {
+                    InventoryList@ inventory = player.m_pInventory;
+
+                    while( inventory !is null )
+                    {
+                        if( inventory.hItem.IsValid() )
+                        {
+                            CItemInventory@ item = cast<CItemInventory@>( inventory.hItem.GetEntity() );
+
+                            if( item !is null && string( item.m_szItemName ) == itemName )
+                            {
+                                snprintf( players, "%1\n%2", players, string( player.pev.netname ) );
+                                break;
+                            }
+                        }
+                        @inventory = inventory.pNext;
+                    }
+                }
+            }
+            string buffer;
+            snprintf( buffer, "%1/%2\nName: %3\nDetails: %4\nPlayers holding this item:%5", current, max, m_Item.m_szDisplayName, m_Item.m_szDescription, players );
+            return buffer;
+        }
+
+        ASItemData( CItemInventory@ item )
+        {
+            @m_Item = item;
+        }
+    }
+
+    void RegisterItem( CItemInventory@ item )
+    {
+        if( item is null )
+            return;
+
+        string name = item.m_szItemName;
+
+        if( name != "GEAR_1"
+        && name != "GEAR_1"
+        && name != "GEAR_2"
+        && name != "GEAR_3"
+        && name != "GEAR_4"
+        && name != "RETINA_COMPONENT"
+        && name != "VALVE_1"
+        && name != "WAREHOUSE_YARDKEY"
+        && name != "DORMS_CARD_101"
+        && name != "DORMS_CARD_106"
+        && name != "DORMS_CARD_201"
+        && name != "CODES_1"
+        && name != "Blackmesa_Maintenance_Clearance_2"
+        && name != "d5_officekey"
+        && name != "d5_doctorkey"
+        && name != "TORTURED_ARMORY_KEYCARD"
+        && name != "Blackmesa_Security_Clearance_3"
+        ) {
+            return;
+        }
+
+        if( g_Logger.info.active )
+            g_Logger.info.print( snprintf( glog, "Registering item \"%1\" for item tracking", item.m_szItemName ) );
+
+        ASItemData@ data = ASItemData( item );
+
+        Items.insertLast( data );
+    }
+
+    HUDTextParams params;
 
     void Think( CBasePlayer@ player )
     {
         if( player is null )
             return;
 
-        if( ( player.pev.button & IN_USE ) == 0 || ( player.pev.button & IN_RELOAD ) == 0 )
-            return;
+        dictionary@ data = player.GetUserData();
 
-        // The buffer may be old, update it.
-        if( g_Engine.time > gptime )
+        float nextthink = float( data[ "item_tracker.time" ] );
+
+        const int length = Items.length();
+
+        int menuIndex;
+
+        if( !data.get( "item_tracker.index", menuIndex ) )
         {
-            dictionary bufferList;
-
-            for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
+            if( ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0 )
             {
-                CBasePlayer@ players = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
+                player.pev.button &= ~IN_USE;
+                player.pev.button &= ~IN_RELOAD;
 
-                if( players is null || !players.IsConnected() )
-                    continue;
+                if( nextthink > g_Engine.time ) { return; }
 
-                InventoryList@ inventory = players.m_pInventory;
-                array<string> duplicatedItems(0);
-
-                while( inventory !is null )
-                {
-                    CItemInventory@ item = cast<CItemInventory@>( inventory.hItem.GetEntity() );
-                    @inventory = inventory.pNext;
-
-                    string buffer, name = item.m_szItemName;
-
-                    if( item is null || ValidItemNames.find( name ) <= -1 || duplicatedItems.find( name ) >= 0 )
-                        continue;
-
-                    duplicatedItems.insertLast( name );
-
-                    if( !bufferList.get( name, buffer ) )
-                    {
-                        array<string>@ KeyvaluePairData;
-
-                        if( Items.get( name, @KeyvaluePairData ) )
-                        {
-                            snprintf( buffer, "Item: %1\nDetails: %2\nPlayers holding this item:", KeyvaluePairData[0], KeyvaluePairData[1] );
-                        }
-                    }
-
-                    snprintf( buffer, "%1\n - %2\n", buffer, string( player.pev.netname ) );
-                    bufferList[ name ] = buffer;
-                }
-            }
-
-            array<string> item_names = bufferList.getKeys();
-            uint length = item_names.length();
-
-            if( length == 0 )
-            {
-                gpBuffer = "There is no player that has currently any item.";
+                data[ "item_tracker.index" ] = menuIndex = 0;
             }
             else
             {
-                gpBuffer = "List of players and inventory information\n";
-
-                for( uint ui = 0; ui < length; ui++ )
-                {
-                    snprintf( gpBuffer, "%1\n%2", gpBuffer, string( bufferList[ item_names[ui] ] ) );
-                }
+                data[ "item_tracker.time" ] = g_Engine.time + 0.3f;
+                return;
             }
-
-            gptime = g_Engine.time + 1.0; // Cooldown time for refreshing.
         }
-
-        player.pev.button &= ~IN_RELOAD;
-        player.pev.button &= ~IN_USE;
-
-        dictionary@ data = player.GetUserData();
-
-        if( g_Engine.time > float( data["motd_update"] ) )
+        else if( ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0 )
         {
-            // Individual cooldown players to not spam UserMessages
-            data["motd_update"] = g_Engine.time + 1.0f;
+            player.pev.button &= ~IN_USE;
+            player.pev.button &= ~IN_RELOAD;
 
-            auto edict = player.edict();
+            if( nextthink > g_Engine.time ) { return; }
 
-            {
-                NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
-                    msg.WriteString( "Item holders list" );
-                msg.End();
-            }
-
-            uint length = gpBuffer.Length();
-            string buffer;
-            uint cur = 0;
-
-            while( length > cur )
-            {
-                buffer = gpBuffer.SubString( cur, cur + 45 > length ? length - cur : 45 );
-                cur += 45;
-
-                NetworkMessage msg( MSG_ONE, NetworkMessages::MOTD, edict );
-                    msg.WriteByte( buffer.Length() == 45 ? 0 : 1 );
-                    msg.WriteString( buffer );
-                msg.End();  
-            }
-
-            // Restore the hostname
-            {
-                NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
-                    msg.WriteString( g_EngineFuncs.CVarGetString( "hostname" ) );
-                msg.End();
-            }
+            data.delete( "item_tracker.index" );
+            data[ "item_tracker.time" ] = g_Engine.time + 0.3f;
+            return;
         }
+        else if( ( player.pev.button & IN_ATTACK ) != 0 )
+        {
+            player.pev.button &= ~IN_ATTACK;
+
+            if( nextthink > g_Engine.time ) { return; }
+
+            if( menuIndex == 0 )
+                menuIndex = length;
+            menuIndex--;
+        }
+        else if( ( player.pev.button & IN_ATTACK2 ) != 0 )
+        {
+            player.pev.button &= ~IN_ATTACK2;
+
+            if( nextthink > g_Engine.time ) { return; }
+
+            menuIndex++;
+            if( menuIndex >= length )
+                menuIndex = 0;
+        }
+
+        if( nextthink > g_Engine.time ) { return; }
+
+        data[ "item_tracker.time" ] = g_Engine.time + 0.3f;
+        data[ "item_tracker.index" ] = menuIndex;
+
+        auto itemData = Items[menuIndex];
+
+        if( !itemData.IsValid() )
+            return;
+
+        params.r1 = 150;
+        params.g1 = 150;
+        params.b1 = 150;
+        params.a1 = 255;
+        params.fadeinTime = 0.0;
+        params.holdTime = 1.0;
+        params.fadeoutTime = 1.0;
+        params.effect = 0;
+        params.channel = 4;
+        params.x = 0.01f;
+        params.y = 0.30f;
+
+        g_PlayerFuncs.HudMessage( player, params, itemData.Content( menuIndex, length ) );
     }
 }

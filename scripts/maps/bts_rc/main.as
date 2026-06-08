@@ -89,15 +89,7 @@ void MapActivate()
 
         // item tracker data
         if( entity.GetClassname()  == "item_inventory" )
-        {
-            CItemInventory@ item = cast<CItemInventory@>(entity);
-
-            if( item !is null && item_tracker::ValidItemNames.find( item.m_szItemName ) >= 0 )
-            {
-                array<string> list = { item.m_szDisplayName, item.m_szDescription };
-                item_tracker::Items[ item.m_szItemName ] = list;
-            }
-        }
+            item_tracker::RegisterItem( cast<CItemInventory@>(entity) );
     }
 
     MapLoadedChrono.Stop();
