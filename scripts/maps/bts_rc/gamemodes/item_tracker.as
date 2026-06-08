@@ -23,7 +23,7 @@
 
 namespace item_tracker
 {
-    dictionary m_Items;
+    dictionary Items;
 
     // Last frame we did an operation.
     float gptime;
@@ -31,7 +31,7 @@ namespace item_tracker
     string gpBuffer;
 
     // List containing all the item_inventory names
-    array<string> m_ValidItemNames =
+    const array<string>@ ValidItemNames =
     {
         "GEAR_1",
         "GEAR_2",
@@ -50,20 +50,6 @@ namespace item_tracker
         "TORTURED_ARMORY_KEYCARD",
         "Blackmesa_Security_Clearance_3"
     };
-
-    void Initialize()
-    {
-        CItemInventory@ item = null;
-
-        while( ( @item = cast<CItemInventory@>( g_EntityFuncs.FindEntityByClassname( item, "item_inventory" ) ) ) !is null )
-        {
-            if( m_ValidItemNames.find( item.m_szItemName ) >= 0 )
-            {
-                array<string> list = { item.m_szDisplayName, item.m_szDescription };
-                m_Items[ item.m_szItemName ] = list;
-            }
-        }
-    }
 
     void Think( CBasePlayer@ player )
     {
@@ -95,7 +81,7 @@ namespace item_tracker
 
                     string buffer, name = item.m_szItemName;
 
-                    if( item is null || m_ValidItemNames.find( name ) <= -1 || duplicatedItems.find( name ) >= 0 )
+                    if( item is null || ValidItemNames.find( name ) <= -1 || duplicatedItems.find( name ) >= 0 )
                         continue;
 
                     duplicatedItems.insertLast( name );
@@ -104,7 +90,7 @@ namespace item_tracker
                     {
                         array<string>@ KeyvaluePairData;
 
-                        if( m_Items.get( name, @KeyvaluePairData ) )
+                        if( Items.get( name, @KeyvaluePairData ) )
                         {
                             snprintf( buffer, "Item: %1\nDetails: %2\nPlayers holding this item:", KeyvaluePairData[0], KeyvaluePairData[1] );
                         }

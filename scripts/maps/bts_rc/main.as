@@ -42,9 +42,6 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     if( !g_IsMainMap )
         return;
 
-    // -TODO Move this initialization to MapActivate's loop
-    item_tracker::Initialize();
-
     randomizer::Initialize();
 
     auto ckv = activator.GetCustomKeyvalues();
@@ -88,6 +85,18 @@ void MapActivate()
 
             if( overrider !is null )
                 overrider.AddEntity( entityIndex, entity, ckv, monster );
+        }
+
+        // item tracker data
+        if( entity.GetClassname()  == "item_inventory" )
+        {
+            CItemInventory@ item = cast<CItemInventory@>(entity);
+
+            if( item !is null && item_tracker::ValidItemNames.find( item.m_szItemName ) >= 0 )
+            {
+                array<string> list = { item.m_szDisplayName, item.m_szDescription };
+                item_tracker::Items[ item.m_szItemName ] = list;
+            }
         }
     }
 
