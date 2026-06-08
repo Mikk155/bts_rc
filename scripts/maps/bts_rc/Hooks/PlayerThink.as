@@ -100,7 +100,7 @@ namespace Hooks
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
         // Change impulse 101 command with our own weapons
-        if( !g_IsMainMap || ( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES ) )
+        if( player.pev.impulse == 101 && ( !g_IsMainMap || g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES ) )
         {
             const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
             uint length = weaponNames.length();
