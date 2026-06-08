@@ -49,6 +49,7 @@ enum Classification
 // View model hands bodygroups
 enum Hands
 {
+    Unset = -1,
     Blue = 0,
     White,
     Orange,
@@ -58,7 +59,9 @@ enum Hands
     Gray,
     BlueBlackHands,
     Green,
-    GrayGloves
+    GrayGloves,
+    // Just a end of enum for size reference.
+    __Size__
 };
 
 array<CCharacter@> g_ScienceTeam;
@@ -163,76 +166,133 @@ class CCharacter
 array<array<CCharacter@>> g_Characters(Classification::__Size__);
 array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
+void __RegisterCharacter__( string character_name, Classification character_classify, Hands character_hands )
+{
+    array<CCharacter@>@ list = g_Characters[character_classify];
+
+    CCharacter@ character = CCharacter( character_name, character_hands, character_classify );
+
+    list.insertLast( @character );
+
+    // For randomization
+    g_LastSelectedCharacter[character_classify] = Math.RandomLong( 0, list.length() - 1 );
+
+    if( g_Logger.debug.active )
+    {
+        string strlog;
+        snprintf( strlog, "Registered character \"%1\" at classify %2 ", character_name, int( character_classify ));
+        switch( character_classify )
+        {
+            case Classification::Security: snprintf( strlog, "%1\"%2\"", strlog, "Security" ); break;
+            case Classification::Scientist: snprintf( strlog, "%1\"%2\"", strlog, "Scientist" ); break;
+            case Classification::Maintenance: snprintf( strlog, "%1\"%2\"", strlog, "Maintenance" ); break;
+            case Classification::HEV: snprintf( strlog, "%1\"%2\"", strlog, "HEV" ); break;
+            case Classification::Hazard: snprintf( strlog, "%1\"%2\"", strlog, "Hazard" ); break;
+            case Classification::Operative: snprintf( strlog, "%1\"%2\"", strlog, "Operative" ); break;
+        }
+        snprintf( strlog, "%1 using hands %2 ", strlog, int( character_hands ) );
+        switch( character_hands )
+        {
+            case Hands::Blue: snprintf( strlog, "%1\"%2\"", strlog, "Blue" ); break;
+            case Hands::White: snprintf( strlog, "%1\"%2\"", strlog, "White" ); break;
+            case Hands::Orange: snprintf( strlog, "%1\"%2\"", strlog, "Orange" ); break;
+            case Hands::WhiteBlackHands: snprintf( strlog, "%1\"%2\"", strlog, "WhiteBlackHands" ); break;
+            case Hands::Hevsuit: snprintf( strlog, "%1\"%2\"", strlog, "Hevsuit" ); break;
+            case Hands::Cleansuit: snprintf( strlog, "%1\"%2\"", strlog, "Cleansuit" ); break;
+            case Hands::Gray: snprintf( strlog, "%1\"%2\"", strlog, "Gray" ); break;
+            case Hands::BlueBlackHands: snprintf( strlog, "%1\"%2\"", strlog, "BlueBlackHands" ); break;
+            case Hands::Green: snprintf( strlog, "%1\"%2\"", strlog, "Green" ); break;
+            case Hands::GrayGloves: snprintf( strlog, "%1\"%2\"", strlog, "GrayGloves" ); break;
+        }
+        g_Logger.debug.print( strlog );
+    }
+}
+
 void RegisterAllCharacters( meta_api::json::v2::json@ json, Server::chrono@ chrono )
 {
-    if( json is null || !json.is_array() )
+    if( json is null )
     {
-        g_Logger.critical.print( "Could not parse \"characters\" from json! things will break!" );
-        return;
+        g_Logger.warning.print( "Could not parse \"characters\" missing from json!" );
+        @json = meta_api::json::v2::json();
+    }
+    else if( !json.is_array() )
+    {
+        g_Logger.warning.print( "\"characters\" from json is not an array!" );
+        json.Clear();
+    }
+    else if( json.Length() <= 0 )
+    {
+        g_Logger.warning.print( "\"characters\" from json was empty!" );
     }
 
-    int jsonLength = json.Length();
-
-    if( jsonLength <= 0 )
-    {
-        g_Logger.critical.print( "No playable characters were found in json! things will break!" );
-        return;
-    }
-
-    uint length = uint( jsonLength );
+    uint length = uint( json.Length() );
 
     for( uint ui = 0; ui < length; ui++ )
     {
         auto character_data = json[ui];
 
-        if( character_data is null || !character_data.is_array() || character_data.Length() < 3 )
+        if( character_data is null  )
+        {
+            g_Logger.warning.print( snprintf( glog, "Skipping null character entry at index %1", ui ) );
+            continue;
+        }
+
+        if( !character_data.is_array() )
+        {
+            g_Logger.warning.print( snprintf( glog, "Skipping non-array character entry at index %1", ui ) );
+            continue;
+        }
+
+        if( character_data.Length() < 3 )
         {
             g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1", ui ) );
             continue;
         }
 
-        string character_name = string( character_data[0] );
-        Classification character_classify = Classification( int( character_data[1] ) );
-        Hands character_hands = Hands( int( character_data[2] ) );
+        meta_api::json::v2::json@ jName = character_data[0];
+        meta_api::json::v2::json@ jClassify = character_data[1];
+        meta_api::json::v2::json@ jHands = character_data[2];
 
-        array<CCharacter@>@ list = g_Characters[character_classify];
-
-        CCharacter@ character = CCharacter( character_name, character_hands, character_classify );
-
-        list.insertLast( @character );
-
-        // For randomization
-        g_LastSelectedCharacter[character_classify] = Math.RandomLong( 0, list.length() - 1 );
-
-        if( g_Logger.debug.active )
+        if( !jName.is_string() )
         {
-            string strlog;
-            snprintf( strlog, "Registered character \"%1\" at classify %2 ", character_name, int( character_classify ));
-            switch( character_classify )
-            {
-                case Classification::Security: snprintf( strlog, "%1\"%2\"", strlog, "Security" ); break;
-                case Classification::Scientist: snprintf( strlog, "%1\"%2\"", strlog, "Scientist" ); break;
-                case Classification::Maintenance: snprintf( strlog, "%1\"%2\"", strlog, "Maintenance" ); break;
-                case Classification::HEV: snprintf( strlog, "%1\"%2\"", strlog, "HEV" ); break;
-                case Classification::Hazard: snprintf( strlog, "%1\"%2\"", strlog, "Hazard" ); break;
-                case Classification::Operative: snprintf( strlog, "%1\"%2\"", strlog, "Operative" ); break;
-            }
-            snprintf( strlog, "%1 using hands %2 ", strlog, int( character_hands ) );
-            switch( character_hands )
-            {
-                case Hands::Blue: snprintf( strlog, "%1\"%2\"", strlog, "Blue" ); break;
-                case Hands::White: snprintf( strlog, "%1\"%2\"", strlog, "White" ); break;
-                case Hands::Orange: snprintf( strlog, "%1\"%2\"", strlog, "Orange" ); break;
-                case Hands::WhiteBlackHands: snprintf( strlog, "%1\"%2\"", strlog, "WhiteBlackHands" ); break;
-                case Hands::Hevsuit: snprintf( strlog, "%1\"%2\"", strlog, "Hevsuit" ); break;
-                case Hands::Cleansuit: snprintf( strlog, "%1\"%2\"", strlog, "Cleansuit" ); break;
-                case Hands::Gray: snprintf( strlog, "%1\"%2\"", strlog, "Gray" ); break;
-                case Hands::BlueBlackHands: snprintf( strlog, "%1\"%2\"", strlog, "BlueBlackHands" ); break;
-                case Hands::Green: snprintf( strlog, "%1\"%2\"", strlog, "Green" ); break;
-                case Hands::GrayGloves: snprintf( strlog, "%1\"%2\"", strlog, "GrayGloves" ); break;
-            }
-            g_Logger.debug.print( strlog );
+            g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 first argument is not string!", ui ) );
+            continue;
         }
+
+        int iClassify;
+        if( !jClassify.is_number_unsigned() || !jClassify.Get( iClassify ) || Math.clamp( Classification::Unset + 1, Classification::__Size__ - 1, iClassify ) != iClassify )
+        {
+            g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 second argument is not valid number!", ui ) );
+            continue;
+        }
+
+        int iHands;
+        if( !jHands.is_number_unsigned() || !jHands.Get( iHands ) || Math.clamp( Hands::Unset + 1, Hands::__Size__ - 1, iHands ) != iHands )
+        {
+            g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 second argument is not valid number!", ui ) );
+            continue;
+        }
+
+        __RegisterCharacter__( string( jName ), Classification( iClassify ), Hands( iHands ) );
+    }
+
+    if( g_Characters[Classification::Hazard].length() <= 0 ) {
+        __RegisterCharacter__("bts_cleansuit", Classification::Hazard, Hands::Cleansuit );
+    }
+    if( g_Characters[Classification::HEV].length() <= 0 ) {
+        __RegisterCharacter__("bts_helmet", Classification::HEV, Hands::Hevsuit );
+    }
+    if( g_Characters[Classification::Security].length() <= 0 ) {
+        __RegisterCharacter__("bts_barney", Classification::Security, Hands::Blue );
+    }
+    if( g_Characters[Classification::Scientist].length() <= 0 ) {
+        __RegisterCharacter__("bts_scientist", Classification::Scientist, Hands::White );
+    }
+    if( g_Characters[Classification::Maintenance].length() <= 0 ) {
+        __RegisterCharacter__("bts_construction", Classification::Maintenance, Hands::Orange );
+    }
+    if( g_Characters[Classification::Operative].length() <= 0 ) {
+        __RegisterCharacter__("bts_op", Classification::Operative, Hands::Gray );
     }
 
     if( g_Logger.info.active )
