@@ -1,6 +1,6 @@
 __pycache__/
 
-maps/*
-models/*
-sound/*
-sprites/*
+maps/**
+models/**
+sound/**
+sprites/**

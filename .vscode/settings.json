@@ -1,9 +1,51 @@
 {
+    // Exclude assets folders
     "explorer.excludeGitIgnore": true,
 
     "files.associations":
     {
+        // We allow comments in AngelScript json
         "*.json": "jsonc",
         "*.as": "angelscript"
-    }
+    },
+
+    // Sven co-op specifics
+    "angelScript.characterLiterals": true,
+    "angelScript.explicitPropertyAccessor": false,
+    "angelScript.implicitMutualInclusion": true,
+    "angelScript.supportsForEach": false,
+    "angelScript.supportsDigitSeparators": false,
+    "angelScript.builtinStringType": "string",
+    "angelScript.builtinArrayType": "array",
+    "angelScript.allowUnicodeIdentifiers": false,
+    "angelScript.supportsTypedEnumerations": true,
+    "angelScript.hoistEnumParentScope": true,
+
+    "angelScript.definedSymbols":
+    [
+        "SERVER",
+        "METAMOD_PLUGIN_ASLP"
+    ],
+
+    "angelScript.includePath":
+    [
+        "scripts/maps/bts_rc/"
+    ],
+
+    // Analyzer exclude list
+    "angelScript.files.exclude":
+    [
+        ".github/**",
+        "docs/**",
+        "resource/**",
+        "scripts/maps/bts_rc_weapons/**", // Temporal to not waste time analyzing.
+        "src/**"
+    ],
+
+    // Formatting configuration
+    "angelScript.formatter.useTabIndent": false,
+    "angelScript.formatter.indentSpaces": 4,
+    "angelScript.formatter.maxBlankLines": 1,
+    "editor.indentSize": 4,
+    "editor.formatOnType": true
 }
