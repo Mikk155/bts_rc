@@ -70,6 +70,9 @@ namespace ConfigContext
 
             meta_api::json::v2::json@ contextData = json.ValueOrDefault(name);
 
+            if( !contextData.is_object() || contextData.Length() <= 0 )
+                g_Logger.warning.print( snprintf( glog, "Couldn't retrieve object \"%1\" from json. using defaults...", name ) );
+
             // If not explicitly false we asume true
             configurable.m_IsActive = contextData.ValueOrDefault( "active", true );
 
