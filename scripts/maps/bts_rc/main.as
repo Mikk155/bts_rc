@@ -37,6 +37,8 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     gpGameStarted = true;
     g_SurvivalMode.Activate();
 
+    Hooks::Register();
+
     if( !g_IsMainMap )
         return;
 
@@ -94,8 +96,6 @@ void MapActivate()
     @MapLoadedChrono = null;
 
     meta_api::NoticeInstallation();
-
-    Hooks::Register();
 
     if( !g_IsMainMap )
         MapBegin(null, null, USE_TOGGLE, 0 );
