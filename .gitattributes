@@ -3,6 +3,8 @@
 *.wav binary
 *.ico binary
 
+*.as text eol=lf
+
 *.res linguist-vendored
 *.as linguist-language=AngelScript
 *.predefined linguist-language=AngelScript
