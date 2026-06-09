@@ -28,9 +28,18 @@ namespace Hooks
         if( entity is null )
             return;
 
-        string classname = entity.GetClassname();
-
         auto ckv = squad.GetCustomKeyvalues();
+
+        // Get squadmaker custom keyvalues and pass them to childs
+        {
+            auto ckv_ent = entity.GetCustomKeyvalues();
+
+            CustomKeyvalue deathdrop = ckv.GetKeyvalue( "$s_deathdrop" );
+            if( deathdrop.Exists() )
+                ckv_ent.SetKeyvalue( "$s_deathdrop", deathdrop.GetString() );
+        }
+
+        string classname = entity.GetClassname();
 
         CBaseMonster@ monster = null;
 

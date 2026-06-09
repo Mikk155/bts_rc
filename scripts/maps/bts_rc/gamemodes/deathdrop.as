@@ -34,20 +34,20 @@ class ASDeathDropConfig : IConfigurable
     {
         if( this.IsActive() )
         {
-            const auto monsters = json.Keys;
-            uint size = monsters.length();
+            const auto listNames = json.Keys;
+            uint size = listNames.length();
 
             for( uint ui = 0; ui < size; ui++ )
             {
-                string monster = monsters[ui];
+                string listName = listNames[ui];
 
                 array<string>@ itemNames;
 
-                if( meta_api::json::v2::fmt::ToArray( json[ monster ], itemNames ) )
+                if( meta_api::json::v2::fmt::ToArray( json[ listName ], itemNames ) )
                 {
                     if( g_Logger.debug.active )
-                        g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", monster ) );
-                    @m_Monsters[ monster ] = itemNames;
+                        g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", listNames ) );
+                    @m_Monsters[ listName ] = itemNames;
                 }
 
                 // Just debug
@@ -64,7 +64,7 @@ class ASDeathDropConfig : IConfigurable
                     for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
                     {
                         string name = dropsCountKeys[uilog];
-                        g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
+                        g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                     }
                 }
             }
@@ -76,10 +76,27 @@ class ASDeathDropConfig : IConfigurable
         if( monster is null || !FreeEdicts( 1 ) )
             return null;
 
+        auto ckv = monster.GetCustomKeyvalues().GetKeyvalue( "$_deathdrop" );
+
+        if( !ckv.Exists() )
+            return null;
+
+        string listName = ckv.GetString();
+
         array<string>@ drops;
 
-        if( !gpDeathDrop.m_Monsters.get( string( monster.pev.model ), @drops ) )
-            gpDeathDrop.m_Monsters.get( monster.GetClassname(), @drops );
+        if( listName.Find( '.' ) != String::INVALID_INDEX )
+        {
+            array<string>@ randomListName = listName.Split( '.' );
+            listName = randomListName[ Math.RandomLong( 0, randomListName.length() -1 ) ];
+        }
+
+        if( !m_Monsters.get( listName, @drops ) )
+        {
+            if( g_Logger.warning.active )
+                g_Logger.warning.print( snprintf( glog, "monster \"%1\" couldn't retrieve list with name \"%2\" at %3", monster.GetClassname(), listName, monster.GetOrigin().ToString() ) );
+            return null;
+        }
 
         if( drops is null || drops.length() <= 0 )
             return null;
@@ -94,14 +111,16 @@ class ASDeathDropConfig : IConfigurable
 
         if( drop == "grenade" )
         {
-            g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
-            return null;
+            auto timed = g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
+            return timed;
         }
 
         CBaseEntity@ item = g_EntityFuncs.Create( drop, monster.Center(), g_vecZero, false, monster.edict() );
 
         if( item !is null )
+        {
             item.pev.spawnflags |= 1024; // no more respawn
+        }
 
         return @item;
     }
