@@ -50,6 +50,14 @@ class ASDeathDropConfig : IConfigurable
                     @m_Monsters[ listName ] = itemNames;
                 }
 
+                // Precache
+                for( uint uie = 0; uie < itemNames.length(); uie++ )
+                {
+                    string itemName = itemNames[uie];
+                    if( !itemName.IsEmpty() && itemName != "grenade" )
+                        g_Game.PrecacheOther( itemName );
+                }
+
                 // Just debug
                 if( g_Logger.trace.active )
                 {
