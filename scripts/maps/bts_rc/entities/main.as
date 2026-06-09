@@ -24,4 +24,7 @@
 #include "env_commentary"
 #include "func_bts_recharger"
 #include "point_checkpoint"
+#if SERVER
+#include "trigger_logger"
+#endif
 #include "trigger_update_class"
