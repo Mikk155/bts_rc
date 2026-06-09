@@ -302,7 +302,7 @@ void Precache()
     g_Game.PrecacheModel( "sprites/SAWFlash.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/640hudof01.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/640hudof02.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/M79_crosshair.spr" );
+    g_Game.PrecacheModel( "sprites/bts_rc/m79_crosshair.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/ablood_1.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/ablood_2.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/ablood_3.spr" );
