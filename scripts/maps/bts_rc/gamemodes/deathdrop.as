@@ -54,16 +54,16 @@ class ASDeathDropConfig : IConfigurable
                 if( g_Logger.trace.active )
                 {
                     dictionary count;
-                    for( uint ui = 0; ui < itemNames.length(); ui++ )
+                    for( uint uilog = 0; uilog < itemNames.length(); uilog++ )
                     {
-                        string name = string( itemNames[ui] );
+                        string name = string( itemNames[uilog] );
                         count[ name ] = int( count[ name ] ) + 1;
                     }
 
                     auto dropsCountKeys = count.getKeys();
-                    for( uint ui = 0; ui < dropsCountKeys.length(); ui++ )
+                    for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
                     {
-                        string name = dropsCountKeys[ui];
+                        string name = dropsCountKeys[uilog];
                         g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", monster, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                     }
                 }
