@@ -23,6 +23,7 @@
 
 #include "MonsterKilled"
 #include "MonsterTakeDamage"
+#include "PlayerCanCollect"
 #include "PlayerCollect"
 #include "PlayerInitialized"
 #include "PlayerKilled"
@@ -40,8 +41,8 @@ namespace Hooks
         g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @MonsterTakeDamage );
 
+        g_Hooks.RegisterHook( Hooks::PickupObject::CanCollect, @PlayerCanCollect );
         g_Hooks.RegisterHook( Hooks::PickupObject::Collected, @PlayerCollect );
-        g_Hooks.RegisterHook( Hooks::Game::EntityCreated, @EntityCreated );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PlayerKilled );
         g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @PlayerRevive );
