@@ -2,7 +2,7 @@ name: Map issue
 description: Issue related to the map itself
 title: "[Bug] "
 labels: [ "bug", "map" ]
-assignees: [ "RaptorSKA" ]
+assignees: []
 
 body:
   - type: markdown

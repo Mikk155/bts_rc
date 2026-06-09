@@ -2,7 +2,7 @@ name: Suggestion
 description: Suggestion
 title: "[Suggestion] "
 labels: [ "enchancement" ]
-assignees: [  ]
+assignees: []
 
 body:
   - type: markdown

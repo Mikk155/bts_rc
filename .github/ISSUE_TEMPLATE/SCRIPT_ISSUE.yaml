@@ -2,7 +2,7 @@ name: AngelScript issue
 description: Issue related to the AngelScript map scripts
 title: "[Bug] "
 labels: [ "bug", "scripts" ]
-assignees: [ "mikk155" ]
+assignees: []
 
 body:
   - type: markdown
