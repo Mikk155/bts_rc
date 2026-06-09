@@ -26,6 +26,9 @@ namespace Hooks
     // Called once per player after gpGameStarted is true and the player presses any key
     void PlayerInitialized( CBasePlayer@ player, dictionary@ data )
     {
+        if( !g_IsMainMap )
+            return;
+
         if( gpGameVersion == 526 )
         {
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "NOTICE: If you have played older versions of this map previously\n" );

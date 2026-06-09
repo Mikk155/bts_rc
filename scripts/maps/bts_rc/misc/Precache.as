@@ -330,6 +330,9 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/tfchud07.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
 
-    g_Game.PrecacheMonster( "monster_shocktrooper", true );
-    g_Game.PrecacheMonster( "monster_shocktrooper", false );
+    if( !g_IsMainMap )
+    {
+        g_Game.PrecacheMonster( "monster_shocktrooper", true );
+        g_Game.PrecacheMonster( "monster_shocktrooper", false );
+    }
 }
