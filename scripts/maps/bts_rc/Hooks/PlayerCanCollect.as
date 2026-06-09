@@ -11,15 +11,18 @@ namespace Hooks
         {
             result = false;
 
-            CBaseEntity@ roach = g_EntityFuncs.FindEntityInSphere( null, other.pev.origin, 512, "monster_shockroach", "classname" );
-
-            if( roach !is null )
+            if( gpGameVersion == 526 )
             {
-                auto newRoach = g_EntityFuncs.Create( "monster_shockroach", roach.pev.origin, roach.pev.angles, false, null );
+                CBaseEntity@ roach = g_EntityFuncs.FindEntityInSphere( null, other.pev.origin, 512, "monster_shockroach", "classname" );
 
-                if( newRoach !is null )
+                if( roach !is null )
                 {
-                    newRoach.Killed( other.pev, GIB_NEVER );
+                    auto newRoach = g_EntityFuncs.Create( "monster_shockroach", roach.pev.origin, roach.pev.angles, false, null );
+
+                    if( newRoach !is null )
+                    {
+                        newRoach.Killed( other.pev, GIB_NEVER );
+                    }
                 }
             }
 
