@@ -38,6 +38,12 @@ namespace Hooks
         if( info.flDamage > 0 && victim.m_LastHitGroup == 1 && gpZombieUncrab.IsActive() && gpZombieUncrab.track_health && gpZombieUncrab.IsValid( info.pVictim ) )
             data["headcrab_damage"] = float( data["headcrab_damage"] ) + info.flDamage;
 
+        string classname = victim.GetClassname();
+        string model = string( victim.pev.model );
+
+        if( gpZombieEngineer.IsValid( classname, model ) )
+            gpZombieEngineer.TakeDamage( victim, info );
+
         return HOOK_CONTINUE;
     }
 }

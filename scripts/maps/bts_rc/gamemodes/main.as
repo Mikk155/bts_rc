@@ -30,4 +30,5 @@
 #include "player_voices"
 #include "PlayerClass"
 #include "randomizer"
+#include "zombie_engineer"
 #include "zombie_uncrab"
