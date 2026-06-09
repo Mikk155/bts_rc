@@ -116,6 +116,7 @@ class ASDynamicAmmoConfig : IConfigurable
 
 ASDynamicAmmoConfig gpDynamicAmmo;
 
+#if SERVER
 RegisterCommand __gpDynamicAmmoTestCmd__(
     "ammo_test",
     "[simulated_players]",
@@ -174,3 +175,4 @@ RegisterCommand __gpDynamicAmmoTestCmd__(
     },
     false
 );
+#endif
