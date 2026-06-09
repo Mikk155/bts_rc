@@ -29,7 +29,6 @@
 #include "hwrgboss"
 #include "robogrunts"
 //#include "scientists"
-#include "zombies"
 #include "engineer"
 #include "monster_zombie_grenadier"
 #include "monster_snapbug"
@@ -48,7 +47,6 @@ void CustomMonsterMapInit()
     RobogruntMapInit();
     HWRGMapInit();
     //ScientistMapInit();
-    ZombiesMapInit();
     EngineerMapInit();
 
     monster_zombie_grenadier::Register();
@@ -76,7 +74,6 @@ void MonsterThink()
     RoboThink();
     //ScientistThink();
     HWRGThink();
-    ZombieThink();
     EngineerThink();
 }
 
