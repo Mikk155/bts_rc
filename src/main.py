@@ -9,7 +9,7 @@
 import os;
 import sys;
 from PyBuilder import PyBuilder;
-from typing import Literal, LiteralString, Optional
+from typing import Literal, LiteralString
 
 gpEmptyString: Literal[ "" ] = "";
 
@@ -22,9 +22,6 @@ def Main() -> int:
     LOCAL_BUILDER: bool = ( len(sys.argv) == 1 );
 
     if LOCAL_BUILDER:
-
-        from PyLicense import PyLicense;
-        Builders.append( PyLicense() );
 
         from PyDocumentation import PyDocumentation;
         # Disabled due to a Javascript implementation parsing schema directly.
