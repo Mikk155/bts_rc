@@ -84,12 +84,14 @@ class ASDeathDropConfig : IConfigurable
         if( monster is null || !FreeEdicts( 1 ) )
             return null;
 
-        auto ckv = monster.GetCustomKeyvalues().GetKeyvalue( "$_deathdrop" );
+        auto ckv = monster.GetCustomKeyvalues();
 
-        if( !ckv.Exists() )
+        auto ckv_drop = ckv.GetKeyvalue( "$_deathdrop" );
+
+        if( !ckv_drop.Exists() )
             return null;
 
-        string listName = ckv.GetString();
+        string listName = ckv_drop.GetString();
 
         string drop;
 
@@ -123,16 +125,23 @@ class ASDeathDropConfig : IConfigurable
         if( drop.IsEmpty() )
             return null;
 
+        Vector origin = monster.Center(), angles;
+        
+        auto ckv_attachment = ckv.GetKeyvalue( "$i_deathdrop" );
+
+        if( ckv_attachment.Exists() )
+            monster.GetAttachment( ckv_attachment.GetInteger(), origin, angles );
+
         if( g_Logger.debug.active )
-            g_Logger.debug.print( snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, monster.GetOrigin().ToString() ) );
+            g_Logger.debug.print( snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, origin.ToString() ) );
 
         if( drop == "grenade" )
         {
-            auto timed = g_EntityFuncs.ShootTimed( monster.pev, monster.Center(), Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
+            auto timed = g_EntityFuncs.ShootTimed( monster.pev, origin, Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
             return timed;
         }
 
-        CBaseEntity@ item = g_EntityFuncs.Create( drop, monster.Center(), g_vecZero, false, monster.edict() );
+        CBaseEntity@ item = g_EntityFuncs.Create( drop, origin, angles, false, monster.edict() );
 
         if( item !is null )
         {
