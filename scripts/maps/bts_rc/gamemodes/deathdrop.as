@@ -46,7 +46,7 @@ class ASDeathDropConfig : IConfigurable
                 if( meta_api::json::v2::fmt::ToArray( json[ listName ], itemNames ) )
                 {
                     if( g_Logger.debug.active )
-                        g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", listNames ) );
+                        g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", listName ) );
                     @m_Monsters[ listName ] = itemNames;
                 }
 
@@ -83,25 +83,34 @@ class ASDeathDropConfig : IConfigurable
 
         string listName = ckv.GetString();
 
-        array<string>@ drops;
+        string drop;
 
-        if( listName.Find( '.' ) != String::INVALID_INDEX )
+        if( listName[0] == '#' )
         {
-            array<string>@ randomListName = listName.Split( '.' );
-            listName = randomListName[ Math.RandomLong( 0, randomListName.length() -1 ) ];
+            drop = listName.SubString(1);
         }
-
-        if( !m_Monsters.get( listName, @drops ) )
+        else
         {
-            if( g_Logger.warning.active )
-                g_Logger.warning.print( snprintf( glog, "monster \"%1\" couldn't retrieve list with name \"%2\" at %3", monster.GetClassname(), listName, monster.GetOrigin().ToString() ) );
-            return null;
+            array<string>@ drops;
+
+            if( listName.Find( '.' ) != String::INVALID_INDEX )
+            {
+                array<string>@ randomListName = listName.Split( '.' );
+                listName = randomListName[ Math.RandomLong( 0, randomListName.length() -1 ) ];
+            }
+
+            if( !m_Monsters.get( listName, @drops ) )
+            {
+                if( g_Logger.warning.active )
+                    g_Logger.warning.print( snprintf( glog, "monster \"%1\" couldn't retrieve list with name \"%2\" at %3", monster.GetClassname(), listName, monster.GetOrigin().ToString() ) );
+                return null;
+            }
+
+            if( drops is null || drops.length() <= 0 )
+                return null;
+
+            drop = drops[ Math.RandomLong( 0, drops.length() - 1 ) ];
         }
-
-        if( drops is null || drops.length() <= 0 )
-            return null;
-
-        string drop = drops[ Math.RandomLong( 0, drops.length() - 1 ) ];
 
         if( drop.IsEmpty() )
             return null;
