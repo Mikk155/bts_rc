@@ -44,6 +44,9 @@ namespace test_chamber
 
     bool reg()
     {
+        if( g_IsMainMap )
+            return false;
+
         g_CustomEntityFuncs.RegisterCustomEntity( "test_chamber::trigger_logger", "trigger_logger" );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink,
