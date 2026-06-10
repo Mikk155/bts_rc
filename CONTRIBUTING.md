@@ -9,10 +9,25 @@ To ensure quality and consistency across all community contributions, please fol
 ## Local Environment Setup
 
 1. **Clone the Repository**
-   Navigate to your `Sven Co-op/svencoop/` directory and clone this repository under the folder name `svencoop_event_bts`. This directory name is critical to allow the event system to override local assets correctly:
+   Navigate to your `Sven Co-op/` directory and clone this repository under the folder name `svencoop_event_bts`. This directory name is critical to allow the event system to override local assets correctly:
    ```bash
    cd "C:\Program Files (x86)\Steam\steamapps\common\Sven Co-op\svencoop"
    git clone https://github.com/Mikk155/bts_rc.git svencoop_event_bts
+   ```
+   Open the console on your initialized client and type:
+   ```
+   ev_list
+   ```
+   You should get an output like this:
+   > [0] name: 'bts', title: 'Black Mesa Training Simulation: Resonance Cascade'<br>
+   > folder: 'svencoop_event_bts', priority: 1<br>
+   > date: 2026-01-01 00:00:00 - 2026-12-31 23:59:59<br>
+   > enabled: yes, forced: no<br>
+   > content: UI - yes, GAME - yes<br>
+   > active: UI - yes, GAME - yes
+   If for some reason it refuses to load you can enable it:
+   ```
+   ev_enable bts
    ```
 
 2. **Download Third-Party Dependencies**
@@ -21,20 +36,24 @@ To ensure quality and consistency across all community contributions, please fol
    cd svencoop_event_bts/src
    python fetch_dependancies.py
    ```
-   This will download any required libraries (such as Mikk's custom JSON parser and utility collections) into the `scripts/` directory.
+   This will download all the game assets and any required libraries (such as Mikk's custom JSON parser and utility collections) into the workspace directory.
 
 ---
 
 ## Repository Structure
 
-- [`.github/`](file:///c:/Users/akira/OneDrive/Desktop/bts_rc2/.github) - GitHub Actions workflows, issue templates, and pull request template.
-- [`docs/`](file:///c:/Users/akira/OneDrive/Desktop/bts_rc2/docs) - Documentation website served via GitHub Pages (includes the JSON Schema visualizer).
-- [`resource/`](file:///c:/Users/akira/OneDrive/Desktop/bts_rc2/resource) - UI localization files and resource definitions.
-- [`scripts/maps/bts_rc/`](file:///c:/Users/akira/OneDrive/Desktop/bts_rc2/scripts/maps/bts_rc) - Contains the AngelScript game logic and hooks.
-  - `gamemodes/` - Gameplay mods (e.g. inventory tracking, spectator managers).
-  - `entities/` - Custom entity scripts and helpers.
-  - `Hooks/` - Engine event hooks (player think, player spawn, disconnects).
-- [`src/`](file:///c:/Users/akira/OneDrive/Desktop/bts_rc2/src) - Python automation tools (license checking, dependency fetchers).
+- [`.github/`](.github/) - GitHub Actions workflows, issue templates, and pull request template.
+- [`docs/`](docs/) - Documentation website served via GitHub Pages (includes the JSON Schema visualizer).
+<!--
+- [`resource/`](resource/) - UI localization files and resource definitions.
+Sven Co-op events currently does not support GameMenu.res replacement.
+-->
+- [`scripts/maps/bts_rc/`](scripts/maps/bts_rc/) - Contains the AngelScript game logic and hooks.
+  - [`gamemodes/`](scripts/maps/bts_rc/gamemodes/) - Gameplay mods (e.g. inventory tracking, spectator managers).
+  - [`entities/`](scripts/maps/bts_rc/entities/) - Custom entity scripts and helpers.
+  - [`Hooks/`](scripts/maps/bts_rc/Hooks/) - Engine event hooks (player think, player spawn, disconnects).
+  - [`misc/`](scripts/maps/bts_rc/misc/) - Utility methods that are used along the whole project.
+- [`src/`](src/) - Python automation tools (license checking, dependency fetchers).
 
 ---
 
@@ -96,6 +115,7 @@ Before opening a Pull Request, please follow this sequence of steps to ensure yo
    ```
 3. **Verify Git Status**: Run `git status` to ensure all generated changes (like license headers) are included in your commit and your working tree is clean.
 4. **Manual Test**: Run the map locally in Sven Co-op and confirm that your logic executes without compilation warnings or runtime script errors in the console.
+5. **Change log**: Add a new entry on the top of the [changelog](docs/changelog.md) file following the format used.
 
 ### Submitting a Pull Request
 
