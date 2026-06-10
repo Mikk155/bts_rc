@@ -1,6 +1,6 @@
 name: AngelScript issue
-description: Issue related to the AngelScript map scripts
-title: "[Bug] "
+description: Report a runtime error, syntax bug, or crash in the map scripts.
+title: "[Script Bug] "
 labels: [ "bug", "scripts" ]
 assignees: []
 
@@ -8,7 +8,53 @@ body:
   - type: markdown
     attributes:
       value: |
-        Describe the issue
+        Thank you for reporting a scripting bug! Please provide the log details and context below so we can fix it.
+
   - type: textarea
+    id: description
     attributes:
-      label: "Describe the issue"
+      label: "Description of the Bug"
+      description: "A clear description of what the script failure is."
+      placeholder: "e.g. The item tracker MOTD popup shows duplicate player names if a player disconnects and reconnects..."
+    validations:
+      required: true
+
+  - type: input
+    id: script-file
+    attributes:
+      label: "Affected Script File/Function"
+      description: "If known, specify which .as script file or namespace is causing the issue."
+      placeholder: "e.g. item_tracker.as / UpdateGlobalBuffer()"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "AngelScript Compilation / Console Error Logs"
+      description: "Paste the exact error logs printed in the server console (e.g. compile errors or runtime script exceptions)."
+      placeholder: "e.g. [Angelscript] ERROR: No class called 'weapon_bts_beretta'..."
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Describe the actions that trigger the script error."
+      placeholder: |
+        1. Connect to the server.
+        2. Collect an item inventory.
+        3. Press USE + RELOAD to open the MOTD list...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sven-version
+    attributes:
+      label: "Sven Co-op Version"
+      options:
+        - "v5.26 (Latest)"
+        - "v5.25"
+        - "Other / Older"
+    validations:
+      required: true

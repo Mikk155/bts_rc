@@ -25,6 +25,7 @@
 #include "PlayerSpawn"
 #include "PlayerTakeDamage"
 #include "PlayerThink"
+#include "PlayerDisconnect"
 #include "SquadmakerSpawn"
 #include "StartFrame"
 
@@ -43,6 +44,7 @@ namespace Hooks
         g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PlayerSpawn );
         g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage );
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
+        g_Hooks.RegisterHook( Hooks::Player::ClientDisconnect, @PlayerDisconnect );
 
         g_CustomEntityFuncs.RegisterCustomEntity( "Hooks::CASStartFrame", "bts_startframe" );
         g_EntityFuncs.Create( "bts_startframe", g_vecZero, g_vecZero, false, null );

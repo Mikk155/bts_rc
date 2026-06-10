@@ -55,6 +55,7 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
 void MapActivate()
 {
+    item_tracker::gpItems.resize(0);
     uint numents = g_EngineFuncs.NumberOfEntities();
 
     for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
@@ -88,6 +89,7 @@ void MapActivate()
 
             if( item !is null && item_tracker::ValidItemNames.find( item.m_szItemName ) >= 0 )
             {
+                item_tracker::gpItems.insertLast( EHandle( item ) );
                 array<string> list = { item.m_szDisplayName, item.m_szDescription };
                 item_tracker::Items[ item.m_szItemName ] = list;
             }
