@@ -1,0 +1,35 @@
+name: Pull Request Verification
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run Main Validation
+        run: |
+          python src/main.py
+
+      - name: Check License Headers
+        run: |
+          # If apply_license changes files, that means headers are missing or not updated.
+          # We fail the PR build so contributors know they need to run python src/apply_license.py.
+          # We feed a blank string to apply_license.py via echo to prevent it from blocking on input().
+          echo "" | python src/apply_license.py
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Some files are missing correct license headers. Run 'python src/apply_license.py' locally, commit the changes, and push."
+            git status --porcelain
+            git diff
+            exit 1
+          fi

@@ -1,14 +1,50 @@
 name: Suggestion
-description: Suggestion
+description: Propose a new feature, gameplay modifier, optimization, or idea for the simulation.
 title: "[Suggestion] "
-labels: [ "enchancement" ]
+labels: [ "enhancement" ]
 assignees: []
 
 body:
   - type: markdown
     attributes:
       value: |
-        Describe the suggestion
-  - type: textarea
+        Have an idea to make the Black Mesa simulation more exciting or optimized? Let us know!
+
+  - type: dropdown
+    id: scope
     attributes:
-      label: "Describe the suggestion"
+      label: "Scope of the Suggestion"
+      description: "Select which part of the project this suggestion primarily affects."
+      options:
+        - "Map Design / Geometry"
+        - "AngelScript / Logic"
+        - "Documentation / Web"
+        - "CI-CD / Tooling"
+        - "Other / General"
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: "Describe your Suggestion"
+      description: "A clear explanation of the feature or change you'd like to see."
+      placeholder: "e.g. Add a dynamic flashlight battery drain system that scales with difficulty..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: "Rationale"
+      description: "Why do you think this change should be implemented? What value does it add?"
+      placeholder: "This would encourage players to share and manage flashlight items, enhancing teamwork on harder difficulties..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "Any alternative approaches or options you've thought about."
+      placeholder: "Instead of global flashlight capacity, we could make it custom to certain weapon types..."
