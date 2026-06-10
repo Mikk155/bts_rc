@@ -145,3 +145,16 @@ void MapInit()
 
     oldweapons::init();
 }
+
+void MapStart()
+{
+#if SERVER
+    if( g_IsMainMap )
+        return;
+
+    g_StartInventory.Remove( "weapon_medkit" );
+    g_EngineFuncs.CVarSetFloat( "mp_timelimit", 0 );
+    g_EngineFuncs.CVarSetFloat( "mp_timelimit_empty", 0 );
+    g_EngineFuncs.CVarSetFloat( "mp_respawndelay", 0 );
+#endif
+}
