@@ -1,3 +1,18 @@
+# 9/6/2026
+- Optimized death drop system.
+
+# 26/5/2026
+- Removed weapon_shockrifle from being equipable.
+- Added a dynamic ammo system rather than randomization on pickup it will be based on the player count.
+
+# 17/5/2026
+- Updated logging system to use less cpu so it can be keept for release version.
+- Updated json system to a more safe, stable and reliable system.
+- Moved multiple hardcoded variables of various structures into json configuration.
+
+# 6/5/2026
+- Lowercase many asset files to prevent issues on Linux servers
+
 # 5/5/2026
 - Updated various structures to have default values in case json fails
 - Headcrabs now are always detached even if they're dead
