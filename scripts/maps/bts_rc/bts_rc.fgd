@@ -125,3 +125,8 @@
 [
     message(string) : "Message to display"
 ]
+
+@SolidClass base(Mandatory, ZHLT) = func_section: "Section teleporter"
+[
+    message(string) : "Section title"
+]

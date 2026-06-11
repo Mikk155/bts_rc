@@ -152,6 +152,7 @@ void MapInit()
         return;
 
     CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
+    CustomEntity( "func_section", true, "test_chamber::func_section" );
 
 #endif
 }
