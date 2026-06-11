@@ -26,7 +26,7 @@ body:
       description: "Which map/area did this happen in? Include coordinates (getpos in console) if possible."
       placeholder: "e.g. bts_rc_warehouses (coordinates: 1200 450 -120)"
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: steps

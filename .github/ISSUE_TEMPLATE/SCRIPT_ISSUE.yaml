@@ -34,7 +34,7 @@ body:
       placeholder: "e.g. [Angelscript] ERROR: No class called 'weapon_bts_beretta'..."
       render: text
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: steps
@@ -46,7 +46,7 @@ body:
         2. Collect an item inventory.
         3. Press USE + RELOAD to open the MOTD list...
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: sven-version
