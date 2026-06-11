@@ -1,6 +1,8 @@
 #if SERVER
 namespace test_chamber
 {
+    bool trigger_logger_reg = CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
+
     HUDTextParams HudParams;
 
     class trigger_logger : ScriptBaseEntity
@@ -38,46 +40,6 @@ namespace test_chamber
                 g_PlayerFuncs.HudMessage( cast<CBasePlayer@>( pOther ), HudParams, string( self.pev.message ) + "\n" );
             }
         }
-    }
-
-    bool breg = reg();
-
-    bool reg()
-    {
-        if( g_IsMainMap )
-            return false;
-
-        g_CustomEntityFuncs.RegisterCustomEntity( "test_chamber::trigger_logger", "trigger_logger" );
-
-        g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink,
-        PlayerPostThinkHook( function( CBasePlayer@ player )
-        {
-            if( player !is null )
-            {
-                TraceResult tr;
-                Math.MakeVectors( player.pev.v_angle );
-                g_Utility.TraceLine( player.EyePosition(), player.EyePosition() + player.GetAutoaimVector( 1.0 ) * 500.0f, dont_ignore_monsters, player.edict(), tr );
-
-                if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
-                {
-                    CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
-
-                    if( hit !is null )
-                    {
-                        auto ckv = hit.GetCustomKeyvalues();
-
-                        if( ckv.HasKeyvalue( "$s_message" ) )
-                        {
-                            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCENTER, ckv.GetKeyvalue( "$s_message" ).GetString() + "\n" );
-                        }
-                    }
-                }
-            }
-
-            return HOOK_CONTINUE;
-        } ) );
-
-        return true;
     }
 }
 #endif

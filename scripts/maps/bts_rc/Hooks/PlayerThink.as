@@ -26,11 +26,35 @@ namespace Hooks
 
         auto character = GetCharacter(player);
 
-        if( character is null && !g_IsMainMap )
+#if SERVER
+        if( !g_IsMainMap )
         {
-            SetClass( player, Classification::Scientist );
-            @character = GetCharacter(player);
+            TraceResult tr;
+            Math.MakeVectors( player.pev.v_angle );
+            g_Utility.TraceLine( player.EyePosition(), player.EyePosition() + player.GetAutoaimVector( 1.0 ) * 500.0f, dont_ignore_monsters, player.edict(), tr );
+
+            if( g_EntityFuncs.IsValidEntity( tr.pHit ) )
+            {
+                CBaseEntity@ hit = g_EntityFuncs.Instance( tr.pHit );
+
+                if( hit !is null )
+                {
+                    auto ckv = hit.GetCustomKeyvalues();
+
+                    if( ckv.HasKeyvalue( "$s_message" ) )
+                    {
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCENTER, ckv.GetKeyvalue( "$s_message" ).GetString() + "\n" );
+                    }
+                }
+            }
+
+            if( character is null )
+            {
+                SetClass( player, Classification::Scientist );
+                @character = GetCharacter(player);
+            }
         }
+#endif
 
         if( character is null )
         {
