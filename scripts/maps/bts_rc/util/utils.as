@@ -102,3 +102,30 @@ namespace Hellbound
         }
     }
 }
+
+#if SERVER
+float gpLastMultiTouchTime;
+int gpLastMultiTouchIndex = 0;
+bool MultiTouch( CBasePlayer@&out player )
+{
+    if( gpLastMultiTouchIndex > 0 && gpLastMultiTouchTime < g_Engine.time )
+    {
+        gpLastMultiTouchTime = g_Engine.time;
+        gpLastMultiTouchIndex = 0;
+    }
+
+    while( gpLastMultiTouchIndex < g_Engine.maxClients )
+    {
+        gpLastMultiTouchIndex++;
+        auto entity = g_PlayerFuncs.FindPlayerByIndex(gpLastMultiTouchIndex);
+
+        if( entity !is null && entity.IsConnected() )
+        {
+            @player = entity;
+            return true;
+        }
+    }
+
+    return false;
+}
+#endif
