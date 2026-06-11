@@ -103,29 +103,32 @@ namespace Hellbound
     }
 }
 
-#if SERVER
-float gpLastMultiTouchTime;
-int gpLastMultiTouchIndex = 0;
-bool MultiTouch( CBasePlayer@&out player )
+float __LastMultiTouchTime__;
+int __LastMultiTouchIndex__ = 0;
+
+// Return true for all valid players that are intersecting with "other"
+bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
 {
-    if( gpLastMultiTouchIndex > 0 && gpLastMultiTouchTime < g_Engine.time )
+    if( other !is null )
     {
-        gpLastMultiTouchTime = g_Engine.time;
-        gpLastMultiTouchIndex = 0;
-    }
-
-    while( gpLastMultiTouchIndex < g_Engine.maxClients )
-    {
-        gpLastMultiTouchIndex++;
-        auto entity = g_PlayerFuncs.FindPlayerByIndex(gpLastMultiTouchIndex);
-
-        if( entity !is null && entity.IsConnected() )
+        if( __LastMultiTouchIndex__ > 0 && __LastMultiTouchTime__ < g_Engine.time )
         {
-            @player = entity;
-            return true;
+            __LastMultiTouchTime__ = g_Engine.time;
+            __LastMultiTouchIndex__ = 0;
+        }
+
+        while( __LastMultiTouchIndex__ < g_Engine.maxClients )
+        {
+            __LastMultiTouchIndex__++;
+            auto entity = g_PlayerFuncs.FindPlayerByIndex(__LastMultiTouchIndex__);
+
+            if( entity !is null && entity.IsConnected() && entity.Intersects( other ) )
+            {
+                @player = entity;
+                return true;
+            }
         }
     }
 
     return false;
 }
-#endif
