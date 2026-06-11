@@ -1,43 +1,45 @@
 #if SERVER
 namespace test_chamber
 {
-    bool trigger_logger_reg = CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
-
-    HUDTextParams HudParams;
-
     class trigger_logger : ScriptBaseEntity
     {
+        private
+            HUDTextParams m_HUDParams;
+
         void Spawn()
         {
             self.pev.solid = SOLID_TRIGGER;
             self.pev.movetype = MOVETYPE_NONE;
             self.pev.effects |= EF_NODRAW;
+
             g_EntityFuncs.SetModel( self, string( self.pev.model ) );
             g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
+            
+            this.m_HUDParams.x = -1;
+            this.m_HUDParams.effect = 0;
+            this.m_HUDParams.r1 = RGBA_SVENCOOP.r;
+            this.m_HUDParams.g1 = RGBA_SVENCOOP.g;
+            this.m_HUDParams.b1 = RGBA_SVENCOOP.b;
+            this.m_HUDParams.a1 = 0;
+            this.m_HUDParams.r2 = RGBA_SVENCOOP.r;
+            this.m_HUDParams.g2 = RGBA_SVENCOOP.g;
+            this.m_HUDParams.b2 = RGBA_SVENCOOP.b;
+            this.m_HUDParams.a2 = 0;
+            this.m_HUDParams.fadeinTime = 0;
+            this.m_HUDParams.fadeoutTime = 0.25;
+            this.m_HUDParams.fxTime = 0;
+            this.m_HUDParams.holdTime = 2;
+            this.m_HUDParams.channel = 3;
+            this.m_HUDParams.y = 0.90;
         }
 
         void Touch( CBaseEntity@ pOther )
         {
-            if( pOther !is null && pOther.IsPlayer() )
-            {
-                HudParams.x = -1;
-                HudParams.effect = 0;
-                HudParams.r1 = RGBA_SVENCOOP.r;
-                HudParams.g1 = RGBA_SVENCOOP.g;
-                HudParams.b1 = RGBA_SVENCOOP.b;
-                HudParams.a1 = 0;
-                HudParams.r2 = RGBA_SVENCOOP.r;
-                HudParams.g2 = RGBA_SVENCOOP.g;
-                HudParams.b2 = RGBA_SVENCOOP.b;
-                HudParams.a2 = 0;
-                HudParams.fadeinTime = 0;
-                HudParams.fadeoutTime = 0.25;
-                HudParams.fxTime = 0;
-                HudParams.holdTime = 2;
-                HudParams.channel = 3;
-                HudParams.y = 0.90;
+            CBasePlayer@ player;
 
-                g_PlayerFuncs.HudMessage( cast<CBasePlayer@>( pOther ), HudParams, string( self.pev.message ) + "\n" );
+            while( MultiTouch( player ) )
+            {
+                g_PlayerFuncs.HudMessage( player, m_HUDParams, string( self.pev.message ) );
             }
         }
     }

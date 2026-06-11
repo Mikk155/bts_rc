@@ -146,6 +146,14 @@ void MapInit()
     }
 
     oldweapons::init();
+
+#if SERVER
+    if( g_IsMainMap )
+        return;
+
+    CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
+
+#endif
 }
 
 void MapStart()
