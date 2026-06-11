@@ -35,6 +35,9 @@ namespace test_chamber
 
         void Touch( CBaseEntity@ pOther )
         {
+            if( pOther is null || !pOther.IsPlayer() )
+                return;
+
             CBasePlayer@ player;
 
             while( MultiTouch( player ) )
