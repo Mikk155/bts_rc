@@ -14,7 +14,7 @@ namespace test_chamber
 
             g_EntityFuncs.SetModel( self, string( self.pev.model ) );
             g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
-            
+
             this.m_HUDParams.x = -1;
             this.m_HUDParams.effect = 0;
             this.m_HUDParams.r1 = RGBA_SVENCOOP.r;
@@ -40,7 +40,7 @@ namespace test_chamber
 
             CBasePlayer@ player;
 
-            while( MultiTouch( player ) )
+            while( MultiTouch( self, player ) )
             {
                 g_PlayerFuncs.HudMessage( player, m_HUDParams, string( self.pev.message ) );
             }
