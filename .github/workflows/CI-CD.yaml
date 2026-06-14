@@ -19,7 +19,7 @@ jobs:
 
       - name: Isolate tests for release
         run: |
-          find scripts/ -type f -name "*.as" -exec sed -i 's/#if SERVER/#if FALSE/g' {} +
+          find scripts/ -type f -name "*.as" -exec sed -i 's/#if SERVER/#if DEBUG/g' {} +
 
       - name: Compress scripts
         run: |

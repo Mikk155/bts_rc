@@ -1,3 +1,7 @@
 /*
 *   Dummy as.predefined for implicit inclusion: https://github.com/sashi0034/angel-lsp/issues/333
 */
+
+#define SERVER
+#define EDITOR_ONLY
+#define METAMOD_PLUGIN_ASLP
