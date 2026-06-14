@@ -1,3 +1,6 @@
+# 13/6/2026
+- Fixed snark monsters spawning bouncy/floating blood puddles when killed.
+
 # 9/6/2026
 - Optimized death drop system.
 
