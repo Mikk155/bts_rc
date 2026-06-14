@@ -119,6 +119,31 @@ class env_bloodpuddle : ScriptBaseAnimating
         g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
     }
 
+    private bool IsOwnerGibbed( CBaseEntity@ owner )
+    {
+        if( owner is null )
+        {
+            return true;
+        }
+
+        if( ( owner.pev.effects & EF_NODRAW ) != 0 )
+        {
+            return true;
+        }
+
+        if( owner.pev.modelindex == 0 )
+        {
+            return true;
+        }
+
+        if( ( owner.pev.flags & FL_KILLME ) != 0 )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     void Spawn()
     {
         Precache();
@@ -127,14 +152,23 @@ class env_bloodpuddle : ScriptBaseAnimating
         g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
         self.pev.angles.y = Math.RandomFloat( 0, 359 );
 
+        CBaseEntity@ owner = null;
         if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
         {
-            CBaseEntity@ owner = g_EntityFuncs.Instance( self.pev.owner );
-            if( owner !is null )
+            @owner = g_EntityFuncs.Instance( self.pev.owner );
+        }
+
+        if( state != 2 && owner !is null && !IsOwnerGibbed( owner ) )
+        {
+            if( owner.pev.movetype == MOVETYPE_BOUNCE )
+            {
+                self.pev.movetype = MOVETYPE_TOSS;
+            }
+            else
             {
                 self.pev.movetype = owner.pev.movetype;
-                self.pev.velocity = owner.pev.velocity;
             }
+            self.pev.velocity = owner.pev.velocity;
         }
         else
         {
@@ -179,7 +213,9 @@ class env_bloodpuddle : ScriptBaseAnimating
                 {
                     self.pev.nextthink = g_Engine.time + 30.0;
                     if( !FreeEdicts( 100 ) )
+                    {
                         g_EntityFuncs.Remove( self ); // Right away so other puddle entities knows
+                    }
                     return;
                 }
 
@@ -197,7 +233,13 @@ class env_bloodpuddle : ScriptBaseAnimating
             case 1: // Expanding
             default:
             {
+                CBaseEntity@ owner = null;
                 if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
+                {
+                    @owner = g_EntityFuncs.Instance( self.pev.owner );
+                }
+
+                if( owner !is null && !IsOwnerGibbed( owner ) )
                 {
                     self.StudioFrameAdvance();
                 }
@@ -205,6 +247,7 @@ class env_bloodpuddle : ScriptBaseAnimating
                 {
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
+                    self.pev.movetype = MOVETYPE_TOSS;
                     state = 2; // Set to expanded if the owner has disapear or anything
                 }
                 break;
