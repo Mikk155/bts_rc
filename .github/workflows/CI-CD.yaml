@@ -17,6 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Isolate tests for release
+        run: |
+          find scripts/ -type f -name "*.as" -exec sed -i 's/#if SERVER/#if DEBUG/g' {} +
+
       - name: Compress scripts
         run: |
           zip -r bts_rc.zip scripts/

@@ -1,25 +1,19 @@
-/**   MIT License
-*   
-*   Copyright (c) 2025 Mikk155 https://github.com/Mikk155/bts_rc
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
 *   
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
-*   of this software and associated documentation files (the "Software"), to deal
-*   in the Software without restriction, including without limitation the rights
-*   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-*   copies of the Software, and to permit persons to whom the Software is
-*   furnished to do so, subject to the following conditions:
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
 *   
 *   The above copyright notice and this permission notice shall be included in all
-*   copies or substantial portions of the Software.
+*   copies of the Software when distributed as a whole.
 *   
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-*   SOFTWARE.
-*/
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
 
 string glog;
 
@@ -106,6 +100,32 @@ namespace Logger
                 snprintf( buffer, "[%1] %2\n", this.name, glog );
                 glog = String::EMPTY_STRING;
 
+                if( Logger::gpWriteFile )
+                {
+                    File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::APPEND );
+
+                    if( file is null || !file.IsOpen() )
+                    {
+                        @file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::WRITE );
+                        file.Write( " " );
+                        file.Close();
+                        @file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::APPEND );
+                    }
+
+                    string header;
+
+                    if( Logger::gpLastSecond != g_Engine.time )
+                    {
+                        snprintf( header, "=== Current frame: %1 ===\n", g_Engine.time );
+                        Logger::gpLastSecond = g_Engine.time;
+                    }
+
+                    if( !header.IsEmpty() )
+                        file.Write( header );
+
+                    file.Write( buffer );
+                }
+
                 if( g_EngineFuncs.IsDedicatedServer() )
                 {
                     g_EngineFuncs.ServerPrint( buffer );
@@ -125,6 +145,12 @@ namespace Logger
                 g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
             }
     }
+}
+
+namespace Logger
+{
+    float gpLastSecond;
+    bool gpWriteFile;
 }
 
 class CLogger
@@ -223,7 +249,20 @@ class CLogger
         this.error.SetLevel( json.ValueOrDefault( "error", true ) );
         this.critical.SetLevel( json.ValueOrDefault( "critical", true ) );
 
-        string commandHelp = "One of: ";
+        Logger::gpWriteFile = json.ValueOrDefault( "file", false );
+
+#if SERVER
+        Logger::gpWriteFile = true;
+#endif
+
+        if( Logger::gpWriteFile )
+        {
+            File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::WRITE );
+            file.Write( " " );
+            file.Close();
+        }
+
+        string commandHelp = "One of: file, ";
         uint length = this.m_Loggers.length();
         for( uint ui = 0; ui < length; ui++ )
         {
@@ -242,6 +281,16 @@ class CLogger
                 if( isValid )
                 {
                     string id = arguments[0];
+
+                    if( id == "file" )
+                    {
+                        Logger::gpWriteFile = !Logger::gpWriteFile;
+                        string buffer;
+                        snprintf( buffer, "File logging %1%2\n", ( Logger::gpWriteFile ? "Enabled" : "Disabled" ), ( Logger::gpWriteFile ? " at scripts/maps/store/bts_rc.log" : "." ) );
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                        g_Game.AlertMessage( at_console, buffer );
+                        return;
+                    }
 
                     for( uint ui = 0; ui < length; ui++ ) {
                         if( ( isValid = levels[ui].id == id ) )

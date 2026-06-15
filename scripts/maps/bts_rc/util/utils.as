@@ -1,25 +1,19 @@
-/**   MIT License
-*   
-*   Copyright (c) 2025 Mikk155 https://github.com/Mikk155/bts_rc
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
 *   
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
-*   of this software and associated documentation files (the "Software"), to deal
-*   in the Software without restriction, including without limitation the rights
-*   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-*   copies of the Software, and to permit persons to whom the Software is
-*   furnished to do so, subject to the following conditions:
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
 *   
 *   The above copyright notice and this permission notice shall be included in all
-*   copies or substantial portions of the Software.
+*   copies of the Software when distributed as a whole.
 *   
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-*   SOFTWARE.
-*/
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
 
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/meta_api/json/v2"
@@ -106,5 +100,50 @@ namespace Hellbound
         {
             UpdatePlayerData( g_PlayerFuncs.FindPlayerByIndex( i ), Classification::Unset );
         }
+    }
+}
+
+float __LastMultiTouchTime__;
+int __LastMultiTouchIndex__ = 0;
+
+// Return true for all valid players that are intersecting with "other"
+bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
+{
+    if( other !is null )
+    {
+        if( __LastMultiTouchIndex__ > 0 && __LastMultiTouchTime__ < g_Engine.time )
+        {
+            __LastMultiTouchTime__ = g_Engine.time;
+            __LastMultiTouchIndex__ = 0;
+        }
+
+        while( __LastMultiTouchIndex__ < g_Engine.maxClients )
+        {
+            __LastMultiTouchIndex__++;
+            auto entity = g_PlayerFuncs.FindPlayerByIndex(__LastMultiTouchIndex__);
+
+            if( entity !is null && entity.IsConnected() && entity.Intersects( other ) )
+            {
+                @player = entity;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+#if SERVER
+// Set a display name to a entity this is shown as simple text (No HUD Message) on the center of the screen
+void SetDebugName( CBaseEntity@ target, const string&in name )
+{
+    if( target is null )
+        return;
+
+    auto ckv = target.GetCustomKeyvalues();
+
+    if( !ckv.HasKeyvalue( "$s_message" ) )
+    {
+        g_EntityFuncs.DispatchKeyValue( target.edict(), "$s_message", name );
     }
 }

@@ -1,0 +1,47 @@
+name: Asset issue
+description: Report a bug or visual issue with a game asset, models, sprites sounds etc
+title: "[Asset issue] "
+labels: [ "bug", "asset" ]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug! Please fill out the details below to help us resolve the issue.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description of the issue"
+      description: "A clear and concise description of what the issue is."
+      placeholder: "e.g. when a player drops the flashlight weapon, the item is not rendered or fell into the ground"
+    validations:
+      required: true
+
+  - type: input
+    id: asset-path
+    attributes:
+      label: "Asset name or full path"
+      description: "What's the name of one or various assets with this issue?"
+      placeholder: "- models/bts_rc/weapons/w_flashlight.mdl"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: asset-type
+    attributes:
+      label: "Type of asset"
+      description: "Which type of asset is having issues?"
+      options:
+        - "Model file"
+        - "Sprite file"
+        - "Sound file"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "Screenshots or Video Link"
+      description: "Drag/drop images here or link to recordings showing the bug."

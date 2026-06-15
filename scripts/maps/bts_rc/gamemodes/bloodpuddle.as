@@ -1,25 +1,19 @@
-/**   MIT License
-*   
-*   Copyright (c) 2025 Mikk155 https://github.com/Mikk155/bts_rc
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
 *   
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
-*   of this software and associated documentation files (the "Software"), to deal
-*   in the Software without restriction, including without limitation the rights
-*   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-*   copies of the Software, and to permit persons to whom the Software is
-*   furnished to do so, subject to the following conditions:
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
 *   
 *   The above copyright notice and this permission notice shall be included in all
-*   copies or substantial portions of the Software.
+*   copies of the Software when distributed as a whole.
 *   
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-*   SOFTWARE.
-*/
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
 
 /*
 *   Author: Mikk
@@ -29,9 +23,9 @@
 
 final class ASBloodPuddleConfig : IConfigurable
 {
-    array<float> DefaultSize;
-    dictionary CustomSizes;
-    bool persistent;
+    array<float> m_DefaultSize;
+    dictionary m_CustomSizes;
+    bool m_persistent;
 
     const string& get_Name() override
     {
@@ -42,27 +36,79 @@ final class ASBloodPuddleConfig : IConfigurable
     {
         if( this.IsActive() )
         {
-            CustomEntity( "env_bloodpuddle", true );
-            this.persistent = json.ValueOrDefault( "persistent", true );
+            CustomEntity( "env_bloodpuddle", false );
+            g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
 
-            auto defaultSize = json.ValueOrDefault( "default_size" );
-            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.ValueOrDefault( "0", 1.5f ) ) );
-            this.DefaultSize.insertLast( Math.max( 0.1f, defaultSize.ValueOrDefault( "1", 2.5f ) ) );
+            this.m_persistent = json.ValueOrDefault( "persistent", true );
+
+            array<float>@ arr;
+
+            if( !meta_api::json::v2::fmt::ToArray( json[ "default_size" ], arr, false ) )
+            {
+                @arr = { 1.5f, 2.5f };
+            }
+            else
+            {
+                if( arr.length() != 2 )
+                {
+                    g_Logger.error.print( "Blood puddle default size has {} values than 2!", { ( arr.length() > 2 ? "more" : "less" ) } );
+                }
+                else if( arr[0] > arr[1] )
+                {
+                    g_Logger.error.print( "Blood puddle default size for \"default_size\" has inverted values! first number should be lesser than the second!" );
+                    float temp = arr[0];
+                    arr[0] = arr[1];
+                    arr[0] = temp;
+                }
+            }
+
+            if( g_Logger.info.active )
+                g_Logger.info.print( "Set blood puddle default size to {} min {} max {}", { arr[0], arr[1] } );
+
+            this.m_DefaultSize = arr;
 
             meta_api::json::v2::json@ custom_size = json[ "custom_size" ];
 
-            if( custom_size !is null )
-            {
-                const auto monsterNames = custom_size.Keys;
-                uint monsterSize = monsterNames.length();
+            if( custom_size is null )
+                return;
 
-                for( uint ui = 0; ui < monsterSize; ui++ )
+            if( !custom_size.is_object() )
+            {
+                g_Logger.error.print( "Blood puddle \"custom_size\" is not an object type!" );
+                return;
+            }
+
+            const auto monsterNames = custom_size.Keys;
+            uint monsterSize = monsterNames.length();
+
+            for( uint ui = 0; ui < monsterSize; ui++ )
+            {
+                string name = monsterNames[ui];
+
+                if( !meta_api::json::v2::fmt::ToArray( custom_size[ name ], arr, false ) )
                 {
-                    string name = monsterNames[ui];
-                    array<float>@ custom_size_array;
-                    if( meta_api::json::v2::fmt::ToArray( custom_size[ name ], custom_size_array, false ) )
-                        @CustomSizes[ name ] = custom_size_array;
+                    g_Logger.error.print( "Blood puddle custom size for {} is an invalid array of two values!", { name } );
+                    continue;
                 }
+
+                if( arr.length() != 2 )
+                {
+                    g_Logger.error.print( "Blood puddle custom size for {} has {} values than 2!", { name, ( arr.length() > 2 ? "more" : "less" ) } );
+                    continue;
+                }
+
+                if( arr[0] > arr[1] )
+                {
+                    g_Logger.error.print( "Blood puddle custom size for {} has inverted values! first number should be lesser than the second!", { name } );
+                    float temp = arr[0];
+                    arr[0] = arr[1];
+                    arr[0] = temp;
+                }
+
+                @this.m_CustomSizes[ name ] = arr;
+
+                if( g_Logger.info.active )
+                    g_Logger.info.print( "Set blood puddle for {} min {} max {}", { name, arr[0], arr[1] } );
             }
         }
     }
@@ -90,10 +136,18 @@ final class ASBloodPuddleConfig : IConfigurable
 
         array<float> sizes;
 
-        if( !gpBloodPuddle.CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
-            sizes = gpBloodPuddle.DefaultSize;
+        if( !gpBloodPuddle.m_CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
+            sizes = gpBloodPuddle.m_DefaultSize;
 
         bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
+
+        if( g_Logger.trace.active )
+            g_Logger.trace.print( "Generated {} blood puddle with scale {} for {} at {}", {
+                ( bloodpuddle.pev.skin == 1 ? "yellow" : "red" ),
+                bloodpuddle.pev.scale,
+                monster.pev.classname,
+                monster.pev.origin.ToString()
+            } );
 
         /* Monster gibed? Set it to full gib */
         if( monster.ShouldGibMonster( gib ) )
@@ -120,27 +174,54 @@ class env_bloodpuddle : ScriptBaseAnimating
     private float last_time = 0;
     private uint uisize = 0;
 
-    void Precache()
+    private bool IsOwnerGibbed( CBaseEntity@ owner )
     {
-        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+        if( owner is null )
+        {
+            return true;
+        }
+
+        if( ( owner.pev.effects & EF_NODRAW ) != 0 )
+        {
+            return true;
+        }
+
+        if( owner.pev.modelindex == 0 )
+        {
+            return true;
+        }
+
+        if( ( owner.pev.flags & FL_KILLME ) != 0 )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void Spawn()
     {
-        Precache();
-
         self.pev.solid = SOLID_NOT;
         g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, -1 ), Vector( 12, 12, 1 ) );
         self.pev.angles.y = Math.RandomFloat( 0, 359 );
 
+        CBaseEntity@ owner = null;
         if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
         {
-            CBaseEntity@ owner = g_EntityFuncs.Instance( self.pev.owner );
-            if( owner !is null )
+            @owner = g_EntityFuncs.Instance( self.pev.owner );
+        }
+
+        if( state != 2 && owner !is null && !IsOwnerGibbed( owner ) )
+        {
+            if( owner.pev.movetype == MOVETYPE_BOUNCE )
+            {
+                self.pev.movetype = MOVETYPE_TOSS;
+            }
+            else
             {
                 self.pev.movetype = owner.pev.movetype;
-                self.pev.velocity = owner.pev.velocity;
             }
+            self.pev.velocity = owner.pev.velocity;
         }
         else
         {
@@ -181,11 +262,13 @@ class env_bloodpuddle : ScriptBaseAnimating
         {
             case 2: // Expanded
             {
-                if( gpBloodPuddle.persistent )
+                if( gpBloodPuddle.m_persistent )
                 {
                     self.pev.nextthink = g_Engine.time + 30.0;
                     if( !FreeEdicts( 100 ) )
+                    {
                         g_EntityFuncs.Remove( self ); // Right away so other puddle entities knows
+                    }
                     return;
                 }
 
@@ -203,7 +286,13 @@ class env_bloodpuddle : ScriptBaseAnimating
             case 1: // Expanding
             default:
             {
+                CBaseEntity@ owner = null;
                 if( g_EntityFuncs.IsValidEntity( self.pev.owner ) )
+                {
+                    @owner = g_EntityFuncs.Instance( self.pev.owner );
+                }
+
+                if( owner !is null && !IsOwnerGibbed( owner ) )
                 {
                     self.StudioFrameAdvance();
                 }
@@ -211,6 +300,7 @@ class env_bloodpuddle : ScriptBaseAnimating
                 {
                     self.pev.renderamt = 255;
                     self.pev.rendermode = kRenderTransTexture;
+                    self.pev.movetype = MOVETYPE_TOSS;
                     state = 2; // Set to expanded if the owner has disapear or anything
                 }
                 break;

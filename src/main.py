@@ -8,47 +8,40 @@
 
 import os;
 import sys;
-from PyBuilder import PyBuilder;
-from typing import Literal, LiteralString, Optional
 
-gpEmptyString: Literal[ "" ] = "";
+gpBuilders: list['PyBuilder'] = [];
+gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 
-gpWorkspace: LiteralString = os.path.dirname( os.path.dirname( __file__ ) );
+from Tests.PyBuilder import PyBuilder;
+
+# Include checks here
+import Tests.JsonCheck;
+import Tests.LicenseCheck;
+import Tests.FGDCheck;
+import Tests.DebugCheck;
 
 def Main() -> int:
 
-    Builders: list[PyBuilder] = [];
+    result = 0;
 
-    LOCAL_BUILDER: bool = ( len(sys.argv) == 1 );
-
-    if LOCAL_BUILDER:
-
-        from PyLicense import PyLicense;
-        Builders.append( PyLicense() );
-
-        from PyDocumentation import PyDocumentation;
-        # Disabled due to a Javascript implementation parsing schema directly.
-        # Builders.append( PyDocumentation() );
-
-        from PyClangFormat import PyClangFormat;
-        # Disabled for now due to lack of features
-        # Builders.append( PyClangFormat() );
-
-    for builder in Builders:
-
-        ok = True;
+    for builder in gpBuilders:
 
         try:
+
             ok = builder.Build();
+
+            if ok is False:
+                print( f"{builder.Name}: Failed build." );
+                result += 1;
+
         except Exception as e:
-            print( f"{builder.Name}: throw an exception: {e}" );
-            return 1;
+            builder.Log( f"throw an exception: {e}" )
+            result += 1;
 
-        if ok is False:
-            print( f"{builder.Name}: Failed build." );
-            return 1;
+    if result != 0:
+        print( f"{result} checks failed" );
 
-    return 0;
+    return result;
 
 if __name__ == "__main__":
-    exit( Main() );
+    sys.exit( Main() );

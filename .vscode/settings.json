@@ -1,7 +1,4 @@
 {
-    // Exclude assets folders
-    "explorer.excludeGitIgnore": true,
-
     "files.associations":
     {
         // We allow comments in AngelScript json
@@ -24,6 +21,7 @@
     "angelScript.definedSymbols":
     [
         "SERVER",
+        "EDITOR_ONLY",
         "METAMOD_PLUGIN_ASLP"
     ],
 

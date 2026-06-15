@@ -1,25 +1,19 @@
-/**   MIT License
-*   
-*   Copyright (c) 2025 Mikk155 https://github.com/Mikk155/bts_rc
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
 *   
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
-*   of this software and associated documentation files (the "Software"), to deal
-*   in the Software without restriction, including without limitation the rights
-*   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-*   copies of the Software, and to permit persons to whom the Software is
-*   furnished to do so, subject to the following conditions:
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
 *   
 *   The above copyright notice and this permission notice shall be included in all
-*   copies or substantial portions of the Software.
+*   copies of the Software when distributed as a whole.
 *   
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-*   SOFTWARE.
-*/
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
 
 #include "util/utils"
 #include "misc/Precache"
@@ -61,6 +55,7 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
 void MapActivate()
 {
+    item_tracker::gpItems.resize(0);
     uint numents = g_EngineFuncs.NumberOfEntities();
 
     for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
@@ -94,6 +89,7 @@ void MapActivate()
 
             if( item !is null && item_tracker::ValidItemNames.find( item.m_szItemName ) >= 0 )
             {
+                item_tracker::gpItems.insertLast( EHandle( item ) );
                 array<string> list = { item.m_szDisplayName, item.m_szDescription };
                 item_tracker::Items[ item.m_szItemName ] = list;
             }
@@ -150,4 +146,26 @@ void MapInit()
     }
 
     oldweapons::init();
+
+#if SERVER
+    if( g_IsMainMap )
+        return;
+
+    CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
+    CustomEntity( "func_section", true, "test_chamber::func_section" );
+
+#endif
+}
+
+void MapStart()
+{
+#if SERVER
+    if( g_IsMainMap )
+        return;
+
+    g_StartInventory.Remove( "weapon_medkit" );
+    g_EngineFuncs.CVarSetFloat( "mp_timelimit", 0 );
+    g_EngineFuncs.CVarSetFloat( "mp_timelimit_empty", 0 );
+    g_EngineFuncs.CVarSetFloat( "mp_respawndelay", 0 );
+#endif
 }

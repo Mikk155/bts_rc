@@ -1,6 +1,6 @@
 name: Map issue
-description: Issue related to the map itself
-title: "[Bug] "
+description: Report a bug or visual issue with the map geometry, triggers, spawns, or lighting.
+title: "[Map Bug] "
 labels: [ "bug", "map" ]
 assignees: []
 
@@ -8,7 +8,59 @@ body:
   - type: markdown
     attributes:
       value: |
-        Describe the issue
+        Thank you for reporting a map bug! Please fill out the details below to help us locate and resolve the issue.
+
   - type: textarea
+    id: description
     attributes:
-      label: "Describe the issue"
+      label: "Description of the Bug"
+      description: "A clear and concise description of what the issue is."
+      placeholder: "e.g. In the warehouse yard, the security door trigger does not fire if multiple players stand on it..."
+    validations:
+      required: true
+
+  - type: input
+    id: map-location
+    attributes:
+      label: "Map Name or Specific Location"
+      description: "Which map/area did this happen in? Include coordinates (getpos in console) if possible."
+      placeholder: "e.g. bts_rc_warehouses (coordinates: 1200 450 -120)"
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to Reproduce"
+      description: "How can we replicate the bug?"
+      placeholder: |
+        1. Start the map.
+        2. Walk to the warehouse loading dock.
+        3. Try to press the yellow button...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sven-version
+    attributes:
+      label: "Sven Co-op Version"
+      description: "Which version of Sven Co-op are you running?"
+      options:
+        - "v5.26 (Latest)"
+        - "v5.25"
+        - "Other / Older"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Console Logs or Errors"
+      description: "Paste any relevant server console or developer logs here."
+      render: text
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "Screenshots or Video Link"
+      description: "Drag/drop images here or link to recordings showing the bug."

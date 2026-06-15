@@ -3,6 +3,7 @@
     "$schema": "../../../docs/schema.json",
     "log":
     {
+        "file": false,
         "trace": true,
         "debug": true,
         "info": true,
@@ -14,22 +15,18 @@
         {
             "monster_headcrab": [ 0.5, 1.5 ],
             "monster_houndeye": [ 1, 2 ],
-            "monster_babycrab": [ 0.3, 0.8 ]
+            "monster_babycrab": [ 0.3, 0.8 ],
+            "monster_snark": [ 0.25, 0.75 ]
         }
     },
     "deathdrop":
     {
-        "monster_zombie":
+        "medic":
         [
-            "ammo_bts_battery",
-            "weapon_bts_bts_flare",
-            "ammo_bts_dglocksd",
             "item_bts_sprayaid",
-            "", // Few chances of droping nothing
-            "",
-            ""
+            "item_healthkit"
         ],
-        "monster_zombie_barney":
+        "security":
         [
             "ammo_bts_dglocksd",
             "ammo_bts_dreagle",
@@ -39,36 +36,25 @@
             "",
             ""
         ],
-        "monster_human_grunt":
+        "zgrunt":
         [
-            "ammo_bts_556round"
+            "ammo_bts_shotshell",
+            "ammo_bts_9mmbox",
+            "ammo_bts_556round",
+            "ammo_bts_357cyl",
+            "ammo_bts_dreagle",
+            "ammo_bts_dglocksd",
+            "item_bts_hevbattery",
+            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
         ],
-        "models/bts_rc/monsters/zombie_medic.mdl":
+        "zhev":
         [
+            "ammo_bts_battery",
+            "weapon_bts_bts_flare",
+            "ammo_bts_dglocksd",
             "item_bts_sprayaid",
-            "item_healthkit"
-        ],
-        "monster_zombie_soldier":
-        [
-            "ammo_bts_shotshell",
-            "ammo_bts_9mmbox",
-            "ammo_bts_556round",
-            "ammo_bts_357cyl",
-            "ammo_bts_dreagle",
-            "ammo_bts_dglocksd",
-            "item_bts_hevbattery",
-            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
-        ],
-        "monster_gonome":
-        [
-            "ammo_bts_shotshell",
-            "ammo_bts_9mmbox",
-            "ammo_bts_556round",
-            "ammo_bts_357cyl",
-            "ammo_bts_dreagle",
-            "ammo_bts_dglocksd",
-            "item_bts_hevbattery",
-            "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade", "grenade"
+            "", // Few chances of droping nothing
+            ""
         ]
     },
     "ammo":

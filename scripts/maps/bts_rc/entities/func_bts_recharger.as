@@ -1,25 +1,19 @@
-/**   MIT License
-*   
-*   Copyright (c) 2025 Mikk155 https://github.com/Mikk155/bts_rc
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
 *   
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
-*   of this software and associated documentation files (the "Software"), to deal
-*   in the Software without restriction, including without limitation the rights
-*   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-*   copies of the Software, and to permit persons to whom the Software is
-*   furnished to do so, subject to the following conditions:
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
 *   
 *   The above copyright notice and this permission notice shall be included in all
-*   copies or substantial portions of the Software.
+*   copies of the Software when distributed as a whole.
 *   
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-*   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-*   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-*   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-*   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-*   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-*   SOFTWARE.
-*/
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
 
 /*
     Author Mikk
@@ -38,7 +32,11 @@ final class ASWallRechargerConfig : IConfigurable
 
     void Register( meta_api::json::v2::json@ json ) override
     {
-        CustomEntity( "func_bts_recharger", true );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+
+        CustomEntity( "func_bts_recharger" );
 
         this.juice = Math.max( 1, json.ValueOrDefault( "juice", 35 ) );
         this.recharge_time = Math.max( 0, json.ValueOrDefault( "recharge_time", 300 ) );
@@ -50,17 +48,11 @@ ASWallRechargerConfig ConfigWallRecharger;
 
 class func_bts_recharger : ScriptBaseEntity
 {
-    void Precache()
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
-    }
-
     void Spawn()
     {
-        Precache();
-
+#if SERVER
+        SetDebugName( self, "HEV/Hazard exclusive charger" );
+#endif
         self.pev.solid = SOLID_BSP;
         self.pev.movetype = MOVETYPE_PUSH;
         g_EntityFuncs.SetOrigin( self, self.pev.origin ); // set size and link into world
