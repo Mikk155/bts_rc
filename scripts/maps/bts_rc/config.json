@@ -15,7 +15,8 @@
         {
             "monster_headcrab": [ 0.5, 1.5 ],
             "monster_houndeye": [ 1, 2 ],
-            "monster_babycrab": [ 0.3, 0.8 ]
+            "monster_babycrab": [ 0.3, 0.8 ],
+            "monster_snark": [ 0.25, 0.75 ]
         }
     },
     "deathdrop":
