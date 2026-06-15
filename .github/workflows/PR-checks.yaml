@@ -28,4 +28,4 @@ jobs:
 
       - name: Run Validation
         run: |
-          python src/main.py
+          python main.py
