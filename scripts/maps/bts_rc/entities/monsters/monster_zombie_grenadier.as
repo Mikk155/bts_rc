@@ -23,9 +23,6 @@
 
 namespace monster_zombie_grenadier
 {
-
-    const string NPC_MODEL = "models/bts_rc/monsters/zombie_soldier3.mdl";
-
     const int HITGROUP_GRENADE = 10;
     const float GRENADE_TIMER = 6.0;
     const float GRENADE_DAMAGE = 125.0;
@@ -97,7 +94,7 @@ namespace monster_zombie_grenadier
         {
             Precache();
 
-            g_EntityFuncs.SetModel( self, NPC_MODEL );
+            g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/zombie_soldier3.mdl" );
 
             g_EntityFuncs.SetSize( self.pev, VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
@@ -119,7 +116,7 @@ namespace monster_zombie_grenadier
 
         void Precache()
         {
-            g_Game.PrecacheModel( NPC_MODEL );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_soldier3.mdl" );
 
             for( uint i = 0; i < arrsSounds.length(); i++ )
                 g_SoundSystem.PrecacheSound( arrsSounds[i] );

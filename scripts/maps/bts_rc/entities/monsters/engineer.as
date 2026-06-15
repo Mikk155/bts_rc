@@ -23,7 +23,6 @@ namespace btscm
 {
 
 //SETTINGS
-const string SENTRY_CLASSNAME           = "monster_sentry";
 const uint SENTRY_DROP_AMOUNT           = 1; //how many to spawn at a time
 const uint SENTRY_MAX                           = 5; //number of sentries that can be dropped per engy
 const float SENTRY_RADIUS                   = 128.0; //distance from the engy
@@ -33,11 +32,6 @@ const float SENTRY_CD_COMBAT                = 6.0; //how often to try to drop a 
 const float SENTRY_CD_IDLE                  = 30.0; //how often to try to drop a sentry while idle/roaming, in seconds
 const float SENTRY_RANDOM_RNG           = 15.0; //SENTRY_CD_IDLE plus/minus this
 const float SENTRY_RANDOM_CHANCE    = 75.0; //Chance to drop a sentry while idle/roaming, in percentage 0-100
-
-
-const string KVN_SENTRYCD                   = "$f_engysentrycd";
-const string KVN_SENTRYDROP             = "$f_engysentrydrop";
-const string KVN_SENTRYLEFT             = "$f_engysentryleft";
 
 void EngineerThink()
 {
@@ -51,13 +45,13 @@ void EngineerThink()
 
         CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
 
-        if( !pCustom.GetKeyvalue(KVN_SENTRYLEFT).Exists() )
-            pCustom.SetKeyvalue( KVN_SENTRYLEFT, SENTRY_MAX );
+        if( !pCustom.GetKeyvalue( "$f_engysentryleft" ).Exists() )
+            pCustom.SetKeyvalue( "$f_engysentryleft", SENTRY_MAX );
 
-        if( !pCustom.GetKeyvalue(KVN_SENTRYCD).Exists() )
-            pCustom.SetKeyvalue( KVN_SENTRYCD, g_Engine.time + SENTRY_CD_INITIAL + Math.RandomFloat(-SENTRY_RANDOM_RNG, SENTRY_RANDOM_RNG) );
+        if( !pCustom.GetKeyvalue( "$f_engysentrycd" ).Exists() )
+            pCustom.SetKeyvalue( "$f_engysentrycd", g_Engine.time + SENTRY_CD_INITIAL + Math.RandomFloat(-SENTRY_RANDOM_RNG, SENTRY_RANDOM_RNG) );
 
-        if( pCustom.GetKeyvalue(KVN_SENTRYLEFT).GetInteger() <= 0 )
+        if( pCustom.GetKeyvalue( "$f_engysentryleft" ).GetInteger() <= 0 )
             continue;
 
         CheckForSentryDrop( pMonster );
@@ -75,7 +69,7 @@ bool ShouldIgnoreThisEntity( CBaseEntity@ pEntity )
 void CheckForSentryDrop( CBaseMonster@ pMonster )
 {
     CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
-    float flSentryCD = pCustom.GetKeyvalue(KVN_SENTRYCD).GetFloat();
+    float flSentryCD = pCustom.GetKeyvalue( "$f_engysentrycd" ).GetFloat();
     if( flSentryCD > g_Engine.time )
         return;
 
@@ -84,8 +78,8 @@ void CheckForSentryDrop( CBaseMonster@ pMonster )
         if( pMonster.HasConditions(bits_COND_CAN_RANGE_ATTACK1) )
         {
             pMonster.ChangeSchedule( pMonster.GetScheduleOfType(SCHED_ARM_WEAPON) );
-            pCustom.SetKeyvalue( KVN_SENTRYCD, g_Engine.time + SENTRY_CD_COMBAT );
-            pCustom.SetKeyvalue( KVN_SENTRYDROP, g_Engine.time + 1.0 );
+            pCustom.SetKeyvalue( "$f_engysentrycd", g_Engine.time + SENTRY_CD_COMBAT );
+            pCustom.SetKeyvalue( "$f_engysentrydrop", g_Engine.time + 1.0 );
         }
     }
     else if( pMonster.m_MonsterState == MONSTERSTATE_IDLE or pMonster.m_MonsterState == MONSTERSTATE_ALERT )
@@ -93,8 +87,8 @@ void CheckForSentryDrop( CBaseMonster@ pMonster )
         if( btscm::RandomChance(SENTRY_RANDOM_CHANCE) )
         {
             pMonster.ChangeSchedule( pMonster.GetScheduleOfType(SCHED_ARM_WEAPON) );
-            pCustom.SetKeyvalue( KVN_SENTRYCD, g_Engine.time + SENTRY_CD_IDLE + Math.RandomFloat(-SENTRY_RANDOM_RNG, SENTRY_RANDOM_RNG) );
-            pCustom.SetKeyvalue( KVN_SENTRYDROP, g_Engine.time + 1.0 );
+            pCustom.SetKeyvalue( "$f_engysentrycd", g_Engine.time + SENTRY_CD_IDLE + Math.RandomFloat(-SENTRY_RANDOM_RNG, SENTRY_RANDOM_RNG) );
+            pCustom.SetKeyvalue( "$f_engysentrydrop", g_Engine.time + 1.0 );
         }
     }
 }
@@ -104,13 +98,13 @@ void DoSentryDrop( CBaseMonster@ pMonster )
     if( pMonster is null ) return;
 
     CustomKeyvalues@ pCustom = pMonster.GetCustomKeyvalues();
-    float flSentryDrop = pCustom.GetKeyvalue(KVN_SENTRYDROP).GetFloat();
+    float flSentryDrop = pCustom.GetKeyvalue( "$f_engysentrydrop" ).GetFloat();
 
     if( flSentryDrop > 0 and flSentryDrop <= g_Engine.time )
     {
         if( pMonster.pev.sequence == pMonster.LookupSequence("open_floor_grate") )
         {
-            int iSentriesLeft = pCustom.GetKeyvalue(KVN_SENTRYLEFT).GetInteger();
+            int iSentriesLeft = pCustom.GetKeyvalue( "$f_engysentryleft" ).GetInteger();
             //g_Game.AlertMessage( at_notice, "iSentriesLeft before dropping: %1\n", iSentriesLeft );
 
             //SpawnTurretRing( pMonster.pev.origin, 2 );
@@ -118,17 +112,17 @@ void DoSentryDrop( CBaseMonster@ pMonster )
             //( CBaseEntity@ pOwner, uint uiCount = 3, float flRadius = 128.0, float flArcDeg = 120.0, bool bCheckSpace = true, bool bSpawnIfBlocked = false )
 
             if( iSentriesSpawned > 0 )
-                pCustom.SetKeyvalue( KVN_SENTRYLEFT, iSentriesLeft - iSentriesSpawned );
+                pCustom.SetKeyvalue( "$f_engysentryleft", iSentriesLeft - iSentriesSpawned );
 
             //g_Game.AlertMessage( at_notice, "iSentriesLeft after dropping: %1\n", iSentriesLeft - iSentriesSpawned );
 
-            pCustom.SetKeyvalue( KVN_SENTRYDROP, 0 );
+            pCustom.SetKeyvalue( "$f_engysentrydrop", 0 );
         }
     }
 }
 
 // =====================================================
-// Spawns SENTRY_CLASSNAME in a forward arc in front of the engineer
+// Spawns "monster_sentry" in a forward arc in front of the engineer
 //
 // uiCount = how many turrets
 // flRadius = distance from owner
@@ -220,7 +214,7 @@ int SpawnTurretArc( CBaseEntity@ pOwner, uint uiCount = 3, float flRadius = 128.
         // Face same direction as engineer
         Vector vecAngles( 0.0, flYaw, 0.0 );
 
-        CBaseEntity@ pSentry = g_EntityFuncs.Create( SENTRY_CLASSNAME, vecPos, vecAngles, true, pOwner.edict() );
+        CBaseEntity@ pSentry = g_EntityFuncs.Create( "monster_sentry", vecPos, vecAngles, true, pOwner.edict() );
 
         if( pSentry !is null )
         {
@@ -243,15 +237,4 @@ int SpawnTurretArc( CBaseEntity@ pOwner, uint uiCount = 3, float flRadius = 128.
 
     return false;
 }*/
-
-void EngineerMapInit()
-{
-    //g_Game.PrecacheMonster( "monster_miniturret", true );
-    //g_Game.PrecacheMonster( "monster_miniturret", false );
-    //g_Game.PrecacheMonster( "monster_turret", true );
-    //g_Game.PrecacheMonster( "monster_turret", false );
-    g_Game.PrecacheMonster( SENTRY_CLASSNAME, true );
-    g_Game.PrecacheMonster( SENTRY_CLASSNAME, false );
-}
-
 } //namespace btscm END

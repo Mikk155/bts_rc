@@ -23,7 +23,6 @@ namespace monster_panthereye
 {
 
 // SETTINGS
-const string NPC_MODEL                  = "models/bts_rc/monsters/panthereye.mdl";
 const int NPC_HEALTH                        = 200;
 const float NPC_MAXLEAP_Z               = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
 const float NPC_MINLEAP                 = 200.0; //panther won't pounce at enemies within this range
@@ -132,7 +131,7 @@ class monster_panthereye : bts_rc_base_monster
         Precache();
 
         if( !self.SetupModel() )
-            g_EntityFuncs.SetModel( self, NPC_MODEL );
+            g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/panthereye.mdl" );
 
         g_EntityFuncs.SetSize( self.pev, Vector(-16.0, -16.0, 0.0), Vector(16.0, 16.0, 32.0) );
 
@@ -158,7 +157,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void Precache()
     {
-        g_Game.PrecacheModel( NPC_MODEL );
+        g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
 
         for( uint i = 0; i < arrsSounds.length(); i++ )
             g_SoundSystem.PrecacheSound( arrsSounds[i] );

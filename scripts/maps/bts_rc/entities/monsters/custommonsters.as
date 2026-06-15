@@ -41,7 +41,6 @@ void CustomMonsterMapInit()
     RobogruntMapInit();
     HWRGMapInit();
     //ScientistMapInit();
-    EngineerMapInit();
 
     monster_zombie_grenadier::Register();
     monster_snapbug::Register();
@@ -102,16 +101,16 @@ HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )
 void RemoveSnapbug( CBasePlayer@ pPlayer, float flDamage = 0.0 )
 {
     CustomKeyvalues@ pCustom = pPlayer.GetCustomKeyvalues();
-    if( pCustom.GetKeyvalue(monster_snapbug::KVN_SNAPBUGGED).GetInteger() != 1 )
+    if( pCustom.GetKeyvalue( "$i_snapbugged" ).GetInteger() != 1 )
         return;
 
     CBaseEntity@ pSnapbug = null;
-    while( (@pSnapbug = g_EntityFuncs.FindEntityByClassname(pSnapbug, monster_snapbug::NPC_CLASSNAME2)) !is null )
+    while( (@pSnapbug = g_EntityFuncs.FindEntityByClassname(pSnapbug, "snapbug")) !is null )
     {
         if( pSnapbug.pev.owner !is null and pSnapbug.pev.owner is pPlayer.edict() )
         {
             g_PlayerFuncs.HudToggleElement( pPlayer, monster_snapbug::HUD_SPRITE_SNAPBUG, false );
-            pCustom.SetKeyvalue( monster_snapbug::KVN_SNAPBUGGED, 0 );
+            pCustom.SetKeyvalue( "$i_snapbugged", 0 );
             g_SoundSystem.EmitSound( pSnapbug.edict(), CHAN_VOICE, monster_snapbug::arrsSounds[Math.RandomLong(monster_snapbug::SND_DEATH1, monster_snapbug::SND_DEATH2)], VOL_NORM, ATTN_IDLE );
 
             g_WeaponFuncs.SpawnBlood( pSnapbug.pev.origin, BLOOD_COLOR_GREEN, flDamage );

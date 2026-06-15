@@ -25,8 +25,6 @@ namespace monster_zombie_parasite
 {
 
 //SETTINGS
-const string NPC_DISPLAYNAME            = "Parasite Zombie";
-
 const float NPC_FLINCH_DELAY            = 3.0; // at most one flinch every n secs
 const float NPC_HEALTH                  = 120;
 const float NPC_DMG_ONE_SLASH       = 20;
@@ -36,10 +34,6 @@ const float POISON_FREQUENCY            = 0.3;
 const float POISON_DURATION         = 6.0;
 const float POISON_DAMAGE_START = 15; //decreases over time
 const float POISON_DAMAGE_RADIUS    = 64;
-
-const string MODEL_NPC                  = "models/bts_rc/monsters/zombie_parasite.mdl";
-const string SPRITE_POISON              = "sprites/poison.spr"; //"sprites/particles/blacksmoke.spr"
-
 
 const int NPC_AE_ATTACK_RIGHT       = 1;
 const int NPC_AE_ATTACK_LEFT            = 2;
@@ -107,7 +101,7 @@ class monster_zombie_parasite : bts_rc_base_monster
         Precache();
 
         if( !self.SetupModel() )
-            g_EntityFuncs.SetModel( self, MODEL_NPC );
+            g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/zombie_parasite.mdl" );
 
         g_EntityFuncs.SetSize( self.pev, VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
@@ -124,15 +118,15 @@ class monster_zombie_parasite : bts_rc_base_monster
         self.m_afCapability     = bits_CAP_DOORS_GROUP;
 
         if( string(self.m_FormattedName).IsEmpty() )
-            self.m_FormattedName    = NPC_DISPLAYNAME;
+            self.m_FormattedName    = "Parasite Zombie";
 
         self.MonsterInit();
     }
 
     void Precache()
     {
-        g_Game.PrecacheModel( MODEL_NPC );
-        g_Game.PrecacheModel( SPRITE_POISON );
+        g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_parasite.mdl" );
+        g_Game.PrecacheModel( "sprites/poison.spr" );
 
         for( uint i = 0; i < arrsSounds.length(); i++ )
             g_SoundSystem.PrecacheSound( arrsSounds[i] );
@@ -610,7 +604,7 @@ class CParasiteZombieCloud : ScriptBaseEntity
             m1.WriteCoord( pev.origin.y );
             m1.WriteCoord( pev.origin.z );
             m1.WriteShort( m_iPoisonCloudRadius ); //radius (fire is made in a square around origin. -radius, -radius to radius, radius) 
-            m1.WriteShort( g_EngineFuncs.ModelIndex(SPRITE_POISON) );
+            m1.WriteShort( g_EngineFuncs.ModelIndex("sprites/poison.spr") );
             m1.WriteByte( m_iPoisonCloudCount ); //count
             m1.WriteByte( TEFIRE_FLAG_ALLFLOAT | TEFIRE_FLAG_ADDITIVE );
             m1.WriteByte( m_iPoisonCloudDuration ); //duration (in seconds) * 10 (will be randomized a bit) 
