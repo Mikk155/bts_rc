@@ -32,7 +32,11 @@ final class ASWallRechargerConfig : IConfigurable
 
     void Register( meta_api::json::v2::json@ json ) override
     {
-        CustomEntity( "func_bts_recharger", true );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
+        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+
+        CustomEntity( "func_bts_recharger" );
 
         this.juice = Math.max( 1, json.ValueOrDefault( "juice", 35 ) );
         this.recharge_time = Math.max( 0, json.ValueOrDefault( "recharge_time", 300 ) );
@@ -44,17 +48,11 @@ ASWallRechargerConfig ConfigWallRecharger;
 
 class func_bts_recharger : ScriptBaseEntity
 {
-    void Precache()
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
-    }
-
     void Spawn()
     {
-        Precache();
-
+#if SERVER
+        g_EntityFuncs.DispatchKeyValue( self.edict(), "$s_message", "HEV/Hazard exclusive charger" );
+#endif
         self.pev.solid = SOLID_BSP;
         self.pev.movetype = MOVETYPE_PUSH;
         g_EntityFuncs.SetOrigin( self, self.pev.origin ); // set size and link into world
