@@ -53,6 +53,9 @@ final class TurretsLasers : EntityOverriden
 
         if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
         {
+#if SERVER
+            SetDebugName( entity, "monster with laser aiming" );
+#endif
             monster.pev.armortype = Math.RandomLong( 0, 20 );
             monster.pev.armorvalue = Math.RandomLong( 0, 1 );
             EntityOverriden::AddEntity( index, entity, ckv, monster );

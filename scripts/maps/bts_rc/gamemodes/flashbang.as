@@ -49,7 +49,12 @@ class BlackOpsFlashbang : EntityOverriden
     void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
     {
         if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() == 1 )
+        {
+#if SERVER
+            SetDebugName( entity, "Blackop with flashbang grenades" );
+#endif
             EntityOverriden::AddEntity( index, entity, ckv, monster );
+        }
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override

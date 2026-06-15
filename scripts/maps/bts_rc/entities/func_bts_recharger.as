@@ -51,7 +51,7 @@ class func_bts_recharger : ScriptBaseEntity
     void Spawn()
     {
 #if SERVER
-        g_EntityFuncs.DispatchKeyValue( self.edict(), "$s_message", "HEV/Hazard exclusive charger" );
+        SetDebugName( self, "HEV/Hazard exclusive charger" );
 #endif
         self.pev.solid = SOLID_BSP;
         self.pev.movetype = MOVETYPE_PUSH;

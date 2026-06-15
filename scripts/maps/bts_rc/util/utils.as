@@ -132,3 +132,18 @@ bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
 
     return false;
 }
+
+#if SERVER
+// Set a display name to a entity this is shown as simple text (No HUD Message) on the center of the screen
+void SetDebugName( CBaseEntity@ target, const string&in name )
+{
+    if( target is null )
+        return;
+
+    auto ckv = target.GetCustomKeyvalues();
+
+    if( !ckv.HasKeyvalue( "$s_message" ) )
+    {
+        g_EntityFuncs.DispatchKeyValue( target.edict(), "$s_message", name );
+    }
+}
