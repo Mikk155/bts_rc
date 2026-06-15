@@ -133,6 +133,74 @@
             "description": "If enabled, HEV batteries will emit a blue dynamic light.",
             "default": true
         },
+        "grunt_engineer":
+        {
+            "type": "object",
+            "unevaluatedProperties": false,
+            "allOf": [
+                { "$ref": "#/$defs/EntityOverriden" }
+            ],
+            "title": "Blackops flashbangs",
+            "description": "Controls engineer grunt sentry spawning",
+            "properties":
+            {
+                "interval":
+                {
+                    "default": 0.1,
+                    "$ref": "#/$defs/EntityOverriden_Interval"
+                },
+                "capacity":
+                {
+                    "default": 5,
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Max sentry spawn capacity per engineer"
+                },
+                "distance":
+                {
+                    "default": 128,
+                    "type": "number",
+                    "minimum": 32,
+                    "description": "Distance from the engineer to spawn"
+                },
+                "cooldown_start":
+                {
+                    "default": 6.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time until engineer can place a sentry after spawning"
+                },
+                "cooldown_combat":
+                {
+                    "default": 6.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How often to try to drop a sentry in combat, in seconds"
+                },
+                "cooldown_idle":
+                {
+                    "default": 30.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How often to try to drop a sentry while idle/roaming, in seconds"
+                },
+                "cooldown_rng":
+                {
+                    "default": 15.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "cooldown_idle plus/minus this"
+                },
+                "chance":
+                {
+                    "default": 75,
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
+                }
+            }
+        },
         "blackops_flashbang":
         {
             "type": "object",

@@ -67,7 +67,6 @@ void MonsterThink()
     RoboThink();
     //ScientistThink();
     HWRGThink();
-    EngineerThink();
 }
 
 HookReturnCode MonsterKilled( CBaseMonster@ pMonster, CBaseEntity@ pAttacker, int iGib )

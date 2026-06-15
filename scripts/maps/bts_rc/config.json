@@ -68,6 +68,17 @@
         "bts:flare":  [ 1, 3 ],
         "bts:battery":[ 1, 3 ]
     },
+    "grunt_engineer":
+    {
+        "interval": 0.1,
+        "capacity": 5,
+        "chance": 75,
+        "cooldown_combat": 6,
+        "distance": 128,
+        "cooldown_start": 6,
+        "cooldown_rng": 15,
+        "cooldown_idle": 30
+    },
     "characters":
     [
         // Equipable suits

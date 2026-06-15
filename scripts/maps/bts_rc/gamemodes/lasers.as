@@ -47,6 +47,7 @@ final class TurretsLasers : EntityOverriden
         EntityOverriden::Register( json );
     }
 
+    // GruntEngineer calls this method. monster is null if you need it update GruntEngineer to cast the spawned sentry.
     void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
     {
         string classname = entity.GetClassname();
@@ -56,8 +57,8 @@ final class TurretsLasers : EntityOverriden
 #if SERVER
             SetDebugName( entity, "monster with laser aiming" );
 #endif
-            monster.pev.armortype = Math.RandomLong( 0, 20 );
-            monster.pev.armorvalue = Math.RandomLong( 0, 1 );
+            entity.pev.armortype = Math.RandomLong( 0, 20 );
+            entity.pev.armorvalue = Math.RandomLong( 0, 1 );
             EntityOverriden::AddEntity( index, entity, ckv, monster );
         }
     }
