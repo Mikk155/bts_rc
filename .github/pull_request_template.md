@@ -21,5 +21,5 @@ Describe the manual/automated testing conducted to verify your changes:
 ## Checklist
 - [ ] My code follows the code style guidelines of this project (Allman braces, spacing inside parentheses).
 - [ ] I have run `python src/apply_license.py` to ensure all script files have proper license headers.
-- [ ] I have verified that compiling the scripts does not trigger any warnings or errors.
+- [ ] I have verified that compiling the scripts does not trigger any warnings or errors using both ``SERVER`` and ``DEBUG`` preprocessors with ``src/toggle_debug.py``
 - [ ] I have updated the documentation / website (`docs/`) if my changes introduce or modify configurable keys.
