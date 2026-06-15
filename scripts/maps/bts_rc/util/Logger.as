@@ -100,6 +100,32 @@ namespace Logger
                 snprintf( buffer, "[%1] %2\n", this.name, glog );
                 glog = String::EMPTY_STRING;
 
+                if( Logger::gpWriteFile )
+                {
+                    File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::APPEND );
+
+                    if( file is null || !file.IsOpen() )
+                    {
+                        @file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::WRITE );
+                        file.Write( " " );
+                        file.Close();
+                        @file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::APPEND );
+                    }
+
+                    string header;
+
+                    if( Logger::gpLastSecond != g_Engine.time )
+                    {
+                        snprintf( header, "=== Current frame: %1 ===\n", g_Engine.time );
+                        Logger::gpLastSecond = g_Engine.time;
+                    }
+
+                    if( !header.IsEmpty() )
+                        file.Write( header );
+
+                    file.Write( buffer );
+                }
+
                 if( g_EngineFuncs.IsDedicatedServer() )
                 {
                     g_EngineFuncs.ServerPrint( buffer );
@@ -119,6 +145,12 @@ namespace Logger
                 g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
             }
     }
+}
+
+namespace Logger
+{
+    float gpLastSecond;
+    bool gpWriteFile;
 }
 
 class CLogger
@@ -217,7 +249,20 @@ class CLogger
         this.error.SetLevel( json.ValueOrDefault( "error", true ) );
         this.critical.SetLevel( json.ValueOrDefault( "critical", true ) );
 
-        string commandHelp = "One of: ";
+        Logger::gpWriteFile = json.ValueOrDefault( "file", false );
+
+#if SERVER
+        Logger::gpWriteFile = true;
+#endif
+
+        if( Logger::gpWriteFile )
+        {
+            File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.log", OpenFile::WRITE );
+            file.Write( " " );
+            file.Close();
+        }
+
+        string commandHelp = "One of: file, ";
         uint length = this.m_Loggers.length();
         for( uint ui = 0; ui < length; ui++ )
         {
@@ -236,6 +281,16 @@ class CLogger
                 if( isValid )
                 {
                     string id = arguments[0];
+
+                    if( id == "file" )
+                    {
+                        Logger::gpWriteFile = !Logger::gpWriteFile;
+                        string buffer;
+                        snprintf( buffer, "File logging %1%2\n", ( Logger::gpWriteFile ? "Enabled" : "Disabled" ), ( Logger::gpWriteFile ? " at scripts/maps/store/bts_rc.log" : "." ) );
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                        g_Game.AlertMessage( at_console, buffer );
+                        return;
+                    }
 
                     for( uint ui = 0; ui < length; ui++ ) {
                         if( ( isValid = levels[ui].id == id ) )

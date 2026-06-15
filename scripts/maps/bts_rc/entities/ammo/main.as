@@ -26,6 +26,9 @@ class BTS_Ammo : BTS_Item
 
         if( IsValid( player ) && player.GiveAmmo( finalGive, ammoName, max ) != -1 )
         {
+            if( g_Logger.trace.active )
+                g_Logger.trace.print( "Added {} of ammo {} to player {}", { finalGive, ammoName, player.pev.netname } );
+
             g_EntityFuncs.FireTargets( self.pev.target, player, self, USE_TOGGLE, 0, 0 );
 
             {

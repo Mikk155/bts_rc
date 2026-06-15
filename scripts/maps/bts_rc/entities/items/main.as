@@ -117,6 +117,9 @@ abstract class BTS_Item : ScriptBasePlayerAmmoEntity
     {
         g_EntityFuncs.FireTargets( self.pev.target, player, self, USE_TOGGLE, 0, 0 );
 
+        if( g_Logger.trace.active )
+            g_Logger.trace.print( "Added {} to player {}", { self.pev.classname, player.pev.netname } );
+
         if( !name.IsEmpty() )
         {
             NetworkMessage message( MSG_ONE, NetworkMessages::ItemPickup, player.edict() );

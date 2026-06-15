@@ -173,6 +173,7 @@
             "title": "Logging",
             "properties":
             {
+                "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start." },
                 "trace": { "type": "boolean" },
                 "debug": { "type": "boolean" },
                 "info": { "type": "boolean" },

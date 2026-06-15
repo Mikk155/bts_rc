@@ -1,3 +1,7 @@
+# 15/6/2026
+- Add github wiki
+- Add documentation for the DeathDrop system
+
 # 13/6/2026
 - Fixed snark monsters spawning bouncy/floating blood puddles when killed.
 - Configured a smaller custom blood puddle size for snark monsters.

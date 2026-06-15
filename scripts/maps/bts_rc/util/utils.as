@@ -102,3 +102,48 @@ namespace Hellbound
         }
     }
 }
+
+float __LastMultiTouchTime__;
+int __LastMultiTouchIndex__ = 0;
+
+// Return true for all valid players that are intersecting with "other"
+bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
+{
+    if( other !is null )
+    {
+        if( __LastMultiTouchIndex__ > 0 && __LastMultiTouchTime__ < g_Engine.time )
+        {
+            __LastMultiTouchTime__ = g_Engine.time;
+            __LastMultiTouchIndex__ = 0;
+        }
+
+        while( __LastMultiTouchIndex__ < g_Engine.maxClients )
+        {
+            __LastMultiTouchIndex__++;
+            auto entity = g_PlayerFuncs.FindPlayerByIndex(__LastMultiTouchIndex__);
+
+            if( entity !is null && entity.IsConnected() && entity.Intersects( other ) )
+            {
+                @player = entity;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+#if SERVER
+// Set a display name to a entity this is shown as simple text (No HUD Message) on the center of the screen
+void SetDebugName( CBaseEntity@ target, const string&in name )
+{
+    if( target is null )
+        return;
+
+    auto ckv = target.GetCustomKeyvalues();
+
+    if( !ckv.HasKeyvalue( "$s_message" ) )
+    {
+        g_EntityFuncs.DispatchKeyValue( target.edict(), "$s_message", name );
+    }
+}

@@ -3,6 +3,7 @@
     "$schema": "../../../docs/schema.json",
     "log":
     {
+        "file": false,
         "trace": true,
         "debug": true,
         "info": true,
