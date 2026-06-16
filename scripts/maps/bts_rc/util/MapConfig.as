@@ -292,6 +292,9 @@ final class ASMapConfig
                 this.m_chrono.Restart();
             }
         }
+
+        this.m_json.Clear();
+        @this.m_json = null;
     }
 }
 
