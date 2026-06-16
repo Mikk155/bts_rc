@@ -143,6 +143,22 @@ final class ASMapConfig
         this.m_Contexts.insertLast( @context );
     }
 
+    // Get a configurable context by name
+    // return null if not found or is inactive.
+    const IConfigurableContext@ GetContext( const string&in name )
+    {
+        uint length = this.m_Contexts.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            const IConfigurableContext@ context = this.m_Contexts[ui];
+
+            if( context.GetName() == name )
+                return @context;
+        }
+        return null;
+    }
+
     void __ValidateMapConfiguration__()
     {
         if( g_Logger.info.active )
