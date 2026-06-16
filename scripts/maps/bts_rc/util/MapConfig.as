@@ -248,6 +248,10 @@ final class ASMapConfig
             auto@ topSchema = meta_api::json::v2::json();
             topSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             topSchema.Set( "type", "object" );
+                auto@ schemaProperty = meta_api::json::v2::json();
+                schemaProperty.Set( "type", "string" );
+                schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
+                globalSchema.Set( "$schema", schemaProperty );
             topSchema.Set( "properties", globalSchema );
 
             meta_api::json::parser::Indentation schemaStyle = meta_api::json::parser::Indentation::AllTogether;
