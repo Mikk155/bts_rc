@@ -40,9 +40,9 @@ class ASZombieUncrabConfig : IConfigurable
         string classname = zombie.GetClassname();
 
         if( "monster_zombie" != classname
+        && "monster_gonome" != classname
         && "monster_zombie_soldier" != classname
-        && "monster_zombie_barney" != classname
-        && "monster_gonome" != classname )
+        && "monster_zombie_barney" != classname )
             return false;
 
         return true;
