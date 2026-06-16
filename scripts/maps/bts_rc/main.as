@@ -113,6 +113,7 @@ void MapInit()
     // Logger first
     g_MapConfig.Register( @g_Logger );
     g_MapConfig.Register( ASBloodPuddleConfig() );
+    g_MapConfig.Register( ASDynamicAmmoConfig() );
 
     g_MapConfig.__ValidateMapConfiguration__();
 

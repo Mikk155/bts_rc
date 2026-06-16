@@ -200,26 +200,6 @@
                 }
             }
         },
-        "ammo":
-        {
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Dynamic ammo",
-            "description": "Scales ammo pickup amounts based on connected player count. Each key is an ammo type name, value is [min, max] where min is given at full server and max is given solo.",
-            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
-            "additionalProperties":
-            {
-                "type": "array",
-                "minItems": 2,
-                "maxItems": 2,
-                "items": { "type": "integer", "minimum": 1 },
-                "prefixItems":
-                [
-                    { "description": "Minimum ammo given (at max players)" },
-                    { "description": "Maximum ammo given (solo play)" }
-                ]
-            }
-        },
         "wall_recharger":
         {
             "type": "object",

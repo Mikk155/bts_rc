@@ -8,7 +8,7 @@ mixin class bts_ammo_base
 
     bool AddAmmo( CBaseEntity@ other, const int give, const string &in type, const int max, const string &in sound = "hlclassic/items/9mmclip1.wav" )
     {
-        int finalGive = gpDynamicAmmo.GetAmmoGive( type, give );
+        int finalGive = ( gpDynamicAmmo !is null ? gpDynamicAmmo.GetAmmoGive( type, give ) : give );
 
         if( other !is null && other.GiveAmmo( finalGive, type, max ) != -1 )
         {
