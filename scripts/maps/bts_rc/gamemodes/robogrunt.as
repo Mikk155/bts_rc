@@ -38,11 +38,18 @@ class RoboGrunt : EntityOverriden
 
 #if SERVER
             g_Game.PrecacheOther( "monster_human_grunt_ally" );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
 #endif
         }
 
         EntityOverriden::Register( json );
     }
+
+#if SERVER
+    dictionary@ get_TestKeys() {
+        return { { "classname", "monster_human_grunt_ally" }, { "model", "models/bts_rc/monsters/rgrunt_opfor.mdl" }, { "is_player_ally", "1" } };
+    }
+#endif
 
     bool IsValid( const string&in classname, const string&in model )
     {
@@ -389,6 +396,24 @@ class RoboGruntBoss : RoboGrunt
         return "robo_grunt_boss";
     }
 
+    void Register( meta_api::json::v2::json@ json ) override
+    {
+        if( this.IsActive() )
+        {
+#if SERVER
+            g_Game.PrecacheOther( "monster_hwgrunt" );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/robothwgrunt.mdl" );
+#endif
+        }
+        RoboGrunt::Register( json );
+    }
+
+#if SERVER
+    dictionary@ get_TestKeys() override {
+        return { { "classname", "monster_hwgrunt" }, { "model", "models/bts_rc/monsters/robothwgrunt.mdl" } };
+    }
+#endif
+
     bool IsValid( const string&in classname, const string&in model ) override
     {
         return ( classname == "monster_hwgrunt"
@@ -408,3 +433,30 @@ class RoboGruntBoss : RoboGrunt
 }
 
 RoboGruntBoss gpRoboGruntBoss;
+
+#if SERVER
+RegisterCommand __gpRoboGruntTestCmd__(
+    "robogrunt_test",
+    "0/1 for regular or boss",
+    "Spawn a robogrunt ahead",
+    function( CBasePlayer@ player, array<string>@ arguments )
+    {
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
+
+        bool isBoss = ( arguments !is null && arguments.length() > 0 && atoi( arguments[0] ) == 1 );
+
+        dictionary@ keys = ( isBoss ? gpRoboGruntBoss.TestKeys : gpRoboGrunt.TestKeys );
+
+        CBaseEntity@ robo = g_EntityFuncs.CreateEntity( string( keys[ "classname" ] ), keys, true );
+
+        robo.SetOrigin( tr.vecEndPos );
+
+        if( isBoss )
+            gpRoboGruntBoss.AddEntity( robo.entindex(), robo, null, null );
+        else
+            gpRoboGrunt.AddEntity( robo.entindex(), robo, null, null );
+    }
+);
+#endif
