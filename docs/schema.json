@@ -165,23 +165,6 @@
                 }
             }
         },
-        "zombie_uncrab":
-        {
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Headcrab detach",
-            "description": "Controls headcrab detachment behavior from zombies.",
-            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
-            "properties":
-            {
-                "track_health":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health."
-                }
-            }
-        },
         "deathdrop":
         {
             "type": "object",

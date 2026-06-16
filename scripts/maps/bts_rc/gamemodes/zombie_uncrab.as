@@ -21,15 +21,48 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-class ASZombieUncrabConfig : IConfigurable
+class ASZombieUncrabConfig : IConfigurableContext
 {
-    bool track_health;
-
-    const Cvar@ sk_headcrab_health = g_EngineFuncs.CVarGetPointer( "sk_headcrab_health" );
-
-    const string& get_Name() override
-    {
+    const string& GetName() const override {
         return "zombie_uncrab";
+    }
+
+    meta_api::json::v2::json@ GetSchema() const override {
+        auto@ schema = meta_api::json::v2::json();
+        schema.Set( "type", "object" );
+        schema.Set( "unevaluatedProperties", false );
+        schema.Set( "description", "Controls headcrab detachment behavior from zombies." );
+        auto@ properties = meta_api::json::v2::json();
+            auto@ active = meta_api::json::v2::json();
+                active.Set( "type", "boolean" );
+                active.Set( "default", true );
+                active.Set( "description", "Should zombies drop headcrabs on death?" );
+            properties.Set( "active", active );
+            auto@ track_health = meta_api::json::v2::json();
+                track_health.Set( "type", "boolean" );
+                track_health.Set( "default", true );
+                track_health.Set( "description", "If true, spawning depends on damage dealt. Otherwise always spawns with full health" );
+            properties.Set( "track_health", track_health );
+        schema.Set( "properties", properties );
+        return schema;
+    }
+
+    bool m_TrackHealth;
+
+    const bool get_TrackHealth() const {
+        return this.m_TrackHealth;
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        @gpZombieUncrab = this;
+
+        this.m_TrackHealth = bool( config[ "track_health" ] );
+
+        return true;
     }
 
     bool IsValid( CBaseEntity@ zombie )
@@ -46,14 +79,6 @@ class ASZombieUncrabConfig : IConfigurable
             return false;
 
         return true;
-    }
-
-    void Register( meta_api::json::v2::json@ json ) override
-    {
-        if( this.IsActive() )
-        {
-            this.track_health = json.ValueOrDefault( "track_health", true );
-        }
     }
 
     void RelocateHeadcrab( EHandle entity, float height, float headcrab_damage )
@@ -84,13 +109,13 @@ class ASZombieUncrabConfig : IConfigurable
 
     CBaseEntity@ Create( CBaseMonster@ monster, CBaseEntity@ attacker, int gib, dictionary@ data )
     {
-        if( !this.IsActive() || !this.IsValid( monster ) || !FreeEdicts(1) )
+        if( !this.IsValid( monster ) || !FreeEdicts(1) )
             return null;
 
         float headcrab_damage = 0.0f;
 
         // Check if the stored received damage is less than a headcrab's HP
-        if( this.track_health )
+        if( this.m_TrackHealth )
             headcrab_damage = float( data[ "headcrab_damage" ] );
 
         monster.SetBodygroup( 1, 1 );
@@ -118,4 +143,4 @@ class ASZombieUncrabConfig : IConfigurable
     }
 }
 
-ASZombieUncrabConfig gpZombieUncrab;
+ASZombieUncrabConfig@ gpZombieUncrab = null;

@@ -29,7 +29,8 @@ namespace Hooks
         if( gpBloodPuddle !is null )
             gpBloodPuddle.Create( monster, gib );
 
-        gpZombieUncrab.Create( monster, attacker, gib, data );
+        if( gpZombieUncrab !is null && gpZombieUncrab.IsValid( monster ) )
+            gpZombieUncrab.Create( monster, attacker, gib, data );
 
         return HOOK_CONTINUE;
     }
