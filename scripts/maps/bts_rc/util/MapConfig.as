@@ -140,6 +140,8 @@ final class ASMapConfig
         if( g_Logger.info.active )
             this.m_chrono.Restart();
 
+        array<IConfigurableContext@> inactiveContexts(0);
+
         uint length = this.m_Contexts.length();
 
         for( uint ui = 0; ui < length; ui++ )
@@ -165,6 +167,26 @@ final class ASMapConfig
                     g_Logger.warning.print( "Error validating schema for IConfigurableContext with name \"{}\" using default values...", { context.GetName() } );
                     this.m_ShouldWriteJsonObject = true;
                 }
+            }
+
+            bool result = context.Register( config );
+
+            if( !result )
+                inactiveContexts.insertLast( context );
+        }
+
+        // Remove inactive items separatelly since the above loop is ordered x[
+        length = inactiveContexts.length();
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            IConfigurableContext@ context = inactiveContexts[ui];
+            int contextID = this.m_Contexts.findByRef( context );
+            if( contextID >= 0 )
+            {
+                if( g_Logger.info.active )
+                    g_Logger.info.print( "Removing unactive context {}", { context.GetName() } );
+
+                this.m_Contexts.removeAt( contextID );
             }
         }
 
