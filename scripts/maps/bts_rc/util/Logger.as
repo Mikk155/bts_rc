@@ -153,7 +153,7 @@ namespace Logger
     bool gpWriteFile;
 }
 
-class CLogger
+class CLogger : IConfigurableContext
 {
     protected
         array<Logger::ASLogger@> m_Loggers(0);
@@ -228,11 +228,35 @@ class CLogger
         return @this.command;
     }
 
-    void Register( meta_api::json::v2::json@ json )
-    {
-        if( this.m_Loggers.length() > 0 )
-            return;
+    // IConfigurableContext start
+    const string& GetName() const {
+        return "logger";
+    }
 
+    meta_api::json::v2::json@ GetSchema() const {
+        auto@ schema = meta_api::json::v2::json();
+        schema.Load( """{
+"type": "object",
+"unevaluatedProperties": false,
+"description": "Logging configuration per severity level.",
+"title": "Logging",
+"properties":
+{
+    "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.", "default": false },
+    "trace": { "type": "boolean", "default": false },
+    "debug": { "type": "boolean", "default": false },
+    "info": { "type": "boolean", "default": false },
+    "warning": { "type": "boolean", "default": true },
+    "error": { "type": "boolean", "default": true },
+    "critical": { "type": "boolean", "default": true }
+}
+}""" );
+
+        return schema;
+    }
+
+    bool Register( meta_api::json::v2::json@ config )
+    {
         this.m_Loggers = {
             @this.trace,
             @this.debug,
@@ -242,18 +266,14 @@ class CLogger
             @this.critical
         };
 
-        this.trace.SetLevel( json.ValueOrDefault( "trace", false ) );
-        this.debug.SetLevel( json.ValueOrDefault( "debug", false ) );
-        this.info.SetLevel( json.ValueOrDefault( "info", false ) );
-        this.warning.SetLevel( json.ValueOrDefault( "warning", false ) );
-        this.error.SetLevel( json.ValueOrDefault( "error", true ) );
-        this.critical.SetLevel( json.ValueOrDefault( "critical", true ) );
+        this.trace.SetLevel( bool( config[ "trace" ] ) );
+        this.debug.SetLevel( bool( config[ "debug" ] ) );
+        this.info.SetLevel( bool( config[ "info" ] ) );
+        this.warning.SetLevel( bool( config[ "warning" ] ) );
+        this.error.SetLevel( bool( config[ "error" ] ) );
+        this.critical.SetLevel( bool( config[ "critical" ] ) );
 
-        Logger::gpWriteFile = json.ValueOrDefault( "file", false );
-
-#if SERVER
-        Logger::gpWriteFile = true;
-#endif
+        Logger::gpWriteFile = bool( config[ "file" ] );
 
         if( Logger::gpWriteFile )
         {
@@ -309,6 +329,8 @@ class CLogger
                 g_Logger.Toggle( arguments[0] );
             }
         ), true );
+
+        return true;
     }
 }
 

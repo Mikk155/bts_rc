@@ -108,6 +108,13 @@ void MapActivate()
 
 void MapInit()
 {
+    g_MapConfig.__LoadMapConfiguration__();
+
+    // Logger first
+    g_MapConfig.Register( @g_Logger );
+
+    g_MapConfig.__ValidateMapConfiguration__();
+
     Server::chrono@ chrono = Server::chrono();
 
     meta_api::json::v2::json@ json;
@@ -115,14 +122,6 @@ void MapInit()
     {
         g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
         @json = meta_api::json::v2::json();
-    }
-
-    g_Logger.Register( json.ValueOrDefault( "log" ) );
-
-    if( g_Logger.info.active )
-    {
-        chrono.Stop();
-        g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" %1:%2 seconds elapsed since the map started.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
     ConfigContext::Registry( json, chrono );
