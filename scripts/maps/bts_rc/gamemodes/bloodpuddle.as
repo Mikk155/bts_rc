@@ -43,7 +43,7 @@ final class ASBloodPuddleConfig : IConfigurableContext
     "active":
     {
         "type": "boolean",
-        "default": false,
+        "default": true,
         "description": "Should blood puddles be spawned when monsters die?"
     }
     "persistent":
@@ -68,6 +68,13 @@ final class ASBloodPuddleConfig : IConfigurableContext
     "custom_size":
     {
         "type": "object",
+        "default": 
+        {
+            "monster_headcrab": [ 0.5, 1.5 ],
+            "monster_houndeye": [ 1, 2 ],
+            "monster_babycrab": [ 0.3, 0.8 ],
+            "monster_snark": [ 0.25, 0.75 ]
+        },
         "additionalProperties":
         {
             "type": "array",

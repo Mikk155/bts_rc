@@ -1,24 +1,6 @@
 {
     // Schema validation. use Visual Studio code to get proper hinting or visit the website documentation: https://mikk155.github.io/bts_rc/
     "$schema": "../../../docs/schema.json",
-    "log":
-    {
-        "file": false,
-        "trace": true,
-        "debug": true,
-        "info": true,
-        "warning": true
-    },
-    "bloodpuddle":
-    {
-        "custom_size":
-        {
-            "monster_headcrab": [ 0.5, 1.5 ],
-            "monster_houndeye": [ 1, 2 ],
-            "monster_babycrab": [ 0.3, 0.8 ],
-            "monster_snark": [ 0.25, 0.75 ]
-        }
-    },
     "deathdrop":
     {
         "medic":
