@@ -229,11 +229,11 @@ class CLogger : IConfigurableContext
     }
 
     // IConfigurableContext start
-    const string& GetName() const {
+    const string& GetName() const override {
         return "logger";
     }
 
-    meta_api::json::v2::json@ GetSchema() const {
+    meta_api::json::v2::json@ GetSchema() const override {
         auto@ schema = meta_api::json::v2::json();
         schema.Load( """{
 "type": "object",
@@ -251,11 +251,10 @@ class CLogger : IConfigurableContext
     "critical": { "type": "boolean", "default": true }
 }
 }""" );
-
         return schema;
     }
 
-    bool Register( meta_api::json::v2::json@ config )
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_Loggers = {
             @this.trace,
