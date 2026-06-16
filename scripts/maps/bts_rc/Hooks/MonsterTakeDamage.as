@@ -37,6 +37,10 @@ namespace Hooks
 
         if( gpZombieEngineer.IsValid( classname, model ) )
             gpZombieEngineer.TakeDamage( victim, info );
+        else if( gpRoboGrunt.IsValid( classname, model ) )
+            gpRoboGrunt.TakeDamage( victim, info );
+        else if( gpRoboGruntBoss.IsValid( classname, model ) )
+            gpRoboGruntBoss.TakeDamage( victim, info );
 
         return HOOK_CONTINUE;
     }

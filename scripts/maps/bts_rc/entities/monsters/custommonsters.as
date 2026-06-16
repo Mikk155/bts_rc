@@ -21,9 +21,7 @@
 
 #include "customMonsterSettings"
 #include "hwrgboss"
-#include "robogrunts"
 //#include "scientists"
-#include "engineer"
 #include "monster_zombie_grenadier"
 #include "monster_snapbug"
 #include "monster_zombie_gunner"
@@ -38,7 +36,6 @@ CScheduledFunction@ g_monsterThink = null;
 
 void CustomMonsterMapInit()
 {
-    RobogruntMapInit();
     HWRGMapInit();
     //ScientistMapInit();
 
@@ -48,9 +45,6 @@ void CustomMonsterMapInit()
     monster_panthereye::Register();
     monster_zombie_parasite::Register();
     monster_parasite::Register();
-
-    //handles robots dying
-    g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
 
     //handles snapbugs attached to players
     g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage);
@@ -64,25 +58,8 @@ void CustomMonsterMapInit()
 
 void MonsterThink()
 {
-    RoboThink();
     //ScientistThink();
     HWRGThink();
-}
-
-HookReturnCode MonsterKilled( CBaseMonster@ pMonster, CBaseEntity@ pAttacker, int iGib )
-{
-    if( (IsRobot(pMonster) or IsRobotBoss(pMonster)) and pMonster.pev.deadflag == DEAD_NO )
-    {
-        if( (pMonster.pev.health < -40 and iGib != GIB_NEVER) or iGib == GIB_ALWAYS )
-        {
-            DoRobotDeath( EHandle(pMonster), true, IsRobotBoss(pMonster) );
-            return HOOK_CONTINUE;
-        }
-
-        DoRobotDeath( EHandle(pMonster), false, IsRobotBoss(pMonster) );
-    }
-
-    return HOOK_CONTINUE;
 }
 
 HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )

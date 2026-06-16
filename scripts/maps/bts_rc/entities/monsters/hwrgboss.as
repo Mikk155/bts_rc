@@ -21,14 +21,14 @@
 
 namespace btscm
 {
-
     HookReturnCode HWRGTakeDamage( DamageInfo@ pDamageInfo )
     {
-        if( IsRobotBoss( pDamageInfo.pVictim ) )
+        if( gpRoboGruntBoss.IsValid( pDamageInfo.pVictim.GetClassname(), pDamageInfo.pVictim.pev.model ) )
         {
             if( pDamageInfo.flDamage <= 0.0 or pDamageInfo.pVictim.pev.takedamage == DAMAGE_NO )
                 return HOOK_CONTINUE;
 
+            dictionary@ data = pDamageInfo.pVictim.GetUserData();
             int iHitGroup = pDamageInfo.pVictim.MyMonsterPointer().m_LastHitGroup;
 
             if( iHitGroup == HITGROUP_SHIELD )
@@ -50,15 +50,14 @@ namespace btscm
             }
             else if( iHitGroup == HITGROUP_HEAD and ( HasFlags( pDamageInfo.bitsDamageType, DMG_SNIPER ) or IsUsingSniperRifle( pDamageInfo.pAttacker ) ) )
             {
-                CustomKeyvalues@ pCustom = pDamageInfo.pVictim.GetCustomKeyvalues();
-                pCustom.SetKeyvalue( KVN_DOSMOKEPUFF, int( 3 + ( pDamageInfo.flDamage / 5.0 ) ) );
+                data[ "smokepuff" ] = int( 3 + ( pDamageInfo.flDamage / 5.0 ) );
 
                 pDamageInfo.flDamage *= DAMAGE_MULT_HEAD;
 
                 return HOOK_CONTINUE;
             }
 
-            HandleRobotDamage( pDamageInfo, true );
+//            HandleRobotDamage( pDamageInfo, true );
         }
 
         return HOOK_CONTINUE;
@@ -106,16 +105,16 @@ namespace btscm
             {
                 if( pEntity.pev.deadflag == DEAD_NO )
                 {
-                    ShowDamage( EHandle( pEntity ) );
-                    LowHealth( EHandle( pEntity ) );
-                    DoShockTouch( EHandle( pEntity ) );
+//                    ShowDamage( EHandle( pEntity ) );
+  //                  LowHealth( EHandle( pEntity ) );
+    //                DoShockTouch( EHandle( pEntity ) );
                     DoKick( EHandle( pEntity ) );
                     DoShieldSlam( EHandle( pEntity ) );
                     DoShieldStomp( EHandle( pEntity ) );
                     DealWithFlares( EHandle( pEntity ) );
                 }
 
-                DieThink( EHandle( pEntity ) );
+//                DieThink( EHandle( pEntity ) );
 
                 pCustom.SetKeyvalue( KVN_MONSTERTHINK, g_Engine.time + THINKRATE_OTHER );
             }

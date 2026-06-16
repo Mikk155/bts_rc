@@ -25,5 +25,6 @@
 #include "player_voices"
 #include "PlayerClass"
 #include "randomizer"
+#include "robogrunt"
 #include "zombie_engineer"
 #include "zombie_uncrab"
