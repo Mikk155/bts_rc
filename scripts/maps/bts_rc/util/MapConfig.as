@@ -1,3 +1,20 @@
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
+*   
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
+*   
+*   The above copyright notice and this permission notice shall be included in all
+*   copies of the Software when distributed as a whole.
+*   
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
+
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/meta_api/json"
 #include "../../../mikk155/meta_api/json/v2"
@@ -149,7 +166,11 @@ final class ASMapConfig
             IConfigurableContext@ context = this.m_Contexts[ui];
 
             if( g_Logger.info.active )
-                g_Logger.info.print( "Retrieving schema validation for context {}", { context.GetName() } );
+            {
+                g_EngineFuncs.ServerPrint( "==============================================================\n" );
+                g_Logger.info.print( "Parsing context {} with priority {}", { context.GetName(), ui } );
+                g_EngineFuncs.ServerPrint( "==============================================================\n" );
+            }
             /*
             if( !this.m_json.Contains( context.GetName() ) )
                 this.m_json.Set( context.GetName(), meta_api::json::v2::json() );
@@ -159,6 +180,9 @@ final class ASMapConfig
             meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
             meta_api::json::v2::json@ schema = context.GetSchema();
+
+            if( g_Logger.trace.active )
+                g_Logger.trace.print( "config: {}", { config.ToString() } );
 
             if( schema !is null )
             {
@@ -172,22 +196,18 @@ final class ASMapConfig
             bool result = context.Register( config );
 
             if( !result )
+            {
+                if( g_Logger.info.active )
+                    g_Logger.info.print( "Context {} set as inactive. Dereferencing...", { context.GetName() } );
+
                 inactiveContexts.insertLast( context );
+            }
         }
 
         // Remove inactive items separatelly since the above loop is ordered x[
         length = inactiveContexts.length();
-        for( uint ui = 0; ui < length; ui++ )
-        {
-            IConfigurableContext@ context = inactiveContexts[ui];
-            int contextID = this.m_Contexts.findByRef( context );
-            if( contextID >= 0 )
-            {
-                if( g_Logger.info.active )
-                    g_Logger.info.print( "Removing unactive context {}", { context.GetName() } );
-
-                this.m_Contexts.removeAt( contextID );
-            }
+        for( uint ui = 0; ui < length; ui++ ) {
+            this.m_Contexts.removeAt( this.m_Contexts.findByRef( inactiveContexts[ui] ) );
         }
 
         if( g_Logger.info.active )
