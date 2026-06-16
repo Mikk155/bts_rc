@@ -54,7 +54,7 @@ class ASDynamicAmmoConfig : IConfigurableContext
     meta_api::json::v2::json@ GetSchema() const override {
         auto@ schema = meta_api::json::v2::json();
         schema.Set( "type", "object" );
-        schema.Set( "unevaluatedProperties", "false" );
+        schema.Set( "unevaluatedProperties", false );
         schema.Set( "description", "Scales ammo pickup amounts based on connected player count." );
             auto@ properties = meta_api::json::v2::json();
                 auto@ active = meta_api::json::v2::json();
