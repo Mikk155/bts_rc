@@ -25,53 +25,60 @@ class ASDynamicAmmoConfig : IConfigurableContext
         return "ammo";
     }
 
-    private meta_api::json::v2::json@ GetDefaults( uint min, uint max )
+    const string GetSchema() const override {
+        return """{
+"type": "object",
+"unevaluatedProperties": false,
+"description": "Scales ammo pickup amounts based on connected player count.",
+"properties":
+{
+    "active":
     {
-        auto@ obj = meta_api::json::v2::json();
-        obj.Set( "type", "array" );
-        obj.Set( "minItems", 2 );
-        obj.Set( "maxItems", 2 );
-        obj.Set( "description", "List of [min, max] where min is given at full server and max is given solo." );
-            auto@ items = meta_api::json::v2::json();
-            items.Set( "type", "integer" );
-            items.Set( "minimum", 1 );
-        obj.Set( "items", items );
-            auto@ arr = meta_api::json::v2::json();
-            arr.SetType( meta_api::json::Type::Array );
-            arr.Append(min);
-            arr.Append(max);
-        obj.Set( "default", arr );
-/**
-"prefixItems":
-[
-    { "description": "Minimum ammo given (at max players)" },
-    { "description": "Maximum ammo given (solo play)" }
-]
-**/
-        return obj;
+        "type": "boolean",
+        "default": true,
+        "description": "Should ammo be given to players dynamically based on player count?"
+    },
+    "9mm":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 8, 17 ]
+    },
+    "357":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 1, 6 ]
+    },
+    "556":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 6, 30 ]
+    },
+    "buckshot":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 3, 8 ]
+    },
+    "ARgrenades":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 1, 2 ]
+    },
+    "38":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 3, 6 ]
+    },
+    "bts: flare":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 1, 3 ]
+    },
+    "bts: battery":
+    {
+        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
+        "default": [ 1, 3 ] }
     }
-
-    meta_api::json::v2::json@ GetSchema() const override {
-        auto@ schema = meta_api::json::v2::json();
-        schema.Set( "type", "object" );
-        schema.Set( "unevaluatedProperties", false );
-        schema.Set( "description", "Scales ammo pickup amounts based on connected player count." );
-            auto@ properties = meta_api::json::v2::json();
-                auto@ active = meta_api::json::v2::json();
-                active.Set( "type", "boolean" );
-                active.Set( "default", true );
-                active.Set( "description", "Should ammo be given to players dynamically based on player count?" );
-            properties.Set( "active", active );
-            properties.Set( "9mm", GetDefaults( 8, 17 ) );
-            properties.Set( "357", GetDefaults( 1, 6 ) );
-            properties.Set( "556", GetDefaults( 6, 30 ) );
-            properties.Set( "buckshot", GetDefaults( 3, 8 ) );
-            properties.Set( "ARgrenades", GetDefaults( 1, 2 ) );
-            properties.Set( "38", GetDefaults( 3, 6 ) );
-            properties.Set( "bts:flare", GetDefaults( 1, 3 ) );
-            properties.Set( "bts:battery", GetDefaults( 1, 3 ) );
-        schema.Set( "properties", properties );
-        return schema;
+}""";
     }
 
     private RegisterCommand@ m_command;

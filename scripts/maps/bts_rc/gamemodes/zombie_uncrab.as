@@ -27,24 +27,27 @@ class ASZombieUncrabConfig : IConfigurableContext
         return "zombie_uncrab";
     }
 
-    meta_api::json::v2::json@ GetSchema() const override {
-        auto@ schema = meta_api::json::v2::json();
-        schema.Set( "type", "object" );
-        schema.Set( "unevaluatedProperties", false );
-        schema.Set( "description", "Controls headcrab detachment behavior from zombies." );
-        auto@ properties = meta_api::json::v2::json();
-            auto@ active = meta_api::json::v2::json();
-                active.Set( "type", "boolean" );
-                active.Set( "default", true );
-                active.Set( "description", "Should zombies drop headcrabs on death?" );
-            properties.Set( "active", active );
-            auto@ track_health = meta_api::json::v2::json();
-                track_health.Set( "type", "boolean" );
-                track_health.Set( "default", true );
-                track_health.Set( "description", "If true, spawning depends on damage dealt. Otherwise always spawns with full health" );
-            properties.Set( "track_health", track_health );
-        schema.Set( "properties", properties );
-        return schema;
+    const string GetSchema() const override {
+        return """{
+"type": "object",
+"unevaluatedProperties": false,
+"description": "Controls headcrab detachment behavior from zombies.",
+"properties":
+{
+    "active":
+    {
+        "type": "boolean",
+        "default": true,
+        "description": "Should zombies drop headcrabs on death?"
+    },
+    "track_health":
+    {
+        "type": "boolean",
+        "default": true,
+        "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
+    }
+}
+}""";
     }
 
     bool m_TrackHealth;

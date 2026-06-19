@@ -233,9 +233,8 @@ class CLogger : IConfigurableContext
         return "logger";
     }
 
-    meta_api::json::v2::json@ GetSchema() const override {
-        auto@ schema = meta_api::json::v2::json();
-        schema.Load( """{
+    const string GetSchema() const override {
+        return """{
 "type": "object",
 "unevaluatedProperties": false,
 "description": "Logging configuration per severity level.",
@@ -250,8 +249,7 @@ class CLogger : IConfigurableContext
     "error": { "type": "boolean", "default": true },
     "critical": { "type": "boolean", "default": true }
 }
-}""" );
-        return schema;
+}""";
     }
 
     bool Register( meta_api::json::v2::json@ config ) override

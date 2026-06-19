@@ -31,36 +31,13 @@ interface IConfigurableContext
     const string& GetName() const;
 
     // Schema for validating your object. return null to avoid validation.
-    meta_api::json::v2::json@ GetSchema() const;
+    const string GetSchema() const;
 
     // Called at MapInit with the json object at the root containing GetName() as key.
     // Return false to remove reference to the context.
-    // In this method you can reference "this" to any variable handle. See #if EXAMPLE
+    // In this method you can reference "this" to any variable handle.
     bool Register( meta_api::json::v2::json@ config );
 }
-
-// -TODO Maybe to wiki?
-#if EXAMPLE
-final class TestSomething : IConfigurableContext
-{
-    const string& GetName() const { return "something" }
-
-    meta_api::json::v2::json@ GetSchema() const { return null; }
-
-    bool Register( meta_api::json::v2::json@ config )
-    {
-        // ASMapConfig gets rid of our unique reference
-        if( config.ValueOrDefault( "active", false ) )
-            return false;
-
-        // ASMapConfig and gpSomething holds this object.
-        @gpSomething = this;
-        return true;
-    }
-}
-
-TestSomething@ gpSomething = null;
-#endif
 
 final class ASMapConfig
 {
@@ -194,12 +171,12 @@ final class ASMapConfig
             */
             meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
-            meta_api::json::v2::json@ schema = context.GetSchema();
-
             if( g_Logger.trace.active )
                 g_Logger.trace.print( "config: {}", { config.ToString() } );
 
-            if( schema !is null )
+            meta_api::json::v2::json@ schema;
+
+            if( meta_api::json::v2::Deserialize( context.GetSchema(), schema ) && schema !is null )
             {
                 if( m_ShouldWriteSchema || debug )
                 {

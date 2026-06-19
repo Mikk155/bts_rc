@@ -31,9 +31,8 @@ final class ASBloodPuddleConfig : IConfigurableContext
         return "bloodpuddle";
     }
 
-    meta_api::json::v2::json@ GetSchema() const override {
-        auto@ schema = meta_api::json::v2::json();
-        schema.Load( """{
+    const string GetSchema() const override {
+        return """{
 "type": "object",
 "unevaluatedProperties": false,
 "title": "Blood puddles",
@@ -45,7 +44,7 @@ final class ASBloodPuddleConfig : IConfigurableContext
         "type": "boolean",
         "default": true,
         "description": "Should blood puddles be spawned when monsters die?"
-    }
+    },
     "persistent":
     {
         "type": "boolean",
@@ -93,8 +92,8 @@ final class ASBloodPuddleConfig : IConfigurableContext
         },
         "description": "Per-monster custom puddle size overrides."
     }
-}""" );
-        return schema;
+}
+}""";
     }
 
     bool Register( meta_api::json::v2::json@ config ) override
