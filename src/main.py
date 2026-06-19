@@ -19,6 +19,7 @@ import Tests.JsonCheck;
 import Tests.LicenseCheck;
 import Tests.FGDCheck;
 import Tests.DebugCheck;
+import Tests.SchemaCheck
 
 def Main() -> int:
 
