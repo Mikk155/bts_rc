@@ -5,8 +5,36 @@
 # ===================================================================
 # ===================================================================
 
+from enum import IntEnum, auto
+
 class PyBuilder:
     """Inherit from PyBuilder and instantiate your class then Build will be called"""
+
+    class BuildType( IntEnum ):
+        Local = auto();
+        '''Local build for whatever reason'''
+        Release = auto();
+        '''Github release. self.Tag is valid'''
+        Check = auto();
+        '''Github check'''
+
+    @property
+    def Tag(self) -> str | None:
+        '''If the Type is Release. this is the tag name that triggered the script in Github'''
+        import sys;
+        if "+release" in sys.argv and len(sys.argv) > sys.argv.index( "+release" ):
+            return sys.argv[ sys.argv.index( "+release" ) + 1 ];
+        return None;
+
+    @property
+    def Type(self) -> BuildType:
+        '''Return the build type'''
+        import sys;
+        if "+release" in sys.argv:
+            return PyBuilder.BuildType.Release;
+        if "--check" in sys.argv:
+            return PyBuilder.BuildType.Check;
+        return PyBuilder.BuildType.Local;
 
     @property
     def Workspace(self) -> str:
