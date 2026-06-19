@@ -9,55 +9,36 @@ from Tests.PyBuilder import PyBuilder;
 
 class DebugCheck( PyBuilder ):
 
-    def toggle_debug( self, processFrom: str, processTo: str, local = False ) -> int:
-
-        import os;
-        import pathlib;
+    def toggle_debug( self, processFrom: str, processTo: str ) -> int:
 
         files: int = 0;
         totalMatches: int = 0;
 
-        scriptFilesPath: str = os.path.join( self.Workspace, "scripts", "maps", "bts_rc" );
-
-        for path in pathlib.Path( scriptFilesPath ).rglob( f"*.as" ):
-
-            if not path.is_file():
-                continue;
-
-            content: str = None;
-
-            with open( path, "r", encoding="utf-8" ) as fStream:
-                content: str = fStream.read();
-                fStream.close();
+        for script in self.Scripts:
 
             currentMatches = 0;
-            while content.find( f"#if {processFrom}" ) >= 0:
-                if local is False:
+            while script.Content.find( f"#if {processFrom}" ) >= 0:
+                if self.Type == PyBuilder.BuildType.Check:
                     return 1;
                 currentMatches += 1;
-                content = content.replace( processFrom, processTo, 1 );
+                script.Content = script.Content.replace( processFrom, processTo, 1 );
 
             if currentMatches > 0:
 
-                print( f"Updated {currentMatches} macros on file {os.path.relpath( path )}" );
-
-                with open( path, "w", encoding="utf-8" ) as fStream:
-
-                    fStream.write( content );
-                    totalMatches += currentMatches;
-                    files += 1;
-                    fStream.close();
+                self.Log( f"Updated {currentMatches} pre processor on file {script.Path}" );
+                totalMatches += currentMatches;
+                files += 1;
 
         if totalMatches > 0:
-            print( f"{totalMatches} macros has been updated on {files} files" );
-        elif local is True:
-            print( "No files were updated" );
+            self.Log( f"{totalMatches} pre processor has been updated on {files} files" );
+        elif self.Type == PyBuilder.BuildType.Local:
+            self.Log( "No files were updated" );
 
         return files;
 
     def Build(self) -> bool:
         processedFiles = self.toggle_debug( "DEBUG", "SERVER" );
-        if processedFiles != 0:
+        if processedFiles != 0 and self.Type != PyBuilder.BuildType.Local:
             self.Log( "{} Un processed files. run src/toggle_debug.py to replace DEBUG pre processors to SERVER!", processedFiles );
             return False;
         self.Log( "All AngelScript pre processors are updated" );

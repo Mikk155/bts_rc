@@ -16,10 +16,10 @@ from Tests.PyBuilder import PyBuilder;
 
 # Include checks here
 import Tests.JsonCheck;
-import Tests.LicenseCheck;
 import Tests.FGDCheck;
+import Tests.LicenseCheck;
 import Tests.DebugCheck;
-import Tests.SchemaCheck
+import Tests.SchemaCheck;
 
 def Main() -> int:
 
@@ -45,4 +45,10 @@ def Main() -> int:
     return result;
 
 if __name__ == "__main__":
-    sys.exit( Main() );
+
+    result: int = Main();
+
+    if result == 0:
+        PyBuilder.WriteAllScripts();
+
+    sys.exit( result );
