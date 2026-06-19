@@ -62,6 +62,13 @@ class SchemaCheck( PyBuilder ):
                     invalidSchemas += 1;
                     continue;
 
+                if self.Type == PyBuilder.BuildType.Release:
+                    compact: str = json.dumps( parsed, separators=( ",", ":" ) );
+                    start, end = schemaMatch.span(1);
+                    content = content[ : start ] + compact + content[ end : ];
+                    with open( path, "w", encoding="utf-8" ) as fStream:
+                        fStream.write(content);
+
             if invalidSchemas > 0:
                 invalidSchemasTotal += invalidSchemas;
                 invalidFiles += 1;
