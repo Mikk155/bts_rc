@@ -20,6 +20,7 @@ import Tests.FGDCheck;
 import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;
+import Tests.DependancyCheck;
 
 def Main() -> int:
 
