@@ -34,7 +34,7 @@ class BTS_Ammo : BTS_Item
             {
                 NetworkMessage msg( MSG_ONE, NetworkMessages::AmmoPickup, player.edict() );
                     msg.WriteByte( g_PlayerFuncs.GetAmmoIndex( ammoName ) );
-                    msg.WriteByte( finalGive );
+                    msg.WriteLong( finalGive );
                 msg.End();
             }
 
