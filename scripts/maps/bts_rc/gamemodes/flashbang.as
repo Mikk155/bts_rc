@@ -19,42 +19,86 @@
     Author: Mikk
 */
 
-class BlackOpsFlashbang : EntityOverriden
+final class ASBlackOpsFlashbang : EntityOverriden, IConfigurableContext
 {
-    const string& get_Name() {
-        return "blackops_flashbang";
-    }
-
     private float throw_flash_cooldown;
     private float detonate_time;
 
-    void Register( meta_api::json::v2::json@ json ) override
+    const string& GetName() const override
     {
-        if( this.IsActive() )
-        {
-            this.detonate_time = Math.max( 1, json.ValueOrDefault( "detonate_time", 6 ) );
-            this.throw_flash_cooldown = Math.max( 1, json.ValueOrDefault( "throw_flash_cooldown", 3 ) );
-            this.interval = Math.max( 0.01f, json.ValueOrDefault( "interval", 0.5f ) );
-
-            g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
-            g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
-            g_SoundSystem.PrecacheSound( "mikk/player/earringing_left.wav" );
-
-            g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
-        }
-
-        EntityOverriden::Register( json );
+        return "blackops_flashbang";
     }
 
-    void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    const string GetSchema() const override
     {
-        if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() == 1 )
-        {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Blackops flashbangs",
+            "description": "Controls blackops flashbangs feature",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should ammo be given to players dynamically based on player count?"
+                },
+                "interval":
+                {
+                    "title": "Think rate",
+                    "type": "number",
+                    "minimum": 0.0,
+                    "default": 0.5,
+                    "description": "Internal think rate interval. the lower the value the more cpu usage"
+                },
+                "throw_flash_cooldown":
+                {
+                    "type": "number",
+                    "minimum": 1,
+                    "default": 3,
+                    "description": "Global cooldown for blackops to throw grenades"
+                },
+                "detonate_time":
+                {
+                    "type": "number",
+                    "minimum": 1,
+                    "default": 6,
+                    "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
+                }
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        this.detonate_time = float( config[ "detonate_time" ] );
+        this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
+
+        g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
+        g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
+        g_SoundSystem.PrecacheSound( "mikk/player/earringing_left.wav" );
+
+        g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+
+        EntityOverriden::SetThink( float( config[ "interval" ] ) );
+        EntityOverriden::Register( this );
+        return true;
+    }
+
+    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    {
+        if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
+            return false;
+
 #if SERVER
-            SetDebugName( entity, "Blackop with flashbang grenades" );
+        SetDebugName( entity, "Blackop with flashbang grenades" );
 #endif
-            EntityOverriden::AddEntity( index, entity, ckv, monster );
-        }
+
+        return EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
@@ -195,5 +239,3 @@ class BlackOpsFlashbang : EntityOverriden
         EntityOverriden::Think();
     }
 }
-
-BlackOpsFlashbang gpBlackopsFlashbangs;

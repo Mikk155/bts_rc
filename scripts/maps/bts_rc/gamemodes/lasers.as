@@ -19,47 +19,107 @@
     Author: Mikk
 */
 
-final class TurretsLasers : EntityOverriden
+final class ASAimingLasersConfig : EntityOverriden, IConfigurableContext
 {
     RGBA color;
 
-    const string& get_Name() override
+    const string& GetName() const override
     {
-        return "turret_lasers";
+        return "aiming_lasers";
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        if( this.IsActive() )
-        {
-            this.interval = Math.max( 0.01f, json.ValueOrDefault( "interval", 0.1f ) );
-
-            this.color = RGBA(
-                Math.min( 255, Math.max( 0, json.ValueOrDefault( "red", 255 ) ) ),
-                Math.min( 255, Math.max( 0, json.ValueOrDefault( "green", 0 ) ) ),
-                Math.min( 255, Math.max( 0, json.ValueOrDefault( "blue", 0 ) ) ),
-                Math.min( 255, Math.max( 0, json.ValueOrDefault( "blue", 150 ) ) )
-             );
-
-            g_Game.PrecacheModel( "sprites/glow01.spr" );
-        }
-
-        EntityOverriden::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Aiming lasers",
+            "description": "Controls laser aiming visuals for monsters.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should ammo be given to players dynamically based on player count?"
+                },
+                "interval":
+                {
+                    "title": "Think rate",
+                    "type": "number",
+                    "minimum": 0.0,
+                    "default": 0.1,
+                    "description": "Internal think rate interval. the lower the value the more cpu usage"
+                },
+                "red":
+                {
+                    "title": "Red color",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 255,
+                    "type": "integer",
+                    "description": "Red color of effects"
+                },
+                "green":
+                {
+                    "title": "Green color",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 0,
+                    "type": "integer",
+                    "description": "Green color of effects"
+                },
+                "blue":
+                {
+                    "title": "Blue color",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 0,
+                    "type": "integer",
+                    "description": "Blue color of effects"
+                },
+                "alpha":
+                {
+                    "title": "Alpha color",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 150,
+                    "type": "integer",
+                    "description": "Alpha color of effects"
+                }
+            }
+        }""";
     }
 
-    void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        this.color = RGBA( int( config[ "red" ] ), int( config[ "green" ] ), int( config[ "blue" ] ), int( config[ "alpha" ] ) );
+
+        g_Game.PrecacheModel( "sprites/glow01.spr" );
+
+        EntityOverriden::SetThink( float( config[ "interval" ] ) );
+        EntityOverriden::Register( this );
+        return true;
+    }
+
+    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
     {
         string classname = entity.GetClassname();
 
-        if( classname == "monster_sentry" || classname == "monster_turret" || classname == "monster_miniturret" )
-        {
+        if( classname != "monster_sentry" && classname != "monster_turret" && classname != "monster_miniturret" )
+            return false;
+
 #if SERVER
-            SetDebugName( entity, "monster with laser aiming" );
+        SetDebugName( entity, "monster with laser aiming" );
 #endif
-            monster.pev.armortype = Math.RandomLong( 0, 20 );
-            monster.pev.armorvalue = Math.RandomLong( 0, 1 );
-            EntityOverriden::AddEntity( index, entity, ckv, monster );
-        }
+
+        monster.pev.armortype = Math.RandomLong( 0, 20 );
+        monster.pev.armorvalue = Math.RandomLong( 0, 1 );
+
+        return EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 
     protected CSprite@ sprite( Vector &in VecPos )
@@ -208,5 +268,3 @@ final class TurretsLasers : EntityOverriden
         return ( EntityOverriden::ShouldThink() && FreeEdicts( 6 ) ); // 2 sprites 3-4 temporary entity
     }
 }
-
-TurretsLasers gpTurretsLasers;

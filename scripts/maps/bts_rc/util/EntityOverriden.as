@@ -15,7 +15,39 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-array<EntityOverriden@> gpEntityOverriden(0);
+namespace EntityOverriden
+{
+    array<EntityOverriden@> gpEntityOverriden(0);
+
+    void Register( EntityOverriden@ instance )
+    {
+        if( g_Logger.info.active )
+            g_Logger.info.print( "Registering EntityOverriden {}", { instance.GetName() } );
+
+        gpEntityOverriden.insertLast(instance);
+    }
+
+    // Register a entity to its EntityOverriden system
+    bool Register( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
+    {
+        bool added = false;
+
+        uint length = gpEntityOverriden.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EntityOverriden@ overrider = gpEntityOverriden[ui];
+
+            if( overrider !is null && overrider.AddEntity( index, entity, ckv, monster ) )
+            {
+                if( g_Logger.trace.active )
+                    g_Logger.trace.print( "Registering {} at {} for {}", { entity.GetClassname(), entity.pev.origin.ToString(), overrider.GetName() } );
+                added = true;
+            }
+        }
+        return added;
+    }
+}
 
 enum EntityOverridenAction
 {
@@ -25,18 +57,23 @@ enum EntityOverridenAction
 };
 
 /// Inherit from this class to make changes into map entities
-abstract class EntityOverriden : IConfigurable
+abstract class EntityOverriden
 {
-    EntityOverriden()
+    const string& GetName() const
     {
-        gpEntityOverriden.insertLast(this);
+        g_Logger.critical.print( "Unnamed EntityOverriden instance! Make sure to override the GetName method." );
+        m_Handles[ m_Handles.length() ]; // Stop the module somehow since no "throw" exists x[
+        return String::EMPTY_STRING;
     }
 
-    array<EHandle> m_Handles(0);
+    // List of entities
+    protected array<EHandle> m_Handles(0);
 
-    void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
+    // Whatever a entity should be added to the instance, entity and monster are the same instance just casted before hand.
+    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
     {
         this.m_Handles.insertLast( EHandle( entity ) );
+        return true;
     }
 
     // Called every frame for every entity in this.m_Handles. See EntityOverridenAction for bits
@@ -45,17 +82,15 @@ abstract class EntityOverriden : IConfigurable
         return EntityOverridenAction::None;
     }
 
+    // Whatever it's a think instance and it's time to call Think
     bool ShouldThink()
     {
-        return ( this.IsActive() && this.thinks && g_Engine.time >= this.nextthink );
+        return ( this.thinks && g_Engine.time >= this.nextthink );
     }
 
     // Called every frame before EntityThink.
     void Think()
     {
-        if( !this.ShouldThink() )
-            return;
-
         this.nextthink = g_Engine.time + this.interval;
 
         uint length = this.m_Handles.length();
@@ -69,7 +104,7 @@ abstract class EntityOverriden : IConfigurable
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
                 if( g_Logger.warning.active )
-                    g_Logger.warning.print( snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.Name, index ) );
+                    g_Logger.warning.print( snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.GetName(), index ) );
                 this.m_Handles.removeAt(index);
                 continue;
             }
@@ -84,7 +119,7 @@ abstract class EntityOverriden : IConfigurable
             if( ( flags & EntityOverridenAction::Remove ) != 0 )
             {
                 if( g_Logger.trace.active )
-                    g_Logger.trace.print( snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.Name, index ) );
+                    g_Logger.trace.print( snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.GetName(), index ) );
                 this.m_Handles.removeAt(index);
             }
 
@@ -95,19 +130,19 @@ abstract class EntityOverriden : IConfigurable
         }
     }
 
-    bool thinks = false;
-    float interval;
-    float nextthink;
+    protected bool thinks = false;
+    protected float interval;
+    protected float nextthink;
 
-    void Register( meta_api::json::v2::json@ json ) override
+    // Set entity think rate, negative values to stop thinking
+    void SetThink( float time )
     {
-        if( this.IsActive() )
+        this.interval = time;
+        this.thinks = ( this.interval >= 0.0 );
+
+        if( this.thinks )
         {
-            if( this.interval >= 0.1 )
-            {
-                this.thinks = true;
-                this.nextthink = g_Engine.time + this.interval;
-            }
+            this.nextthink = g_Engine.time + this.interval;
         }
     }
 }

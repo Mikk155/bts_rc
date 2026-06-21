@@ -72,15 +72,7 @@ void MapActivate()
 
         auto ckv = entity.GetCustomKeyvalues();
 
-        uint length = gpEntityOverriden.length();
-
-        for( uint ui = 0; ui < length; ui++ )
-        {
-            EntityOverriden@ overrider = gpEntityOverriden[ui];
-
-            if( overrider !is null )
-                overrider.AddEntity( entityIndex, entity, ckv, monster );
-        }
+        EntityOverriden::Register( entityIndex, entity, ckv, monster );
 
         // item tracker data
         if( entity.GetClassname()  == "item_inventory" )
@@ -118,6 +110,8 @@ void MapInit()
     g_MapConfig.Register( ASDynamicAmmoConfig() );
     g_MapConfig.Register( ASZombieUncrabConfig() );
     g_MapConfig.Register( ASDeathDropConfig() );
+    g_MapConfig.Register( ASAimingLasersConfig() );
+    g_MapConfig.Register( ASBlackOpsFlashbang() );
     g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
 
     g_MapConfig.__ValidateMapConfiguration__();

@@ -61,115 +61,12 @@
                 ]
             }
         },
-        "turret_lasers":
-        {
-            "type": "object",
-            "unevaluatedProperties": false,
-            "allOf": [
-                { "$ref": "#/$defs/EntityOverriden" }
-            ],
-            "title": "Turrets lasers",
-            "description": "Controls laser aiming visuals for turrets.",
-            "properties":
-            {
-                "interval":
-                {
-                    "default": 0.1,
-                    "$ref": "#/$defs/EntityOverriden_Interval"
-                },
-                "red":
-                {
-                    "title": "Red color",
-                    "minimum": 0,
-                    "maximum": 255,
-                    "default": 255,
-                    "type": "integer",
-                    "description": "Red color of effects"
-                },
-                "green":
-                {
-                    "title": "Green color",
-                    "minimum": 0,
-                    "maximum": 255,
-                    "default": 0,
-                    "type": "integer",
-                    "description": "Green color of effects"
-                },
-                "blue":
-                {
-                    "title": "Blue color",
-                    "minimum": 0,
-                    "maximum": 255,
-                    "default": 0,
-                    "type": "integer",
-                    "description": "Blue color of effects"
-                },
-                "alpha":
-                {
-                    "title": "Alpha color",
-                    "minimum": 0,
-                    "maximum": 255,
-                    "default": 150,
-                    "type": "integer",
-                    "description": "Alpha color of effects"
-                }
-            }
-        },
         "battery_lighting":
         {
             "title": "Lighting battery",
             "type": "boolean",
             "description": "If enabled, HEV batteries will emit a blue dynamic light.",
             "default": true
-        },
-        "blackops_flashbang":
-        {
-            "type": "object",
-            "unevaluatedProperties": false,
-            "allOf": [
-                { "$ref": "#/$defs/EntityOverriden" }
-            ],
-            "title": "Blackops flashbangs",
-            "description": "Controls blackops flashbangs feature",
-            "properties":
-            {
-                "interval":
-                {
-                    "default": 0.5,
-                    "$ref": "#/$defs/EntityOverriden_Interval"
-                },
-                "throw_flash_cooldown":
-                {
-                    "type": "number",
-                    "minimum": 1,
-                    "default": 3,
-                    "description": "Global cooldown for blackops to throw grenades"
-                },
-                "detonate_time":
-                {
-                    "type": "number",
-                    "minimum": 1,
-                    "default": 6,
-                    "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
-                }
-            }
-        },
-        "deathdrop":
-        {
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Death drop",
-            "description": "Defines item drop tables for entities (by classname or model).",
-            "additionalProperties":
-            {
-                "type": "array",
-                "description": "Entity classname or model path that will spawn the items. model path has priority over classname",
-                "items":
-                {
-                    "type": "string",
-                    "description": "Entity classname to spawn. Empty string means no drop chance."
-                }
-            }
         },
         "weapons":
         {
