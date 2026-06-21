@@ -52,4 +52,7 @@ if __name__ == "__main__":
     if result == 0:
         PyBuilder.WriteAllScripts();
 
+    if PyBuilder.GetType() == PyBuilder.BuildType.Local:
+        input( "Press enter to continue" );
+
     sys.exit( result );
