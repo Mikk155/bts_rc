@@ -18,6 +18,12 @@ class DependancyCheck( PyBuilder ):
 
         self.Log( "Downloading third party scripts..." );
 
+        mikkFolder = Path( os.path.join( self.Workspace, "scripts", "mikk155" ) );
+
+        if mikkFolder.is_symlink():
+            self.Log( "Ignoring dependancy scripts at path {} is a symlink file", mikkFolder.relative_to( self.Workspace ) );
+            return True;
+
         includeRegex = re.compile( r'#include\s*"([^"]+)"' );
 
         for script in self.Scripts:
@@ -33,7 +39,7 @@ class DependancyCheck( PyBuilder ):
                 dependencyPath: Path = None;
 
                 try:
-                    dependencyPath: Path = ResolvedPath.relative_to( os.path.join( self.Workspace, "scripts", "mikk155" ) );
+                    dependencyPath: Path = ResolvedPath.relative_to( mikkFolder );
                 except ValueError:
                     continue;
 
