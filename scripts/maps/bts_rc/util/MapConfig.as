@@ -122,13 +122,13 @@ final class ASMapConfig
 
     // Get a configurable context by name
     // return null if not found or is inactive.
-    const IConfigurableContext@ GetContext( const string&in name )
+    IConfigurableContext@ GetContext( const string&in name )
     {
         uint length = this.m_Contexts.length();
 
         for( uint ui = 0; ui < length; ui++ )
         {
-            const IConfigurableContext@ context = this.m_Contexts[ui];
+            IConfigurableContext@ context = this.m_Contexts[ui];
 
             if( context.GetName() == name )
                 return @context;
