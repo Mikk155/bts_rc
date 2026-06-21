@@ -61,17 +61,6 @@
                 ]
             }
         },
-        "voice_responses":
-        {
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Player voice responses",
-            "description": "Controls player voice responses context.",
-            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
-            "properties":
-            {
-            }
-        },
         "turret_lasers":
         {
             "type": "object",

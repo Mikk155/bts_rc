@@ -121,6 +121,8 @@ void MapInit()
 
     g_MapConfig.__ValidateMapConfiguration__();
 
+    g_VoiceResponse.Register();
+
     Server::chrono@ chrono = Server::chrono();
 
     meta_api::json::v2::json@ json;
