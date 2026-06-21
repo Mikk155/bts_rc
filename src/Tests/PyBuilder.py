@@ -21,8 +21,8 @@ class PyBuilder:
         Check = auto();
         '''Github check'''
 
-    @property
-    def Tag(self) -> str | None:
+    @staticmethod
+    def GetTag() -> str | None:
         '''If the Type is Release. this is the tag name that triggered the script in Github otherwise None'''
         import sys;
         if "+release" in sys.argv and len(sys.argv) > sys.argv.index( "+release" ):
@@ -30,7 +30,12 @@ class PyBuilder:
         return None;
 
     @property
-    def Type(self) -> BuildType:
+    def Tag(self) -> str | None:
+        '''If the Type is Release. this is the tag name that triggered the script in Github otherwise None'''
+        return PyBuilder.GetTag();
+
+    @staticmethod
+    def GetType() -> BuildType:
         '''Return the build type'''
         import sys;
         if "+release" in sys.argv:
@@ -40,10 +45,20 @@ class PyBuilder:
         return PyBuilder.BuildType.Local;
 
     @property
-    def Workspace(self) -> str:
+    def Type(self) -> BuildType:
+        '''Return the build type'''
+        return PyBuilder.GetType();
+
+    @staticmethod
+    def GetWorkspace() -> str:
         """Return the absolute path to the current workspace repository"""
         from __main__ import gpWorkspace;
         return gpWorkspace;
+
+    @property
+    def Workspace(self) -> str:
+        """Return the absolute path to the current workspace repository"""
+        return PyBuilder.GetWorkspace();
 
     def __init__(self) -> None:
         from __main__ import gpBuilders;
@@ -72,8 +87,8 @@ class PyBuilder:
         Path: str;
         '''File relative path'''
 
-    @property
-    def Scripts(self) -> list[AScript]:
+    @staticmethod
+    def GetScripts() -> list[AScript]:
         '''Return a list containing all the angel script files on this project'''
 
         global gpAngelScriptFiles;
@@ -85,14 +100,16 @@ class PyBuilder:
         import os;
         import pathlib;
 
-        for path in pathlib.Path( os.path.join( self.Workspace, "scripts", "maps", "bts_rc" ) ).rglob( "*.as" ):
+        workspace = PyBuilder.GetWorkspace();
+
+        for path in pathlib.Path( os.path.join( workspace, "scripts", "maps", "bts_rc" ) ).rglob( "*.as" ):
 
             if path.is_file():
 
                 ascript = PyBuilder.AScript();
                 ascript.AbsolutePath = path.absolute();
                 ascript.Name = path.name[ : len( path.name ) - 3 ];
-                ascript.Path = path.relative_to( self.Workspace );
+                ascript.Path = path.relative_to( workspace );
 
                 with open( path, "r", encoding="utf-8" ) as fStream:
                     ascript.Content = fStream.read();
@@ -102,10 +119,15 @@ class PyBuilder:
 
         return gpAngelScriptFiles;
 
+    @property
+    def Scripts(self) -> list[AScript]:
+        '''Return a list containing all the angel script files on this project'''
+        return PyBuilder.GetScripts();
+
     @staticmethod
     def WriteAllScripts() -> int:
 
-        for script in PyBuilder().Scripts:
+        for script in PyBuilder.GetScripts():
 
             content: str = None;
             with open( script.AbsolutePath, "r", encoding="utf-8" ) as fStream:
