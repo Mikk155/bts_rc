@@ -29,25 +29,25 @@ class ASZombieUncrabConfig : IConfigurableContext
 
     const string GetSchema() const override {
         return """{
-"type": "object",
-"unevaluatedProperties": false,
-"description": "Controls headcrab detachment behavior from zombies.",
-"properties":
-{
-    "active":
-    {
-        "type": "boolean",
-        "default": true,
-        "description": "Should zombies drop headcrabs on death?"
-    },
-    "track_health":
-    {
-        "type": "boolean",
-        "default": true,
-        "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
-    }
-}
-}""";
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Controls headcrab detachment behavior from zombies.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should zombies drop headcrabs on death?"
+                },
+                "track_health":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
+                }
+            }
+        }""";
     }
 
     bool m_TrackHealth;

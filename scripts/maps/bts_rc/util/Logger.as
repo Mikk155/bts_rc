@@ -235,21 +235,21 @@ class CLogger : IConfigurableContext
 
     const string GetSchema() const override {
         return """{
-"type": "object",
-"unevaluatedProperties": false,
-"description": "Logging configuration per severity level.",
-"title": "Logging",
-"properties":
-{
-    "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.", "default": false },
-    "trace": { "type": "boolean", "default": false },
-    "debug": { "type": "boolean", "default": false },
-    "info": { "type": "boolean", "default": false },
-    "warning": { "type": "boolean", "default": true },
-    "error": { "type": "boolean", "default": true },
-    "critical": { "type": "boolean", "default": true }
-}
-}""";
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Logging configuration per severity level.",
+            "title": "Logging",
+            "properties":
+            {
+                "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.", "default": false },
+                "trace": { "type": "boolean", "default": false },
+                "debug": { "type": "boolean", "default": false },
+                "info": { "type": "boolean", "default": false },
+                "warning": { "type": "boolean", "default": true },
+                "error": { "type": "boolean", "default": true },
+                "critical": { "type": "boolean", "default": true }
+            }
+        }""";
     }
 
     bool Register( meta_api::json::v2::json@ config ) override

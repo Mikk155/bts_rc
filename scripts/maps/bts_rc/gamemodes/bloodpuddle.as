@@ -33,67 +33,67 @@ final class ASBloodPuddleConfig : IConfigurableContext
 
     const string GetSchema() const override {
         return """{
-"type": "object",
-"unevaluatedProperties": false,
-"title": "Blood puddles",
-"description": "Controls blood puddle behavior and appearance.",
-"properties":
-{
-    "active":
-    {
-        "type": "boolean",
-        "default": true,
-        "description": "Should blood puddles be spawned when monsters die?"
-    },
-    "persistent":
-    {
-        "type": "boolean",
-        "default": true,
-        "description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
-    },
-    "default_size":
-    {
-        "type": "array",
-        "minItems": 2,
-        "maxItems": 2,
-        "items":
-        {
-            "minimum": 0.1,
-            "type": "number"
-        },
-        "default": [ 1.5, 2.5 ],
-        "description": "Random size range for puddles (min, max)."
-    },
-    "custom_size":
-    {
-        "type": "object",
-        "default": 
-        {
-            "monster_headcrab": [ 0.5, 1.5 ],
-            "monster_houndeye": [ 1, 2 ],
-            "monster_babycrab": [ 0.3, 0.8 ],
-            "monster_snark": [ 0.25, 0.75 ]
-        },
-        "additionalProperties":
-        {
-            "type": "array",
-            "minItems": 2,
-            "maxItems": 2,
-            "items":
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Blood puddles",
+            "description": "Controls blood puddle behavior and appearance.",
+            "properties":
             {
-                "minimum": 0.1,
-                "type": "number"
-            },
-            "prefixItems":
-            [
-                { "description": "Minimun scale size for randomization" },
-                { "description": "Maximun scale size for randomization" }
-            ]
-        },
-        "description": "Per-monster custom puddle size overrides."
-    }
-}
-}""";
+                "active":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should blood puddles be spawned when monsters die?"
+                },
+                "persistent":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
+                },
+                "default_size":
+                {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items":
+                    {
+                        "minimum": 0.1,
+                        "type": "number"
+                    },
+                    "default": [ 1.5, 2.5 ],
+                    "description": "Random size range for puddles (min, max)."
+                },
+                "custom_size":
+                {
+                    "type": "object",
+                    "default": 
+                    {
+                        "monster_headcrab": [ 0.5, 1.5 ],
+                        "monster_houndeye": [ 1, 2 ],
+                        "monster_babycrab": [ 0.3, 0.8 ],
+                        "monster_snark": [ 0.25, 0.75 ]
+                    },
+                    "additionalProperties":
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items":
+                        {
+                            "minimum": 0.1,
+                            "type": "number"
+                        },
+                        "prefixItems":
+                        [
+                            { "description": "Minimun scale size for randomization" },
+                            { "description": "Maximun scale size for randomization" }
+                        ]
+                    },
+                    "description": "Per-monster custom puddle size overrides."
+                }
+            }
+        }""";
     }
 
     bool Register( meta_api::json::v2::json@ config ) override

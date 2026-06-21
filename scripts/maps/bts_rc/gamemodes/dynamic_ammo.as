@@ -27,58 +27,59 @@ class ASDynamicAmmoConfig : IConfigurableContext
 
     const string GetSchema() const override {
         return """{
-"type": "object",
-"unevaluatedProperties": false,
-"description": "Scales ammo pickup amounts based on connected player count.",
-"properties":
-{
-    "active":
-    {
-        "type": "boolean",
-        "default": true,
-        "description": "Should ammo be given to players dynamically based on player count?"
-    },
-    "9mm":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 8, 17 ]
-    },
-    "357":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 1, 6 ]
-    },
-    "556":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 6, 30 ]
-    },
-    "buckshot":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 3, 8 ]
-    },
-    "ARgrenades":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 1, 2 ]
-    },
-    "38":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 3, 6 ]
-    },
-    "bts: flare":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 1, 3 ]
-    },
-    "bts: battery":
-    {
-        "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
-        "default": [ 1, 3 ] }
-    }
-}""";
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Scales ammo pickup amounts based on connected player count.",
+            "properties":
+            {
+                "active":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should ammo be given to players dynamically based on player count?"
+                },
+                "9mm":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 8, 17 ]
+                },
+                "357":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 6 ]
+                },
+                "556":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 6, 30 ]
+                },
+                "buckshot":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 3, 8 ]
+                },
+                "ARgrenades":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 2 ]
+                },
+                "38":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 3, 6 ]
+                },
+                "bts: flare":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 3 ]
+                },
+                "bts: battery":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 3 ]
+                }
+            }
+        }""";
     }
 
     private RegisterCommand@ m_command;
