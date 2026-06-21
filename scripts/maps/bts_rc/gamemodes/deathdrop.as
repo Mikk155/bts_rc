@@ -36,7 +36,7 @@ class ASDeathDropConfig : IConfigurableContext
                     "type": "boolean",
                     "default": true,
                     "description": "Should blood puddles be spawned when monsters die?"
-                },
+                }
             },
             "additionalProperties":
             {
