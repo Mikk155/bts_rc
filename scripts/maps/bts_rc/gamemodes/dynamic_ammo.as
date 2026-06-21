@@ -22,7 +22,7 @@ class ASDynamicAmmoConfig : IConfigurableContext
     dictionary m_AmmoRanges;
 
     const string& GetName() const override {
-        return "ammo";
+        return "dynamic_ammo";
     }
 
     const string GetSchema() const override {
