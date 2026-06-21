@@ -15,62 +15,101 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class ASDeathDropConfig : IConfigurable
+class ASDeathDropConfig : IConfigurableContext
 {
     dictionary m_Monsters;
 
-    const string& get_Name() override
-    {
+    const string& GetName() const override {
         return "deathdrop";
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
-    {
-        if( this.IsActive() )
-        {
-            const auto listNames = json.Keys;
-            uint size = listNames.length();
-
-            for( uint ui = 0; ui < size; ui++ )
+    const string GetSchema() const override {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Death drop",
+            "description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
+            "properties":
             {
-                string listName = listNames[ui];
-
-                array<string>@ itemNames;
-
-                if( meta_api::json::v2::fmt::ToArray( json[ listName ], itemNames ) )
+                "active":
                 {
-                    if( g_Logger.debug.active )
-                        g_Logger.debug.print( snprintf( glog, "Adding drops for \"%1\"", listName ) );
-                    @m_Monsters[ listName ] = itemNames;
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should blood puddles be spawned when monsters die?"
+                },
+            },
+            "additionalProperties":
+            {
+                "type": "array",
+                "items":
+                {
+                    "type": "string",
+                    "description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade."
+                }
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        const auto listNames = config.Keys;
+        uint size = listNames.length();
+
+        for( uint ui = 0; ui < size; ui++ )
+        {
+            string listName = listNames[ui];
+
+            if( listName == "active" )
+                continue;
+
+            array<string>@ itemNames;
+            auto@ listObject = config[ listName ];
+
+            if( meta_api::json::v2::fmt::ToArray( listObject, itemNames ) )
+            {
+                if( g_Logger.debug.active )
+                    g_Logger.debug.print( snprintf( glog, "Adding %1 drops for \"%2\"", itemNames.length(), listName ) );
+                @m_Monsters[ listName ] = itemNames;
+            }
+            else
+            {
+                g_Logger.error.print( snprintf( glog, "json deathdrop->%1 is not a valid array!", listName ) );
+                continue;
+            }
+
+            // Precache
+            for( uint uie = 0; uie < itemNames.length(); uie++ )
+            {
+                string itemName = itemNames[uie];
+                if( !itemName.IsEmpty() && itemName != "grenade" )
+                    g_Game.PrecacheOther( itemName );
+            }
+
+            // Just debug
+            if( g_Logger.trace.active )
+            {
+                dictionary count;
+                for( uint uilog = 0; uilog < itemNames.length(); uilog++ )
+                {
+                    string name = string( itemNames[uilog] );
+                    count[ name ] = int( count[ name ] ) + 1;
                 }
 
-                // Precache
-                for( uint uie = 0; uie < itemNames.length(); uie++ )
+                auto dropsCountKeys = count.getKeys();
+                for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
                 {
-                    string itemName = itemNames[uie];
-                    if( !itemName.IsEmpty() && itemName != "grenade" )
-                        g_Game.PrecacheOther( itemName );
-                }
-
-                // Just debug
-                if( g_Logger.trace.active )
-                {
-                    dictionary count;
-                    for( uint uilog = 0; uilog < itemNames.length(); uilog++ )
-                    {
-                        string name = string( itemNames[uilog] );
-                        count[ name ] = int( count[ name ] ) + 1;
-                    }
-
-                    auto dropsCountKeys = count.getKeys();
-                    for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
-                    {
-                        string name = dropsCountKeys[uilog];
-                        g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
-                    }
+                    string name = dropsCountKeys[uilog];
+                    g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                 }
             }
         }
+
+        @gpDeathDrop = this;
+
+        return true;
     }
 
     CBaseEntity@ Create( CBaseMonster@ monster )
@@ -146,4 +185,4 @@ class ASDeathDropConfig : IConfigurable
     }
 }
 
-ASDeathDropConfig gpDeathDrop;
+ASDeathDropConfig@ gpDeathDrop = null;

@@ -117,7 +117,8 @@ void MapInit()
     g_MapConfig.Register( ASBloodPuddleConfig() );
     g_MapConfig.Register( ASDynamicAmmoConfig() );
     g_MapConfig.Register( ASZombieUncrabConfig() );
-    g_MapConfig.Register( ASWallRechargerConfig() );
+    g_MapConfig.Register( ASDeathDropConfig() );
+    g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
 
     g_MapConfig.__ValidateMapConfiguration__();
 

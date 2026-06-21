@@ -160,7 +160,6 @@
             "unevaluatedProperties": false,
             "title": "Death drop",
             "description": "Defines item drop tables for entities (by classname or model).",
-            "allOf": [ { "$ref": "#/$defs/IConfigurable" } ],
             "additionalProperties":
             {
                 "type": "array",
