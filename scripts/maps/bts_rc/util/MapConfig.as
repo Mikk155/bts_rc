@@ -172,7 +172,7 @@ final class ASMapConfig
             meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
             if( g_Logger.trace.active )
-                g_Logger.trace.print( "config: {}", { config.ToString() } );
+                g_Logger.trace.print( "external config: {}", { config.ToString() } );
 
             meta_api::json::v2::json@ schema;
 
@@ -187,6 +187,9 @@ final class ASMapConfig
                 {
                     g_Logger.warning.print( "Error validating schema for IConfigurableContext with name \"{}\" using default values...", { context.GetName() } );
                 }
+
+                if( g_Logger.trace.active )
+                    g_Logger.trace.print( "validated config: {}", { config.ToString() } );
             }
 
             bool result = context.Register( config );
