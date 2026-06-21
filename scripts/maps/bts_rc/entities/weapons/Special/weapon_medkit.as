@@ -33,7 +33,7 @@ enum WeaponMedkitAnim
 
 class CWeaponMedkitConfig : ASWeaponConfig
 {
-    const string& get_Name() override {
+    const string& GetName() const override {
         return "weapon_medkit";
     }
 
@@ -133,11 +133,11 @@ class CWeaponMedkitConfig : ASWeaponConfig
     float health_gain;
     float health_cost;
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
-        this.health_ammount = json.ValueOrDefault( "health_ammount", 10 );
-        this.health_gain = json.ValueOrDefault( "health_gain", 10 );
-        this.health_cost = json.ValueOrDefault( "health_cost", 30 );
+        this.health_ammount = config.ValueOrDefault( "health_ammount", 10 );
+        this.health_gain = config.ValueOrDefault( "health_gain", 10 );
+        this.health_cost = config.ValueOrDefault( "health_cost", 30 );
 
         this.slot = 4;
         this.position = 14;
@@ -147,7 +147,7 @@ class CWeaponMedkitConfig : ASWeaponConfig
         this.secondary_cooldown = 2.0;
         this.tertiary_cooldown = 2.0;
 
-        ASWeaponConfig::Register( json );
+        return ASWeaponConfig::Register( config );
     }
 }
 

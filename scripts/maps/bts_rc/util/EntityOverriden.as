@@ -59,6 +59,7 @@ enum EntityOverridenAction
 /// Inherit from this class to make changes into map entities
 abstract class EntityOverriden
 {
+    // https://github.com/anjo76/angelscript/issues/68
     const string& GetName() const
     {
         g_Logger.critical.print( "Unnamed EntityOverriden instance! Make sure to override the GetName method." );

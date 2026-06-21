@@ -15,12 +15,12 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-// Inherit from this class. override get_Name and Register then call back ASWeaponConfig::Register(json)
-abstract class ASWeaponConfig : IConfigurable
+// Inherit from this class. override GetName and Register then call back ASWeaponConfig::Register(json)
+abstract class ASWeaponConfig : IConfigurableContext
 {
     ASWeaponConfig()
     {
-        @g_WeaponsConfig.Interfaces[ this.Name ] = this;
+        @g_WeaponsConfig.Interfaces[ this.GetName() ] = this;
     }
 
     // Weapon view model. automatically precached in BTS_Weapon::Precache and set in BTS_Weapon::Deploy
@@ -114,13 +114,13 @@ abstract class ASWeaponConfig : IConfigurable
     {
         if( !this.remap.IsEmpty() )
         {
-            auto remap = ItemMapping( this.remap, this.Name );
+            auto remap = ItemMapping( this.remap, this.GetName() );
             g_WeaponsConfig.ItemMappingList.insertLast( @remap );
         }
 
-        g_CustomEntityFuncs.RegisterCustomEntity( this.Name, this.Name );
+        g_CustomEntityFuncs.RegisterCustomEntity( this.GetName(), this.GetName() );
 
-        this.m_IsCustom = g_CustomEntityFuncs.IsCustomEntity( this.Name );
+        this.m_IsCustom = g_CustomEntityFuncs.IsCustomEntity( this.GetName() );
 
         if( this.m_IsCustom )
         {
@@ -130,10 +130,10 @@ abstract class ASWeaponConfig : IConfigurable
             if( !this.secondary_ammoentity.IsEmpty() && !g_CustomEntityFuncs.IsCustomEntity( this.secondary_ammoentity ) )
                 CustomEntity( this.secondary_ammoentity );
 
-            g_ItemRegistry.RegisterWeapon( this.Name, "bts_rc/weapons", this.primary_ammo, this.secondary_ammo, this.primary_ammoentity, this.secondary_ammoentity );
+            g_ItemRegistry.RegisterWeapon( this.GetName(), "bts_rc/weapons", this.primary_ammo, this.secondary_ammo, this.primary_ammoentity, this.secondary_ammoentity );
 
             string szSpriteDir; // Precache HUD text definition
-            snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", this.Name );
+            snprintf( szSpriteDir, "sprites/bts_rc/weapons/%1.txt", this.GetName() );
             g_Game.PrecacheGeneric( szSpriteDir );
         }
     }
@@ -148,7 +148,28 @@ abstract class ASWeaponConfig : IConfigurable
             g_Game.PrecacheModel( this.world_model );
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    // https://github.com/anjo76/angelscript/issues/68
+    const string& GetName() const override
+    {
+        g_Logger.critical.print( "Unnamed ASWeaponConfig instance! Make sure to override the GetName method." );
+        array<int> arr(0); arr[1]; // Stop the module somehow since no "throw" exists x[
+        return String::EMPTY_STRING;
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapons config",
+            "description": "Global weapon-related gameplay modifiers.",
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         this.primary_maxammo = json.ValueOrDefault( "primary_maxammo", this.primary_maxammo );
         this.secondary_maxammo = json.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo );
@@ -177,6 +198,8 @@ abstract class ASWeaponConfig : IConfigurable
 
         this.Precache();
         this.RegisterWeapon();
+
+        return true;
     }
 
     // Called when the weapon is deployed. this is too late!

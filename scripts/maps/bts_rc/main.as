@@ -106,6 +106,7 @@ void MapInit()
     g_MapConfig.Register( @g_Logger );
 
     // No ordering required:
+    g_MapConfig.Register( g_WeaponsConfig ); // Always active
     g_MapConfig.Register( ASBloodPuddleConfig() );
     g_MapConfig.Register( ASDynamicAmmoConfig() );
     g_MapConfig.Register( ASZombieUncrabConfig() );
@@ -127,8 +128,6 @@ void MapInit()
         @json = meta_api::json::v2::json();
     }
 
-    ConfigContext::Registry( json, chrono );
-
     RegisterAllCharacters( json[ "characters" ], chrono );
 
     models::Precache();
@@ -138,8 +137,6 @@ void MapInit()
     items::Register( json );
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
-
-    g_WeaponsConfig.MapInit();
 
     if( g_Logger.info.active )
     {
@@ -155,7 +152,6 @@ void MapInit()
 
     CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
     CustomEntity( "func_section", true, "test_chamber::func_section" );
-
 #endif
 }
 

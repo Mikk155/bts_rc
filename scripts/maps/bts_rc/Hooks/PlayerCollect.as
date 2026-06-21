@@ -52,7 +52,7 @@ namespace Hooks
                 player.SetMaxAmmo( secondaryAmmo, weaponConfig.secondary_maxammo );
 
             NetworkMessage m( MSG_ONE, NetworkMessages::WeaponList, player.edict() );
-                m.WriteString( weaponConfig.Name );
+                m.WriteString( weaponConfig.GetName() );
                 m.WriteByte( weapon.m_iPrimaryAmmoType );
                 m.WriteLong( weaponConfig.primary_maxammo );
                 m.WriteByte( weapon.m_iSecondaryAmmoType );

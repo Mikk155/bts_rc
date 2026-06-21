@@ -39,7 +39,7 @@ enum WeaponFlashlightAnim
 
 class CWeaponFlashlightConfig : ASMeleeWeaponConfig
 {
-    const string& get_Name() override {
+    const string& GetName() const override {
         return "weapon_bts_flashlight";
     }
 
@@ -126,7 +126,7 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
         }
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         this.deploy_time = 0.5;
         this.slot = 4;
@@ -137,7 +137,7 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
         this.primary_damage = 7;
         this.secondary_trained_cooldown = this.secondary_cooldown = 0.5;
 
-        ASMeleeWeaponConfig::Register( json );
+        return ASMeleeWeaponConfig::Register( json );
     }
 }
 

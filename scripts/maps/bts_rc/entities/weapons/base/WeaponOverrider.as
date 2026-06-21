@@ -24,7 +24,7 @@ class WeaponOverrider
     private ASWeaponConfig@ Owner;
 
     const string& get_classname() {
-        return this.Owner.Name;
+        return this.Owner.GetName();
     }
 
     WeaponOverrider() {}
@@ -32,7 +32,7 @@ class WeaponOverrider
     WeaponOverrider( ASWeaponConfig@ owner )
     {
         @this.Owner = owner;
-        @gpWeaponsOverride[ this.Owner.Name ] = this;
+        @gpWeaponsOverride[ this.Owner.GetName() ] = this;
     }
 
     // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile

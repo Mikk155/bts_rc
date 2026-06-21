@@ -42,7 +42,7 @@ enum WeaponPipeAnim
 
 class CWeaponPipeConfig : ASMeleeWeaponConfig
 {
-    const string& get_Name() override {
+    const string& GetName() const override {
         return "weapon_bts_pipe";
     }
 
@@ -77,7 +77,7 @@ class CWeaponPipeConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 0;
         this.position = 6;
@@ -97,7 +97,7 @@ class CWeaponPipeConfig : ASMeleeWeaponConfig
         this.secondary_miss_trained_cooldown = 0.7;
         this.subsequent_hits_deduction = 0.5;
 
-        ASMeleeWeaponConfig::Register( json );
+        return ASMeleeWeaponConfig::Register( json );
     }
 }
 

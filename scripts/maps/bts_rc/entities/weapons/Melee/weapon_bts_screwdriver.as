@@ -38,7 +38,7 @@ enum WeaponScrewDriverAnim
 
 class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
 {
-    const string& get_Name() override {
+    const string& GetName() const override {
         return "weapon_bts_screwdriver";
     }
 
@@ -73,7 +73,7 @@ class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 0;
         this.position = 8;
@@ -87,7 +87,7 @@ class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
         this.primary_miss_trained_cooldown = 0.5;
         this.subsequent_hits_deduction = 0.5;
 
-        ASMeleeWeaponConfig::Register( json );
+        return ASMeleeWeaponConfig::Register( json );
     }
 }
 

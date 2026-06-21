@@ -46,18 +46,84 @@
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
-class CGlobalWeaponConfig : IConfigurable
+class CGlobalWeaponConfig : IConfigurableContext
 {
-    const string& get_Name() override {
-        return "weapons";
-    }
-
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
     bool melee_weapons_push;
     float melee_weapons_push_force;
     bool blood_splash;
     bool sparks_splash;
+
+    const string& GetName() const override
+    {
+        return "weapons";
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapons config",
+            "description": "Global weapon-related gameplay modifiers.",
+            "properties":
+            {
+                "melee_weapons_pull":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allow melee weapons to pull allied players."
+                },
+                "melee_weapons_pull_force":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 300,
+                    "description": "Force of push if melee_weapons_pull is true"
+                },
+                "melee_weapons_push":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allow melee weapons to push enemies."
+                },
+                "melee_weapons_push_force":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 200,
+                    "description": "Force of push if melee_weapons_push is true"
+                },
+                "blood_splash":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable extra blood effects on hit."
+                },
+                "sparks_splash":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable spark effects when hitting armored enemies."
+                },
+                "flashlight_drain":
+                {
+                    "type": "number",
+                    "default": 0.8,
+                    "minimum": 0.1,
+                    "description": "flashlight drain time"
+                },
+                "flashlight_capacity":
+                {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 0,
+                    "description": "Quantity of ammo carry for flashlight weapons"
+                }
+            }
+        }""";
+    }
 
     dictionary Interfaces;
 
@@ -72,28 +138,25 @@ class CGlobalWeaponConfig : IConfigurable
 
     array<ItemMapping@> ItemMappingList(0);
 
-    void MapInit()
+    bool Register( meta_api::json::v2::json@ config ) override
     {
+        this.melee_weapons_pull = bool( config[ "melee_weapons_pull" ] );
+        this.melee_weapons_pull_force = int( config[ "melee_weapons_pull_force" ] );
+        this.melee_weapons_push = bool( config[ "melee_weapons_push" ] );
+        this.melee_weapons_push_force = int( config[ "melee_weapons_push_force" ] );
+        this.sparks_splash = bool( config[ "sparks_splash" ] );
+        this.blood_splash = bool( config[ "blood_splash" ] );
+
         Flashlight::Precache();
+        Flashlight::Register( config );
 
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( this.ItemMappingList );
+
         this.ItemMappingList.resize(0);
-    }
 
-    void Register( meta_api::json::v2::json@ json ) override
-    {
-        this.melee_weapons_pull = json.ValueOrDefault( "melee_weapons_pull", true );
-        this.melee_weapons_pull_force = Math.max( 1, json.ValueOrDefault( "melee_weapons_pull_force", 300 ) );
-
-        this.melee_weapons_push = json.ValueOrDefault( "melee_weapons_push", true );
-        this.melee_weapons_push_force = Math.max( 1, json.ValueOrDefault( "melee_weapons_push_force", 200 ) );
-
-        this.blood_splash = json.ValueOrDefault( "blood_splash", true );
-        this.sparks_splash = json.ValueOrDefault( "sparks_splash", true );
-
-        Flashlight::Register( json );
         gpWeaponFlashlight.secondary_maxammo = Flashlight::flashlight_capacity;
+        return true;
     }
 }
 
