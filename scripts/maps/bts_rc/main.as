@@ -100,10 +100,17 @@ void MapActivate()
 
 void MapInit()
 {
+    Server::chrono@ chrono = null;
+
+    if( g_Logger.info.active )
+    {
+        @chrono = Server::chrono();
+    }
+
     g_MapConfig.__LoadMapConfiguration__();
 
     // Logger first
-    g_MapConfig.Register( @g_Logger );
+    g_MapConfig.Register( g_Logger );
 
     // No ordering required:
     g_MapConfig.Register( g_WeaponsConfig ); // Always active
@@ -129,20 +136,12 @@ void MapInit()
     g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
     g_MapConfig.Register( gpWeaponFlashlight ); // Always active
 
+    // Player characters
+    g_MapConfig.Register( gpCharactersConfig ); // Always active
+
     g_MapConfig.__ValidateMapConfiguration__();
 
     g_VoiceResponse.Register();
-
-    Server::chrono@ chrono = Server::chrono();
-
-    meta_api::json::v2::json@ json;
-    if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", json ) )
-    {
-        g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
-        @json = meta_api::json::v2::json();
-    }
-
-    RegisterAllCharacters( json[ "characters" ], chrono );
 
     models::Precache();
 
