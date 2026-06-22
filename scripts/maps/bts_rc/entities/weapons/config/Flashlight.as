@@ -32,7 +32,7 @@ namespace Flashlight
 
     void Precache()
     {
-        ammoIndex = g_PlayerFuncs.GetAmmoIndex( "bts:battery" );
+        ammoIndex = g_PlayerFuncs.GetAmmoIndex( "bts_battery" );
     }
 
     int GetClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon )

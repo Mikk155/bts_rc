@@ -299,7 +299,7 @@ abstract class ASWeaponConfig : IConfigurableContext
             return; // Avoid looping
 
         // If the current active weapon doesn't has a usable flashlight then do a loadout check
-        if( ( weapon.pszAmmo2() != "bts:battery" && weapon.pszAmmo1() != "bts:battery" ) || !Flashlight::HasAnyReserve( player, weapon ) )
+        if( ( weapon.pszAmmo2() != "bts_battery" && weapon.pszAmmo1() != "bts_battery" ) || !Flashlight::HasAnyReserve( player, weapon ) )
         {
             @weapon = null;
 
@@ -311,7 +311,7 @@ abstract class ASWeaponConfig : IConfigurableContext
                 {
                     @weapon = cast<CBasePlayerWeapon@>(item);
 
-                    if( weapon !is null && ( weapon.pszAmmo2() == "bts:battery" || weapon.pszAmmo1() == "bts:battery" ) && Flashlight::HasAnyReserve( player, weapon ) )
+                    if( weapon !is null && ( weapon.pszAmmo2() == "bts_battery" || weapon.pszAmmo1() == "bts_battery" ) && Flashlight::HasAnyReserve( player, weapon ) )
                     {
                         player.SelectItem( weapon.pev.classname );
                         weapon.Deploy();

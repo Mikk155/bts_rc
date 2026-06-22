@@ -39,7 +39,7 @@ class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_eagle::AMMO_GIVE2, "bts:battery", weapon_bts_eagle::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
+        return AddAmmo( other, weapon_bts_eagle::AMMO_GIVE2, "bts_battery", weapon_bts_eagle::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 
@@ -51,7 +51,7 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_flaregun::AMMO_GIVE, "bts:flare", weapon_bts_flaregun::MAX_CARRY, "bts_rc/weapons/flare_pickup.wav" );
+        return AddAmmo( other, weapon_bts_flaregun::AMMO_GIVE, "bts_flare", weapon_bts_flaregun::MAX_CARRY, "bts_rc/weapons/flare_pickup.wav" );
     }
 }
 
@@ -87,7 +87,7 @@ class ammo_bts_glock17f_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_glock17f::AMMO_GIVE2, "bts:battery", weapon_bts_glock17f::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
+        return AddAmmo( other, weapon_bts_glock17f::AMMO_GIVE2, "bts_battery", weapon_bts_glock17f::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 
@@ -99,7 +99,7 @@ class ammo_bts_glocksd_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_glocksd::AMMO_GIVE2, "bts:battery", weapon_bts_glocksd::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
+        return AddAmmo( other, weapon_bts_glocksd::AMMO_GIVE2, "bts_battery", weapon_bts_glocksd::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 
@@ -329,7 +329,7 @@ class ammo_bts_sbshotgun_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_sbshotgun::AMMO_GIVE2, "bts:battery", weapon_bts_sbshotgun::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
+        return AddAmmo( other, weapon_bts_sbshotgun::AMMO_GIVE2, "bts_battery", weapon_bts_sbshotgun::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 

@@ -65,7 +65,7 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
 
     const string& get_secondary_ammo() override
     {
-        return "bts:battery";
+        return "bts_battery";
     }
 
     const string& get_secondary_ammoentity() override
