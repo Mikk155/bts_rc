@@ -68,7 +68,7 @@ class item_bts_hevbattery : BTS_Item
 
     void Think()
     {
-        if( !items::gpBatteryLighting )
+        if( !gpItemsConfig.BatteryLighting )
             return;
 
         self.pev.nextthink = g_Engine.time + 0.1f;

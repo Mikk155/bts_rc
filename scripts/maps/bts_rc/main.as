@@ -115,6 +115,9 @@ void MapInit()
     g_MapConfig.Register( ASBlackOpsFlashbang() );
     g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
 
+    // Items
+    g_MapConfig.Register( gpItemsConfig ); // Always active
+
     // Weapons
     g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
     g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
@@ -144,8 +147,6 @@ void MapInit()
     models::Precache();
 
     Precache();
-
-    items::Register( json );
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 

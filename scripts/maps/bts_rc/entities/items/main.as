@@ -23,13 +23,42 @@
 #include "item_bts_skeleton"
 #include "item_bts_sprayaid"
 
-namespace items
+final class ASItemsConfig : IConfigurableContext
 {
-    bool gpBatteryLighting;
-
-    void Register( meta_api::json::v2::json@ json )
+    const string& GetName() const override
     {
-        gpBatteryLighting = json.ValueOrDefault( "battery_lighting", true );
+        return "items";
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Items",
+            "description": "Control items configuration",
+            "properties":
+            {
+                "battery_lighting":
+                {
+                    "title": "Lighting battery",
+                    "type": "boolean",
+                    "description": "If enabled, HEV batteries will emit a blue dynamic light.",
+                    "default": true
+                }
+            }
+        }""";
+    }
+
+    private bool m_BatteryLighting;
+
+    const bool get_BatteryLighting() const {
+        return this.m_BatteryLighting;
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        this.m_BatteryLighting = bool( config[ "battery_lighting" ] );
 
         CustomEntity( "item_bts_armorvest", true );
         CustomEntity( "item_bts_clsuit", true );
@@ -38,8 +67,12 @@ namespace items
         CustomEntity( "item_bts_hevsuit", true );
         CustomEntity( "item_bts_skeleton", true );
         CustomEntity( "item_bts_sprayaid", true );
+
+        return true;
     }
 }
+
+ASItemsConfig gpItemsConfig;
 
 abstract class BTS_Item : ScriptBasePlayerAmmoEntity
 {

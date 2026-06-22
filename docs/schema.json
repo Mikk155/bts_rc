@@ -61,13 +61,6 @@
                 ]
             }
         },
-        "battery_lighting":
-        {
-            "title": "Lighting battery",
-            "type": "boolean",
-            "description": "If enabled, HEV batteries will emit a blue dynamic light.",
-            "default": true
-        },
         "weapon_medkit":
         {
             "unevaluatedProperties": false,
