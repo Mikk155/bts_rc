@@ -43,19 +43,26 @@ final class ASMapConfig
     private
         meta_api::json::v2::json@ m_json;
 
-    private bool
-        m_ShouldWriteSchema = false;
+    private
+        meta_api::json::v2::json@ m_GlobalSchema = meta_api::json::v2::json();
+        meta_api::json::v2::json@ m_GlobalSchemaProperties = meta_api::json::v2::json();
 
-    // Get a handle to the map configuration. this is null after MapInit
-    const meta_api::json::v2::json@ get_json() {
-        return this.m_json;
-    }
+    private
+        bool m_ShouldWriteSchema = false;
+
+    private
+        array<IConfigurableContext@> m_Contexts(0);
 
     private
         Server::chrono@ m_chrono = Server::chrono();
 
     private
         Server::chrono@ m_chronoMapStart = Server::chrono();
+
+    // Get a handle to the map configuration. this is null after MapInit
+    const meta_api::json::v2::json@ get_json() {
+        return this.m_json;
+    }
 
     void __LoadMapConfiguration__()
     {
@@ -96,9 +103,6 @@ final class ASMapConfig
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
     }
-
-    private
-        array<IConfigurableContext@> m_Contexts(0);
 
     void Register( IConfigurableContext@ context )
     {
@@ -144,13 +148,64 @@ final class ASMapConfig
 
         uint length = this.m_Contexts.length();
 
-        auto@ globalSchema = meta_api::json::v2::json();
+        m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
+        m_GlobalSchema.Set( "type", "object" );
+            auto@ properties = meta_api::json::v2::json();
+                auto@ schemaProperty = meta_api::json::v2::json();
+                    schemaProperty.Set( "type", "string" );
+                    schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
+                this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
+        m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
+        m_GlobalSchema.Set( "$defs", meta_api::json::v2::json() );
 
         bool debug = false;
 
 #if SERVER
+        // Always update bts_c_defaults and bts_rc_schema when not in release
         debug = true;
 #endif
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            IConfigurableContext@ context = this.m_Contexts[ui];
+
+            meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
+
+            if( g_Logger.info.active )
+            {
+                g_EngineFuncs.ServerPrint( "==============================================================\n" );
+                g_Logger.info.print( "Parsing context {} with priority {}", { context.GetName(), ui } );
+                g_EngineFuncs.ServerPrint( "==============================================================\n" );
+
+                if( g_Logger.trace.active )
+                {
+                    g_Logger.trace.print( "external config: {}", { config.ToString() } );
+                }
+            }
+
+            meta_api::json::v2::json@ schema;
+
+            meta_api::json::Error err;
+
+            if( meta_api::json::v2::Deserialize( context.GetSchema(), schema, err ) && schema !is null )
+            {
+                this.m_GlobalSchemaProperties.Set( context.GetName(), schema );
+            }
+            else
+            {
+                switch( err )
+                {
+                    case meta_api::json::Error::SYNTAX_ERROR:
+                        g_Logger.critical.print( "Failed to parse GetSchema() for context \"{}\"", { context.GetName() } );
+                    break;
+                }
+            }
+        }
+
+        if( !meta_api::json::v2::schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
+        {
+            g_Logger.warning.print( "Error validating some values for json. Using default values..." );
+        }
 
         for( uint ui = 0; ui < length; ui++ )
         {
@@ -162,36 +217,8 @@ final class ASMapConfig
                 g_Logger.info.print( "Parsing context {} with priority {}", { context.GetName(), ui } );
                 g_EngineFuncs.ServerPrint( "==============================================================\n" );
             }
-            /*
-            if( !this.m_json.Contains( context.GetName() ) )
-                this.m_json.Set( context.GetName(), meta_api::json::v2::json() );
 
-            meta_api::json::v2::json@ config = this.m_json[ context.GetName() ];
-            */
-            meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
-
-            if( g_Logger.trace.active )
-                g_Logger.trace.print( "external config: {}", { config.ToString() } );
-
-            meta_api::json::v2::json@ schema;
-
-            if( meta_api::json::v2::Deserialize( context.GetSchema(), schema ) && schema !is null )
-            {
-                if( m_ShouldWriteSchema || debug )
-                {
-                    globalSchema.Set( context.GetName(), schema );
-                }
-
-                if( !meta_api::json::v2::schema::Validate( config, schema, false ) )
-                {
-                    g_Logger.warning.print( "Error validating schema for IConfigurableContext with name \"{}\" using default values...", { context.GetName() } );
-                }
-
-                if( g_Logger.trace.active )
-                    g_Logger.trace.print( "validated config: {}", { config.ToString() } );
-            }
-
-            bool result = context.Register( config );
+            bool result = context.Register( this.m_json[ context.GetName() ] );
 
             if( !result )
             {
@@ -240,15 +267,6 @@ final class ASMapConfig
 
         if( this.m_ShouldWriteSchema || debug )
         {
-            auto@ topSchema = meta_api::json::v2::json();
-            topSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
-            topSchema.Set( "type", "object" );
-                auto@ schemaProperty = meta_api::json::v2::json();
-                schemaProperty.Set( "type", "string" );
-                schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
-                globalSchema.Set( "$schema", schemaProperty );
-            topSchema.Set( "properties", globalSchema );
-
             meta_api::json::parser::Indentation schemaStyle = meta_api::json::parser::Indentation::AllTogether;
 
 #if SERVER
@@ -256,7 +274,7 @@ final class ASMapConfig
 #endif
 
             // Write out schemas
-            meta_api::json::v2::Serialize( topSchema, "store/bts_rc_schema.json", schemaStyle );
+            meta_api::json::v2::Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaStyle );
 
             // Write out default values
             meta_api::json::v2::Serialize( this.m_json, "store/bts_rc_defaults.json",
@@ -274,6 +292,10 @@ final class ASMapConfig
 
         this.m_json.Clear();
         @this.m_json = null;
+        this.m_GlobalSchema.Clear();
+        @this.m_GlobalSchema = null;
+        this.m_GlobalSchemaProperties.Clear();
+        @this.m_GlobalSchemaProperties = null;
     }
 }
 
