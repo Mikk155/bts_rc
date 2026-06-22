@@ -194,6 +194,7 @@ final class ASMapConfig
         {
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             m_GlobalSchema.Set( "type", "object" );
+            m_GlobalSchema.Set( "unevaluatedProperties", false );
                 auto@ properties = meta_api::json::v2::json();
                     auto@ schemaProperty = meta_api::json::v2::json();
                         schemaProperty.Set( "type", "string" );
