@@ -21,6 +21,7 @@ import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;
 import Tests.DependancyCheck;
+import Tests.SerializedJsonCheck;
 
 def Main() -> int:
 

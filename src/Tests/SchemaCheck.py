@@ -10,7 +10,6 @@ import json
 
 from Tests.PyBuilder import PyBuilder
 
-
 class SchemaCheck(PyBuilder):
 
     def Build(self) -> bool:
