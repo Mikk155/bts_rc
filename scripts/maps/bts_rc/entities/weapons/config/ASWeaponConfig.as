@@ -15,6 +15,82 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfig",
+"""{
+    "primary_maxammo":
+    {
+        "type": "integer"
+    },
+    "secondary_maxammo":
+    {
+        "type": "integer"
+    },
+    "primary_dropammo":
+    {
+        "type": "integer"
+    },
+    "secondary_dropammo":
+    {
+        "type": "integer"
+    },
+    "primary_damage":
+    {
+        "type": "number"
+    },
+    "secondary_damage":
+    {
+        "type": "number"
+    },
+    "tertiary_damage":
+    {
+        "type": "number"
+    },
+    "primary_cooldown":
+    {
+        "type": "number"
+    },
+    "secondary_cooldown":
+    {
+        "type": "number"
+    },
+    "tertiary_cooldown":
+    {
+        "type": "number"
+    },
+    "primary_trained_cooldown":
+    {
+        "type": "number"
+    },
+    "secondary_trained_cooldown":
+    {
+        "type": "number"
+    },
+    "tertiary_trained_cooldown":
+    {
+        "type": "number"
+    },
+    "max_clip":
+    {
+        "type": "integer"
+    },
+    "slot":
+    {
+        "type": "integer"
+    },
+    "position":
+    {
+        "type": "integer"
+    },
+    "weight":
+    {
+        "type": "integer"
+    },
+    "deploy_time":
+    {
+        "type": "number"
+    }
+}""" );
+
 // Inherit from this class. override GetName and Register then call back ASWeaponConfig::Register(json)
 abstract class ASWeaponConfig : IConfigurableContext
 {
@@ -161,8 +237,12 @@ abstract class ASWeaponConfig : IConfigurableContext
         return """{
             "type": "object",
             "unevaluatedProperties": false,
-            "title": "Weapons config",
-            "description": "Global weapon-related gameplay modifiers.",
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
             "properties":
             {
             }

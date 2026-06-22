@@ -115,6 +115,17 @@ void MapInit()
     g_MapConfig.Register( ASBlackOpsFlashbang() );
     g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
 
+    // Weapons
+    g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
+    g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPoolstickConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeWrenchConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlashlight ); // Always active
+
     g_MapConfig.__ValidateMapConfiguration__();
 
     g_VoiceResponse.Register();

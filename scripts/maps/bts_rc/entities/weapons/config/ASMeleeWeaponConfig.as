@@ -15,6 +15,43 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+bool ASMeleeWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMeleeWeaponConfig",
+"""{
+    "primary_distance":
+    {
+        "type": "number"
+    },
+    "secondary_distance":
+    {
+        "type": "number"
+    },
+    "tertiary_distance":
+    {
+        "type": "number"
+    },
+    "subsequent_hits_deduction":
+    {
+        "type": "number",
+        "description": "Damage multiplier applied to consecutive hits."
+    },
+    "primary_miss_cooldown":
+    {
+        "type": "number"
+    },
+    "primary_miss_trained_cooldown":
+    {
+        "type": "number"
+    },
+    "secondary_miss_cooldown":
+    {
+        "type": "number"
+    },
+    "secondary_miss_trained_cooldown":
+    {
+        "type": "number"
+    }
+}""" );
+
 // Inherit from this class. override GetName and Register then call back ASWeaponConfig::Register(json)
 abstract class ASMeleeWeaponConfig : ASWeaponConfig
 {
@@ -50,6 +87,24 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
                 return ASWeaponConfig::GetCooldown( is_trained_personal, type );
             }
         }
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 
     bool Register( meta_api::json::v2::json@ config ) override
