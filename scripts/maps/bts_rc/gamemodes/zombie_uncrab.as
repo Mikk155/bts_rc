@@ -32,14 +32,12 @@ class ASZombieUncrabConfig : IConfigurableContext
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Controls headcrab detachment behavior from zombies.",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Should zombies drop headcrabs on death?"
-                },
                 "track_health":
                 {
                     "type": "boolean",

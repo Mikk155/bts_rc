@@ -37,14 +37,12 @@ final class ASBloodPuddleConfig : IConfigurableContext
             "unevaluatedProperties": false,
             "title": "Blood puddles",
             "description": "Controls blood puddle behavior and appearance.",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Should blood puddles be spawned when monsters die?"
-                },
                 "persistent":
                 {
                     "type": "boolean",

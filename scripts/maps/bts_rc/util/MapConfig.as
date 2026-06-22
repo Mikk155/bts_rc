@@ -136,6 +136,15 @@ final class ASMapConfig
         g_EngineFuncs.ServerPrint( buffer );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
+
+        this.RegisterSchemaDefinition( "IConfigurableContext", """{
+            "active":
+            {
+                "type": "boolean",
+                "default": true,
+                "description": "Should this context be active?"
+            }
+        }""" );
     }
 
     void Register( IConfigurableContext@ context )

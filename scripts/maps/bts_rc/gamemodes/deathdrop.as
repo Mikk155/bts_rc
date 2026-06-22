@@ -29,15 +29,10 @@ class ASDeathDropConfig : IConfigurableContext
             "unevaluatedProperties": false,
             "title": "Death drop",
             "description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
-            "properties":
-            {
-                "active":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Should blood puddles be spawned when monsters die?"
-                }
-            },
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
             "additionalProperties":
             {
                 "type": "array",

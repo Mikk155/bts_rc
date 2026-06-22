@@ -30,14 +30,12 @@ class ASDynamicAmmoConfig : IConfigurableContext
             "type": "object",
             "unevaluatedProperties": false,
             "description": "Scales ammo pickup amounts based on connected player count.",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Should ammo be given to players dynamically based on player count?"
-                },
                 "9mm":
                 {
                     "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },

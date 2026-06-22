@@ -36,14 +36,12 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurableContext
             "unevaluatedProperties": false,
             "title": "Blackops flashbangs",
             "description": "Controls blackops flashbangs feature",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Should ammo be given to players dynamically based on player count?"
-                },
                 "interval":
                 {
                     "title": "Think rate",

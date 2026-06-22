@@ -35,14 +35,12 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurableContext
             "unevaluatedProperties": false,
             "title": "Aiming lasers",
             "description": "Controls laser aiming visuals for monsters.",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
             "properties":
             {
-                "active":
-                {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Should ammo be given to players dynamically based on player count?"
-                },
                 "interval":
                 {
                     "title": "Think rate",
