@@ -60,27 +60,6 @@
                     }
                 ]
             }
-        },
-        "weapon_medkit":
-        {
-            "unevaluatedProperties": false,
-            "allOf": [ { "$ref": "#/$defs/ASWeaponConfig" } ],
-            "properties":
-            {
-                "health_ammount":
-                {
-                    "type": "integer",
-                    "description": "Ammount of health to heal"
-                },
-                "health_gain":
-                {
-                    "type": "integer"
-                },
-                "health_cost":
-                {
-                    "type": "integer"
-                }
-            }
         }
     }
 }

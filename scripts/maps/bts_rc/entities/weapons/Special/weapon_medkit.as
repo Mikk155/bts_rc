@@ -133,6 +133,36 @@ class CWeaponMedkitConfig : ASWeaponConfig
     float health_gain;
     float health_cost;
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Items",
+            "description": "Control medkit configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+                "health_ammount":
+                {
+                    "type": "integer",
+                    "description": "Ammount of health to heal"
+                },
+                "health_gain":
+                {
+                    "type": "integer"
+                },
+                "health_cost":
+                {
+                    "type": "integer"
+                }
+            }
+        }""";
+    }
+
     bool Register( meta_api::json::v2::json@ config ) override
     {
         this.health_ammount = config.ValueOrDefault( "health_ammount", 10 );
