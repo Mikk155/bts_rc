@@ -15,13 +15,13 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyBuilder import PyBuilder;
 
 # Include checks here
-import Tests.JsonCheck;
 import Tests.FGDCheck;
 import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;
 import Tests.DependancyCheck;
 import Tests.SerializedJsonCheck;
+import Tests.SchemaUpdateCheck;
 
 def Main() -> int:
 
