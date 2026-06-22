@@ -37,10 +37,13 @@ class DebugCheck( PyBuilder ):
         return files;
 
     def Build(self) -> bool:
-        processedFiles = self.toggle_debug( "DEBUG", "SERVER" );
-        if processedFiles != 0 and self.Type != PyBuilder.BuildType.Local:
-            self.Log( "{} Un processed files. run src/toggle_debug.py to replace DEBUG pre processors to SERVER!", processedFiles );
-            return False;
+        if self.Type == PyBuilder.BuildType.Release:
+            self.toggle_debug( "SERVER", "DEBUG" );
+        else:
+            processedFiles = self.toggle_debug( "DEBUG", "SERVER" );
+            if processedFiles != 0 and self.Type != PyBuilder.BuildType.Local:
+                self.Log( "{} Un processed files. run src/toggle_debug.py to replace DEBUG pre processors to SERVER!", processedFiles );
+                return False;
         self.Log( "All AngelScript pre processors are updated" );
         return True;
 
