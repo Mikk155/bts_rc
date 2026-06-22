@@ -45,6 +45,9 @@ final class ASMapConfig
 
     private
         meta_api::json::v2::json@ m_GlobalSchema = meta_api::json::v2::json();
+    private
+        meta_api::json::v2::json@ m_GlobalSchemaDefinitions = meta_api::json::v2::json();
+    private
         meta_api::json::v2::json@ m_GlobalSchemaProperties = meta_api::json::v2::json();
 
     private
@@ -62,6 +65,28 @@ final class ASMapConfig
     // Get a handle to the map configuration. this is null after MapInit
     const meta_api::json::v2::json@ get_json() {
         return this.m_json;
+    }
+
+    // Register a schema "$def" property to use globaly
+    bool RegisterSchemaDefinition( const string&in name, const string&in value )
+    {
+        meta_api::json::v2::json@ definition;
+        meta_api::json::Error err;
+
+        if( meta_api::json::v2::Deserialize( value, definition, err ) && definition !is null )
+        {
+            this.m_GlobalSchemaDefinitions.Set( name, definition );
+            return true;
+        }
+
+        switch( err )
+        {
+            case meta_api::json::Error::SYNTAX_ERROR:
+                g_Logger.critical.print( "Failed to parse GetSchema() for \"{}\"", { name } );
+            break;
+        }
+
+        return false;
     }
 
     void __LoadMapConfiguration__()
@@ -156,7 +181,7 @@ final class ASMapConfig
                     schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
                 this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
         m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
-        m_GlobalSchema.Set( "$defs", meta_api::json::v2::json() );
+        m_GlobalSchema.Set( "$defs", this.m_GlobalSchemaDefinitions );
 
         bool debug = false;
 
@@ -294,6 +319,8 @@ final class ASMapConfig
         @this.m_json = null;
         this.m_GlobalSchema.Clear();
         @this.m_GlobalSchema = null;
+        this.m_GlobalSchemaDefinitions.Clear();
+        @this.m_GlobalSchemaDefinitions = null;
         this.m_GlobalSchemaProperties.Clear();
         @this.m_GlobalSchemaProperties = null;
     }
