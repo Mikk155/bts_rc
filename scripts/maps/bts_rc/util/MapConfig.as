@@ -30,6 +30,9 @@ interface IConfigurableContext
     const string& GetName() const;
 
     // Schema for validating your object. return null to avoid validation.
+    // In this project the key "allOf" in your root object works differently than in regular schema validations,
+    // It is an array of string containing key names defined in the schema's "$defs" which you can insert properties using ASMapConfig::RegisterSchemaDefinition
+    // Whose values of the property in $defs will be added to your object's properties but not overriden so you can have custom default values, descriptions and the likes.
     const string GetSchema() const;
 
     // Called at MapInit with the json object at the root containing GetName() as key.
@@ -70,6 +73,12 @@ final class ASMapConfig
     // Register a schema "$def" property to use globaly
     bool RegisterSchemaDefinition( const string&in name, const string&in value )
     {
+        if( this.m_GlobalSchemaDefinitions.Contains( name ) )
+        {
+            g_Logger.warning.print( "Failed to parse RegisterSchemaDefinition() for \"{}\" key name already exists!", { name } );
+            return false;
+        }
+
         meta_api::json::v2::json@ definition;
         meta_api::json::Error err;
 
@@ -82,7 +91,7 @@ final class ASMapConfig
         switch( err )
         {
             case meta_api::json::Error::SYNTAX_ERROR:
-                g_Logger.critical.print( "Failed to parse GetSchema() for \"{}\"", { name } );
+                g_Logger.critical.print( "Failed to parse RegisterSchemaDefinition() for \"{}\" syntax error!", { name } );
             break;
         }
 
@@ -173,15 +182,16 @@ final class ASMapConfig
 
         uint length = this.m_Contexts.length();
 
-        m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
-        m_GlobalSchema.Set( "type", "object" );
-            auto@ properties = meta_api::json::v2::json();
-                auto@ schemaProperty = meta_api::json::v2::json();
-                    schemaProperty.Set( "type", "string" );
-                    schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
-                this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
-        m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
-        m_GlobalSchema.Set( "$defs", this.m_GlobalSchemaDefinitions );
+        {
+            m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
+            m_GlobalSchema.Set( "type", "object" );
+                auto@ properties = meta_api::json::v2::json();
+                    auto@ schemaProperty = meta_api::json::v2::json();
+                        schemaProperty.Set( "type", "string" );
+                        schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
+                    this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
+            m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
+        }
 
         bool debug = false;
 
@@ -214,6 +224,56 @@ final class ASMapConfig
 
             if( meta_api::json::v2::Deserialize( context.GetSchema(), schema, err ) && schema !is null )
             {
+                if( schema.Contains( "allOf" ) )
+                {
+                    auto@ allOf = schema[ "allOf" ];
+
+                    if( allOf.is_array() )
+                    {
+                        auto@ schemaProperties = schema.ValueOrDefault( "properties", null, true );
+
+                        uint allOfLength = allOf.Length();
+
+                        for( uint uia = 0; uia < allOfLength; uia++ )
+                        {
+                            auto@ allOfItem = allOf[uia];
+#if SERVER
+                            if( !allOfItem.is_string() )
+                            {
+                                g_Logger.error.print( "schema for {} contains \"allOf\" but value at index {} is not a string type!", { context.GetName(), uia } );
+                                continue;
+                            }
+#endif
+                            string copyKeyName = string( allOfItem );
+#if SERVER
+                            if( !this.m_GlobalSchemaDefinitions.Contains( copyKeyName ) )
+                            {
+                                g_Logger.error.print( "schema for {} contains \"allOf\" with value {} at index {} but does not exists in the schema definition!", { context.GetName(), copyKeyName, uia } );
+                                continue;
+                            }
+#endif
+                            auto@ definition = this.m_GlobalSchemaDefinitions[ copyKeyName ];
+                            uint definitionLength = definition.Length();
+                            for( uint uid = 0; uid < definitionLength; uid++ )
+                            {
+                                auto@ property = definition[uid];
+                                uint propertyLength = property.Length();
+                                auto@ schemaProperty = schemaProperties.ValueOrDefault( property.Name, null, true );
+                                for( uint uip = 0; uip < propertyLength; uip++ )
+                                {
+                                    auto@ val = property[uip];
+                                    if( !schemaProperty.Contains( val.Name ) )
+                                        schemaProperty.Set( val.Name, val );
+                                }
+                            }
+                        }
+                        schema.Remove( "allOf" );
+                    }
+                    else
+                    {
+                        g_Logger.error.print( "schema for {} contains \"allOf\" but is not an array type!", { context.GetSchema() } );
+                    }
+                }
                 this.m_GlobalSchemaProperties.Set( context.GetName(), schema );
             }
             else
