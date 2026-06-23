@@ -41,9 +41,6 @@ def Main() -> int:
             builder.Log( f"throw an exception: {e}" )
             result += 1;
 
-    if result != 0:
-        print( f"{result} checks failed" );
-
     return result;
 
 if __name__ == "__main__":
@@ -52,6 +49,9 @@ if __name__ == "__main__":
 
     if result == 0:
         PyBuilder.WriteAllScripts();
+        print( f"All done!" );
+    else:
+        print( f"{result} checks failed." );
 
     if PyBuilder.GetType() == PyBuilder.BuildType.Local:
         input( "Press enter to continue" );
