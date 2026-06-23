@@ -117,7 +117,7 @@ final class ASBloodPuddleConfig : IConfigurableContext
             g_Logger.error.print( "Blood puddle default size for \"default_size\" has inverted values! first number should be lesser than the second!" );
             float temp = arr[0];
             arr[0] = arr[1];
-            arr[0] = temp;
+            arr[1] = temp;
         }
 
         if( g_Logger.info.active )
@@ -148,7 +148,7 @@ final class ASBloodPuddleConfig : IConfigurableContext
                 g_Logger.error.print( "Blood puddle custom size for {} has inverted values! first number should be lesser than the second!", { name } );
                 float temp = arr[0];
                 arr[0] = arr[1];
-                arr[0] = temp;
+                arr[1] = temp;
             }
 
             @this.m_CustomSizes[ name ] = arr;

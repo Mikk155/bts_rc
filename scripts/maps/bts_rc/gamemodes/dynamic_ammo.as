@@ -107,7 +107,7 @@ class ASDynamicAmmoConfig : IConfigurableContext
                     g_Logger.error.print( "Dynamic ammo \"%1\" has inverted values! first number should be lesser than the second!" );
                     int temp = range[0];
                     range[0] = range[1];
-                    range[0] = temp;
+                    range[1] = temp;
                 }
 
                 if( g_Logger.debug.active )
