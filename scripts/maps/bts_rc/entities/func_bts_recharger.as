@@ -19,35 +19,71 @@
     Author Mikk
 */
 
-final class ASWallRechargerConfig : IConfigurable
+final class ASWallRechargerConfig : IConfigurableContext
 {
-    int juice;
-    int recharge_time;
-    float speed_rate;
+    int m_Juice;
+    int m_RechargeTime;
+    float m_SpeedRate;
 
-    const string& get_Name() override
+    const string& GetName() const override
     {
         return "wall_recharger";
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "HEV Charger",
+            "description": "Configuration for wall-mounted HEV chargers.",
+            "properties":
+            {
+                "juice":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "default": 35,
+                    "description": "Maximun juice power per station."
+                },
+                "recharge_time":
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 300,
+                    "description": "Time (In seconds) required to fully recharge. 0 means never recharge"
+                },
+                "speed_rate":
+                {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "default": 0.35,
+                    "description": "Charge transfer rate to player."
+                }
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
         g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
         g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
-
         CustomEntity( "func_bts_recharger" );
 
-        this.juice = Math.max( 1, json.ValueOrDefault( "juice", 35 ) );
-        this.recharge_time = Math.max( 0, json.ValueOrDefault( "recharge_time", 300 ) );
-        this.speed_rate = Math.max( 0.1, json.ValueOrDefault( "speed_rate", 0.35f ) );
+        this.m_Juice = int( config[ "juice" ] );
+        this.m_RechargeTime = int( config[ "recharge_time" ] );
+        this.m_SpeedRate = float( config[ "speed_rate" ] );
+
+        return true;
     }
 }
 
-ASWallRechargerConfig ConfigWallRecharger;
-
 class func_bts_recharger : ScriptBaseEntity
 {
+    private
+        ASWallRechargerConfig@ m_Config = null;
+
     void Spawn()
     {
 #if SERVER
@@ -59,13 +95,9 @@ class func_bts_recharger : ScriptBaseEntity
         g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
         g_EntityFuncs.SetModel( self, self.pev.model );
 
-        self.pev.iuser1 = ConfigWallRecharger.juice;
+        @this.m_Config = cast<ASWallRechargerConfig@>( g_MapConfig.GetContext( "wall_recharger" ) );
 
-        if( !ConfigWallRecharger.IsActive() )
-        {
-            self.pev.iuser1 = 0;
-            self.pev.frame = 1;
-        }
+        self.pev.iuser1 = this.m_Config.m_Juice;
     }
 
     int ObjectCaps()
@@ -75,7 +107,7 @@ class func_bts_recharger : ScriptBaseEntity
 
     void Restore()
     {
-        self.pev.iuser1 = ConfigWallRecharger.juice;
+        self.pev.iuser1 = this.m_Config.m_Juice;
         self.pev.frame = 0;
         g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "items/suitchargeok1.wav", 1.0, ATTN_NORM );
     }
@@ -112,7 +144,7 @@ class func_bts_recharger : ScriptBaseEntity
         }
         else if( g_Engine.time > cooldown )
         {
-            data[ "recharger_cooldown" ] = g_Engine.time + ConfigWallRecharger.speed_rate;
+            data[ "recharger_cooldown" ] = g_Engine.time + this.m_Config.m_SpeedRate;
 
             if( player.TakeArmor( 1, DMG_GENERIC ) )
                 self.pev.iuser1--;
@@ -122,13 +154,13 @@ class func_bts_recharger : ScriptBaseEntity
                 self.pev.frame = 1;
                 g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "items/suitchargeno1.wav", 1.0, ATTN_NORM );
 
-                if( ConfigWallRecharger.recharge_time > 0 )
-                    g_Scheduler.SetTimeout( @this, "Restore", ConfigWallRecharger.recharge_time );
+                if( this.m_Config.m_RechargeTime > 0 )
+                    g_Scheduler.SetTimeout( @this, "Restore", this.m_Config.m_RechargeTime );
             }
             else
             {
                 g_SoundSystem.EmitSound( player.edict(), CHAN_WEAPON, "bts_rc/items/suitcharge1.wav", 1.0, ATTN_NORM );
-                g_Scheduler.SetTimeout( @this, "StopSound", ConfigWallRecharger.speed_rate, EHandle( player ) );
+                g_Scheduler.SetTimeout( @this, "StopSound", this.m_Config.m_SpeedRate, EHandle( player ) );
             }
         }
     }

@@ -27,7 +27,7 @@ namespace Hooks
         if( character is null )
             return HOOK_CONTINUE;
 
-        if( gib != GIB_ALWAYS && g_VoiceResponse.IsActive() )
+        if( gib != GIB_ALWAYS )
         {
             CVoices@ voices = g_VoiceResponse[player];
 

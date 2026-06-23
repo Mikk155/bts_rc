@@ -15,23 +15,81 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class ASDynamicAmmoConfig : IConfigurable
+class ASDynamicAmmoConfig : IConfigurableContext
 {
     // Maps ammo type name -> array<int>{ min_give, max_give }
     // min_give = ammo given at max players, max_give = ammo given solo
     dictionary m_AmmoRanges;
 
-    const string& get_Name() override
-    {
-        return "ammo";
+    const string& GetName() const override {
+        return "dynamic_ammo";
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
-    {
-        if( !this.IsActive() )
-            return;
+    const string GetSchema() const override {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Scales ammo pickup amounts based on connected player count.",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
+            "properties":
+            {
+                "9mm":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 8, 17 ]
+                },
+                "357":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 6 ]
+                },
+                "556":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 6, 30 ]
+                },
+                "buckshot":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 3, 8 ]
+                },
+                "ARgrenades":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 2 ]
+                },
+                "38":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 3, 6 ]
+                },
+                "bts_flare":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 3 ]
+                },
+                "bts_battery":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
+                    "default": [ 1, 3 ]
+                }
+            }
+        }""";
+    }
 
-        const auto ammoTypes = json.Keys;
+    private RegisterCommand@ m_command;
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        @gpDynamicAmmo = this;
+
+        const auto@ ammoTypes = config.Keys;
         uint size = ammoTypes.length();
 
         for( uint ui = 0; ui < size; ui++ )
@@ -40,9 +98,17 @@ class ASDynamicAmmoConfig : IConfigurable
 
             array<int>@ range;
 
-            if( meta_api::json::v2::fmt::ToArray( json[ ammoType ], range ) && range.length() == 2 )
+            if( meta_api::json::v2::fmt::ToArray( config[ ammoType ], range, true, false ) )
             {
                 m_AmmoRanges[ ammoType ] = range;
+
+                if( range[0] > range[1] )
+                {
+                    g_Logger.error.print( "Dynamic ammo \"%1\" has inverted values! first number should be lesser than the second!" );
+                    int temp = range[0];
+                    range[0] = range[1];
+                    range[1] = temp;
+                }
 
                 if( g_Logger.debug.active )
                     g_Logger.debug.print( snprintf( glog, "Dynamic ammo \"%1\": min=%2 max=%3", ammoType, range[0], range[1] ) );
@@ -51,6 +117,62 @@ class ASDynamicAmmoConfig : IConfigurable
 
         if( g_Logger.info.active )
             g_Logger.info.print( snprintf( glog, "Registered %1 dynamic ammo types.", m_AmmoRanges.getSize() ) );
+
+#if SERVER
+        @m_command = RegisterCommand(
+            "test_ammo",
+            "[simulated_players]",
+            "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
+            function( CBasePlayer@ player, array<string>@ arguments )
+            {
+                int maxClients = g_Engine.maxClients;
+                int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
+                int simPlayers = realPlayers;
+
+                if( arguments !is null && arguments.length() > 0 )
+                {
+                    simPlayers = atoi( arguments[0] );
+                    if( simPlayers < 1 ) simPlayers = 1;
+                    if( simPlayers > maxClients ) simPlayers = maxClients;
+                }
+
+                string buffer;
+                snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+
+                float t = 0.0f;
+                if( maxClients > 1 )
+                    t = float( simPlayers - 1 ) / float( maxClients - 1 );
+
+                snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
+
+                auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
+
+                for( uint i = 0; i < keys.length(); i++ )
+                {
+                    array<int>@ range;
+                    gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
+
+                    int minGive = range[0];
+                    int maxGive = range[1];
+
+                    float result = float( maxGive ) + t * float( minGive - maxGive );
+                    int give = int( Math.Ceil( result ) );
+                    if( give < 1 ) give = 1;
+
+                    snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                }
+
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
+            },
+            false
+        );
+#endif
+        return true;
     }
 
     /**
@@ -79,9 +201,6 @@ class ASDynamicAmmoConfig : IConfigurable
     **/
     int GetAmmoGive( const string&in ammoType, int defaultGive )
     {
-        if( !this.IsActive() )
-            return defaultGive;
-
         array<int>@ range;
 
         if( !m_AmmoRanges.get( ammoType, @range ) )
@@ -114,65 +233,4 @@ class ASDynamicAmmoConfig : IConfigurable
     }
 }
 
-ASDynamicAmmoConfig gpDynamicAmmo;
-
-#if SERVER
-RegisterCommand __gpDynamicAmmoTestCmd__(
-    "ammo_test",
-    "[simulated_players]",
-    "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
-    function( CBasePlayer@ player, array<string>@ arguments )
-    {
-        if( !gpDynamicAmmo.IsActive() )
-        {
-            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "[Dynamic Ammo] Feature is disabled (active=false).\n" );
-            return;
-        }
-
-        int maxClients = g_Engine.maxClients;
-        int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
-        int simPlayers = realPlayers;
-
-        if( arguments !is null && arguments.length() > 0 )
-        {
-            simPlayers = atoi( arguments[0] );
-            if( simPlayers < 1 ) simPlayers = 1;
-            if( simPlayers > maxClients ) simPlayers = maxClients;
-        }
-
-        string buffer;
-        snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
-        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-
-        float t = 0.0f;
-        if( maxClients > 1 )
-            t = float( simPlayers - 1 ) / float( maxClients - 1 );
-
-        snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
-        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-
-        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
-
-        auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
-
-        for( uint i = 0; i < keys.length(); i++ )
-        {
-            array<int>@ range;
-            gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
-
-            int minGive = range[0];
-            int maxGive = range[1];
-
-            float result = float( maxGive ) + t * float( minGive - maxGive );
-            int give = int( Math.Ceil( result ) );
-            if( give < 1 ) give = 1;
-
-            snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
-            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-        }
-
-        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
-    },
-    false
-);
-#endif
+ASDynamicAmmoConfig@ gpDynamicAmmo = null;

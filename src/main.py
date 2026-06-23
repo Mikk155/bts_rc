@@ -15,10 +15,13 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyBuilder import PyBuilder;
 
 # Include checks here
-import Tests.JsonCheck;
-import Tests.LicenseCheck;
 import Tests.FGDCheck;
+import Tests.LicenseCheck;
 import Tests.DebugCheck;
+import Tests.SchemaCheck;
+import Tests.DependancyCheck;
+import Tests.SerializedJsonCheck;
+import Tests.SchemaUpdateCheck;
 
 def Main() -> int:
 
@@ -44,4 +47,13 @@ def Main() -> int:
     return result;
 
 if __name__ == "__main__":
-    sys.exit( Main() );
+
+    result: int = Main();
+
+    if result == 0:
+        PyBuilder.WriteAllScripts();
+
+    if PyBuilder.GetType() == PyBuilder.BuildType.Local:
+        input( "Press enter to continue" );
+
+    sys.exit( result );

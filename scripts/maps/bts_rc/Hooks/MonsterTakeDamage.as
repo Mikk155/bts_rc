@@ -29,8 +29,13 @@ namespace Hooks
 
         dictionary@ data = info.pVictim.GetUserData();
 
-        if( info.flDamage > 0 && victim.m_LastHitGroup == 1 && gpZombieUncrab.IsActive() && gpZombieUncrab.track_health && gpZombieUncrab.IsValid( info.pVictim ) )
-            data["headcrab_damage"] = float( data["headcrab_damage"] ) + info.flDamage;
+        if( info.flDamage > 0 && victim.m_LastHitGroup == 1 )
+        {
+            if( gpZombieUncrab !is null && gpZombieUncrab.TrackHealth && gpZombieUncrab.IsValid( info.pVictim ) )
+            {
+                data["headcrab_damage"] = float( data["headcrab_damage"] ) + info.flDamage;
+            }
+        }
 
         return HOOK_CONTINUE;
     }

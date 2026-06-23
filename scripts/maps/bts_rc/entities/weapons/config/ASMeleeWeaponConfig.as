@@ -15,7 +15,44 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-// Inherit from this class. override get_Name and Register then call back ASWeaponConfig::Register(json)
+bool ASMeleeWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMeleeWeaponConfig",
+"""{
+    "primary_distance":
+    {
+        "type": "number"
+    },
+    "secondary_distance":
+    {
+        "type": "number"
+    },
+    "tertiary_distance":
+    {
+        "type": "number"
+    },
+    "subsequent_hits_deduction":
+    {
+        "type": "number",
+        "description": "Damage multiplier applied to consecutive hits."
+    },
+    "primary_miss_cooldown":
+    {
+        "type": "number"
+    },
+    "primary_miss_trained_cooldown":
+    {
+        "type": "number"
+    },
+    "secondary_miss_cooldown":
+    {
+        "type": "number"
+    },
+    "secondary_miss_trained_cooldown":
+    {
+        "type": "number"
+    }
+}""" );
+
+// Inherit from this class. override GetName and Register then call back ASWeaponConfig::Register(json)
 abstract class ASMeleeWeaponConfig : ASWeaponConfig
 {
     /// Melee weapon attack distance
@@ -52,17 +89,35 @@ abstract class ASMeleeWeaponConfig : ASWeaponConfig
         }
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.primary_distance = json.ValueOrDefault( "primary_distance", this.primary_distance );
-        this.secondary_distance = json.ValueOrDefault( "secondary_distance", this.secondary_distance );
-        this.tertiary_distance = json.ValueOrDefault( "tertiary_distance", this.tertiary_distance );
-        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, json.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction ) ) );
-        this.primary_miss_cooldown = json.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
-        this.primary_miss_trained_cooldown = json.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
-        this.secondary_miss_cooldown = json.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
-        this.secondary_miss_trained_cooldown = json.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
 
-        ASWeaponConfig::Register(json);
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        this.primary_distance = config.ValueOrDefault( "primary_distance", this.primary_distance );
+        this.secondary_distance = config.ValueOrDefault( "secondary_distance", this.secondary_distance );
+        this.tertiary_distance = config.ValueOrDefault( "tertiary_distance", this.tertiary_distance );
+        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction ) ) );
+        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
+        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
+        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
+        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
+
+        return ASWeaponConfig::Register(config);
     }
 }
