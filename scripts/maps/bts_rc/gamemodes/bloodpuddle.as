@@ -21,101 +21,147 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-final class ASBloodPuddleConfig : IConfigurable
+final class ASBloodPuddleConfig : IConfigurableContext
 {
     array<float> m_DefaultSize;
     dictionary m_CustomSizes;
     bool m_persistent;
 
-    const string& get_Name() override
-    {
+    const string& GetName() const override {
         return "bloodpuddle";
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Blood puddles",
+            "description": "Controls blood puddle behavior and appearance.",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
+            "properties":
+            {
+                "persistent":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
+                },
+                "default_size":
+                {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items":
+                    {
+                        "minimum": 0.1,
+                        "type": "number"
+                    },
+                    "default": [ 1.5, 2.5 ],
+                    "description": "Random size range for puddles (min, max)."
+                },
+                "custom_size":
+                {
+                    "type": "object",
+                    "default": 
+                    {
+                        "monster_headcrab": [ 0.5, 1.5 ],
+                        "monster_houndeye": [ 1, 2 ],
+                        "monster_babycrab": [ 0.3, 0.8 ],
+                        "monster_snark": [ 0.25, 0.75 ]
+                    },
+                    "additionalProperties":
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items":
+                        {
+                            "minimum": 0.1,
+                            "type": "number"
+                        },
+                        "prefixItems":
+                        [
+                            { "description": "Minimun scale size for randomization" },
+                            { "description": "Maximun scale size for randomization" }
+                        ]
+                    },
+                    "description": "Per-monster custom puddle size overrides."
+                }
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
     {
-        if( this.IsActive() )
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        @gpBloodPuddle = this;
+
+        CustomEntity( "env_bloodpuddle", false );
+        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+
+        this.m_persistent = bool( config[ "persistent" ] );
+
+        array<float>@ arr;
+
+        if( !meta_api::json::v2::fmt::ToArray( config[ "default_size" ], arr, false ) )
         {
-            CustomEntity( "env_bloodpuddle", false );
-            g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+            @arr = { 1.5f, 2.5f };
+        }
+        else if( arr[0] > arr[1] )
+        {
+            g_Logger.error.print( "Blood puddle default size for \"default_size\" has inverted values! first number should be lesser than the second!" );
+            float temp = arr[0];
+            arr[0] = arr[1];
+            arr[1] = temp;
+        }
 
-            this.m_persistent = json.ValueOrDefault( "persistent", true );
+        if( g_Logger.info.active )
+            g_Logger.info.print( "Set blood puddle default size to min: {} max: {}", { arr[0], arr[1] } );
 
-            array<float>@ arr;
+        this.m_DefaultSize = arr;
 
-            if( !meta_api::json::v2::fmt::ToArray( json[ "default_size" ], arr, false ) )
+        meta_api::json::v2::json@ custom_size = config[ "custom_size" ];
+
+        if( custom_size is null )
+            return true;
+
+        const auto monsterNames = custom_size.Keys;
+        uint monsterSize = monsterNames.length();
+
+        for( uint ui = 0; ui < monsterSize; ui++ )
+        {
+            string name = monsterNames[ui];
+
+            if( !meta_api::json::v2::fmt::ToArray( custom_size[ name ], arr, false ) )
             {
-                @arr = { 1.5f, 2.5f };
+                g_Logger.error.print( "Blood puddle custom size for {} is an invalid array of two values!", { name } );
+                continue;
             }
-            else
+
+            if( arr[0] > arr[1] )
             {
-                if( arr.length() != 2 )
-                {
-                    g_Logger.error.print( "Blood puddle default size has {} values than 2!", { ( arr.length() > 2 ? "more" : "less" ) } );
-                }
-                else if( arr[0] > arr[1] )
-                {
-                    g_Logger.error.print( "Blood puddle default size for \"default_size\" has inverted values! first number should be lesser than the second!" );
-                    float temp = arr[0];
-                    arr[0] = arr[1];
-                    arr[0] = temp;
-                }
+                g_Logger.error.print( "Blood puddle custom size for {} has inverted values! first number should be lesser than the second!", { name } );
+                float temp = arr[0];
+                arr[0] = arr[1];
+                arr[1] = temp;
             }
+
+            @this.m_CustomSizes[ name ] = arr;
 
             if( g_Logger.info.active )
-                g_Logger.info.print( "Set blood puddle default size to {} min {} max {}", { arr[0], arr[1] } );
-
-            this.m_DefaultSize = arr;
-
-            meta_api::json::v2::json@ custom_size = json[ "custom_size" ];
-
-            if( custom_size is null )
-                return;
-
-            if( !custom_size.is_object() )
-            {
-                g_Logger.error.print( "Blood puddle \"custom_size\" is not an object type!" );
-                return;
-            }
-
-            const auto monsterNames = custom_size.Keys;
-            uint monsterSize = monsterNames.length();
-
-            for( uint ui = 0; ui < monsterSize; ui++ )
-            {
-                string name = monsterNames[ui];
-
-                if( !meta_api::json::v2::fmt::ToArray( custom_size[ name ], arr, false ) )
-                {
-                    g_Logger.error.print( "Blood puddle custom size for {} is an invalid array of two values!", { name } );
-                    continue;
-                }
-
-                if( arr.length() != 2 )
-                {
-                    g_Logger.error.print( "Blood puddle custom size for {} has {} values than 2!", { name, ( arr.length() > 2 ? "more" : "less" ) } );
-                    continue;
-                }
-
-                if( arr[0] > arr[1] )
-                {
-                    g_Logger.error.print( "Blood puddle custom size for {} has inverted values! first number should be lesser than the second!", { name } );
-                    float temp = arr[0];
-                    arr[0] = arr[1];
-                    arr[0] = temp;
-                }
-
-                @this.m_CustomSizes[ name ] = arr;
-
-                if( g_Logger.info.active )
-                    g_Logger.info.print( "Set blood puddle for {} min {} max {}", { name, arr[0], arr[1] } );
-            }
+                g_Logger.info.print( "Set blood puddle for {} min: {} max: {}", { name, arr[0], arr[1] } );
         }
+        return true;
     }
 
     env_bloodpuddle@ Create( CBaseMonster@ monster, int gib )
     {
-        if( !this.IsActive() || monster.m_bloodColor == DONT_BLEED || !FreeEdicts(1) )
+        if( monster.m_bloodColor == DONT_BLEED || !FreeEdicts(1) )
             return null;
 
         CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
@@ -166,7 +212,7 @@ final class ASBloodPuddleConfig : IConfigurable
     }
 }
 
-ASBloodPuddleConfig gpBloodPuddle;
+ASBloodPuddleConfig@ gpBloodPuddle = null;
 
 class env_bloodpuddle : ScriptBaseAnimating
 {

@@ -27,6 +27,6 @@ class ammo_bts_flashlight : BTS_Ammo
 
     bool AddAmmo( CBaseEntity@ other )
     {
-        return PickupObject( other, 1, "bts:battery", gpWeaponFlashlight.secondary_maxammo );
+        return PickupObject( other, 1, "bts_battery", gpWeaponFlashlight.secondary_maxammo );
     }
 }

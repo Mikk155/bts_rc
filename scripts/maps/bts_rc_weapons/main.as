@@ -114,15 +114,15 @@ namespace oldweapons
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_uzisd", "ammo_bts_uzisd" );
 
         g_ItemRegistry.RegisterWeapon( "weapon_bts_crowbar", "bts_rc/weapons" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", "357", "bts:battery", "ammo_bts_eagle", "ammo_bts_eagle_battery" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_eagle", "bts_rc/weapons", "357", "bts_battery", "ammo_bts_eagle", "ammo_bts_eagle_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_flare", "bts_rc/weapons", "weapon_bts_flare", "", "weapon_bts_flare", "" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_flaregun", "bts_rc/weapons", "bts:flare", "", "ammo_bts_flarebox", "" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", "9mm", "ammo_bts_beretta", "bts:battery", "ammo_bts_beretta_battery" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_flaregun", "bts_rc/weapons", "bts_flare", "", "ammo_bts_flarebox", "" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_beretta", "bts_rc/weapons", "9mm", "ammo_bts_beretta", "bts_battery", "ammo_bts_beretta_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_sw637", "bts_rc/weapons", "38", "", "ammo_bts_sw637", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glock", "bts_rc/weapons", "9mm", "", "ammo_bts_glock", "" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_glock17f", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_glock17f", "ammo_bts_glock17f_battery" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_glock17f", "bts_rc/weapons", "9mm", "bts_battery", "ammo_bts_glock17f", "ammo_bts_glock17f_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_glock18", "bts_rc/weapons", "9mm", "", "ammo_bts_glock18", "" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_glocksd", "bts_rc/weapons", "9mm", "bts:battery", "ammo_bts_glocksd", "ammo_bts_glocksd_battery" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_glocksd", "bts_rc/weapons", "9mm", "bts_battery", "ammo_bts_glocksd", "ammo_bts_glocksd_battery" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_handgrenade", "bts_rc/weapons", "Hand Grenade", "", "weapon_bts_handgrenade", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m4", "bts_rc/weapons", "556", "", "ammo_bts_m4", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_m4sd", "bts_rc/weapons", "556", "", "ammo_bts_m4sd", "" );
@@ -137,7 +137,7 @@ namespace oldweapons
         g_ItemRegistry.RegisterWeapon( "weapon_bts_uzisd", "bts_rc/weapons", "9mm", "", "ammo_bts_uzisd", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_saw", "bts_rc/weapons", "556", "", "ammo_bts_saw", "" );
         g_ItemRegistry.RegisterWeapon( "weapon_bts_sawsd", "bts_rc/weapons", "556", "", "ammo_bts_sawsd", "" );
-        g_ItemRegistry.RegisterWeapon( "weapon_bts_sbshotgun", "bts_rc/weapons", "buckshot", "bts:battery", "ammo_bts_sbshotgun", "ammo_bts_sbshotgun_battery" );
+        g_ItemRegistry.RegisterWeapon( "weapon_bts_sbshotgun", "bts_rc/weapons", "buckshot", "bts_battery", "ammo_bts_sbshotgun", "ammo_bts_sbshotgun_battery" );
         BTS_XBOW::Register();
         weapon_bts_sniperrifle::Register();
         BTS_FLAMETHROWER::Register();

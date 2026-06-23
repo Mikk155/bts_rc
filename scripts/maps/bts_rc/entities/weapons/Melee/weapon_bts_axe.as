@@ -42,7 +42,7 @@ enum WeaponAxeAnim
 
 class CWeaponAxeConfig : ASMeleeWeaponConfig
 {
-    const string& get_Name() override {
+    const string& GetName() const override {
         return "weapon_bts_axe";
     }
 
@@ -77,7 +77,7 @@ class CWeaponAxeConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 0;
         this.position = 10;
@@ -95,7 +95,7 @@ class CWeaponAxeConfig : ASMeleeWeaponConfig
         this.primary_damage = 20;
         this.secondary_damage = 14;
 
-        ASMeleeWeaponConfig::Register( json );
+        return ASMeleeWeaponConfig::Register( json );
     }
 }
 

@@ -42,7 +42,7 @@ enum WeaponPipeWrenchAnim
 
 class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
 {
-    const string& get_Name() override {
+    const string& GetName() const override {
         return "weapon_bts_pipewrench";
     }
 
@@ -83,7 +83,7 @@ class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 0;
         this.position = 5;
@@ -99,7 +99,7 @@ class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
         this.secondary_cooldown = 0.64;
         this.secondary_miss_cooldown = 0.85;
 
-        ASMeleeWeaponConfig::Register( json );
+        return ASMeleeWeaponConfig::Register( json );
     }
 }
 

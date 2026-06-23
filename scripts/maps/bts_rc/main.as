@@ -72,15 +72,7 @@ void MapActivate()
 
         auto ckv = entity.GetCustomKeyvalues();
 
-        uint length = gpEntityOverriden.length();
-
-        for( uint ui = 0; ui < length; ui++ )
-        {
-            EntityOverriden@ overrider = gpEntityOverriden[ui];
-
-            if( overrider !is null )
-                overrider.AddEntity( entityIndex, entity, ckv, monster );
-        }
+        EntityOverriden::Register( entityIndex, entity, ckv, monster );
 
         // item tracker data
         if( entity.GetClassname()  == "item_inventory" )
@@ -108,36 +100,54 @@ void MapActivate()
 
 void MapInit()
 {
-    Server::chrono@ chrono = Server::chrono();
-
-    meta_api::json::v2::json@ json;
-    if( !meta_api::json::v2::Deserialize( "bts_rc/config.json", json ) )
-    {
-        g_EngineFuncs.ServerPrint( "[ERROR] Could not parse \"scripts/maps/bts_rc/config.json\"\n" );
-        @json = meta_api::json::v2::json();
-    }
-
-    g_Logger.Register( json.ValueOrDefault( "log" ) );
+    Server::chrono@ chrono = null;
 
     if( g_Logger.info.active )
     {
-        chrono.Stop();
-        g_Logger.info.print( snprintf( glog, "Parsed \"scripts/maps/bts_rc/config.json\" %1:%2 seconds elapsed since the map started.", chrono.Seconds, chrono.Miliseconds ) );
+        @chrono = Server::chrono();
     }
 
-    ConfigContext::Registry( json, chrono );
+    g_MapConfig.__LoadMapConfiguration__();
 
-    RegisterAllCharacters( json[ "characters" ], chrono );
+    // Logger first
+    g_MapConfig.Register( g_Logger );
+
+    // No ordering required:
+    g_MapConfig.Register( g_WeaponsConfig ); // Always active
+    g_MapConfig.Register( ASBloodPuddleConfig() );
+    g_MapConfig.Register( ASDynamicAmmoConfig() );
+    g_MapConfig.Register( ASZombieUncrabConfig() );
+    g_MapConfig.Register( ASDeathDropConfig() );
+    g_MapConfig.Register( ASAimingLasersConfig() );
+    g_MapConfig.Register( ASBlackOpsFlashbang() );
+    g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
+
+    // Items
+    g_MapConfig.Register( gpItemsConfig ); // Always active
+
+    // Weapons
+    g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
+    g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPoolstickConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeWrenchConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlashlight ); // Always active
+
+    // Player characters
+    g_MapConfig.Register( gpCharactersConfig ); // Always active
+
+    g_MapConfig.__ValidateMapConfiguration__();
+
+    g_VoiceResponse.Register();
 
     models::Precache();
 
     Precache();
 
-    items::Register( json );
-
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
-
-    g_WeaponsConfig.MapInit();
 
     if( g_Logger.info.active )
     {
@@ -153,7 +163,6 @@ void MapInit()
 
     CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
     CustomEntity( "func_section", true, "test_chamber::func_section" );
-
 #endif
 }
 

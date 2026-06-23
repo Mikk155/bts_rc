@@ -106,7 +106,7 @@ class CVoices
     }
 }
 
-final class CVoiceResponse : IConfigurable
+final class CVoiceResponse
 {
     dictionary voices;
 
@@ -138,22 +138,8 @@ final class CVoiceResponse : IConfigurable
         }
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register()
     {
-        if( !this.IsActive() )
-            return;
-
-        RegisterCommand( "player_voices", "", "toggle player voices state", 
-            CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
-            {
-                g_VoiceResponse.m_IsActive = !g_VoiceResponse.m_IsActive;
-                if( g_VoiceResponse.m_IsActive )
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Enabled player voices\n" );
-                else
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Disabled player voices\n" );
-            }
-        ), true );
-
         // Initialize handlers for specific classes
         CVoices@ scientist = @CVoices( "scientist" );
         CVoices@ barney = @CVoices( "barney" );
@@ -233,6 +219,8 @@ final class CVoiceResponse : IConfigurable
         scientist.killed.push_back( "scientist/sci_die3.wav" );
         scientist.killed.push_back( "scientist/scream21.wav" );
         scientist.killed.push_back( "scientist/scream23.wav" );
+
+        return true;
     }
 }
 

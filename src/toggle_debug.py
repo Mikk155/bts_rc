@@ -40,6 +40,7 @@ from Tests.PyBuilder import PyBuilder;
 print( f"Toggle all pre processors {processFrom} -> {processTo}" );
 
 import Tests.DebugCheck;
-Tests.DebugCheck.DebugCheck().toggle_debug( processFrom, processTo, True );
+Tests.DebugCheck.DebugCheck().toggle_debug( processFrom, processTo );
+PyBuilder.WriteAllScripts();
 
 input( "All done!" );

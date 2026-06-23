@@ -35,7 +35,7 @@ namespace weapons
 
             bool AddAmmo( CBaseEntity@ other )
             {
-                if( other !is null && other.GiveAmmo( 1, "bts:battery", 10 ) != -1 )
+                if( other !is null && other.GiveAmmo( 1, "bts_battery", 10 ) != -1 )
                 {
                     g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
                     return true;
