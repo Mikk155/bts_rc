@@ -1,12 +1,102 @@
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
+*   
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
+*   
+*   The above copyright notice and this permission notice shall be included in all
+*   copies of the Software when distributed as a whole.
+*   
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
+
 /*
     Author: Mikk
     Original code: Nero
 */
 
-class GruntEngineer : EntityOverriden
+class ASGruntEngineer : EntityOverriden, IConfigurableContext
 {
-    const string& get_Name() {
+    const string& GetName() const override {
         return "grunt_engineer";
+    }
+
+    const string GetSchema() const override {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "description": "Controls engineer grunt sentry spawning",
+            "allOf":
+            [
+                "IConfigurableContext"
+            ],
+            "properties":
+            {
+                "interval":
+                {
+                    "title": "Think rate",
+                    "type": "number",
+                    "minimum": 0.0,
+                    "default": 0.1,
+                    "description": "Internal think rate interval. the lower the value the more cpu usage"
+                },
+                "capacity":
+                {
+                    "default": 5,
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Max sentry spawn capacity per engineer"
+                },
+                "distance":
+                {
+                    "default": 128,
+                    "type": "number",
+                    "minimum": 32,
+                    "description": "Distance from the engineer to spawn"
+                },
+                "cooldown_start":
+                {
+                    "default": 6.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time until engineer can place a sentry after spawning"
+                },
+                "cooldown_combat":
+                {
+                    "default": 6.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How often to try to drop a sentry in combat, in seconds"
+                },
+                "cooldown_idle":
+                {
+                    "default": 30.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How often to try to drop a sentry while idle/roaming, in seconds"
+                },
+                "cooldown_rng":
+                {
+                    "default": 15.0,
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "cooldown_idle plus/minus this"
+                },
+                "chance":
+                {
+                    "default": 75,
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
+                }
+            }
+        }""";
     }
 
     private uint m_uiMaxCapacity;
@@ -18,49 +108,50 @@ class GruntEngineer : EntityOverriden
     private uint m_uiRandomChance;
     private int m_iGateAnimation = -1;
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
-        if( this.IsActive() )
-        {
-            json.Get( "interval", this.interval, false );
-            json.Get( "capacity", this.m_uiMaxCapacity );
-            json.Get( "distance", this.m_fRadius, false );
-            json.Get( "cooldown_start", this.m_fCooldownInitial, false );
-            json.Get( "cooldown_combat", this.m_fCooldownCombat, false );
-            json.Get( "cooldown_idle", this.m_fCooldownIdle, false );
-            json.Get( "cooldown_rng", this.m_fCooldownRNG, false );
-            json.Get( "chance", this.m_uiRandomChance, false );
+        if( !bool( config[ "active" ] ) )
+            return false;
+
+        config.Get( "capacity", this.m_uiMaxCapacity );
+        config.Get( "distance", this.m_fRadius, false );
+        config.Get( "cooldown_start", this.m_fCooldownInitial, false );
+        config.Get( "cooldown_combat", this.m_fCooldownCombat, false );
+        config.Get( "cooldown_idle", this.m_fCooldownIdle, false );
+        config.Get( "cooldown_rng", this.m_fCooldownRNG, false );
+        config.Get( "chance", this.m_uiRandomChance, false );
+
+        EntityOverriden::SetThink( float( config[ "interval" ] ) );
 
 #if SERVER
-            g_Game.PrecacheOther( "monster_human_torch_ally" );
+        g_Game.PrecacheOther( "monster_human_torch_ally" );
 #endif
-        }
 
-        EntityOverriden::Register( json );
+        return true;
     }
 
-    void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
     {
-        if( entity.GetClassname() == "monster_human_torch_ally" )
-        {
-#if SERVER
-            SetDebugName( entity, "Engineer sentry spawner" );
-#endif
-
-            dictionary@ data = entity.GetUserData();
-
-            data[ "sentry_left" ] = m_uiMaxCapacity;
-            data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownInitial + Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
+        if( entity.GetClassname() != "monster_human_torch_ally" )
+            return false;
 
 #if SERVER
-            data[ "sentry_cooldown" ] = g_Engine.time + 10.2;
+        SetDebugName( entity, "Engineer sentry spawner" );
 #endif
 
-            if( this.m_iGateAnimation < 0 )
-                this.m_iGateAnimation = monster.LookupSequence( "open_floor_grate" );
+        dictionary@ data = entity.GetUserData();
 
-            EntityOverriden::AddEntity( index, entity, ckv, monster );
-        }
+        data[ "sentry_left" ] = m_uiMaxCapacity;
+        data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownInitial + Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
+
+#if SERVER
+        data[ "sentry_cooldown" ] = g_Engine.time + 10.2;
+#endif
+
+        if( this.m_iGateAnimation < 0 )
+            this.m_iGateAnimation = monster.LookupSequence( "open_floor_grate" );
+
+        return EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 
     bool IsHullFree( const Vector &in vecPos )
@@ -177,9 +268,18 @@ class GruntEngineer : EntityOverriden
         if( sentry !is null )
         {
             g_EntityFuncs.DispatchSpawn( sentry.edict() );
-            gpTurretsLasers.AddEntity( sentry.entindex(), sentry, null, null );
+
+            auto@ AimingLasersContext = g_MapConfig.GetContext( "aiming_lasers" );
+
+            if( AimingLasersContext !is null )
+            {
+                auto@ AimingLasersOverrider = cast<ASAimingLasersConfig@>( AimingLasersContext );
+
+                if( AimingLasersOverrider !is null )
+                {
+                    AimingLasersOverrider.AddEntity( sentry.entindex(), sentry, sentry.GetCustomKeyvalues(), cast<CBaseMonster@>( sentry ) );
+                }
+            }
         }
     }
 }
-
-GruntEngineer gpGruntEnginer;

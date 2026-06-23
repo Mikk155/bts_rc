@@ -1,12 +1,33 @@
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
+*   
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
+*   
+*   The above copyright notice and this permission notice shall be included in all
+*   copies of the Software when distributed as a whole.
+*   
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
+
 /*
     Author: Mikk
     Original code: Nero
 */
 
-class RoboGrunt : EntityOverriden
+class ASRoboGrunt : EntityOverriden, IConfigurableContext
 {
-    const string& get_Name() {
+    const string& GetName() const override {
         return "robo_grunt";
+    }
+
+    const string GetSchema() const {
+        return String::EMPTY_STRING;
     }
 
     protected uint m_iSmokeSprite;
@@ -24,25 +45,23 @@ class RoboGrunt : EntityOverriden
     // robots will explode shortly after death, can be set to 0
     protected int m_iDmgExplode = 125;
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
-        if( this.IsActive() )
-        {
-            this.m_iSmokeSprite = g_Game.PrecacheModel( "sprites/steam1.spr" );
-            this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
-            this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
+        this.m_iSmokeSprite = g_Game.PrecacheModel( "sprites/steam1.spr" );
+        this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
+        this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
 
-            g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
-            g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
-            g_SoundSystem.PrecacheSound( "debris/beamstart14.wav" );
+        g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
+        g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
+        g_SoundSystem.PrecacheSound( "debris/beamstart14.wav" );
 
 #if SERVER
-            g_Game.PrecacheOther( "monster_human_grunt_ally" );
-            g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
+        g_Game.PrecacheOther( "monster_human_grunt_ally" );
+        g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
 #endif
-        }
 
-        EntityOverriden::Register( json );
+        EntityOverriden::SetThink( 0.1f );
+        return true;
     }
 
 #if SERVER
@@ -57,16 +76,16 @@ class RoboGrunt : EntityOverriden
             && model == "models/bts_rc/monsters/rgrunt_opfor.mdl" );
     }
 
-    void AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
     {
-        if( this.IsValid( entity.GetClassname(), string(entity.pev.model) ) )
-        {
+        if( !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+            return false;
+
 #if SERVER
-            SetDebugName( entity, "Robo grunt" );
+        SetDebugName( entity, "Robo grunt" );
 #endif
 
-            EntityOverriden::AddEntity( index, entity, ckv, monster );
-        }
+        return EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
@@ -388,24 +407,22 @@ class RoboGrunt : EntityOverriden
     }
 }
 
-RoboGrunt gpRoboGrunt;
+ASRoboGrunt gpRoboGrunt;
 
-class RoboGruntBoss : RoboGrunt
+class ASRoboGruntBoss : ASRoboGrunt
 {
-    const string& get_Name() {
+    const string& GetName() const override {
         return "robo_grunt_boss";
     }
 
-    void Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
-        if( this.IsActive() )
-        {
 #if SERVER
-            g_Game.PrecacheOther( "monster_hwgrunt" );
-            g_Game.PrecacheModel( "models/bts_rc/monsters/robothwgrunt.mdl" );
+        g_Game.PrecacheOther( "monster_hwgrunt" );
+        g_Game.PrecacheModel( "models/bts_rc/monsters/robothwgrunt.mdl" );
 #endif
-        }
-        RoboGrunt::Register( json );
+        ASRoboGrunt::Register( json );
+        return true;
     }
 
 #if SERVER
@@ -428,11 +445,11 @@ class RoboGruntBoss : RoboGrunt
             info.flDamage *= this.m_fDmgMultiplierBlast;
         }
 
-        RoboGrunt::TakeDamage( victim, info );
+        ASRoboGrunt::TakeDamage( victim, info );
     }
 }
 
-RoboGruntBoss gpRoboGruntBoss;
+ASRoboGruntBoss gpRoboGruntBoss;
 
 #if SERVER
 RegisterCommand __gpRoboGruntTestCmd__(
@@ -447,16 +464,14 @@ RegisterCommand __gpRoboGruntTestCmd__(
 
         bool isBoss = ( arguments !is null && arguments.length() > 0 && atoi( arguments[0] ) == 1 );
 
-        dictionary@ keys = ( isBoss ? gpRoboGruntBoss.TestKeys : gpRoboGrunt.TestKeys );
+        auto@ roboGrunt = ( isBoss ? gpRoboGruntBoss : gpRoboGrunt );
+        dictionary@ keys = roboGrunt.TestKeys;
 
         CBaseEntity@ robo = g_EntityFuncs.CreateEntity( string( keys[ "classname" ] ), keys, true );
 
         robo.SetOrigin( tr.vecEndPos );
 
-        if( isBoss )
-            gpRoboGruntBoss.AddEntity( robo.entindex(), robo, null, null );
-        else
-            gpRoboGrunt.AddEntity( robo.entindex(), robo, null, null );
+        roboGrunt.AddEntity( robo.entindex(), robo, null, null );
     }
 );
 #endif

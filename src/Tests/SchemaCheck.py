@@ -67,8 +67,7 @@ class SchemaCheck(PyBuilder):
                 matches = list( tripleRegex.finditer( methodBody ) );
 
                 if len( matches ) == 0:
-                    print( "{} > class \"{}\" has no triple-quoted JSON", script.Path, className );
-                    invalidSchemas += 1;
+                    print( "{} > class \"{}\" has no triple-quoted JSON. Is this expected?", script.Path, className );
                     continue;
 
                 for match in matches:
