@@ -292,7 +292,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void IdleSound()
     {
-        if( !IsStealthed() )
+        if( !this.m_bStealthed )
         {
             switch( RandomUint( 4, self ) )
             {
@@ -307,7 +307,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void AlertSound()
     {
-        if( !IsStealthed() )
+        if( !this.m_bStealthed )
         {
             switch( RandomUint( 1, self ) )
             {
@@ -338,26 +338,6 @@ class monster_panthereye : bts_rc_base_monster
         }
     }
 
-    void LeapAttackSound()
-    {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "gonome/gonome_jumpattack.wav", VOL_NORM, ATTN_IDLE );
-    }
-
-    void PounceHitSound()
-    {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pounceHit.wav", VOL_NORM, ATTN_IDLE );
-    }
-
-    void ThrashSound()
-    {
-        switch( RandomUint( 2, self ) )
-        {
-            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash1.wav", VOL_NORM, ATTN_IDLE ); break;
-            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash2.wav", VOL_NORM, ATTN_IDLE ); break;
-            case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash3.wav", VOL_NORM, ATTN_IDLE ); break;
-        }
-    }
-
     void RunAI()
     {
         BaseClass.RunAI();
@@ -375,9 +355,9 @@ class monster_panthereye : bts_rc_base_monster
         }
 
         if( self.HasConditions( bits_COND_CAN_MELEE_ATTACK1 ) || self.HasConditions( bits_COND_CAN_MELEE_ATTACK1 ) )
-            StealthOff();
+            this.m_bStealthed = false;
 
-        if( !IsStealthed()
+        if( !this.m_bStealthed
         && ( self.m_MonsterState == MONSTERSTATE_COMBAT
             || self.pev.deadflag != DEAD_NO
             || self.m_Activity == ACT_RUN
@@ -394,7 +374,10 @@ class monster_panthereye : bts_rc_base_monster
         if( self.pev.renderamt > m_iTargetRanderamt )
         {
             if( self.pev.renderamt == 255 )
-                StealthOn();
+            {
+                g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/panthereye/stealth.ogg", VOL_NORM, ATTN_IDLE );
+                m_bStealthed = true;
+            }
 
             self.pev.renderamt = Math.max( self.pev.renderamt - 50, m_iTargetRanderamt );
             self.pev.rendermode = kRenderTransTexture;
@@ -405,7 +388,7 @@ class monster_panthereye : bts_rc_base_monster
 
             if( self.pev.renderamt == 255 )
             {
-                StealthOff();
+                this.m_bStealthed = false;
                 self.pev.rendermode = kRenderNormal;
             }
         }
@@ -422,14 +405,14 @@ class monster_panthereye : bts_rc_base_monster
                 self.m_IdealActivity = ACT_RANGE_ATTACK1;
                 SetTouch( TouchFunction(this.LeapAttackTouch) );
 
-                if( !IsStealthed() )
+                if( !this.m_bStealthed )
                     self.pev.framerate = 2.0;
 
                 break;
             }
             case TASK_RUN_PATH:
             {
-                if( IsStealthed() )
+                if( this.m_bStealthed )
                     self.m_movementActivity = ACT_WALK_SCARED;
                 else
                     self.m_movementActivity = ACT_RUN;
@@ -451,7 +434,7 @@ class monster_panthereye : bts_rc_base_monster
         {
             case TASK_RANGE_ATTACK1:
             {
-                if( !IsStealthed() )
+                if( !this.m_bStealthed )
                     self.pev.framerate = 2.0;
 
                 if( self.m_fSequenceFinished )
@@ -476,7 +459,7 @@ class monster_panthereye : bts_rc_base_monster
         {
             case 1:
             {
-                CBaseEntity@ hurt = AttackNormal();
+                CBaseEntity@ hurt = MeleeAttack( 42.0, 64.0 );
 
                 if( hurt !is null )
                 {
@@ -495,7 +478,7 @@ class monster_panthereye : bts_rc_base_monster
 
             case 2:
             {
-                CBaseEntity@ hurt = AttackLow();
+                CBaseEntity@ hurt = MeleeAttack( 30.0, 64.0 );
 
                 if( hurt !is null )
                 {
@@ -514,7 +497,7 @@ class monster_panthereye : bts_rc_base_monster
 
             case 3:
             {
-                CBaseEntity@ hurt = AttackFar();
+                CBaseEntity@ hurt = MeleeAttack( 42.0, 82.0 ); //92
 
                 if( hurt !is null )
                 {
@@ -533,8 +516,48 @@ class monster_panthereye : bts_rc_base_monster
 
             case 4:
             {
-                StealthOff();
-                LeapAttack();
+                this.m_bStealthed = false;
+
+                //from HL2 Fast Zombie
+                @pev.groundentity = null;
+
+                g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "gonome/gonome_jumpattack.wav", VOL_NORM, ATTN_IDLE );
+
+                //Take him off ground so engine doesn't instantly reset FL_ONGROUND.
+                g_EntityFuncs.SetOrigin( self, self.pev.origin + Vector(0.0, 0.0, 1.0) );
+
+                Vector vecJumpDir;
+                CBaseEntity@ enemy = GetEnemy();
+
+                if( enemy !is null )
+                {
+                    Vector vecEnemyPos = enemy.EyePosition();
+
+                    float gravity = g_EngineFuncs.CVarGetFloat( "sv_gravity" );
+                    if( gravity <= 1 )
+                        gravity = 1;
+
+                    float height = ( vecEnemyPos.z - self.pev.origin.z );
+
+                    if( height < 16 )
+                        height = 16;
+                    else if( height > 120 )
+                        height = 120;
+
+                    float speed = sqrt( 2 * gravity * height );
+                    float time = speed / gravity;
+
+                    vecJumpDir = vecEnemyPos - self.pev.origin;
+                    vecJumpDir = vecJumpDir / time;
+                    vecJumpDir.z = speed;
+
+                    float distance = vecJumpDir.Length();
+                    if( distance > 1000.0 ) //CLAMP
+                        vecJumpDir = vecJumpDir * ( 1000.0 / distance ); //CLAMP
+
+                    self.pev.velocity = vecJumpDir; //SetAbsVelocity( vecJumpDir );
+                    self.m_flNextAttack = g_Engine.time + 2.0;
+                }
                 break;
             }
             default:
@@ -592,21 +615,6 @@ class monster_panthereye : bts_rc_base_monster
         return true;
     }
 
-    CBaseEntity@ AttackNormal()
-    {
-        return MeleeAttack( 42.0, 64.0 );
-    }
-
-    CBaseEntity@ AttackLow()
-    {
-        return MeleeAttack( 30.0, 64.0 );
-    }
-
-    CBaseEntity@ AttackFar()
-    {
-        return MeleeAttack( 42.0, 82.0 ); //92
-    }
-
     CBaseEntity@ MeleeAttack( float flHeight, float flRange )
     {
         TraceResult tr;
@@ -626,50 +634,6 @@ class monster_panthereye : bts_rc_base_monster
         }
 
         return null;
-    }
-
-    //from HL2 Fast Zombie
-    void LeapAttack()
-    {
-        @pev.groundentity = null;
-
-        LeapAttackSound();
-
-        //Take him off ground so engine doesn't instantly reset FL_ONGROUND.
-        g_EntityFuncs.SetOrigin( self, self.pev.origin + Vector(0.0, 0.0, 1.0) );
-
-        Vector vecJumpDir;
-        CBaseEntity@ enemy = GetEnemy();
-
-        if( enemy !is null )
-        {
-            Vector vecEnemyPos = enemy.EyePosition();
-
-            float gravity = g_EngineFuncs.CVarGetFloat( "sv_gravity" );
-            if( gravity <= 1 )
-                gravity = 1;
-
-            float height = ( vecEnemyPos.z - self.pev.origin.z );
-
-            if( height < 16 )
-                height = 16;
-            else if( height > 120 )
-                height = 120;
-
-            float speed = sqrt( 2 * gravity * height );
-            float time = speed / gravity;
-
-            vecJumpDir = vecEnemyPos - self.pev.origin;
-            vecJumpDir = vecJumpDir / time;
-            vecJumpDir.z = speed;
-
-            float distance = vecJumpDir.Length();
-            if( distance > 1000.0 ) //CLAMP
-                vecJumpDir = vecJumpDir * ( 1000.0 / distance ); //CLAMP
-
-            self.pev.velocity = vecJumpDir; //SetAbsVelocity( vecJumpDir );
-            self.m_flNextAttack = g_Engine.time + 2.0;
-        }
     }
 
     Schedule@ GetSchedule()
@@ -727,11 +691,60 @@ class monster_panthereye : bts_rc_base_monster
             if( player !is null )
             {
                 //player was hit from behind and isn't already being thrashed!
-                if( IsBehindTarget(player) && ( player.pev.effects & EF_NODRAW ) == 0 )
+                if( !player.FInViewCone( self ) && ( player.pev.effects & EF_NODRAW ) == 0 )
                 {
-                    StartPin( player );
                     //g_Game.AlertMessage( at_notice, "RAPED BY PANTHER!\n" );
                     SetTouch( null );
+
+                    if( !player.IsAlive() )
+                        return;
+
+                    Vector vecOrigin = player.pev.origin;
+                    vecOrigin.z = player.pev.absmin.z;
+
+                    Vector vecAngles = player.pev.angles;
+                    vecAngles.y += 180; //the "deadstomach" sequence is facing the wrong way blyat
+
+                    CBaseEntity@ playerDoll = g_EntityFuncs.Create( "cycler", vecOrigin, vecAngles, true );
+                    playerDoll.pev.model = player.pev.model;
+                    playerDoll.pev.sequence = 179;
+                    g_EntityFuncs.DispatchSpawn( playerDoll.edict() );
+                    playerDoll.pev.solid = SOLID_NOT;
+                    playerDoll.pev.takedamage = DAMAGE_NO;
+                    playerDoll.pev.renderfx = kRenderFxDeadPlayer;
+                    playerDoll.pev.renderamt = player.entindex();
+
+                    m_hPlayerDoll = EHandle( playerDoll );
+
+                    m_hVictim = EHandle( player );
+                    m_bIsPinning = true;
+
+                    m_flNextThrashDamage = g_Engine.time;
+                    m_flNextThrashSound  = g_Engine.time + 1.0;
+                    m_flPinEndTime = g_Engine.time + 5.0;
+
+                    g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pounceHit.wav", VOL_NORM, ATTN_IDLE );
+
+                    player.SetViewMode( ViewMode_ThirdPerson );
+                    //player.EnableControl( false ); //this prevents struggling
+                    player.SetMaxSpeedOverride( 0 );
+                    player.BlockWeapons(self);
+                    player.pev.iuser3 = 1; //disable ducking
+                    player.pev.fuser4 = 1; //disable jumping
+                    player.pev.effects |= EF_NODRAW;
+                    player.pev.velocity = g_vecZero;
+                    player.pev.movetype = MOVETYPE_NOCLIP; //without this, the player gets pushed by the panthereye
+
+                    self.pev.origin.x = player.pev.origin.x;
+                    self.pev.origin.y = player.pev.origin.y;
+                    self.pev.origin.z = player.pev.absmin.z;
+                    self.SetOrigin( self.pev.origin );
+
+                    self.SetActivity( ACT_EAT );
+
+                    SetThink( ThinkFunction(this.PinThink) );
+                    self.pev.nextthink = g_Engine.time;
+                    m_flPinThinkRate = g_Engine.time;
                     return;
                 }
             }
@@ -755,12 +768,13 @@ class monster_panthereye : bts_rc_base_monster
     {
         if( damage > 0.0 )
         {
-            pevAttacker.frags += GetPointsForDamage( damage );
+            float flTemp = self.pev.max_health / gpPanthereyeConfig.Health;
+            pevAttacker.frags += ( damage / self.pev.max_health * (flTemp + flTemp) );
 
-            if( IsStealthed() )
+            if( this.m_bStealthed )
             {
                 self.m_movementActivity = ACT_RUN;
-                StealthOff();
+                this.m_bStealthed = false;
             }
         }
 
@@ -768,113 +782,6 @@ class monster_panthereye : bts_rc_base_monster
             StopPin();
 
         return BaseClass.TakeDamage( pevInflictor, pevAttacker, damage, bitsDamageType );
-    }
-
-    void StealthOn()
-    {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/panthereye/stealth.ogg", VOL_NORM, ATTN_IDLE );
-        m_bStealthed = true;
-    }
-
-    void StealthOff()
-    {
-        m_bStealthed = false;
-    }
-
-    bool IsStealthed()
-    {
-        return m_bStealthed;
-    }
-
-    bool IsBehindTarget( CBasePlayer@ player )
-    {
-        return !player.FInViewCone( self );
-    }
-
-    void StartPin( CBasePlayer@ player )
-    {
-        if( player is null or !player.IsAlive() )
-            return;
-
-        SpawnVictim( player );
-        m_hVictim = EHandle( player );
-        m_bIsPinning = true;
-
-        m_flNextThrashDamage = g_Engine.time;
-        m_flNextThrashSound  = g_Engine.time + 1.0;
-        m_flPinEndTime = g_Engine.time + 5.0;
-
-        PounceHitSound();
-
-        player.SetViewMode( ViewMode_ThirdPerson );
-        //player.EnableControl( false ); //this prevents struggling
-        player.SetMaxSpeedOverride( 0 );
-        DisablePlayerWeapons( player );
-        player.pev.iuser3 = 1; //disable ducking
-        player.pev.fuser4 = 1; //disable jumping
-        player.pev.effects |= EF_NODRAW;
-        player.pev.velocity = g_vecZero;
-        player.pev.movetype = MOVETYPE_NOCLIP; //without this, the player gets pushed by the panthereye
-
-        Vector vecOrigin = player.pev.origin;
-        vecOrigin.z = player.pev.absmin.z;
-        self.SetOrigin( vecOrigin );
-
-        self.SetActivity( ACT_EAT );
-
-        SetThink( ThinkFunction(this.PinThink) );
-        self.pev.nextthink = g_Engine.time;
-        m_flPinThinkRate = g_Engine.time;
-    }
-
-    void SpawnVictim( CBasePlayer@ player )
-    {
-        Vector vecOrigin = player.pev.origin;
-        vecOrigin.z = player.pev.absmin.z;
-
-        Vector vecAngles = player.pev.angles;
-        vecAngles.y += 180; //the "deadstomach" sequence is facing the wrong way blyat
-
-        CBaseEntity@ playerDoll = g_EntityFuncs.Create( "cycler", vecOrigin, vecAngles, true );
-        playerDoll.pev.model = player.pev.model;
-        playerDoll.pev.sequence = 179;
-        g_EntityFuncs.DispatchSpawn( playerDoll.edict() );
-        playerDoll.pev.solid = SOLID_NOT;
-        playerDoll.pev.takedamage = DAMAGE_NO;
-        playerDoll.pev.renderfx = kRenderFxDeadPlayer;
-        playerDoll.pev.renderamt = player.entindex();
-
-        m_hPlayerDoll = EHandle( playerDoll );
-        //LookupSequence( "die_forwards" );
-        //die_forwards, deadstomach
-        //15, 179
-    }
-
-    void DisablePlayerWeapons( CBasePlayer@ player )
-    {
-        if( player is null )
-            return;
-
-        //this also works
-        //player.m_flNextAttack = g_Engine.time + 0.1;
-
-        // -TODO does this mess with our weapon system?
-        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-        if( weapon !is null )
-            weapon.Holster();
-    }
-
-    void EnablePlayerWeapons( CBasePlayer@ player )
-    {
-        if( player is null )
-            return;
-
-        //this also works
-        //player.m_flNextAttack = 0;
-
-        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-        if( weapon !is null )
-            weapon.Deploy();
     }
 
     void PinThink()
@@ -893,75 +800,18 @@ class monster_panthereye : bts_rc_base_monster
             return;
         }
 
-        if( HandleStruggling(victim) )
-        {
-            StopPin();
-            return;
-        }
-
-        if( g_Engine.time >= m_flPinThinkRate )
-        {
-            DisablePlayerWeapons( victim );
-
-            if( g_Engine.time >= m_flNextThrashDamage )
-            {
-                victim.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageThrash, DMG_SLASH );
-
-                Vector vecBlood;
-                    vecBlood.x = victim.pev.absmin.x + victim.pev.size.x * ( Math.RandomFloat(0 , 1) );
-                    vecBlood.y = victim.pev.absmin.y + victim.pev.size.y * ( Math.RandomFloat(0 , 1) );
-                    vecBlood.z = victim.pev.absmin.z + victim.pev.size.z * ( Math.RandomFloat(0 , 1) ) + 1;
-                    vecBlood.z -= 32.0;
-                g_WeaponFuncs.SpawnBlood( vecBlood, victim.BloodColor(), gpPanthereyeConfig.DamageThrash*6.9 );
-
-                m_flNextThrashDamage = g_Engine.time + gpPanthereyeConfig.DamageThrashFrequency;
-            }
-
-            if( g_Engine.time >= m_flNextThrashSound )
-            {
-                ThrashSound();
-                m_flNextThrashSound = g_Engine.time + 1.0;
-            }
-
-            Vector vecOrigin = victim.pev.origin;
-            vecOrigin.z = victim.pev.absmin.z;
-            self.SetOrigin( vecOrigin );
-            self.StudioFrameAdvance( 0.1 );
-
-            m_flPinThinkRate = g_Engine.time + 0.1;
-        }
-
-        self.pev.nextthink = g_Engine.time + 0.01;
-    }
-
-    bool HandleStruggling( CBasePlayer@ player )
-    {
         float dt = 0.01; //match think rate
 
         m_flStruggle -= gpPanthereyeConfig.StruggleDrainRate * dt;
 
-        if( ( player.m_afButtonPressed & IN_FORWARD ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
-        if( ( player.m_afButtonPressed & IN_BACK ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
-        if( ( player.m_afButtonPressed & IN_MOVELEFT ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
-        if( ( player.m_afButtonPressed & IN_MOVERIGHT ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( ( victim.m_afButtonPressed & IN_FORWARD ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( ( victim.m_afButtonPressed & IN_BACK ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( ( victim.m_afButtonPressed & IN_MOVELEFT ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( ( victim.m_afButtonPressed & IN_MOVERIGHT ) != 0 ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
 
         if( m_flStruggle < 0 ) m_flStruggle = 0;
         if( m_flStruggle > gpPanthereyeConfig.StruggleMax ) m_flStruggle = gpPanthereyeConfig.StruggleMax;
 
-        ShowStruggleBar( player );
-
-        if( m_flStruggle >= gpPanthereyeConfig.StruggleMax )
-        {
-            StopPin();
-            return true;
-        }
-
-        return false;
-    }
-
-    //Thanks ChatGPT
-    void ShowStruggleBar( CBasePlayer@ player )
-    {
         float frac = m_flStruggle / gpPanthereyeConfig.StruggleMax;
 
         int bars = int( frac * 20 ); // 20 segments
@@ -987,7 +837,52 @@ class monster_panthereye : bts_rc_base_monster
             hudTextParams.fadeoutTime = 0;
             hudTextParams.holdTime = 0.1;
             hudTextParams.channel = 3;
-        g_PlayerFuncs.HudMessage( player, hudTextParams, "STRUGGLE: [" + bar + "]" );
+        g_PlayerFuncs.HudMessage( victim, hudTextParams, "STRUGGLE: [" + bar + "]" );
+
+        if( m_flStruggle >= gpPanthereyeConfig.StruggleMax )
+        {
+            StopPin();
+            return;
+        }
+
+        if( g_Engine.time >= m_flPinThinkRate )
+        {
+            victim.BlockWeapons(self);
+
+            if( g_Engine.time >= m_flNextThrashDamage )
+            {
+                victim.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageThrash, DMG_SLASH );
+
+                Vector vecBlood;
+                    vecBlood.x = victim.pev.absmin.x + victim.pev.size.x * ( Math.RandomFloat(0 , 1) );
+                    vecBlood.y = victim.pev.absmin.y + victim.pev.size.y * ( Math.RandomFloat(0 , 1) );
+                    vecBlood.z = victim.pev.absmin.z + victim.pev.size.z * ( Math.RandomFloat(0 , 1) ) + 1;
+                    vecBlood.z -= 32.0;
+                g_WeaponFuncs.SpawnBlood( vecBlood, victim.BloodColor(), gpPanthereyeConfig.DamageThrash*6.9 );
+
+                m_flNextThrashDamage = g_Engine.time + gpPanthereyeConfig.DamageThrashFrequency;
+            }
+
+            if( g_Engine.time >= m_flNextThrashSound )
+            {
+                switch( RandomUint( 2, self ) )
+                {
+                    case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash1.wav", VOL_NORM, ATTN_IDLE ); break;
+                    case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash2.wav", VOL_NORM, ATTN_IDLE ); break;
+                    case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash3.wav", VOL_NORM, ATTN_IDLE ); break;
+                }
+                m_flNextThrashSound = g_Engine.time + 1.0;
+            }
+
+            Vector vecOrigin = victim.pev.origin;
+            vecOrigin.z = victim.pev.absmin.z;
+            self.SetOrigin( vecOrigin );
+            self.StudioFrameAdvance( 0.1 );
+
+            m_flPinThinkRate = g_Engine.time + 0.1;
+        }
+
+        self.pev.nextthink = g_Engine.time + 0.01;
     }
 
     void StopPin()
@@ -1003,8 +898,7 @@ class monster_panthereye : bts_rc_base_monster
             player.pev.fuser4 = 0; //enable jumping
             player.pev.effects &= ~EF_NODRAW;
             player.pev.movetype = MOVETYPE_WALK;
-
-            EnablePlayerWeapons( player );
+            player.UnblockWeapons(self);
         }
 
         if( m_hPlayerDoll.IsValid() )
@@ -1016,12 +910,6 @@ class monster_panthereye : bts_rc_base_monster
 
         SetThink( null );
         self.pev.nextthink = g_Engine.time;
-    }
-
-    float GetPointsForDamage( float damage )
-    {
-        float flTemp = self.pev.max_health / gpPanthereyeConfig.Health;
-        return damage / self.pev.max_health * (flTemp + flTemp);
     }
 
     void UpdateOnRemove()
