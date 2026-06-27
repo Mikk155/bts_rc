@@ -30,29 +30,6 @@ namespace btscm
     const float THINKRATE_MAIN = 0.1;  // Needs to be <= than the other thinkrate variables
     const float THINKRATE_OTHER = 0.1; // affects death and certain skills
 
-    /*zombies.as*/
-    const float CANISTER_HEALTH = 50.0;
-    const float CANISTER_DAMAGE = 125.0; // when it explodes
-    const float CANISTER_DEGRADE = 0.5;  // damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens
-    const int CANISTER_STRAY_CHANCE = 5; // when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100
-
-    /*robogrunts.as*/
-    // how much damage the robot takes from various sources
-    // multipliers; 0.0 = damage is set to 0, 0.5 = damage is halved, 1.0 = damage is unaffected, 2.0 = damage is doubled, etc.
-    const float DAMAGE_MULT_BULLET = 0.21;
-    const float DAMAGE_MULT_MELEE = 0.08;
-    const float DAMAGE_MULT_BLAST = 0.7;
-    const float DAMAGE_MULT_BURN = 0.18;
-    const float DAMAGE_MULT_POISON = 0.07;
-    const float DAMAGE_MULT_GENERIC = 0.6;
-
-    // robots will explode shortly after death, can be set to 0
-    const float EXPLODE_DAMAGE = 125.0;
-
-    // low-health mode = periodically causes damage to players near the npc, with some effects, also causes damage if players use melee
-    const float ROBOT_LOWHEALTH = 0.3;     // when to trigger low-health mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%
-    const float SHOCKTOUCH_DAMAGE = 125.0; // when low-health is active, periodically shock anything in close proximity
-
     /*hwrgboss.as*/
     const float THINKRATE_AOE_CHECK = 0.5; // checks if there are players near the boss
 
@@ -90,23 +67,7 @@ namespace btscm
     /*custommonsters.as*/
     const string KVN_MONSTERTHINK = "$f_btscmthink";
 
-    /*zombies.as*/
-    const int HITGROUP_CANISTER = 10;
-    const string KVN_ZOMBIECANHP = "$f_zecanisterhp";
-    const string SPRITE_CANISTER_GAS = "sprites/xsmoke4.spr";
-
-    /*robogrunts.as*/
-    const string KVN_DOSMOKEPUFF = "$i_rgdosmokepuff";
-    const string KVN_DIETHINK = "$f_rgdiethink";
-    const string KVN_REMOVETIME = "$f_rgremovetime";
-    const string KVN_SHOCKTOUCH = "$i_rgshocktouch";
-    const string KVN_NEXTSHOCK = "$f_rgnextshock";
-    const string KVN_NEXTSPARK = "$f_rgnextspark";
-    const string KVN_DOUBLESPARK = "$i_rgdoublespark";
-
     const string SPRITE_RGRUNT_SMOKE = "sprites/steam1.spr";
-    const string MODEL_RGRUNT_GIB1 = "models/computergibs.mdl";
-    const string MODEL_RGRUNT_GIB2 = "models/chromegibs.mdl";
 
     /*hwrgboss*/
     const int HITGROUP_SHIELD = 15;

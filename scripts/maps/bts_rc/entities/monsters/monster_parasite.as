@@ -27,10 +27,6 @@ namespace monster_parasite
 const float NPC_HEALTH                  = 20.0;
 const float DAMAGE_BITE             = 10.0;
 
-const string MODEL_NPC              = "models/bts_rc/monsters/parasite.mdl";
-const string NPC_DISPLAYNAME        = "Parasite";
-
-
 const int AE_JUMPATTACK             = 2;
 
 const float NPC_IGNORE_WORLD_COLLISION_TIME = 0.5;
@@ -87,7 +83,7 @@ class monster_parasite : bts_rc_base_monster
     {
         Precache();
 
-        g_EntityFuncs.SetModel( self, MODEL_NPC );
+        g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/parasite.mdl" );
         g_EntityFuncs.SetSize( self.pev, Vector(-12, -12, 0), Vector(12, 12, 24) );
 
         pev.solid                   = SOLID_SLIDEBOX;
@@ -101,7 +97,7 @@ class monster_parasite : bts_rc_base_monster
         self.m_MonsterState = MONSTERSTATE_NONE;
 
         if( string(self.m_FormattedName).IsEmpty() )
-            self.m_FormattedName    = NPC_DISPLAYNAME;
+            self.m_FormattedName    = "Parasite";
 
         self.MonsterInit();
     }
@@ -128,7 +124,7 @@ class monster_parasite : bts_rc_base_monster
         for( i = 0; i < pBiteSounds.length(); i++ )
             g_SoundSystem.PrecacheSound( pBiteSounds[i] );
             
-        g_Game.PrecacheModel( MODEL_NPC );
+        g_Game.PrecacheModel( "models/bts_rc/monsters/parasite.mdl" );
     }
 
     void SetYawSpeed()

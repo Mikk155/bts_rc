@@ -120,7 +120,12 @@ void MapInit()
     g_MapConfig.Register( ASDeathDropConfig() );
     g_MapConfig.Register( ASAimingLasersConfig() );
     g_MapConfig.Register( ASBlackOpsFlashbang() );
+    g_MapConfig.Register( ASGruntEngineer() );
     g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
+
+    g_MapConfig.Register( gpRoboGrunt ); // Always active
+    g_MapConfig.Register( gpRoboGruntBoss ); // Always active
+    g_MapConfig.Register( gpZombieEngineer ); // Always active
 
     // Items
     g_MapConfig.Register( gpItemsConfig ); // Always active

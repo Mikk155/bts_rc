@@ -22,6 +22,8 @@ namespace Hooks
         if( monster is null )
             return HOOK_CONTINUE;
 
+        bool gibbed = ( gib == GIB_ALWAYS || ( gib != GIB_NEVER && monster.pev.health < -40 ) );
+
         dictionary@ data = monster.GetUserData();
 
         if( gpDeathDrop !is null )
@@ -32,6 +34,14 @@ namespace Hooks
 
         if( gpZombieUncrab !is null && gpZombieUncrab.IsValid( monster ) )
             gpZombieUncrab.Create( monster, attacker, gib, data );
+
+        const string classname = monster.GetClassname();
+        const string model = string( monster.pev.model );
+
+        if( gpRoboGrunt.IsValid( classname, model ) )
+            gpRoboGrunt.Killed( monster, attacker, gibbed, gib );
+        else if( gpRoboGruntBoss.IsValid( classname, model ) )
+            gpRoboGruntBoss.Killed( monster, attacker, gibbed, gib );
 
         return HOOK_CONTINUE;
     }

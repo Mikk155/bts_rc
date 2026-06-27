@@ -23,7 +23,6 @@
 
 namespace monster_snapbug
 {
-
     // SETTINGS
     const float NPC_HEALTH = 20.0;
     const float DAMAGE_BITE = 10.0;
@@ -60,15 +59,9 @@ namespace monster_snapbug
             "bts_otis_blk",
             "bts_vet" };
 
-    const string NPC_CLASSNAME2 = "snapbug"; // attachment entity
-    const string KVN_SNAPBUGGED = "$i_snapbugged";
     const int HUD_SPRITE_SNAPBUG = 1;        // 0-15
     const float HUD_SNAPBUG_X = 0.002;       // on the damagetype icon
     const float HUD_SNAPBUG_Y = 0.88;
-
-    const string NPC_MODEL = "models/bts_rc/monsters/snapbug.mdl";
-    const string NPC_MODEL_ATT1 = "models/bts_rc/monsters/snapbugattach.mdl";
-    const string SPRITE_SNAPBUG = "bts_rc/bts_rc_snapbug.spr";
 
     const int AE_JUMPATTACK = 2;
     const int TASKSTATUS_RUNNING = 1;
@@ -112,7 +105,7 @@ namespace monster_snapbug
         {
             Precache();
 
-            g_EntityFuncs.SetModel( self, NPC_MODEL );
+            g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/snapbug.mdl" );
             g_EntityFuncs.SetSize( self.pev, Vector( -12, -12, 0 ), Vector( 12, 12, 24 ) );
 
             pev.solid = SOLID_SLIDEBOX;
@@ -136,8 +129,8 @@ namespace monster_snapbug
 
         void Precache()
         {
-            g_Game.PrecacheModel( NPC_MODEL );
-            g_Game.PrecacheModel( "sprites/" + SPRITE_SNAPBUG );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/snapbug.mdl" );
+            g_Game.PrecacheModel( "sprites/" + "bts_rc/bts_rc_snapbug.spr" );
 
             for( uint i = 0; i < arrsSounds.length(); i++ )
                 g_SoundSystem.PrecacheSound( arrsSounds[i] );
@@ -366,7 +359,7 @@ namespace monster_snapbug
             CBasePlayer@ pPlayer = cast<CBasePlayer@>( pOther );
 
             CustomKeyvalues@ pCustom = pPlayer.GetCustomKeyvalues();
-            if( pCustom.GetKeyvalue( KVN_SNAPBUGGED ).GetInteger() == 1 )
+            if( pCustom.GetKeyvalue( "$i_snapbugged" ).GetInteger() == 1 )
                 return;
 
             KeyValueBuffer@ pInfo = g_EngineFuncs.GetInfoKeyBuffer( pPlayer.edict() );
@@ -375,7 +368,7 @@ namespace monster_snapbug
             if( arrsImmune.find( sModel ) >= 0 )
                 return;
 
-            CBaseEntity@ pSnapbug = g_EntityFuncs.Create( NPC_CLASSNAME2, pPlayer.pev.origin, g_vecZero, false, pPlayer.edict() );
+            CBaseEntity@ pSnapbug = g_EntityFuncs.Create( "snapbug", pPlayer.pev.origin, g_vecZero, false, pPlayer.edict() );
             @pSnapbug.pev.aiment = pPlayer.edict();
             pSnapbug.pev.movetype = MOVETYPE_FOLLOW;
 
@@ -383,7 +376,7 @@ namespace monster_snapbug
                 pSnapbug.pev.body = 1;
 
             ShowHUD( pPlayer );
-            pCustom.SetKeyvalue( KVN_SNAPBUGGED, 1 );
+            pCustom.SetKeyvalue( "$i_snapbugged", 1 );
             g_EntityFuncs.Remove( self );
         }
 
@@ -395,7 +388,7 @@ namespace monster_snapbug
             hudParamsSnapbug.holdTime = 99999;
             hudParamsSnapbug.effect = 0;
             hudParamsSnapbug.channel = HUD_SPRITE_SNAPBUG;
-            hudParamsSnapbug.spritename = SPRITE_SNAPBUG;
+            hudParamsSnapbug.spritename = "bts_rc/bts_rc_snapbug.spr";
             hudParamsSnapbug.x = HUD_SNAPBUG_X;
             hudParamsSnapbug.y = HUD_SNAPBUG_Y;
             hudParamsSnapbug.color1 = RGBA_WHITE;
@@ -456,7 +449,7 @@ namespace monster_snapbug
         {
             Precache();
 
-            g_EntityFuncs.SetModel( self, NPC_MODEL_ATT1 );
+            g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/snapbugattach.mdl" );
             g_EntityFuncs.SetSize( self.pev, g_vecZero, g_vecZero );
 
             pev.scale = 0.3;
@@ -469,7 +462,7 @@ namespace monster_snapbug
 
         void Precache()
         {
-            g_Game.PrecacheModel( NPC_MODEL_ATT1 );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/snapbugattach.mdl" );
         }
 
         void AttachedThink()
@@ -547,7 +540,7 @@ namespace monster_snapbug
     {
         InitSnapbugSchedules();
         CustomEntity( "monster_snapbug", true, "monster_snapbug::monster_snapbug" );
-        CustomEntity( NPC_CLASSNAME2, true, "monster_snapbug::snapbug" );
+        CustomEntity( "snapbug", true, "monster_snapbug::snapbug" );
     }
 
 } // namespace monster_snapbug END

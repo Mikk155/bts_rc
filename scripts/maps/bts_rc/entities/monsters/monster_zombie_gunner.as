@@ -43,14 +43,7 @@ namespace monster_zombie_gunner
     const int GUN_AMMO_MAX2 = 17;         // blackops
     const float GUN_DAMAGE1 = 9.0;        // barney
     const float GUN_DAMAGE2 = 9.0;        // blackops
-    const string GUN_DROP1 = "";          // classname of the weapon to drop (leave empty to just drop a temporary model)
-    const string GUN_DROP2 = "";
     const float GUN_DROP_LIFETIME = 20.0; // how long the temporary model stays after being dropped
-
-    const string NPC_MODEL1 = "models/bts_rc/monsters/zombie_barney3.mdl";
-    const string NPC_MODEL2 = "models/bts_rc/monsters/zombie_blackops3.mdl";
-    const string GUN_MODEL1 = "models/bts_rc/weapons/w_beretta.mdl";
-    const string GUN_MODEL2 = "models/bts_rc/weapons/w_9mmhandgunsd.mdl";
 
     const int NPC_AE_ATTACK_RIGHT = 1;
     const int NPC_AE_ATTACK_LEFT = 2;
@@ -121,12 +114,12 @@ namespace monster_zombie_gunner
 
             if( IsBarney() )
             {
-                g_EntityFuncs.SetModel( self, NPC_MODEL1 );
+                g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/zombie_barney3.mdl" );
                 g_EntityFuncs.DispatchKeyValue( self.edict(), "displayname", NPC_DISPLAYNAME1 );
             }
             else
             {
-                g_EntityFuncs.SetModel( self, NPC_MODEL2 );
+                g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/zombie_blackops3.mdl" );
                 g_EntityFuncs.DispatchKeyValue( self.edict(), "displayname", NPC_DISPLAYNAME2 );
                 iStartAmmo = GUN_AMMO_MAX2;
             }
@@ -153,10 +146,10 @@ namespace monster_zombie_gunner
 
         void Precache()
         {
-            g_Game.PrecacheModel( NPC_MODEL1 );
-            g_Game.PrecacheModel( NPC_MODEL2 );
-            g_Game.PrecacheModel( GUN_MODEL1 );
-            g_Game.PrecacheModel( GUN_MODEL2 );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_barney3.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_blackops3.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_beretta.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmhandgunsd.mdl" );
             m_iShell = g_Game.PrecacheModel( "models/shell.mdl" );
 
             for( uint i = 0; i < arrsSounds.length(); i++ )
@@ -476,7 +469,7 @@ namespace monster_zombie_gunner
 
         void DropGun()
         {
-            string sGunDrop = IsBarney() ? GUN_DROP1 : GUN_DROP2;
+            string sGunDrop = IsBarney() ? "" : "";
             Vector vecOrigin;
             g_EngineFuncs.GetBonePosition( self.edict(), 17, vecOrigin, void ); // using the hand bone
 
@@ -484,7 +477,7 @@ namespace monster_zombie_gunner
                 g_EntityFuncs.Create( sGunDrop, vecOrigin, g_vecZero, false, null );
             else
             {
-                string sModel = IsBarney() ? GUN_MODEL1 : GUN_MODEL2;
+                string sModel = IsBarney() ? "models/bts_rc/weapons/w_beretta.mdl" : "models/bts_rc/weapons/w_9mmhandgunsd.mdl";
                 NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
                 m1.WriteByte( TE_BREAKMODEL );
                 m1.WriteCoord( vecOrigin.x );      // position

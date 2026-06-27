@@ -33,7 +33,7 @@ class SchemaCheck(PyBuilder):
                 methodMatch = methodRegex.search( content, classMatch.end() );
 
                 if not methodMatch:
-                    print( "{} > class \"{}\" has no GetSchema()", script.Path, className );
+                    self.Log( "{} > class \"{}\" has no GetSchema()", script.Path, className );
                     invalidSchemas += 1;
                     continue;
 
@@ -54,7 +54,7 @@ class SchemaCheck(PyBuilder):
                 blockEnd = extractBlock( content, blockStart );
 
                 if blockEnd == -1:
-                    print( "{} > class \"{}\" malformed GetSchema()", script.Path, className );
+                    self.Log( "{} > class \"{}\" malformed GetSchema()", script.Path, className );
                     invalidSchemas += 1;
                     continue;
 
@@ -67,7 +67,10 @@ class SchemaCheck(PyBuilder):
                 matches = list( tripleRegex.finditer( methodBody ) );
 
                 if len( matches ) == 0:
-                    print( "{} > class \"{}\" has no triple-quoted JSON", script.Path, className );
+                    if not "\"" in methodBody:
+                        if "return String::EMPTY_STRING" in methodBody:
+                            continue;
+                    self.Log( "{} > class \"{}\" has no triple-quoted JSON.", script.Path, className );
                     invalidSchemas += 1;
                     continue;
 
