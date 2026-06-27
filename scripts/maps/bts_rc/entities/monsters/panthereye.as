@@ -48,10 +48,29 @@ final class ASPanthereyeConfig : IConfigurableContext
 
         g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
 
-        for( uint i = 0; i < monster_panthereye::arrsSounds.length(); i++ )
-        {
-            g_SoundSystem.PrecacheSound( monster_panthereye::arrsSounds[i] );
-        }
+        g_SoundSystem.PrecacheSound( "garg/gar_idle2.wav" );
+        g_SoundSystem.PrecacheSound( "bullchicken/bc_idle5.wav" );
+        g_SoundSystem.PrecacheSound( "agrunt/ag_idle1.wav" );
+        g_SoundSystem.PrecacheSound( "bullchicken/bc_die3.wav" );
+        g_SoundSystem.PrecacheSound( "bullchicken/bc_idle3.wav" );
+        g_SoundSystem.PrecacheSound( "agrunt/ag_alert3.wav" );
+        g_SoundSystem.PrecacheSound( "garg/gar_pain1.wav" );
+        g_SoundSystem.PrecacheSound( "zombie/claw_miss1.wav" );
+        g_SoundSystem.PrecacheSound( "zombie/claw_miss2.wav" );
+        g_SoundSystem.PrecacheSound( "zombie/claw_strike1.wav" );
+        g_SoundSystem.PrecacheSound( "zombie/claw_strike2.wav" );
+        g_SoundSystem.PrecacheSound( "zombie/claw_strike3.wav" );
+        g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pounceHit.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash2.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash3.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/stealth.ogg" );
+        g_SoundSystem.PrecacheSound( "garg/gar_pain2.wav" );
+        g_SoundSystem.PrecacheSound( "agrunt/ag_attack2.wav" );
+        g_SoundSystem.PrecacheSound( "agrunt/ag_pain2.wav" );
+        g_SoundSystem.PrecacheSound( "barnacle/bcl_chew2.wav" );
+        g_SoundSystem.PrecacheSound( "barnacle/bcl_chew1.wav" );
 
         CustomEntity( "monster_panthereye", false, "monster_panthereye::monster_panthereye" );
 
@@ -91,60 +110,6 @@ const int AE_ATTACK_NORMAL          = 1;
 const int AE_ATTACK_LOW                 = 2;
 const int AE_ATTACK_FAR                 = 3;
 const int AE_LEAPATTACK                 = 4;
-
-const array<string> arrsSounds = 
-{
-    "garg/gar_idle2.wav",
-    "bullchicken/bc_idle5.wav",
-    "agrunt/ag_idle1.wav",
-    "bullchicken/bc_die3.wav",
-    "bullchicken/bc_idle3.wav",
-    "agrunt/ag_alert3.wav",
-    "garg/gar_pain1.wav",
-    "zombie/claw_miss1.wav",
-    "zombie/claw_miss2.wav",
-    "zombie/claw_strike1.wav",
-    "zombie/claw_strike2.wav",
-    "zombie/claw_strike3.wav",
-    "gonome/gonome_jumpattack.wav",
-    "bts_rc/panthereye/pounceHit.wav",
-    "bts_rc/panthereye/thrash1.wav",
-    "bts_rc/panthereye/thrash2.wav",
-    "bts_rc/panthereye/thrash3.wav",
-    "bts_rc/panthereye/stealth.ogg",
-    "garg/gar_pain2.wav",
-    "agrunt/ag_attack2.wav",
-    "agrunt/ag_pain2.wav",
-    "barnacle/bcl_chew2.wav",
-    "barnacle/bcl_chew1.wav"
-};
-
-enum sound_e
-{
-    SND_IDLE1 = 0,
-    SND_IDLE2,
-    SND_IDLE3,
-    SND_IDLE4,
-    SND_IDLE5,
-    SND_ALERT1,
-    SND_ALERT2,
-    SND_ATTACK_MISS1,
-    SND_ATTACK_MISS2,
-    SND_ATTACK_HIT1,
-    SND_ATTACK_HIT2,
-    SND_ATTACK_HIT3,
-    SND_ATTACK_LEAP,
-    SND_POUNCE_HIT,
-    SND_THRASH1,
-    SND_THRASH2,
-    SND_THRASH3,
-    SND_STEALTH,
-    SND_PAIN1,
-    SND_PAIN2,
-    SND_PAIN3,
-    SND_DEATH1,
-    SND_DEATH2
-};
 
 class monster_panthereye : bts_rc_base_monster
 {
@@ -214,47 +179,89 @@ class monster_panthereye : bts_rc_base_monster
 
     void PainSound()
     {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong(SND_PAIN1, SND_PAIN3)], VOL_NORM, ATTN_IDLE );
+        switch( Math.RandomLong(0, 2) )
+        {
+            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_pain1.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_pain2.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_pain2.wav", VOL_NORM, ATTN_IDLE ); break;
+        }
     }
 
     void DeathSound()
     {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong(SND_DEATH1, SND_DEATH2)], VOL_NORM, ATTN_IDLE );
+        switch( Math.RandomLong(0, 1) )
+        {
+            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_die3.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "barnacle/bcl_chew2.wav", VOL_NORM, ATTN_IDLE ); break;
+        }
     }
 
     void IdleSound()
     {
         if( !IsStealthed() )
-            g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong(SND_IDLE1, SND_IDLE5)], VOL_NORM, ATTN_IDLE );
+        {
+            switch( Math.RandomLong(0, 4) )
+            {
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_idle2.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_idle5.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_idle1.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 3: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_idle3.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 4: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "barnacle/bcl_chew1.wav", VOL_NORM, ATTN_IDLE ); break;
+            }
+        }
     }
 
     void AlertSound()
     {
         if( !IsStealthed() )
-            g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong(SND_ALERT1, SND_ALERT2)], VOL_NORM, ATTN_IDLE );
+        {
+            switch( Math.RandomLong(0, 1) )
+            {
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_alert3.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_attack2.wav", VOL_NORM, ATTN_IDLE ); break;
+            }
+        }
     }
 
     void AttackSound( bool bHit )
     {
         if( bHit )
-            g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong(SND_ATTACK_HIT1, SND_ATTACK_HIT3)], VOL_NORM, ATTN_STATIC );
-        else if( !bHit )
-            g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong(SND_ATTACK_MISS1, SND_ATTACK_MISS2)], VOL_NORM, ATTN_STATIC );
+        {
+            switch( Math.RandomLong(0, 2) )
+            {
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_strike1.wav", VOL_NORM, ATTN_STATIC ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_strike2.wav", VOL_NORM, ATTN_STATIC ); break;
+                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_strike3.wav", VOL_NORM, ATTN_STATIC ); break;
+            }
+        }
+        else
+        {
+            switch( Math.RandomLong(0, 1) )
+            {
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_miss1.wav", VOL_NORM, ATTN_STATIC ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_miss2.wav", VOL_NORM, ATTN_STATIC ); break;
+            }
+        }
     }
 
     void LeapAttackSound()
     {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, arrsSounds[SND_ATTACK_LEAP], VOL_NORM, ATTN_IDLE );
+        g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "gonome/gonome_jumpattack.wav", VOL_NORM, ATTN_IDLE );
     }
 
     void PounceHitSound()
     {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[SND_POUNCE_HIT], VOL_NORM, ATTN_IDLE );
+        g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pounceHit.wav", VOL_NORM, ATTN_IDLE );
     }
 
     void ThrashSound()
     {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong(SND_THRASH1,SND_THRASH3)], VOL_NORM, ATTN_IDLE );
+        switch( Math.RandomLong(0, 2) )
+        {
+            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash1.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash2.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash3.wav", VOL_NORM, ATTN_IDLE ); break;
+        }
     }
 
     void RunAI()
@@ -640,7 +647,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void StealthOn()
     {
-        g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, arrsSounds[SND_STEALTH], VOL_NORM, ATTN_IDLE );
+        g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/panthereye/stealth.ogg", VOL_NORM, ATTN_IDLE );
         m_bStealthed = true;
     }
 
