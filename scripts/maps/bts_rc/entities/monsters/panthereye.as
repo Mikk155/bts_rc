@@ -36,6 +36,105 @@ final class ASPanthereyeConfig : IConfigurableContext
             "description": "Controls panthereye settings",
             "properties":
             {
+                "health":
+                {
+                    "type": "integer",
+                    "default": 210,
+                    "minimum": 1,
+                    "description": "Monster health"
+                },
+                "max_leap_z":
+                {
+                    "type": "number",
+                    "default": 256,
+                    "minimum": 0,
+                    "description": "Panther won't pounce at enemies if they're higher up than this from the panther's location"
+                },
+                "min_leap":
+                {
+                    "type": "number",
+                    "default": 200,
+                    "minimum": 0,
+                    "description": "Panther won't pounce at enemies within this range"
+                },
+                "max_leap":
+                {
+                    "type": "number",
+                    "default": 400,
+                    "minimum": 0,
+                    "description": "Panther won't pounce at enemies beyond this range"
+                },
+                "dmg_high_swipe":
+                {
+                    "type": "integer",
+                    "default": 25,
+                    "minimum": 1,
+                    "description": "Damage on high swipe attack"
+                },
+                "dmg_low_swipe":
+                {
+                    "type": "integer",
+                    "default": 15,
+                    "minimum": 1,
+                    "description": "Damage on low swipe attack"
+                },
+                "dmg_long_swipe":
+                {
+                    "type": "integer",
+                    "default": 25,
+                    "minimum": 1,
+                    "description": "Damage on long swipe attack"
+                },
+                "dmg_leap":
+                {
+                    "type": "integer",
+                    "default": 25,
+                    "minimum": 1,
+                    "description": "Damage on leap attack"
+                },
+                "dmg_thrash":
+                {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 1,
+                    "description": "Damage on thrash attack"
+                },
+                "dmg_thrash_frequency":
+                {
+                    "type": "number",
+                    "default": 0.5,
+                    "minimum": 0,
+                    "description": "Cooldown for thrash attack"
+                },
+                "struggle_max":
+                {
+                    "type": "integer",
+                    "default": 100,
+                    "minimum": 1,
+                    "description": ""
+                },
+                "struggle_drain_rate":
+                {
+                    "type": "number",
+                    "default": 15.0,
+                    "minimum": 1,
+                    "description": "per second"
+                },
+                "struggle_grin":
+                {
+                    "type": "number",
+                    "default": 8.0,
+                    "minimum": 1,
+                    "description": "per key press"
+                },
+                "stealth_visibility":
+                {
+                    "type": "integer",
+                    "default": 15,
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Visibility percentage"
+                }
             }
         }""";
     }
@@ -45,23 +144,39 @@ final class ASPanthereyeConfig : IConfigurableContext
         ScriptSchedule( ( bits_COND_ENEMY_OCCLUDED | bits_COND_NO_AMMO_LOADED ), 0, "Panthereye Range Attack1" )
     };
 
-    int Health = 210;
-    float MaxLeapZ = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
-    float MinLeap = 200.0; //panther won't pounce at enemies within this range
-    float MaxLeap = 400.0; //panther won't pounce at enemies beyond this range
-    float DamageHighSwipe = 25.0;
-    float DamageLowSwipe = 15.0;
-    float DamageLongSwipe = 25.0;
-    float DamageLeap = 25.0;
-    float DamageThrash = 10.0;
-    float DamageThrashFrequency = 0.5;
-    float StruggleMax = 100.0;
-    float StruggleDrainRate = 15.0; //per second (~ish)
-    float StruggleGrin = 8.0; //per key press
-    int StealthVisibility = 15; //in percentage 0-100
+    int Health;
+    float MaxLeapZ;
+    float MinLeap;
+    float MaxLeap;
+    int DamageHighSwipe;
+    int DamageLowSwipe;
+    int DamageLongSwipe;
+    int DamageLeap;
+    int DamageThrash;
+    float DamageThrashFrequency;
+    int StruggleMax;
+    float StruggleDrainRate;
+    int StruggleGrin;
+    int StealthVisibility;
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
+        this.Health = int( config[ "health" ] );
+        this.MaxLeapZ = float( config[ "max_leap_z" ] );
+        this.MinLeap = float( config[ "min_leap" ] );
+        this.MaxLeap = float( config[ "max_leap" ] );
+        this.DamageHighSwipe = int( config[ "dmg_high_swipe" ] );
+        this.DamageLowSwipe = int( config[ "dmg_low_swipe" ] );
+        this.DamageLongSwipe = int( config[ "dmg_long_swipe" ] );
+        this.DamageLeap = int( config[ "dmg_leap" ] );
+        this.DamageThrash = int( config[ "dmg_thrash" ] );
+        this.DamageThrashFrequency = float( config[ "dmg_thrash_frequency" ] );
+        this.StruggleMax = int( config[ "struggle_max" ] );
+        this.StruggleDrainRate = float( config[ "struggle_drain_rate" ] );
+        this.StruggleGrin = int( config[ "struggle_grin" ] );
+        this.StealthVisibility = int( config[ "stealth_visibility" ] );
+
+        g_EngineFuncs.ServerPrint( config.ToString() );
         // Attack schedule start
         ScriptSchedule@ RangeAttack1 = m_Schedules[0];
         RangeAttack1.AddTask( ScriptTask(TASK_STOP_MOVING) );
@@ -140,7 +255,7 @@ class monster_panthereye : bts_rc_base_monster
         self.m_MonsterState = MONSTERSTATE_NONE;
         self.m_afCapability = bits_CAP_HEAR;
 
-        m_iTargetRanderamt = 255 * btscm::ptof( gpPanthereyeConfig.StealthVisibility );
+        m_iTargetRanderamt = 255 * ( float( gpPanthereyeConfig.StealthVisibility ) / 100.0 );
 
         self.MonsterInit();
     }
@@ -273,7 +388,7 @@ class monster_panthereye : bts_rc_base_monster
         }
         else
         {
-            m_iTargetRanderamt = 255 * btscm::ptof( gpPanthereyeConfig.StealthVisibility );
+            m_iTargetRanderamt = 255 * ( float( gpPanthereyeConfig.StealthVisibility ) / 100.0 );
         }
 
         if( self.pev.renderamt > m_iTargetRanderamt )
@@ -445,13 +560,13 @@ class monster_panthereye : bts_rc_base_monster
         //make sure the enemy isn't too high up
         float flZDist = abs( GetEnemy().GetOrigin().z - self.GetOrigin().z );
 
-        if( flZDist > gpPanthereyeConfig.MaxLeapZ )
+        if( gpPanthereyeConfig.MaxLeapZ > 0 && flZDist > gpPanthereyeConfig.MaxLeapZ )
             return false;
 
-        if( flDist > gpPanthereyeConfig.MaxLeap )
-            return false;;
+        if( gpPanthereyeConfig.MaxLeap > 0 && flDist > gpPanthereyeConfig.MaxLeap )
+            return false;; // -TODO Tf with this being valid? Maybe report to anjo
 
-        if( flDist < gpPanthereyeConfig.MinLeap )
+        if( gpPanthereyeConfig.MinLeap > 0 && flDist < gpPanthereyeConfig.MinLeap )
             return false;
 
         if( flDot < 0.8 )
