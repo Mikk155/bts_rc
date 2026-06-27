@@ -102,13 +102,6 @@ const float STRUGGLE_GAIN               = 8.0; //per key press
 
 const int NPC_STEALTH_VISIBILITY        = 15; //in percentage 0-100
 
-
-// OTHER
-const int AE_ATTACK_NORMAL          = 1;
-const int AE_ATTACK_LOW                 = 2;
-const int AE_ATTACK_FAR                 = 3;
-const int AE_LEAPATTACK                 = 4;
-
 class monster_panthereye : bts_rc_base_monster
 {
     private bool m_bStealthed;
@@ -356,7 +349,7 @@ class monster_panthereye : bts_rc_base_monster
     {
         switch( pEvent.event )
         {
-            case AE_ATTACK_NORMAL:
+            case 1:
             {
                 CBaseEntity@ pHurt = AttackNormal();
                 if( pHurt !is null )
@@ -372,7 +365,7 @@ class monster_panthereye : bts_rc_base_monster
                 break;
             }
 
-            case AE_ATTACK_LOW:
+            case 2:
             {
                 CBaseEntity@ pHurt = AttackLow();
                 if( pHurt !is null )
@@ -388,7 +381,7 @@ class monster_panthereye : bts_rc_base_monster
                 break;
             }
 
-            case AE_ATTACK_FAR:
+            case 3:
             {
                 CBaseEntity@ pHurt = AttackFar();
                 if( pHurt !is null )
@@ -404,7 +397,7 @@ class monster_panthereye : bts_rc_base_monster
                 break;
             }
 
-            case AE_LEAPATTACK:
+            case 4:
             {
                 StealthOff();
                 LeapAttack();
