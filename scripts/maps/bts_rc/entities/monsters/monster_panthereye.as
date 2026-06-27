@@ -17,11 +17,52 @@
 
 /*
     Author: Nero
+    Rewrited by mikk 27/5/2026
 */
+
+final class ASPanthereyeConfig : IConfigurableContext
+{
+    const string& GetName() const
+    {
+        return "monster_panthereye";
+    }
+
+    const string GetSchema() const
+    {
+        return String::EMPTY_STRING;
+    }
+
+    array<ScriptSchedule@> m_Schedules =
+    {
+        ScriptSchedule( ( bits_COND_ENEMY_OCCLUDED | bits_COND_NO_AMMO_LOADED ), 0, "Panthereye Range Attack1" )
+    };
+
+    bool Register( meta_api::json::v2::json@ config )
+    {
+        // Attack schedule start
+        ScriptSchedule@ RangeAttack1 = m_Schedules[0];
+        RangeAttack1.AddTask( ScriptTask(TASK_STOP_MOVING) );
+        RangeAttack1.AddTask( ScriptTask(TASK_FACE_IDEAL) );
+        RangeAttack1.AddTask( ScriptTask(TASK_RANGE_ATTACK1) );
+        RangeAttack1.AddTask( ScriptTask(TASK_SET_ACTIVITY, float(ACT_IDLE)) );
+
+        g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
+
+        for( uint i = 0; i < monster_panthereye::arrsSounds.length(); i++ )
+        {
+            g_SoundSystem.PrecacheSound( monster_panthereye::arrsSounds[i] );
+        }
+
+        CustomEntity( "monster_panthereye", false, "monster_panthereye::monster_panthereye" );
+
+        return true;
+    }
+}
+
+ASPanthereyeConfig gpPanthereyeConfig;
 
 namespace monster_panthereye
 {
-
 // SETTINGS
 const int NPC_HEALTH                        = 200;
 const float NPC_MAXLEAP_Z               = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
@@ -123,15 +164,12 @@ class monster_panthereye : bts_rc_base_monster
 
     monster_panthereye()
     {
-        @this.m_Schedules = @custom_panthereye_schedules;
+        @this.m_Schedules = @gpPanthereyeConfig.m_Schedules;
     }
 
     void Spawn()
     {
-        Precache();
-
-        if( !self.SetupModel() )
-            g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/panthereye.mdl" );
+        g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/panthereye.mdl" );
 
         g_EntityFuncs.SetSize( self.pev, Vector(-16.0, -16.0, 0.0), Vector(16.0, 16.0, 32.0) );
 
@@ -153,14 +191,6 @@ class monster_panthereye : bts_rc_base_monster
             self.m_FormattedName    = "Panthereye";
 
         self.MonsterInit();
-    }
-
-    void Precache()
-    {
-        g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
-
-        for( uint i = 0; i < arrsSounds.length(); i++ )
-            g_SoundSystem.PrecacheSound( arrsSounds[i] );
     }
 
     void SetYawSpeed()
@@ -538,7 +568,8 @@ class monster_panthereye : bts_rc_base_monster
     {
         switch( iType )
         {
-            case SCHED_RANGE_ATTACK1: return slPERangeAttack1;
+            case SCHED_RANGE_ATTACK1:
+            return this.m_Schedules[0];
         }
 
         return BaseClass.GetScheduleOfType( iType );
@@ -874,36 +905,6 @@ class monster_panthereye : bts_rc_base_monster
         BaseClass.UpdateOnRemove();
     }
 }
-
-array<ScriptSchedule@>@ custom_panthereye_schedules;
-
-ScriptSchedule slPERangeAttack1
-(
-    bits_COND_ENEMY_OCCLUDED |
-    bits_COND_NO_AMMO_LOADED,
-
-    0,
-    "Panthereye Range Attack1"
-);
-
-void InitSnapbugSchedules()
-{
-    slPERangeAttack1.AddTask( ScriptTask(TASK_STOP_MOVING) );
-    slPERangeAttack1.AddTask( ScriptTask(TASK_FACE_IDEAL) );
-    slPERangeAttack1.AddTask( ScriptTask(TASK_RANGE_ATTACK1) );
-    slPERangeAttack1.AddTask( ScriptTask(TASK_SET_ACTIVITY, float(ACT_IDLE)) );
-
-    array<ScriptSchedule@> scheds = { slPERangeAttack1 };
-    
-    @custom_panthereye_schedules = @scheds;
-}
-
-void Register()
-{
-    InitSnapbugSchedules();
-    CustomEntity( "monster_panthereye", true, "monster_panthereye::monster_panthereye" );
-}
-
 } //end of namespace monster_panthereye
 
 /* TODO ??

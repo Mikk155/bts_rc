@@ -42,7 +42,6 @@ void CustomMonsterMapInit()
     monster_zombie_grenadier::Register();
     monster_snapbug::Register();
     monster_zombie_gunner::Register();
-    monster_panthereye::Register();
     monster_zombie_parasite::Register();
     monster_parasite::Register();
 
