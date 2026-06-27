@@ -933,3 +933,20 @@ g_PlayerFuncs.ScreenShake(player.pev.origin, 4.0f, 2.0f, 0.1f, 200.0f);
 
 g_SoundSystem.EmitSoundDyn(player.edict(), CHAN_BODY, "player/pain2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM);
 */
+
+#if SERVER
+RegisterCommand __gpPanthereyeTestCmd__(
+    "test_panthereye",
+    "",
+    "Spawn a panthereye ahead",
+    function( CBasePlayer@ player, array<string>@ arguments )
+    {
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
+
+        CBaseEntity@ panthereye = g_EntityFuncs.CreateEntity( "monster_panthereye", {}, true );
+        panthereye.SetOrigin( tr.vecEndPos );
+    }
+);
+#endif
