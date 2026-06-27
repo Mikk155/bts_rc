@@ -165,7 +165,7 @@ class monster_panthereye : bts_rc_base_monster
 
     int Classify()
     {
-        return self.GetClassification( CLASS_ALIEN_MONSTER );
+        return CLASS_ALIEN_MILITARY;
     }
 
     void PainSound()
@@ -578,7 +578,7 @@ class monster_panthereye : bts_rc_base_monster
         if( pOther.pev.takedamage == 0 )
             return;
 
-        if( pOther.Classify() == Classify() )
+        if( pOther.IRelationshipByClass( CLASS::CLASS_ALIEN_MILITARY ) != RELATIONSHIP::R_AL )
             return;
 
         Vector vecNewVelocity( 0.0, 0.0, pev.velocity.z );
