@@ -22,14 +22,22 @@
 
 final class ASPanthereyeConfig : IConfigurableContext
 {
-    const string& GetName() const
+    const string& GetName() const override
     {
         return "monster_panthereye";
     }
 
-    const string GetSchema() const
+    const string GetSchema() const override
     {
-        return String::EMPTY_STRING;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Blood puddles",
+            "description": "Controls panthereye settings",
+            "properties":
+            {
+            }
+        }""";
     }
 
     array<ScriptSchedule@> m_Schedules =
@@ -52,7 +60,7 @@ final class ASPanthereyeConfig : IConfigurableContext
     float StruggleGrin = 8.0; //per key press
     int StealthVisibility = 15; //in percentage 0-100
 
-    bool Register( meta_api::json::v2::json@ config )
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         // Attack schedule start
         ScriptSchedule@ RangeAttack1 = m_Schedules[0];
