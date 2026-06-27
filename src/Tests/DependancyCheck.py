@@ -8,7 +8,7 @@
 import os;
 import re;
 import requests;
-from pathlib import Path
+from pathlib import Path;
 
 from Tests.PyBuilder import PyBuilder;
 
@@ -73,8 +73,7 @@ class DependancyCheck( PyBuilder ):
 
             if upToDate is False:
 
-                if self.Type != PyBuilder.BuildType.Check:
-                    self.Log( f"Downloading scripts\\mikk155\\{dependencyPath}.as" );
+                self.Log( f"Downloading scripts\\mikk155\\{dependencyPath}.as" );
 
                 with open( destinationPath, "w", newline="\n", encoding="utf-8" ) as f:
                     f.write( content );
@@ -92,12 +91,12 @@ class DependancyCheck( PyBuilder ):
 
         if mikkFolder.is_symlink():
             self.Log( "Ignoring dependancy scripts at path {} is a symlink file", mikkFolder.relative_to( self.Workspace ) );
-            return True;
+
         else:
             for script in self.Scripts:
                 if self.TryInstall( script.AbsolutePath ) is False:
                     return False;
-        self.Log( "All AngelScript third party scripts validated" );
+
         return True;
 
 DependancyCheck();

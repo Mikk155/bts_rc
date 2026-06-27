@@ -5,13 +5,16 @@
 # ===================================================================
 # ===================================================================
 
-from enum import IntEnum, auto
+from enum import IntEnum, auto;
 
 global gpAngelScriptFiles;
 gpAngelScriptFiles: list['PyBuilder.AScript'] = None;
 
 class PyBuilder:
     """Inherit from PyBuilder and instantiate your class then Build will be called"""
+
+    m_Author = "Mikk155";
+    m_Repository = "bts_rc";
 
     class BuildType( IntEnum ):
         Local = auto();

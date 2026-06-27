@@ -22,7 +22,8 @@
     [
         "SERVER",
         "EDITOR_ONLY",
-        "METAMOD_PLUGIN_ASLP"
+        "METAMOD_PLUGIN_ASLP",
+        "METAMOD_PLUGIN_ASCURL"
     ],
 
     "angelScript.includePath":

@@ -47,14 +47,3 @@ body:
         3. Press USE + RELOAD to open the MOTD list...
     validations:
       required: false
-
-  - type: dropdown
-    id: sven-version
-    attributes:
-      label: "Sven Co-op Version"
-      options:
-        - "v5.26 (Latest)"
-        - "v5.25"
-        - "Other / Older"
-    validations:
-      required: true

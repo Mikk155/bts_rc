@@ -24,8 +24,8 @@ jobs:
       - name: Install python requirements
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r src/requirements.txt
 
       - name: Run Validation
         run: |
-          python main.py --check
+          python src/main.py --check

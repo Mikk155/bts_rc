@@ -1,3 +1,6 @@
+# 23/5/2026
+- Rewrited robogrunt soldier, robogrunt boss, engineer zombie and engineer grunt (Sentry spawner) to our new EntityOverriden system which brings strong optimizations.
+
 # 15/6/2026
 - Add github wiki
 - Add documentation for the DeathDrop system

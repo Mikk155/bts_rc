@@ -54,6 +54,9 @@ final class ASMapConfig
         meta_api::json::v2::json@ m_GlobalSchemaProperties = meta_api::json::v2::json();
 
     private
+        bool m_ShouldWriteServerConfig = false;
+
+    private
         bool m_ShouldWriteSchema = false;
 
     private
@@ -122,6 +125,7 @@ final class ASMapConfig
             case meta_api::json::Error::EMPTY_INPUT:
             {
                 this.m_ShouldWriteSchema = true;
+                this.m_ShouldWriteServerConfig = true;
                 break;
             }
             case meta_api::json::Error::SYNTAX_ERROR:
@@ -202,13 +206,6 @@ final class ASMapConfig
                     this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
             m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
         }
-
-        bool debug = false;
-
-#if SERVER
-        // Always update bts_c_defaults and bts_rc_schema when not in release
-        debug = true;
-#endif
 
         for( uint ui = 0; ui < length; ui++ )
         {
@@ -337,7 +334,7 @@ final class ASMapConfig
             this.m_chrono.Restart();
         }
 
-        if( this.m_ShouldWriteSchema )
+        if( this.m_ShouldWriteServerConfig )
         {
             // This is a reference file. unused in this code.
             File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.json", OpenFile::WRITE );
@@ -360,7 +357,8 @@ final class ASMapConfig
             }
         }
 
-        if( this.m_ShouldWriteSchema || debug )
+        string storedVer;
+        if( this.m_ShouldWriteSchema || !this.m_json.Get( "scripts_version", storedVer ) || g_ScriptsVersion != SemVer( storedVer ) )
         {
             meta_api::json::parser::Indentation schemaStyle = meta_api::json::parser::Indentation::AllTogether;
 

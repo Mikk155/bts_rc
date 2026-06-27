@@ -20,6 +20,7 @@ Describe the manual/automated testing conducted to verify your changes:
 
 ## Checklist
 - [ ] My code follows the code style guidelines of this project (Allman braces, spacing inside parentheses).
-- [ ] I have run `python src/apply_license.py` to ensure all script files have proper license headers.
-- [ ] I have verified that compiling the scripts does not trigger any warnings or errors using both ``SERVER`` and ``DEBUG`` preprocessors with ``src/toggle_debug.py``
-- [ ] I have updated the documentation / website (`docs/`) if my changes introduce or modify configurable keys.
+- [ ] I have run `python src/main.py` to ensure all script files have been validated.
+- [ ] I have updated the documentation changelog ``docs/changelog.md`` if my changes brings a relevant update.
+- [ ] I have checked ``svencoop/scripts/maps/store/bts_rc.log`` to see there is not any logger entry with ``Critical`` or ``Error`` level.
+- [ ] I have updated ``g_ScriptsVersion`` at ``scripts/maps/bts_rc/util/utils.as`` according to [Semantic versioning](https://semver.org/)

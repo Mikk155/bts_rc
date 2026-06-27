@@ -1,16 +1,16 @@
 # ===================================================================
 # ===================================================================
 # Purpose:
-#   Check validation of serialized json in AngelScript string literal
+#   Generate release information changelog and tags from AS semantic version
 # ===================================================================
 # ===================================================================
 
-import re
-import json
+import re;
+import json;
 
 from Tests.PyBuilder import PyBuilder
 
-class SerializedJsonCheck(PyBuilder):
+class SerializedJsonCheck( PyBuilder ):
 
     def Build(self) -> bool:
 
@@ -18,6 +18,9 @@ class SerializedJsonCheck(PyBuilder):
 
         invalidSchemasTotal: int = 0;
         invalidFiles: int = 0;
+
+        totalCharacters = 0;
+        newTotalCharacters = 0;
 
         for script in self.Scripts:
 
@@ -61,12 +64,23 @@ class SerializedJsonCheck(PyBuilder):
                     end   = match.end(1) + delta;
                     newContent = newContent[ : start ] + compact + newContent[ end : ];
                     delta += len(compact) - (match.end(1) - match.start(1));
+                    self.Log( "Compact json {} -> {} chars at {}", len(rawJson), len(compact), script.Path );
+                    totalCharacters += len(rawJson);
+                    newTotalCharacters += len(compact);
 
             script.Content = newContent;
 
             if invalidSchemas > 0:
                 invalidSchemasTotal += invalidSchemas;
                 invalidFiles += 1;
+
+        if self.Type == PyBuilder.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
+            self.Log( "Removed {} characters from schemas. Total: {} -> {} {}% percent optimized.",
+                ( totalCharacters - newTotalCharacters ),
+                totalCharacters,
+                newTotalCharacters,
+                int( ( newTotalCharacters / totalCharacters ) * 100 )
+            );
 
         self.Log( "All AngelScript json string literals checked" );
 

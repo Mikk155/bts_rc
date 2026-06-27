@@ -6,7 +6,7 @@
 # ===================================================================
 
 import os;
-from valvefgd import FgdParse
+from valvefgd import FgdParse;
 
 from Tests.PyBuilder import PyBuilder;
 

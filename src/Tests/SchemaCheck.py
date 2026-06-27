@@ -5,12 +5,12 @@
 # ===================================================================
 # ===================================================================
 
-import re
-import json
+import re;
+import json;
 
 from Tests.PyBuilder import PyBuilder
 
-class SchemaCheck(PyBuilder):
+class SchemaCheck( PyBuilder ):
 
     def Build(self) -> bool:
 
@@ -61,9 +61,6 @@ class SchemaCheck(PyBuilder):
                 methodBody = content[ blockStart + 1 : blockEnd ];
                 methodOffset = blockStart + 1;
 
-                newContent = content;
-                delta = 0;
-
                 matches = list( tripleRegex.finditer( methodBody ) );
 
                 if len( matches ) == 0:
@@ -85,17 +82,6 @@ class SchemaCheck(PyBuilder):
                         self.Log( "{} > invalid JSON in {}: {} at line {}:{}", script.Path, className, e.msg, e.lineno + lineOffset, e.colno );
                         invalidSchemas += 1;
                         continue;
-
-                    if self.Type == PyBuilder.BuildType.Release:
-                        compact: str = json.dumps( parsed, separators=( ",", ":" ) );
-                        start = methodOffset + match.start(1) + delta;
-                        end: int = methodOffset + match.end(1) + delta;
-                        newContent = newContent[ : start ] + compact + newContent[ end : ];
-                        delta += len( compact ) - ( match.end(1) - match.start(1) );
-
-                content = newContent;
-
-            script.Content = content;
 
             if invalidSchemas > 0:
                 invalidSchemasTotal += invalidSchemas;

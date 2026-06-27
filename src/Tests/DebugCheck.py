@@ -9,7 +9,7 @@ from Tests.PyBuilder import PyBuilder;
 
 class DebugCheck( PyBuilder ):
 
-    def toggle_debug( self, processFrom: str, processTo: str ) -> int:
+    def toggle_debug( self, processFrom: str, processTo: str ) -> tuple[int, int]:
 
         files: int = 0;
         totalMatches: int = 0;
@@ -18,33 +18,43 @@ class DebugCheck( PyBuilder ):
 
             currentMatches = 0;
             while script.Content.find( f"#if {processFrom}" ) >= 0:
-                if self.Type == PyBuilder.BuildType.Check:
-                    return 1;
                 currentMatches += 1;
                 script.Content = script.Content.replace( processFrom, processTo, 1 );
 
             if currentMatches > 0:
-
-                self.Log( f"Updated {currentMatches} pre processor on file {script.Path}" );
+#                if self.Type != PyBuilder.BuildType.Check:
+#                    self.Log( f"Updated {currentMatches} pre processor on file {script.Path}" );
                 totalMatches += currentMatches;
                 files += 1;
 
-        if totalMatches > 0:
-            self.Log( f"{totalMatches} pre processor has been updated on {files} files" );
-        elif self.Type == PyBuilder.BuildType.Local:
-            self.Log( "No files were updated" );
+        return ( files, totalMatches );
 
-        return files;
+    def Build( self ) -> bool:
 
-    def Build(self) -> bool:
-        if self.Type == PyBuilder.BuildType.Release:
-            self.toggle_debug( "SERVER", "DEBUG" );
-        else:
-            processedFiles = self.toggle_debug( "DEBUG", "SERVER" );
-            if processedFiles != 0 and self.Type != PyBuilder.BuildType.Local:
-                self.Log( "{} Un processed files. run src/toggle_debug.py to replace DEBUG pre processors to SERVER!", processedFiles );
-                return False;
-        self.Log( "All AngelScript pre processors are updated" );
-        return True;
+        matches: tuple[ int, int ];
+
+        match self.Type:
+
+            case PyBuilder.BuildType.Release:
+                matches = self.toggle_debug( "SERVER", "DEBUG" );
+
+                if matches[0] != 0:
+                    self.Log( "Updated {} pre-processors in {} files.", matches[1], matches[0] );
+                    return True;
+
+            case PyBuilder.BuildType.Check:
+                matches = self.toggle_debug( "DEBUG", "SERVER" );
+
+                if matches[0] != 0:
+                    self.Log( "{} Un processed pre-processors on {} files. run src/main.py to replace DEBUG pre processors to SERVER!", matches[1], matches[0] );
+
+            case PyBuilder.BuildType.Local:
+                matches = self.toggle_debug( "DEBUG", "SERVER" );
+
+                if matches[0] != 0:
+                    self.Log( "All {} pre-processors in {} files has been updated. Commit the changes.", matches[1], matches[0] );
+                    return True;
+
+        return ( matches[0] == 0 );
 
 DebugCheck();

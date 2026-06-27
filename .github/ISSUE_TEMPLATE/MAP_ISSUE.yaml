@@ -40,18 +40,6 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: sven-version
-    attributes:
-      label: "Sven Co-op Version"
-      description: "Which version of Sven Co-op are you running?"
-      options:
-        - "v5.26 (Latest)"
-        - "v5.25"
-        - "Other / Older"
-    validations:
-      required: true
-
   - type: textarea
     id: logs
     attributes:

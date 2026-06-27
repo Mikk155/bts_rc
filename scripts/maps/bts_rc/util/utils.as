@@ -22,6 +22,10 @@
 #include "models"
 #include "PlayerClass"
 
+#include "../../../mikk155/SemanticVersion"
+
+const SemanticVersion@ g_ScriptsVersion = SemVer( 4, 0, 0 );
+
 // Whatever the current map is bts_rc
 const bool g_IsMainMap = ( string( g_Engine.mapname ) == "bts_rc" );
 

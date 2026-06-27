@@ -28,7 +28,7 @@ namespace Hooks
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "NOTICE: If you have played older versions of this map previously\n" );
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "\t\tPlease consider updating manually to the latest version as many assets has been modified\n" );
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "\t\tAnd your gameplay most likely will be affected. Open the console to get the download link.\n" );
-            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "http://scmapdb.wikidot.com/map:blackmesa-training-simulation:resonance-cascade\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "https://github.com/Mikk155/bts_rc/releases/tag/" + g_ScriptsVersion.ToString() + "\n" );
         }
 
         // Nero ADDED 2026-01-10

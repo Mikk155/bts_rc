@@ -15,6 +15,7 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyBuilder import PyBuilder;
 
 # Include checks here
+import Tests.ReleaseCheck;
 import Tests.FGDCheck;
 import Tests.LicenseCheck;
 import Tests.DebugCheck;
@@ -34,8 +35,10 @@ def Main() -> int:
             ok = builder.Build();
 
             if ok is False:
-                print( f"{builder.Name}: Failed build." );
+                builder.Log( "Build failed." );
                 result += 1;
+            else:
+                builder.Log( "Build success." );
 
         except Exception as e:
             builder.Log( f"throw an exception: {e}" )
@@ -45,6 +48,14 @@ def Main() -> int:
 
 if __name__ == "__main__":
 
+    match PyBuilder.GetType():
+
+        case PyBuilder.BuildType.Release:
+            print( f"Formating map scripts for bts_rc as version {PyBuilder.GetTag()}" );
+
+        case _:
+            pass;
+
     result: int = Main();
 
     if result == 0:
@@ -53,7 +64,17 @@ if __name__ == "__main__":
     else:
         print( f"{result} checks failed." );
 
-    if PyBuilder.GetType() == PyBuilder.BuildType.Local:
-        input( "Press enter to continue" );
+    match PyBuilder.GetType():
+
+        case PyBuilder.BuildType.Local:
+            input( "Press enter to continue" );
+
+        case PyBuilder.BuildType.Release:
+            print( "Downloading map assets..." );
+
+        case PyBuilder.BuildType.Check:
+            pass;
+        case _:
+            pass;
 
     sys.exit( result );

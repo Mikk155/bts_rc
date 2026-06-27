@@ -5,3 +5,4 @@
 #define SERVER
 #define EDITOR_ONLY
 #define METAMOD_PLUGIN_ASLP
+#define METAMOD_PLUGIN_ASCURL
