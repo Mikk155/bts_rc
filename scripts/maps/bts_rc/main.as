@@ -28,6 +28,14 @@ Server::chrono@ MapLoadedChrono = Server::chrono();
 /// Called by the map through trigger_script the moment that the map gameplay has started
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
+    gpGameStarted = true;
+    g_SurvivalMode.Activate();
+
+    Hooks::Register();
+
+    if( !g_IsMainMap )
+        return;
+
 #if METAMOD_PLUGIN_ASCURL
     // Tell server ops there's a new update
     int requestID = g_EngineFuncs.CreateHTTPRequest( "https://api.github.com/repos/Mikk155/bts_rc/releases/latest", true, 0, 5000, 10000 );
@@ -62,14 +70,6 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     } );
     g_EngineFuncs.SendHTTPRequest( requestID );
 #endif
-
-    gpGameStarted = true;
-    g_SurvivalMode.Activate();
-
-    Hooks::Register();
-
-    if( !g_IsMainMap )
-        return;
 
     randomizer::Initialize();
 
@@ -129,8 +129,10 @@ void MapActivate()
 
     meta_api::NoticeInstallation();
 
-    if( !g_IsMainMap )
+#if SERVER
+    if( !g_IsMainMap ) // Automatic call outside of bts_rc
         MapBegin(null, null, USE_TOGGLE, 0 );
+#endif
 }
 
 void MapInit()
