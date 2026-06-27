@@ -20,6 +20,7 @@
 #include "weapons/main"
 
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
+#include "monsters/panthereye"
 
 #include "env_commentary"
 #include "func_bts_recharger"

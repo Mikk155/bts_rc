@@ -25,7 +25,6 @@
 #include "monster_zombie_grenadier"
 #include "monster_snapbug"
 #include "monster_zombie_gunner"
-#include "monster_panthereye"
 #include "monster_zombie_parasite"
 #include "monster_parasite"
 
