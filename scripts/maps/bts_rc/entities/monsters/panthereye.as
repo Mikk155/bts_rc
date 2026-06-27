@@ -37,6 +37,21 @@ final class ASPanthereyeConfig : IConfigurableContext
         ScriptSchedule( ( bits_COND_ENEMY_OCCLUDED | bits_COND_NO_AMMO_LOADED ), 0, "Panthereye Range Attack1" )
     };
 
+    int Health = 200;
+    float MaxLeapZ = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
+    float MinLeap = 200.0; //panther won't pounce at enemies within this range
+    float MaxLeap = 400.0; //panther won't pounce at enemies beyond this range
+    float DamageHighSwipe = 25.0;
+    float DamageLowSwipe = 15.0;
+    float DamageLongSwipe = 25.0;
+    float DamageLeap = 25.0;
+    float DamageThrash = 10.0;
+    float DamageThrashFrequency = 0.5;
+    float StruggleMax = 100.0;
+    float StruggleDrainRate = 15.0; //per second (~ish)
+    float StruggleGrin = 8.0; //per key press
+    int StealthVisibility = 15; //in percentage 0-100
+
     bool Register( meta_api::json::v2::json@ config )
     {
         // Attack schedule start
@@ -80,28 +95,6 @@ final class ASPanthereyeConfig : IConfigurableContext
 
 ASPanthereyeConfig gpPanthereyeConfig;
 
-// SETTINGS
-const int NPC_HEALTH                        = 200;
-const float NPC_MAXLEAP_Z               = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
-const float NPC_MINLEAP                 = 200.0; //panther won't pounce at enemies within this range
-const float NPC_MAXLEAP                 = 400.0; //panther won't pounce at enemies beyond this range
-
-const float NPC_DMG_HIGH_SWIPE  = 25.0;
-const float NPC_DMG_LOW_SWIPE       = 15.0;
-const float NPC_DMG_LONG_SWIPE  = 25.0;
-const float NPC_DMG_LEAP                    = 25.0;
-
-const float NPC_THRASH_DAMAGE       = 10.0;
-const float NPC_THRASH_DMG_FREQ = 0.5;
-const float NPC_THRASH_SND_FREQ = 1.0;
-const float NPC_THRASH_LENGTH       = 5.0;
-
-const float STRUGGLE_MAX                = 100.0;
-const float STRUGGLE_DRAINRATE      = 15.0; //per second (~ish)
-const float STRUGGLE_GAIN               = 8.0; //per key press
-
-const int NPC_STEALTH_VISIBILITY        = 15; //in percentage 0-100
-
 class monster_panthereye : bts_rc_base_monster
 {
     private bool m_bStealthed;
@@ -134,14 +127,14 @@ class monster_panthereye : bts_rc_base_monster
         self.m_bloodColor       = BLOOD_COLOR_YELLOW;
 
         if( pev.health <= 0 )
-            pev.health                  = NPC_HEALTH;
+            pev.health                  = gpPanthereyeConfig.Health;
 
         //pev.view_ofs              = Vector( 0.0, 0.0, 6.0 ); //set ??
         self.m_flFieldOfView    = 0.5;
         self.m_MonsterState = MONSTERSTATE_NONE;
         self.m_afCapability     = bits_CAP_HEAR;
 
-        m_iTargetRanderamt  = 255 * btscm::ptof( NPC_STEALTH_VISIBILITY );
+        m_iTargetRanderamt  = 255 * btscm::ptof( gpPanthereyeConfig.StealthVisibility );
 
         if( string(self.m_FormattedName).IsEmpty() )
             self.m_FormattedName    = "Panthereye";
@@ -269,7 +262,7 @@ class monster_panthereye : bts_rc_base_monster
         if( !IsStealthed() and (self.m_MonsterState == MONSTERSTATE_COMBAT or pev.deadflag != DEAD_NO or self.m_Activity == ACT_RUN or !btscm::HasFlags(pev.flags, FL_ONGROUND)) )
             m_iTargetRanderamt = 255;
         else
-            m_iTargetRanderamt = 255 * btscm::ptof( NPC_STEALTH_VISIBILITY );
+            m_iTargetRanderamt = 255 * btscm::ptof( gpPanthereyeConfig.StealthVisibility );
 
         if( pev.renderamt > m_iTargetRanderamt )
         {
@@ -356,7 +349,7 @@ class monster_panthereye : bts_rc_base_monster
                 {
                     Math.MakeVectors( pev.angles );
                     pHurt.pev.velocity = pHurt.pev.velocity + g_Engine.v_forward * 100 + g_Engine.v_up * 200;
-                    pHurt.TakeDamage( self.pev, self.pev, NPC_DMG_HIGH_SWIPE, DMG_CLUB );
+                    pHurt.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageHighSwipe, DMG_CLUB );
                     AttackSound( true );
                 }
                 else
@@ -372,7 +365,7 @@ class monster_panthereye : bts_rc_base_monster
                 {
                     Math.MakeVectors( pev.angles );
                     pHurt.pev.velocity = pHurt.pev.velocity + g_Engine.v_forward * 75 + g_Engine.v_up * 75;
-                    pHurt.TakeDamage( self.pev, self.pev, NPC_DMG_LOW_SWIPE, DMG_SLASH );
+                    pHurt.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageLowSwipe, DMG_SLASH );
                     AttackSound( true ) ;
                 }
                 else
@@ -388,7 +381,7 @@ class monster_panthereye : bts_rc_base_monster
                 {
                     Math.MakeVectors( pev.angles );
                     pHurt.pev.velocity = pHurt.pev.velocity + g_Engine.v_forward * 100 + g_Engine.v_up * 200;
-                    pHurt.TakeDamage( self.pev, self.pev, NPC_DMG_LONG_SWIPE, DMG_CLUB );
+                    pHurt.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageLongSwipe, DMG_CLUB );
                     AttackSound( true );
                 }
                 else
@@ -427,13 +420,13 @@ class monster_panthereye : bts_rc_base_monster
         //make sure the enemy isn't too high up
         float flZDist;
         flZDist = abs( GetEnemy().GetOrigin().z - self.GetOrigin().z );
-        if( flZDist > NPC_MAXLEAP_Z )
+        if( flZDist > gpPanthereyeConfig.MaxLeapZ )
             return false;
 
-        if( flDist > NPC_MAXLEAP )
+        if( flDist > gpPanthereyeConfig.MaxLeap )
             return false;;
 
-        if( flDist < NPC_MINLEAP )
+        if( flDist < gpPanthereyeConfig.MinLeap )
             return false;
 
         if( flDot < 0.8 )
@@ -603,7 +596,7 @@ class monster_panthereye : bts_rc_base_monster
                 }
             }
 
-            pOther.TakeDamage( self.pev, self.pev, NPC_DMG_LEAP, DMG_SLASH );
+            pOther.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageLeap, DMG_SLASH );
 
             //Knock the player back
             Vector vecForward;
@@ -676,7 +669,7 @@ class monster_panthereye : bts_rc_base_monster
 
         m_flNextThrashDamage = g_Engine.time;
         m_flNextThrashSound  = g_Engine.time + 1.0;
-        m_flPinEndTime = g_Engine.time + NPC_THRASH_LENGTH;
+        m_flPinEndTime = g_Engine.time + 5.0;
 
         PounceHitSound();
 
@@ -778,22 +771,22 @@ class monster_panthereye : bts_rc_base_monster
 
             if( g_Engine.time >= m_flNextThrashDamage )
             {
-                pVictim.TakeDamage( self.pev, self.pev, NPC_THRASH_DAMAGE, DMG_SLASH );
+                pVictim.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageThrash, DMG_SLASH );
 
                 Vector vecBlood;
                     vecBlood.x = pVictim.pev.absmin.x + pVictim.pev.size.x * ( Math.RandomFloat(0 , 1) );
                     vecBlood.y = pVictim.pev.absmin.y + pVictim.pev.size.y * ( Math.RandomFloat(0 , 1) );
                     vecBlood.z = pVictim.pev.absmin.z + pVictim.pev.size.z * ( Math.RandomFloat(0 , 1) ) + 1;
                     vecBlood.z -= 32.0;
-                g_WeaponFuncs.SpawnBlood( vecBlood, pVictim.BloodColor(), NPC_THRASH_DAMAGE*6.9 );
+                g_WeaponFuncs.SpawnBlood( vecBlood, pVictim.BloodColor(), gpPanthereyeConfig.DamageThrash*6.9 );
 
-                m_flNextThrashDamage = g_Engine.time + NPC_THRASH_DMG_FREQ;
+                m_flNextThrashDamage = g_Engine.time + gpPanthereyeConfig.DamageThrashFrequency;
             }
 
             if( g_Engine.time >= m_flNextThrashSound )
             {
                 ThrashSound();
-                m_flNextThrashSound = g_Engine.time + NPC_THRASH_SND_FREQ;
+                m_flNextThrashSound = g_Engine.time + 1.0;
             }
 
             Vector vecOrigin = pVictim.pev.origin;
@@ -811,19 +804,19 @@ class monster_panthereye : bts_rc_base_monster
     {
         float dt = 0.01; //match think rate
 
-        m_flStruggle -= STRUGGLE_DRAINRATE * dt;
+        m_flStruggle -= gpPanthereyeConfig.StruggleDrainRate * dt;
 
-        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_FORWARD) ) m_flStruggle += STRUGGLE_GAIN;
-        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_BACK) ) m_flStruggle += STRUGGLE_GAIN;
-        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_MOVELEFT) ) m_flStruggle += STRUGGLE_GAIN;
-        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_MOVERIGHT) ) m_flStruggle += STRUGGLE_GAIN;
+        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_FORWARD) ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_BACK) ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_MOVELEFT) ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
+        if( btscm::HasFlags(pPlayer.m_afButtonPressed, IN_MOVERIGHT) ) m_flStruggle += gpPanthereyeConfig.StruggleGrin;
 
         if( m_flStruggle < 0 ) m_flStruggle = 0;
-        if( m_flStruggle > STRUGGLE_MAX ) m_flStruggle = STRUGGLE_MAX;
+        if( m_flStruggle > gpPanthereyeConfig.StruggleMax ) m_flStruggle = gpPanthereyeConfig.StruggleMax;
 
         ShowStruggleBar( pPlayer );
 
-        if( m_flStruggle >= STRUGGLE_MAX )
+        if( m_flStruggle >= gpPanthereyeConfig.StruggleMax )
         {
             StopPin();
             return true;
@@ -835,7 +828,7 @@ class monster_panthereye : bts_rc_base_monster
     //Thanks ChatGPT
     void ShowStruggleBar( CBasePlayer@ pPlayer )
     {
-        float frac = m_flStruggle / STRUGGLE_MAX;
+        float frac = m_flStruggle / gpPanthereyeConfig.StruggleMax;
 
         int bars = int( frac * 20 ); // 20 segments
         string bar = "";
@@ -893,7 +886,7 @@ class monster_panthereye : bts_rc_base_monster
 
     float GetPointsForDamage( float flDamage )
     {
-        float flTemp = pev.max_health / NPC_HEALTH;
+        float flTemp = pev.max_health / gpPanthereyeConfig.Health;
         return flDamage / pev.max_health * (flTemp + flTemp);
     }
 
