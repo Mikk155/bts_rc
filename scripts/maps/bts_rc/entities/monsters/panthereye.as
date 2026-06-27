@@ -218,7 +218,7 @@ final class ASPanthereyeConfig : IConfigurableContext
 
 ASPanthereyeConfig gpPanthereyeConfig;
 
-class monster_panthereye : bts_rc_base_monster
+class monster_panthereye : ScriptBaseMonsterEntity
 {
     private bool m_bStealthed;
     private float m_iTargetRanderamt;
@@ -226,7 +226,7 @@ class monster_panthereye : bts_rc_base_monster
     private EHandle m_hVictim;
     private EHandle m_hPlayerDoll;
 
-    private float m_flPinThinkRate; //HandleStruggling needs a faster thinkrate
+    private float m_flPinThinkRate;
     private bool m_bIsPinning;
     private float m_flNextThrashDamage;
     private float m_flNextThrashSound;
@@ -527,7 +527,7 @@ class monster_panthereye : bts_rc_base_monster
                 g_EntityFuncs.SetOrigin( self, self.pev.origin + Vector(0.0, 0.0, 1.0) );
 
                 Vector vecJumpDir;
-                CBaseEntity@ enemy = GetEnemy();
+                CBaseEntity@ enemy = self.m_hEnemy.GetEntity();
 
                 if( enemy !is null )
                 {
@@ -571,7 +571,12 @@ class monster_panthereye : bts_rc_base_monster
     //From HL2 Fast Zombie
     bool CheckRangeAttack1( float flDot, float flDist )
     {
-        if( GetEnemy() is null )
+        if( !self.m_hEnemy.IsValid() )
+            return false;
+
+        auto enemy = self.m_hEnemy.GetEntity();
+
+        if( enemy is null )
             return false;
 
         if( ( self.pev.flags & FL_ONGROUND ) == 0 )
@@ -581,7 +586,7 @@ class monster_panthereye : bts_rc_base_monster
             return false;
 
         //make sure the enemy isn't too high up
-        float flZDist = abs( GetEnemy().GetOrigin().z - self.GetOrigin().z );
+        float flZDist = abs( enemy.GetOrigin().z - self.GetOrigin().z );
 
         if( gpPanthereyeConfig.MaxLeapZ > 0 && flZDist > gpPanthereyeConfig.MaxLeapZ )
             return false;
@@ -599,7 +604,7 @@ class monster_panthereye : bts_rc_base_monster
         TraceResult tr;
         Vector vecDirToEnemy;
 
-        vecDirToEnemy = GetEnemy().GetOrigin() - self.GetOrigin();
+        vecDirToEnemy = enemy.GetOrigin() - self.GetOrigin();
 
         //only check half the distance. (the first part of the jump)
         vecDirToEnemy = vecDirToEnemy * 0.5;
