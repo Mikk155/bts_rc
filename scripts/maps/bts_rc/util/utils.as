@@ -51,10 +51,10 @@ bool FreeEdicts( int overhead = 1 )
     return ( g_EngineFuncs.NumberOfEntities() < __freedicts_overhead__ - overhead );
 }
 
-// Get a random number between 0 and max. if RandomUint was called before the result will be stored in player data as "RandomUint" to avoid repeating the same number in a row
-uint8 RandomUint( uint8 max, CBasePlayer@ player )
+// Get a random number between 0 and max. if RandomUint was called before the result will be stored in target user data as "RandomUint" to avoid repeating the same number in a row
+uint8 RandomUint( uint8 max, CBaseEntity@ target )
 {
-    if( player is null )
+    if( target is null )
         return 0;
 
     if( max == 0 )
@@ -64,7 +64,7 @@ uint8 RandomUint( uint8 max, CBasePlayer@ player )
         return 0;
     }
 
-    dictionary@ data = player.GetUserData();
+    dictionary@ data = target.GetUserData();
 
     uint8 lastRand;
     data.get( "RandomUint", lastRand );
