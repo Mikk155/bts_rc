@@ -143,9 +143,6 @@ class monster_panthereye : bts_rc_base_monster
 
         m_iTargetRanderamt  = 255 * btscm::ptof( gpPanthereyeConfig.StealthVisibility );
 
-        if( string(self.m_FormattedName).IsEmpty() )
-            self.m_FormattedName    = "Panthereye";
-
         self.MonsterInit();
     }
 
