@@ -179,7 +179,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void PainSound()
     {
-        switch( Math.RandomLong(0, 2) )
+        switch( RandomUint( 2, self ) )
         {
             case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_pain1.wav", VOL_NORM, ATTN_IDLE ); break;
             case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_pain2.wav", VOL_NORM, ATTN_IDLE ); break;
@@ -189,7 +189,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void DeathSound()
     {
-        switch( Math.RandomLong(0, 1) )
+        switch( RandomUint( 1, self ) )
         {
             case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_die3.wav", VOL_NORM, ATTN_IDLE ); break;
             case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "barnacle/bcl_chew2.wav", VOL_NORM, ATTN_IDLE ); break;
@@ -200,7 +200,7 @@ class monster_panthereye : bts_rc_base_monster
     {
         if( !IsStealthed() )
         {
-            switch( Math.RandomLong(0, 4) )
+            switch( RandomUint( 4, self ) )
             {
                 case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_idle2.wav", VOL_NORM, ATTN_IDLE ); break;
                 case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_idle5.wav", VOL_NORM, ATTN_IDLE ); break;
@@ -215,7 +215,7 @@ class monster_panthereye : bts_rc_base_monster
     {
         if( !IsStealthed() )
         {
-            switch( Math.RandomLong(0, 1) )
+            switch( RandomUint( 1, self ) )
             {
                 case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_alert3.wav", VOL_NORM, ATTN_IDLE ); break;
                 case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_attack2.wav", VOL_NORM, ATTN_IDLE ); break;
@@ -227,7 +227,7 @@ class monster_panthereye : bts_rc_base_monster
     {
         if( bHit )
         {
-            switch( Math.RandomLong(0, 2) )
+            switch( RandomUint( 2, self ) )
             {
                 case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_strike1.wav", VOL_NORM, ATTN_STATIC ); break;
                 case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_strike2.wav", VOL_NORM, ATTN_STATIC ); break;
@@ -236,7 +236,7 @@ class monster_panthereye : bts_rc_base_monster
         }
         else
         {
-            switch( Math.RandomLong(0, 1) )
+            switch( RandomUint( 1, self ) )
             {
                 case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_miss1.wav", VOL_NORM, ATTN_STATIC ); break;
                 case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "zombie/claw_miss2.wav", VOL_NORM, ATTN_STATIC ); break;
@@ -256,7 +256,7 @@ class monster_panthereye : bts_rc_base_monster
 
     void ThrashSound()
     {
-        switch( Math.RandomLong(0, 2) )
+        switch( RandomUint( 2, self ) )
         {
             case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash1.wav", VOL_NORM, ATTN_IDLE ); break;
             case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/thrash2.wav", VOL_NORM, ATTN_IDLE ); break;
