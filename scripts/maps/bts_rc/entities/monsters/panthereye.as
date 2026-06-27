@@ -45,7 +45,7 @@ final class ASPanthereyeConfig : IConfigurableContext
         ScriptSchedule( ( bits_COND_ENEMY_OCCLUDED | bits_COND_NO_AMMO_LOADED ), 0, "Panthereye Range Attack1" )
     };
 
-    int Health = 200;
+    int Health = 210;
     float MaxLeapZ = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
     float MinLeap = 200.0; //panther won't pounce at enemies within this range
     float MaxLeap = 400.0; //panther won't pounce at enemies beyond this range
@@ -134,8 +134,7 @@ class monster_panthereye : bts_rc_base_monster
         pev.movetype            = MOVETYPE_STEP;
         self.m_bloodColor       = BLOOD_COLOR_YELLOW;
 
-        if( pev.health <= 0 )
-            pev.health                  = gpPanthereyeConfig.Health;
+        self.pev.health = self.pev.max_health = gpPanthereyeConfig.Health;
 
         //pev.view_ofs              = Vector( 0.0, 0.0, 6.0 ); //set ??
         self.m_flFieldOfView    = 0.5;
