@@ -32,7 +32,7 @@ final class ASPanthereyeConfig : IConfigurableContext
         return """{
             "type": "object",
             "unevaluatedProperties": false,
-            "title": "Blood puddles",
+            "title": "Monster panthereye",
             "description": "Controls panthereye settings",
             "properties":
             {
