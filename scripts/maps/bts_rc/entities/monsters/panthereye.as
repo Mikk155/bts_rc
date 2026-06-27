@@ -72,7 +72,7 @@ final class ASPanthereyeConfig : IConfigurableContext
         g_SoundSystem.PrecacheSound( "barnacle/bcl_chew2.wav" );
         g_SoundSystem.PrecacheSound( "barnacle/bcl_chew1.wav" );
 
-        CustomEntity( "monster_panthereye", false, "monster_panthereye::monster_panthereye" );
+        CustomEntity( "monster_panthereye" );
 
         return true;
     }
@@ -80,8 +80,6 @@ final class ASPanthereyeConfig : IConfigurableContext
 
 ASPanthereyeConfig gpPanthereyeConfig;
 
-namespace monster_panthereye
-{
 // SETTINGS
 const int NPC_HEALTH                        = 200;
 const float NPC_MAXLEAP_Z               = 256.0; //panther won't pounce at enemies if they're higher up than this from the panther's location
@@ -912,7 +910,6 @@ class monster_panthereye : bts_rc_base_monster
         BaseClass.UpdateOnRemove();
     }
 }
-} //end of namespace monster_panthereye
 
 /* TODO ??
 screen shake / fade while pinned
