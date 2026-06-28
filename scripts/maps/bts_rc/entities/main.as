@@ -21,6 +21,8 @@
 
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 
+#include "monsters/blackops_flashbang"
+
 #include "env_commentary"
 #include "func_bts_recharger"
 #if SERVER
