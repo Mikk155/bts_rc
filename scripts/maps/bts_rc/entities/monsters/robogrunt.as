@@ -22,11 +22,13 @@
 
 class ASRoboGrunt : EntityOverriden, IConfigurableContext
 {
-    const string& GetName() const override {
+    const string& GetName() const override
+    {
         return "robo_grunt";
     }
 
-    const string GetSchema() const {
+    const string GetSchema() const override
+    {
         return String::EMPTY_STRING;
     }
 
