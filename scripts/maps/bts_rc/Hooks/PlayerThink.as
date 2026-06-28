@@ -169,8 +169,13 @@ namespace Hooks
 
             string lastWeapon = string( data[ "current_weapon" ] );
 
-            if( !lastWeapon.IsEmpty() && ( weapon is null || weapon.GetClassname() != lastWeapon ))
-                cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon ] ).WeaponHolster( player, weapon, character );
+            if( !lastWeapon.IsEmpty() && ( weapon is null || weapon.GetClassname() != lastWeapon ) )
+            {
+                dictionaryValue@ lastWeaponInterface;
+
+                if( g_WeaponsConfig.Interfaces.get( lastWeapon, lastWeaponInterface ) )
+                    cast<ASWeaponConfig@>( lastWeaponInterface ).WeaponHolster( player, weapon, character );
+            }
 
             const string classname = ( weapon is null ? String::EMPTY_STRING : weapon.GetClassname() );
 
