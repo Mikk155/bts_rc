@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class ASDeathDropConfig : IConfigurableContext
+final class ASDeathDropConfig : IConfigurableContext
 {
     dictionary m_Monsters;
 

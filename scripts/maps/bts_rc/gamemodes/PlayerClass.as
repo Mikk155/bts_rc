@@ -63,7 +63,7 @@ array<CCharacter@> g_MaintenanceTeam;
 array<CCharacter@> g_SecurityTeam;
 array<CCharacter@> g_OperativeTeam;
 
-class CCharacter
+final class CCharacter
 {
     private Hands m_Hands;
     const Hands& HandsGroup {

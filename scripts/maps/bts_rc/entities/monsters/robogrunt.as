@@ -409,7 +409,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurableContext
 
 ASRoboGrunt gpRoboGrunt;
 
-class ASRoboGruntBoss : ASRoboGrunt
+final class ASRoboGruntBoss : ASRoboGrunt
 {
     const string& GetName() const override {
         return "robo_grunt_boss";

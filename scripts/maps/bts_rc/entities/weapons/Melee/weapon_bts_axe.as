@@ -40,7 +40,7 @@ enum WeaponAxeAnim
     ShoveMissAlt
 };
 
-class CWeaponAxeConfig : ASMeleeWeaponConfig
+final class CWeaponAxeConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_axe";
@@ -101,7 +101,7 @@ class CWeaponAxeConfig : ASMeleeWeaponConfig
 
 CWeaponAxeConfig gpWeaponAxeConfig;
 
-class weapon_bts_axe : BTS_MeleeWeapon
+final class weapon_bts_axe : BTS_MeleeWeapon
 {
     ASWeaponConfig@ get_config() {
         return @gpWeaponAxeConfig;

@@ -20,7 +20,7 @@
     Original code: Nero
 */
 
-class ASGruntEngineer : EntityOverriden, IConfigurableContext
+final class ASGruntEngineer : EntityOverriden, IConfigurableContext
 {
     const string& GetName() const override {
         return "grunt_engineer";

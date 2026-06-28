@@ -41,7 +41,7 @@ enum WeaponKnifeAnim
     Stab
 };
 
-class CWeaponKnifeConfig : ASMeleeWeaponConfig
+final class CWeaponKnifeConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_knife";
@@ -109,7 +109,7 @@ class CWeaponKnifeConfig : ASMeleeWeaponConfig
 
 CWeaponKnifeConfig gpWeaponKnifeConfig;
 
-class weapon_bts_knife : BTS_MeleeCharge
+final class weapon_bts_knife : BTS_MeleeCharge
 {
     ASWeaponConfig@ get_config() {
         return @gpWeaponKnifeConfig;

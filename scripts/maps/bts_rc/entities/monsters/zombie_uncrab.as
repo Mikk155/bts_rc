@@ -21,7 +21,7 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-class ASZombieUncrabConfig : IConfigurableContext
+final class ASZombieUncrabConfig : IConfigurableContext
 {
     const string& GetName() const override {
         return "zombie_uncrab";

@@ -36,7 +36,7 @@ enum WeaponScrewDriverAnim
     Idle3
 };
 
-class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
+final class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_screwdriver";
@@ -93,7 +93,7 @@ class CWeaponScrewDriverConfig : ASMeleeWeaponConfig
 
 CWeaponScrewDriverConfig gpWeaponScrewDriverConfig;
 
-class weapon_bts_screwdriver : BTS_MeleeWeapon
+final class weapon_bts_screwdriver : BTS_MeleeWeapon
 {
     ASWeaponConfig@ get_config() {
         return @gpWeaponScrewDriverConfig;

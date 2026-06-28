@@ -18,7 +18,7 @@
 #if SERVER
 namespace test_chamber
 {
-    class trigger_logger : ScriptBaseEntity
+    final class trigger_logger : ScriptBaseEntity
     {
         private
             HUDTextParams m_HUDParams;

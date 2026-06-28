@@ -40,7 +40,7 @@ enum WeaponPipeWrenchAnim
     AttackBigLoop
 };
 
-class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
+final class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_pipewrench";
@@ -105,7 +105,7 @@ class CWeaponPipeWrenchConfig : ASMeleeWeaponConfig
 
 CWeaponPipeWrenchConfig gpWeaponPipeWrenchConfig;
 
-class weapon_bts_pipewrench : BTS_MeleeCharge
+final class weapon_bts_pipewrench : BTS_MeleeCharge
 {
     ASWeaponConfig@ get_config() {
         return @gpWeaponPipeWrenchConfig;

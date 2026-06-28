@@ -20,7 +20,7 @@ namespace test_chamber
 {
     array<func_section@> gpSectionList;
 
-    class func_section : ScriptBaseEntity
+    final class func_section : ScriptBaseEntity
     {
         HUDTextParams m_HUDParams;
 

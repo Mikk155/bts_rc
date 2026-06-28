@@ -19,7 +19,7 @@ string glog;
 
 namespace Logger
 {
-    class ASLogger
+    final class ASLogger
     {
         protected
             bool m_IsActive = true;
@@ -153,7 +153,7 @@ namespace Logger
     bool gpWriteFile;
 }
 
-class CLogger : IConfigurableContext
+final class CLogger : IConfigurableContext
 {
     protected
         array<Logger::ASLogger@> m_Loggers(0);

@@ -37,7 +37,7 @@ enum WeaponFlashlightAnim
     Flashlight
 };
 
-class CWeaponFlashlightConfig : ASMeleeWeaponConfig
+final class CWeaponFlashlightConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_flashlight";
@@ -143,7 +143,7 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
 
 CWeaponFlashlightConfig gpWeaponFlashlight;
 
-class weapon_bts_flashlight : BTS_MeleeWeapon
+final class weapon_bts_flashlight : BTS_MeleeWeapon
 {
     ASWeaponConfig@ get_config() {
         return @gpWeaponFlashlight;
@@ -169,7 +169,7 @@ class weapon_bts_flashlight : BTS_MeleeWeapon
 }
 
 #if OLD_CODE_REMAINING
-class weapon_bts_dflashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
+final class weapon_bts_dflashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
 {
     private bool Swing( bool fFirst )
     {
