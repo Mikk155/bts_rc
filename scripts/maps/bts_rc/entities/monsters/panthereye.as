@@ -176,7 +176,6 @@ final class ASPanthereyeConfig : IConfigurableContext
         this.StruggleGrin = int( config[ "struggle_grin" ] );
         this.StealthVisibility = int( config[ "stealth_visibility" ] );
 
-        g_EngineFuncs.ServerPrint( config.ToString() );
         // Attack schedule start
         ScriptSchedule@ RangeAttack1 = m_Schedules[0];
         RangeAttack1.AddTask( ScriptTask(TASK_STOP_MOVING) );
@@ -539,7 +538,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
                     float speed = sqrt( 2 * 800 * height ); // 800 sv_gravity
                     float time = speed / 800;
-                    g_Game.AlertMessage( at_console, "Called the gravity thing part" + "\n" );
 
                     vecJumpDir = vecEnemyPos - self.pev.origin;
                     vecJumpDir = vecJumpDir / time;
@@ -925,7 +923,8 @@ g_PlayerFuncs.ScreenShake(player.pev.origin, 4.0f, 2.0f, 0.1f, 200.0f);
 g_SoundSystem.EmitSoundDyn(player.edict(), CHAN_BODY, "player/pain2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM);
 */
 
-#if SERVER
+// There's not much to test here. this is worthless
+#if FALSE
 monster_panthereye@ GetNearPanther( const Vector&in pos )
 {
     CBaseEntity@ entity = null;
