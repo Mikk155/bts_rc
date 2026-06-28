@@ -199,7 +199,7 @@ final class ASPanthereyeConfig : IConfigurableContext
         g_SoundSystem.PrecacheSound( "zombie/claw_strike2.wav" );
         g_SoundSystem.PrecacheSound( "zombie/claw_strike3.wav" );
         g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pounceHit.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pouncehit.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash3.wav" );
@@ -728,7 +728,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
                     m_flNextThrashSound  = g_Engine.time + 1.0;
                     m_flPinEndTime = g_Engine.time + 5.0;
 
-                    g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pounceHit.wav", VOL_NORM, ATTN_IDLE );
+                    g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pouncehit.wav", VOL_NORM, ATTN_IDLE );
 
                     player.SetViewMode( ViewMode_ThirdPerson );
                     //player.EnableControl( false ); //this prevents struggling
