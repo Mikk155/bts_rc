@@ -671,6 +671,9 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
     void LeapAttackTouch( CBaseEntity@ other )
     {
+        if( other is null )
+            return;
+
         if( other.pev.takedamage == 0 )
             return;
 
@@ -680,71 +683,68 @@ class monster_panthereye : ScriptBaseMonsterEntity
         Vector vecNewVelocity( 0.0, 0.0, self.pev.velocity.z );
         self.pev.velocity = vecNewVelocity;
 
+        SetTouch( null );
+
         //Don't hit if back on ground
         if( ( self.pev.flags & FL_ONGROUND ) == 0 )
         {
             AttackSound( true );
 
-            CBasePlayer@ player = cast<CBasePlayer@>( other ); 
+            CBasePlayer@ player; 
 
-            if( player !is null )
+            if( ( other.pev.effects & EF_NODRAW ) == 0 // Target is not being thrashed
+            && other.IsAlive() // Target is alive
+            && other.IsPlayer() // Target is player
+            && ( @player = cast<CBasePlayer@>( other ) ) !is null // Cast to class
+            && !player.FInViewCone( self ) ) // Target was hit from behind
             {
-                //player was hit from behind and isn't already being thrashed!
-                if( !player.FInViewCone( self ) && ( player.pev.effects & EF_NODRAW ) == 0 )
-                {
-                    SetTouch( null );
+                Vector vecOrigin = player.pev.origin;
+                vecOrigin.z = player.pev.absmin.z;
 
-                    if( !player.IsAlive() )
-                        return;
+                Vector vecAngles = player.pev.angles;
+                vecAngles.y += 180; //the "deadstomach" sequence is facing the wrong way blyat
 
-                    Vector vecOrigin = player.pev.origin;
-                    vecOrigin.z = player.pev.absmin.z;
+                CBaseEntity@ playerDoll = g_EntityFuncs.Create( "cycler", vecOrigin, vecAngles, true );
+                playerDoll.pev.model = player.pev.model;
+                playerDoll.pev.sequence = 179;
+                g_EntityFuncs.DispatchSpawn( playerDoll.edict() );
+                playerDoll.pev.solid = SOLID_NOT;
+                playerDoll.pev.takedamage = DAMAGE_NO;
+                playerDoll.pev.renderfx = kRenderFxDeadPlayer;
+                playerDoll.pev.renderamt = player.entindex();
 
-                    Vector vecAngles = player.pev.angles;
-                    vecAngles.y += 180; //the "deadstomach" sequence is facing the wrong way blyat
+                m_hPlayerDoll = EHandle( playerDoll );
 
-                    CBaseEntity@ playerDoll = g_EntityFuncs.Create( "cycler", vecOrigin, vecAngles, true );
-                    playerDoll.pev.model = player.pev.model;
-                    playerDoll.pev.sequence = 179;
-                    g_EntityFuncs.DispatchSpawn( playerDoll.edict() );
-                    playerDoll.pev.solid = SOLID_NOT;
-                    playerDoll.pev.takedamage = DAMAGE_NO;
-                    playerDoll.pev.renderfx = kRenderFxDeadPlayer;
-                    playerDoll.pev.renderamt = player.entindex();
+                m_hVictim = EHandle( player );
+                m_bIsPinning = true;
 
-                    m_hPlayerDoll = EHandle( playerDoll );
+                m_flNextThrashDamage = g_Engine.time;
+                m_flNextThrashSound  = g_Engine.time + 1.0;
+                m_flPinEndTime = g_Engine.time + 5.0;
 
-                    m_hVictim = EHandle( player );
-                    m_bIsPinning = true;
+                g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pouncehit.wav", VOL_NORM, ATTN_IDLE );
 
-                    m_flNextThrashDamage = g_Engine.time;
-                    m_flNextThrashSound  = g_Engine.time + 1.0;
-                    m_flPinEndTime = g_Engine.time + 5.0;
+                player.SetViewMode( ViewMode_ThirdPerson );
+                //player.EnableControl( false ); //this prevents struggling
+                player.SetMaxSpeedOverride( 0 );
+                player.BlockWeapons(self);
+                player.pev.iuser3 = 1; //disable ducking
+                player.pev.fuser4 = 1; //disable jumping
+                player.pev.effects |= EF_NODRAW;
+                player.pev.velocity = g_vecZero;
+                player.pev.movetype = MOVETYPE_NOCLIP; //without this, the player gets pushed by the panthereye
 
-                    g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pouncehit.wav", VOL_NORM, ATTN_IDLE );
+                self.pev.origin.x = player.pev.origin.x;
+                self.pev.origin.y = player.pev.origin.y;
+                self.pev.origin.z = player.pev.absmin.z;
+                self.SetOrigin( self.pev.origin );
 
-                    player.SetViewMode( ViewMode_ThirdPerson );
-                    //player.EnableControl( false ); //this prevents struggling
-                    player.SetMaxSpeedOverride( 0 );
-                    player.BlockWeapons(self);
-                    player.pev.iuser3 = 1; //disable ducking
-                    player.pev.fuser4 = 1; //disable jumping
-                    player.pev.effects |= EF_NODRAW;
-                    player.pev.velocity = g_vecZero;
-                    player.pev.movetype = MOVETYPE_NOCLIP; //without this, the player gets pushed by the panthereye
+                self.SetActivity( ACT_EAT );
 
-                    self.pev.origin.x = player.pev.origin.x;
-                    self.pev.origin.y = player.pev.origin.y;
-                    self.pev.origin.z = player.pev.absmin.z;
-                    self.SetOrigin( self.pev.origin );
-
-                    self.SetActivity( ACT_EAT );
-
-                    SetThink( ThinkFunction(this.PinThink) );
-                    self.pev.nextthink = g_Engine.time;
-                    m_flPinThinkRate = g_Engine.time;
-                    return;
-                }
+                SetThink( ThinkFunction(this.PinThink) );
+                self.pev.nextthink = g_Engine.time;
+                m_flPinThinkRate = g_Engine.time;
+                return;
             }
 
             other.TakeDamage( self.pev, self.pev, gpPanthereyeConfig.DamageLeap, DMG_SLASH );
@@ -758,8 +758,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
             other.pev.punchangle = vecPunch;
             other.pev.velocity = other.pev.velocity + vecForward;
         }
-
-        SetTouch( null );
     }
 
     int TakeDamage( entvars_t@ pevInflictor, entvars_t@ pevAttacker, float damage, int bitsDamageType )
