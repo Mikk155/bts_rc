@@ -220,7 +220,7 @@ abstract class ASWeaponConfig : IConfigurableContext
         g_Game.PrecacheModel( this.view_model );
         g_Game.PrecacheModel( this.player_model );
 
-        if( !this.view_model.IsEmpty() )
+        if( !this.world_model.IsEmpty() )
             g_Game.PrecacheModel( this.world_model );
     }
 
