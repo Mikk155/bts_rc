@@ -99,7 +99,8 @@ CWeaponPoolstickConfig gpWeaponPoolstickConfig;
 
 final class weapon_bts_poolstick : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponPoolstickConfig;
     }
 

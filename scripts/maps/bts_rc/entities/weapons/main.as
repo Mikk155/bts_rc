@@ -132,7 +132,8 @@ final class CGlobalWeaponConfig : IConfigurableContext
         return cast<ASWeaponConfig@>( this.Interfaces[ name ] );
     }
 
-    const array<string>@ WeaponNames() {
+    const array<string>@ WeaponNames()
+    {
         return @this.Interfaces.getKeys();
     }
 

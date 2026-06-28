@@ -79,7 +79,8 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     if( ckv.GetKeyvalue( "$i_devcommentary" ).GetInteger() == 0 )
     {
         CBaseEntity@ devcom = null;
-        while( ( @devcom = g_EntityFuncs.FindEntityByClassname( devcom, "env_commentary" ) ) !is null ) {
+        while( ( @devcom = g_EntityFuncs.FindEntityByClassname( devcom, "env_commentary" ) ) !is null )
+        {
             devcom.pev.flags |= FL_KILLME;
         }
         g_CustomEntityFuncs.UnRegisterCustomEntity( "env_commentary" );

@@ -224,7 +224,8 @@ final class CLogger : IConfigurableContext
     }
 
     protected RegisterCommand@ command;
-    const RegisterCommand@ get_Command() {
+    const RegisterCommand@ get_Command()
+    {
         return @this.command;
     }
 
@@ -309,7 +310,8 @@ final class CLogger : IConfigurableContext
                         return;
                     }
 
-                    for( uint ui = 0; ui < length; ui++ ) {
+                    for( uint ui = 0; ui < length; ui++ )
+                    {
                         if( ( isValid = levels[ui].id == id ) )
                             break;
                     }

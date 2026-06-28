@@ -69,7 +69,8 @@ final class ASMapConfig
         Server::chrono@ m_chronoMapStart = Server::chrono();
 
     // Get a handle to the map configuration. this is null after MapInit
-    const meta_api::json::v2::json@ get_json() {
+    const meta_api::json::v2::json@ get_json()
+    {
         return this.m_json;
     }
 
@@ -343,7 +344,8 @@ final class ASMapConfig
 
         // Remove inactive items separatelly since the above loop is ordered x[
         length = inactiveContexts.length();
-        for( uint ui = 0; ui < length; ui++ ) {
+        for( uint ui = 0; ui < length; ui++ )
+        {
             this.m_Contexts.removeAt( this.m_Contexts.findByRef( inactiveContexts[ui] ) );
         }
 

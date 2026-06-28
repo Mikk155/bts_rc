@@ -107,7 +107,8 @@ CWeaponPipeWrenchConfig gpWeaponPipeWrenchConfig;
 
 final class weapon_bts_pipewrench : BTS_MeleeCharge
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponPipeWrenchConfig;
     }
 

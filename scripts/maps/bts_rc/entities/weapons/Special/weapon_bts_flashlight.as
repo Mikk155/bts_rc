@@ -47,7 +47,8 @@ final class CWeaponFlashlightConfig : ASMeleeWeaponConfig
         return "models/bts_rc/weapons/p_flashlight.mdl";
     }
 
-    const string& get_flashlight_model() {
+    const string& get_flashlight_model()
+    {
         return "models/bts_rc/weapons/p_flashlight_cone.mdl";
     }
 
@@ -145,7 +146,8 @@ CWeaponFlashlightConfig gpWeaponFlashlight;
 
 final class weapon_bts_flashlight : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponFlashlight;
     }
 

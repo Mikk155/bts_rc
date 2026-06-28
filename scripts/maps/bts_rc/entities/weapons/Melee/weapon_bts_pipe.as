@@ -105,7 +105,8 @@ CWeaponPipeConfig gpWeaponPipeConfig;
 
 final class weapon_bts_pipe : BTS_MeleeCharge
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponPipeConfig;
     }
 

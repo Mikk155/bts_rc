@@ -67,7 +67,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurableContext
     }
 
 #if SERVER
-    dictionary@ get_TestKeys() {
+    dictionary@ get_TestKeys()
+    {
         return { { "classname", "monster_human_grunt_ally" }, { "model", "models/bts_rc/monsters/rgrunt_opfor.mdl" }, { "is_player_ally", "1" } };
     }
 #endif

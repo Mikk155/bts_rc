@@ -49,7 +49,8 @@ final class ASZombieEngineer : EntityOverriden, IConfigurableContext
 
     bool IsValid( const string&in classname, const string&in model )
     {
-        if( classname == "monster_gonome" ) {
+        if( classname == "monster_gonome" )
+        {
             if( model == "models/bts_rc/monsters/zombie_engineer2.mdl" )
                 return true;
         }

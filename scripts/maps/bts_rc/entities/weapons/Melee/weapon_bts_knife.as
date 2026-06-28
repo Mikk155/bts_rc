@@ -111,7 +111,8 @@ CWeaponKnifeConfig gpWeaponKnifeConfig;
 
 final class weapon_bts_knife : BTS_MeleeCharge
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponKnifeConfig;
     }
 

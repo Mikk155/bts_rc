@@ -23,7 +23,8 @@ class WeaponOverrider
 {
     private ASWeaponConfig@ Owner;
 
-    const string& get_classname() {
+    const string& get_classname()
+    {
         return this.Owner.GetName();
     }
 
@@ -59,31 +60,36 @@ class WeaponOverrider
     }
 
     WeaponOverriderCallback@ PlayerThink;
-    WeaponOverrider@ SetPlayerThink( WeaponOverriderCallback@ callback ) {
+    WeaponOverrider@ SetPlayerThink( WeaponOverriderCallback@ callback )
+    {
         @this.PlayerThink = callback;
         return this;
     }
 
     WeaponOverriderCallback@ WeaponDeploy;
-    WeaponOverrider@ SetWeaponDeploy( WeaponOverriderCallback@ callback ) {
+    WeaponOverrider@ SetWeaponDeploy( WeaponOverriderCallback@ callback )
+    {
         @this.WeaponDeploy = callback;
         return this;
     }
 
     WeaponOverriderCallback@ WeaponPrimaryAttack;
-    WeaponOverrider@ SetWeaponPrimayAttack( WeaponOverriderCallback@ callback ) {
+    WeaponOverrider@ SetWeaponPrimayAttack( WeaponOverriderCallback@ callback )
+    {
         @this.WeaponPrimaryAttack = callback;
         return this;
     }
 
     WeaponOverriderCallback@ WeaponSecondaryAttack;
-    WeaponOverrider@ SetWeaponSecondaryAttack( WeaponOverriderCallback@ callback ) {
+    WeaponOverrider@ SetWeaponSecondaryAttack( WeaponOverriderCallback@ callback )
+    {
         @this.WeaponSecondaryAttack = callback;
         return this;
     }
 
     WeaponOverriderCallback@ WeaponTertiaryAttack;
-    WeaponOverrider@ SetWeaponTertiaryAttack( WeaponOverriderCallback@ callback ) {
+    WeaponOverrider@ SetWeaponTertiaryAttack( WeaponOverriderCallback@ callback )
+    {
         @this.WeaponTertiaryAttack = callback;
         return this;
     }

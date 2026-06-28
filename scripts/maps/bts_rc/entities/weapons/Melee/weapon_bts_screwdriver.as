@@ -95,7 +95,8 @@ CWeaponScrewDriverConfig gpWeaponScrewDriverConfig;
 
 final class weapon_bts_screwdriver : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponScrewDriverConfig;
     }
 

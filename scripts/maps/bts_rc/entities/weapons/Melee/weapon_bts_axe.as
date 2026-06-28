@@ -103,7 +103,8 @@ CWeaponAxeConfig gpWeaponAxeConfig;
 
 final class weapon_bts_axe : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         return @gpWeaponAxeConfig;
     }
 
