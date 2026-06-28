@@ -105,12 +105,12 @@ CWeaponPipeConfig gpWeaponPipeConfig;
 
 final class weapon_bts_pipe : BTS_MeleeCharge
 {
-    ASWeaponConfig@ get_config()
+    ASWeaponConfig@ get_config() override
     {
         return @gpWeaponPipeConfig;
     }
 
-    void Attack( CBasePlayer@ player, AttackType type )
+    void Attack( CBasePlayer@ player, AttackType type ) override
     {
         bool miss;
         TraceResult tr;
@@ -192,7 +192,7 @@ final class weapon_bts_pipe : BTS_MeleeCharge
         }
     }
 
-    float Idle()
+    float Idle() override
     {
         switch( RandomUint(2) )
         {

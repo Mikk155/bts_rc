@@ -107,12 +107,12 @@ CWeaponPipeWrenchConfig gpWeaponPipeWrenchConfig;
 
 final class weapon_bts_pipewrench : BTS_MeleeCharge
 {
-    ASWeaponConfig@ get_config()
+    ASWeaponConfig@ get_config() override
     {
         return @gpWeaponPipeWrenchConfig;
     }
 
-    void Attack( CBasePlayer@ player, AttackType type )
+    void Attack( CBasePlayer@ player, AttackType type ) override
     {
         bool miss;
         TraceResult tr;
@@ -216,7 +216,7 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
             TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
     }
 
-    float Idle()
+    float Idle() override
     {
         switch( RandomUint(2) )
         {

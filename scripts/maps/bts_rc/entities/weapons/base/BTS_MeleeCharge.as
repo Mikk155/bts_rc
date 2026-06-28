@@ -28,13 +28,13 @@ abstract class BTS_MeleeCharge : BTS_MeleeWeapon
 {
     WhackState m_WhackState = WhackState::Idle;
 
-    void Holster( int skiplocal = 0 )
+    void Holster( int skiplocal = 0 ) override
     {
         m_WhackState = WhackState::Idle;
         BTS_MeleeWeapon::Holster( skiplocal );
     }
 
-    void SecondaryAttack()
+    void SecondaryAttack() override
     {
         auto player = this.owner;
 

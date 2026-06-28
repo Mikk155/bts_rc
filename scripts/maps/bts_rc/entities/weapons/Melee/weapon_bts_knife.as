@@ -111,12 +111,12 @@ CWeaponKnifeConfig gpWeaponKnifeConfig;
 
 final class weapon_bts_knife : BTS_MeleeCharge
 {
-    ASWeaponConfig@ get_config()
+    ASWeaponConfig@ get_config() override
     {
         return @gpWeaponKnifeConfig;
     }
 
-    float Idle()
+    float Idle() override
     {
         switch( RandomUint(2) )
         {
@@ -128,7 +128,7 @@ final class weapon_bts_knife : BTS_MeleeCharge
         return 5.33f;
     }
 
-    void Attack( CBasePlayer@ player, AttackType type )
+    void Attack( CBasePlayer@ player, AttackType type ) override
     {
         bool miss;
         TraceResult tr;

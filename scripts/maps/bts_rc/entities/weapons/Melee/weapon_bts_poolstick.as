@@ -99,7 +99,7 @@ CWeaponPoolstickConfig gpWeaponPoolstickConfig;
 
 final class weapon_bts_poolstick : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config()
+    ASWeaponConfig@ get_config() override
     {
         return @gpWeaponPoolstickConfig;
     }
@@ -120,7 +120,7 @@ final class weapon_bts_poolstick : BTS_MeleeWeapon
         return 5.0f;
     }
 
-    void Attack( CBasePlayer@ player, AttackType type )
+    void Attack( CBasePlayer@ player, AttackType type ) override
     {
         if( type == AttackType::Tertiary )
             return;

@@ -146,12 +146,12 @@ CWeaponFlashlightConfig gpWeaponFlashlight;
 
 final class weapon_bts_flashlight : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config()
+    ASWeaponConfig@ get_config() override
     {
         return @gpWeaponFlashlight;
     }
 
-    void Spawn()
+    void Spawn() override
     {
         self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         BTS_MeleeWeapon::Spawn();
