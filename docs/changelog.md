@@ -1,3 +1,6 @@
+# 27/6/2026
+- Rewrited panthereye with optimizations and expose multiple settings to json
+
 # 23/5/2026
 - Rewrited robogrunt soldier, robogrunt boss, engineer zombie and engineer grunt (Sentry spawner) to our new EntityOverriden system which brings strong optimizations.
 

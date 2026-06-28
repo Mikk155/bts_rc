@@ -475,7 +475,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
                 break;
             }
-
             case 2:
             {
                 CBaseEntity@ hurt = MeleeAttack( 30.0, 64.0 );
@@ -494,7 +493,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
                 break;
             }
-
             case 3:
             {
                 CBaseEntity@ hurt = MeleeAttack( 42.0, 82.0 ); //92
@@ -513,7 +511,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
                 break;
             }
-
             case 4:
             {
                 this.m_bStealthed = false;
@@ -533,10 +530,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
                 {
                     Vector vecEnemyPos = enemy.EyePosition();
 
-                    float gravity = g_EngineFuncs.CVarGetFloat( "sv_gravity" );
-                    if( gravity <= 1 )
-                        gravity = 1;
-
                     float height = ( vecEnemyPos.z - self.pev.origin.z );
 
                     if( height < 16 )
@@ -544,8 +537,9 @@ class monster_panthereye : ScriptBaseMonsterEntity
                     else if( height > 120 )
                         height = 120;
 
-                    float speed = sqrt( 2 * gravity * height );
-                    float time = speed / gravity;
+                    float speed = sqrt( 2 * 800 * height ); // 800 sv_gravity
+                    float time = speed / 800;
+                    g_Game.AlertMessage( at_console, "Called the gravity thing part" + "\n" );
 
                     vecJumpDir = vecEnemyPos - self.pev.origin;
                     vecJumpDir = vecJumpDir / time;
@@ -680,7 +674,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
         if( other.pev.takedamage == 0 )
             return;
 
-        if( other.IRelationshipByClass( CLASS::CLASS_ALIEN_MILITARY ) != RELATIONSHIP::R_AL )
+        if( other.IRelationshipByClass( CLASS::CLASS_ALIEN_MILITARY ) == RELATIONSHIP::R_AL )
             return;
 
         Vector vecNewVelocity( 0.0, 0.0, self.pev.velocity.z );
@@ -698,7 +692,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
                 //player was hit from behind and isn't already being thrashed!
                 if( !player.FInViewCone( self ) && ( player.pev.effects & EF_NODRAW ) == 0 )
                 {
-                    //g_Game.AlertMessage( at_notice, "RAPED BY PANTHER!\n" );
                     SetTouch( null );
 
                     if( !player.IsAlive() )
@@ -935,6 +928,16 @@ g_SoundSystem.EmitSoundDyn(player.edict(), CHAN_BODY, "player/pain2.wav", 1.0, A
 */
 
 #if SERVER
+monster_panthereye@ GetNearPanther( const Vector&in pos )
+{
+    CBaseEntity@ entity = null;
+
+    while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, pos, 1024, "monster_panthereye", "classname" ) ) !is null && entity.IsAlive() ) {
+        return cast<monster_panthereye>( CastToScriptClass( entity ) );
+    }
+    return null;
+}
+
 RegisterCommand __gpPanthereyeTestCmd__(
     "test_panthereye",
     "",
