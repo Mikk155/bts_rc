@@ -131,12 +131,9 @@ final class ASBloodPuddleConfig : IConfigurableContext
             return true;
 
         const auto monsterNames = custom_size.Keys;
-        uint monsterSize = monsterNames.length();
 
-        for( uint ui = 0; ui < monsterSize; ui++ )
+        foreach( string name : monsterNames )
         {
-            string name = monsterNames[ui];
-
             if( !meta_api::json::v2::fmt::ToArray( custom_size[ name ], arr, false ) )
             {
                 g_Logger.error.print( "Blood puddle custom size for {} is an invalid array of two values!", { name } );

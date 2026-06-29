@@ -160,9 +160,9 @@ final class ASMapConfig
         if( context.GetName().IsEmpty() )
             g_Logger.critical.print( "Got a IConfigurableContext with empty GetName method!" );
 
-        for( uint ui = 0; ui < this.m_Contexts.length(); ui++ )
+        foreach( auto other : this.m_Contexts )
         {
-            if( this.m_Contexts[ui].GetName() == context.GetName() )
+            if( other.GetName() == context.GetName() )
                 g_Logger.critical.print( "Got a IConfigurableContext with repeated GetName! \"{}\"", { context.GetName() } );
         }
 #endif
@@ -174,12 +174,8 @@ final class ASMapConfig
     // return null if not found or is inactive.
     IConfigurableContext@ GetContext( const string&in name )
     {
-        uint length = this.m_Contexts.length();
-
-        for( uint ui = 0; ui < length; ui++ )
+        foreach( auto context : this.m_Contexts )
         {
-            IConfigurableContext@ context = this.m_Contexts[ui];
-
             if( context.GetName() == name )
                 return @context;
         }
@@ -192,8 +188,6 @@ final class ASMapConfig
             this.m_chrono.Restart();
 
         array<IConfigurableContext@> inactiveContexts(0);
-
-        uint length = this.m_Contexts.length();
 
         meta_api::json::v2::json@ defaultEmptySchema = meta_api::json::v2::json();
 
@@ -215,15 +209,15 @@ final class ASMapConfig
             m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
         }
 
-        for( uint ui = 0; ui < length; ui++ )
+        uint priority = 0;
+        foreach( auto context : this.m_Contexts )
         {
-            IConfigurableContext@ context = this.m_Contexts[ui];
-
+            priority++;
             meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
             if( g_Logger.info.active )
             {
-                g_Logger.info.print( "Validating context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
+                g_Logger.info.print( "Validating context {} at priority {} with {} variables", { context.GetName(), priority, config.Count() } );
 
                 if( g_Logger.trace.active && config.Length() > 0 )
                     g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
@@ -314,15 +308,17 @@ final class ASMapConfig
             g_Logger.warning.print( "Error validating some values for json. Using default values..." );
         }
 
-        for( uint ui = 0; ui < length; ui++ )
+        priority = 0;
+
+        foreach( auto context : this.m_Contexts )
         {
-            IConfigurableContext@ context = this.m_Contexts[ui];
+            priority++;
             auto@ config = this.m_json[ context.GetName() ];
 
             if( g_Logger.info.active )
             {
                 g_EngineFuncs.ServerPrint( "==============================================================\n" );
-                g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
+                g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), priority, config.Count() } );
 
                 if( g_Logger.trace.active && config.Length() > 0 )
                     g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
@@ -342,9 +338,9 @@ final class ASMapConfig
         }
 
         // Remove inactive items separatelly since the above loop is ordered x[
-        length = inactiveContexts.length();
-        for( uint ui = 0; ui < length; ui++ ) {
-            this.m_Contexts.removeAt( this.m_Contexts.findByRef( inactiveContexts[ui] ) );
+        foreach( auto context : inactiveContexts )
+        {
+            this.m_Contexts.removeAt( this.m_Contexts.findByRef( context ) );
         }
 
         if( g_Logger.info.active )

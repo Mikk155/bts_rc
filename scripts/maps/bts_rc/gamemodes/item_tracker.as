@@ -81,9 +81,8 @@ namespace item_tracker
 
             array<string>@ storedItems = trackedStr.Split( ";" );
 
-            for( uint i = 0; i < storedItems.length(); i++ )
+            foreach( auto name : storedItems )
             {
-                string name = storedItems[i];
                 if( name.IsEmpty() )
                     continue;
 
@@ -109,9 +108,8 @@ namespace item_tracker
         }
 
         array<string> item_names = bufferList.getKeys();
-        uint length = item_names.length();
 
-        if( length == 0 )
+        if( item_names.length() == 0 )
         {
             gpBuffer = "There is no player that has currently any item.";
         }
@@ -119,9 +117,9 @@ namespace item_tracker
         {
             gpBuffer = "List of players and inventory information\n";
 
-            for( uint ui = 0; ui < length; ui++ )
+            foreach( auto name : item_names )
             {
-                snprintf( gpBuffer, "%1\n%2", gpBuffer, string( bufferList[ item_names[ui] ] ) );
+                snprintf( gpBuffer, "%1\n%2", gpBuffer, string( bufferList[ name ] ) );
             }
         }
     }
@@ -157,9 +155,9 @@ namespace item_tracker
 
             // Validate that this item is in the tracked map items (gpItems)
             bool isTracked = false;
-            for( uint i = 0; i < gpItems.length(); i++ )
+            foreach( auto entity : gpItems )
             {
-                if( cast<CBaseEntity@>( gpItems[i].GetEntity() ) is cast<CBaseEntity@>( item ) )
+                if( cast<CBaseEntity@>( entity.GetEntity() ) is cast<CBaseEntity@>( item ) )
                 {
                     isTracked = true;
                     break;
@@ -182,9 +180,8 @@ namespace item_tracker
         bool changed = false;
 
         // Check if item was not stored (newly collected)
-        for( uint i = 0; i < currentItems.length(); i++ )
+        foreach( auto name : currentItems )
         {
-            string name = currentItems[i];
             if( storedItems is null || storedItems.find( name ) < 0 )
             {
                 g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, string( player.pev.netname ) + " collected " + name + "\n" );
@@ -215,13 +212,13 @@ namespace item_tracker
         {
             // Serialize back to userdata
             string newTrackedStr = "";
-            for( uint i = 0; i < storedItems.length(); i++ )
+            foreach( auto name : storedItems )
             {
-                if( storedItems[i].IsEmpty() )
+                if( name.IsEmpty() )
                     continue;
                 if( !newTrackedStr.IsEmpty() )
                     newTrackedStr += ";";
-                newTrackedStr += storedItems[i];
+                newTrackedStr += name;
             }
             data[ "tracked_items" ] = newTrackedStr;
 

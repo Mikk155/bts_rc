@@ -48,9 +48,12 @@ void AddItems( CBasePlayer@ player, dictionary@ kvObj )
 {
     array<string> keys = kvObj.getKeys();
 
-    for( uint ui = 0; ui < keys.length(); ui++ )
-        for( int i = 0; i < int( kvObj[keys[ui]] ); i++ )
-            player.GiveNamedItem( keys[ui], SF_GIVENITEM ); // Somehow the third argument is not working so we iterate
+    foreach( auto value, auto key : kvObj )
+    {
+        int length = int( value );
+        for( int i = 0; i < length; i++ )
+            player.GiveNamedItem( key, SF_GIVENITEM ); // Somehow the third argument is not working so we iterate
+    }
 }
 
 void AddKeyCard( CBasePlayer@ player, dictionary@ kvObj )

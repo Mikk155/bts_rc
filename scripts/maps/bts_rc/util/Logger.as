@@ -168,10 +168,8 @@ class CLogger : IConfigurableContext
         {
             uint length = this.m_Loggers.length();
 
-            for( uint ui = 0; ui < length; ui++ )
+            foreach( auto logger : this.m_Loggers )
             {
-                auto logger = this.m_Loggers[ui];
-
                 if( logger.id == id )
                 {
                     return @logger;
@@ -292,9 +290,6 @@ class CLogger : IConfigurableContext
             {
                 bool isValid = ( arguments !is null && arguments.length() > 0 );
 
-                const auto levels = g_Logger.Loggers;
-                uint length = levels.length();
-
                 if( isValid )
                 {
                     string id = arguments[0];
@@ -309,8 +304,9 @@ class CLogger : IConfigurableContext
                         return;
                     }
 
-                    for( uint ui = 0; ui < length; ui++ ) {
-                        if( ( isValid = levels[ui].id == id ) )
+                    foreach( auto logger : g_Logger.Loggers )
+                    {
+                        if( ( isValid = logger.id == id ) )
                             break;
                     }
                 }

@@ -63,15 +63,12 @@ CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function
     if( player is null )
         return;
 
-    uint length = __CommandContexts__.length();
-
     if( args.ArgC() == 1 || args[1] == "help" )
     {
         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Black Mesa Training: Resonance Cascade commands ---\n" );
 
-        for( uint ui = 0; ui < length; ui++ )
+        foreach( auto context : __CommandContexts__ )
         {
-            auto context = __CommandContexts__[ui];
             string buffer;
 
             if( context.Section.IsEmpty() )
@@ -94,10 +91,8 @@ CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function
     AdminLevel_t adminLevel = g_PlayerFuncs.AdminLevel( player );
     bool isAdmin = ( adminLevel == AdminLevel_t::ADMIN_YES || adminLevel == AdminLevel_t::ADMIN_OWNER );
 
-    for( uint ui = 0; ui < length; ui++ )
+    foreach( auto context : __CommandContexts__ )
     {
-        auto context = __CommandContexts__[ui];
-
         if( context.AdminOnly && !isAdmin )
         {
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "This command is for administrators only.\n" );

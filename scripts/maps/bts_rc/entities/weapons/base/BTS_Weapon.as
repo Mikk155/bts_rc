@@ -104,18 +104,13 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     void ClearTimerList()
     {
-        uint length = __Callbacks__.length();
-
-        for( uint ui = 0; ui < length; ui++ )
+        foreach( CScheduledFunction@ callback : __Callbacks__ )
         {
-            auto callback = __Callbacks__[ui];
-
             if( callback !is null )
             {
                 g_Scheduler.RemoveTimer( @callback );
             }
         }
-
         __Callbacks__.resize(0);
     }
 

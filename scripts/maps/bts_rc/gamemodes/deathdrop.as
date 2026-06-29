@@ -51,12 +51,9 @@ class ASDeathDropConfig : IConfigurableContext
             return false;
 
         const auto listNames = config.Keys;
-        uint size = listNames.length();
 
-        for( uint ui = 0; ui < size; ui++ )
+        foreach( auto listName : listNames )
         {
-            string listName = listNames[ui];
-
             if( listName == "active" )
                 continue;
 
@@ -76,9 +73,8 @@ class ASDeathDropConfig : IConfigurableContext
             }
 
             // Precache
-            for( uint uie = 0; uie < itemNames.length(); uie++ )
+            foreach( auto itemName : itemNames )
             {
-                string itemName = itemNames[uie];
                 if( !itemName.IsEmpty() && itemName != "grenade" )
                     g_Game.PrecacheOther( itemName );
             }
@@ -87,17 +83,14 @@ class ASDeathDropConfig : IConfigurableContext
             if( g_Logger.trace.active )
             {
                 dictionary count;
-                for( uint uilog = 0; uilog < itemNames.length(); uilog++ )
+                foreach( auto name : itemNames )
                 {
-                    string name = string( itemNames[uilog] );
                     count[ name ] = int( count[ name ] ) + 1;
                 }
 
-                auto dropsCountKeys = count.getKeys();
-                for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
+                foreach( auto value, auto key : count )
                 {
-                    string name = dropsCountKeys[uilog];
-                    g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
+                    g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / itemNames.length() ) * int( value ), ( key.IsEmpty() ? "nothing" : key ) ) );
                 }
             }
         }

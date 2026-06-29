@@ -10,7 +10,7 @@
     "angelScript.characterLiterals": true,
     "angelScript.explicitPropertyAccessor": false,
     "angelScript.implicitMutualInclusion": true,
-    "angelScript.supportsForEach": false,
+    "angelScript.supportsForEach": true,
     "angelScript.supportsDigitSeparators": false,
     "angelScript.builtinStringType": "string",
     "angelScript.builtinArrayType": "array",

@@ -32,12 +32,8 @@ namespace EntityOverriden
     {
         bool added = false;
 
-        uint length = gpEntityOverriden.length();
-
-        for( uint ui = 0; ui < length; ui++ )
+        foreach( auto overrider : gpEntityOverriden )
         {
-            EntityOverriden@ overrider = gpEntityOverriden[ui];
-
             if( overrider !is null && overrider.AddEntity( index, entity, ckv, monster ) )
             {
                 if( g_Logger.trace.active )

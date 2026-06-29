@@ -28,12 +28,8 @@ namespace Hooks
 
         void Think()
         {
-            uint length = EntityOverriden::gpEntityOverriden.length();
-
-            for( uint ui = 0; ui < length; ui++ )
+            foreach( EntityOverriden@ overrider : EntityOverriden::gpEntityOverriden )
             {
-                EntityOverriden@ overrider = EntityOverriden::gpEntityOverriden[ui];
-
                 if( overrider !is null && overrider.ShouldThink() )
                 {
                     overrider.Think();

@@ -90,12 +90,9 @@ class ASDynamicAmmoConfig : IConfigurableContext
         @gpDynamicAmmo = this;
 
         const auto@ ammoTypes = config.Keys;
-        uint size = ammoTypes.length();
 
-        for( uint ui = 0; ui < size; ui++ )
+        foreach( auto ammoType : ammoTypes )
         {
-            string ammoType = ammoTypes[ui];
-
             array<int>@ range;
 
             if( meta_api::json::v2::fmt::ToArray( config[ ammoType ], range, true, false ) )
@@ -151,10 +148,10 @@ class ASDynamicAmmoConfig : IConfigurableContext
 
                 auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
 
-                for( uint i = 0; i < keys.length(); i++ )
+                foreach( auto name : keys )
                 {
                     array<int>@ range;
-                    gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
+                    gpDynamicAmmo.m_AmmoRanges.get( name, @range );
 
                     int minGive = range[0];
                     int maxGive = range[1];
@@ -163,7 +160,7 @@ class ASDynamicAmmoConfig : IConfigurableContext
                     int give = int( Math.Ceil( result ) );
                     if( give < 1 ) give = 1;
 
-                    snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                    snprintf( buffer, "  %1: %2  (range: %3-%4)\n", name, give, minGive, maxGive );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
                 }
 

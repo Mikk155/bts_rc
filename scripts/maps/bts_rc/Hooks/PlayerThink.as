@@ -121,12 +121,9 @@ namespace Hooks
         if( player.pev.impulse == 101 && ( !g_IsMainMap || g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES ) )
         {
             const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
-            uint length = weaponNames.length();
 
-            for( uint ui = 0; ui < length; ui++ )
+            foreach( auto weapon_name : weaponNames )
             {
-                const string weapon_name = weaponNames[ui];
-
                 player.GiveNamedItem( weapon_name );
 
                 CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
