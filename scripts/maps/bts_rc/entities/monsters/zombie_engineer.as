@@ -20,7 +20,7 @@
     Original code: Nero
 */
 
-final class ASZombieEngineer : EntityOverriden, IConfigurableContext
+final class ASZombieEngineer : EntityOverriden, IConfigurable
 {
     const string& GetName() const override
     {

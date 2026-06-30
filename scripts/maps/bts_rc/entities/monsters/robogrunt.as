@@ -20,7 +20,7 @@
     Original code: Nero
 */
 
-class ASRoboGrunt : EntityOverriden, IConfigurableContext
+class ASRoboGrunt : EntityOverriden, IConfigurable
 {
     const string& GetName() const override
     {

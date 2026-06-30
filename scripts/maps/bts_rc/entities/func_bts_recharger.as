@@ -19,7 +19,7 @@
     Author Mikk
 */
 
-final class ASWallRechargerConfig : IConfigurableContext
+final class ASWallRechargerConfig : IConfigurable
 {
     int m_Juice;
     int m_RechargeTime;

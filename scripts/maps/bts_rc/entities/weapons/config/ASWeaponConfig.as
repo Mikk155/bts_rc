@@ -92,7 +92,7 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
 }""" );
 
 // Inherit from this class. override GetName and Register then call back ASWeaponConfig::Register(json)
-abstract class ASWeaponConfig : IConfigurableContext
+abstract class ASWeaponConfig : IConfigurable
 {
     ASWeaponConfig()
     {

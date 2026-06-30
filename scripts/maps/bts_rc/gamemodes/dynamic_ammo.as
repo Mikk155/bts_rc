@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASDynamicAmmoConfig : IConfigurableContext
+final class ASDynamicAmmoConfig : IConfigurable
 {
     // Maps ammo type name -> array<int>{ min_give, max_give }
     // min_give = ammo given at max players, max_give = ammo given solo
@@ -32,7 +32,7 @@ final class ASDynamicAmmoConfig : IConfigurableContext
             "description": "Scales ammo pickup amounts based on connected player count.",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "properties":
             {

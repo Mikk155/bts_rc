@@ -23,7 +23,7 @@
 #include "item_bts_skeleton"
 #include "item_bts_sprayaid"
 
-final class ASItemsConfig : IConfigurableContext
+final class ASItemsConfig : IConfigurable
 {
     const string& GetName() const override
     {

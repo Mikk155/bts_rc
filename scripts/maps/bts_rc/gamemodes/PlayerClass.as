@@ -160,7 +160,7 @@ final class CCharacter
 array<array<CCharacter@>> g_Characters(Classification::__Size__);
 array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
-final class ASPlayerCharactersConfig : IConfigurableContext
+final class ASPlayerCharactersConfig : IConfigurable
 {
     private
         void __RegisterCharacter__( string character_name, Classification character_classify, Hands character_hands )

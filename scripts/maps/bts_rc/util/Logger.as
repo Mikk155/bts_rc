@@ -153,7 +153,7 @@ namespace Logger
     bool gpWriteFile;
 }
 
-final class CLogger : IConfigurableContext
+final class CLogger : IConfigurable
 {
     protected
         array<Logger::ASLogger@> m_Loggers(0);
@@ -229,7 +229,7 @@ final class CLogger : IConfigurableContext
         return @this.command;
     }
 
-    // IConfigurableContext start
+    // IConfigurable start
     const string& GetName() const override {
         return "logger";
     }
