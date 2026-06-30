@@ -1,7 +1,7 @@
 # ===================================================================
 # ===================================================================
 # Purpose:
-#   Generate release information changelog and tags from AS semantic version
+#   Compact AngelScript literal strings representing json objects on release
 # ===================================================================
 # ===================================================================
 

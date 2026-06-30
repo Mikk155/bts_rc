@@ -1,7 +1,8 @@
 # ===================================================================
 # ===================================================================
 # Purpose:
-#   Check validation of AngelScript IConfigurable::GetSchema
+#   Check validation of g_ScriptsVersion & github latest release
+#   If g_ScriptsVersion is newer than the last release it generates a release
 # ===================================================================
 # ===================================================================
 
