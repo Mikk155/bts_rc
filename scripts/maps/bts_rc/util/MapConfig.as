@@ -195,6 +195,7 @@ final class ASMapConfig
 
         uint length = this.m_Contexts.length();
 
+#if REMOVED_FROM_VALIDATION
         meta_api::json::v2::json@ defaultEmptySchema = meta_api::json::v2::json();
 
         {
@@ -202,6 +203,7 @@ final class ASMapConfig
             defaultEmptySchema.Set( "unevaluatedProperties", false );
             defaultEmptySchema.Set( "properties", meta_api::json::v2::json() );
         }
+#endif
 
         {
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
@@ -219,6 +221,15 @@ final class ASMapConfig
         {
             IConfigurableContext@ context = this.m_Contexts[ui];
 
+            string schemaString = context.GetSchema();
+
+            if( schemaString.IsEmpty() )
+            {
+                if( g_Logger.info.active )
+                    g_Logger.info.print( "Skipping context {} at priority {} which returned an empty schema.", { context.GetName(), ui } );
+                continue;
+            }
+
             meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
             if( g_Logger.info.active )
@@ -233,8 +244,7 @@ final class ASMapConfig
 
             meta_api::json::Error err;
 
-            string schemaString = context.GetSchema();
-
+#if REMOVED_FROM_VALIDATION
             if( schemaString.IsEmpty() )
             {
 #if SERVER
@@ -244,7 +254,9 @@ final class ASMapConfig
                 // HACK onto empty string schemas since unevaluated properties
                 this.m_GlobalSchemaProperties.Set( context.GetName(), defaultEmptySchema );
             }
-            else if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
+            else
+#endif
+            if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
             {
                 if( schema.Contains( "allOf" ) )
                 {
@@ -322,11 +334,17 @@ final class ASMapConfig
             if( g_Logger.info.active )
             {
                 g_EngineFuncs.ServerPrint( "==============================================================\n" );
-                g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
+                if( config is null )
+                {
+                    g_Logger.warning.print( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
+                }
+                else
+                {
+                    g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
 
-                if( g_Logger.trace.active && config.Length() > 0 )
-                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
-
+                    if( g_Logger.trace.active && config.Length() > 0 )
+                        g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+                }
                 g_EngineFuncs.ServerPrint( "==============================================================\n" );
             }
 
