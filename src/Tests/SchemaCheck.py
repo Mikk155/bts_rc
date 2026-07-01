@@ -89,6 +89,6 @@ class SchemaCheck( PyBuilder ):
 
         self.Log( "All AngelScript configuration schemas checked" );
 
-        return ( invalidFiles == 0 )
+        return ( invalidFiles == 0 );
 
 SchemaCheck();

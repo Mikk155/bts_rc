@@ -33,7 +33,7 @@ def Main() -> int:
                 builder.Log( "Build success." );
 
         except Exception as e:
-            builder.Log( f"throw an exception: {e}" )
+            builder.Log( f"throw an exception: {e}" );
             result += 1;
 
     return result;

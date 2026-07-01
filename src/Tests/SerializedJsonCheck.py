@@ -8,7 +8,7 @@
 import re;
 import json;
 
-from Tests.PyBuilder import PyBuilder
+from Tests.PyBuilder import PyBuilder;
 
 class SerializedJsonCheck( PyBuilder ):
 
@@ -84,6 +84,6 @@ class SerializedJsonCheck( PyBuilder ):
 
         self.Log( "All AngelScript json string literals checked" );
 
-        return ( invalidFiles == 0 )
+        return ( invalidFiles == 0 );
 
 SerializedJsonCheck();
