@@ -63,7 +63,7 @@ array<CCharacter@> g_MaintenanceTeam;
 array<CCharacter@> g_SecurityTeam;
 array<CCharacter@> g_OperativeTeam;
 
-class CCharacter
+final class CCharacter
 {
     private Hands m_Hands;
     const Hands& HandsGroup {
@@ -160,7 +160,7 @@ class CCharacter
 array<array<CCharacter@>> g_Characters(Classification::__Size__);
 array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
-final class ASPlayerCharactersConfig : IConfigurableContext
+final class ASPlayerCharactersConfig : IConfigurable
 {
     private
         void __RegisterCharacter__( string character_name, Classification character_classify, Hands character_hands )

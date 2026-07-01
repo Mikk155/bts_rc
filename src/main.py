@@ -1,11 +1,3 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Generates documentation from the json schema validator
-#   Automatically add license headers to new files
-# ===================================================================
-# ===================================================================
-
 import os;
 import sys;
 
@@ -41,7 +33,7 @@ def Main() -> int:
                 builder.Log( "Build success." );
 
         except Exception as e:
-            builder.Log( f"throw an exception: {e}" )
+            builder.Log( f"throw an exception: {e}" );
             result += 1;
 
     return result;

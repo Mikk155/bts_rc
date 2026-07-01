@@ -206,17 +206,20 @@ namespace Hooks
                     // Can we attack?
                     if( player.m_flNextAttack <= 0 )
                     {
-                        if( ( player.pev.button & IN_ATTACK ) != 0 ) {
+                        if( ( player.pev.button & IN_ATTACK ) != 0 )
+                        {
                             if( weapon.m_flNextPrimaryAttack < g_Engine.time )
                                 weaponConfig.WeaponPrimaryAttack( player, weapon, character );
                         }
 
-                        if( ( player.pev.button & IN_ATTACK2 ) != 0 ) {
+                        if( ( player.pev.button & IN_ATTACK2 ) != 0 )
+                        {
                             if( weapon.m_flNextSecondaryAttack < g_Engine.time )
                                 weaponConfig.WeaponSecondaryAttack( player, weapon, character );
                         }
 
-                        if( ( player.pev.button & IN_ALT1 ) != 0 ) {
+                        if( ( player.pev.button & IN_ALT1 ) != 0 )
+                        {
                             if( weapon.m_flNextTertiaryAttack < g_Engine.time )
                                 weaponConfig.WeaponTertiaryAttack( player, weapon, character );
                         }

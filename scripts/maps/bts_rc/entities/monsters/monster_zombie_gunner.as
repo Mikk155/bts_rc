@@ -95,7 +95,7 @@ namespace monster_zombie_gunner
         SND_EMPTY
     };
 
-    class monster_zombie_gunner : bts_rc_base_monster
+    final class monster_zombie_gunner : bts_rc_base_monster
     {
         private float m_flNextFlinch;
         private bool m_bGunOut;

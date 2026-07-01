@@ -82,7 +82,7 @@ namespace monster_zombie_grenadier
         SND_GRENPULL3
     };
 
-    class monster_zombie_grenadier : bts_rc_base_monster
+    final class monster_zombie_grenadier : bts_rc_base_monster
     {
         private float m_flNextFlinch;
         private bool m_bHasGrenade = true;

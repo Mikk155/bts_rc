@@ -21,7 +21,7 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-final class ASBloodPuddleConfig : IConfigurableContext
+final class ASBloodPuddleConfig : IConfigurable
 {
     array<float> m_DefaultSize;
     dictionary m_CustomSizes;
@@ -39,7 +39,7 @@ final class ASBloodPuddleConfig : IConfigurableContext
             "description": "Controls blood puddle behavior and appearance.",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "properties":
             {

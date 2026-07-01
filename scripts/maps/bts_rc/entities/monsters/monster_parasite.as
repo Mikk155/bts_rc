@@ -70,7 +70,7 @@ const array<string> pBiteSounds =
     "headcrab/hc_headbite.wav"
 };
 
-class monster_parasite : bts_rc_base_monster
+final class monster_parasite : bts_rc_base_monster
 {
     protected float m_flIgnoreWorldCollisionTime;
 

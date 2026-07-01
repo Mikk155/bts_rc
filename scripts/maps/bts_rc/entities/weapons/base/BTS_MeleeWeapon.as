@@ -17,7 +17,8 @@
 
 abstract class BTS_MeleeWeapon : BTS_Weapon
 {
-    ASMeleeWeaponConfig@ get_configMelee() {
+    ASMeleeWeaponConfig@ get_configMelee()
+    {
         return cast<ASMeleeWeaponConfig@>( this.config );
     }
 
@@ -27,12 +28,14 @@ abstract class BTS_MeleeWeapon : BTS_Weapon
     bool m_IsSecondary = false;
 
     // Set weapon cooldown
-    void SetCooldown( bool is_trained_personal, bool miss, AttackType type ) {
+    void SetCooldown( bool is_trained_personal, bool miss, AttackType type )
+    {
         weapons::SetCooldown( self, this.owner, configMelee.GetCooldown( is_trained_personal, type, miss ) );
     }
 
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data
-    bool Hit( TraceResult&out tr, AttackType type, CBaseEntity@&out hit, bool Shove = false ) {
+    bool Hit( TraceResult&out tr, AttackType type, CBaseEntity@&out hit, bool Shove = false )
+    {
         return weapons::Hit( self, this.owner, tr, type, hit, configMelee, Shove );
     }
 }

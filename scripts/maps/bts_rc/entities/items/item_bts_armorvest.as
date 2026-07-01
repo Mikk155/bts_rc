@@ -17,7 +17,8 @@
 
 class item_bts_armorvest : BTS_Item
 {
-    const string& get_m_PlaySound() {
+    const string& get_m_PlaySound()
+    {
         return "bts_rc/items/armor_pickup1.wav";
     }
 

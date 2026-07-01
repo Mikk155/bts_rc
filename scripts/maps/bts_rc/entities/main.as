@@ -21,6 +21,14 @@
 
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
 
+#include "monsters/blackops_flashbang"
+#include "monsters/bloodpuddle"
+#include "monsters/engineer_sentry"
+#include "monsters/lasers"
+#include "monsters/robogrunt"
+#include "monsters/zombie_engineer"
+#include "monsters/zombie_uncrab"
+
 #include "env_commentary"
 #include "func_bts_recharger"
 #if SERVER

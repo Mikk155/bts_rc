@@ -19,7 +19,7 @@
     Author: Mikk
 */
 
-final class ASAimingLasersConfig : EntityOverriden, IConfigurableContext
+final class ASAimingLasersConfig : EntityOverriden, IConfigurable
 {
     RGBA color;
 
@@ -37,7 +37,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurableContext
             "description": "Controls laser aiming visuals for monsters.",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "properties":
             {

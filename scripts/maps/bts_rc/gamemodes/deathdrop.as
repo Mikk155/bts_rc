@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class ASDeathDropConfig : IConfigurableContext
+final class ASDeathDropConfig : IConfigurable
 {
     dictionary m_Monsters;
 
@@ -31,7 +31,7 @@ class ASDeathDropConfig : IConfigurableContext
             "description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "additionalProperties":
             {

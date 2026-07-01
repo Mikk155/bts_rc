@@ -21,7 +21,7 @@
     Idea: AraseFiq
 */
 
-class CVoice
+final class CVoice
 {
     private string __owner__;
     private string __type__;
@@ -86,7 +86,7 @@ class CVoice
     }
 }
 
-class CVoices
+final class CVoices
 {
     private string __name__;
 

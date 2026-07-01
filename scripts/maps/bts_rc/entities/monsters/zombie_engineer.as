@@ -20,13 +20,15 @@
     Original code: Nero
 */
 
-class ZombieEngineer : EntityOverriden, IConfigurableContext
+final class ASZombieEngineer : EntityOverriden, IConfigurable
 {
-    const string& GetName() const override {
+    const string& GetName() const override
+    {
         return "zombie_engineer";
     }
 
-    const string GetSchema() const {
+    const string GetSchema() const override
+    {
         return String::EMPTY_STRING;
     }
 
@@ -47,7 +49,8 @@ class ZombieEngineer : EntityOverriden, IConfigurableContext
 
     bool IsValid( const string&in classname, const string&in model )
     {
-        if( classname == "monster_gonome" ) {
+        if( classname == "monster_gonome" )
+        {
             if( model == "models/bts_rc/monsters/zombie_engineer2.mdl" )
                 return true;
         }
@@ -178,4 +181,4 @@ class ZombieEngineer : EntityOverriden, IConfigurableContext
     }
 }
 
-ZombieEngineer gpZombieEngineer;
+ASZombieEngineer gpZombieEngineer;

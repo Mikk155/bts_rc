@@ -31,7 +31,7 @@ enum WeaponMedkitAnim
     IDK
 };
 
-class CWeaponMedkitConfig : ASWeaponConfig
+final class CWeaponMedkitConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_medkit";
