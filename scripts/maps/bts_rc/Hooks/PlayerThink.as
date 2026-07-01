@@ -169,8 +169,13 @@ namespace Hooks
 
             string lastWeapon = string( data[ "current_weapon" ] );
 
-            if( !lastWeapon.IsEmpty() && ( weapon is null || weapon.GetClassname() != lastWeapon ))
-                cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon ] ).WeaponHolster( player, weapon, character );
+            if( !lastWeapon.IsEmpty() && ( weapon is null || weapon.GetClassname() != lastWeapon ) )
+            {
+                dictionaryValue@ lastWeaponInterface;
+
+                if( g_WeaponsConfig.Interfaces.get( lastWeapon, lastWeaponInterface ) )
+                    cast<ASWeaponConfig@>( lastWeaponInterface ).WeaponHolster( player, weapon, character );
+            }
 
             const string classname = ( weapon is null ? String::EMPTY_STRING : weapon.GetClassname() );
 
@@ -201,17 +206,20 @@ namespace Hooks
                     // Can we attack?
                     if( player.m_flNextAttack <= 0 )
                     {
-                        if( ( player.pev.button & IN_ATTACK ) != 0 ) {
+                        if( ( player.pev.button & IN_ATTACK ) != 0 )
+                        {
                             if( weapon.m_flNextPrimaryAttack < g_Engine.time )
                                 weaponConfig.WeaponPrimaryAttack( player, weapon, character );
                         }
 
-                        if( ( player.pev.button & IN_ATTACK2 ) != 0 ) {
+                        if( ( player.pev.button & IN_ATTACK2 ) != 0 )
+                        {
                             if( weapon.m_flNextSecondaryAttack < g_Engine.time )
                                 weaponConfig.WeaponSecondaryAttack( player, weapon, character );
                         }
 
-                        if( ( player.pev.button & IN_ALT1 ) != 0 ) {
+                        if( ( player.pev.button & IN_ALT1 ) != 0 )
+                        {
                             if( weapon.m_flNextTertiaryAttack < g_Engine.time )
                                 weaponConfig.WeaponTertiaryAttack( player, weapon, character );
                         }

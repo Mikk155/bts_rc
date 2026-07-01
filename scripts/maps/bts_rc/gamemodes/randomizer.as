@@ -20,7 +20,7 @@ namespace randomizer
     // List of array<int> containing indexes for matched entities for each randomizer type.
     dictionary g_Randomizers;
 
-    class CRandomizerEntity : ScriptBaseEntity
+    final class CRandomizerEntity : ScriptBaseEntity
     {
         void Spawn()
         {

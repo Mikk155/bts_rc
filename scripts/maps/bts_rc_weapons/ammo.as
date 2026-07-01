@@ -299,10 +299,12 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
 /*
 class ammo_bts_fuel : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
-    void Spawn() {
+    void Spawn()
+    {
         Spawn("models/w_weaponbox.mdl" );
     }
-    bool AddAmmo( CBaseEntity@ other ) {
+    bool AddAmmo( CBaseEntity@ other )
+    {
         return AddAmmo(other, ( "ammo_bts_fuel" == pev.classname ? Math.RandomLong( 20, 80 ) : 40 ), "fuel", 120 );
     }
 }

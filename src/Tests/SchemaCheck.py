@@ -1,7 +1,7 @@
 # ===================================================================
 # ===================================================================
 # Purpose:
-#   Check validation of AngelScript IConfigurableContext::GetSchema
+#   Check validation of AngelScript IConfigurable::GetSchema
 # ===================================================================
 # ===================================================================
 
@@ -14,7 +14,7 @@ class SchemaCheck( PyBuilder ):
 
     def Build(self) -> bool:
 
-        classRegex = re.compile( r'class\s+([A-Za-z_]\w*)\s*:\s*([^{};]*\bIConfigurableContext\b[^{};]*)', re.MULTILINE );
+        classRegex = re.compile( r'class\s+([A-Za-z_]\w*)\s*:\s*([^{};]*\bIConfigurable\b[^{};]*)', re.MULTILINE );
         methodRegex = re.compile( r'GetSchema\s*\(\s*\)\s*const\s*(?:override\s*)?\s*\{' );
         tripleRegex = re.compile( r'"""(.*?)"""', re.DOTALL );
 
@@ -89,6 +89,6 @@ class SchemaCheck( PyBuilder ):
 
         self.Log( "All AngelScript configuration schemas checked" );
 
-        return ( invalidFiles == 0 )
+        return ( invalidFiles == 0 );
 
 SchemaCheck();

@@ -21,6 +21,7 @@
 #include "Logger"
 #include "models"
 #include "PlayerClass"
+#include "Precache"
 
 #include "../../../mikk155/SemanticVersion"
 

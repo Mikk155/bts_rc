@@ -37,7 +37,7 @@ enum WeaponFlashlightAnim
     Flashlight
 };
 
-class CWeaponFlashlightConfig : ASMeleeWeaponConfig
+final class CWeaponFlashlightConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_flashlight";
@@ -47,7 +47,8 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
         return "models/bts_rc/weapons/p_flashlight.mdl";
     }
 
-    const string& get_flashlight_model() {
+    const string& get_flashlight_model()
+    {
         return "models/bts_rc/weapons/p_flashlight_cone.mdl";
     }
 
@@ -143,13 +144,14 @@ class CWeaponFlashlightConfig : ASMeleeWeaponConfig
 
 CWeaponFlashlightConfig gpWeaponFlashlight;
 
-class weapon_bts_flashlight : BTS_MeleeWeapon
+final class weapon_bts_flashlight : BTS_MeleeWeapon
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config() override
+    {
         return @gpWeaponFlashlight;
     }
 
-    void Spawn()
+    void Spawn() override
     {
         self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         BTS_MeleeWeapon::Spawn();
@@ -169,7 +171,7 @@ class weapon_bts_flashlight : BTS_MeleeWeapon
 }
 
 #if OLD_CODE_REMAINING
-class weapon_bts_dflashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
+final class weapon_bts_dflashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
 {
     private bool Swing( bool fFirst )
     {

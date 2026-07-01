@@ -92,7 +92,7 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
 }""" );
 
 // Inherit from this class. override GetName and Register then call back ASWeaponConfig::Register(json)
-abstract class ASWeaponConfig : IConfigurableContext
+abstract class ASWeaponConfig : IConfigurable
 {
     ASWeaponConfig()
     {
@@ -119,7 +119,8 @@ abstract class ASWeaponConfig : IConfigurableContext
 
     private int m_view_model_index = -1;
     // Do not override. is automatic.
-    const int get_view_model_index() {
+    const int get_view_model_index()
+    {
         if( this.m_view_model_index == -1 )
             this.m_view_model_index = g_ModelFuncs.ModelIndex( this.view_model );
         return this.m_view_model_index;
@@ -182,7 +183,8 @@ abstract class ASWeaponConfig : IConfigurableContext
 
     private bool m_IsCustom;
     // Whatever this is a custom weapon
-    const bool IsCustom() {
+    const bool IsCustom()
+    {
         return this.m_IsCustom;
     }
 
@@ -220,7 +222,7 @@ abstract class ASWeaponConfig : IConfigurableContext
         g_Game.PrecacheModel( this.view_model );
         g_Game.PrecacheModel( this.player_model );
 
-        if( !this.view_model.IsEmpty() )
+        if( !this.world_model.IsEmpty() )
             g_Game.PrecacheModel( this.world_model );
     }
 

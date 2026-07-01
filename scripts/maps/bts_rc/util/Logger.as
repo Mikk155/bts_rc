@@ -19,7 +19,7 @@ string glog;
 
 namespace Logger
 {
-    class ASLogger
+    final class ASLogger
     {
         protected
             bool m_IsActive = true;
@@ -153,7 +153,7 @@ namespace Logger
     bool gpWriteFile;
 }
 
-class CLogger : IConfigurableContext
+final class CLogger : IConfigurable
 {
     protected
         array<Logger::ASLogger@> m_Loggers(0);
@@ -224,11 +224,12 @@ class CLogger : IConfigurableContext
     }
 
     protected RegisterCommand@ command;
-    const RegisterCommand@ get_Command() {
+    const RegisterCommand@ get_Command()
+    {
         return @this.command;
     }
 
-    // IConfigurableContext start
+    // IConfigurable start
     const string& GetName() const override {
         return "logger";
     }
@@ -309,7 +310,8 @@ class CLogger : IConfigurableContext
                         return;
                     }
 
-                    for( uint ui = 0; ui < length; ui++ ) {
+                    for( uint ui = 0; ui < length; ui++ )
+                    {
                         if( ( isValid = levels[ui].id == id ) )
                             break;
                     }

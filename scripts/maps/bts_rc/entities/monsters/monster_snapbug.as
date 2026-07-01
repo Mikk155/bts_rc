@@ -99,7 +99,7 @@ namespace monster_snapbug
         SND_BITE
     };
 
-    class monster_snapbug : bts_rc_base_monster
+    final class monster_snapbug : bts_rc_base_monster
     {
         void Spawn()
         {
@@ -432,7 +432,7 @@ namespace monster_snapbug
         @custom_snapbug_schedules = @scheds;
     }
 
-    class snapbug : ScriptBaseEntity
+    final class snapbug : ScriptBaseEntity
     {
         private float m_flDealDamage;
         private float m_flAttachTime;

@@ -21,7 +21,7 @@
 *   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
-class ASZombieUncrabConfig : IConfigurableContext
+final class ASZombieUncrabConfig : IConfigurable
 {
     const string& GetName() const override {
         return "zombie_uncrab";
@@ -34,7 +34,7 @@ class ASZombieUncrabConfig : IConfigurableContext
             "description": "Controls headcrab detachment behavior from zombies.",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "properties":
             {

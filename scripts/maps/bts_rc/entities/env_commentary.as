@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class env_commentary : ScriptBaseAnimating
+final class env_commentary : ScriptBaseAnimating
 {
     string Commentary;
     string soundfile;

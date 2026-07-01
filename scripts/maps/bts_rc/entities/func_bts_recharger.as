@@ -19,7 +19,7 @@
     Author Mikk
 */
 
-final class ASWallRechargerConfig : IConfigurableContext
+final class ASWallRechargerConfig : IConfigurable
 {
     int m_Juice;
     int m_RechargeTime;
@@ -79,7 +79,7 @@ final class ASWallRechargerConfig : IConfigurableContext
     }
 }
 
-class func_bts_recharger : ScriptBaseEntity
+final class func_bts_recharger : ScriptBaseEntity
 {
     private
         ASWallRechargerConfig@ m_Config = null;

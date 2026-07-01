@@ -87,7 +87,7 @@ enum sound_e
     SND_PAIN2
 };
 
-class monster_zombie_parasite : bts_rc_base_monster
+final class monster_zombie_parasite : bts_rc_base_monster
 {
     private float m_flNextFlinch;
     private bool m_bCloudDropped;
@@ -565,7 +565,7 @@ class monster_zombie_parasite : bts_rc_base_monster
     }
 }
 
-class CParasiteZombieCloud : ScriptBaseEntity
+final class CParasiteZombieCloud : ScriptBaseEntity
 {
     private float m_flRemoveTime;
     private float m_flPoisonDamage = POISON_DAMAGE_START;

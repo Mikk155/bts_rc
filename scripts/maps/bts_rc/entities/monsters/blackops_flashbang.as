@@ -19,7 +19,7 @@
     Author: Mikk
 */
 
-final class ASBlackOpsFlashbang : EntityOverriden, IConfigurableContext
+final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 {
     private float throw_flash_cooldown;
     private float detonate_time;
@@ -38,7 +38,7 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurableContext
             "description": "Controls blackops flashbangs feature",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "properties":
             {

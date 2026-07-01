@@ -38,7 +38,7 @@ enum WeaponCrowbarAnim
     ShoveAltMiss
 };
 
-class CWeaponCrowbarConfig : ASMeleeWeaponConfig
+final class CWeaponCrowbarConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_crowbar";
@@ -148,7 +148,7 @@ class CWeaponCrowbarConfig : ASMeleeWeaponConfig
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
 
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
-        MonsterTakeDamageHook( function( DamageInfo@ info )
+        @MonsterTakeDamageHook( function( DamageInfo@ info )
         {
             if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
             {

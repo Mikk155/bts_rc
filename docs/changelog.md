@@ -1,3 +1,6 @@
+# 30/6/2026
+- Added various player models (Requires download from MEGA)
+
 # 27/6/2026
 - Rewrited panthereye with optimizations and expose multiple settings to json
 

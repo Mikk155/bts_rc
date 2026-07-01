@@ -20,7 +20,7 @@
     Original code: Nero
 */
 
-class ASGruntEngineer : EntityOverriden, IConfigurableContext
+final class ASGruntEngineer : EntityOverriden, IConfigurable
 {
     const string& GetName() const override {
         return "grunt_engineer";
@@ -33,7 +33,7 @@ class ASGruntEngineer : EntityOverriden, IConfigurableContext
             "description": "Controls engineer grunt sentry spawning",
             "allOf":
             [
-                "IConfigurableContext"
+                "IConfigurable"
             ],
             "properties":
             {

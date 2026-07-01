@@ -24,7 +24,7 @@
 // Inherit from this interface to configure contexts from one key at the root json
 // Register your contexts at ASMapConfig::Registry()
 // Do NOT hold references to your object if Register can return false.
-interface IConfigurableContext
+interface IConfigurable
 {
     // Unique key name in the root json object
     const string& GetName() const;
@@ -60,7 +60,7 @@ final class ASMapConfig
         bool m_ShouldWriteSchema = false;
 
     private
-        array<IConfigurableContext@> m_Contexts(0);
+        array<IConfigurable@> m_Contexts(0);
 
     private
         Server::chrono@ m_chrono = Server::chrono();
@@ -69,7 +69,8 @@ final class ASMapConfig
         Server::chrono@ m_chronoMapStart = Server::chrono();
 
     // Get a handle to the map configuration. this is null after MapInit
-    const meta_api::json::v2::json@ get_json() {
+    const meta_api::json::v2::json@ get_json()
+    {
         return this.m_json;
     }
 
@@ -141,7 +142,7 @@ final class ASMapConfig
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
 
-        this.RegisterSchemaDefinition( "IConfigurableContext", """{
+        this.RegisterSchemaDefinition( "IConfigurable", """{
             "active":
             {
                 "type": "boolean",
@@ -151,19 +152,19 @@ final class ASMapConfig
         }""" );
     }
 
-    void Register( IConfigurableContext@ context )
+    void Register( IConfigurable@ context )
     {
         if( g_Logger.info.active )
             g_Logger.info.print( "Initializing context {}", { context.GetName() } );
 
 #if SERVER
         if( context.GetName().IsEmpty() )
-            g_Logger.critical.print( "Got a IConfigurableContext with empty GetName method!" );
+            g_Logger.critical.print( "Got a IConfigurable with empty GetName method!" );
 
         for( uint ui = 0; ui < this.m_Contexts.length(); ui++ )
         {
             if( this.m_Contexts[ui].GetName() == context.GetName() )
-                g_Logger.critical.print( "Got a IConfigurableContext with repeated GetName! \"{}\"", { context.GetName() } );
+                g_Logger.critical.print( "Got a IConfigurable with repeated GetName! \"{}\"", { context.GetName() } );
         }
 #endif
 
@@ -172,13 +173,13 @@ final class ASMapConfig
 
     // Get a configurable context by name
     // return null if not found or is inactive.
-    IConfigurableContext@ GetContext( const string&in name )
+    IConfigurable@ GetContext( const string&in name )
     {
         uint length = this.m_Contexts.length();
 
         for( uint ui = 0; ui < length; ui++ )
         {
-            IConfigurableContext@ context = this.m_Contexts[ui];
+            IConfigurable@ context = this.m_Contexts[ui];
 
             if( context.GetName() == name )
                 return @context;
@@ -191,10 +192,11 @@ final class ASMapConfig
         if( g_Logger.info.active )
             this.m_chrono.Restart();
 
-        array<IConfigurableContext@> inactiveContexts(0);
+        array<IConfigurable@> inactiveContexts(0);
 
         uint length = this.m_Contexts.length();
 
+#if REMOVED_FROM_VALIDATION
         meta_api::json::v2::json@ defaultEmptySchema = meta_api::json::v2::json();
 
         {
@@ -202,6 +204,7 @@ final class ASMapConfig
             defaultEmptySchema.Set( "unevaluatedProperties", false );
             defaultEmptySchema.Set( "properties", meta_api::json::v2::json() );
         }
+#endif
 
         {
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
@@ -217,7 +220,16 @@ final class ASMapConfig
 
         for( uint ui = 0; ui < length; ui++ )
         {
-            IConfigurableContext@ context = this.m_Contexts[ui];
+            IConfigurable@ context = this.m_Contexts[ui];
+
+            string schemaString = context.GetSchema();
+
+            if( schemaString.IsEmpty() )
+            {
+                if( g_Logger.info.active )
+                    g_Logger.info.print( "Skipping context {} at priority {} which returned an empty schema.", { context.GetName(), ui } );
+                continue;
+            }
 
             meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
@@ -233,8 +245,7 @@ final class ASMapConfig
 
             meta_api::json::Error err;
 
-            string schemaString = context.GetSchema();
-
+#if REMOVED_FROM_VALIDATION
             if( schemaString.IsEmpty() )
             {
 #if SERVER
@@ -244,7 +255,9 @@ final class ASMapConfig
                 // HACK onto empty string schemas since unevaluated properties
                 this.m_GlobalSchemaProperties.Set( context.GetName(), defaultEmptySchema );
             }
-            else if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
+            else
+#endif
+            if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
             {
                 if( schema.Contains( "allOf" ) )
                 {
@@ -316,17 +329,23 @@ final class ASMapConfig
 
         for( uint ui = 0; ui < length; ui++ )
         {
-            IConfigurableContext@ context = this.m_Contexts[ui];
+            IConfigurable@ context = this.m_Contexts[ui];
             auto@ config = this.m_json[ context.GetName() ];
 
             if( g_Logger.info.active )
             {
                 g_EngineFuncs.ServerPrint( "==============================================================\n" );
-                g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
+                if( config is null )
+                {
+                    g_Logger.warning.print( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
+                }
+                else
+                {
+                    g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
 
-                if( g_Logger.trace.active && config.Length() > 0 )
-                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
-
+                    if( g_Logger.trace.active && config.Length() > 0 )
+                        g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+                }
                 g_EngineFuncs.ServerPrint( "==============================================================\n" );
             }
 
@@ -343,7 +362,8 @@ final class ASMapConfig
 
         // Remove inactive items separatelly since the above loop is ordered x[
         length = inactiveContexts.length();
-        for( uint ui = 0; ui < length; ui++ ) {
+        for( uint ui = 0; ui < length; ui++ )
+        {
             this.m_Contexts.removeAt( this.m_Contexts.findByRef( inactiveContexts[ui] ) );
         }
 

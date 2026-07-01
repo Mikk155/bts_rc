@@ -22,7 +22,7 @@ enum PointCheckpointFlags
     SF_CHECKPOINT_REUSABLE = 1 << 0, // This checkpoint is reusable
 }
 
-class point_checkpoint : ScriptBaseAnimating
+final class point_checkpoint : ScriptBaseAnimating
 {
     private CSprite@ m_pSprite;
     private int m_iNextPlayerToRevive = 1;

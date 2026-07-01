@@ -25,7 +25,8 @@ enum AttackType
 // Base class for all weapons
 abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 {
-    ASWeaponConfig@ get_config() {
+    ASWeaponConfig@ get_config()
+    {
         if( g_Logger.critical.active )
             g_Logger.critical.print( snprintf( glog, "%1 does not override ASWeaponConfig@ BTS_Weapon::get_config()" ) );
         return null;
@@ -49,7 +50,8 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         self.FallInit();
     }
 
-    bool Deploy() {
+    bool Deploy()
+    {
         return weapons::Deploy( self, this.owner, this.config );
     }
 
@@ -132,7 +134,8 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     }
 
     // Set weapon cooldown
-    void SetCooldown( bool is_trained_personal, AttackType type ) {
+    void SetCooldown( bool is_trained_personal, AttackType type )
+    {
         weapons::SetCooldown( self, this.owner, config.GetCooldown( is_trained_personal, type ) );
     }
 
@@ -171,7 +174,8 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         }
     }
 
-    void TraceEffects( TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE ) {
+    void TraceEffects( TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE )
+    {
         weapons::TraceEffects( self, this.owner, this.config, tr, bullet );
     }
 

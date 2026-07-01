@@ -247,7 +247,7 @@ void EquipPlayer( CBasePlayer@ player )
     g_Scheduler.SetTimeout( "PlayerFadeOutScreen", 1.0f, @player, color );
 }
 
-class trigger_update_class : ScriptBaseEntity
+final class trigger_update_class : ScriptBaseEntity
 {
     private Classification m_class = Classification::Scientist;
 

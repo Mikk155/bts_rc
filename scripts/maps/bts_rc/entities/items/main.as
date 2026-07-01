@@ -23,7 +23,7 @@
 #include "item_bts_skeleton"
 #include "item_bts_sprayaid"
 
-final class ASItemsConfig : IConfigurableContext
+final class ASItemsConfig : IConfigurable
 {
     const string& GetName() const override
     {
@@ -77,12 +77,14 @@ ASItemsConfig gpItemsConfig;
 abstract class BTS_Item : ScriptBasePlayerAmmoEntity
 {
     /// Override method to play the given sound on pickup
-    const string& get_m_PlaySound() {
+    const string& get_m_PlaySound()
+    {
         return String::EMPTY_STRING;
     }
 
     /// Override method to set a defaul model for this.model
-    const string& get_m_Model() {
+    const string& get_m_Model()
+    {
         return String::EMPTY_STRING;
     }
 
@@ -102,7 +104,8 @@ abstract class BTS_Item : ScriptBasePlayerAmmoEntity
         }
     }
 
-    const array<Vector>@ get_m_Size() {
+    const array<Vector>@ get_m_Size()
+    {
         return { Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) };
     }
 

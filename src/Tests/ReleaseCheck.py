@@ -1,7 +1,8 @@
 # ===================================================================
 # ===================================================================
 # Purpose:
-#   Check validation of AngelScript IConfigurableContext::GetSchema
+#   Check validation of g_ScriptsVersion & github latest release
+#   If g_ScriptsVersion is newer than the last release it generates a release
 # ===================================================================
 # ===================================================================
 
@@ -50,7 +51,7 @@ class ReleaseCheck( PyBuilder ):
 
     def Build(self) -> bool:
 
-        response: requests.Response = requests.get( f"https://api.github.com/repos/{self.m_Author}/{self.m_Repository}/releases/latest" )
+        response: requests.Response = requests.get( f"https://api.github.com/repos/{self.m_Author}/{self.m_Repository}/releases/latest" );
 
         if response.status_code != 200:
             self.Log( "Failed to retrieve release data from Github" );

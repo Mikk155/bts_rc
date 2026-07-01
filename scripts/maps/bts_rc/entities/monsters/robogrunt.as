@@ -20,13 +20,15 @@
     Original code: Nero
 */
 
-class ASRoboGrunt : EntityOverriden, IConfigurableContext
+class ASRoboGrunt : EntityOverriden, IConfigurable
 {
-    const string& GetName() const override {
+    const string& GetName() const override
+    {
         return "robo_grunt";
     }
 
-    const string GetSchema() const {
+    const string GetSchema() const override
+    {
         return String::EMPTY_STRING;
     }
 
@@ -65,7 +67,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurableContext
     }
 
 #if SERVER
-    dictionary@ get_TestKeys() {
+    dictionary@ get_TestKeys()
+    {
         return { { "classname", "monster_human_grunt_ally" }, { "model", "models/bts_rc/monsters/rgrunt_opfor.mdl" }, { "is_player_ally", "1" } };
     }
 #endif
@@ -409,7 +412,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurableContext
 
 ASRoboGrunt gpRoboGrunt;
 
-class ASRoboGruntBoss : ASRoboGrunt
+final class ASRoboGruntBoss : ASRoboGrunt
 {
     const string& GetName() const override {
         return "robo_grunt_boss";

@@ -22,7 +22,7 @@ class DependancyCheck( PyBuilder ):
         content: str = None;
 
         if not os.path.exists( path ):
-            self.Log( "Non existent file {}", path.relative_to( self.Workspace ) )
+            self.Log( "Non existent file {}", path.relative_to( self.Workspace ) );
             return False;
 
         with open( path, "r", encoding="utf-8") as fStream:
@@ -45,7 +45,7 @@ class DependancyCheck( PyBuilder ):
             except ValueError:
                 continue;
 
-            scriptURL: str = f"https://raw.githubusercontent.com/Mikk155/Sven-Co-op/main/scripts/mikk155/{dependencyPath.as_posix()}.as"
+            scriptURL: str = f"https://raw.githubusercontent.com/Mikk155/Sven-Co-op/main/scripts/mikk155/{dependencyPath.as_posix()}.as";
 
             response: requests.Response = requests.get( scriptURL );
 

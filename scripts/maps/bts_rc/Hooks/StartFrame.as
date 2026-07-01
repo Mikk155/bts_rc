@@ -17,7 +17,7 @@
 
 namespace Hooks
 {
-    class CASStartFrame : ScriptBaseEntity
+    final class CASStartFrame : ScriptBaseEntity
     {
         void Spawn()
         {
