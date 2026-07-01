@@ -20,7 +20,7 @@
     Rewrited by mikk 27/5/2026
 */
 
-final class ASPanthereyeConfig : IConfigurableContext
+final class ASPanthereyeConfig : IConfigurable
 {
     const string& GetName() const override
     {
