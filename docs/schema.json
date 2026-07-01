@@ -605,6 +605,115 @@
 					}
 				}
 			},
+			"monster_panthereye": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Monster panthereye",
+				"description": "Controls panthereye settings",
+				"properties": 
+				{
+					"health": 
+					{
+						"type": "integer",
+						"default": 210,
+						"minimum": 1,
+						"description": "Monster health"
+					},
+					"max_leap_z": 
+					{
+						"type": "number",
+						"default": 256,
+						"minimum": 0,
+						"description": "Panther won't pounce at enemies if they're higher up than this from the panther's location"
+					},
+					"min_leap": 
+					{
+						"type": "number",
+						"default": 200,
+						"minimum": 0,
+						"description": "Panther won't pounce at enemies within this range"
+					},
+					"max_leap": 
+					{
+						"type": "number",
+						"default": 400,
+						"minimum": 0,
+						"description": "Panther won't pounce at enemies beyond this range"
+					},
+					"dmg_high_swipe": 
+					{
+						"type": "integer",
+						"default": 25,
+						"minimum": 1,
+						"description": "Damage on high swipe attack"
+					},
+					"dmg_low_swipe": 
+					{
+						"type": "integer",
+						"default": 15,
+						"minimum": 1,
+						"description": "Damage on low swipe attack"
+					},
+					"dmg_long_swipe": 
+					{
+						"type": "integer",
+						"default": 25,
+						"minimum": 1,
+						"description": "Damage on long swipe attack"
+					},
+					"dmg_leap": 
+					{
+						"type": "integer",
+						"default": 25,
+						"minimum": 1,
+						"description": "Damage on leap attack"
+					},
+					"dmg_thrash": 
+					{
+						"type": "integer",
+						"default": 10,
+						"minimum": 1,
+						"description": "Damage on thrash attack"
+					},
+					"dmg_thrash_frequency": 
+					{
+						"type": "number",
+						"default": 0.5,
+						"minimum": 0,
+						"description": "Cooldown for thrash attack"
+					},
+					"struggle_max": 
+					{
+						"type": "integer",
+						"default": 100,
+						"minimum": 1,
+						"description": ""
+					},
+					"struggle_drain_rate": 
+					{
+						"type": "number",
+						"default": 15,
+						"minimum": 1,
+						"description": "per second"
+					},
+					"struggle_grin": 
+					{
+						"type": "number",
+						"default": 8,
+						"minimum": 1,
+						"description": "per key press"
+					},
+					"stealth_visibility": 
+					{
+						"type": "integer",
+						"default": 15,
+						"minimum": 0,
+						"maximum": 100,
+						"description": "Visibility percentage"
+					}
+				}
+			},
 			"items": 
 			{
 				"type": "object",
