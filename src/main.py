@@ -53,14 +53,15 @@ if __name__ == "__main__":
 
             oldContent = "";
 
-            with open( precacheScript, "r" ) as fPrecaches:
-                oldContent = fPrecaches.read();
+            with open( precacheScript, "r" ) as fStream:
+                oldContent = fStream.read();
 
             assets: dict[list[str]] = None;
 
             import json;
             try:
-                assets = json.load( open( precacheJson ) );
+                with open( precacheJson, "r" ) as fStream:
+                    assets = json.load( fStream );
             except Exception as e:
                 input( f"Error: {e}" );
                 sys.exit(1);
@@ -79,7 +80,10 @@ if __name__ == "__main__":
             buffer += "}\n";
 
             if not buffer in oldContent: # not equal. has license header.
-                open( precacheScript, "w" ).write( buffer );
+                with open( precacheScript, "w" ) as fStream:
+                    fStream.write( buffer );
+                with open( precacheJson, "w" ) as fStream:
+                    fStream.write( json.dumps( assets, indent=4 ) ); # Sorted now
 
         case _:
             pass;
