@@ -46,6 +46,17 @@
 
 #include "base/BTS_FireWeapon"
 #include "Firearms/weapon_bts_beretta"
+#include "Firearms/weapon_bts_eagle"
+#include "Firearms/weapon_bts_glock"
+#include "Firearms/weapon_bts_glock17f"
+#include "Firearms/weapon_bts_glock18"
+#include "Firearms/weapon_bts_glocksd"
+#include "Firearms/weapon_bts_sw637"
+#include "Firearms/weapon_bts_python"
+#include "Firearms/weapon_bts_mp5"
+#include "Firearms/weapon_bts_mp5gl"
+#include "Firearms/weapon_bts_uzi"
+#include "Firearms/weapon_bts_uzisd"
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 

@@ -15,26 +15,26 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponBerettaConfig : ASWeaponConfig
+class CWeaponGlock17fConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
-        return "weapon_bts_beretta";
+        return "weapon_bts_glock17f";
     }
 
     const string& get_player_model() override
     {
-        return "models/bts_rc/weapons/p_beretta.mdl";
+        return "models/bts_rc/weapons/p_glock17f.mdl";
     }
 
     const string& get_world_model() override
     {
-        return "models/bts_rc/weapons/w_beretta.mdl";
+        return "models/bts_rc/weapons/w_glock17f.mdl";
     }
 
     const string& get_view_model() override
     {
-        return "models/bts_rc/weapons/v_beretta.mdl";
+        return "models/bts_rc/weapons/v_glock17f.mdl";
     }
 
     const string& get_animation_extension() override
@@ -49,7 +49,7 @@ class CWeaponBerettaConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_beretta";
+        return "ammo_9mmclip";
     }
 
     const string& get_secondary_ammo() override
@@ -64,7 +64,12 @@ class CWeaponBerettaConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponBerettaAnim::Draw;
+        return WeaponGlock17fAnim::Draw;
+    }
+
+    const uint8 get_hands_group() override
+    {
+        return 2;
     }
 
     void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
@@ -81,7 +86,7 @@ class CWeaponBerettaConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/beretta_fire1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/glock_fire1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponConfig::Precache();
@@ -103,14 +108,14 @@ class CWeaponBerettaConfig : ASWeaponConfig
             }
             case Flashlight::State::Reloading:
             {
-                weapon.SendWeaponAnim( WeaponBerettaAnim::Holster, 0, weapon.pev.body );
+                weapon.SendWeaponAnim( WeaponGlock17fAnim::Holster, 0, weapon.pev.body );
                 break;
             }
             case Flashlight::State::TurnedOn:
             case Flashlight::State::TurnedOff:
             default:
             {
-                weapon.SendWeaponAnim( WeaponBerettaAnim::Flash, 0, weapon.pev.body );
+                weapon.SendWeaponAnim( WeaponGlock17fAnim::Flash, 0, weapon.pev.body );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
                 break;
             }
@@ -120,14 +125,14 @@ class CWeaponBerettaConfig : ASWeaponConfig
     bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 1;
-        this.position = 6;
+        this.position = 7;
         this.weight = 10;
-        this.deploy_time = 1.0;
+        this.deploy_time = 0.6;
         this.primary_maxammo = 120;
-        this.primary_dropammo = 15;
+        this.primary_dropammo = 17;
         this.secondary_maxammo = 10;
         this.secondary_dropammo = 1;
-        this.max_clip = 15;
+        this.max_clip = 17;
         this.primary_damage = 15;
         this.primary_cooldown = 0.10;
         this.primary_trained_cooldown = 0.05;
@@ -138,9 +143,9 @@ class CWeaponBerettaConfig : ASWeaponConfig
     }
 }
 
-CWeaponBerettaConfig gpWeaponBerettaConfig;
+CWeaponGlock17fConfig gpWeaponGlock17fConfig;
 
-enum WeaponBerettaAnim
+enum WeaponGlock17fAnim
 {
     Idle1 = 0,
     Idle2,
@@ -155,41 +160,39 @@ enum WeaponBerettaAnim
     Flash
 };
 
-class weapon_bts_beretta : BTS_FireWeapon
+class weapon_bts_glock17f : BTS_FireWeapon
 {
     ASWeaponConfig@ get_config() override
     {
-        return @gpWeaponBerettaConfig;
+        return @gpWeaponGlock17fConfig;
     }
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 1, gpWeaponBerettaConfig.max_clip );
+        self.m_iDefaultAmmo = Math.RandomLong( 8, gpWeaponGlock17fConfig.max_clip );
         self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
     }
 
+    void Holster( int skiplocal = 0 ) override
+    {
+        Flashlight::Holster( this.owner, self, null );
+        BTS_FireWeapon::Holster( skiplocal );
+    }
+
     float Idle() override
     {
-        self.ResetEmptySound();
-
-        switch( RandomUint( 2 ) )
+        switch( Math.RandomLong( 0, 3 ) )
         {
             case 0:
-            {
-                PlayAnim( WeaponBerettaAnim::Idle1 );
+                PlayAnim( WeaponGlock17fAnim::Idle1 );
                 break;
-            }
             case 1:
-            {
-                PlayAnim( WeaponBerettaAnim::Idle2 );
+                PlayAnim( WeaponGlock17fAnim::Idle2 );
                 break;
-            }
-            case 2:
-            {
-                PlayAnim( WeaponBerettaAnim::Idle3 );
+            default:
+                PlayAnim( WeaponGlock17fAnim::Idle3 );
                 break;
-            }
         }
         return Math.RandomFloat( 6.0f, 8.0f );
     }
@@ -208,21 +211,19 @@ class weapon_bts_beretta : BTS_FireWeapon
             return;
         }
 
+        // Wait for player to press attack key
         if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
         {
             return;
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float spread = Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
+        uint8 anim = self.m_iClip > 1 ? WeaponGlock17fAnim::Shoot : WeaponGlock17fAnim::ShootEmpty;
 
-        float cone = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
-        cone *= 0.6f;
+        FireBullet( 1, spread, gpWeaponGlock17fConfig.primary_damage, "bts_rc/weapons/glock_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
 
-        uint8 anim = self.m_iClip > 1 ? WeaponBerettaAnim::Shoot : WeaponBerettaAnim::ShootEmpty;
-
-        FireBullet( 1, cone, gpWeaponBerettaConfig.primary_damage, "bts_rc/weapons/beretta_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
-
-        player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.5f;
+        player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 
         if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
         {
@@ -236,7 +237,7 @@ class weapon_bts_beretta : BTS_FireWeapon
 
     void Reload()
     {
-        if( self.m_iClip == gpWeaponBerettaConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        if( self.m_iClip == gpWeaponGlock17fConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
         {
             return;
         }
@@ -252,9 +253,9 @@ class weapon_bts_beretta : BTS_FireWeapon
             this.owner.FlashlightTurnOff();
         }
 
-        self.DefaultReload( gpWeaponBerettaConfig.max_clip, self.m_iClip != 0 ? WeaponBerettaAnim::Reload : WeaponBerettaAnim::ReloadEmpty, 1.5f, pev.body );
+        self.DefaultReload( gpWeaponGlock17fConfig.max_clip, self.m_iClip != 0 ? WeaponGlock17fAnim::Reload : WeaponGlock17fAnim::ReloadEmpty, 1.5f, pev.body );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        g_SoundSystem.EmitSoundDyn( this.owner.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/9mm_clip.wav", 0.2f, ATTN_NORM, 0, PITCH_NORM );
+        PlaySound( "bts_rc/weapons/9mm_clip.wav", 0.2f );
         BaseClass.Reload();
     }
 }
