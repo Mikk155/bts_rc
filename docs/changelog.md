@@ -1,3 +1,7 @@
+# 5/7/2026
+- Ported weapon_bts_broom and weapon_bts_spanner to the new melee entity system.
+- Ported weapon_bts_beretta to the new firearms entity system (BTS_FireWeapon / ASWeaponConfig).
+
 # 30/6/2026
 - Added various player models (Requires download from MEGA)
 

@@ -175,6 +175,9 @@ void MapInit()
     g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
     g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
     g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponBroomConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSpannerConfig ); // Always active
+    g_MapConfig.Register( gpWeaponBerettaConfig ); // Always active
     g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
     g_MapConfig.Register( gpWeaponFlashlight ); // Always active
 
