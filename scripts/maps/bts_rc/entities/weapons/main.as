@@ -57,6 +57,21 @@
 #include "Firearms/weapon_bts_mp5gl"
 #include "Firearms/weapon_bts_uzi"
 #include "Firearms/weapon_bts_uzisd"
+#include "Firearms/weapon_bts_m4"
+#include "Firearms/weapon_bts_m4sd"
+#include "Firearms/weapon_bts_m16"
+#include "Firearms/weapon_bts_m16sd"
+#include "Firearms/weapon_bts_sniperrifle"
+#include "Firearms/weapon_bts_shotgun"
+#include "Firearms/weapon_bts_sbshotgun"
+#include "Firearms/weapon_bts_saw"
+#include "Firearms/weapon_bts_sawsd"
+#include "Firearms/weapon_bts_m79"
+#include "Firearms/weapon_bts_xbow"
+#include "Firearms/weapon_bts_handgrenade"
+#include "Firearms/weapon_bts_flamethrower"
+#include "Firearms/weapon_bts_flare"
+#include "Firearms/weapon_bts_flaregun"
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 

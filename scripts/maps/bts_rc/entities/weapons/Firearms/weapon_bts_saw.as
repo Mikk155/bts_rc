@@ -1,0 +1,279 @@
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
+*   
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
+*   
+*   The above copyright notice and this permission notice shall be included in all
+*   copies of the Software when distributed as a whole.
+*   
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
+
+CCVar g_M249Knockback( "m249_knockback", 1, "", ConCommandFlag::AdminOnly );
+
+class CWeaponSawConfig : ASWeaponConfig
+{
+    const string& GetName() const override
+    {
+        return "weapon_bts_saw";
+    }
+
+    const string& get_player_model() override
+    {
+        return "models/bts_rc/weapons/p_saw.mdl";
+    }
+
+    const string& get_world_model() override
+    {
+        return "models/bts_rc/weapons/w_saw.mdl";
+    }
+
+    const string& get_view_model() override
+    {
+        return "models/bts_rc/weapons/v_saw.mdl";
+    }
+
+    const string& get_animation_extension() override
+    {
+        return "saw";
+    }
+
+    const string& get_primary_ammo() override
+    {
+        return "556";
+    }
+
+    const string& get_primary_ammoentity() override
+    {
+        return "ammo_bts_saw";
+    }
+
+    const uint8 get_animation_draw() override
+    {
+        return WeaponSawAnim::DRAW;
+    }
+
+    void Precache() override
+    {
+        g_Game.PrecacheModel( "models/saw_link.mdl" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/saw_reload.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/saw_reload2.wav" );
+        ASWeaponConfig::Precache();
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override
+    {
+        this.slot = 3;
+        this.position = 4;
+        this.weight = 20;
+        this.deploy_time = 1.0;
+        this.primary_maxammo = 150;
+        this.primary_dropammo = 50;
+        this.max_clip = 100;
+        this.primary_damage = 22;
+        this.primary_cooldown = 0.099;
+        this.primary_trained_cooldown = 0.099;
+
+        return ASWeaponConfig::Register( json );
+    }
+}
+
+CWeaponSawConfig gpWeaponSawConfig;
+
+enum WeaponSawAnim
+{
+    SLOWIDLE = 0,
+    IDLE2,
+    RELOAD_START,
+    RELOAD_END,
+    HOLSTER,
+    DRAW,
+    SHOOT1,
+    SHOOT2,
+    SHOOT3
+};
+
+class weapon_bts_saw : BTS_FireWeapon
+{
+    ASWeaponConfig@ get_config() override
+    {
+        return @gpWeaponSawConfig;
+    }
+
+    private bool m_bAlternatingEject = false;
+    private int m_iTracerCount = 0;
+    private bool m_bFixBeltAfterReload = false;
+    private int m_iLink = 0;
+
+    void Spawn() override
+    {
+        self.m_iDefaultAmmo = Math.RandomLong( 19, gpWeaponSawConfig.max_clip );
+        BTS_FireWeapon::Spawn();
+        pev.scale = 0.8;
+        m_iLink = g_Game.PrecacheModel( "models/saw_link.mdl" );
+    }
+
+    void Holster( int skiplocal = 0 )
+    {
+        SetThink( null );
+        BaseClass.Holster( skiplocal );
+    }
+
+    void ItemPostFrame()
+    {
+        BaseClass.ItemPostFrame();
+
+        if( m_bFixBeltAfterReload && !self.m_fInReload )
+        {
+            m_bFixBeltAfterReload = false;
+            RecalculateBody( self.m_iClip );
+        }
+
+        if( this.owner.pev.sequence == 172 || this.owner.pev.sequence == 176 )
+            this.owner.pev.framerate = 2.0f;
+    }
+
+    void Attack( CBasePlayer@ player, AttackType type ) override
+    {
+        if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
+        {
+            this.PlayEmptySound();
+            self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
+            return;
+        }
+
+        if( type != AttackType::Primary )
+            return;
+
+        player.m_iWeaponVolume = NORMAL_GUN_VOLUME;
+        player.m_iWeaponFlash = NORMAL_GUN_FLASH;
+
+        RecalculateBody( --self.m_iClip );
+        m_bAlternatingEject = !m_bAlternatingEject;
+
+        player.pev.effects |= EF_MUZZLEFLASH;
+        pev.effects |= EF_MUZZLEFLASH;
+
+        player.SetAnimation( PLAYER_ATTACK1 );
+
+        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+        Vector vecSrc = player.GetGunPosition();
+        Vector vecAiming = player.GetAutoaimVector( AUTOAIM_5DEGREES );
+
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float coneVal = Accuracy( ( player.IsMoving() ? 0.02618f : 0.01f ), ( player.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
+
+        float x, y;
+        g_Utility.GetCircularGaussianSpread( x, y );
+
+        Vector vecDir = vecAiming + x * coneVal * g_Engine.v_right + y * coneVal * g_Engine.v_up;
+        Vector vecEnd = vecSrc + vecDir * 8192.0f;
+
+        TraceResult tr;
+        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
+        self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, gpWeaponSawConfig.primary_damage, player.pev );
+        TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
+
+        if( ( m_iTracerCount++ % 2 ) == 0 )
+        {
+            Vector vecTracerSrc = vecSrc + Vector( 0.0f, 0.0f, -4.0f ) + g_Engine.v_right * 2.0f + g_Engine.v_forward * 16.0f;
+            NetworkMessage tracer( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecTracerSrc );
+            tracer.WriteByte( TE_TRACER );
+            tracer.WriteCoord( vecTracerSrc.x );
+            tracer.WriteCoord( vecTracerSrc.y );
+            tracer.WriteCoord( vecTracerSrc.z );
+            tracer.WriteCoord( tr.vecEndPos.x );
+            tracer.WriteCoord( tr.vecEndPos.y );
+            tracer.WriteCoord( tr.vecEndPos.z );
+            tracer.End();
+        }
+
+        PlayAnim( Math.RandomLong( WeaponSawAnim::SHOOT1, WeaponSawAnim::SHOOT3 ) );
+        PlaySound( "bts_rc/weapons/gun_fire4.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
+        player.pev.punchangle.x = isTrainedPersonal ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
+        player.pev.punchangle.y = isTrainedPersonal ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
+
+        Vector vecForward, vecRight, vecUp;
+        g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
+        Vector vecOrigin = player.GetGunPosition() + vecForward * 14.0f + vecRight * 8.0f - vecUp * 10.0f;
+        Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
+        g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, player.pev.v_angle.y, m_bAlternatingEject ? m_iLink : models::saw_shell, TE_BOUNCE_SHELL );
+
+        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
+            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+
+        self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
+        self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
+
+        if( g_EngineFuncs.CVarGetFloat( "m249_knockback" ) != 0.0f )
+        {
+            const float flZVel = player.pev.velocity.z;
+            Vector vecInvPushDir = g_Engine.v_forward * ( isTrainedPersonal ? 60.0f : 35.0f );
+            player.pev.velocity = player.pev.velocity - vecInvPushDir;
+            player.pev.velocity.z = flZVel * 1.15f;
+        }
+    }
+
+    void Reload()
+    {
+        if( self.m_iClip == gpWeaponSawConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+            return;
+
+        m_bFixBeltAfterReload = true;
+        RecalculateBody( self.m_iClip );
+        self.DefaultReload( gpWeaponSawConfig.max_clip, WeaponSawAnim::RELOAD_START, 2.0f, pev.body );
+        PlaySound( "bts_rc/weapons/saw_reload.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
+        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 4.4f;
+        SetThink( ThinkFunction( this.FinishAnim ) );
+        pev.nextthink = g_Engine.time + 1.94f;
+        BaseClass.Reload();
+    }
+
+    private void RecalculateBody( int iClip )
+    {
+        int roundsBody;
+        if( iClip <= 0 )
+            roundsBody = 8;
+        else if( iClip < 8 )
+            roundsBody = 9 - iClip;
+        else
+            roundsBody = 0;
+
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponSawConfig.view_model ), pev.body, 2, roundsBody );
+    }
+
+    private void FinishAnim()
+    {
+        SetThink( null );
+        int roundsBody = self.m_iClip;
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponSawConfig.view_model ), pev.body, 2, roundsBody );
+        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponSawConfig.view_model ), pev.body, 1, util::GetClass( this.owner ) );
+        PlayAnim( WeaponSawAnim::RELOAD_END );
+        PlaySound( "bts_rc/weapons/saw_reload2.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
+    }
+
+    float Idle() override
+    {
+        self.ResetEmptySound();
+
+        const float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
+        if( flNextIdle <= 0.95f )
+        {
+            PlayAnim( WeaponSawAnim::SLOWIDLE );
+            return 5.0f;
+        }
+        else
+        {
+            PlayAnim( WeaponSawAnim::IDLE2 );
+            return 6.16f;
+        }
+    }
+}

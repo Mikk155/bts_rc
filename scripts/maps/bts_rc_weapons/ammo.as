@@ -43,6 +43,7 @@ class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
+/*
 class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()
@@ -54,6 +55,7 @@ class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity, bts_ammo_base
         return AddAmmo( other, weapon_bts_flaregun::AMMO_GIVE, "bts_flare", weapon_bts_flaregun::MAX_CARRY, "bts_rc/weapons/flare_pickup.wav" );
     }
 }
+*/
 
 class ammo_bts_glock : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
@@ -136,7 +138,7 @@ class ammo_bts_m4 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_m4::AMMO_GIVE, "556", weapon_bts_m4::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
+        return AddAmmo( other, 30, "556", 150, "hlclassic/weapons/reload2.wav" );
     }
 }
 
@@ -148,7 +150,7 @@ class ammo_bts_m4sd : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_m4sd::AMMO_GIVE, "556", weapon_bts_m4sd::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
+        return AddAmmo( other, 30, "556", 150, "hlclassic/weapons/reload2.wav" );
     }
 }
 
@@ -161,7 +163,7 @@ class ammo_bts_m16sd : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_m16sd::AMMO_GIVE, "556", weapon_bts_m16sd::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
+        return AddAmmo( other, 20, "556", 150, "hlclassic/weapons/reload2.wav" );
     }
 }
 
@@ -173,7 +175,7 @@ class ammo_bts_m16 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_m16::AMMO_GIVE, "556", weapon_bts_m16::MAX_CARRY, "hlclassic/weapons/reload2.wav" );
+        return AddAmmo( other, 30, "556", 150, "hlclassic/weapons/reload2.wav" );
     }
 }
 
@@ -199,7 +201,7 @@ class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? weapon_bts_m16::AMMO_DROP2 : weapon_bts_m16::AMMO_GIVE2, "ARgrenades", weapon_bts_m16::MAX_CARRY2, "bts_rc/weapons/m79_close.wav" );
+        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
     }
 }
 
@@ -211,7 +213,7 @@ class ammo_bts_m16sd_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? weapon_bts_m16sd::AMMO_DROP2 : weapon_bts_m16sd::AMMO_GIVE2, "ARgrenades", weapon_bts_m16sd::MAX_CARRY2, "bts_rc/weapons/m79_close.wav" );
+        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
     }
 }
 
@@ -223,7 +225,7 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? weapon_bts_m79::AMMO_DROP : weapon_bts_m79::AMMO_GIVE, "ARgrenades", weapon_bts_m79::MAX_CARRY, "bts_rc/weapons/m79_close.wav" );
+        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
     }
 }
 
@@ -283,7 +285,7 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_saw::AMMO_DROPPED, "556", weapon_bts_saw::MAX_CARRY, "bts_rc/weapons/saw_reload2.wav" );
+        return AddAmmo( other, 50, "556", 150, "bts_rc/weapons/saw_reload2.wav" );
     }
 } class ammo_bts_sawsd : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
@@ -293,7 +295,7 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_saw::AMMO_DROPPED, "556", weapon_bts_saw::MAX_CARRY, "bts_rc/weapons/saw_reload2.wav" );
+        return AddAmmo( other, 50, "556", 150, "bts_rc/weapons/saw_reload2.wav" );
     }
 }
 /*
@@ -319,7 +321,7 @@ class ammo_bts_sbshotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_sbshotgun::AMMO_GIVE_DROP, "buckshot", weapon_bts_sbshotgun::MAX_CARRY, "hlclassic/weapons/reload1.wav" );
+        return AddAmmo( other, 3, "buckshot", 30, "hlclassic/weapons/reload1.wav" );
     }
 }
 
@@ -331,7 +333,7 @@ class ammo_bts_sbshotgun_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_sbshotgun::AMMO_GIVE2, "bts_battery", weapon_bts_sbshotgun::MAX_CARRY2, "bts_rc/items/battery_pickup1.wav" );
+        return AddAmmo( other, 1, "bts_battery", 10, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 
@@ -343,7 +345,7 @@ class ammo_bts_shotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
     bool AddAmmo( CBaseEntity@ other )
     {
-        return AddAmmo( other, weapon_bts_shotgun::AMMO_GIVE_DROP, "buckshot", weapon_bts_shotgun::MAX_CARRY, "hlclassic/weapons/reload1.wav" );
+        return AddAmmo( other, 3, "buckshot", 30, "hlclassic/weapons/reload1.wav" );
     }
 }
 

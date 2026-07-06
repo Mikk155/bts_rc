@@ -189,6 +189,21 @@ void MapInit()
     g_MapConfig.Register( gpWeaponMP5GLConfig ); // Always active
     g_MapConfig.Register( gpWeaponUziConfig ); // Always active
     g_MapConfig.Register( gpWeaponUziSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM4Config ); // Always active
+    g_MapConfig.Register( gpWeaponM4SDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM16Config ); // Always active
+    g_MapConfig.Register( gpWeaponM16SDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSniperRifleConfig ); // Always active
+    g_MapConfig.Register( gpWeaponShotgunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSBShotgunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSawConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSawSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM79Config ); // Always active
+    g_MapConfig.Register( gpWeaponXBowConfig ); // Always active
+    g_MapConfig.Register( gpWeaponHandGrenadeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlamethrowerConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlareConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlareGunConfig ); // Always active
     g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
     g_MapConfig.Register( gpWeaponFlashlight ); // Always active
 
