@@ -46,7 +46,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_m40a1.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_m4sd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_m79.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/p_medkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_pipe_wrench.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_saw.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_sawsd.mdl" );
@@ -61,7 +60,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_9mmhandgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_9mmhandgunsd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_beretta.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/v_crowbar.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_desert_eagle.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_flame.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_flare.mdl" );
@@ -76,7 +74,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m40a1.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m4sd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_m79.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/v_medkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_pipe_wrench.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_saw.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/v_sawsd.mdl" );
@@ -94,7 +91,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmhandgunsd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_beretta.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/w_crowbar.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_desert_eagle.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flame.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flare.mdl" );
@@ -109,9 +105,7 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_m40a1.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_m4sd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_m79.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/w_medkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_pipe_wrench.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/w_pmedkit.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_saw.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_saw_clip.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_sawsd.mdl" );
@@ -125,7 +119,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzisd.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/grenade.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/p_357.mdl" );
-    g_Game.PrecacheModel( "models/hlclassic/p_crowbar.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/p_grenade.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_357.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_357ammo.mdl" );
@@ -138,7 +131,7 @@ void Precache()
     g_Game.PrecacheModel( "models/tool_box.mdl" );
     g_Game.PrecacheModel( "models/w_security.mdl" );
     g_Game.PrecacheModel( "models/w_shotshell.mdl" );
-    g_Game.PrecacheModel( "sprites/SAWFlash.spr" );
+    g_Game.PrecacheModel( "sprites/SAWFLASH.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/640hudof01.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/640hudof02.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/ablood_1.spr" );

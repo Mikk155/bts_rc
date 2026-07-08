@@ -55,556 +55,6 @@
 					}
 				}
 			},
-			"weapons": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapons config",
-				"description": "Global weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"melee_weapons_pull": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Allow melee weapons to pull allied players."
-					},
-					"melee_weapons_pull_force": 
-					{
-						"type": "integer",
-						"minimum": 1,
-						"default": 300,
-						"description": "Force of push if melee_weapons_pull is true"
-					},
-					"melee_weapons_push": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Allow melee weapons to push enemies."
-					},
-					"melee_weapons_push_force": 
-					{
-						"type": "integer",
-						"minimum": 1,
-						"default": 200,
-						"description": "Force of push if melee_weapons_push is true"
-					},
-					"blood_splash": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Enable extra blood effects on hit."
-					},
-					"sparks_splash": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Enable spark effects when hitting armored enemies."
-					},
-					"flashlight_drain": 
-					{
-						"type": "number",
-						"default": 0.8,
-						"minimum": 0.1,
-						"description": "flashlight drain time"
-					},
-					"flashlight_capacity": 
-					{
-						"type": "integer",
-						"default": 10,
-						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
-					}
-				}
-			},
-			"bloodpuddle": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Blood puddles",
-				"description": "Controls blood puddle behavior and appearance.",
-				"properties": 
-				{
-					"persistent": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
-					},
-					"default_size": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"items": 
-						{
-							"minimum": 0.1,
-							"type": "number"
-						},
-						"default": 
-						[
-							1.5,
-							2.5
-						],
-						"description": "Random size range for puddles (min, max)."
-					},
-					"custom_size": 
-					{
-						"type": "object",
-						"default": 
-						{
-							"monster_headcrab": 
-							[
-								0.5,
-								1.5
-							],
-							"monster_houndeye": 
-							[
-								1,
-								2
-							],
-							"monster_babycrab": 
-							[
-								0.3,
-								0.8
-							],
-							"monster_snark": 
-							[
-								0.25,
-								0.75
-							]
-						},
-						"additionalProperties": 
-						{
-							"type": "array",
-							"minItems": 2,
-							"maxItems": 2,
-							"items": 
-							{
-								"minimum": 0.1,
-								"type": "number"
-							},
-							"prefixItems": 
-							[
-								
-								{
-									"description": "Minimun scale size for randomization"
-								},
-								
-								{
-									"description": "Maximun scale size for randomization"
-								}
-							]
-						},
-						"description": "Per-monster custom puddle size overrides."
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"dynamic_ammo": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Scales ammo pickup amounts based on connected player count.",
-				"properties": 
-				{
-					"9mm": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							8,
-							17
-						]
-					},
-					"357": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							6
-						]
-					},
-					"556": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							6,
-							30
-						]
-					},
-					"buckshot": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							3,
-							8
-						]
-					},
-					"ARgrenades": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							2
-						]
-					},
-					"38": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							3,
-							6
-						]
-					},
-					"bts_flare": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							3
-						]
-					},
-					"bts_battery": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							3
-						]
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"zombie_uncrab": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Controls headcrab detachment behavior from zombies.",
-				"properties": 
-				{
-					"track_health": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"deathdrop": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Death drop",
-				"description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
-				"additionalProperties": 
-				{
-					"type": "array",
-					"items": 
-					{
-						"type": "string",
-						"description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade."
-					}
-				},
-				"properties": 
-				{
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"aiming_lasers": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Aiming lasers",
-				"description": "Controls laser aiming visuals for monsters.",
-				"properties": 
-				{
-					"interval": 
-					{
-						"title": "Think rate",
-						"type": "number",
-						"minimum": 0,
-						"default": 0.1,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
-					},
-					"red": 
-					{
-						"title": "Red color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 255,
-						"type": "integer",
-						"description": "Red color of effects"
-					},
-					"green": 
-					{
-						"title": "Green color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 0,
-						"type": "integer",
-						"description": "Green color of effects"
-					},
-					"blue": 
-					{
-						"title": "Blue color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 0,
-						"type": "integer",
-						"description": "Blue color of effects"
-					},
-					"alpha": 
-					{
-						"title": "Alpha color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 150,
-						"type": "integer",
-						"description": "Alpha color of effects"
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"blackops_flashbang": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Blackops flashbangs",
-				"description": "Controls blackops flashbangs feature",
-				"properties": 
-				{
-					"interval": 
-					{
-						"title": "Think rate",
-						"type": "number",
-						"minimum": 0,
-						"default": 0.5,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
-					},
-					"throw_flash_cooldown": 
-					{
-						"type": "number",
-						"minimum": 1,
-						"default": 3,
-						"description": "Global cooldown for blackops to throw grenades"
-					},
-					"detonate_time": 
-					{
-						"type": "number",
-						"minimum": 1,
-						"default": 6,
-						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"grunt_engineer": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Controls engineer grunt sentry spawning",
-				"properties": 
-				{
-					"interval": 
-					{
-						"title": "Think rate",
-						"type": "number",
-						"minimum": 0,
-						"default": 0.1,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
-					},
-					"capacity": 
-					{
-						"default": 5,
-						"type": "integer",
-						"minimum": 1,
-						"description": "Max sentry spawn capacity per engineer"
-					},
-					"distance": 
-					{
-						"default": 128,
-						"type": "number",
-						"minimum": 32,
-						"description": "Distance from the engineer to spawn"
-					},
-					"cooldown_start": 
-					{
-						"default": 6,
-						"type": "number",
-						"minimum": 0,
-						"description": "Time until engineer can place a sentry after spawning"
-					},
-					"cooldown_combat": 
-					{
-						"default": 6,
-						"type": "number",
-						"minimum": 0,
-						"description": "How often to try to drop a sentry in combat, in seconds"
-					},
-					"cooldown_idle": 
-					{
-						"default": 30,
-						"type": "number",
-						"minimum": 0,
-						"description": "How often to try to drop a sentry while idle/roaming, in seconds"
-					},
-					"cooldown_rng": 
-					{
-						"default": 15,
-						"type": "number",
-						"minimum": 0,
-						"description": "cooldown_idle plus/minus this"
-					},
-					"chance": 
-					{
-						"default": 75,
-						"type": "number",
-						"minimum": 0,
-						"maximum": 100,
-						"description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"wall_recharger": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "HEV Charger",
-				"description": "Configuration for wall-mounted HEV chargers.",
-				"properties": 
-				{
-					"juice": 
-					{
-						"type": "integer",
-						"minimum": 1,
-						"default": 35,
-						"description": "Maximun juice power per station."
-					},
-					"recharge_time": 
-					{
-						"type": "integer",
-						"minimum": 0,
-						"default": 300,
-						"description": "Time (In seconds) required to fully recharge. 0 means never recharge"
-					},
-					"speed_rate": 
-					{
-						"type": "number",
-						"minimum": 0.1,
-						"default": 0.35,
-						"description": "Charge transfer rate to player."
-					}
-				}
-			},
 			"items": 
 			{
 				"type": "object",
@@ -4078,6 +3528,556 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					}
+				}
+			},
+			"weapons": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapons config",
+				"description": "Global weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"melee_weapons_pull": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Allow melee weapons to pull allied players."
+					},
+					"melee_weapons_pull_force": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"default": 300,
+						"description": "Force of push if melee_weapons_pull is true"
+					},
+					"melee_weapons_push": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Allow melee weapons to push enemies."
+					},
+					"melee_weapons_push_force": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"default": 200,
+						"description": "Force of push if melee_weapons_push is true"
+					},
+					"blood_splash": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Enable extra blood effects on hit."
+					},
+					"sparks_splash": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Enable spark effects when hitting armored enemies."
+					},
+					"flashlight_drain": 
+					{
+						"type": "number",
+						"default": 0.8,
+						"minimum": 0.1,
+						"description": "flashlight drain time"
+					},
+					"flashlight_capacity": 
+					{
+						"type": "integer",
+						"default": 10,
+						"minimum": 0,
+						"description": "Quantity of ammo carry for flashlight weapons"
+					}
+				}
+			},
+			"bloodpuddle": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Blood puddles",
+				"description": "Controls blood puddle behavior and appearance.",
+				"properties": 
+				{
+					"persistent": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
+					},
+					"default_size": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"items": 
+						{
+							"minimum": 0.1,
+							"type": "number"
+						},
+						"default": 
+						[
+							1.5,
+							2.5
+						],
+						"description": "Random size range for puddles (min, max)."
+					},
+					"custom_size": 
+					{
+						"type": "object",
+						"default": 
+						{
+							"monster_headcrab": 
+							[
+								0.5,
+								1.5
+							],
+							"monster_houndeye": 
+							[
+								1,
+								2
+							],
+							"monster_babycrab": 
+							[
+								0.3,
+								0.8
+							],
+							"monster_snark": 
+							[
+								0.25,
+								0.75
+							]
+						},
+						"additionalProperties": 
+						{
+							"type": "array",
+							"minItems": 2,
+							"maxItems": 2,
+							"items": 
+							{
+								"minimum": 0.1,
+								"type": "number"
+							},
+							"prefixItems": 
+							[
+								
+								{
+									"description": "Minimun scale size for randomization"
+								},
+								
+								{
+									"description": "Maximun scale size for randomization"
+								}
+							]
+						},
+						"description": "Per-monster custom puddle size overrides."
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"dynamic_ammo": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"description": "Scales ammo pickup amounts based on connected player count.",
+				"properties": 
+				{
+					"9mm": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							8,
+							17
+						]
+					},
+					"357": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							1,
+							6
+						]
+					},
+					"556": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							6,
+							30
+						]
+					},
+					"buckshot": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							3,
+							8
+						]
+					},
+					"ARgrenades": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							1,
+							2
+						]
+					},
+					"38": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							3,
+							6
+						]
+					},
+					"bts_flare": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							1,
+							3
+						]
+					},
+					"bts_battery": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"description": "List of [min, max] where min is given at full server and max is given solo",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 1
+						},
+						"default": 
+						[
+							1,
+							3
+						]
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"zombie_uncrab": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"description": "Controls headcrab detachment behavior from zombies.",
+				"properties": 
+				{
+					"track_health": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"deathdrop": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Death drop",
+				"description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
+				"additionalProperties": 
+				{
+					"type": "array",
+					"items": 
+					{
+						"type": "string",
+						"description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade."
+					}
+				},
+				"properties": 
+				{
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"aiming_lasers": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Aiming lasers",
+				"description": "Controls laser aiming visuals for monsters.",
+				"properties": 
+				{
+					"interval": 
+					{
+						"title": "Think rate",
+						"type": "number",
+						"minimum": 0,
+						"default": 0.1,
+						"description": "Internal think rate interval. the lower the value the more cpu usage"
+					},
+					"red": 
+					{
+						"title": "Red color",
+						"minimum": 0,
+						"maximum": 255,
+						"default": 255,
+						"type": "integer",
+						"description": "Red color of effects"
+					},
+					"green": 
+					{
+						"title": "Green color",
+						"minimum": 0,
+						"maximum": 255,
+						"default": 0,
+						"type": "integer",
+						"description": "Green color of effects"
+					},
+					"blue": 
+					{
+						"title": "Blue color",
+						"minimum": 0,
+						"maximum": 255,
+						"default": 0,
+						"type": "integer",
+						"description": "Blue color of effects"
+					},
+					"alpha": 
+					{
+						"title": "Alpha color",
+						"minimum": 0,
+						"maximum": 255,
+						"default": 150,
+						"type": "integer",
+						"description": "Alpha color of effects"
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"blackops_flashbang": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Blackops flashbangs",
+				"description": "Controls blackops flashbangs feature",
+				"properties": 
+				{
+					"interval": 
+					{
+						"title": "Think rate",
+						"type": "number",
+						"minimum": 0,
+						"default": 0.5,
+						"description": "Internal think rate interval. the lower the value the more cpu usage"
+					},
+					"throw_flash_cooldown": 
+					{
+						"type": "number",
+						"minimum": 1,
+						"default": 3,
+						"description": "Global cooldown for blackops to throw grenades"
+					},
+					"detonate_time": 
+					{
+						"type": "number",
+						"minimum": 1,
+						"default": 6,
+						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"grunt_engineer": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"description": "Controls engineer grunt sentry spawning",
+				"properties": 
+				{
+					"interval": 
+					{
+						"title": "Think rate",
+						"type": "number",
+						"minimum": 0,
+						"default": 0.1,
+						"description": "Internal think rate interval. the lower the value the more cpu usage"
+					},
+					"capacity": 
+					{
+						"default": 5,
+						"type": "integer",
+						"minimum": 1,
+						"description": "Max sentry spawn capacity per engineer"
+					},
+					"distance": 
+					{
+						"default": 128,
+						"type": "number",
+						"minimum": 32,
+						"description": "Distance from the engineer to spawn"
+					},
+					"cooldown_start": 
+					{
+						"default": 6,
+						"type": "number",
+						"minimum": 0,
+						"description": "Time until engineer can place a sentry after spawning"
+					},
+					"cooldown_combat": 
+					{
+						"default": 6,
+						"type": "number",
+						"minimum": 0,
+						"description": "How often to try to drop a sentry in combat, in seconds"
+					},
+					"cooldown_idle": 
+					{
+						"default": 30,
+						"type": "number",
+						"minimum": 0,
+						"description": "How often to try to drop a sentry while idle/roaming, in seconds"
+					},
+					"cooldown_rng": 
+					{
+						"default": 15,
+						"type": "number",
+						"minimum": 0,
+						"description": "cooldown_idle plus/minus this"
+					},
+					"chance": 
+					{
+						"default": 75,
+						"type": "number",
+						"minimum": 0,
+						"maximum": 100,
+						"description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
+			"wall_recharger": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "HEV Charger",
+				"description": "Configuration for wall-mounted HEV chargers.",
+				"properties": 
+				{
+					"juice": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"default": 35,
+						"description": "Maximun juice power per station."
+					},
+					"recharge_time": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"default": 300,
+						"description": "Time (In seconds) required to fully recharge. 0 means never recharge"
+					},
+					"speed_rate": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"default": 0.35,
+						"description": "Charge transfer rate to player."
 					}
 				}
 			},
