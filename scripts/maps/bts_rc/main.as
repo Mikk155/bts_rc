@@ -227,8 +227,6 @@ void MapInit()
         g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
-    oldweapons::init();
-
 #if SERVER
     if( g_IsMainMap )
         return;
