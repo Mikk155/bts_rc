@@ -31,12 +31,14 @@ To ensure quality and consistency across all community contributions, please fol
    ```
 
 2. **Download Third-Party Dependencies**
-   Navigate to the `src` folder inside the cloned repository and run the dependency download script:
+   Navigate to the `src` folder inside the cloned repository and run the main script
    ```bash
    cd svencoop_event_bts/src
-   python fetch_dependancies.py
+   python main.py
    ```
-   This will download all the game assets and any required libraries (such as Mikk's custom JSON parser and utility collections) into the workspace directory.
+   This will download all the third party angelscript utility files into the working directory.
+
+   To fetch game assets such as models, sounds and sprites, verify the last release at [Github](https://github.com/Mikk155/bts_rc/releases).
 
 ---
 

@@ -48,29 +48,42 @@ if __name__ == "__main__":
         case PyBuilder.BuildType.Local:
             print( f"Creating Precache() method with list \"src/precaches.json\"" );
 
-            with open( os.path.join( gpWorkspace, "scripts", "maps", "bts_rc", "util", "Precache.as" ), "w" ) as fPrecaches:
+            precacheScript = os.path.join( gpWorkspace, "scripts", "maps", "bts_rc", "util", "Precache.as" );
+            precacheJson = os.path.join( gpWorkspace, "src", "precaches.json" );
 
-                assets: dict[list[str]] = None;
+            oldContent = "";
 
-                import json;
-                try:
-                    assets = json.load( open( os.path.join( gpWorkspace, "src", "precaches.json" ) ) );
-                except Exception as e:
-                    input( f"Error: {e}" );
-                    sys.exit(1);
+            with open( precacheScript, "r" ) as fStream:
+                oldContent = fStream.read();
 
-                PrecacheModel: list[str] = assets[ "PrecacheModel" ];
-                PrecacheSound: list[str] = assets[ "PrecacheSound" ];
-                PrecacheGeneric: list[str] = assets[ "PrecacheGeneric" ];
-                PrecacheModel.sort();
-                PrecacheSound.sort();
-                PrecacheGeneric.sort();
-                buffer = "// DO NOT MODIFY THIS FILE!\n// See: src/precaches.json and generate this file using src/main.py.\nvoid Precache()\n{\n"
-                buffer += "".join( f"    g_Game.PrecacheModel( \"{asset}\" );\n" for asset in PrecacheModel );
-                buffer += "".join( f"    g_Game.PrecacheGeneric( \"{asset}\" );\n" for asset in PrecacheGeneric );
-                buffer += "".join( f"    g_SoundSystem.PrecacheSound( \"{asset}\" );\n" for asset in PrecacheSound );
-                buffer += "}\n";
-                fPrecaches.write( buffer );
+            assets: dict[list[str]] = None;
+
+            import json;
+            try:
+                with open( precacheJson, "r" ) as fStream:
+                    assets = json.load( fStream );
+            except Exception as e:
+                input( f"Error: {e}" );
+                sys.exit(1);
+
+            PrecacheModel: list[str] = assets[ "PrecacheModel" ];
+            PrecacheSound: list[str] = assets[ "PrecacheSound" ];
+            PrecacheGeneric: list[str] = assets[ "PrecacheGeneric" ];
+            PrecacheModel.sort();
+            PrecacheSound.sort();
+            PrecacheGeneric.sort();
+
+            buffer = "// DO NOT MODIFY THIS FILE!\n// See: src/precaches.json and generate this file using src/main.py.\nvoid Precache()\n{\n"
+            buffer += "".join( f"    g_Game.PrecacheModel( \"{asset}\" );\n" for asset in PrecacheModel );
+            buffer += "".join( f"    g_Game.PrecacheGeneric( \"{asset}\" );\n" for asset in PrecacheGeneric );
+            buffer += "".join( f"    g_SoundSystem.PrecacheSound( \"{asset}\" );\n" for asset in PrecacheSound );
+            buffer += "}\n";
+
+            if not buffer in oldContent: # not equal. has license header.
+                with open( precacheScript, "w" ) as fStream:
+                    fStream.write( buffer );
+                with open( precacheJson, "w" ) as fStream:
+                    fStream.write( json.dumps( assets, indent=4 ) ); # Sorted now
 
         case _:
             pass;
