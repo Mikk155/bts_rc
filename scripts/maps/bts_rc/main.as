@@ -163,6 +163,7 @@ void MapInit()
     g_MapConfig.Register( gpRoboGrunt ); // Always active
     g_MapConfig.Register( gpRoboGruntBoss ); // Always active
     g_MapConfig.Register( gpZombieEngineer ); // Always active
+    g_MapConfig.Register( gpPanthereyeConfig ); // Always active
 
     // Items
     g_MapConfig.Register( gpItemsConfig ); // Always active

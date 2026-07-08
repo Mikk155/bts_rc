@@ -20,6 +20,7 @@
 #include "weapons/main"
 
 #include "monsters/custommonsters" //Nero ADDED 2026-01-07 Custom Monsters
+#include "monsters/panthereye"
 
 #include "monsters/blackops_flashbang"
 #include "monsters/bloodpuddle"
