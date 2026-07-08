@@ -555,7 +555,6 @@ class weapon_bts_flare : BTS_Weapon
             PlayAnim( WeaponFlareAnim::TOSS );
         m_bThrown = true;
         m_bInAttack = false;
-        this.owner.SetAnimation( PLAYER_ATTACK1 );
 
         SetThink( ThinkFunction( this.LaunchThink ) );
         pev.nextthink = g_Engine.time + 0.2f;
