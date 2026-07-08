@@ -170,9 +170,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -18.0f;
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-
         self.m_flNextPrimaryAttack = g_Engine.time + 2.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }

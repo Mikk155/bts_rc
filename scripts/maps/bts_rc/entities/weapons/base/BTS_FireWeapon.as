@@ -42,6 +42,7 @@ abstract class BTS_FireWeapon : BTS_Weapon
         {
             self.m_bPlayEmptySound = false;
             PlaySound( "hlclassic/weapons/357_cock1.wav", 0.8f );
+            CheckDepletedAmmo( self.m_iPrimaryAmmoType );
         }
     }
 
@@ -59,13 +60,13 @@ abstract class BTS_FireWeapon : BTS_Weapon
         player.m_iWeaponFlash = iWeaponFlash;
 
         --self.m_iClip;
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         if( bMuzzleFlash )
         {
             player.pev.effects |= EF_MUZZLEFLASH;
             pev.effects |= EF_MUZZLEFLASH;
         }
-        player.SetAnimation( PLAYER_ATTACK1 );
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition();

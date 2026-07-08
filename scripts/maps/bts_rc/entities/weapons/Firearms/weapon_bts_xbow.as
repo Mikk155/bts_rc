@@ -320,8 +320,6 @@ class weapon_bts_xbow : BTS_FireWeapon
             PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.1, 93 + Math.RandomLong( 0, 0xF ) );
         }
 
-        player.SetAnimation( PLAYER_ATTACK1 );
-
         Vector anglesAim = player.pev.v_angle + player.pev.punchangle;
         g_EngineFuncs.MakeVectors( anglesAim );
 

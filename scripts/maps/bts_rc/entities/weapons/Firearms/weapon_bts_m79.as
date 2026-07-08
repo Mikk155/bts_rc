@@ -302,8 +302,6 @@ class weapon_bts_m79 : BTS_FireWeapon
         player.pev.effects |= EF_MUZZLEFLASH;
         pev.effects |= EF_MUZZLEFLASH;
 
-        player.SetAnimation( PLAYER_ATTACK1 );
-
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector offset = Vector( 8.0f, 4.0f, -2.0f );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * offset.x + g_Engine.v_right * offset.y + g_Engine.v_up * offset.z;
@@ -315,8 +313,7 @@ class weapon_bts_m79 : BTS_FireWeapon
         PlaySound( "bts_rc/weapons/m79_fire.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 0xf ) );
         player.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;

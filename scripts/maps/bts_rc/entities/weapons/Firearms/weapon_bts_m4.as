@@ -225,27 +225,19 @@ class weapon_bts_m4 : BTS_FireWeapon
             player.pev.punchangle.x = player.IsMoving() ? float( Math.RandomLong( -6, 3 ) ) : float( Math.RandomLong( -3, 2 ) );
         }
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4_SEMI ? 0.124f : 0.105f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
     void Reload()
     {
-        if( self.m_iClip == gpWeaponM4Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        if( ShouldReload( WeaponM4Anim::RELOAD, 2.75f ) )
         {
-            return;
+            self.SetFOV( 0 );
+            PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
+            self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
+            BaseClass.Reload();
         }
-
-        self.SetFOV( 0 );
-        self.DefaultReload( gpWeaponM4Config.max_clip, WeaponM4Anim::RELOAD, 2.75f, pev.body );
-        PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
     }
 
     float Idle() override

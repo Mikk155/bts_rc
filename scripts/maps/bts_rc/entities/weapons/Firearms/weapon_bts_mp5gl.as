@@ -240,8 +240,6 @@ class weapon_bts_mp5gl : BTS_FireWeapon
 
             player.m_rgAmmo( self.m_iSecondaryAmmoType, player.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
 
-            player.SetAnimation( PLAYER_ATTACK1 );
-
             Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
             Vector vecSrc = player.pev.origin + g_Engine.v_forward * 16.0f + g_Engine.v_right * 6.0f;
             vecSrc = vecSrc + ( ( ( player.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( player.pev.view_ofs * 0.5f ) );
@@ -266,10 +264,7 @@ class weapon_bts_mp5gl : BTS_FireWeapon
 
             player.pev.punchangle.x = -10.0f;
 
-            if( player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            {
-                player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-            }
+            CheckDepletedAmmo( self.m_iSecondaryAmmoType );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 2.5f;
             self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
@@ -349,11 +344,6 @@ class weapon_bts_mp5gl : BTS_FireWeapon
         else
         {
             this.owner.pev.punchangle.x = this.owner.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -5, 3 ) );
-        }
-
-        if( self.m_iClip <= 0 && this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( this.owner ) )
-        {
-            this.owner.SetSuitUpdate( "!HEV_AMO0", false, 0 );
         }
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;

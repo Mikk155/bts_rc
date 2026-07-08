@@ -177,7 +177,6 @@ class weapon_bts_m16 : BTS_FireWeapon
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
             PlayAnim( WeaponM16Anim::LAUNCH );
-            player.SetAnimation( PLAYER_ATTACK1 );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -214,8 +213,7 @@ class weapon_bts_m16 : BTS_FireWeapon
                 PlaySound( "bts_rc/fvox/ammowarning.wav", 1.0f );
             }
 
-            if( player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
-                player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+            CheckDepletedAmmo( self.m_iSecondaryAmmoType );
 
             return;
         }
@@ -271,11 +269,6 @@ class weapon_bts_m16 : BTS_FireWeapon
             player.pev.punchangle.x = player.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -8, 3 ) );
         }
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.142f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
@@ -291,15 +284,11 @@ class weapon_bts_m16 : BTS_FireWeapon
 
     void Reload()
     {
-        if( self.m_iClip == gpWeaponM16Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        if( ShouldReload( WeaponM16Anim::RELOAD, 3.25f ) )
         {
-            return;
+            PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
+            BaseClass.Reload();
         }
-
-        self.DefaultReload( gpWeaponM16Config.max_clip, WeaponM16Anim::RELOAD, 3.25f, pev.body );
-        PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.25f;
-        BaseClass.Reload();
     }
 
     float Idle() override

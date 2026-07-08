@@ -178,8 +178,6 @@ class weapon_bts_sawsd : BTS_FireWeapon
         RecalculateBody( --self.m_iClip );
         m_bAlternatingEject = !m_bAlternatingEject;
 
-        player.SetAnimation( PLAYER_ATTACK1 );
-
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition();
         Vector vecAiming = player.GetAutoaimVector( AUTOAIM_5DEGREES );
@@ -224,8 +222,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
         Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, player.pev.v_angle.y, m_bAlternatingEject ? m_iLink : models::saw_shell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;

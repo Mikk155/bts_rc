@@ -266,7 +266,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         player.m_iWeaponVolume = LOUD_GUN_VOLUME;
 
         PlayAnim( Math.RandomLong( WeaponFlamethrowerAnim::FLTHRW_FIRE1, WeaponFlamethrowerAnim::FLTHRW_FIRE4 ) );
-        player.SetAnimation( PLAYER_ATTACK1 );
 
         bool is_trained_personal = util::IsTrainedPersonal( player );
 
