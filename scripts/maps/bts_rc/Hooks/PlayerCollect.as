@@ -43,7 +43,7 @@ namespace Hooks
             return HOOK_CONTINUE;
         }
 
-        if( !weaponConfig.IsCustom() )
+        if( !weaponConfig.IsCustomWeapon() )
         {
             int primaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo1() );
             if( primaryAmmo != WEAPON_NOCLIP )

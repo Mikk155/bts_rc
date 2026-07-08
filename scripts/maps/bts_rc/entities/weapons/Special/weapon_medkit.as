@@ -53,6 +53,11 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
         return "trip";
     }
 
+    const bool IsCustomWeapon() override
+    {
+        return false;
+    }
+
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         weapons::Deploy( weapon, player, gpWeaponMedkitConfig );

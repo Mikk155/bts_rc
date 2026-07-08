@@ -181,11 +181,10 @@ abstract class ASWeaponConfig : IConfigurable
         }
     }
 
-    private bool m_IsCustom;
     // Whatever this is a custom weapon
-    const bool IsCustom()
+    const bool IsCustomWeapon()
     {
-        return this.m_IsCustom;
+        return true;
     }
 
     void RegisterWeapon()
@@ -196,15 +195,15 @@ abstract class ASWeaponConfig : IConfigurable
             g_WeaponsConfig.ItemMappingList.insertLast( @remap );
         }
 
-        g_CustomEntityFuncs.RegisterCustomEntity( this.GetName(), this.GetName() );
-
-        this.m_IsCustom = g_CustomEntityFuncs.IsCustomEntity( this.GetName() );
-
-        if( this.m_IsCustom )
+        if( this.IsCustomWeapon() )
         {
+            g_CustomEntityFuncs.RegisterCustomEntity( this.GetName(), this.GetName() );
+
+            // Register primary ammo if any and is not already registered
             if( !this.primary_ammoentity.IsEmpty() && !g_CustomEntityFuncs.IsCustomEntity( this.primary_ammoentity ) )
                 CustomEntity( this.primary_ammoentity );
 
+            // Register secondary ammo if any and is not already registered
             if( !this.secondary_ammoentity.IsEmpty() && !g_CustomEntityFuncs.IsCustomEntity( this.secondary_ammoentity ) )
                 CustomEntity( this.secondary_ammoentity );
 
@@ -339,7 +338,7 @@ abstract class ASWeaponConfig : IConfigurable
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
         // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-        if( gpGameVersion == 526 && !this.IsCustom() )
+        if( gpGameVersion == 526 && !this.IsCustomWeapon() )
         {
             dictionary@ data = player.GetUserData();
 

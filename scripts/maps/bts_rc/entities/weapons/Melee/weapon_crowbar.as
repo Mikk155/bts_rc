@@ -60,6 +60,11 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
         return 0;
     }
 
+    const bool IsCustomWeapon() override
+    {
+        return false;
+    }
+
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
