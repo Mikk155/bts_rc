@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-CCVar g_M249Knockback( "m249_knockback", 1, "", ConCommandFlag::AdminOnly );
+
 
 final class ASWeaponSawConfig : ASWeaponConfig
 {
@@ -231,7 +231,7 @@ class weapon_bts_saw : BTS_FireWeapon
         self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
-        if( g_EngineFuncs.CVarGetFloat( "m249_knockback" ) != 0.0f )
+        if( g_WeaponsConfig.m249_knockback )
         {
             const float flZVel = player.pev.velocity.z;
             Vector vecInvPushDir = g_Engine.v_forward * ( isTrainedPersonal ? 60.0f : 35.0f );

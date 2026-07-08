@@ -227,7 +227,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
         self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
-        if( g_EngineFuncs.CVarGetFloat( "m249_knockback" ) != 0.0f )
+        if( g_WeaponsConfig.m249_knockback )
         {
             const float flZVel = player.pev.velocity.z;
             Vector vecInvPushDir = g_Engine.v_forward * ( isTrainedPersonal ? 60.0f : 35.0f );

@@ -229,8 +229,8 @@ class weapon_bts_flaregun : BTS_FireWeapon
         SetThink( null );
 
         if( Math.RandomLong( 0, 1 ) == 0 )
-            PlaySound( "bts_rc/weapons/flaregun_reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ), CHAN_ITEM );
+            PlaySound( "bts_rc/weapons/flaregun_reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ), CHAN_ITEM );
         else
-            PlaySound( "bts_rc/weapons/flaregun_reload2.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ), CHAN_ITEM );
+            PlaySound( "bts_rc/weapons/flaregun_reload2.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ), CHAN_ITEM );
     }
 }

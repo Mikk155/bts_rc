@@ -99,6 +99,8 @@ final class ASWeaponGlockConfig : ASWeaponConfig
         this.primary_damage = 15;
         this.primary_cooldown = 0.10;
         this.primary_trained_cooldown = 0.05;
+        this.secondary_cooldown = 0.3f;
+        this.secondary_trained_cooldown = 0.3f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -170,10 +172,13 @@ class weapon_bts_glock : BTS_FireWeapon
             return;
         }
 
-        // Wait for player to press attack key
-        if( ( player.m_afButtonPressed & ( IN_ATTACK | IN_ATTACK2 ) ) == 0 )
+        if( type == AttackType::Primary )
         {
-            return;
+            // Wait for player to press attack key
+            if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
+            {
+                return;
+            }
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
@@ -183,9 +188,16 @@ class weapon_bts_glock : BTS_FireWeapon
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 
-        self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
-        self.m_flNextPrimaryAttack = g_Engine.time + ( isTrainedPersonal ? 0.05f : 0.10f );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+        if( type == AttackType::Secondary )
+        {
+            SetCooldown( isTrainedPersonal, AttackType::Secondary );
+        }
+        else
+        {
+            self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + gpWeaponGlockConfig.secondary_cooldown;
+            self.m_flNextPrimaryAttack = g_Engine.time + gpWeaponGlockConfig.GetCooldown( isTrainedPersonal, AttackType::Primary );
+            self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+        }
     }
 
     void Reload()
