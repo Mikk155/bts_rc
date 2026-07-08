@@ -135,6 +135,12 @@ class weapon_bts_glock : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+                return;
+        }
+
         // Glock shoots on primary AND secondary attack (secondary is faster but less accurate)
         const float spread = ( type == AttackType::Primary ) ?
             Accuracy( 0.01f, 0.03f, 0.01f, 0.04f ) :

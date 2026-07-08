@@ -122,8 +122,11 @@ final class weapon_bts_axe : BTS_MeleeWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Tertiary )
-            return;
+        switch( type )
+        {
+            case AttackType::Tertiary:
+                return;
+        }
 
         TraceResult tr;
         CBaseEntity@ hit = null;

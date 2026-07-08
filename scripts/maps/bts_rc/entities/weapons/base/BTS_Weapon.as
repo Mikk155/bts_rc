@@ -238,4 +238,9 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     {
         __Attack__( AttackType::Secondary );
     }
+
+    void TertiaryAttack()
+    {
+        __Attack__( AttackType::Tertiary );
+    }
 }

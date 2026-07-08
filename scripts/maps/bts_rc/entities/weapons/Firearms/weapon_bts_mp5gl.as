@@ -348,11 +348,6 @@ class weapon_bts_mp5gl : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void TertiaryAttack()
-    {
-        Attack( this.owner, AttackType::Tertiary );
-    }
-
     void Reload()
     {
         if( self.m_iClip == gpWeaponMP5GLConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )

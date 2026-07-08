@@ -260,15 +260,19 @@ class weapon_bts_m79 : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
             self.PlayEmptySound();
             self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
             return;
         }
-
-        if( type != AttackType::Primary )
-            return;
 
         player.m_iWeaponVolume = NORMAL_GUN_VOLUME;
         player.m_iWeaponFlash = BRIGHT_GUN_FLASH;

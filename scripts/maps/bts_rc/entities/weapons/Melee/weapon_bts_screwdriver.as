@@ -107,9 +107,6 @@ final class weapon_bts_screwdriver : BTS_MeleeWeapon
             case AttackType::Tertiary:
             case AttackType::Secondary:
                 return;
-            case AttackType::Primary:
-            default:
-                break;
         }
 
         TraceResult tr;

@@ -142,15 +142,19 @@ class weapon_bts_sawsd : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
             self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
             return;
         }
-
-        if( type != AttackType::Primary )
-            return;
 
         player.m_iWeaponVolume = QUIET_GUN_VOLUME;
 

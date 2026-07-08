@@ -271,14 +271,16 @@ class weapon_bts_xbow : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Secondary )
+        switch( type )
         {
-            SecondaryAttack();
-            return;
+            case AttackType::Tertiary:
+                return;
+            case AttackType::Secondary:
+            {
+                SecondaryAttack();
+                return;
+            }
         }
-
-        if( type != AttackType::Primary )
-            return;
 
         if( self.m_iClip == 0 )
         {

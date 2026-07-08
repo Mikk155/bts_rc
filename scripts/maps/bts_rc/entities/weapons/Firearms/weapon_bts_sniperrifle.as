@@ -125,17 +125,17 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Secondary )
+        switch( type )
         {
-            PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-            ToggleZoom();
-            self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-            return;
-        }
-
-        if( type != AttackType::Primary )
-        {
-            return;
+            case AttackType::Tertiary:
+                return;
+            case AttackType::Secondary:
+            {
+                PlaySound( "weapons/sniper_zoom.wav", 1.0f );
+                ToggleZoom();
+                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+                return;
+            }
         }
 
         if( self.m_iClip <= 0 )
