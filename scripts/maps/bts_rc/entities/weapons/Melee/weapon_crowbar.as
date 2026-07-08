@@ -52,6 +52,10 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
         return "models/hlclassic/p_crowbar.mdl";
     }
 
+    const string& get_world_model() override {
+        return "models/hlclassic/w_crowbar.mdl";
+    }
+
     const string& get_animation_extension() override {
         return "crowbar";
     }

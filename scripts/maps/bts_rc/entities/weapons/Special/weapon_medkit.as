@@ -42,7 +42,11 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
     }
 
     const string& get_player_model() override {
-        return "models/bts_rc/weapons/p_medkit.mdl";
+        return "models/hlclassic/p_medkit.mdl";
+    }
+
+    const string& get_world_model() override {
+        return "models/hlclassic/w_pmedkit.mdl";
     }
 
     const uint8 get_animation_draw() override {
