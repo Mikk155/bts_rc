@@ -174,11 +174,6 @@ class weapon_bts_spanner : BTS_MeleeWeapon
 
             if( this.IsFlesh( hit ) )
             {
-                if( hit.IsPlayer() )
-                {
-                    hit.pev.velocity = hit.pev.velocity + ( self.pev.origin - hit.pev.origin ).Normalize() * 120.0f;
-                }
-
                 switch( RandomUint( 2 ) )
                 {
                     case 0:

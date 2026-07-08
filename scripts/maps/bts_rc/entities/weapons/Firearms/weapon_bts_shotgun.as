@@ -179,7 +179,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             player.pev.effects |= EF_MUZZLEFLASH;
             pev.effects |= EF_MUZZLEFLASH;
 
-            player.SetAnimation( PLAYER_ATTACK1 );
 
             Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
             Vector vecSrc = player.GetGunPosition();
@@ -264,7 +263,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
         player.pev.effects |= EF_MUZZLEFLASH;
         pev.effects |= EF_MUZZLEFLASH;
 
-        player.SetAnimation( PLAYER_ATTACK1 );
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition();
