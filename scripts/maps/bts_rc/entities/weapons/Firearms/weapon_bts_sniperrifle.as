@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponSniperRifleConfig : ASWeaponConfig
+final class ASWeaponSniperRifleConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -82,7 +82,7 @@ class CWeaponSniperRifleConfig : ASWeaponConfig
     }
 }
 
-CWeaponSniperRifleConfig gpWeaponSniperRifleConfig;
+ASWeaponSniperRifleConfig gpWeaponSniperRifleConfig;
 
 enum WeaponSniperRifleAnim
 {

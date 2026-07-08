@@ -38,7 +38,7 @@ enum WeaponCrowbarAnim
     ShoveAltMiss
 };
 
-final class CWeaponCrowbarConfig : ASMeleeWeaponConfig
+final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_crowbar";
@@ -175,4 +175,4 @@ final class CWeaponCrowbarConfig : ASMeleeWeaponConfig
     }
 }
 
-CWeaponCrowbarConfig gpWeaponCrowbarConfig;
+ASWeaponCrowbarConfig gpWeaponCrowbarConfig;

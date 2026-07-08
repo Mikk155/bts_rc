@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponM79Config : ASWeaponConfig
+final class ASWeaponM79Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -78,13 +78,13 @@ class CWeaponM79Config : ASWeaponConfig
         this.primary_cooldown = 1.0;
         this.primary_trained_cooldown = 1.0;
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "CM79Rocket", "m79_rocket" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "ASM79Rocket", "m79_rocket" );
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponM79Config gpWeaponM79Config;
+ASWeaponM79Config gpWeaponM79Config;
 
 enum WeaponM79Anim
 {
@@ -95,7 +95,7 @@ enum WeaponM79Anim
     HOLSTER
 };
 
-class CM79Rocket : ScriptBaseEntity
+final class ASM79Rocket : ScriptBaseEntity
 {
     void Spawn()
     {
@@ -220,13 +220,13 @@ class CM79Rocket : ScriptBaseEntity
 
 namespace M79_ROCKET
 {
-    CM79Rocket@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flRadius, const string& in szModel )
+    ASM79Rocket@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flRadius, const string& in szModel )
     {
         CBaseEntity@ entity = g_EntityFuncs.CreateEntity( "m79_rocket", null, false );
         if( entity is null )
             return null;
 
-        CM79Rocket@ pRocket = cast<CM79Rocket@>( CastToScriptClass( entity ) );
+        ASM79Rocket@ pRocket = cast<ASM79Rocket@>( CastToScriptClass( entity ) );
         if( pRocket is null )
             return null;
 

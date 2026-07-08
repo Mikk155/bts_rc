@@ -75,7 +75,7 @@
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
-final class CGlobalWeaponConfig : IConfigurable
+final class ASGlobalWeaponConfig : IConfigurable
 {
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
@@ -190,4 +190,4 @@ final class CGlobalWeaponConfig : IConfigurable
     }
 }
 
-CGlobalWeaponConfig g_WeaponsConfig;
+ASGlobalWeaponConfig g_WeaponsConfig;

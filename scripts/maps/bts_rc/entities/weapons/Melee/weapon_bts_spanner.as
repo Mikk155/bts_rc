@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponSpannerConfig : ASMeleeWeaponConfig
+final class ASWeaponSpannerConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override
     {
@@ -75,7 +75,7 @@ class CWeaponSpannerConfig : ASMeleeWeaponConfig
     }
 }
 
-CWeaponSpannerConfig gpWeaponSpannerConfig;
+ASWeaponSpannerConfig gpWeaponSpannerConfig;
 
 enum WeaponSpannerAnim
 {

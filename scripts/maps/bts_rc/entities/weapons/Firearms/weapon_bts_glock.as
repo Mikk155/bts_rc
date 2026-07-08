@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponGlockConfig : ASWeaponConfig
+final class ASWeaponGlockConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -87,7 +87,7 @@ class CWeaponGlockConfig : ASWeaponConfig
     }
 }
 
-CWeaponGlockConfig gpWeaponGlockConfig;
+ASWeaponGlockConfig gpWeaponGlockConfig;
 
 enum WeaponGlockAnim
 {

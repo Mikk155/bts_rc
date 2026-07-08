@@ -17,7 +17,7 @@
 
 CCVar g_M249Knockback( "m249_knockback", 1, "", ConCommandFlag::AdminOnly );
 
-class CWeaponSawConfig : ASWeaponConfig
+final class ASWeaponSawConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -86,7 +86,7 @@ class CWeaponSawConfig : ASWeaponConfig
     }
 }
 
-CWeaponSawConfig gpWeaponSawConfig;
+ASWeaponSawConfig gpWeaponSawConfig;
 
 enum WeaponSawAnim
 {

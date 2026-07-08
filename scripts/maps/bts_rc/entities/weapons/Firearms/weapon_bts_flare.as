@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponFlareConfig : ASWeaponConfig
+final class ASWeaponFlareConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -85,13 +85,13 @@ class CWeaponFlareConfig : ASWeaponConfig
         this.max_clip = WEAPON_NOCLIP;
         this.primary_damage = 1;
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "CFlare", "flare" );
+        g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponFlareConfig gpWeaponFlareConfig;
+ASWeaponFlareConfig gpWeaponFlareConfig;
 
 enum WeaponFlareAnim
 {
@@ -102,7 +102,7 @@ enum WeaponFlareAnim
     TOSS
 };
 
-class CFlare : ScriptBaseEntity
+final class ASFlare : ScriptBaseEntity
 {
     private float m_flBounceTime = 0.0f;
     private float m_flNextAttack = 0.0f;
@@ -333,10 +333,10 @@ class CFlare : ScriptBaseEntity
 
 namespace FLARE
 {
-    CFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
+    ASFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
     {
         CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
-        CFlare@ pFlare = cast<CFlare@>( CastToScriptClass( preFlare ) );
+        ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
         if( pFlare is null )
             return null;
 
@@ -361,10 +361,10 @@ namespace FLARE
         return pFlare;
     }
 
-    CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
+    ASFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
     {
         CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
-        CFlare@ pFlare = cast<CFlare@>( CastToScriptClass( preFlare ) );
+        ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
         if( pFlare is null )
             return null;
 

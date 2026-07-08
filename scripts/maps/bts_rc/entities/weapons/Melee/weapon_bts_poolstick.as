@@ -34,7 +34,7 @@ enum WeaponPoolstickAnim
     Idle2
 };
 
-final class CWeaponPoolstickConfig : ASMeleeWeaponConfig
+final class ASWeaponPoolstickConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_poolstick";
@@ -95,7 +95,7 @@ final class CWeaponPoolstickConfig : ASMeleeWeaponConfig
     }
 }
 
-CWeaponPoolstickConfig gpWeaponPoolstickConfig;
+ASWeaponPoolstickConfig gpWeaponPoolstickConfig;
 
 final class weapon_bts_poolstick : BTS_MeleeWeapon
 {

@@ -37,7 +37,7 @@ enum WeaponFlashlightAnim
     Flashlight
 };
 
-final class CWeaponFlashlightConfig : ASMeleeWeaponConfig
+final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_flashlight";
@@ -142,7 +142,7 @@ final class CWeaponFlashlightConfig : ASMeleeWeaponConfig
     }
 }
 
-CWeaponFlashlightConfig gpWeaponFlashlight;
+ASWeaponFlashlightConfig gpWeaponFlashlight;
 
 final class weapon_bts_flashlight : BTS_MeleeWeapon
 {

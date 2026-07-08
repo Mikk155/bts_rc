@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponBroomConfig : ASMeleeWeaponConfig
+final class ASWeaponBroomConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override
     {
@@ -75,7 +75,7 @@ class CWeaponBroomConfig : ASMeleeWeaponConfig
     }
 }
 
-CWeaponBroomConfig gpWeaponBroomConfig;
+ASWeaponBroomConfig gpWeaponBroomConfig;
 
 enum WeaponBroomAnim
 {

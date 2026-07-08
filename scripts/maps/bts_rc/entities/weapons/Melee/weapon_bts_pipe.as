@@ -40,7 +40,7 @@ enum WeaponPipeAnim
     AttackBigLoop
 };
 
-final class CWeaponPipeConfig : ASMeleeWeaponConfig
+final class ASWeaponPipeConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_pipe";
@@ -101,7 +101,7 @@ final class CWeaponPipeConfig : ASMeleeWeaponConfig
     }
 }
 
-CWeaponPipeConfig gpWeaponPipeConfig;
+ASWeaponPipeConfig gpWeaponPipeConfig;
 
 final class weapon_bts_pipe : BTS_MeleeCharge
 {
