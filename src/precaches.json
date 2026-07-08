@@ -162,6 +162,7 @@
     ],
     "PrecacheModel":
     [
+        "sprites/laserdot.spr",
         "models/bts_rc/furniture/w_flashlightbattery.mdl",
         "models/bts_rc/weapons/flare.mdl",
         "models/bts_rc/weapons/p_9mmARGL.mdl",

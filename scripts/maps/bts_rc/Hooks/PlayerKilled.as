@@ -22,6 +22,8 @@ namespace Hooks
         if( player is null )
             return HOOK_CONTINUE;
 
+        LaserSpot::Get( player ).Update( LaserSpot::State::TurnOff );
+
         auto character = GetCharacter(player);
 
         if( character is null )

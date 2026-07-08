@@ -21,6 +21,7 @@ namespace Hooks
     {
         if( player !is null )
         {
+            LaserSpot::Get( player ).Update( LaserSpot::State::TurnOff );
             item_tracker::OnPlayerDisconnect( player );
         }
         return HOOK_CONTINUE;
