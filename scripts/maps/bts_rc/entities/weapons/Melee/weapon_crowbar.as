@@ -131,6 +131,24 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapon.TertiaryAttack();
     }
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
     bool Register( meta_api::json::v2::json@ json ) override
     {
         this.deploy_time = 0.4;

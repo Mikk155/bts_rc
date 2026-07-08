@@ -124,6 +124,23 @@ final class ASWeaponEagleConfig : ASWeaponConfig
         }
     }
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control eagle configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
     bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 1;

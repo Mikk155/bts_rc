@@ -73,6 +73,24 @@ final class ASWeaponScrewDriverConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
     bool Register( meta_api::json::v2::json@ json ) override
     {
         this.slot = 0;

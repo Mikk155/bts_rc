@@ -143,7 +143,7 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
         return """{
             "type": "object",
             "unevaluatedProperties": false,
-            "title": "Items",
+            "title": "Weapon configuration",
             "description": "Control medkit configuration",
             "allOf":
             [

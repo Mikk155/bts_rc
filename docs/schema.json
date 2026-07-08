@@ -1111,8 +1111,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1193,8 +1193,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1275,8 +1275,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1357,8 +1357,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1439,8 +1439,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1521,8 +1521,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1603,8 +1603,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1685,8 +1685,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1767,8 +1767,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1849,8 +1849,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -1931,8 +1931,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2013,8 +2013,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2095,8 +2095,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2177,8 +2177,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2259,8 +2259,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2341,8 +2341,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2423,8 +2423,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2505,8 +2505,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2587,8 +2587,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2669,8 +2669,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2751,8 +2751,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2833,8 +2833,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2915,8 +2915,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -2997,8 +2997,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -3079,8 +3079,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -3161,8 +3161,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -3243,8 +3243,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -3420,8 +3420,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Items",
+				"description": "Control medkit configuration",
 				"properties": 
 				{
 					"primary_maxammo": 
@@ -3493,39 +3493,6 @@
 						"type": "integer"
 					},
 					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					}
