@@ -37,8 +37,6 @@ namespace Hooks
         // I don't have time to redesign this nor i care.
         if( weaponConfig is null )
         {
-            if( true )
-                return HOOK_CONTINUE;
             player.RemovePlayerItem( weapon );
             return HOOK_CONTINUE;
         }
