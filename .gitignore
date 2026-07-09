@@ -1,4 +1,8 @@
+# Python, Builders | Checkers
 __pycache__/
+
+# Node, Website
+node_modules/
 
 maps/**
 models/**
