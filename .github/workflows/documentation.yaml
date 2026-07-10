@@ -1,0 +1,20 @@
+name: Sync Github WIKI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/wiki/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync github wiki
+        uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          path: 'wiki'
