@@ -97,7 +97,7 @@ class ReleaseCheck( PyBuilder ):
 
                 changelog: str = "";
 
-                with open( os.path.join( self.Workspace, "docs", "changelog.md" ), "r", encoding="utf-8" ) as fStream:
+                with open( os.path.join( self.Workspace, "docs", "page", "changelog.md" ), "r", encoding="utf-8" ) as fStream:
 
                     changelog = fStream.read();
 
