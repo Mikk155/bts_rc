@@ -111,14 +111,6 @@ function initSlider()
     setInterval( nextSlide, 10000 ); // 10 seconds
 }
 
-function playMap()
-{
-    window.open(
-        "https://scmapdb.wikidot.com/map:blackmesa-training-simulation:resonance-cascade",
-        "_blank"
-    );
-}
-
 function downloadSchema()
 {
     fetch( 'schema.json' )
