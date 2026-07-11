@@ -1,5 +1,6 @@
 import { initUISounds } from "./sounds.js";
 import { initChangelog } from "./changelog.js";
+import { initSlider } from "./background.js";
 
 // HTML Methods
 import { copyCode } from "./copyCode.js";
@@ -8,6 +9,7 @@ import { copyCode } from "./copyCode.js";
 document.addEventListener( "DOMContentLoaded", () =>
 {
     // Hover sounds
+    initSlider();
     initUISounds();
     initChangelog();
 } );
