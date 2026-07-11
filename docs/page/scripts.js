@@ -132,16 +132,6 @@ function downloadSchema()
     .catch( error => console.error( 'Error:', error ) );
 }
 
-function copyCode( button )
-{
-    const code = button.closest( ".terminal" ).querySelector( "code" ).innerText;
-
-    navigator.clipboard.writeText( code ).then( () => {
-        button.innerText = "✅ Copied";
-        setTimeout(() => { button.innerText = "Copy"; }, 1500 );
-    } );
-}
-
 let gpRootSchema = null;
 
 const gpPropertyIndex = {};
