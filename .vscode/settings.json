@@ -45,5 +45,16 @@
     "angelScript.formatter.indentSpaces": 4,
     "angelScript.formatter.maxBlankLines": 1,
     "editor.indentSize": 4,
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+
+    "[typescript]":
+    {
+        "editor.formatOnType": false,
+        "editor.formatOnSave": false
+    },
+    "[javascript]":
+    {
+        "editor.formatOnType": false,
+        "editor.formatOnSave": false
+    }
 }
