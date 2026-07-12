@@ -6,6 +6,7 @@ import { initVersionRelease } from "./scripts/lastRelease.js"
 
 // HTML Methods
 import { copyCode } from "./scripts/copyCode.js";
+
 ( window as any ).copyCode = copyCode;
 
 document.addEventListener( "DOMContentLoaded", async () =>

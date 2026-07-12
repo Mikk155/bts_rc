@@ -57,9 +57,6 @@ function inlineParse( text: string ): string
 
 export async function initChangelog(): Promise<void>
 {
-    const res: Response = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
-    const markdown: string = await res.text();
-
     const container = document.getElementById( "changelog" );
 
     if( !container )
@@ -67,6 +64,16 @@ export async function initChangelog(): Promise<void>
         console.warn( "Changelog container not found" );
         return;
     }
+
+    const res: Response = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+
+    if( !res || !res.ok )
+    {
+        container.innerHTML = "Failed to fetch changelog";
+        return;
+    }
+
+    const markdown: string = await res.text();
 
     container.innerHTML = parseMarkdown(markdown);
 

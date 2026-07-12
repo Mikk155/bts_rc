@@ -39,13 +39,17 @@ function inlineParse(text) {
     return text;
 }
 export async function initChangelog() {
-    const res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
-    const markdown = await res.text();
     const container = document.getElementById("changelog");
     if (!container) {
         console.warn("Changelog container not found");
         return;
     }
+    const res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
+    if (!res || !res.ok) {
+        container.innerHTML = "Failed to fetch changelog";
+        return;
+    }
+    const markdown = await res.text();
     container.innerHTML = parseMarkdown(markdown);
     const headers = document.querySelectorAll(".changelog-header");
     headers.forEach(header => {

@@ -11,7 +11,7 @@ To ensure quality and consistency across all community contributions, please fol
 1. **Clone the Repository**
    Navigate to your `Sven Co-op/` directory and clone this repository under the folder name `svencoop_event_bts`. This directory name is critical to allow the event system to override local assets correctly:
    ```bash
-   cd "C:\Program Files (x86)\Steam\steamapps\common\Sven Co-op\svencoop"
+   cd "C:\Program Files (x86)\Steam\steamapps\common\Sven Co-op"
    git clone https://github.com/Mikk155/bts_rc.git svencoop_event_bts
    ```
    Open the console on your initialized client and type:
