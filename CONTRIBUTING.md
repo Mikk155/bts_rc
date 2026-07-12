@@ -117,7 +117,7 @@ Before opening a Pull Request, please follow this sequence of steps to ensure yo
    ```
 2. **Verify Git Status**: Run `git status` to ensure all generated changes (like license headers) are included in your commit and your working tree is clean.
 3. **Manual Test**: Run the map locally in Sven Co-op and confirm that your logic executes without compilation warnings or runtime script errors in the console.
-4. **Change log**: Add a new entry on the top of the [changelog](docs/changelog.md) file following the format used.
+4. **Change log**: Add a new entry on the top of the [changelog](CHANGELOG.md) file following the format used explained [here](https://github.com/Mikk155/bts_rc/wiki/changelog)
 
 ### Submitting a Pull Request
 

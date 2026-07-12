@@ -97,7 +97,7 @@ class ReleaseCheck( PyBuilder ):
 
                 changelog: str = "";
 
-                with open( os.path.join( self.Workspace, "docs", "page", "changelog.md" ), "r", encoding="utf-8" ) as fStream:
+                with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
 
                     changelog = fStream.read();
 
@@ -118,7 +118,7 @@ class ReleaseCheck( PyBuilder ):
 
                     changelog = changelog[ : end ].strip().replace( "# ", "### " );
 
-                with open( os.path.join( self.Workspace, "changelog.md" ), "w", encoding="utf-8" ) as fStream:
+                with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "w", encoding="utf-8" ) as fStream:
                     fStream.write( f"""# {self.m_Repository} map scripts [Version {self.m_ProjectVersion}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{self.m_ProjectVersion})
 
 ## ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g).
@@ -130,6 +130,7 @@ class ReleaseCheck( PyBuilder ):
 
 {changelog}
 
+Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).
 </details>
 """ );
 

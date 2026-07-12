@@ -8,7 +8,7 @@ function parseMarkdown( markdown: string ): string
 
     function flushBlock(): void
     {
-        if (!currentTitle)
+        if( !currentTitle )
             return;
 
         html += `
@@ -57,7 +57,7 @@ function inlineParse( text: string ): string
 
 export async function initChangelog(): Promise<void>
 {
-    const res: Response = await fetch( "./changelog.md" );
+    const res: Response = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
     const markdown: string = await res.text();
 
     const container = document.getElementById( "changelog" );
@@ -82,6 +82,6 @@ export async function initChangelog(): Promise<void>
             {
                 content.classList.toggle( "open" );
             }
-        });
-    });
+        } );
+    } );
 }

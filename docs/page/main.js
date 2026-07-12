@@ -1,16 +1,16 @@
-import { initUISounds } from "./sounds.js";
-import { initChangelog } from "./changelog.js";
-import { initSlider } from "./background.js";
-import { initContributors } from "./contributors.js";
-import { initVersionRelease } from "./lastRelease.js";
+import { initUISounds } from "./scripts/sounds.js";
+import { initChangelog } from "./scripts/changelog.js";
+import { initSlider } from "./scripts/background.js";
+import { initContributors } from "./scripts/contributors.js";
+import { initVersionRelease } from "./scripts/lastRelease.js";
 // HTML Methods
-import { copyCode } from "./copyCode.js";
+import { copyCode } from "./scripts/copyCode.js";
 window.copyCode = copyCode;
-document.addEventListener("DOMContentLoaded", () => {
-    // Hover sounds
+document.addEventListener("DOMContentLoaded", async () => {
     initSlider();
+    await initContributors();
+    await initVersionRelease();
+    await initChangelog();
+    // Hover sounds
     initUISounds();
-    initChangelog();
-    initContributors();
-    initVersionRelease();
 });

@@ -21,6 +21,6 @@ Describe the manual/automated testing conducted to verify your changes:
 ## Checklist
 - [ ] My code follows the code style guidelines of this project (Allman braces, spacing inside parentheses).
 - [ ] I have run `python src/main.py` to ensure all script files have been validated.
-- [ ] I have updated the documentation changelog ``docs/page/changelog.md`` according to our [rules](https://github.com/Mikk155/bts_rc/wiki/changelog)
+- [ ] I have updated ``CHANGELOG.md`` according to our [rules](https://github.com/Mikk155/bts_rc/wiki/changelog)
 - [ ] I have checked ``svencoop/scripts/maps/store/bts_rc.log`` to see there is not any logger entry with ``Critical`` or ``Error`` level.
 - [ ] I have updated ``g_ScriptsVersion`` at ``scripts/maps/bts_rc/util/utils.as`` according to [Semantic versioning](https://semver.org/)

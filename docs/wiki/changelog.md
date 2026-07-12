@@ -1,4 +1,4 @@
-When updating ``docs/changelog.md`` we abide by certain rules in order for the website to show proper body sections and github releases to show only-changes since last version.
+When updating ``CHANGELOG.md`` we abide by certain rules in order for the website to show proper body sections and github releases to show only-changes since last version.
 
 ---
 

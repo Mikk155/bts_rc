@@ -39,7 +39,7 @@ function inlineParse(text) {
     return text;
 }
 export async function initChangelog() {
-    const res = await fetch("./changelog.md");
+    const res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
     const markdown = await res.text();
     const container = document.getElementById("changelog");
     if (!container) {

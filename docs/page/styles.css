@@ -18,7 +18,7 @@ body
 
 header, footer
 {
-    background: url( "background.png" );
+    background: url( "./assets/background.png" );
     text-align: center;
     padding: 40px;
     border-bottom: 2px solid var(--orangered);
@@ -107,7 +107,10 @@ code:hover
 
 .card
 {
+    /*
     background: #111;
+    */
+    background: url( "./assets/background.png" );
     padding: 20px;
     border: 1px solid #333;
     border-left: 4px solid var(--orangered);
