@@ -459,10 +459,34 @@ a:active, .schema-tree-node:active
     transition-duration: 0.02s;
 }
 
+/* Contributors */
 .inactive
 {
     pointer-events: none;
     color: #646464;
+}
+
+#contributor_list
+{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    justify-items: center;
+}
+
+.contributor
+{
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.contributor img
+{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /* animations */

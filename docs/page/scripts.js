@@ -1,6 +1,5 @@
 document.addEventListener( "DOMContentLoaded", () =>
 {
-    initSlider();
     loadSchemaDocs();
     LoadLanguageCodeBlocks();
 } );
