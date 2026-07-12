@@ -132,16 +132,13 @@ Set local path to subdirectories htmls
             </div>
             <h4>It should now output a result like:</h4>
             <div class="terminal">
-                <div class="terminal-header">
-                    <code>
-                    [0] name: 'bts', title: 'Black Mesa Training Simulation: Resonance Cascade'<br>
-                    folder: 'svencoop_event_bts', priority: 1<br>
-                    date: 2026-01-01 00:00:00 - 2026-12-31 23:59:59<br>
-                    enabled: yes, forced: no<br>
-                    content: UI - yes, GAME - yes<br>
-                    active: UI - yes, GAME - yes
-                    </code>
-                </div>
+<pre><code class="language-Python">[0] name: 'bts', title: 'Black Mesa Training Simulation: Resonance Cascade'<br>
+folder: 'svencoop_event_bts', priority: 1<br>
+date: 2026-01-01 00:00:00 - 2026-12-31 23:59:59<br>
+enabled: yes, forced: no<br>
+content: UI - yes, GAME - yes<br>
+active: UI - yes, GAME - yes
+</code></pre>
             </div>
             <div class="terminal">
                 <div class="terminal-header">
@@ -158,7 +155,7 @@ Set local path to subdirectories htmls
                     <span>Navigate to the src/ directory.</span>
                     <button class="copy-btn" onclick="copyCode(this)">COPY</button>
                 </div>
-                <pre><code class="code_terminal">python main.py</code></pre>
+                <pre class="language-Bash"><code class="code_terminal">python main.py</code></pre>
             </div>
             <li>This will download all the third party angelscript utility files into the working directory.</li>
             <h4>To fetch game assets such as models, sounds and sprites, verify the last release at <a href="https://github.com/Mikk155/bts_rc/releases", target="_blank">Github</a>.</h4>
@@ -167,16 +164,16 @@ Set local path to subdirectories htmls
             <div class="terminal">
                 <div class="terminal-header">
                     <span>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/.github/" target="_blank">.github/</a><code>GitHub Actions workflows, issue templates, and pull request template.</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/docs/" target="_blank">docs/</a><code>Documentation</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/page/" target="_blank">docs/page/</a><code>Github pages web site.</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">docs/src/</a><code>TypeScript sources for Github pages web site.</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/wiki/" target="_blank">docs/wiki/</a><code>Markdown docuentation for Github's "Wiki" section.</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/scripts/maps/bts_rc/" target="_blank">scripts/maps/bts_rc/</a><code>Contains the AngelScript game logic and hooks.</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/gamemodes/" target="_blank">scripts/maps/bts_rc/gamemodes/</a><code>Gameplay mods (e.g. inventory tracking, spectator managers).</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/entities/" target="_blank">scripts/maps/bts_rc/entities/</a><code>Custom entity scripts and helpers.</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/Hooks/" target="_blank">scripts/maps/bts_rc/Hooks/</a><code>Engine event hooks (player think, player spawn, disconnects).</code><br>
-                        <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">src/</a><code>Python automation tools (license checking, dependency fetchers, release generator).</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/.github/" target="_blank">.github/</a><code>GitHub Actions workflows, issue templates, and pull request template.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/docs/" target="_blank">docs/</a><code>Documentation</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/page/" target="_blank">docs/page/</a><code>Github pages web site.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">docs/src/</a><code>TypeScript sources for Github pages web site.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/wiki/" target="_blank">docs/wiki/</a><code>Markdown docuentation for Github's "Wiki" section.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/scripts/maps/bts_rc/" target="_blank">scripts/maps/bts_rc/</a><code>Contains the AngelScript game logic and hooks.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/gamemodes/" target="_blank">scripts/maps/bts_rc/gamemodes/</a><code>Gameplay mods (e.g. inventory tracking, spectator managers).</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/entities/" target="_blank">scripts/maps/bts_rc/entities/</a><code>Custom entity scripts and helpers.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/Hooks/" target="_blank">scripts/maps/bts_rc/Hooks/</a><code>Engine event hooks (player think, player spawn, disconnects).</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">src/</a><code>Python automation tools (license checking, dependency fetchers, release generator).</code><br>
                     </span>
                 </div>
             </div>
@@ -218,7 +215,7 @@ All AngelScript scripts should match the formatting conventions enforced by the 
                     <span>Navigate to the src/ directory.</span>
                     <button class="copy-btn" onclick="copyCode(this)">COPY</button>
                 </div>
-                <pre><code class="code_terminal">python main.py</code></pre>
+                <pre class="language-Bash"><code class="code_terminal">python main.py</code></pre>
             </div>
             <li>If the program exit with return code 0 it's ready to go!</li>
             <br><br>

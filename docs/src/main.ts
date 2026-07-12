@@ -1,11 +1,13 @@
+
+// HTML Methods
+import { copyCode } from "./scripts/copyCode.js";
+
 import { initUISounds } from "./scripts/sounds.js";
 import { initChangelog } from "./scripts/changelog.js";
 import { initSlider } from "./scripts/background.js";
 import { initContributors } from "./scripts/contributors.js";
 import { initVersionRelease } from "./scripts/lastRelease.js"
-
-// HTML Methods
-import { copyCode } from "./scripts/copyCode.js";
+import { initLanguages } from "./scripts/languages.js";
 
 ( window as any ).copyCode = copyCode;
 
@@ -16,6 +18,7 @@ document.addEventListener( "DOMContentLoaded", async () =>
     await initContributors();
     await initVersionRelease();
     await initChangelog();
+    await initLanguages();
 
     // Hover sounds
     initUISounds();
