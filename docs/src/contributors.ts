@@ -6,7 +6,7 @@ interface Contributor
     contributions: number;
 }
 
-export async function fetchContributors(): Promise<void>
+export async function initContributors(): Promise<void>
 {
     function render( container: HTMLElement, contributors: Map<string, Contributor> )
     {

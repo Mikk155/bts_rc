@@ -1,4 +1,4 @@
-export async function fetchContributors() {
+export async function initContributors() {
     function render(container, contributors) {
         container.innerHTML = "";
         let ordered = Array.from(contributors.values());
