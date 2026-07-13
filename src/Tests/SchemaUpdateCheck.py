@@ -26,7 +26,7 @@ class SchemaUpdateCheck( PyBuilder ):
 
             ShouldUpdate = False;
 
-            oldSchemaPath = Path( os.path.join( self.Workspace, "docs", "page", "schema.json" ) );
+            oldSchemaPath = Path( os.path.join( self.Workspace, "docs", "schema.json" ) );
             if os.path.exists( oldSchemaPath ):
                 with open( oldSchemaPath, "r", encoding="utf-8" ) as fOldSchema:
                     with open( path, "r", encoding="utf-8" ) as fNewSchema:

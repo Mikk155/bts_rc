@@ -1,24 +1,37 @@
 {
     "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "npm",
-            "script": "build",
-            "path": "docs",
-            "group": "build",
-            "problemMatcher": [],
-            "label": "npm: Compile documentation",
-            "detail": "tsc"
-        },
+    "tasks":
+    [
         {
             "type": "typescript",
-            "tsconfig": "docs/tsconfig.json",
+            "tsconfig": "src/docs/tsconfig.json",
             "option": "watch",
             "problemMatcher": [
                 "$tsc-watch"
             ],
             "group": "build",
-            "label": "tsc: watch - docs/tsconfig.json"
+            "detail": "Update website JavaScript files.",
+            "label": "tsc: watch - src/docs/tsconfig.json"
+        },
+        {
+            "label": "Format & check AngelScript files.",
+            "type": "shell",
+            "command": "python",
+            "args":
+            [
+                "src/main.py"
+            ],
+            "group":
+            {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation":
+            {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
         }
     ]
 }
