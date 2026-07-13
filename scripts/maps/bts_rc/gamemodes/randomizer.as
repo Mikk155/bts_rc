@@ -237,10 +237,16 @@ namespace randomizer
             "GM_ZM_S28",
             "GM_ZM_S29",
             "GM_ZM_S30",
+            "GM_ZM_S31",
+            "GM_ZM_S32",
             "GM_ZM_CS_1",
             "GM_ZM_CS_2",
             "GM_ZM_ENG1",
-            "GM_ZM_ENG2"
+            "GM_ZM_ENG2",
+            "GM_ZM_PARASITE_S4",
+            "GM_ZM_PARASITE_S5",
+            "GM_ZM_PARASITE_S6",
+            "GM_PANTHER_S2"
         } );
         Initialize( "randomizer_boss", {
             "GM_KPIN_S1",
@@ -260,6 +266,11 @@ namespace randomizer
             "GM_R_HOUND_S1",
             "GM_R_HOUND_S2",
             "GM_SHOCK_S2",
+            "GM_ZM_PARASITE_S1",
+            "GM_ZM_PARASITE_S2",
+            "GM_ZM_PARASITE_S3",
+            "GM_PANTHER_S1",
+            "GM_PARASITE_S1",
             "GM_VOLT_S1",
             "GM_BULL_S1",
             "GM_BULL_S2",
@@ -397,6 +408,8 @@ namespace randomizer
             "GM_HEAD_S6",
             "GM_HEAD_S7",
             "GM_HEAD_S8",
+            "GM_PARASITE_S2",
+            "GM_PARASITE_S3",
             "GM_HEADZOEA_S1",
             "GM_HEADZOEA_S2",
             "GM_HEADZOEA_S3",
