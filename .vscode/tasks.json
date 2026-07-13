@@ -10,7 +10,28 @@
                 "$tsc-watch"
             ],
             "group": "build",
+            "detail": "Update website JavaScript files.",
             "label": "tsc: watch - src/docs/tsconfig.json"
+        },
+        {
+            "label": "Format & check AngelScript files.",
+            "type": "shell",
+            "command": "python",
+            "args":
+            [
+                "src/main.py"
+            ],
+            "group":
+            {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation":
+            {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
         }
     ]
 }
