@@ -1,24 +1,16 @@
 {
     "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "npm",
-            "script": "build",
-            "path": "docs",
-            "group": "build",
-            "problemMatcher": [],
-            "label": "npm: Compile documentation",
-            "detail": "tsc"
-        },
+    "tasks":
+    [
         {
             "type": "typescript",
-            "tsconfig": "docs/tsconfig.json",
+            "tsconfig": "src/docs/tsconfig.json",
             "option": "watch",
             "problemMatcher": [
                 "$tsc-watch"
             ],
             "group": "build",
-            "label": "tsc: watch - docs/tsconfig.json"
+            "label": "tsc: watch - src/docs/tsconfig.json"
         }
     ]
 }

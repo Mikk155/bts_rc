@@ -14,7 +14,7 @@ class CreditsCheck( PyBuilder ):
 
     def Build(self) -> bool:
 
-        creditsPath: str = os.path.join( self.Workspace, "docs", "page", "assets", "credits.json" );
+        creditsPath: str = os.path.join( self.Workspace, "docs", "assets", "credits.json" );
 
         creditsList: list[str];
         
