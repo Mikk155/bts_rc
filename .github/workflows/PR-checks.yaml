@@ -3,6 +3,9 @@ name: Pull Request Verification
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches:
+      - main
 
 jobs:
   verify:
