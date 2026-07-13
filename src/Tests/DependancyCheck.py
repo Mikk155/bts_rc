@@ -65,11 +65,7 @@ class DependancyCheck( PyBuilder ):
 
             upToDate = False;
 
-            if dependencyPath.as_posix() == "meta_api/json":
-                self.Log( "Skip up-to-date scripts\\mikk155\\meta_api\\json.as (local changes preserved)" );
-                upToDate = True;
-
-            elif self.Type == PyBuilder.BuildType.Local and os.path.exists( destinationPath ):
+            if self.Type == PyBuilder.BuildType.Local and os.path.exists( destinationPath ):
                 with open( destinationPath, "r", encoding="utf-8") as f:
                     if f.read() == content:
                         self.Log( f"Skip up-to-date scripts\\mikk155\\{dependencyPath}.as" );
