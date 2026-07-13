@@ -48,7 +48,6 @@ To ensure quality and consistency across all community contributions, please fol
 - [`docs/`](docs/) - Documentation
   - [`page/`](docs/page/) - Github pages web site.
   - [`src/`](docs/src/) - TypeScript sources for Github pages web site.
-  - [`wiki/`](docs/wiki/) - Markdown docuentation for Github's "Wiki" section.
 <!--
 - [`resource/`](resource/) - UI localization files and resource definitions.
 Sven Co-op events currently does not support GameMenu.res replacement.
@@ -58,6 +57,7 @@ Sven Co-op events currently does not support GameMenu.res replacement.
   - [`entities/`](scripts/maps/bts_rc/entities/) - Custom entity scripts and helpers.
   - [`Hooks/`](scripts/maps/bts_rc/Hooks/) - Engine event hooks (player think, player spawn, disconnects).
 - [`src/`](src/) - Python automation tools (license checking, dependency fetchers, release generator).
+- [`wiki/`](src/wiki/) - Markdown docuentation for Github's "Wiki" section.
 
 ---
 
