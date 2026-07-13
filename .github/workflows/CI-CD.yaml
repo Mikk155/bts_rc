@@ -44,7 +44,7 @@ jobs:
         if: steps.builder.outputs.abort == 'false' # Push dispatch
         with:
           files: bts_rc.zip
-          body_path: "${{ github.workspace }}/changelog.md" # Push dispatch
+          body_path: "${{ github.workspace }}/CHANGELOG.md" # Push dispatch
           tag_name: ${{ steps.builder.outputs.version }} # Push dispatch
           previous_tag: "${{ steps.builder.outputs.previous_version }}" # Push dispatch
           body: "> # ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g)." # Release dispatch

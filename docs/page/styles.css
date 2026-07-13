@@ -18,7 +18,7 @@ body
 
 header, footer
 {
-    background: url( "background.png" );
+    background: url( "./assets/background.png" );
     text-align: center;
     padding: 40px;
     border-bottom: 2px solid var(--orangered);
@@ -107,7 +107,10 @@ code:hover
 
 .card
 {
+    /*
     background: #111;
+    */
+    background: url( "./assets/background.png" );
     padding: 20px;
     border: 1px solid #333;
     border-left: 4px solid var(--orangered);
@@ -459,10 +462,68 @@ a:active, .schema-tree-node:active
     transition-duration: 0.02s;
 }
 
+/* Contributors */
 .inactive
 {
     pointer-events: none;
     color: #646464;
+}
+
+#contributor_list
+{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    justify-items: center;
+}
+
+.contributor
+{
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.contributor img
+{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Release version pop up */
+#release-notice
+{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.release-popup
+{
+    color: var(--orange);
+    padding: 12px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba( 0, 0, 0, 0.4 );
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    background: var(--brown);
+    transition: 0.2s;
+}
+
+.release-popup:hover
+{
+    background: var(--orangered);
+    transform: scale( 1.05 );
+}
+
+.release-popup.hide
+{
+    opacity: 0;
+    transform: translateY( 10px );
 }
 
 /* animations */

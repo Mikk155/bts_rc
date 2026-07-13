@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+Set local path to subdirectories htmls
+<base href="../">
+-->
+<head>
+    <link rel="icon" href="favicon.ico">
+    <meta property="og:title" content="bts_rc">
+    <meta property="og:description" content="Black Mesa Training Simulation: Resonance Cascade">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mikk155.github.io/bts_rc/">
+    <meta property="og:image" content="https://scmapdb.wikidot.com/local--files/map:blackmesa-training-simulation:resonance-cascade/aa_bts_rc.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta charset="UTF-8">
+    <title>Black Mesa Training Simulation</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="main.js"></script>
+</head>
+<body>
+
+<header>
+    <h1 id="title1">Black Mesa Training Simulation: Resonance Cascade<span id="blink">Black Mesa Training Simulation: Resonance Cascade</span></h1>
+    <button class="play-btn" onclick="window.open( 'https://github.com/Mikk155/bts_rc/releases', '_blank' )">▶ PLAY</button>
+</header>
+
+<div class="container">
+    <!--background images-->
+    <div class="bg-slider">
+        <div class="bg-slide active"></div>
+        <div class="bg-slide"></div>
+    </div>
+
+    <div id="release-notice"></div>
+
+    <div class="section" id="redirects">
+        <h2>📝 <a href="#redirects">redirects</a></h2>
+        <div class="card">
+            <li><a href="#Contributing">Contributing</a></li>
+            <li><a href="#Contributors">Contributors</a></li>
+            <li><a href="#section_changelog">Changelogs</a></li>
+            <li><a href="#Configuring">Configuring the map</a></li>
+            <li><a href="https://github.com/Mikk155/bts_rc/wiki" target="_blank">Documentation</a></li>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="card">
+            <h2>📄 Description</h2>
+            <p>
+                You have been selected for a high-level simulation inside Black Mesa.
+                <br><br>
+                This scenario recreates a possible resonance cascade event.
+                <br><br>
+                Explore, survive, and adapt.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧪 Features</h2>
+        <div class="grid">
+            <div class="card">
+                Players will be randomly placed around the map and be made to survive the resonance cascade, the first map currently features various areas which include:
+                <br>
+                <br>
+                <li>Area 1 Dormitories</li>
+                <br>
+                <li>Area 2 Warehousing</li>
+                <br>
+                <li>Area 3 Maintenance Level 2</li>
+                <br>
+                <li>Area 4 Security facilities</li>
+                <br>
+                <li>Area 5 Administration</li>
+            </div>
+            <div class="card">
+                All items are randomly generated around the map and go into the inventory with the exception of ammo and armor items.
+                <br><br><br>
+                Map events are random, so if a scientist is present 1 round and not the next - it's normal
+                <br><br><br>
+                Each Difficulty has its own perks.. Storymode is recommended for the first playthrough
+            </div>
+            <div class="card">
+                Everything you come across will need to be interacted with to pick up, weapons will go into your inventory and so will health kits.
+                <br><br>
+                <br><br>
+                You can then activate these items and it will then be given to you, this Is to allow players to carry multiple weapons for other players.
+                <br><br>
+                <br><br>
+                You can however activate the multiple weapons and it will give you the ammo
+            </div>
+        </div>
+    </div>
+
+    <div class="video-container">
+        <iframe 
+            src="https://www.youtube.com/embed/J_ZhgAbRBuQ?si=2Dk7oqOQc-eJXaBu"
+            title="Black Mesa Simulation"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="section" id="Contributing">
+        <h2>📝 <a href="#Contributing">Contributing</a></h2>
+        <div class="card">
+            Thank you for your interest in contributing to the simulation!
+            <br><br>
+            This repository contains the maps, custom weapons, entity overriders, and custom game logic for the Sven Co-op mod.
+            <br><br>
+            To ensure quality and consistency across all community contributions, please follow these guidelines and conventions.
+            <br><br>
+            <h3><li>Clone the repository</li></h3>
+            <h4>Open a cmd and navigate to your <code>Sven Co-op</code> installation and install the repository using git.</h4>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Install repository</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+                <pre><code class="code_terminal">git clone https://github.com/Mikk155/bts_rc svencoop_event_bts</code></pre>
+            </div>
+            <li>By installing the repository as an event it will override any installation of bts_rc in your game.</li>
+            <br><br>
+            <h3><li>Initialize game event</li></h3>
+            <h4>Open the console on your initialized Sven Co-op client</h4>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Check validation of event mod:</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+                <pre><code class="code_terminal">ev_list</code></pre>
+            </div>
+            <h4>It should now output a result like:</h4>
+            <div class="terminal">
+<pre><code class="language-Python">[0] name: 'bts', title: 'Black Mesa Training Simulation: Resonance Cascade'<br>
+folder: 'svencoop_event_bts', priority: 1<br>
+date: 2026-01-01 00:00:00 - 2026-12-31 23:59:59<br>
+enabled: yes, forced: no<br>
+content: UI - yes, GAME - yes<br>
+active: UI - yes, GAME - yes
+</code></pre>
+            </div>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>If for some reason it refuses to load you can enable it:</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+                <pre><code class="code_terminal">ev_enable bts</code></pre>
+            </div>
+            <br><br>
+            <h3><li>Download Third-Party Dependencies</li></h3>
+            <h4>There are some utility scripts not present in the project which must be fetched externaly to keep up-to-date.</h4>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Navigate to the src/ directory.</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+                <pre class="language-Bash"><code class="code_terminal">python main.py</code></pre>
+            </div>
+            <li>This will download all the third party angelscript utility files into the working directory.</li>
+            <h4>To fetch game assets such as models, sounds and sprites, verify the last release at <a href="https://github.com/Mikk155/bts_rc/releases", target="_blank">Github</a>.</h4>
+            <br><br>
+            <h3>Repository Structure</h3>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/.github/" target="_blank">.github/</a><code>GitHub Actions workflows, issue templates, and pull request template.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/docs/" target="_blank">docs/</a><code>Documentation</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/page/" target="_blank">docs/page/</a><code>Github pages web site.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">docs/src/</a><code>TypeScript sources for Github pages web site.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/wiki/" target="_blank">docs/wiki/</a><code>Markdown docuentation for Github's "Wiki" section.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/scripts/maps/bts_rc/" target="_blank">scripts/maps/bts_rc/</a><code>Contains the AngelScript game logic and hooks.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/gamemodes/" target="_blank">scripts/maps/bts_rc/gamemodes/</a><code>Gameplay mods (e.g. inventory tracking, spectator managers).</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/entities/" target="_blank">scripts/maps/bts_rc/entities/</a><code>Custom entity scripts and helpers.</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/Hooks/" target="_blank">scripts/maps/bts_rc/Hooks/</a><code>Engine event hooks (player think, player spawn, disconnects).</code><br>
+                    <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">src/</a><code>Python automation tools (license checking, dependency fetchers, release generator).</code><br>
+                    </span>
+                </div>
+            </div>
+            <!--
+## Code Style Guide
+All AngelScript scripts should match the formatting conventions enforced by the project configuration.
+
+1. **Brace Wrapping (Allman Style)**
+   Place opening and closing braces on their own line:
+   ```as
+   void Think( CBasePlayer@ player )
+   {
+       if( player !is null )
+       {
+           // Do something
+       }
+   }
+   ```
+
+2. **Spaces and Indentation**
+   - Use **4 spaces** for indentation. Do not use tabs.
+   - Insert spaces inside parentheses for function parameters, conditionals, and casts:
+     - `if( player !is null )` (Correct)
+     - `if(player!isnull)` (Incorrect)
+     - `cast<CBaseEntity@>( entity )` (Correct)
+
+3. **Naming Conventions**
+   - **Namespaces & Classes**: PascalCase (e.g., `namespace item_tracker`)
+   - **Functions**: PascalCase (e.g., `void UpdatePlayerInventory`)
+   - **Local Variables**: camelCase (e.g., `string trackedStr`)
+   - **Global/Namespace Variables**: Prefix with `gp` (e.g., `gpBufferDirty`) for global parameters or instead use `g_` (e.g., `g_logger`) for global parameters that should be accessed by one or more external structures.
+-->
+            <br><br>
+            <h3><li>Checkers</li></h3>
+            <h4>Every <code>.as</code> script must contain the MIT license header. Do not write this manually!</h4>
+            Before committing your changes, run the python utility to run various tests and format the AngelScript files and ensure metadata and JSON files compile:
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Navigate to the src/ directory.</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+                <pre class="language-Bash"><code class="code_terminal">python main.py</code></pre>
+            </div>
+            <li>If the program exit with return code 0 it's ready to go!</li>
+            <br><br>
+            <h4>Once you've commit your changes open a pull request following the template instructions and wait for a review.</h4>
+        </div>
+    </div>
+
+    <div class="section" id="Contributors">
+        <h2>📝 <a href="#Contributors">Contributors</a></h2>
+        <div class="card">
+            <h2 style="text-align: center;">The simulation is amazing because of these peoples</h2>
+            <div id="contributor_list"></div>
+        </div>
+        <!-- -TODO get full credits from a file or smth -->
+    </div>
+
+    <div class="section" id="Configuring">
+        <h2>📝 <a href="#Configuring">Configuring the map</a></h2>
+        <div class="schema-card">
+            <div id="schema-sidebar">
+                <div id="schema-searchContainer">
+                    <button class="downloadschema-btn" onclick="downloadSchema()">Download schema</button>
+                </div>
+                <div id="schema-searchContainer">
+                    <h1>JSON Schema Wiki</h1>
+                    <p>Select a property from the left panel to read information about them.</p>
+                </div>
+                <div id="schema-searchContainer">
+                    <input id="schema-search" type="text" placeholder="Search property..." >
+                </div>
+                <div id="schema-tree"></div>
+            </div>
+            <div id="schema-content">
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="section_changelog">
+        <h2>📝 <a href="#section_changelog">Changelog</a></h2>
+        <div class="card" id="changelog">
+            Loading...
+        </div>
+        <li>Older changelogs are not availables.</li>
+    </div>
+
+</div>
+
+<footer>
+  <a href="https://github.com/Mikk155/bts_rc?tab=License-1-ov-file" target="_blank">© Copyright</a>
+</footer>
+
+</body>
+</html>

@@ -11,7 +11,7 @@ To ensure quality and consistency across all community contributions, please fol
 1. **Clone the Repository**
    Navigate to your `Sven Co-op/` directory and clone this repository under the folder name `svencoop_event_bts`. This directory name is critical to allow the event system to override local assets correctly:
    ```bash
-   cd "C:\Program Files (x86)\Steam\steamapps\common\Sven Co-op\svencoop"
+   cd "C:\Program Files (x86)\Steam\steamapps\common\Sven Co-op"
    git clone https://github.com/Mikk155/bts_rc.git svencoop_event_bts
    ```
    Open the console on your initialized client and type:
@@ -45,7 +45,10 @@ To ensure quality and consistency across all community contributions, please fol
 ## Repository Structure
 
 - [`.github/`](.github/) - GitHub Actions workflows, issue templates, and pull request template.
-- [`docs/`](docs/) - Documentation website served via GitHub Pages (includes the JSON Schema visualizer).
+- [`docs/`](docs/) - Documentation
+  - [`page/`](docs/page/) - Github pages web site.
+  - [`src/`](docs/src/) - TypeScript sources for Github pages web site.
+  - [`wiki/`](docs/wiki/) - Markdown docuentation for Github's "Wiki" section.
 <!--
 - [`resource/`](resource/) - UI localization files and resource definitions.
 Sven Co-op events currently does not support GameMenu.res replacement.
@@ -54,8 +57,7 @@ Sven Co-op events currently does not support GameMenu.res replacement.
   - [`gamemodes/`](scripts/maps/bts_rc/gamemodes/) - Gameplay mods (e.g. inventory tracking, spectator managers).
   - [`entities/`](scripts/maps/bts_rc/entities/) - Custom entity scripts and helpers.
   - [`Hooks/`](scripts/maps/bts_rc/Hooks/) - Engine event hooks (player think, player spawn, disconnects).
-  - [`misc/`](scripts/maps/bts_rc/misc/) - Utility methods that are used along the whole project.
-- [`src/`](src/) - Python automation tools (license checking, dependency fetchers).
+- [`src/`](src/) - Python automation tools (license checking, dependency fetchers, release generator).
 
 ---
 
@@ -86,18 +88,20 @@ All AngelScript scripts should match the formatting conventions enforced by the 
    - **Namespaces & Classes**: PascalCase (e.g., `namespace item_tracker`)
    - **Functions**: PascalCase (e.g., `void UpdatePlayerInventory`)
    - **Local Variables**: camelCase (e.g., `string trackedStr`)
-   - **Global/Namespace Variables**: Prefix with `gp` or `g_` (e.g., `gpBufferDirty`, `g_logger`)
+   - **Global/Namespace Variables**: Prefix with `gp` (e.g., `gpBufferDirty`) for global parameters or instead use `g_` (e.g., `g_logger`) for global parameters that should be accessed by one or more external structures.
 
 ---
 
-## License Headers
+## Checkers
 
 Every `.as` script must contain the MIT license header. Do not write this manually! 
 
-Before committing your changes, run the licensing utility to automatically format and apply headers to all new or modified `.as` files:
+Before committing your changes, run the python utility to run various tests and format the AngelScript files:
 ```bash
-python src/apply_license.py
+python src/main.py
 ```
+
+- If the program exit with return code 0 it's ready to go!
 
 ---
 
@@ -107,17 +111,13 @@ python src/apply_license.py
 
 Before opening a Pull Request, please follow this sequence of steps to ensure your changes pass our automated checks:
 
-1. **Format and License Headers**: Run the license utility to apply headers to all new or modified `.as` files:
-   ```bash
-   python src/apply_license.py
-   ```
-2. **Run Build Validation**: Run the validation script to ensure metadata and JSON files compile:
+1. **Run Build Validation**: Run the validation script to ensure metadata and JSON files compile:
    ```bash
    python src/main.py
    ```
-3. **Verify Git Status**: Run `git status` to ensure all generated changes (like license headers) are included in your commit and your working tree is clean.
-4. **Manual Test**: Run the map locally in Sven Co-op and confirm that your logic executes without compilation warnings or runtime script errors in the console.
-5. **Change log**: Add a new entry on the top of the [changelog](docs/changelog.md) file following the format used.
+2. **Verify Git Status**: Run `git status` to ensure all generated changes (like license headers) are included in your commit and your working tree is clean.
+3. **Manual Test**: Run the map locally in Sven Co-op and confirm that your logic executes without compilation warnings or runtime script errors in the console.
+4. **Change log**: Add a new entry on the top of the [changelog](CHANGELOG.md) file following the format used explained [here](https://github.com/Mikk155/bts_rc/wiki/changelog)
 
 ### Submitting a Pull Request
 

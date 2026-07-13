@@ -1,3 +1,9 @@
+# 12/7/2026
+- The website was updated to replace JavaScript scripts with TypeScript scripts for ease of use and maintenance.
+- Updated & re-organization of various documentation structures.
+- Added github wiki section in the project workspace for ease of use including a workflow to automate upload of wikipedia.
+- Updated various instructions and general documentation to be more clear and concise.
+
 # 30/6/2026
 - Added various player models (Requires download from MEGA)
 
