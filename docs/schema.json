@@ -383,18 +383,418 @@
 				"type": "object",
 				"unevaluatedProperties": false,
 				"title": "Death drop",
-				"description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
-				"additionalProperties": 
-				{
-					"type": "array",
-					"items": 
-					{
-						"type": "string",
-						"description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade."
-					}
-				},
+				"description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade.",
 				"properties": 
 				{
+					"zsecurity": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_battery",
+							"ammo_bts_sw637",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_bts_sbshotgun",
+							"",
+							"",
+							"",
+							""
+						]
+					},
+					"zworker": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_battery",
+							"ammo_bts_flarebox",
+							"weapon_bts_flare",
+							"ammo_bts_glock",
+							"item_bts_sprayaid",
+							"",
+							"",
+							"",
+							""
+						]
+					},
+					"zmedic": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_healthkit",
+							"item_bts_sprayaid",
+							"item_bts_sprayaid",
+							"ammo_bts_glock",
+							"ammo_bts_eagle",
+							"grenade",
+							"",
+							"",
+							"",
+							""
+						]
+					},
+					"ztorch": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_glock",
+							"ammo_bts_eagle",
+							"grenade",
+							"",
+							"",
+							"",
+							""
+						]
+					},
+					"zhecu": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_m4",
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_762",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"zblop": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_m4",
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_762",
+							"ammo_crossbow",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"gonome": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_crossbow",
+							"item_healthkit",
+							"item_bts_sprayaid",
+							"grenade",
+							"grenade",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"gonomeb": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_shotgun",
+							"ammo_bts_eagle",
+							"ammo_bts_eagle",
+							"ammo_bts_sw637",
+							"ammo_bts_sw637",
+							"ammo_bts_sw637",
+							"item_healthkit",
+							"item_bts_sprayaid",
+							"grenade",
+							"grenade",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"gonomew": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_shotgun",
+							"ammo_bts_glock",
+							"ammo_bts_sw637",
+							"item_healthkit",
+							"item_bts_sprayaid",
+							"ammo_bts_flarebox",
+							"weapon_bts_flare",
+							"grenade",
+							"grenade",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"gonomeh": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_shotgun",
+							"ammo_bts_shotgun",
+							"ammo_bts_glock",
+							"ammo_bts_glock",
+							"ammo_bts_eagle",
+							"ammo_bts_eagle",
+							"ammo_bts_m4",
+							"ammo_bts_m4",
+							"ammo_762",
+							"ammo_762",
+							"ammo_bts_m16_grenade",
+							"grenade",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"zhev": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_eagle",
+							"ammo_bts_sw637",
+							"item_bts_hevbattery",
+							"item_bts_sprayaid",
+							"ammo_bts_glock",
+							"ammo_bts_m4",
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_python",
+							"grenade",
+							"grenade",
+							"grenade",
+							"",
+							"",
+							"",
+							""
+						]
+					},
+					"zcleansuit": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"item_bts_hevbattery",
+							"item_bts_sprayaid",
+							"",
+							"",
+							"",
+							""
+						]
+					},
+					"Marine": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_m4",
+							"item_bts_sprayaid",
+							"ammo_bts_m16_grenade",
+							"grenade",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"Medic": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_glock",
+							"ammo_bts_eagle",
+							"item_healthkit",
+							"item_bts_sprayaid",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"Torch": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_glock",
+							"ammo_bts_eagle",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"Sniper": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_762",
+							"ammo_762",
+							"ammo_762",
+							"weapon_bts_sniperrifle",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"Blackops": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_m4",
+							"ammo_crossbow",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"Fassn": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_uzi",
+							"ammo_bts_uzi",
+							"ammo_bts_uzi",
+							"ammo_crossbow",
+							"grenade",
+							"",
+							"",
+							""
+						]
+					},
+					"robot": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
+							"ammo_bts_m4",
+							"",
+							"",
+							""
+						]
+					},
+					"friendly": 
+					{
+						"type": "array",
+						"items": 
+						{
+							"type": "string"
+						},
+						"default": 
+						[
+							""
+						]
+					},
 					"active": 
 					{
 						"type": "boolean",

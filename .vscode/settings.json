@@ -36,7 +36,6 @@
         ".github/**",
         "docs/**",
         "resource/**",
-        "scripts/maps/bts_rc_weapons/**", // Temporal to not waste time analyzing.
         "src/**"
     ],
 
