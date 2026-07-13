@@ -90,23 +90,6 @@ final class ASWeaponScrewDriverConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 0;
-        this.position = 8;
-        this.weight = 10;
-        this.deploy_time = 0.3;
-        this.primary_distance = 32;
-        this.primary_damage = 9;
-        this.primary_cooldown = 0.35;
-        this.primary_trained_cooldown = 0.25;
-        this.primary_miss_cooldown = 0.6;
-        this.primary_miss_trained_cooldown = 0.5;
-        this.subsequent_hits_deduction = 0.5;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponScrewDriverConfig gpWeaponScrewDriverConfig;

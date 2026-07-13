@@ -100,25 +100,6 @@ final class ASWeaponPipeWrenchConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 0;
-        this.position = 5;
-        this.deploy_time = 0.6;
-        this.primary_damage = 14;
-        this.primary_distance = 32;
-        this.primary_cooldown = 0.75;
-        this.primary_trained_cooldown = 0.5;
-        this.primary_miss_cooldown = 0.75;
-        this.primary_miss_trained_cooldown = 0.5;
-        this.secondary_damage = 28;
-        this.secondary_distance = 35;
-        this.secondary_cooldown = 0.64;
-        this.secondary_miss_cooldown = 0.85;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponPipeWrenchConfig gpWeaponPipeWrenchConfig;

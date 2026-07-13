@@ -88,20 +88,9 @@ final class ASWeaponGlock18Config : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 1;
-        this.position = 10;
-        this.weight = 10;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 19;
-        this.max_clip = 19;
-        this.primary_damage = 15;
-        this.primary_cooldown = 0.0625;
-        this.primary_trained_cooldown = 0.0625;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.5;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.0f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -220,16 +209,5 @@ class weapon_bts_glock18 : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponGlock18Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponGlock18Config.max_clip, self.m_iClip != 0 ? WeaponGlock18Anim::ReloadEmpty : WeaponGlock18Anim::Reload, 2.0f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        PlaySound( "bts_rc/weapons/9mm_clip.wav", 0.2f );
-        BaseClass.Reload();
-    }
+    
 }

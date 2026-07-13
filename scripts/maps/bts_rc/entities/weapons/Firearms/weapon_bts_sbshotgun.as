@@ -95,24 +95,6 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 2;
-        this.position = 6;
-        this.weight = 15;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 30;
-        this.primary_dropammo = 3;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 6;
-        this.primary_damage = 13;
-        this.primary_cooldown = 0.85;
-        this.primary_trained_cooldown = 0.85;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponSBShotgunConfig gpWeaponSBShotgunConfig;

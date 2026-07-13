@@ -97,21 +97,9 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 2;
-        this.position = 11;
-        this.weight = 5;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 150;
-        this.primary_dropammo = 20;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 20;
-        this.primary_damage = 24;
-        this.secondary_damage = 110.0f;
-        this.primary_cooldown = 0.11;
-        this.primary_trained_cooldown = 0.11;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 3.25f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -284,14 +272,7 @@ class weapon_bts_m16sd : BTS_FireWeapon
         BaseClass.ItemPostFrame();
     }
 
-    void Reload()
-    {
-        if( ShouldReload( WeaponM16SDAnim::RELOAD, 3.25f ) )
-        {
-            PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
-            BaseClass.Reload();
-        }
-    }
+    
 
     float Idle() override
     {

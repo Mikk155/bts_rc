@@ -89,16 +89,9 @@ final class ASWeaponFlareGunConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 4;
-        this.position = 13;
-        this.weight = 15;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 6;
-        this.primary_dropammo = 1;
-        this.max_clip = 1;
-        this.primary_damage = 35;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 3.5f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -181,20 +174,7 @@ class weapon_bts_flaregun : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponFlareGunConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        if( self.m_flNextPrimaryAttack > g_Engine.time )
-            return;
-
-        BaseClass.Reload();
-        self.DefaultReload( gpWeaponFlareGunConfig.max_clip, WeaponFlareGunAnim::RELOAD, 3.5f, pev.body );
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 3.5f;
-        SetThink( ThinkFunction( this.FinishAnim ) );
-        pev.nextthink = g_Engine.time + 3.5f;
-    }
+    
 
     float Idle() override
     {

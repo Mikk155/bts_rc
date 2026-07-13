@@ -95,19 +95,7 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 5;
-        this.position = 5;
-        this.weight = 30;
-        this.deploy_time = 0.7;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 40;
-        this.max_clip = WEAPON_NOCLIP;
-        this.primary_damage = 18;
-        this.primary_cooldown = 0.1;
-        this.primary_trained_cooldown = 0.1;
-
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "flame_proj", "flame_proj" );
 
         return ASWeaponConfig::Register( json );

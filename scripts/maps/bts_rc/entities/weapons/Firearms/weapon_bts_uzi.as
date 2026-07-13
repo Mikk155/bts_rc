@@ -82,18 +82,9 @@ final class ASWeaponUziConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 1;
-        this.position = 11;
-        this.weight = 10;
-        this.deploy_time = 1.275;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 20;
-        this.max_clip = 20;
-        this.primary_damage = 16;
-        this.primary_cooldown = 0.07;
-        this.primary_trained_cooldown = 0.07;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.75f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -182,19 +173,6 @@ class weapon_bts_uzi : BTS_FireWeapon
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.07f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-    }
-
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponUziConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponUziConfig.max_clip, WeaponUziAnim::Reload, 2.75f, pev.body );
-        PlaySound( "bts_rc/weapons/fidget1.wav", 0.6f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
     }
 
     float Idle() override

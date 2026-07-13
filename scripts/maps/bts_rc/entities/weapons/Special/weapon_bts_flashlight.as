@@ -143,20 +143,6 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.deploy_time = 0.5;
-        this.slot = 4;
-        this.position = 4;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 0;
-        this.primary_distance = 32;
-        this.primary_damage = 7;
-        this.secondary_trained_cooldown = this.secondary_cooldown = 0.5;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponFlashlightConfig gpWeaponFlashlight;

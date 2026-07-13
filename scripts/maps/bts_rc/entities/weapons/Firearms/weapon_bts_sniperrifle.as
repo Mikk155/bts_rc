@@ -81,22 +81,6 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 5;
-        this.position = 5;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 10;
-        this.primary_dropammo = 5;
-        this.max_clip = 5;
-        this.primary_damage = 120;
-        this.primary_cooldown = 2.0;
-        this.primary_trained_cooldown = 2.0;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponSniperRifleConfig gpWeaponSniperRifleConfig;

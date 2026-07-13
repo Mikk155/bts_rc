@@ -83,18 +83,9 @@ final class ASWeaponMP5Config : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 2;
-        this.position = 4;
-        this.weight = 5;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 30;
-        this.max_clip = 30;
-        this.primary_damage = 17;
-        this.primary_cooldown = 0.09;
-        this.primary_trained_cooldown = 0.09;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 1.5f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -285,18 +276,7 @@ class weapon_bts_mp5 : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponMP5Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponMP5Config.max_clip, WeaponMP5Anim::Reload, 1.5f, pev.body );
-        PlaySound( "bts_rc/weapons/mp5_clip.wav", 0.15f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

@@ -89,21 +89,9 @@ final class ASWeaponSW637Config : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637", "ammo_bts_sw637" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637lmao", "ammo_bts_sw637lmao" );
-
-        this.slot = 1;
-        this.position = 17;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 60;
-        this.primary_dropammo = 5;
-        this.max_clip = 5;
-        this.primary_damage = 25;
-        this.primary_cooldown = 0.25;
-        this.primary_trained_cooldown = 0.25;
 
         return ASWeaponConfig::Register( json );
     }

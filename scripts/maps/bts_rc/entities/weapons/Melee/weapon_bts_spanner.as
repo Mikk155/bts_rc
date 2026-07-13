@@ -75,22 +75,6 @@ final class ASWeaponSpannerConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 0;
-        this.position = 11;
-        this.deploy_time = 0.5;
-        this.primary_distance = 32;
-        this.primary_cooldown = 0.3;
-        this.primary_trained_cooldown = 0.2;
-        this.primary_miss_cooldown = 0.4;
-        this.primary_miss_trained_cooldown = 0.3;
-        this.subsequent_hits_deduction = 0.5;
-        this.primary_damage = 9;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponSpannerConfig gpWeaponSpannerConfig;

@@ -96,4 +96,32 @@ abstract class BTS_FireWeapon : BTS_Weapon
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, flYaw, iShellModel, iShellType );
         }
     }
+
+    void Reload()
+    {
+        if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        {
+            return;
+        }
+
+        float flNextAttack = self.m_flNextPrimaryAttack - 0.3f;
+        if( flNextAttack > g_Engine.time )
+        {
+            return;
+        }
+
+        if( this.owner.FlashlightIsOn() )
+        {
+            this.owner.FlashlightTurnOff();
+        }
+
+        int anim = ( self.m_iClip != 0 ) ? config.reload_anim : config.reload_empty_anim;
+        self.DefaultReload( config.max_clip, anim, config.reload_time, pev.body );
+        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+        if( !config.reload_sound.IsEmpty() )
+        {
+            PlaySound( config.reload_sound, 0.2f );
+        }
+        BaseClass.Reload();
+    }
 }

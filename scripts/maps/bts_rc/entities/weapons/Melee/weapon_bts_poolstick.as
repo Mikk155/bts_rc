@@ -88,29 +88,6 @@ final class ASWeaponPoolstickConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 0;
-        this.position = 7;
-        this.weight = 10;
-        this.deploy_time = 0.5;
-        this.primary_distance = 48;
-        this.primary_damage = 11;
-        this.secondary_distance = 54;
-        this.secondary_damage = 8;
-        this.primary_cooldown = 0.4;
-        this.primary_trained_cooldown = 0.3;
-        this.primary_miss_cooldown = 0.5;
-        this.primary_miss_trained_cooldown = 0.65;
-        this.secondary_cooldown = 0.75;
-        this.secondary_trained_cooldown = 0.70;
-        this.secondary_miss_cooldown = 0.8;
-        this.secondary_miss_trained_cooldown = 0.75;
-        this.subsequent_hits_deduction = 0.5;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponPoolstickConfig gpWeaponPoolstickConfig;

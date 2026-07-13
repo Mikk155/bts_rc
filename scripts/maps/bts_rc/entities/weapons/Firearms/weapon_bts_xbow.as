@@ -99,19 +99,7 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 2;
-        this.position = 11;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 15;
-        this.primary_dropammo = 5;
-        this.max_clip = 5;
-        this.primary_damage = 48;
-        this.primary_cooldown = 1.8;
-        this.primary_trained_cooldown = 1.8;
-
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "electro_bolt", "electro_bolt" );
 
         return ASWeaponConfig::Register( json );

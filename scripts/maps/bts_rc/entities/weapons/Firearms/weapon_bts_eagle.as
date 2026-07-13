@@ -141,22 +141,9 @@ final class ASWeaponEagleConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 1;
-        this.position = 9;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 18;
-        this.primary_dropammo = 3;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 9;
-        this.primary_damage = 65;
-        this.primary_cooldown = 0.22;
-        this.primary_trained_cooldown = 0.22;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.5;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 1.5f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -245,6 +232,11 @@ class weapon_bts_eagle : BTS_FireWeapon
 
     void ItemPostFrame()
     {
+        if( self.m_fInReload )
+        {
+            m_kLaserState = 0;
+        }
+
         UpdateLaser();
         BaseClass.ItemPostFrame();
     }
@@ -326,29 +318,7 @@ class weapon_bts_eagle : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponEagleConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        float flNextAttack = self.m_flNextPrimaryAttack - 0.625;
-        if( flNextAttack > g_Engine.time )
-        {
-            return;
-        }
-
-        if( this.owner.FlashlightIsOn() )
-        {
-            this.owner.FlashlightTurnOff();
-        }
-        m_kLaserState = 0;
-
-        self.DefaultReload( gpWeaponEagleConfig.max_clip, self.m_iClip != 0 ? WeaponEagleAnim::Reload : WeaponEagleAnim::ReloadNoShot, 1.5f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        BaseClass.Reload();
-    }
+    
 
     private void UpdateLaser()
     {

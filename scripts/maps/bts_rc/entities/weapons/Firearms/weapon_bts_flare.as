@@ -91,17 +91,7 @@ final class ASWeaponFlareConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 4;
-        this.position = 5;
-        this.weight = 5;
-        this.deploy_time = 0.75;
-        this.primary_maxammo = 5;
-        this.primary_dropammo = 1;
-        this.max_clip = WEAPON_NOCLIP;
-        this.primary_damage = 1;
-
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
 
         return ASWeaponConfig::Register( json );

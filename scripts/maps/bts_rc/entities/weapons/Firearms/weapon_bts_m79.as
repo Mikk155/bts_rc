@@ -82,20 +82,10 @@ final class ASWeaponM79Config : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 5;
-        this.position = 4;
-        this.weight = 20;
-        this.deploy_time = 1.03;
-        this.primary_maxammo = 10;
-        this.primary_dropammo = 1;
-        this.max_clip = 1;
-        this.primary_damage = 130.0f;
-        this.primary_cooldown = 1.0;
-        this.primary_trained_cooldown = 1.0;
-
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "ASM79Rocket", "m79_rocket" );
+        // Reload properties
+        this.reload_time = 3.88f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -319,14 +309,7 @@ class weapon_bts_m79 : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponM79Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        self.DefaultReload( gpWeaponM79Config.max_clip, WeaponM79Anim::RELOAD, 3.88f, pev.body );
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

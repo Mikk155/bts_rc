@@ -82,20 +82,6 @@ final class ASWeaponHandGrenadeConfig : ASWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 4;
-        this.position = 6;
-        this.weight = 20;
-        this.deploy_time = 0.66;
-        this.primary_maxammo = 10;
-        this.primary_dropammo = 1;
-        this.max_clip = WEAPON_NOCLIP;
-        this.primary_damage = 130;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponHandGrenadeConfig gpWeaponHandGrenadeConfig;

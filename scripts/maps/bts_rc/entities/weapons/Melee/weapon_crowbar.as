@@ -149,48 +149,30 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.deploy_time = 0.4;
-        this.primary_damage = 13;
-        this.primary_distance = 32;
-        this.primary_miss_cooldown = 0.95;
-        this.primary_miss_trained_cooldown = 0.75;
-        this.primary_cooldown = 0.5;
-        this.primary_trained_cooldown = 0.25;
-        this.secondary_damage = 11;
-        this.secondary_distance = 32;
-        this.secondary_miss_cooldown = 1.1;
-        this.secondary_miss_trained_cooldown = 1.0;
-        this.secondary_cooldown = 1.0;
-        this.secondary_trained_cooldown = 0.5;
-        this.tertiary_damage = 17;
-
+    bool Register( meta_api::json::v2::json@ json ) override {
         ASMeleeWeaponConfig::Register( json );
-
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
-
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         @MonsterTakeDamageHook( function( DamageInfo@ info )
         {
             if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
             {
                 dictionary@ data = info.pInflictor.GetUserData();
-
-                if( bool( data[ "thrown" ] ) )
+        if( bool( data[ "thrown" ] ) )
                 {
                     data[ "thrown" ] = false;
-                    info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
-                    int lastHitgroup = g_Engine.trace_hitgroup;
-                    Vector endPos = g_Engine.trace_endpos;
-                    TraceResult tr; // Effects
+        info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
+        int lastHitgroup = g_Engine.trace_hitgroup;
+        Vector endPos = g_Engine.trace_endpos;
+        TraceResult tr;
+        // Effects
                     g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
-                    tr.vecEndPos = endPos;
-                    @tr.pHit = info.pVictim.edict();
-                    //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
-                    tr.iHitgroup = lastHitgroup;
-                    weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
-                }
+        tr.vecEndPos = endPos;
+        @tr.pHit = info.pVictim.edict();
+        //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
+        tr.iHitgroup = lastHitgroup;
+        weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+        }
             }
             return HOOK_CONTINUE;
         } ) );

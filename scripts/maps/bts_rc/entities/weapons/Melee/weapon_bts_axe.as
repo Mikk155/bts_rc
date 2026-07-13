@@ -94,27 +94,6 @@ final class ASWeaponAxeConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 0;
-        this.position = 10;
-        this.deploy_time = 0.7;
-        this.primary_distance = 45;
-        this.primary_cooldown = 0.8;
-        this.primary_trained_cooldown = 0.4;
-        this.primary_miss_cooldown = 1.25;
-        this.primary_miss_trained_cooldown = 0.90;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.25;
-        this.secondary_miss_cooldown = 1.35;
-        this.secondary_miss_trained_cooldown = 1.0;
-        this.subsequent_hits_deduction = 0.5;
-        this.primary_damage = 20;
-        this.secondary_damage = 14;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponAxeConfig gpWeaponAxeConfig;

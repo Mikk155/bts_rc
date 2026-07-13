@@ -86,18 +86,9 @@ final class ASWeaponSawConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 3;
-        this.position = 4;
-        this.weight = 20;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 150;
-        this.primary_dropammo = 50;
-        this.max_clip = 100;
-        this.primary_damage = 22;
-        this.primary_cooldown = 0.099;
-        this.primary_trained_cooldown = 0.099;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.0f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -240,20 +231,7 @@ class weapon_bts_saw : BTS_FireWeapon
         }
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponSawConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        m_bFixBeltAfterReload = true;
-        RecalculateBody( self.m_iClip );
-        self.DefaultReload( gpWeaponSawConfig.max_clip, WeaponSawAnim::RELOAD_START, 2.0f, pev.body );
-        PlaySound( "bts_rc/weapons/saw_reload.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 4.4f;
-        SetThink( ThinkFunction( this.FinishAnim ) );
-        pev.nextthink = g_Engine.time + 1.94f;
-        BaseClass.Reload();
-    }
+    
 
     private void RecalculateBody( int iClip )
     {

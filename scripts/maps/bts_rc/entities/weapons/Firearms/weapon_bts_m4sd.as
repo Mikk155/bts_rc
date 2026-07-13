@@ -83,18 +83,9 @@ final class ASWeaponM4SDConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 2;
-        this.position = 9;
-        this.weight = 5;
-        this.deploy_time = 1.2;
-        this.primary_maxammo = 150;
-        this.primary_dropammo = 30;
-        this.max_clip = 30;
-        this.primary_damage = 22;
-        this.primary_cooldown = 0.105;
-        this.primary_trained_cooldown = 0.105;
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.75f;
 
         return ASWeaponConfig::Register( json );
     }
@@ -228,16 +219,7 @@ class weapon_bts_m4sd : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( ShouldReload( WeaponM4SDAnim::RELOAD, 2.75f ) )
-        {
-            self.SetFOV( 0 );
-            PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
-            self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-            BaseClass.Reload();
-        }
-    }
+    
 
     float Idle() override
     {

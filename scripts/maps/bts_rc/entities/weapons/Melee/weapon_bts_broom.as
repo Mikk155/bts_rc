@@ -75,22 +75,6 @@ final class ASWeaponBroomConfig : ASMeleeWeaponConfig
             }
         }""";
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.slot = 0;
-        this.position = 12;
-        this.deploy_time = 0.6;
-        this.primary_distance = 56;
-        this.primary_cooldown = 0.42;
-        this.primary_trained_cooldown = 0.26;
-        this.primary_miss_cooldown = 0.67;
-        this.primary_miss_trained_cooldown = 0.52;
-        this.subsequent_hits_deduction = 0.5;
-        this.primary_damage = 12;
-
-        return ASMeleeWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponBroomConfig gpWeaponBroomConfig;
