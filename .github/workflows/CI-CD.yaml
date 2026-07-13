@@ -1,9 +1,11 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+# Push dispatch
+#  push:
+#    branches:
+#      - main
 # Release dispatch
 #  release:
 #    types: [ published ]
