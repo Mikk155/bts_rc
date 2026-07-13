@@ -1,3 +1,10 @@
+
+# 12/7/2026
+- The website was updated to replace JavaScript scripts with TypeScript scripts for ease of use and maintenance.
+- Updated & re-organization of various documentation structures.
+- Added github wiki section in the project workspace for ease of use including a workflow to automate upload of wikipedia.
+- Updated various instructions and general documentation to be more clear and concise.
+
 # 6/7/2026
 - Integrated all remaining firearms, heavy weapons, utility weapons, and projectile entities into the new config-driven architecture (`ASWeaponConfig`, `BTS_Weapon`, `BTS_FireWeapon`).
 - Customized M249 SAW belt lengths, Crossbow zoom HUD layouts, and Hand Grenade throwing velocity ranges.
@@ -9,6 +16,9 @@
 
 # 30/6/2026
 - Added various player models (Requires download from MEGA)
+
+# 27/6/2026
+- Rewrited panthereye with optimizations and expose multiple settings to json
 
 # 23/5/2026
 - Rewrited robogrunt soldier, robogrunt boss, engineer zombie and engineer grunt (Sentry spawner) to our new EntityOverriden system which brings strong optimizations.

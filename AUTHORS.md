@@ -1,24 +1,61 @@
-# Authors
+# Project Maintainers
 
-- [AraseFiq](https://github.com/AraseFiq)
-    - General programming
-- [Mikk155](https://github.com/Mikk155)
-    - General programming
-- [Mad](https://github.com/MadHLDM)
-    - General programming
-- [Rizulix](https://github.com/Rizulix)
-    - General programming
-- [Gaftherman](https://github.com/Gaftherman)
-    - General programming
-- [Nero0](https://github.com/Neyami)
-    - Custom monsters
-- [Solokiller](https://github.com/SamVanheer)
-    - Help Support
-- [H²](https://github.com/h2whoa)
-    - Help Support
-- [Zode](https://github.com/Zode)
-    - Help Support
-- [KernCore](https://github.com/KernCore91)
-    - Code references
-- [Giegue](https://github.com/JulianR0)
-    - Code references
+| RaptorSKA | Level design | [@RaptorSKA](https://github.com/RaptorSKA) |
+|---|---|---|
+| Mikk | Scripting | [@Mikk155](https://github.com/Mikk155) |
+
+## Contributors
+- Arasefiq._
+- DAVLevels
+- Darekstar
+- Erty
+- FaLco
+- Fakeyou
+- Falcon
+- Foran
+- Four-Nines
+- FreeSlave
+- Gaftherman
+- Gamit
+- Gauna
+- Gearbox
+- Gearbox Software
+- Generic
+- Giegue
+- Grunt
+- H2
+- HAPE B
+- Hondrid
+- Ixnay
+- KEZÆIV
+- KernCore
+- Kezaeiv
+- LIL-PIF
+- MTB
+- Mad
+- Mikk155
+- MiroSklenar
+- MrFailz
+- MrFloyd
+- Nero0
+- Ooleg
+- Organic700
+- Peachcobbler
+- RaptorSKA
+- Rizulix
+- Ryor
+- SV BOY
+- Sock
+- Solokiller
+- Sparks
+- Suno.com
+- Sven Co-op Teams
+- TurtleRock Studios
+- Valve
+- Vika
+- XF-Alien
+- Yomustdie
+- Zasli
+- ZikShadow
+- Zode
+
