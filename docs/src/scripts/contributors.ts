@@ -8,7 +8,7 @@ interface Contributor
 
 export async function initContributors(): Promise<void>
 {
-    function render( container: HTMLElement, contributors: Map<string, Contributor> )
+    async function render( container: HTMLElement, contributors: Map<string, Contributor> )
     {
         container.innerHTML = "";
 
@@ -31,9 +31,24 @@ export async function initContributors(): Promise<void>
 
             container.appendChild( el );
         } );
+
+        await fetch( `assets/credits.json` ).then( async ( response: Response ) =>
+        {
+            if( response && response.ok )
+            {
+                const users = await response.json();
+
+                for( const user of users )
+                {
+                    const element: HTMLLIElement = document.createElement( "li" );
+                    element.innerText = user;
+                    container.appendChild( element );
+                }
+            }
+        } );
     }
 
-    function loadFromCache( forceLoad: boolean = false ): boolean
+    async function loadFromCache( forceLoad: boolean = false ): Promise<boolean>
     {
         const cached = localStorage.getItem( "contributors_cache" );
 
@@ -47,13 +62,13 @@ export async function initContributors(): Promise<void>
 
         if( forceLoad || Date.now() - parsed.timestamp < ( 1000 * 60 * 5 ) )
         {
-            render( document.getElementById( "contributor_list" )!, new Map( parsed.data ) );
+            await render( document.getElementById( "contributor_list" )!, new Map( parsed.data ) );
             return true;
         }
         return false;
     }
 
-    if( loadFromCache() )
+    if( await loadFromCache() )
         return;
 
     const contributors = new Map<string, Contributor>();
@@ -63,7 +78,7 @@ export async function initContributors(): Promise<void>
     if( !res.ok )
     {
         console.error( "HTTP Error:", res.status );
-        loadFromCache(true);
+        await loadFromCache(true);
         return;
     }
 
@@ -72,7 +87,7 @@ export async function initContributors(): Promise<void>
     if( !Array.isArray( data ) )
     {
         console.error( "Invalid response: ", data );
-        loadFromCache(true);
+        await loadFromCache(true);
         return;
     }
 
@@ -83,5 +98,5 @@ export async function initContributors(): Promise<void>
 
     localStorage.setItem( "contributors_cache", JSON.stringify( { timestamp: Date.now(), data: Array.from( contributors.entries() ) } ));
 
-    render( document.getElementById( "contributor_list" )!, contributors );
+    await render( document.getElementById( "contributor_list" )!, contributors );
 }

@@ -1,3 +1,4 @@
+// https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md
 export async function initLanguages() {
     const link = document.createElement("link");
     link.rel = "stylesheet";

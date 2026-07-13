@@ -1,5 +1,5 @@
 export async function initContributors() {
-    function render(container, contributors) {
+    async function render(container, contributors) {
         container.innerHTML = "";
         let ordered = Array.from(contributors.values());
         ordered.sort((a, b) => b.contributions - a.contributions);
@@ -15,8 +15,18 @@ export async function initContributors() {
             `;
             container.appendChild(el);
         });
+        await fetch(`assets/credits.json`).then(async (response) => {
+            if (response && response.ok) {
+                const users = await response.json();
+                for (const user of users) {
+                    const element = document.createElement("li");
+                    element.innerText = user;
+                    container.appendChild(element);
+                }
+            }
+        });
     }
-    function loadFromCache(forceLoad = false) {
+    async function loadFromCache(forceLoad = false) {
         const cached = localStorage.getItem("contributors_cache");
         if (!cached)
             return false;
@@ -24,29 +34,29 @@ export async function initContributors() {
         if (!parsed)
             return false;
         if (forceLoad || Date.now() - parsed.timestamp < (1000 * 60 * 5)) {
-            render(document.getElementById("contributor_list"), new Map(parsed.data));
+            await render(document.getElementById("contributor_list"), new Map(parsed.data));
             return true;
         }
         return false;
     }
-    if (loadFromCache())
+    if (await loadFromCache())
         return;
     const contributors = new Map();
     const res = await fetch(`https://api.github.com/repos/Mikk155/bts_rc/contributors`);
     if (!res.ok) {
         console.error("HTTP Error:", res.status);
-        loadFromCache(true);
+        await loadFromCache(true);
         return;
     }
     const data = await res.json();
     if (!Array.isArray(data)) {
         console.error("Invalid response: ", data);
-        loadFromCache(true);
+        await loadFromCache(true);
         return;
     }
     for (const user of data) {
         contributors.set(user.login.toLowerCase(), user);
     }
     localStorage.setItem("contributors_cache", JSON.stringify({ timestamp: Date.now(), data: Array.from(contributors.entries()) }));
-    render(document.getElementById("contributor_list"), contributors);
+    await render(document.getElementById("contributor_list"), contributors);
 }
