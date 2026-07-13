@@ -1,23 +1,41 @@
 // Copy to clipboard the nearest .terminal class
-export function copyCode( button: HTMLButtonElement ): void
+export function copyCode( button : HTMLButtonElement ) : void
 {
-    const container = button.closest( ".terminal" );
-    const codeElement = container?.querySelector( "code" );
+    const container : Element | null = button.closest( ".terminal" );
 
-    const code: string | undefined = codeElement?.textContent ?? undefined;
-
-    if( !code )
-        return;
-
-    navigator.clipboard.writeText( code ).then( () =>
+    if( !container )
     {
-        const originalText = button.innerText;
+        return;
+    }
+
+    const codeElement : Element | null = container.querySelector( "code" );
+
+    if( !( codeElement instanceof HTMLElement ) )
+    {
+        return;
+    }
+
+    const code : string = codeElement.textContent ?? "";
+
+    if( code.trim() === "" )
+    {
+        return;
+    }
+
+    navigator.clipboard.writeText( code )
+    .then( () : void =>
+    {
+        const originalText : string = button.innerText;
 
         button.innerText = "✅ Copied";
 
-        setTimeout( () => { button.innerText = originalText; }, 1500 );
-    } ).catch( () =>
+        window.setTimeout( () : void =>
+        {
+            button.innerText = originalText;
+        }, 1500 );
+    })
+    .catch( () : void =>
     {
         console.warn( "Clipboard write failed" );
-    } );
+    });
 }

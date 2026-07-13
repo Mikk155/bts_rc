@@ -1,23 +1,37 @@
-interface Contributor 
+interface Contributor
 {
-    login: string;
-    avatar_url: string;
-    html_url: string;
-    contributions: number;
+    login : string;
+    avatar_url : string;
+    html_url : string;
+    contributions : number;
 }
 
-export async function initContributors(): Promise<void>
+interface ContributorsCache
 {
-    async function render( container: HTMLElement, contributors: Map<string, Contributor> )
+    timestamp : number;
+    data : Array<[ string, Contributor ]>;
+}
+
+export async function initContributors() : Promise<void>
+{
+    async function render(
+        container : HTMLElement,
+        contributors : ReadonlyMap<string, Contributor>
+    ) : Promise<void>
     {
         container.innerHTML = "";
 
-        let ordered: Array<Contributor> = Array.from( contributors.values() );
-        ordered.sort( ( a: Contributor, b: Contributor ) => b.contributions - a.contributions );
+        const ordered : Contributor[] =
+            Array.from( contributors.values() );
 
-        ordered.forEach( ( user: Contributor ) =>
+        ordered.sort( ( a : Contributor, b : Contributor ) : number =>
         {
-            const el: HTMLAnchorElement = document.createElement( "a" );
+            return b.contributions - a.contributions;
+        });
+
+        for( const user of ordered )
+        {
+            const el : HTMLAnchorElement = document.createElement( "a" );
 
             el.href = user.html_url;
             el.target = "_blank";
@@ -30,73 +44,156 @@ export async function initContributors(): Promise<void>
             `;
 
             container.appendChild( el );
-        } );
+        }
 
-        await fetch( `assets/credits.json` ).then( async ( response: Response ) =>
+        // credits.json
+        try
         {
-            if( response && response.ok )
-            {
-                const users = await response.json();
+            const response : Response = await fetch( "assets/credits.json" );
 
-                for( const user of users )
+            if( response.ok )
+            {
+                const users : unknown = await response.json();
+
+                if( Array.isArray( users ) )
                 {
-                    const element: HTMLLIElement = document.createElement( "li" );
-                    element.innerText = user;
-                    container.appendChild( element );
+                    for( const user of users )
+                    {
+                        if( typeof user !== "string" )
+                            continue;
+
+                        const element : HTMLLIElement = document.createElement( "li" );
+
+                        element.innerText = user;
+                        container.appendChild( element );
+                    }
                 }
             }
-        } );
+        }
+        catch( err )
+        {
+            console.warn( "credits.json failed: ", err );
+        }
     }
 
-    async function loadFromCache( forceLoad: boolean = false ): Promise<boolean>
+    async function loadFromCache(
+        forceLoad : boolean = false
+    ) : Promise<boolean>
     {
-        const cached = localStorage.getItem( "contributors_cache" );
+        const cached : string | null = localStorage.getItem( "contributors_cache" );
 
         if( !cached )
-            return false;
-
-        const parsed = JSON.parse( cached );
-
-        if( !parsed )
-            return false;
-
-        if( forceLoad || Date.now() - parsed.timestamp < ( 1000 * 60 * 5 ) )
         {
-            await render( document.getElementById( "contributor_list" )!, new Map( parsed.data ) );
+            return false;
+        }
+
+        let parsed : ContributorsCache;
+
+        try
+        {
+            parsed = JSON.parse( cached );
+        }
+        catch
+        {
+            return false;
+        }
+
+        if( !parsed || !Array.isArray( parsed.data ) )
+        {
+            return false;
+        }
+
+        const container : HTMLElement | null = document.getElementById( "contributor_list" );
+
+        if( !container )
+        {
+            return false;
+        }
+
+        const isFresh : boolean = Date.now() - parsed.timestamp < ( 1000 * 60 * 5 );
+
+        if( forceLoad || isFresh )
+        {
+            const map : Map<string, Contributor> = new Map( parsed.data );
+            await render( container, map );
             return true;
         }
+
         return false;
     }
 
     if( await loadFromCache() )
+    {
         return;
+    }
 
-    const contributors = new Map<string, Contributor>();
+    const contributors : Map<string, Contributor> = new Map();
 
-    const res = await fetch( `https://api.github.com/repos/Mikk155/bts_rc/contributors` );
+    let res : Response;
+
+    try
+    {
+        res = await fetch( "https://api.github.com/repos/Mikk155/bts_rc/contributors" );
+    }
+    catch( err )
+    {
+        console.error( "Fetch failed: ", err );
+        await loadFromCache( true );
+        return;
+    }
 
     if( !res.ok )
     {
         console.error( "HTTP Error:", res.status );
-        await loadFromCache(true);
+        await loadFromCache( true );
         return;
     }
 
-    const data = await res.json();
+    const data : unknown = await res.json();
 
     if( !Array.isArray( data ) )
     {
         console.error( "Invalid response: ", data );
-        await loadFromCache(true);
+        await loadFromCache( true );
         return;
     }
 
     for( const user of data )
     {
-        contributors.set( user.login.toLowerCase(), user );
+        if( typeof user !== "object" || user === null || !( "login" in user ) )
+        {
+            continue;
+        }
+
+        const contributor : Contributor =
+        {
+            login : String( ( user as any ).login ),
+            avatar_url : String( ( user as any ).avatar_url ),
+            html_url : String( ( user as any ).html_url ),
+            contributions : Number( ( user as any ).contributions )
+        };
+
+        contributors.set(
+            contributor.login.toLowerCase(),
+            contributor
+        );
     }
 
-    localStorage.setItem( "contributors_cache", JSON.stringify( { timestamp: Date.now(), data: Array.from( contributors.entries() ) } ));
+    localStorage.setItem( "contributors_cache",
+        JSON.stringify(
+        {
+            timestamp : Date.now(),
+            data : Array.from( contributors.entries() )
+        })
+    );
 
-    await render( document.getElementById( "contributor_list" )!, contributors );
+    const container : HTMLElement | null = document.getElementById( "contributor_list" );
+
+    if( !container )
+    {
+        console.warn( "Container not found" );
+        return;
+    }
+
+    await render( container, contributors );
 }

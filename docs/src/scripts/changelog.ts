@@ -1,15 +1,24 @@
-function parseMarkdown( markdown: string ): string
+function parseMarkdown( markdown : string ) : string
 {
-    const lines: string[] = markdown.split( "\n" );
-    let html: string = "";
+    const lines : string[] = markdown.split( "\n" );
+    let html : string = "";
 
-    let currentContent: string = "";
-    let currentTitle: string = "";
+    let currentContent : string = "";
+    let currentTitle : string = "";
+    let inList : boolean = false;
 
-    function flushBlock(): void
+    function flushBlock() : void
     {
         if( !currentTitle )
+        {
             return;
+        }
+
+        if( inList )
+        {
+            currentContent += "</ul>";
+            inList = false;
+        }
 
         html += `
 <div class="changelog-item">
@@ -19,7 +28,9 @@ function parseMarkdown( markdown: string ): string
     </div>
 </div>
 `;
+
         currentContent = "";
+        currentTitle = "";
     }
 
     for( const line of lines )
@@ -33,13 +44,24 @@ function parseMarkdown( markdown: string ): string
 
         if( line.startsWith( "- " ) )
         {
-            currentContent += `<li>${inlineParse(line.substring(2))}</li>`;
+            if( !inList )
+            {
+                currentContent += "<ul>";
+                inList = true;
+            }
+
+            currentContent += `<li>${inlineParse( line.substring(2) )}</li>`;
             continue;
+        }
+        else if( inList )
+        {
+            currentContent += "</ul>";
+            inList = false;
         }
 
         if( line.trim() !== "" )
         {
-            currentContent += `<p>${inlineParse(line)}</p>`;
+            currentContent += `<p>${inlineParse( line )}</p>`;
         }
     }
 
@@ -48,16 +70,19 @@ function parseMarkdown( markdown: string ): string
     return html;
 }
 
-function inlineParse( text: string ): string
+function inlineParse( text : string ) : string
 {
-    text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>" );
-    text = text.replace(/`(.*?)`/g, "<code>$1</code>" );
-    return text;
+    let parsed : string = text;
+
+    parsed = parsed.replace( /\*\*(.*?)\*\*/g, "<b>$1</b>" );
+    parsed = parsed.replace( /`(.*?)`/g, "<code>$1</code>" );
+
+    return parsed;
 }
 
-export async function initChangelog(): Promise<void>
+export async function initChangelog() : Promise<void>
 {
-    const container = document.getElementById( "changelog" );
+    const container : HTMLElement | null = document.getElementById( "changelog" );
 
     if( !container )
     {
@@ -65,29 +90,40 @@ export async function initChangelog(): Promise<void>
         return;
     }
 
-    const res: Response = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+    let res : Response;
 
-    if( !res || !res.ok )
+    try
+    {
+        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+    }
+    catch( err )
+    {
+        console.error( "Fetch failed:", err );
+        container.innerHTML = "Failed to fetch changelog";
+        return;
+    }
+
+    if( !res.ok )
     {
         container.innerHTML = "Failed to fetch changelog";
         return;
     }
 
-    const markdown: string = await res.text();
+    const markdown : string = await res.text();
 
-    container.innerHTML = parseMarkdown(markdown);
+    container.innerHTML = parseMarkdown( markdown );
 
-    const headers = document.querySelectorAll<HTMLElement>( ".changelog-header" );
+    const headers : NodeListOf<HTMLElement> = document.querySelectorAll( ".changelog-header" );
 
-    headers.forEach( header =>
+    headers.forEach( ( header : HTMLElement ) : void =>
     {
-        header.addEventListener( "click", () =>
+        header.addEventListener( "click", () : void =>
         {
-            const content = header.nextElementSibling as HTMLElement | null;
+            const next : Element | null = header.nextElementSibling;
 
-            if( content )
+            if( next instanceof HTMLElement )
             {
-                content.classList.toggle( "open" );
+                next.classList.toggle( "open" );
             }
         } );
     } );

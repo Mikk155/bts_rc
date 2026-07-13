@@ -1,5 +1,5 @@
 // Initialize background image slider
-export function initSlider() {
+export async function initSlider() {
     // Images taken up from scmapdb
     const images = [
         "https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/aa_bts_rc.png",
@@ -55,22 +55,28 @@ export function initSlider() {
     ];
     let index = 0;
     const slides = document.querySelectorAll(".bg-slide");
-    if (!slides || slides.length < 2)
-        return;
-    slides[0].style.backgroundImage = `url(${images[0]})`;
-    slides[1].style.backgroundImage = `url(${images[1]})`;
+    if (slides.length < 2) {
+        console.warn("Slider requires at least 2 elements");
+        return -1;
+    }
+    const first = slides[0];
+    const second = slides[1];
+    first.style.backgroundImage = `url(${images[0]})`;
+    second.style.backgroundImage = `url(${images[1]})`;
     function nextSlide() {
-        var _a;
         const current = index % 2;
         const next = (index + 1) % 2;
-        const image = (_a = images[(index + 1) % images.length]) !== null && _a !== void 0 ? _a : "";
-        const nextSlide = slides[next];
-        if (nextSlide) {
-            nextSlide.style.backgroundImage = `url(${image})`;
-            nextSlide.classList.add("active");
-            slides[current].classList.remove("active");
+        const imageIndex = (index + 1) % images.length;
+        const image = images[imageIndex];
+        const nextElement = slides[next];
+        if (nextElement) {
+            nextElement.style.backgroundImage = `url(${image})`;
+            nextElement.classList.add("active");
+            const currentElement = slides[current];
+            currentElement.classList.remove("active");
         }
         index++;
     }
-    setInterval(nextSlide, 10000);
+    const intervalId = window.setInterval(nextSlide, 10000);
+    return intervalId;
 }

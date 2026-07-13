@@ -9,7 +9,7 @@
         // Environment Settings
         // See also https://aka.ms/tsconfig/module
         "module": "ESNext",
-        "target": "ES2017",
+        "target": "ES2020",
         "moduleResolution": "Bundler",
         "verbatimModuleSyntax": true,
 
@@ -30,12 +30,15 @@
 
         // Recommended Options
         "strict": true,
-        "jsx": "react-jsx",
         "isolatedModules": true,
         "noUncheckedSideEffectImports": true,
         "moduleDetection": "force",
         "skipLibCheck": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "useDefineForClassFields": true,
+
+        "lib": [ "ES2017", "DOM", "DOM.Iterable" ]
     },
     "include": [ "src/**/*" ],
     "exclude": [ "node_modules" ]

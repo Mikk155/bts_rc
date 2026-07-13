@@ -8,10 +8,18 @@ import { initVersionRelease } from "./scripts/lastRelease.js";
 import { initLanguages } from "./scripts/languages.js";
 window.copyCode = copyCode;
 document.addEventListener("DOMContentLoaded", async () => {
-    initSlider();
-    await initContributors();
-    await initVersionRelease();
-    await initChangelog();
+    try {
+        // Async don't wait
+        initSlider();
+        // Wait these before initializing sounds/languages
+        await initContributors();
+        await initVersionRelease();
+        await initChangelog();
+    }
+    catch (err) {
+        console.error("Initialization error: ", err);
+    }
+    // Code block languages
     await initLanguages();
     // Hover sounds
     initUISounds();

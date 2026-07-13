@@ -1,5 +1,5 @@
 // Initialize background image slider
-export function initSlider() : void
+export async function initSlider() : Promise<number>
 {
     // Images taken up from scmapdb
     const images : string[] =
@@ -58,32 +58,43 @@ export function initSlider() : void
 
     let index : number = 0;
 
-    const slides = document.querySelectorAll<HTMLElement>( ".bg-slide" );
+    const slides : NodeListOf<HTMLElement> = document.querySelectorAll( ".bg-slide" );
 
-    if( !slides || slides.length < 2 )
-        return;
+    if( slides.length < 2 )
+    {
+        console.warn( "Slider requires at least 2 elements" );
+        return -1;
+    }
 
-    slides[0]!.style.backgroundImage = `url(${ images[0] })`;
-    slides[1]!.style.backgroundImage = `url(${ images[1] })`;
+    const first : HTMLElement = slides[0]!;
+    const second : HTMLElement = slides[1]!;
+
+    first.style.backgroundImage = `url(${ images[0] })`;
+    second.style.backgroundImage = `url(${ images[1] })`;
 
     function nextSlide() : void
     {
         const current : number = index % 2;
         const next : number = ( index + 1 ) % 2;
 
-        const image : string = images[ ( index + 1 ) % images.length ] ?? "";
+        const imageIndex : number = ( index + 1 ) % images.length;
+        const image : string = images[ imageIndex ]!;
 
-        const nextSlide = slides[next];
+        const nextElement : HTMLElement | undefined = slides[ next ];
 
-        if( nextSlide )
+        if( nextElement )
         {
-            nextSlide.style.backgroundImage = `url(${ image })`;
-            nextSlide.classList.add( "active" );
-            slides[ current ]!.classList.remove( "active" );
+            nextElement.style.backgroundImage = `url(${ image })`;
+            nextElement.classList.add( "active" );
+
+            const currentElement : HTMLElement = slides[ current ]!;
+            currentElement.classList.remove( "active" );
         }
 
         index++;
     }
 
-    setInterval( nextSlide, 10000 );
+    const intervalId : number = window.setInterval( nextSlide, 10000 );
+
+    return intervalId;
 }

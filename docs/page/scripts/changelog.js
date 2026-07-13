@@ -3,9 +3,15 @@ function parseMarkdown(markdown) {
     let html = "";
     let currentContent = "";
     let currentTitle = "";
+    let inList = false;
     function flushBlock() {
-        if (!currentTitle)
+        if (!currentTitle) {
             return;
+        }
+        if (inList) {
+            currentContent += "</ul>";
+            inList = false;
+        }
         html += `
 <div class="changelog-item">
     <div class="changelog-header">${currentTitle}</div>
@@ -15,6 +21,7 @@ function parseMarkdown(markdown) {
 </div>
 `;
         currentContent = "";
+        currentTitle = "";
     }
     for (const line of lines) {
         if (line.startsWith("# ")) {
@@ -23,8 +30,16 @@ function parseMarkdown(markdown) {
             continue;
         }
         if (line.startsWith("- ")) {
+            if (!inList) {
+                currentContent += "<ul>";
+                inList = true;
+            }
             currentContent += `<li>${inlineParse(line.substring(2))}</li>`;
             continue;
+        }
+        else if (inList) {
+            currentContent += "</ul>";
+            inList = false;
         }
         if (line.trim() !== "") {
             currentContent += `<p>${inlineParse(line)}</p>`;
@@ -34,9 +49,10 @@ function parseMarkdown(markdown) {
     return html;
 }
 function inlineParse(text) {
-    text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-    text = text.replace(/`(.*?)`/g, "<code>$1</code>");
-    return text;
+    let parsed = text;
+    parsed = parsed.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+    parsed = parsed.replace(/`(.*?)`/g, "<code>$1</code>");
+    return parsed;
 }
 export async function initChangelog() {
     const container = document.getElementById("changelog");
@@ -44,19 +60,27 @@ export async function initChangelog() {
         console.warn("Changelog container not found");
         return;
     }
-    const res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
-    if (!res || !res.ok) {
+    let res;
+    try {
+        res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
+    }
+    catch (err) {
+        console.error("Fetch failed:", err);
+        container.innerHTML = "Failed to fetch changelog";
+        return;
+    }
+    if (!res.ok) {
         container.innerHTML = "Failed to fetch changelog";
         return;
     }
     const markdown = await res.text();
     container.innerHTML = parseMarkdown(markdown);
     const headers = document.querySelectorAll(".changelog-header");
-    headers.forEach(header => {
+    headers.forEach((header) => {
         header.addEventListener("click", () => {
-            const content = header.nextElementSibling;
-            if (content) {
-                content.classList.toggle("open");
+            const next = header.nextElementSibling;
+            if (next instanceof HTMLElement) {
+                next.classList.toggle("open");
             }
         });
     });

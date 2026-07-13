@@ -14,22 +14,61 @@ const sounds: UISounds =
     release: new Audio( "./assets/buttonclickrelease.wav" )
 };
 
-function playSound( sound: UISound ): void
+let audioUnlocked = false;
+
+function unlockAudio(): void
 {
-    sound.currentTime = 0;
-    sound.play().catch( () => { } );
+    if( audioUnlocked ) return;
+
+    Object.values( sounds ).forEach( sound =>
+    {
+        sound.volume = 0;
+        sound.play().catch(() => {} );
+        sound.pause();
+        sound.currentTime = 0;
+        sound.volume = 1;
+    } );
+
+    audioUnlocked = true;
+}
+
+function playSound( base: UISound ): void
+{
+    const sound = base.cloneNode() as UISound;
+    sound.play().catch(() => {} );
 }
 
 export async function initUISounds(): Promise<void>
 {
-    function addPlaySounds( element: HTMLElement ): void
-    {
-        element.addEventListener( "mouseenter", () => { playSound( sounds.hover ) } );
-        element.addEventListener( "mousedown", () => { playSound( sounds.click ) } );
-        element.addEventListener( "mouseleave", () => { playSound( sounds.release ) } );
-    }
+    window.addEventListener( "pointerdown", unlockAudio, { once: true } );
 
-    document.querySelectorAll<HTMLElement>( "button" ).forEach( addPlaySounds );
-    document.querySelectorAll<HTMLElement>( "a[href]" ).forEach( addPlaySounds );
-    document.querySelectorAll<HTMLElement>( ".changelog-header" ).forEach( addPlaySounds );
+    document.addEventListener( "mouseover", ( e ) =>
+    {
+        const target = (e.target as HTMLElement).closest(
+            "button, a[href], .changelog-header"
+        );
+
+        if( target )
+            playSound( sounds.hover );
+    } );
+
+    document.addEventListener( "mousedown", ( e ) =>
+    {
+        const target = (e.target as HTMLElement).closest(
+            "button, a[href], .changelog-header"
+        );
+
+        if( target )
+            playSound( sounds.click );
+    } );
+
+    document.addEventListener( "mouseup", ( e ) =>
+    {
+        const target = (e.target as HTMLElement).closest(
+            "button, a[href], .changelog-header"
+        );
+
+        if( target )
+            playSound( sounds.release );
+    } );
 }
