@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponBroomConfig : ASMeleeWeaponConfig
+final class ASWeaponBroomConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override
     {
@@ -58,24 +58,26 @@ class CWeaponBroomConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 0;
-        this.position = 12;
-        this.deploy_time = 0.6;
-        this.primary_distance = 56;
-        this.primary_cooldown = 0.42;
-        this.primary_trained_cooldown = 0.26;
-        this.primary_miss_cooldown = 0.67;
-        this.primary_miss_trained_cooldown = 0.52;
-        this.subsequent_hits_deduction = 0.5;
-        this.primary_damage = 12;
-
-        return ASMeleeWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponBroomConfig gpWeaponBroomConfig;
+ASWeaponBroomConfig gpWeaponBroomConfig;
 
 enum WeaponBroomAnim
 {
@@ -105,9 +107,11 @@ class weapon_bts_broom : BTS_MeleeWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         TraceResult tr;
@@ -162,10 +166,6 @@ class weapon_bts_broom : BTS_MeleeWeapon
 
             if( this.IsFlesh( hit ) )
             {
-                if( hit.IsPlayer() )
-                {
-                    hit.pev.velocity = hit.pev.velocity + ( self.pev.origin - hit.pev.origin ).Normalize() * 120.0f;
-                }
 
                 switch( RandomUint( 2 ) )
                 {

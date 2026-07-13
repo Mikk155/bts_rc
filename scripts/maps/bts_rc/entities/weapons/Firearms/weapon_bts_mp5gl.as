@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponMP5GLConfig : ASWeaponConfig
+final class ASWeaponMP5GLConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -79,31 +79,32 @@ class CWeaponMP5GLConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 2;
-        this.position = 5;
-        this.weight = 5;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 30;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 30;
-        this.primary_damage = 17;
-        this.secondary_damage = 110;
-        this.primary_cooldown = 0.09;
-        this.primary_trained_cooldown = 0.09;
-        this.secondary_cooldown = 2.5;
-        this.secondary_trained_cooldown = 2.5;
-        this.tertiary_cooldown = 0.5;
-        this.tertiary_trained_cooldown = 0.5;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control mp5gl configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 3.0f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponMP5GLConfig gpWeaponMP5GLConfig;
+ASWeaponMP5GLConfig gpWeaponMP5GLConfig;
 
 enum WeaponMP5GLAnim
 {
@@ -223,8 +224,6 @@ class weapon_bts_mp5gl : BTS_FireWeapon
 
             player.m_rgAmmo( self.m_iSecondaryAmmoType, player.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
 
-            player.SetAnimation( PLAYER_ATTACK1 );
-
             Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
             Vector vecSrc = player.pev.origin + g_Engine.v_forward * 16.0f + g_Engine.v_right * 6.0f;
             vecSrc = vecSrc + ( ( ( player.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( player.pev.view_ofs * 0.5f ) );
@@ -249,10 +248,7 @@ class weapon_bts_mp5gl : BTS_FireWeapon
 
             player.pev.punchangle.x = -10.0f;
 
-            if( player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            {
-                player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-            }
+            CheckDepletedAmmo( self.m_iSecondaryAmmoType );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 2.5f;
             self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
@@ -334,11 +330,6 @@ class weapon_bts_mp5gl : BTS_FireWeapon
             this.owner.pev.punchangle.x = this.owner.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -5, 3 ) );
         }
 
-        if( self.m_iClip <= 0 && this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( this.owner ) )
-        {
-            this.owner.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
         if( m_iFireMode == MP5GL_BURST )
         {
@@ -348,23 +339,7 @@ class weapon_bts_mp5gl : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void TertiaryAttack()
-    {
-        Attack( this.owner, AttackType::Tertiary );
-    }
-
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponMP5GLConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponMP5GLConfig.max_clip, WeaponMP5GLAnim::Reload, 3.0f, pev.body );
-        PlaySound( "bts_rc/weapons/mp5_clip.wav", 0.15f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

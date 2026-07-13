@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponMP5Config : ASWeaponConfig
+final class ASWeaponMP5Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -66,24 +66,32 @@ class CWeaponMP5Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 2;
-        this.position = 4;
-        this.weight = 5;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 30;
-        this.max_clip = 30;
-        this.primary_damage = 17;
-        this.primary_cooldown = 0.09;
-        this.primary_trained_cooldown = 0.09;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control mp5 configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 1.5f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponMP5Config gpWeaponMP5Config;
+ASWeaponMP5Config gpWeaponMP5Config;
 
 enum WeaponMP5Anim
 {
@@ -259,11 +267,6 @@ class weapon_bts_mp5 : BTS_FireWeapon
             this.owner.pev.punchangle.x = this.owner.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -5, 3 ) );
         }
 
-        if( self.m_iClip <= 0 && this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( this.owner ) )
-        {
-            this.owner.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
         if( m_iFireMode == MP5_BURST )
         {
@@ -273,18 +276,7 @@ class weapon_bts_mp5 : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponMP5Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponMP5Config.max_clip, WeaponMP5Anim::Reload, 1.5f, pev.body );
-        PlaySound( "bts_rc/weapons/mp5_clip.wav", 0.15f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

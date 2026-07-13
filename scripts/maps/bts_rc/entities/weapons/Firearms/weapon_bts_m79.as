@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponM79Config : ASWeaponConfig
+final class ASWeaponM79Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -65,26 +65,33 @@ class CWeaponM79Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 5;
-        this.position = 4;
-        this.weight = 20;
-        this.deploy_time = 1.03;
-        this.primary_maxammo = 10;
-        this.primary_dropammo = 1;
-        this.max_clip = 1;
-        this.primary_damage = 130.0f;
-        this.primary_cooldown = 1.0;
-        this.primary_trained_cooldown = 1.0;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control m79 configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "CM79Rocket", "m79_rocket" );
+    bool Register( meta_api::json::v2::json@ json ) override {
+        g_CustomEntityFuncs.RegisterCustomEntity( "ASM79Rocket", "m79_rocket" );
+        // Reload properties
+        this.reload_time = 3.88f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponM79Config gpWeaponM79Config;
+ASWeaponM79Config gpWeaponM79Config;
 
 enum WeaponM79Anim
 {
@@ -95,7 +102,7 @@ enum WeaponM79Anim
     HOLSTER
 };
 
-class CM79Rocket : ScriptBaseEntity
+final class ASM79Rocket : ScriptBaseEntity
 {
     void Spawn()
     {
@@ -220,13 +227,13 @@ class CM79Rocket : ScriptBaseEntity
 
 namespace M79_ROCKET
 {
-    CM79Rocket@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flRadius, const string& in szModel )
+    ASM79Rocket@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flRadius, const string& in szModel )
     {
         CBaseEntity@ entity = g_EntityFuncs.CreateEntity( "m79_rocket", null, false );
         if( entity is null )
             return null;
 
-        CM79Rocket@ pRocket = cast<CM79Rocket@>( CastToScriptClass( entity ) );
+        ASM79Rocket@ pRocket = cast<ASM79Rocket@>( CastToScriptClass( entity ) );
         if( pRocket is null )
             return null;
 
@@ -260,15 +267,19 @@ class weapon_bts_m79 : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
             self.PlayEmptySound();
             self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
             return;
         }
-
-        if( type != AttackType::Primary )
-            return;
 
         player.m_iWeaponVolume = NORMAL_GUN_VOLUME;
         player.m_iWeaponFlash = BRIGHT_GUN_FLASH;
@@ -281,8 +292,6 @@ class weapon_bts_m79 : BTS_FireWeapon
         player.pev.effects |= EF_MUZZLEFLASH;
         pev.effects |= EF_MUZZLEFLASH;
 
-        player.SetAnimation( PLAYER_ATTACK1 );
-
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector offset = Vector( 8.0f, 4.0f, -2.0f );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * offset.x + g_Engine.v_right * offset.y + g_Engine.v_up * offset.z;
@@ -294,21 +303,13 @@ class weapon_bts_m79 : BTS_FireWeapon
         PlaySound( "bts_rc/weapons/m79_fire.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 0xf ) );
         player.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponM79Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        self.DefaultReload( gpWeaponM79Config.max_clip, WeaponM79Anim::RELOAD, 3.88f, pev.body );
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

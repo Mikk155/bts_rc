@@ -1,4115 +1,2180 @@
 {
-		"$schema": "https://json-schema.org/draft/2020-12/schema",
-		"type": "object",
-		"unevaluatedProperties": false,
-		"properties": 
-		{
-			"$schema": 
-			{
-				"type": "string",
-				"description": "Reference to the JSON schema file used for validation and editor hinting."
-			},
-			"logger": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Logging configuration per severity level.",
-				"title": "Logging",
-				"properties": 
-				{
-					"file": 
-					{
-						"type": "boolean",
-						"description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.",
-						"default": false
-					},
-					"trace": 
-					{
-						"type": "boolean",
-						"default": false
-					},
-					"debug": 
-					{
-						"type": "boolean",
-						"default": false
-					},
-					"info": 
-					{
-						"type": "boolean",
-						"default": false
-					},
-					"warning": 
-					{
-						"type": "boolean",
-						"default": true
-					},
-					"error": 
-					{
-						"type": "boolean",
-						"default": true
-					},
-					"critical": 
-					{
-						"type": "boolean",
-						"default": true
-					}
-				}
-			},
-			"weapons": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapons config",
-				"description": "Global weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"melee_weapons_pull": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Allow melee weapons to pull allied players."
-					},
-					"melee_weapons_pull_force": 
-					{
-						"type": "integer",
-						"minimum": 1,
-						"default": 300,
-						"description": "Force of push if melee_weapons_pull is true"
-					},
-					"melee_weapons_push": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Allow melee weapons to push enemies."
-					},
-					"melee_weapons_push_force": 
-					{
-						"type": "integer",
-						"minimum": 1,
-						"default": 200,
-						"description": "Force of push if melee_weapons_push is true"
-					},
-					"blood_splash": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Enable extra blood effects on hit."
-					},
-					"sparks_splash": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Enable spark effects when hitting armored enemies."
-					},
-					"flashlight_drain": 
-					{
-						"type": "number",
-						"default": 0.8,
-						"minimum": 0.1,
-						"description": "flashlight drain time"
-					},
-					"flashlight_capacity": 
-					{
-						"type": "integer",
-						"default": 10,
-						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
-					}
-				}
-			},
-			"bloodpuddle": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Blood puddles",
-				"description": "Controls blood puddle behavior and appearance.",
-				"properties": 
-				{
-					"persistent": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
-					},
-					"default_size": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"items": 
-						{
-							"minimum": 0.1,
-							"type": "number"
-						},
-						"default": 
-						[
-							1.5,
-							2.5
-						],
-						"description": "Random size range for puddles (min, max)."
-					},
-					"custom_size": 
-					{
-						"type": "object",
-						"default": 
-						{
-							"monster_headcrab": 
-							[
-								0.5,
-								1.5
-							],
-							"monster_houndeye": 
-							[
-								1,
-								2
-							],
-							"monster_babycrab": 
-							[
-								0.3,
-								0.8
-							],
-							"monster_snark": 
-							[
-								0.25,
-								0.75
-							]
-						},
-						"additionalProperties": 
-						{
-							"type": "array",
-							"minItems": 2,
-							"maxItems": 2,
-							"items": 
-							{
-								"minimum": 0.1,
-								"type": "number"
-							},
-							"prefixItems": 
-							[
-								
-								{
-									"description": "Minimun scale size for randomization"
-								},
-								
-								{
-									"description": "Maximun scale size for randomization"
-								}
-							]
-						},
-						"description": "Per-monster custom puddle size overrides."
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"dynamic_ammo": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Scales ammo pickup amounts based on connected player count.",
-				"properties": 
-				{
-					"9mm": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							8,
-							17
-						]
-					},
-					"357": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							6
-						]
-					},
-					"556": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							6,
-							30
-						]
-					},
-					"buckshot": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							3,
-							8
-						]
-					},
-					"ARgrenades": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							2
-						]
-					},
-					"38": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							3,
-							6
-						]
-					},
-					"bts_flare": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							3
-						]
-					},
-					"bts_battery": 
-					{
-						"type": "array",
-						"minItems": 2,
-						"maxItems": 2,
-						"description": "List of [min, max] where min is given at full server and max is given solo",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 1
-						},
-						"default": 
-						[
-							1,
-							3
-						]
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"zombie_uncrab": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Controls headcrab detachment behavior from zombies.",
-				"properties": 
-				{
-					"track_health": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"deathdrop": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Death drop",
-				"description": "Defines item drop tables for entities using $_deathdrop with a value of these list names",
-				"additionalProperties": 
-				{
-					"type": "array",
-					"items": 
-					{
-						"type": "string",
-						"description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade."
-					}
-				},
-				"properties": 
-				{
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"aiming_lasers": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Aiming lasers",
-				"description": "Controls laser aiming visuals for monsters.",
-				"properties": 
-				{
-					"interval": 
-					{
-						"title": "Think rate",
-						"type": "number",
-						"minimum": 0,
-						"default": 0.1,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
-					},
-					"red": 
-					{
-						"title": "Red color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 255,
-						"type": "integer",
-						"description": "Red color of effects"
-					},
-					"green": 
-					{
-						"title": "Green color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 0,
-						"type": "integer",
-						"description": "Green color of effects"
-					},
-					"blue": 
-					{
-						"title": "Blue color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 0,
-						"type": "integer",
-						"description": "Blue color of effects"
-					},
-					"alpha": 
-					{
-						"title": "Alpha color",
-						"minimum": 0,
-						"maximum": 255,
-						"default": 150,
-						"type": "integer",
-						"description": "Alpha color of effects"
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"blackops_flashbang": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Blackops flashbangs",
-				"description": "Controls blackops flashbangs feature",
-				"properties": 
-				{
-					"interval": 
-					{
-						"title": "Think rate",
-						"type": "number",
-						"minimum": 0,
-						"default": 0.5,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
-					},
-					"throw_flash_cooldown": 
-					{
-						"type": "number",
-						"minimum": 1,
-						"default": 3,
-						"description": "Global cooldown for blackops to throw grenades"
-					},
-					"detonate_time": 
-					{
-						"type": "number",
-						"minimum": 1,
-						"default": 6,
-						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"grunt_engineer": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Controls engineer grunt sentry spawning",
-				"properties": 
-				{
-					"interval": 
-					{
-						"title": "Think rate",
-						"type": "number",
-						"minimum": 0,
-						"default": 0.1,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
-					},
-					"capacity": 
-					{
-						"default": 5,
-						"type": "integer",
-						"minimum": 1,
-						"description": "Max sentry spawn capacity per engineer"
-					},
-					"distance": 
-					{
-						"default": 128,
-						"type": "number",
-						"minimum": 32,
-						"description": "Distance from the engineer to spawn"
-					},
-					"cooldown_start": 
-					{
-						"default": 6,
-						"type": "number",
-						"minimum": 0,
-						"description": "Time until engineer can place a sentry after spawning"
-					},
-					"cooldown_combat": 
-					{
-						"default": 6,
-						"type": "number",
-						"minimum": 0,
-						"description": "How often to try to drop a sentry in combat, in seconds"
-					},
-					"cooldown_idle": 
-					{
-						"default": 30,
-						"type": "number",
-						"minimum": 0,
-						"description": "How often to try to drop a sentry while idle/roaming, in seconds"
-					},
-					"cooldown_rng": 
-					{
-						"default": 15,
-						"type": "number",
-						"minimum": 0,
-						"description": "cooldown_idle plus/minus this"
-					},
-					"chance": 
-					{
-						"default": 75,
-						"type": "number",
-						"minimum": 0,
-						"maximum": 100,
-						"description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
-					},
-					"active": 
-					{
-						"type": "boolean",
-						"default": true,
-						"description": "Should this context be active?"
-					}
-				}
-			},
-			"wall_recharger": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "HEV Charger",
-				"description": "Configuration for wall-mounted HEV chargers.",
-				"properties": 
-				{
-					"juice": 
-					{
-						"type": "integer",
-						"minimum": 1,
-						"default": 35,
-						"description": "Maximun juice power per station."
-					},
-					"recharge_time": 
-					{
-						"type": "integer",
-						"minimum": 0,
-						"default": 300,
-						"description": "Time (In seconds) required to fully recharge. 0 means never recharge"
-					},
-					"speed_rate": 
-					{
-						"type": "number",
-						"minimum": 0.1,
-						"default": 0.35,
-						"description": "Charge transfer rate to player."
-					}
-				}
-			},
-			"items": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Items",
-				"description": "Control items configuration",
-				"properties": 
-				{
-					"battery_lighting": 
-					{
-						"title": "Lighting battery",
-						"type": "boolean",
-						"description": "If enabled, HEV batteries will emit a blue dynamic light.",
-						"default": true
-					}
-				}
-			},
-			"weapon_crowbar": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_screwdriver": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_poolstick": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_pipewrench": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_pipe": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_knife": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_axe": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_broom": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_spanner": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_beretta": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_eagle": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_glock": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_glock17f": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_glock18": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_glocksd": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_sw637": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_python": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_mp5": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_mp5gl": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_uzi": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_uzisd": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_m4": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_m4sd": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_m16": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_m16sd": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_sniperrifle": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_shotgun": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_sbshotgun": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_saw": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_sawsd": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_m79": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_xbow": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_handgrenade": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_flamethrower": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_flare": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_flaregun": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_medkit": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Items",
-				"description": "Control medkit configuration",
-				"properties": 
-				{
-					"health_ammount": 
-					{
-						"type": "integer",
-						"description": "Ammount of health to heal"
-					},
-					"health_gain": 
-					{
-						"type": "integer"
-					},
-					"health_cost": 
-					{
-						"type": "integer"
-					},
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_flashlight": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"characters": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Characters",
-				"description": "Control player characters",
-				"additionalProperties": 
-				{
-					"type": "object",
-					"unevaluatedProperties": false,
-					"description": "Playable character definition",
-					"properties": 
-					{
-						"classify": 
-						{
-							"type": "number",
-							"description": "Classification used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#playable-characters",
-							"minimum": 0,
-							"maximum": 6
-						},
-						"hands": 
-						{
-							"type": "number",
-							"description": "View model hands used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#player-view-hands",
-							"minimum": 0,
-							"maximum": 9
-						}
-					}
-				}
-			}
-		}
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "unevaluatedProperties": false,
+        "properties": 
+        {
+            "$schema": 
+            {
+                "type": "string",
+                "description": "Reference to the JSON schema file used for validation and editor hinting."
+            },
+            "logger": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "description": "Logging configuration per severity level.",
+                "title": "Logging",
+                "properties": 
+                {
+                    "file": 
+                    {
+                        "type": "boolean",
+                        "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.",
+                        "default": false
+                    },
+                    "trace": 
+                    {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "debug": 
+                    {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "info": 
+                    {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "warning": 
+                    {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "error": 
+                    {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "critical": 
+                    {
+                        "type": "boolean",
+                        "default": true
+                    }
+                }
+            },
+            "weapons": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapons config",
+                "description": "Global weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "melee_weapons_pull": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Allow melee weapons to pull allied players."
+                    },
+                    "melee_weapons_pull_force": 
+                    {
+                        "type": "integer",
+                        "minimum": 1,
+                        "default": 300,
+                        "description": "Force of push if melee_weapons_pull is true"
+                    },
+                    "melee_weapons_push": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Allow melee weapons to push enemies."
+                    },
+                    "melee_weapons_push_force": 
+                    {
+                        "type": "integer",
+                        "minimum": 1,
+                        "default": 200,
+                        "description": "Force of push if melee_weapons_push is true"
+                    },
+                    "blood_splash": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Enable extra blood effects on hit."
+                    },
+                    "sparks_splash": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Enable spark effects when hitting armored enemies."
+                    },
+                    "flashlight_drain": 
+                    {
+                        "type": "number",
+                        "default": 0.8,
+                        "minimum": 0.1,
+                        "description": "flashlight drain time"
+                    },
+                    "flashlight_capacity": 
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "minimum": 0,
+                        "description": "Quantity of ammo carry for flashlight weapons"
+                    }
+                }
+            },
+            "bloodpuddle": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Blood puddles",
+                "description": "Controls blood puddle behavior and appearance.",
+                "properties": 
+                {
+                    "persistent": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
+                    },
+                    "default_size": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": 
+                        {
+                            "minimum": 0.1,
+                            "type": "number"
+                        },
+                        "default": 
+                        [
+                            1.5,
+                            2.5
+                        ],
+                        "description": "Random size range for puddles (min, max)."
+                    },
+                    "custom_size": 
+                    {
+                        "type": "object",
+                        "default": 
+                        {
+                            "monster_headcrab": 
+                            [
+                                0.5,
+                                1.5
+                            ],
+                            "monster_houndeye": 
+                            [
+                                1,
+                                2
+                            ],
+                            "monster_babycrab": 
+                            [
+                                0.3,
+                                0.8
+                            ],
+                            "monster_snark": 
+                            [
+                                0.25,
+                                0.75
+                            ]
+                        },
+                        "additionalProperties": 
+                        {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "items": 
+                            {
+                                "minimum": 0.1,
+                                "type": "number"
+                            },
+                            "prefixItems": 
+                            [
+                                
+                                {
+                                    "description": "Minimun scale size for randomization"
+                                },
+                                
+                                {
+                                    "description": "Maximun scale size for randomization"
+                                }
+                            ]
+                        },
+                        "description": "Per-monster custom puddle size overrides."
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "dynamic_ammo": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "description": "Scales ammo pickup amounts based on connected player count.",
+                "properties": 
+                {
+                    "9mm": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            8,
+                            17
+                        ]
+                    },
+                    "357": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            1,
+                            6
+                        ]
+                    },
+                    "556": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            6,
+                            30
+                        ]
+                    },
+                    "buckshot": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            3,
+                            8
+                        ]
+                    },
+                    "ARgrenades": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            1,
+                            2
+                        ]
+                    },
+                    "38": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            3,
+                            6
+                        ]
+                    },
+                    "bts_flare": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo.",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            1,
+                            3
+                        ]
+                    },
+                    "bts_battery": 
+                    {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "description": "List of [min, max] where min is given at full server and max is given solo",
+                        "items": 
+                        {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "default": 
+                        [
+                            1,
+                            3
+                        ]
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "zombie_uncrab": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "description": "Controls headcrab detachment behavior from zombies.",
+                "properties": 
+                {
+                    "track_health": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "deathdrop": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Death drop",
+                "description": "Entity classname to spawn. Empty string means no drop chance. 'grenade' is a special name and will spawn a timed grenade.",
+                "properties": 
+                {
+                    "zsecurity": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_battery",
+                            "ammo_bts_sw637",
+                            "ammo_bts_eagle",
+                            "ammo_bts_glock",
+                            "ammo_bts_sbshotgun",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "zworker": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_battery",
+                            "ammo_bts_flarebox",
+                            "weapon_bts_flare",
+                            "ammo_bts_glock",
+                            "item_bts_sprayaid",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "zmedic": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_healthkit",
+                            "item_bts_sprayaid",
+                            "item_bts_sprayaid",
+                            "ammo_bts_glock",
+                            "ammo_bts_eagle",
+                            "grenade",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "ztorch": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_glock",
+                            "ammo_bts_eagle",
+                            "grenade",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "zhecu": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_m4",
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_eagle",
+                            "ammo_bts_glock",
+                            "ammo_762",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "zblop": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_m4",
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_eagle",
+                            "ammo_bts_glock",
+                            "ammo_762",
+                            "ammo_crossbow",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "gonome": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_eagle",
+                            "ammo_bts_glock",
+                            "ammo_crossbow",
+                            "item_healthkit",
+                            "item_bts_sprayaid",
+                            "grenade",
+                            "grenade",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "gonomeb": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_shotgun",
+                            "ammo_bts_eagle",
+                            "ammo_bts_eagle",
+                            "ammo_bts_sw637",
+                            "ammo_bts_sw637",
+                            "ammo_bts_sw637",
+                            "item_healthkit",
+                            "item_bts_sprayaid",
+                            "grenade",
+                            "grenade",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "gonomew": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_shotgun",
+                            "ammo_bts_glock",
+                            "ammo_bts_sw637",
+                            "item_healthkit",
+                            "item_bts_sprayaid",
+                            "ammo_bts_flarebox",
+                            "weapon_bts_flare",
+                            "grenade",
+                            "grenade",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "gonomeh": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_shotgun",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_glock",
+                            "ammo_bts_glock",
+                            "ammo_bts_eagle",
+                            "ammo_bts_eagle",
+                            "ammo_bts_m4",
+                            "ammo_bts_m4",
+                            "ammo_762",
+                            "ammo_762",
+                            "ammo_bts_m16_grenade",
+                            "grenade",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "zhev": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_eagle",
+                            "ammo_bts_sw637",
+                            "item_bts_hevbattery",
+                            "item_bts_sprayaid",
+                            "ammo_bts_glock",
+                            "ammo_bts_m4",
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_python",
+                            "grenade",
+                            "grenade",
+                            "grenade",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "zcleansuit": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "item_bts_hevbattery",
+                            "item_bts_sprayaid",
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "Marine": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_m4",
+                            "item_bts_sprayaid",
+                            "ammo_bts_m16_grenade",
+                            "grenade",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "Medic": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_glock",
+                            "ammo_bts_eagle",
+                            "item_healthkit",
+                            "item_bts_sprayaid",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "Torch": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_glock",
+                            "ammo_bts_eagle",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "Sniper": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_762",
+                            "ammo_762",
+                            "ammo_762",
+                            "weapon_bts_sniperrifle",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "Blackops": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_m4",
+                            "ammo_crossbow",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "Fassn": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_uzi",
+                            "ammo_bts_uzi",
+                            "ammo_bts_uzi",
+                            "ammo_crossbow",
+                            "grenade",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "robot": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            "ammo_bts_mp5",
+                            "ammo_bts_shotgun",
+                            "ammo_bts_m4",
+                            "",
+                            "",
+                            ""
+                        ]
+                    },
+                    "friendly": 
+                    {
+                        "type": "array",
+                        "items": 
+                        {
+                            "type": "string"
+                        },
+                        "default": 
+                        [
+                            ""
+                        ]
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "aiming_lasers": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Aiming lasers",
+                "description": "Controls laser aiming visuals for monsters.",
+                "properties": 
+                {
+                    "interval": 
+                    {
+                        "title": "Think rate",
+                        "type": "number",
+                        "minimum": 0,
+                        "default": 0.1,
+                        "description": "Internal think rate interval. the lower the value the more cpu usage"
+                    },
+                    "red": 
+                    {
+                        "title": "Red color",
+                        "minimum": 0,
+                        "maximum": 255,
+                        "default": 255,
+                        "type": "integer",
+                        "description": "Red color of effects"
+                    },
+                    "green": 
+                    {
+                        "title": "Green color",
+                        "minimum": 0,
+                        "maximum": 255,
+                        "default": 0,
+                        "type": "integer",
+                        "description": "Green color of effects"
+                    },
+                    "blue": 
+                    {
+                        "title": "Blue color",
+                        "minimum": 0,
+                        "maximum": 255,
+                        "default": 0,
+                        "type": "integer",
+                        "description": "Blue color of effects"
+                    },
+                    "alpha": 
+                    {
+                        "title": "Alpha color",
+                        "minimum": 0,
+                        "maximum": 255,
+                        "default": 150,
+                        "type": "integer",
+                        "description": "Alpha color of effects"
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "blackops_flashbang": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Blackops flashbangs",
+                "description": "Controls blackops flashbangs feature",
+                "properties": 
+                {
+                    "interval": 
+                    {
+                        "title": "Think rate",
+                        "type": "number",
+                        "minimum": 0,
+                        "default": 0.5,
+                        "description": "Internal think rate interval. the lower the value the more cpu usage"
+                    },
+                    "throw_flash_cooldown": 
+                    {
+                        "type": "number",
+                        "minimum": 1,
+                        "default": 3,
+                        "description": "Global cooldown for blackops to throw grenades"
+                    },
+                    "detonate_time": 
+                    {
+                        "type": "number",
+                        "minimum": 1,
+                        "default": 6,
+                        "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "grunt_engineer": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "description": "Controls engineer grunt sentry spawning",
+                "properties": 
+                {
+                    "interval": 
+                    {
+                        "title": "Think rate",
+                        "type": "number",
+                        "minimum": 0,
+                        "default": 0.1,
+                        "description": "Internal think rate interval. the lower the value the more cpu usage"
+                    },
+                    "capacity": 
+                    {
+                        "default": 5,
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Max sentry spawn capacity per engineer"
+                    },
+                    "distance": 
+                    {
+                        "default": 128,
+                        "type": "number",
+                        "minimum": 32,
+                        "description": "Distance from the engineer to spawn"
+                    },
+                    "cooldown_start": 
+                    {
+                        "default": 6,
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Time until engineer can place a sentry after spawning"
+                    },
+                    "cooldown_combat": 
+                    {
+                        "default": 6,
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "How often to try to drop a sentry in combat, in seconds"
+                    },
+                    "cooldown_idle": 
+                    {
+                        "default": 30,
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "How often to try to drop a sentry while idle/roaming, in seconds"
+                    },
+                    "cooldown_rng": 
+                    {
+                        "default": 15,
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "cooldown_idle plus/minus this"
+                    },
+                    "chance": 
+                    {
+                        "default": 75,
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100,
+                        "description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
+                    },
+                    "active": 
+                    {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Should this context be active?"
+                    }
+                }
+            },
+            "wall_recharger": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "HEV Charger",
+                "description": "Configuration for wall-mounted HEV chargers.",
+                "properties": 
+                {
+                    "juice": 
+                    {
+                        "type": "integer",
+                        "minimum": 1,
+                        "default": 35,
+                        "description": "Maximun juice power per station."
+                    },
+                    "recharge_time": 
+                    {
+                        "type": "integer",
+                        "minimum": 0,
+                        "default": 300,
+                        "description": "Time (In seconds) required to fully recharge. 0 means never recharge"
+                    },
+                    "speed_rate": 
+                    {
+                        "type": "number",
+                        "minimum": 0.1,
+                        "default": 0.35,
+                        "description": "Charge transfer rate to player."
+                    }
+                }
+            },
+            "monster_panthereye": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Monster panthereye",
+                "description": "Controls panthereye settings",
+                "properties": 
+                {
+                    "health": 
+                    {
+                        "type": "integer",
+                        "default": 210,
+                        "minimum": 1,
+                        "description": "Monster health"
+                    },
+                    "max_leap_z": 
+                    {
+                        "type": "number",
+                        "default": 256,
+                        "minimum": 0,
+                        "description": "Panther won't pounce at enemies if they're higher up than this from the panther's location"
+                    },
+                    "min_leap": 
+                    {
+                        "type": "number",
+                        "default": 200,
+                        "minimum": 0,
+                        "description": "Panther won't pounce at enemies within this range"
+                    },
+                    "max_leap": 
+                    {
+                        "type": "number",
+                        "default": 400,
+                        "minimum": 0,
+                        "description": "Panther won't pounce at enemies beyond this range"
+                    },
+                    "dmg_high_swipe": 
+                    {
+                        "type": "integer",
+                        "default": 25,
+                        "minimum": 1,
+                        "description": "Damage on high swipe attack"
+                    },
+                    "dmg_low_swipe": 
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "minimum": 1,
+                        "description": "Damage on low swipe attack"
+                    },
+                    "dmg_long_swipe": 
+                    {
+                        "type": "integer",
+                        "default": 25,
+                        "minimum": 1,
+                        "description": "Damage on long swipe attack"
+                    },
+                    "dmg_leap": 
+                    {
+                        "type": "integer",
+                        "default": 25,
+                        "minimum": 1,
+                        "description": "Damage on leap attack"
+                    },
+                    "dmg_thrash": 
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "minimum": 1,
+                        "description": "Damage on thrash attack"
+                    },
+                    "dmg_thrash_frequency": 
+                    {
+                        "type": "number",
+                        "default": 0.5,
+                        "minimum": 0,
+                        "description": "Cooldown for thrash attack"
+                    },
+                    "struggle_max": 
+                    {
+                        "type": "integer",
+                        "default": 100,
+                        "minimum": 1,
+                        "description": ""
+                    },
+                    "struggle_drain_rate": 
+                    {
+                        "type": "number",
+                        "default": 15,
+                        "minimum": 1,
+                        "description": "per second"
+                    },
+                    "struggle_grin": 
+                    {
+                        "type": "number",
+                        "default": 8,
+                        "minimum": 1,
+                        "description": "per key press"
+                    },
+                    "stealth_visibility": 
+                    {
+                        "type": "integer",
+                        "default": 15,
+                        "minimum": 0,
+                        "maximum": 100,
+                        "description": "Visibility percentage"
+                    }
+                }
+            },
+            "items": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Items",
+                "description": "Control items configuration",
+                "properties": 
+                {
+                    "battery_lighting": 
+                    {
+                        "title": "Lighting battery",
+                        "type": "boolean",
+                        "description": "If enabled, HEV batteries will emit a blue dynamic light.",
+                        "default": true
+                    }
+                }
+            },
+            "weapon_crowbar": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_screwdriver": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_poolstick": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_pipewrench": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_pipe": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_knife": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_axe": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_medkit": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Items",
+                "description": "Control medkit configuration",
+                "properties": 
+                {
+                    "health_ammount": 
+                    {
+                        "type": "integer",
+                        "description": "Ammount of health to heal"
+                    },
+                    "health_gain": 
+                    {
+                        "type": "integer"
+                    },
+                    "health_cost": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "weapon_bts_flashlight": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Weapon config",
+                "description": "weapon-related gameplay modifiers.",
+                "properties": 
+                {
+                    "primary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_maxammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "secondary_dropammo": 
+                    {
+                        "type": "integer"
+                    },
+                    "primary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_damage": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "max_clip": 
+                    {
+                        "type": "integer"
+                    },
+                    "slot": 
+                    {
+                        "type": "integer"
+                    },
+                    "position": 
+                    {
+                        "type": "integer"
+                    },
+                    "weight": 
+                    {
+                        "type": "integer"
+                    },
+                    "deploy_time": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "tertiary_distance": 
+                    {
+                        "type": "number"
+                    },
+                    "subsequent_hits_deduction": 
+                    {
+                        "type": "number",
+                        "description": "Damage multiplier applied to consecutive hits."
+                    },
+                    "primary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "primary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_cooldown": 
+                    {
+                        "type": "number"
+                    },
+                    "secondary_miss_trained_cooldown": 
+                    {
+                        "type": "number"
+                    }
+                }
+            },
+            "characters": 
+            {
+                "type": "object",
+                "unevaluatedProperties": false,
+                "title": "Characters",
+                "description": "Control player characters",
+                "additionalProperties": 
+                {
+                    "type": "object",
+                    "unevaluatedProperties": false,
+                    "description": "Playable character definition",
+                    "properties": 
+                    {
+                        "classify": 
+                        {
+                            "type": "number",
+                            "description": "Classification used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#playable-characters",
+                            "minimum": 0,
+                            "maximum": 6
+                        },
+                        "hands": 
+                        {
+                            "type": "number",
+                            "description": "View model hands used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#player-view-hands",
+                            "minimum": 0,
+                            "maximum": 9
+                        }
+                    }
+                }
+            }
+        }
 }

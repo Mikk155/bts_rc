@@ -235,11 +235,17 @@ namespace item_tracker
         if( player is null || !player.IsConnected() )
             return;
 
-        // Run inventory checks per-player per-frame
-        UpdatePlayerInventory( player );
+        dictionary@ data = player.GetUserData();
+
+        // Run inventory checks per-player throttled to every 0.5s instead of every frame
+        float nextCheck = 0.0f;
+        if( !data.get( "it_inventorycd", nextCheck ) || g_Engine.time >= nextCheck )
+        {
+            UpdatePlayerInventory( player );
+            data[ "it_inventorycd" ] = g_Engine.time + 0.5f;
+        }
 
         // Key down check: only trigger when pressing USE and RELOAD (one-shot transition check)
-        dictionary@ data = player.GetUserData();
         bool isHolding = ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0;
         bool wasHolding = data.exists( "motd_holding" ) ? bool( data[ "motd_holding" ] ) : false;
         data[ "motd_holding" ] = isHolding;

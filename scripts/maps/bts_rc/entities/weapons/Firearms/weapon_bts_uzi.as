@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponUziConfig : ASWeaponConfig
+final class ASWeaponUziConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -65,24 +65,32 @@ class CWeaponUziConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 1;
-        this.position = 11;
-        this.weight = 10;
-        this.deploy_time = 1.275;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 20;
-        this.max_clip = 20;
-        this.primary_damage = 16;
-        this.primary_cooldown = 0.07;
-        this.primary_trained_cooldown = 0.07;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control uzi configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.75f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponUziConfig gpWeaponUziConfig;
+ASWeaponUziConfig gpWeaponUziConfig;
 
 enum WeaponUziAnim
 {
@@ -120,9 +128,11 @@ class weapon_bts_uzi : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         if( self.m_iClip <= 0 )
@@ -161,26 +171,8 @@ class weapon_bts_uzi : BTS_FireWeapon
             }
         }
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.07f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-    }
-
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponUziConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponUziConfig.max_clip, WeaponUziAnim::Reload, 2.75f, pev.body );
-        PlaySound( "bts_rc/weapons/fidget1.wav", 0.6f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
     }
 
     float Idle() override

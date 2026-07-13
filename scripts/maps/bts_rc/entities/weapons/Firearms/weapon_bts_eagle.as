@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponEagleConfig : ASWeaponConfig
+final class ASWeaponEagleConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -123,28 +123,32 @@ class CWeaponEagleConfig : ASWeaponConfig
         }
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 1;
-        this.position = 9;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 18;
-        this.primary_dropammo = 3;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 9;
-        this.primary_damage = 65;
-        this.primary_cooldown = 0.22;
-        this.primary_trained_cooldown = 0.22;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.5;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control eagle configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 1.5f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponEagleConfig gpWeaponEagleConfig;
+ASWeaponEagleConfig gpWeaponEagleConfig;
 
 enum WeaponEagleAnim
 {
@@ -261,9 +265,11 @@ class weapon_bts_eagle : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         if( self.m_iClip <= 0 )
@@ -288,37 +294,7 @@ class weapon_bts_eagle : BTS_FireWeapon
 
         player.pev.punchangle.x = isTrainedPersonal ? -4.0f : -11.0f;
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( ( m_LastState != LaserSpot::State::Inactive ) ? 0.5f : 0.22f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-    }
-
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponEagleConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        float flNextAttack = self.m_flNextPrimaryAttack - 0.625;
-        if( flNextAttack > g_Engine.time )
-        {
-            return;
-        }
-
-        if( this.owner.FlashlightIsOn() )
-        {
-            this.owner.FlashlightTurnOff();
-        }
-
-        LaserSpot::Get( this.owner ).Update( LaserSpot::State::TurnOff );
-
-        self.DefaultReload( gpWeaponEagleConfig.max_clip, self.m_iClip != 0 ? WeaponEagleAnim::Reload : WeaponEagleAnim::ReloadNoShot, 1.5f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        BaseClass.Reload();
     }
 }

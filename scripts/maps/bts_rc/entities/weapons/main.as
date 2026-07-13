@@ -76,7 +76,7 @@
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
-final class CGlobalWeaponConfig : IConfigurable
+final class ASGlobalWeaponConfig : IConfigurable
 {
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
@@ -84,6 +84,7 @@ final class CGlobalWeaponConfig : IConfigurable
     float melee_weapons_push_force;
     bool blood_splash;
     bool sparks_splash;
+    bool m249_knockback;
 
     const string& GetName() const override
     {
@@ -137,6 +138,12 @@ final class CGlobalWeaponConfig : IConfigurable
                     "default": true,
                     "description": "Enable spark effects when hitting armored enemies."
                 },
+                "m249_knockback":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable M249 SAW knockback recoil pushing the player backward."
+                },
                 "flashlight_drain":
                 {
                     "type": "number",
@@ -177,6 +184,7 @@ final class CGlobalWeaponConfig : IConfigurable
         this.melee_weapons_push_force = int( config[ "melee_weapons_push_force" ] );
         this.sparks_splash = bool( config[ "sparks_splash" ] );
         this.blood_splash = bool( config[ "blood_splash" ] );
+        this.m249_knockback = bool( config[ "m249_knockback" ] );
 
         Flashlight::Precache();
         Flashlight::Register( config );
@@ -191,4 +199,4 @@ final class CGlobalWeaponConfig : IConfigurable
     }
 }
 
-CGlobalWeaponConfig g_WeaponsConfig;
+ASGlobalWeaponConfig g_WeaponsConfig;

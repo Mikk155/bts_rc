@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponM4Config : ASWeaponConfig
+final class ASWeaponM4Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -66,24 +66,32 @@ class CWeaponM4Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 2;
-        this.position = 8;
-        this.weight = 5;
-        this.deploy_time = 1.2;
-        this.primary_maxammo = 150;
-        this.primary_dropammo = 30;
-        this.max_clip = 30;
-        this.primary_damage = 22;
-        this.primary_cooldown = 0.105;
-        this.primary_trained_cooldown = 0.105;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control m4 configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.75f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponM4Config gpWeaponM4Config;
+ASWeaponM4Config gpWeaponM4Config;
 
 enum WeaponM4Anim
 {
@@ -208,28 +216,11 @@ class weapon_bts_m4 : BTS_FireWeapon
             player.pev.punchangle.x = player.IsMoving() ? float( Math.RandomLong( -6, 3 ) ) : float( Math.RandomLong( -3, 2 ) );
         }
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4_SEMI ? 0.124f : 0.105f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponM4Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.SetFOV( 0 );
-        self.DefaultReload( gpWeaponM4Config.max_clip, WeaponM4Anim::RELOAD, 2.75f, pev.body );
-        PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponHandGrenadeConfig : ASWeaponConfig
+final class ASWeaponHandGrenadeConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -66,22 +66,25 @@ class CWeaponHandGrenadeConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 4;
-        this.position = 6;
-        this.weight = 20;
-        this.deploy_time = 0.66;
-        this.primary_maxammo = 10;
-        this.primary_dropammo = 1;
-        this.max_clip = WEAPON_NOCLIP;
-        this.primary_damage = 130;
-
-        return ASWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control handgrenade configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponHandGrenadeConfig gpWeaponHandGrenadeConfig;
+ASWeaponHandGrenadeConfig gpWeaponHandGrenadeConfig;
 
 enum WeaponHandGrenadeAnim
 {

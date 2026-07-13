@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponSniperRifleConfig : ASWeaponConfig
+final class ASWeaponSniperRifleConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -65,24 +65,25 @@ class CWeaponSniperRifleConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 5;
-        this.position = 5;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 10;
-        this.primary_dropammo = 5;
-        this.max_clip = 5;
-        this.primary_damage = 120;
-        this.primary_cooldown = 2.0;
-        this.primary_trained_cooldown = 2.0;
-
-        return ASWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control sniperrifle configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponSniperRifleConfig gpWeaponSniperRifleConfig;
+ASWeaponSniperRifleConfig gpWeaponSniperRifleConfig;
 
 enum WeaponSniperRifleAnim
 {
@@ -125,17 +126,17 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Secondary )
+        switch( type )
         {
-            PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-            ToggleZoom();
-            self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-            return;
-        }
-
-        if( type != AttackType::Primary )
-        {
-            return;
+            case AttackType::Tertiary:
+                return;
+            case AttackType::Secondary:
+            {
+                PlaySound( "weapons/sniper_zoom.wav", 1.0f );
+                ToggleZoom();
+                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+                return;
+            }
         }
 
         if( self.m_iClip <= 0 )
@@ -152,9 +153,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
         FireBullet( 1, cone, gpWeaponSniperRifleConfig.primary_damage, "ambience/rifle2.wav", anim, -1, TE_BOUNCE_SHELL, Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), true, QUIET_GUN_VOLUME );
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -18.0f;
-
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 2.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;

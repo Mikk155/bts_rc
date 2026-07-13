@@ -37,13 +37,11 @@ namespace Hooks
         // I don't have time to redesign this nor i care.
         if( weaponConfig is null )
         {
-            if( true )
-                return HOOK_CONTINUE;
             player.RemovePlayerItem( weapon );
             return HOOK_CONTINUE;
         }
 
-        if( !weaponConfig.IsCustom() )
+        if( !weaponConfig.IsCustomWeapon() )
         {
             int primaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo1() );
             if( primaryAmmo != WEAPON_NOCLIP )

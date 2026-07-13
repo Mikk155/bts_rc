@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponFlareGunConfig : ASWeaponConfig
+final class ASWeaponFlareGunConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -72,22 +72,32 @@ class CWeaponFlareGunConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 4;
-        this.position = 13;
-        this.weight = 15;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 6;
-        this.primary_dropammo = 1;
-        this.max_clip = 1;
-        this.primary_damage = 35;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control flaregun configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 3.5f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponFlareGunConfig gpWeaponFlareGunConfig;
+ASWeaponFlareGunConfig gpWeaponFlareGunConfig;
 
 enum WeaponFlareGunAnim
 {
@@ -117,8 +127,12 @@ class weapon_bts_flaregun : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
-            return;
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
 
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
@@ -138,8 +152,6 @@ class weapon_bts_flaregun : BTS_FireWeapon
         player.pev.effects |= EF_MUZZLEFLASH;
         pev.effects |= EF_MUZZLEFLASH;
 
-        player.SetAnimation( PLAYER_ATTACK1 );
-
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector offset = Vector( 8.0f, 4.0f, -2.0f );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * offset.x + g_Engine.v_right * offset.y + g_Engine.v_up * offset.z;
@@ -156,27 +168,13 @@ class weapon_bts_flaregun : BTS_FireWeapon
 
         player.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponFlareGunConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        if( self.m_flNextPrimaryAttack > g_Engine.time )
-            return;
-
-        BaseClass.Reload();
-        self.DefaultReload( gpWeaponFlareGunConfig.max_clip, WeaponFlareGunAnim::RELOAD, 3.5f, pev.body );
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 3.5f;
-        SetThink( ThinkFunction( this.FinishAnim ) );
-        pev.nextthink = g_Engine.time + 3.5f;
-    }
+    
 
     float Idle() override
     {
@@ -211,8 +209,8 @@ class weapon_bts_flaregun : BTS_FireWeapon
         SetThink( null );
 
         if( Math.RandomLong( 0, 1 ) == 0 )
-            PlaySound( "bts_rc/weapons/flaregun_reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ), CHAN_ITEM );
+            PlaySound( "bts_rc/weapons/flaregun_reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ), CHAN_ITEM );
         else
-            PlaySound( "bts_rc/weapons/flaregun_reload2.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ), CHAN_ITEM );
+            PlaySound( "bts_rc/weapons/flaregun_reload2.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ), CHAN_ITEM );
     }
 }

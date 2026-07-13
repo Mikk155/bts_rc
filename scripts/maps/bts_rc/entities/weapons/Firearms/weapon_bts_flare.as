@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponFlareConfig : ASWeaponConfig
+final class ASWeaponFlareConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -74,24 +74,31 @@ class CWeaponFlareConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 4;
-        this.position = 5;
-        this.weight = 5;
-        this.deploy_time = 0.75;
-        this.primary_maxammo = 5;
-        this.primary_dropammo = 1;
-        this.max_clip = WEAPON_NOCLIP;
-        this.primary_damage = 1;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control flare configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
 
-        g_CustomEntityFuncs.RegisterCustomEntity( "CFlare", "flare" );
+    bool Register( meta_api::json::v2::json@ json ) override {
+        g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponFlareConfig gpWeaponFlareConfig;
+ASWeaponFlareConfig gpWeaponFlareConfig;
 
 enum WeaponFlareAnim
 {
@@ -102,7 +109,7 @@ enum WeaponFlareAnim
     TOSS
 };
 
-class CFlare : ScriptBaseEntity
+final class ASFlare : ScriptBaseEntity
 {
     private float m_flBounceTime = 0.0f;
     private float m_flNextAttack = 0.0f;
@@ -333,10 +340,10 @@ class CFlare : ScriptBaseEntity
 
 namespace FLARE
 {
-    CFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
+    ASFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
     {
         CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
-        CFlare@ pFlare = cast<CFlare@>( CastToScriptClass( preFlare ) );
+        ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
         if( pFlare is null )
             return null;
 
@@ -361,10 +368,10 @@ namespace FLARE
         return pFlare;
     }
 
-    CFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
+    ASFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
     {
         CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
-        CFlare@ pFlare = cast<CFlare@>( CastToScriptClass( preFlare ) );
+        ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
         if( pFlare is null )
             return null;
 
@@ -551,11 +558,10 @@ class weapon_bts_flare : BTS_Weapon
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f );
         if( throw == 0 )
             PlayAnim( WeaponFlareAnim::THROW );
-        if( throw == 1 )
+        else if( throw == 1 )
             PlayAnim( WeaponFlareAnim::TOSS );
         m_bThrown = true;
         m_bInAttack = false;
-        this.owner.SetAnimation( PLAYER_ATTACK1 );
 
         SetThink( ThinkFunction( this.LaunchThink ) );
         pev.nextthink = g_Engine.time + 0.2f;

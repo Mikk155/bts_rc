@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponM16SDConfig : ASWeaponConfig
+final class ASWeaponM16SDConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -80,27 +80,32 @@ class CWeaponM16SDConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 2;
-        this.position = 11;
-        this.weight = 5;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 150;
-        this.primary_dropammo = 20;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 20;
-        this.primary_damage = 24;
-        this.secondary_damage = 110.0f;
-        this.primary_cooldown = 0.11;
-        this.primary_trained_cooldown = 0.11;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control m16sd configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 3.25f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponM16SDConfig gpWeaponM16SDConfig;
+ASWeaponM16SDConfig gpWeaponM16SDConfig;
 
 enum WeaponM16SDAnim
 {
@@ -161,7 +166,6 @@ class weapon_bts_m16sd : BTS_FireWeapon
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
             PlayAnim( WeaponM16SDAnim::LAUNCH );
-            player.SetAnimation( PLAYER_ATTACK1 );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -198,8 +202,7 @@ class weapon_bts_m16sd : BTS_FireWeapon
                 PlaySound( "bts_rc/fvox/ammowarning.wav", 1.0f );
             }
 
-            if( player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
-                player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+            CheckDepletedAmmo( self.m_iSecondaryAmmoType );
 
             return;
         }
@@ -256,11 +259,6 @@ class weapon_bts_m16sd : BTS_FireWeapon
             player.pev.punchangle.x = player.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -8, 3 ) );
         }
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.11f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
@@ -274,18 +272,7 @@ class weapon_bts_m16sd : BTS_FireWeapon
         BaseClass.ItemPostFrame();
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponM16SDConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponM16SDConfig.max_clip, WeaponM16SDAnim::RELOAD, 3.25f, pev.body );
-        PlaySound( "bts_rc/weapons/fidget_3.wav", 0.6f );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.25f;
-        BaseClass.Reload();
-    }
+    
 
     float Idle() override
     {

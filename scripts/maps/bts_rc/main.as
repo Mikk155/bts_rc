@@ -137,6 +137,12 @@ void MapActivate()
 
 void MapInit()
 {
+    meta_api::json::Error err;
+    if( !meta_api::json::v2::Deserialize( "scripts/maps/bts_rc/weapons_defaults.json", g_WeaponsDefaults, err ) )
+    {
+        @g_WeaponsDefaults = meta_api::json::v2::json();
+    }
+
     Server::chrono@ chrono = null;
 
     if( g_Logger.info.active )
@@ -148,21 +154,6 @@ void MapInit()
 
     // Logger first
     g_MapConfig.Register( g_Logger );
-
-    // No ordering required:
-    g_MapConfig.Register( g_WeaponsConfig ); // Always active
-    g_MapConfig.Register( ASBloodPuddleConfig() );
-    g_MapConfig.Register( ASDynamicAmmoConfig() );
-    g_MapConfig.Register( ASZombieUncrabConfig() );
-    g_MapConfig.Register( ASDeathDropConfig() );
-    g_MapConfig.Register( ASAimingLasersConfig() );
-    g_MapConfig.Register( ASBlackOpsFlashbang() );
-    g_MapConfig.Register( ASGruntEngineer() );
-    g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
-
-    g_MapConfig.Register( gpRoboGrunt ); // Always active
-    g_MapConfig.Register( gpRoboGruntBoss ); // Always active
-    g_MapConfig.Register( gpZombieEngineer ); // Always active
 
     // Items
     g_MapConfig.Register( gpItemsConfig ); // Always active
@@ -207,6 +198,23 @@ void MapInit()
     g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
     g_MapConfig.Register( gpWeaponFlashlight ); // Always active
 
+    g_MapConfig.Register( g_WeaponsConfig ); // Always active
+
+    // No ordering required:
+    g_MapConfig.Register( ASBloodPuddleConfig() );
+    g_MapConfig.Register( ASDynamicAmmoConfig() );
+    g_MapConfig.Register( ASZombieUncrabConfig() );
+    g_MapConfig.Register( ASDeathDropConfig() );
+    g_MapConfig.Register( ASAimingLasersConfig() );
+    g_MapConfig.Register( ASBlackOpsFlashbang() );
+    g_MapConfig.Register( ASGruntEngineer() );
+    g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
+
+    g_MapConfig.Register( gpRoboGrunt ); // Always active
+    g_MapConfig.Register( gpRoboGruntBoss ); // Always active
+    g_MapConfig.Register( gpZombieEngineer ); // Always active
+    g_MapConfig.Register( gpPanthereyeConfig ); // Always active
+
     // Player characters
     g_MapConfig.Register( gpCharactersConfig ); // Always active
 
@@ -225,8 +233,6 @@ void MapInit()
         chrono.Stop();
         g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
-
-    oldweapons::init();
 
 #if SERVER
     if( g_IsMainMap )

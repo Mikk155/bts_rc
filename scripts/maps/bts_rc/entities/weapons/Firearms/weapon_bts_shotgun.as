@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponShotgunConfig : ASWeaponConfig
+final class ASWeaponShotgunConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -68,24 +68,25 @@ class CWeaponShotgunConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 2;
-        this.position = 7;
-        this.weight = 15;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 30;
-        this.primary_dropammo = 3;
-        this.max_clip = 8;
-        this.primary_damage = 16;
-        this.primary_cooldown = 0.85;
-        this.primary_trained_cooldown = 0.85;
-
-        return ASWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control shotgun configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponShotgunConfig gpWeaponShotgunConfig;
+ASWeaponShotgunConfig gpWeaponShotgunConfig;
 
 enum WeaponShotgunAnim
 {
@@ -162,7 +163,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             player.pev.effects |= EF_MUZZLEFLASH;
             pev.effects |= EF_MUZZLEFLASH;
 
-            player.SetAnimation( PLAYER_ATTACK1 );
 
             Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
             Vector vecSrc = player.GetGunPosition();
@@ -202,8 +202,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity1, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity2, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-            if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-                player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+            CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
             self.m_flTimeWeaponIdle = g_Engine.time + 6.0f;
@@ -247,7 +246,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
         player.pev.effects |= EF_MUZZLEFLASH;
         pev.effects |= EF_MUZZLEFLASH;
 
-        player.SetAnimation( PLAYER_ATTACK1 );
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition();
@@ -285,8 +283,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
         Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         if( !isTrainedPersonal )
         {

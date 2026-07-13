@@ -11,7 +11,8 @@
 *.json linguist-language=AngelScript
 docs/* linguist-documentation=false
 *.py linguist-language=Python
-*.js linguist-language=JavaScript
+*.js linguist-language=TypeScript
+*.ts linguist-language=TypeScript
 *.html linguist-language=HTML
 *.css linguist-language=HTML
 *.md linguist-language=HTML

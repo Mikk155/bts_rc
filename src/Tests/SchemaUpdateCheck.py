@@ -39,7 +39,7 @@ class SchemaUpdateCheck( PyBuilder ):
 
                 shutil.copyfile( path, oldSchemaPath );
                 self.Log( f"Updated documentation's schema. make sure to commit the change." );
-                return False;
+                return True;
 
         return True;
 

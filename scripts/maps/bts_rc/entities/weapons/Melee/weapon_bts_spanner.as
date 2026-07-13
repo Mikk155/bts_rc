@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponSpannerConfig : ASMeleeWeaponConfig
+final class ASWeaponSpannerConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override
     {
@@ -58,24 +58,26 @@ class CWeaponSpannerConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 0;
-        this.position = 11;
-        this.deploy_time = 0.5;
-        this.primary_distance = 32;
-        this.primary_cooldown = 0.3;
-        this.primary_trained_cooldown = 0.2;
-        this.primary_miss_cooldown = 0.4;
-        this.primary_miss_trained_cooldown = 0.3;
-        this.subsequent_hits_deduction = 0.5;
-        this.primary_damage = 9;
-
-        return ASMeleeWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponSpannerConfig gpWeaponSpannerConfig;
+ASWeaponSpannerConfig gpWeaponSpannerConfig;
 
 enum WeaponSpannerAnim
 {
@@ -102,9 +104,11 @@ class weapon_bts_spanner : BTS_MeleeWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         TraceResult tr;
@@ -154,11 +158,6 @@ class weapon_bts_spanner : BTS_MeleeWeapon
 
             if( this.IsFlesh( hit ) )
             {
-                if( hit.IsPlayer() )
-                {
-                    hit.pev.velocity = hit.pev.velocity + ( self.pev.origin - hit.pev.origin ).Normalize() * 120.0f;
-                }
-
                 switch( RandomUint( 2 ) )
                 {
                     case 0:

@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponGlockConfig : ASWeaponConfig
+final class ASWeaponGlockConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -70,24 +70,32 @@ class CWeaponGlockConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 1;
-        this.position = 4;
-        this.weight = 10;
-        this.deploy_time = 0.45;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 17;
-        this.max_clip = 17;
-        this.primary_damage = 15;
-        this.primary_cooldown = 0.10;
-        this.primary_trained_cooldown = 0.05;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control glock configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 1.5f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponGlockConfig gpWeaponGlockConfig;
+ASWeaponGlockConfig gpWeaponGlockConfig;
 
 enum WeaponGlockAnim
 {
@@ -135,6 +143,12 @@ class weapon_bts_glock : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+                return;
+        }
+
         // Glock shoots on primary AND secondary attack (secondary is faster but less accurate)
         const float spread = ( type == AttackType::Primary ) ?
             Accuracy( 0.01f, 0.03f, 0.01f, 0.04f ) :
@@ -147,10 +161,13 @@ class weapon_bts_glock : BTS_FireWeapon
             return;
         }
 
-        // Wait for player to press attack key
-        if( ( player.m_afButtonPressed & ( IN_ATTACK | IN_ATTACK2 ) ) == 0 )
+        if( type == AttackType::Primary )
         {
-            return;
+            // Wait for player to press attack key
+            if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
+            {
+                return;
+            }
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
@@ -160,26 +177,16 @@ class weapon_bts_glock : BTS_FireWeapon
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
+        if( type == AttackType::Secondary )
         {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+            SetCooldown( isTrainedPersonal, AttackType::Secondary );
         }
-
-        self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
-        self.m_flNextPrimaryAttack = g_Engine.time + ( isTrainedPersonal ? 0.05f : 0.10f );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+        else
+        {
+            self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + gpWeaponGlockConfig.secondary_cooldown;
+            self.m_flNextPrimaryAttack = g_Engine.time + gpWeaponGlockConfig.GetCooldown( isTrainedPersonal, AttackType::Primary );
+            self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+        }
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponGlockConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponGlockConfig.max_clip, self.m_iClip != 0 ? WeaponGlockAnim::Reload : WeaponGlockAnim::ReloadEmpty, 1.5f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        PlaySound( "bts_rc/weapons/9mm_clip.wav", 0.2f );
-        BaseClass.Reload();
-    }
 }

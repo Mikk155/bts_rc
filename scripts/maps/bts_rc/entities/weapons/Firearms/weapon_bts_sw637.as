@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponSW637Config : ASWeaponConfig
+final class ASWeaponSW637Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -72,27 +72,32 @@ class CWeaponSW637Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control sw637 configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637", "ammo_bts_sw637" );
         g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637lmao", "ammo_bts_sw637lmao" );
-
-        this.slot = 1;
-        this.position = 17;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 60;
-        this.primary_dropammo = 5;
-        this.max_clip = 5;
-        this.primary_damage = 25;
-        this.primary_cooldown = 0.25;
-        this.primary_trained_cooldown = 0.25;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponSW637Config gpWeaponSW637Config;
+ASWeaponSW637Config gpWeaponSW637Config;
 
 enum WeaponSW637Anim
 {
@@ -194,9 +199,11 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         if( self.m_iClip <= 0 )

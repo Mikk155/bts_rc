@@ -15,8 +15,10 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponFlamethrowerConfig : ASWeaponConfig
+final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 {
+    int m_iFlameSprite;
+
     const string& GetName() const override
     {
         return "weapon_bts_flamethrower";
@@ -64,6 +66,7 @@ class CWeaponFlamethrowerConfig : ASWeaponConfig
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_flame.mdl" );
         g_Game.PrecacheModel( "models/hunger/w_gas.mdl" );
         g_Game.PrecacheModel( "sprites/bts_rc/fthrow.spr" );
+        this.m_iFlameSprite = g_EngineFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flmfire2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/flmgrexp.wav" );
@@ -75,26 +78,31 @@ class CWeaponFlamethrowerConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 5;
-        this.position = 5;
-        this.weight = 30;
-        this.deploy_time = 0.7;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 40;
-        this.max_clip = WEAPON_NOCLIP;
-        this.primary_damage = 18;
-        this.primary_cooldown = 0.1;
-        this.primary_trained_cooldown = 0.1;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control flamethrower configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
 
+    bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "flame_proj", "flame_proj" );
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponFlamethrowerConfig gpWeaponFlamethrowerConfig;
+ASWeaponFlamethrowerConfig gpWeaponFlamethrowerConfig;
 
 enum WeaponFlamethrowerAnim
 {
@@ -138,7 +146,7 @@ class flame_proj : ScriptBaseEntity
         m1.WriteCoord( vecOrigin.x );
         m1.WriteCoord( vecOrigin.y );
         m1.WriteCoord( vecOrigin.z - 10 );
-        m1.WriteShort( g_EngineFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" ) );
+        m1.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
         m1.WriteByte( 8 );
         m1.WriteByte( 16 );
         m1.WriteByte( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES );
@@ -171,13 +179,15 @@ class flame_proj : ScriptBaseEntity
         else
             @pevOwner = self.pev;
 
+        string szClassname = pOther.GetClassname();
+
         if( pOther.pev.takedamage != DAMAGE_NO && pOther.IsAlive() )
         {
             g_WeaponFuncs.ClearMultiDamage();
 
-            if( pOther.pev.classname == "monster_cleansuit_scientist" || pOther.IsMachine() )
+            if( szClassname == "monster_cleansuit_scientist" || pOther.IsMachine() )
                 pOther.TraceAttack( pevOwner, self.pev.dmg * 0.50, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
-            else if( pOther.pev.classname == "monster_gargantua" || pOther.pev.classname == "monster_babygarg" )
+            else if( szClassname == "monster_gargantua" || szClassname == "monster_babygarg" )
                 pOther.TraceAttack( pevOwner, self.pev.dmg * 0.45, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_SLOWBURN | DMG_NEVERGIB );
             else if( pOther.pev.model == "models/bts_rc/monsters/zombie_hev.mdl" )
                 pOther.TraceAttack( pevOwner, self.pev.dmg * 0.40, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
@@ -219,8 +229,12 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
-            return;
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
 
         if( player.pev.waterlevel == 3 )
         {
@@ -244,8 +258,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
         player.m_iWeaponVolume = LOUD_GUN_VOLUME;
 
-        PlayAnim( Math.RandomLong( WeaponFlamethrowerAnim::FLTHRW_FIRE1, WeaponFlamethrowerAnim::FLTHRW_FIRE4 ) );
-        player.SetAnimation( PLAYER_ATTACK1 );
+        PlayAnim( WeaponFlamethrowerAnim::FLTHRW_FIRE1 + RandomUint(3) );
 
         bool is_trained_personal = util::IsTrainedPersonal( player );
 
@@ -256,13 +269,12 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         Vector vecDir = player.pev.v_angle * Vector( -1, 1, 1 );
 
         CBaseEntity@ preFlame = g_EntityFuncs.Create( "flame_proj", vecSrc, vecDir, false, player.edict() );
-        flame_proj@ pFlame = cast<flame_proj@>( CastToScriptClass( preFlame ) );
-
-        Vector vecVelocity = g_Engine.v_forward * FLAME_SPEED;
-
-        pFlame.pev.velocity = vecVelocity;
-        pFlame.pev.angles = Math.VecToAngles( pFlame.pev.velocity.Normalize() );
-        pFlame.pev.avelocity.z = 10;
+        if( preFlame !is null )
+        {
+            preFlame.pev.velocity = g_Engine.v_forward * FLAME_SPEED;
+            preFlame.pev.angles = Math.VecToAngles( preFlame.pev.velocity.Normalize() );
+            preFlame.pev.avelocity.z = 10;
+        }
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.1;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.5;
@@ -271,7 +283,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
     float Idle() override
     {
         self.ResetEmptySound();
-        this.owner.GetAutoaimVector( AUTOAIM_5DEGREES );
 
         float flRand = Math.RandomFloat( 0.0f, 1.0f );
         if( flRand <= 0.5f )

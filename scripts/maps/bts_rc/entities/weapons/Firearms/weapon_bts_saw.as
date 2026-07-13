@@ -15,9 +15,9 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-CCVar g_M249Knockback( "m249_knockback", 1, "", ConCommandFlag::AdminOnly );
 
-class CWeaponSawConfig : ASWeaponConfig
+
+final class ASWeaponSawConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -69,24 +69,32 @@ class CWeaponSawConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 3;
-        this.position = 4;
-        this.weight = 20;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 150;
-        this.primary_dropammo = 50;
-        this.max_clip = 100;
-        this.primary_damage = 22;
-        this.primary_cooldown = 0.099;
-        this.primary_trained_cooldown = 0.099;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control saw configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.0f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponSawConfig gpWeaponSawConfig;
+ASWeaponSawConfig gpWeaponSawConfig;
 
 enum WeaponSawAnim
 {
@@ -143,15 +151,19 @@ class weapon_bts_saw : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
             self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
             return;
         }
-
-        if( type != AttackType::Primary )
-            return;
 
         player.m_iWeaponVolume = NORMAL_GUN_VOLUME;
         player.m_iWeaponFlash = NORMAL_GUN_FLASH;
@@ -161,8 +173,6 @@ class weapon_bts_saw : BTS_FireWeapon
 
         player.pev.effects |= EF_MUZZLEFLASH;
         pev.effects |= EF_MUZZLEFLASH;
-
-        player.SetAnimation( PLAYER_ATTACK1 );
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition();
@@ -207,13 +217,12 @@ class weapon_bts_saw : BTS_FireWeapon
         Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, player.pev.v_angle.y, m_bAlternatingEject ? m_iLink : models::saw_shell, TE_BOUNCE_SHELL );
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
-        if( g_EngineFuncs.CVarGetFloat( "m249_knockback" ) != 0.0f )
+        if( g_WeaponsConfig.m249_knockback )
         {
             const float flZVel = player.pev.velocity.z;
             Vector vecInvPushDir = g_Engine.v_forward * ( isTrainedPersonal ? 60.0f : 35.0f );
@@ -222,20 +231,7 @@ class weapon_bts_saw : BTS_FireWeapon
         }
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponSawConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        m_bFixBeltAfterReload = true;
-        RecalculateBody( self.m_iClip );
-        self.DefaultReload( gpWeaponSawConfig.max_clip, WeaponSawAnim::RELOAD_START, 2.0f, pev.body );
-        PlaySound( "bts_rc/weapons/saw_reload.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 4.4f;
-        SetThink( ThinkFunction( this.FinishAnim ) );
-        pev.nextthink = g_Engine.time + 1.94f;
-        BaseClass.Reload();
-    }
+    
 
     private void RecalculateBody( int iClip )
     {

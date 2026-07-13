@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponPythonConfig : ASWeaponConfig
+final class ASWeaponPythonConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -70,24 +70,32 @@ class CWeaponPythonConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 1;
-        this.position = 8;
-        this.weight = 10;
-        this.deploy_time = 1.0;
-        this.primary_maxammo = 18;
-        this.primary_dropammo = 6;
-        this.max_clip = 6;
-        this.primary_damage = 66;
-        this.primary_cooldown = 0.75;
-        this.primary_trained_cooldown = 0.75;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control python configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.0f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponPythonConfig gpWeaponPythonConfig;
+ASWeaponPythonConfig gpWeaponPythonConfig;
 
 enum WeaponPythonAnim
 {
@@ -148,9 +156,11 @@ class weapon_bts_python : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         if( self.m_iClip <= 0 )
@@ -167,24 +177,9 @@ class weapon_bts_python : BTS_FireWeapon
 
         player.pev.punchangle.x = util::IsTrainedPersonal( player ) ? -10.0f : -16.0f;
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponPythonConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponPythonConfig.max_clip, WeaponPythonAnim::Reload, 2.0f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + 3.0f;
-        BaseClass.Reload();
-    }
+    
 }

@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponGlockSDConfig : ASWeaponConfig
+final class ASWeaponGlockSDConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -126,28 +126,32 @@ class CWeaponGlockSDConfig : ASWeaponConfig
         }
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 1;
-        this.position = 5;
-        this.weight = 10;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 17;
-        this.secondary_maxammo = 10;
-        this.secondary_dropammo = 1;
-        this.max_clip = 17;
-        this.primary_damage = 16;
-        this.primary_cooldown = 0.10;
-        this.primary_trained_cooldown = 0.05;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.5;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control glocksd configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 1.5f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponGlockSDConfig gpWeaponGlockSDConfig;
+ASWeaponGlockSDConfig gpWeaponGlockSDConfig;
 
 enum WeaponGlockSDAnim
 {
@@ -227,6 +231,11 @@ class weapon_bts_glocksd : BTS_FireWeapon
 
     void ItemPostFrame()
     {
+        if( self.m_fInReload )
+        {
+            m_kLaserState = 0;
+        }
+
         UpdateLaser();
         BaseClass.ItemPostFrame();
     }
@@ -250,9 +259,11 @@ class weapon_bts_glocksd : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type != AttackType::Primary )
+        switch( type )
         {
-            return;
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
         }
 
         if( self.m_iClip <= 0 )
@@ -276,11 +287,6 @@ class weapon_bts_glocksd : BTS_FireWeapon
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
         
         self.m_flNextPrimaryAttack = g_Engine.time + ( isTrainedPersonal ? 0.05f : 0.10f );
@@ -292,24 +298,7 @@ class weapon_bts_glocksd : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponGlockSDConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        if( this.owner.FlashlightIsOn() )
-        {
-            this.owner.FlashlightTurnOff();
-        }
-        m_kLaserState = 0;
-
-        self.DefaultReload( gpWeaponGlockSDConfig.max_clip, self.m_iClip != 0 ? WeaponGlockSDAnim::Reload : WeaponGlockSDAnim::ReloadEmpty, 1.5f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        PlaySound( "bts_rc/weapons/9mm_clip.wav", 0.2f );
-        BaseClass.Reload();
-    }
+    
 
     private void UpdateLaser()
     {

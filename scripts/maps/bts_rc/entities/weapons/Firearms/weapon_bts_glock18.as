@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-class CWeaponGlock18Config : ASWeaponConfig
+final class ASWeaponGlock18Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -71,28 +71,32 @@ class CWeaponGlock18Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-
-
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 1;
-        this.position = 10;
-        this.weight = 10;
-        this.deploy_time = 0.6;
-        this.primary_maxammo = 120;
-        this.primary_dropammo = 19;
-        this.max_clip = 19;
-        this.primary_damage = 15;
-        this.primary_cooldown = 0.0625;
-        this.primary_trained_cooldown = 0.0625;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.5;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control glock18 configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.0f;
 
         return ASWeaponConfig::Register( json );
     }
 }
 
-CWeaponGlock18Config gpWeaponGlock18Config;
+ASWeaponGlock18Config gpWeaponGlock18Config;
 
 enum WeaponGlock18Anim
 {
@@ -153,16 +157,15 @@ class weapon_bts_glock18 : BTS_FireWeapon
         {
             m_iFireMode = Glock18Mode::FullAuto;
             g_EngineFuncs.ClientPrintf( this.owner, print_center, " Full-Auto\n" );
-            PlayAnim( WeaponGlock18Anim::AddSilencer );
             PlaySound( "hlclassic/weapons/reload2.wav", 0.8f, 112 );
         }
         else
         {
             m_iFireMode = Glock18Mode::SemiAuto;
             g_EngineFuncs.ClientPrintf( this.owner, print_center, " Semi-Auto\n" );
-            PlayAnim( WeaponGlock18Anim::AddSilencer );
             PlaySound( "hlclassic/weapons/reload2.wav", 0.8f, 98 );
         }
+        PlayAnim( WeaponGlock18Anim::AddSilencer );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
     }
@@ -202,25 +205,9 @@ class weapon_bts_glock18 : BTS_FireWeapon
             player.pev.punchangle.x = isTrainedPersonal ? -2.0f : float( Math.RandomLong( -6, 3 ) );
         }
 
-        if( self.m_iClip <= 0 && player.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 && util::IsHEV( player ) )
-        {
-            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
-        }
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == Glock18Mode::SemiAuto ) ? 0.3f : 0.0625f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    void Reload()
-    {
-        if( self.m_iClip == gpWeaponGlock18Config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-        {
-            return;
-        }
-
-        self.DefaultReload( gpWeaponGlock18Config.max_clip, self.m_iClip != 0 ? WeaponGlock18Anim::ReloadEmpty : WeaponGlock18Anim::Reload, 2.0f, pev.body );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
-        PlaySound( "bts_rc/weapons/9mm_clip.wav", 0.2f );
-        BaseClass.Reload();
-    }
+    
 }
