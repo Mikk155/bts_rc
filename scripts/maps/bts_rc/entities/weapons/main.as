@@ -37,16 +37,45 @@
 #include "Melee/weapon_bts_screwdriver"
 #include "Melee/weapon_crowbar"
 #include "Melee/weapon_bts_pipewrench"
+#include "Melee/weapon_bts_broom"
+#include "Melee/weapon_bts_spanner"
 
 // Special
 #include "Special/weapon_medkit"
 #include "Special/weapon_bts_flashlight"
 
 #include "base/BTS_FireWeapon"
+#include "Firearms/weapon_bts_beretta"
+#include "Firearms/weapon_bts_eagle"
+#include "Firearms/weapon_bts_glock"
+#include "Firearms/weapon_bts_glock17f"
+#include "Firearms/weapon_bts_glock18"
+#include "Firearms/weapon_bts_glocksd"
+#include "Firearms/weapon_bts_sw637"
+#include "Firearms/weapon_bts_python"
+#include "Firearms/weapon_bts_mp5"
+#include "Firearms/weapon_bts_mp5gl"
+#include "Firearms/weapon_bts_uzi"
+#include "Firearms/weapon_bts_uzisd"
+#include "Firearms/weapon_bts_m4"
+#include "Firearms/weapon_bts_m4sd"
+#include "Firearms/weapon_bts_m16"
+#include "Firearms/weapon_bts_m16sd"
+#include "Firearms/weapon_bts_sniperrifle"
+#include "Firearms/weapon_bts_shotgun"
+#include "Firearms/weapon_bts_sbshotgun"
+#include "Firearms/weapon_bts_saw"
+#include "Firearms/weapon_bts_sawsd"
+#include "Firearms/weapon_bts_m79"
+#include "Firearms/weapon_bts_xbow"
+#include "Firearms/weapon_bts_handgrenade"
+#include "Firearms/weapon_bts_flamethrower"
+#include "Firearms/weapon_bts_flare"
+#include "Firearms/weapon_bts_flaregun"
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
-final class CGlobalWeaponConfig : IConfigurable
+final class ASGlobalWeaponConfig : IConfigurable
 {
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
@@ -54,6 +83,7 @@ final class CGlobalWeaponConfig : IConfigurable
     float melee_weapons_push_force;
     bool blood_splash;
     bool sparks_splash;
+    bool m249_knockback;
 
     const string& GetName() const override
     {
@@ -107,6 +137,12 @@ final class CGlobalWeaponConfig : IConfigurable
                     "default": true,
                     "description": "Enable spark effects when hitting armored enemies."
                 },
+                "m249_knockback":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable M249 SAW knockback recoil pushing the player backward."
+                },
                 "flashlight_drain":
                 {
                     "type": "number",
@@ -119,6 +155,13 @@ final class CGlobalWeaponConfig : IConfigurable
                     "type": "integer",
                     "default": 10,
                     "minimum": 0,
+                    "description": "Quantity of ammo carry for flashlight weapons"
+                },
+                "flashlight_ammount":
+                {
+                    "type": "integer",
+                    "default": 100,
+                    "minimum": 10,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 }
             }
@@ -147,9 +190,13 @@ final class CGlobalWeaponConfig : IConfigurable
         this.melee_weapons_push_force = int( config[ "melee_weapons_push_force" ] );
         this.sparks_splash = bool( config[ "sparks_splash" ] );
         this.blood_splash = bool( config[ "blood_splash" ] );
+        this.m249_knockback = bool( config[ "m249_knockback" ] );
 
         Flashlight::Precache();
-        Flashlight::Register( config );
+
+        Flashlight::flashlight_drain = float( config[ "flashlight_drain" ] );
+        Flashlight::flashlight_capacity = int( config[ "flashlight_capacity" ] );
+        Flashlight::flashlight_ammount = int( config[ "flashlight_ammount" ] );
 
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( this.ItemMappingList );
@@ -161,4 +208,4 @@ final class CGlobalWeaponConfig : IConfigurable
     }
 }
 
-CGlobalWeaponConfig g_WeaponsConfig;
+ASGlobalWeaponConfig g_WeaponsConfig;

@@ -18,7 +18,7 @@
 namespace weapons
 {
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data
-    bool Hit( CBasePlayerWeapon@ weapon, CBasePlayer@ player, TraceResult&out tr, AttackType type, CBaseEntity@&out hit, ASMeleeWeaponConfig@ config, bool Shove = false )
+    bool Hit( CBasePlayerWeapon@ weapon, CBasePlayer@ player, TraceResult&out tr, AttackType type, CBaseEntity@&out hit, ASWeaponConfig@ config, bool Shove = false )
     {
         Math.MakeVectors( player.pev.v_angle );
         Vector vecSrc = player.GetGunPosition();

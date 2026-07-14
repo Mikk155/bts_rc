@@ -1,0 +1,197 @@
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
+*   
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*   
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
+*   
+*   The above copyright notice and this permission notice shall be included in all
+*   copies of the Software when distributed as a whole.
+*   
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
+
+final class ASWeaponUziConfig : ASWeaponConfig
+{
+    const string& GetName() const override
+    {
+        return "weapon_bts_uzi";
+    }
+
+    const string& get_player_model() override
+    {
+        return "models/bts_rc/weapons/p_uzi.mdl";
+    }
+
+    const string& get_world_model() override
+    {
+        return "models/bts_rc/weapons/w_uzi.mdl";
+    }
+
+    const string& get_view_model() override
+    {
+        return "models/bts_rc/weapons/v_uzi.mdl";
+    }
+
+    const string& get_animation_extension() override
+    {
+        return "mp5";
+    }
+
+    const string& get_primary_ammo() override
+    {
+        return "9mm";
+    }
+
+    const string& get_primary_ammoentity() override
+    {
+        return "ammo_bts_uzi";
+    }
+
+    const uint8 get_animation_draw() override
+    {
+        return WeaponUziAnim::Draw;
+    }
+
+    void Precache() override
+    {
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/uzi_fire1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget1.wav" );
+        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
+        ASWeaponConfig::Precache();
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control uzi configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ json ) override {
+        // Reload properties
+        this.reload_time = 2.75f;
+
+        return ASWeaponConfig::Register( json );
+    }
+}
+
+ASWeaponUziConfig gpWeaponUziConfig;
+
+enum WeaponUziAnim
+{
+    Idle1 = 0,
+    Idle2,
+    Idle3,
+    Reload,
+    Draw,
+    Shoot,
+    Draw2,
+    Hhhhh,
+    AkimboPull,
+    AkimboIdle,
+    AkimboReloadRight,
+    AkimboReloadLeft,
+    AkimboReloadBoth,
+    AkimboShootLeft,
+    AkimboShootRight,
+    AkimboShootBoth,
+    AkimboDeploy
+};
+
+class weapon_bts_uzi : BTS_FireWeapon
+{
+    ASWeaponConfig@ get_config() override
+    {
+        return @gpWeaponUziConfig;
+    }
+
+    void Spawn() override
+    {
+        self.m_iDefaultAmmo = Math.RandomLong( 6, gpWeaponUziConfig.max_clip );
+        BTS_FireWeapon::Spawn();
+    }
+
+    void Attack( CBasePlayer@ player, AttackType type ) override
+    {
+        switch( type )
+        {
+            case AttackType::Tertiary:
+            case AttackType::Secondary:
+                return;
+        }
+
+        if( self.m_iClip <= 0 )
+        {
+            this.PlayEmptySound();
+            self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
+            return;
+        }
+
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float cone = Accuracy( 0.015f, 0.0175f, 0.015f, 0.0175f );
+
+        FireBullet( 1, cone, gpWeaponUziConfig.primary_damage, "bts_rc/weapons/uzi_fire1.wav", WeaponUziAnim::Shoot, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
+
+        if( isTrainedPersonal )
+        {
+            player.pev.punchangle.x = -2.25f;
+        }
+        else
+        {
+            if( !player.pev.FlagBitSet( FL_ONGROUND ) )
+            {
+                player.pev.punchangle.x = float( Math.RandomLong( -5, 3 ) );
+            }
+            else if( player.pev.velocity.Length2D() > 0 )
+            {
+                player.pev.punchangle.x = float( Math.RandomLong( -4, 3 ) );
+            }
+            else if( player.pev.FlagBitSet( FL_DUCKING ) )
+            {
+                player.pev.punchangle.x = float( Math.RandomLong( -3, 2 ) );
+            }
+            else
+            {
+                player.pev.punchangle.x = float( Math.RandomLong( -3, 3 ) );
+            }
+        }
+
+        self.m_flNextPrimaryAttack = g_Engine.time + 0.07f;
+        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+    }
+
+    float Idle() override
+    {
+        self.ResetEmptySound();
+
+        switch( Math.RandomLong( 0, 2 ) )
+        {
+            case 0:
+                PlayAnim( WeaponUziAnim::Idle1 );
+                break;
+            case 1:
+                PlayAnim( WeaponUziAnim::Idle2 );
+                break;
+            default:
+                PlayAnim( WeaponUziAnim::Idle3 );
+                break;
+        }
+
+        return Math.RandomFloat( 7.0f, 9.0f );
+    }
+}

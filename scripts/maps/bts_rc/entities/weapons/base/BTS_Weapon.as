@@ -207,6 +207,25 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         g_SoundSystem.EmitSoundDyn( self.edict(), SOUND_CHANNEL::CHAN_WEAPON, soundName, volume, attenuation, 0, pitch );
     }
 
+    /// Call after decrementing clip or ammo to notify HEV users of depletion
+    void CheckDepletedAmmo( int ammoType )
+    {
+        bool isSecondary = ( ammoType == self.m_iSecondaryAmmoType );
+        if( ( isSecondary || self.m_iClip <= 0 ) && this.owner.m_rgAmmo( ammoType ) <= 0 && util::IsHEV( this.owner ) )
+            this.owner.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+    }
+
+    /// Returns true if the reload was initiated, false if conditions aren't met
+    bool ShouldReload( int iAnim, float flTime )
+    {
+        if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+            return false;
+
+        self.DefaultReload( config.max_clip, iAnim, flTime, pev.body );
+        self.m_flTimeWeaponIdle = g_Engine.time + flTime;
+        return true;
+    }
+
     // weapon attack
     void Attack( CBasePlayer@ player, AttackType type )
     {
@@ -237,5 +256,10 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     void SecondaryAttack()
     {
         __Attack__( AttackType::Secondary );
+    }
+
+    void TertiaryAttack()
+    {
+        __Attack__( AttackType::Tertiary );
     }
 }

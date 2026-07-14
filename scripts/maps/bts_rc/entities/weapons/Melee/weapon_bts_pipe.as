@@ -40,7 +40,7 @@ enum WeaponPipeAnim
     AttackBigLoop
 };
 
-final class CWeaponPipeConfig : ASMeleeWeaponConfig
+final class ASWeaponPipeConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_pipe";
@@ -77,31 +77,26 @@ final class CWeaponPipeConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 0;
-        this.position = 6;
-        this.weight = 10;
-        this.deploy_time = 0.7;
-        this.primary_distance = 32;
-        this.primary_damage = 16;
-        this.secondary_distance = 35;
-        this.secondary_damage = 27;
-        this.primary_cooldown = 0.75;
-        this.primary_trained_cooldown = 0.45;
-        this.primary_miss_cooldown = 1.34;
-        this.primary_miss_trained_cooldown = 1.1;
-        this.secondary_cooldown = 0.7;
-        this.secondary_trained_cooldown = 0.7;
-        this.secondary_miss_cooldown = 0.7;
-        this.secondary_miss_trained_cooldown = 0.7;
-        this.subsequent_hits_deduction = 0.5;
-
-        return ASMeleeWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponPipeConfig gpWeaponPipeConfig;
+ASWeaponPipeConfig gpWeaponPipeConfig;
 
 final class weapon_bts_pipe : BTS_MeleeCharge
 {
