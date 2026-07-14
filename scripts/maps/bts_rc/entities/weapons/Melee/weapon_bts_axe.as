@@ -40,7 +40,7 @@ enum WeaponAxeAnim
     ShoveMissAlt
 };
 
-final class CWeaponAxeConfig : ASMeleeWeaponConfig
+final class ASWeaponAxeConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_axe";
@@ -77,29 +77,26 @@ final class CWeaponAxeConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 0;
-        this.position = 10;
-        this.deploy_time = 0.7;
-        this.primary_distance = 45;
-        this.primary_cooldown = 0.8;
-        this.primary_trained_cooldown = 0.4;
-        this.primary_miss_cooldown = 1.25;
-        this.primary_miss_trained_cooldown = 0.90;
-        this.secondary_cooldown = 0.5;
-        this.secondary_trained_cooldown = 0.25;
-        this.secondary_miss_cooldown = 1.35;
-        this.secondary_miss_trained_cooldown = 1.0;
-        this.subsequent_hits_deduction = 0.5;
-        this.primary_damage = 20;
-        this.secondary_damage = 14;
-
-        return ASMeleeWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponAxeConfig gpWeaponAxeConfig;
+ASWeaponAxeConfig gpWeaponAxeConfig;
 
 final class weapon_bts_axe : BTS_MeleeWeapon
 {
@@ -122,8 +119,11 @@ final class weapon_bts_axe : BTS_MeleeWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Tertiary )
-            return;
+        switch( type )
+        {
+            case AttackType::Tertiary:
+                return;
+        }
 
         TraceResult tr;
         CBaseEntity@ hit = null;

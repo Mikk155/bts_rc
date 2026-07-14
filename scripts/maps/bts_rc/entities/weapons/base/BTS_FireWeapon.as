@@ -35,4 +35,93 @@ abstract class BTS_FireWeapon : BTS_Weapon
         }
         return def;
     }
+
+    void PlayEmptySound()
+    {
+        if( self.m_bPlayEmptySound )
+        {
+            self.m_bPlayEmptySound = false;
+            PlaySound( "hlclassic/weapons/357_cock1.wav", 0.8f );
+            CheckDepletedAmmo( self.m_iPrimaryAmmoType );
+        }
+    }
+
+    void FireBullet( int cShots, float flSpread, float flDamage, const string& in szSound, uint8 shootAnim, int iShellModel = -1, TE_BOUNCE iShellType = TE_BOUNCE_SHELL, float flVolume = 1.0f, int iPitch = 98 + Math.RandomLong( 0, 3 ), bool bMuzzleFlash = true, int iWeaponVolume = NORMAL_GUN_VOLUME, int iWeaponFlash = NORMAL_GUN_FLASH )
+    {
+        auto player = this.owner;
+
+        if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
+        {
+            this.PlayEmptySound();
+            return;
+        }
+
+        player.m_iWeaponVolume = iWeaponVolume;
+        player.m_iWeaponFlash = iWeaponFlash;
+
+        --self.m_iClip;
+        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
+
+        if( bMuzzleFlash )
+        {
+            player.pev.effects |= EF_MUZZLEFLASH;
+            pev.effects |= EF_MUZZLEFLASH;
+        }
+
+        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+        Vector vecSrc = player.GetGunPosition();
+        Vector vecAiming = player.GetAutoaimVector( AUTOAIM_5DEGREES );
+
+        float x, y;
+        g_Utility.GetCircularGaussianSpread( x, y );
+
+        Vector vecDir = vecAiming + x * flSpread * g_Engine.v_right + y * flSpread * g_Engine.v_up;
+        Vector vecEnd = vecSrc + vecDir * 8192.0f;
+
+        TraceResult tr;
+        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
+        self.FireBullets( cShots, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int( flDamage ), player.pev );
+        TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
+
+        PlayAnim( shootAnim );
+        PlaySound( szSound, flVolume, iPitch );
+
+        if( iShellModel != -1 )
+        {
+            Vector vecForward, vecRight, vecUp;
+            g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
+            Vector vecOrigin = player.GetGunPosition() + vecForward * 32.0f + vecRight * 6.0f - vecUp * 12.0f;
+            Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
+            float flYaw = player.pev.v_angle.y;
+            g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, flYaw, iShellModel, iShellType );
+        }
+    }
+
+    void Reload()
+    {
+        if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
+        {
+            return;
+        }
+
+        float flNextAttack = self.m_flNextPrimaryAttack - 0.3f;
+        if( flNextAttack > g_Engine.time )
+        {
+            return;
+        }
+
+        if( this.owner.FlashlightIsOn() )
+        {
+            this.owner.FlashlightTurnOff();
+        }
+
+        int anim = ( self.m_iClip != 0 ) ? config.reload_anim : config.reload_empty_anim;
+        self.DefaultReload( config.max_clip, anim, config.reload_time, pev.body );
+        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+        if( !config.reload_sound.IsEmpty() )
+        {
+            PlaySound( config.reload_sound, 0.2f );
+        }
+        BaseClass.Reload();
+    }
 }

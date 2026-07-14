@@ -41,7 +41,7 @@ enum WeaponKnifeAnim
     Stab
 };
 
-final class CWeaponKnifeConfig : ASMeleeWeaponConfig
+final class ASWeaponKnifeConfig : ASMeleeWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_knife";
@@ -83,31 +83,26 @@ final class CWeaponKnifeConfig : ASMeleeWeaponConfig
         ASMeleeWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    const string GetSchema() const override
     {
-        this.slot = 0;
-        this.position = 11;
-        this.weight = 10;
-        this.primary_distance = 32;
-        this.primary_damage = 18;
-        this.secondary_distance = 35;
-        this.secondary_damage = 35;
-        this.deploy_time = 0.6;
-        this.primary_cooldown = 0.35;
-        this.primary_trained_cooldown = 0.25;
-        this.primary_miss_cooldown = 0.75;
-        this.primary_miss_trained_cooldown = 0.5;
-        this.secondary_cooldown = 0.64;
-        this.secondary_trained_cooldown = 0.64;
-        this.secondary_miss_cooldown = 0.7;
-        this.secondary_miss_trained_cooldown = 0.7;
-        this.subsequent_hits_deduction = 0.5;
-
-        return ASMeleeWeaponConfig::Register( json );
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMeleeWeaponConfig"
+            ],
+            "properties":
+            {
+            }
+        }""";
     }
 }
 
-CWeaponKnifeConfig gpWeaponKnifeConfig;
+ASWeaponKnifeConfig gpWeaponKnifeConfig;
 
 final class weapon_bts_knife : BTS_MeleeCharge
 {

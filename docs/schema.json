@@ -55,6 +55,5014 @@
 					}
 				}
 			},
+			"items": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Items",
+				"description": "Control items configuration",
+				"properties": 
+				{
+					"battery_lighting": 
+					{
+						"title": "Lighting battery",
+						"type": "boolean",
+						"description": "If enabled, HEV batteries will emit a blue dynamic light.",
+						"default": true
+					}
+				}
+			},
+			"weapon_crowbar": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_screwdriver": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_poolstick": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_pipewrench": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_pipe": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_knife": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_axe": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_broom": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_spanner": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_beretta": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control beretta configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_eagle": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control eagle configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_glock": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control glock configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_glock17f": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control glock17f configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_glock18": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control glock18 configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_glocksd": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control glocksd configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_sw637": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control sw637 configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_python": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control python configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_mp5": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control mp5 configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_mp5gl": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control mp5gl configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_uzi": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control uzi configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_uzisd": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control uzisd configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_m4": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control m4 configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_m4sd": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control m4sd configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_m16": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control m16 configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_m16sd": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control m16sd configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_sniperrifle": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control sniperrifle configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_shotgun": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control shotgun configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_sbshotgun": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control sbshotgun configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_saw": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control saw configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_sawsd": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control sawsd configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_m79": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control m79 configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_xbow": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control xbox configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_handgrenade": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control handgrenade configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_flamethrower": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control flamethrower configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_flare": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control flare configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_flaregun": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control flaregun configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_medkit": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control medkit configuration",
+				"properties": 
+				{
+					"health_ammount": 
+					{
+						"type": "integer",
+						"description": "Ammount of health to heal"
+					},
+					"health_gain": 
+					{
+						"type": "integer"
+					},
+					"health_cost": 
+					{
+						"type": "integer"
+					},
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
+			"weapon_bts_flashlight": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Weapon configuration",
+				"description": "Control flashlight configuration",
+				"properties": 
+				{
+					"primary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"primary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"type": "integer"
+					},
+					"position": 
+					{
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"type": "integer"
+					},
+					"deploy_time": 
+					{
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"type": "number"
+					},
+					"tertiary_distance": 
+					{
+						"type": "number"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"primary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"type": "number"
+					},
+					"reload_time": 
+					{
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"type": "string"
+					}
+				}
+			},
 			"weapons": 
 			{
 				"type": "object",
@@ -101,6 +5109,12 @@
 						"default": true,
 						"description": "Enable spark effects when hitting armored enemies."
 					},
+					"m249_knockback": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Enable M249 SAW knockback recoil pushing the player backward."
+					},
 					"flashlight_drain": 
 					{
 						"type": "number",
@@ -113,6 +5127,13 @@
 						"type": "integer",
 						"default": 10,
 						"minimum": 0,
+						"description": "Quantity of ammo carry for flashlight weapons"
+					},
+					"flashlight_ammount": 
+					{
+						"type": "integer",
+						"default": 100,
+						"minimum": 10,
 						"description": "Quantity of ammo carry for flashlight weapons"
 					}
 				}
@@ -1111,1038 +6132,6 @@
 						"minimum": 0,
 						"maximum": 100,
 						"description": "Visibility percentage"
-					}
-				}
-			},
-			"items": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Items",
-				"description": "Control items configuration",
-				"properties": 
-				{
-					"battery_lighting": 
-					{
-						"title": "Lighting battery",
-						"type": "boolean",
-						"description": "If enabled, HEV batteries will emit a blue dynamic light.",
-						"default": true
-					}
-				}
-			},
-			"weapon_crowbar": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_screwdriver": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_poolstick": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_pipewrench": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_pipe": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_knife": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_axe": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_medkit": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Items",
-				"description": "Control medkit configuration",
-				"properties": 
-				{
-					"health_ammount": 
-					{
-						"type": "integer",
-						"description": "Ammount of health to heal"
-					},
-					"health_gain": 
-					{
-						"type": "integer"
-					},
-					"health_cost": 
-					{
-						"type": "integer"
-					},
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					}
-				}
-			},
-			"weapon_bts_flashlight": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
-				"properties": 
-				{
-					"primary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
-					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
 					}
 				}
 			},

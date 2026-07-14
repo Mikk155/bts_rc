@@ -1,8 +1,18 @@
+
 # 12/7/2026
 - The website was updated to replace JavaScript scripts with TypeScript scripts for ease of use and maintenance.
 - Updated & re-organization of various documentation structures.
 - Added github wiki section in the project workspace for ease of use including a workflow to automate upload of wikipedia.
 - Updated various instructions and general documentation to be more clear and concise.
+
+# 6/7/2026
+- Integrated all remaining firearms, heavy weapons, utility weapons, and projectile entities into the new config-driven architecture (`ASWeaponConfig`, `BTS_Weapon`, `BTS_FireWeapon`).
+- Customized M249 SAW belt lengths, Crossbow zoom HUD layouts, and Hand Grenade throwing velocity ranges.
+- Swapped projectile trace beams, lights, and smokes for M79 rockets, hand flares, and flamethrower fire from map-wide broadcasts (`MSG_BROADCAST`) to Potentially Visible Set broadcasts (`MSG_PVS`).
+
+# 5/7/2026
+- Ported weapon_bts_broom and weapon_bts_spanner to the new melee entity system.
+- Ported weapon_bts_beretta to the new firearms entity system (BTS_FireWeapon / ASWeaponConfig).
 
 # 30/6/2026
 - Added various player models (Requires download from MEGA)

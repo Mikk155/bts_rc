@@ -149,8 +149,52 @@ void MapInit()
     // Logger first
     g_MapConfig.Register( g_Logger );
 
-    // No ordering required:
+    // Items
+    g_MapConfig.Register( gpItemsConfig ); // Always active
+
+    // Weapons
+    g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
+    g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPoolstickConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeWrenchConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponBroomConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSpannerConfig ); // Always active
+    g_MapConfig.Register( gpWeaponBerettaConfig ); // Always active
+    g_MapConfig.Register( gpWeaponEagleConfig ); // Always active
+    g_MapConfig.Register( gpWeaponGlockConfig ); // Always active
+    g_MapConfig.Register( gpWeaponGlock17fConfig ); // Always active
+    g_MapConfig.Register( gpWeaponGlock18Config ); // Always active
+    g_MapConfig.Register( gpWeaponGlockSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSW637Config ); // Always active
+    g_MapConfig.Register( gpWeaponPythonConfig ); // Always active
+    g_MapConfig.Register( gpWeaponMP5Config ); // Always active
+    g_MapConfig.Register( gpWeaponMP5GLConfig ); // Always active
+    g_MapConfig.Register( gpWeaponUziConfig ); // Always active
+    g_MapConfig.Register( gpWeaponUziSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM4Config ); // Always active
+    g_MapConfig.Register( gpWeaponM4SDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM16Config ); // Always active
+    g_MapConfig.Register( gpWeaponM16SDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSniperRifleConfig ); // Always active
+    g_MapConfig.Register( gpWeaponShotgunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSBShotgunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSawConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSawSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM79Config ); // Always active
+    g_MapConfig.Register( gpWeaponXBowConfig ); // Always active
+    g_MapConfig.Register( gpWeaponHandGrenadeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlamethrowerConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlareConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlareGunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlashlight ); // Always active
+
     g_MapConfig.Register( g_WeaponsConfig ); // Always active
+
+    // No ordering required:
     g_MapConfig.Register( ASBloodPuddleConfig() );
     g_MapConfig.Register( ASDynamicAmmoConfig() );
     g_MapConfig.Register( ASZombieUncrabConfig() );
@@ -164,20 +208,6 @@ void MapInit()
     g_MapConfig.Register( gpRoboGruntBoss ); // Always active
     g_MapConfig.Register( gpZombieEngineer ); // Always active
     g_MapConfig.Register( gpPanthereyeConfig ); // Always active
-
-    // Items
-    g_MapConfig.Register( gpItemsConfig ); // Always active
-
-    // Weapons
-    g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
-    g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
-    g_MapConfig.Register( gpWeaponPoolstickConfig ); // Always active
-    g_MapConfig.Register( gpWeaponPipeWrenchConfig ); // Always active
-    g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
-    g_MapConfig.Register( gpWeaponFlashlight ); // Always active
 
     // Player characters
     g_MapConfig.Register( gpCharactersConfig ); // Always active
@@ -197,8 +227,6 @@ void MapInit()
         chrono.Stop();
         g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
-
-    oldweapons::init();
 
 #if SERVER
     if( g_IsMainMap )
