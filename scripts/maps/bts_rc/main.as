@@ -137,12 +137,6 @@ void MapActivate()
 
 void MapInit()
 {
-    meta_api::json::Error err;
-    if( !meta_api::json::v2::Deserialize( "scripts/maps/bts_rc/weapons_defaults.json", g_WeaponsDefaults, err ) )
-    {
-        @g_WeaponsDefaults = meta_api::json::v2::json();
-    }
-
     Server::chrono@ chrono = null;
 
     if( g_Logger.info.active )
