@@ -16,6 +16,7 @@ import Tests.SchemaCheck;
 import Tests.DependancyCheck;
 import Tests.SerializedJsonCheck;
 import Tests.SchemaUpdateCheck;
+import Tests.WeaponsDefaultCheck;
 
 def Main() -> int:
 
