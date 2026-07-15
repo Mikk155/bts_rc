@@ -1,5 +1,9 @@
 # 14/07/2026
-Intro
+## Pages
+- Fixed and improved the changelog section.
+
+## Map
+### Intro
 - added jpolito voiceline for Intro dialog
 - added ooleg voiceline for intro barney
 - added yomustdie voicelines to scientist
@@ -12,7 +16,7 @@ Intro
 - added skip button for intro sequence
 - added new geometry to help the map feel more blackmesa
 
-area 1
+### area 1
 - added new geometry to tram station help the map feel more blackmesa
 - added new layout for dorms lobby
 - updated dorms signs
@@ -45,7 +49,7 @@ area 1
 - added higher fps rate for steam to look more realistic
 - wall signage added for better navigation
 
-Area 2
+### Area 2
 - expanded truckbay area 1
 - expanded elevator lobby
 - expanded warehouse 3
@@ -77,7 +81,7 @@ Area 2
 - expanded stairwlel for better navigation as per 5.27
 - optimisation done around the map via clipping, hull2 and skip/noclip
 
-area 3
+### area 3
 - moved armoury keycard to canal
 - added water access for canal
 - added better generator model
@@ -116,7 +120,7 @@ area 3
 - better node placements for better navigation as per 5.27
 - doors made wider for better navigation as per 5.27
 
-area 4
+### area 4
 - signage added for better navigation
 - wall signage added for better navigation
 - chemical lobby adjusted slightly
@@ -153,10 +157,10 @@ area 4
 - lockdown updates sounds in area 1 and 4
 - lockdown dialog given to grunts
 
-Area 5
+### Area 5
 - will fill this out later
 
-Misc
+### Misc
 - will fill this out later
 
 # 12/7/2026

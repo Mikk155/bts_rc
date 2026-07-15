@@ -112,6 +112,22 @@ export async function initChangelog() : Promise<void>
             continue;
         }
 
+        if( line.startsWith( "## " ) )
+        {
+            let element: HTMLHeadingElement = document.createElement( "h2" );
+            element.innerHTML = line.substring(3);
+            elements.push( element );
+            continue;
+        }
+
+        if( line.startsWith( "### " ) )
+        {
+            let element: HTMLHeadingElement = document.createElement( "h3" );
+            element.innerHTML = line.substring(4);
+            elements.push( element );
+            continue;
+        }
+
         if( line.trim() === "" )
             continue;
 
