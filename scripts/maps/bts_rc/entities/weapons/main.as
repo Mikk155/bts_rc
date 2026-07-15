@@ -24,6 +24,7 @@
 // Base
 #include "config/ASWeaponConfig"
 #include "config/Flashlight"
+#include "config/LaserSpot"
 #include "config/ASMeleeWeaponConfig"
 #include "base/BTS_Weapon"
 #include "base/BTS_MeleeWeapon"

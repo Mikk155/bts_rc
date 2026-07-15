@@ -161,6 +161,7 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/w_glocksd4.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/weapon_m79.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
+    g_Game.PrecacheModel( "sprites/laserdot.spr" );
     g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );

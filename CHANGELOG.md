@@ -1,4 +1,8 @@
 # 14/07/2026
+## Scripts
+- Reused one laser spot entity per player slot instead of recreating it whenever the Desert Eagle is deployed.
+- Added a tertiary-fire laser toggle that remembers its state across weapon holsters.
+
 ## Pages
 - Fixed and improved the changelog section.
 

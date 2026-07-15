@@ -86,7 +86,6 @@ final class ASWeaponEagleConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_Game.PrecacheModel( "sprites/laserdot.spr" );
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_sight.wav" );
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_sight2.wav" );
@@ -169,30 +168,12 @@ enum WeaponEagleAnim
 
 class weapon_bts_eagle : BTS_FireWeapon
 {
-    private EHandle m_hLaser;
-    private int m_kLaserState = 0;
+    private bool m_bLaserEnabled = false;
+    private EHandle m_hLaserOwner;
 
     ASWeaponConfig@ get_config() override
     {
         return @gpWeaponEagleConfig;
-    }
-
-    private CBaseEntity@ get_m_pLaser() property
-    {
-        if( !m_hLaser )
-        {
-            m_hLaser = EHandle( g_EntityFuncs.CreateEntity( "info_target", null, false ) );
-            CBaseEntity@ laser = m_hLaser.GetEntity();
-            g_EntityFuncs.SetModel( laser, "sprites/laserdot.spr" );
-            laser.pev.movetype = MOVETYPE_NONE;
-            laser.pev.solid = SOLID_NOT;
-            laser.pev.scale = 0.75f;
-            laser.pev.rendermode = kRenderGlow;
-            laser.pev.renderamt = 255.0f;
-            laser.pev.renderfx = kRenderFxNoDissipation;
-            g_EntityFuncs.DispatchSpawn( laser.edict() );
-        }
-        return m_hLaser.GetEntity();
     }
 
     void Spawn() override
@@ -201,43 +182,77 @@ class weapon_bts_eagle : BTS_FireWeapon
         self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
         pev.scale = 1.2;
-        m_kLaserState = 0;
     }
 
     bool Deploy() override
     {
-        m_kLaserState = 0;
+        CBasePlayer@ player = this.owner;
+        CBasePlayer@ previousOwner = cast<CBasePlayer@>( this.m_hLaserOwner.GetEntity() );
+        if( previousOwner !is null && previousOwner !is player )
+            LaserSpot::Hide( previousOwner );
+
+        if( player !is null )
+        {
+            this.m_hLaserOwner = EHandle( player );
+
+            LaserSpot::ASPlayerLaserSpot@ laser = LaserSpot::Get( player );
+            if( laser !is null )
+            {
+                laser.Configure( "sprites/laserdot.spr", 0.75f, 8192.0f );
+
+                if( this.m_bLaserEnabled )
+                {
+                    laser.Show();
+                    laser.UpdateTrace( player );
+                }
+                else
+                {
+                    laser.Hide();
+                }
+            }
+        }
+
         return BTS_FireWeapon::Deploy();
     }
 
     void Holster( int skiplocal = 0 ) override
     {
-        if( m_hLaser )
-        {
-            g_EntityFuncs.Remove( m_hLaser.GetEntity() );
-        }
-        m_kLaserState = 0;
+        HideLaser();
         Flashlight::Holster( this.owner, self, null );
         BTS_FireWeapon::Holster( skiplocal );
     }
 
     void UpdateOnRemove() override
     {
-        if( m_hLaser )
-        {
-            g_EntityFuncs.Remove( m_hLaser.GetEntity() );
-        }
+        HideLaser();
         BTS_FireWeapon::UpdateOnRemove();
+    }
+
+    private void HideLaser()
+    {
+        CBasePlayer@ player = cast<CBasePlayer@>( this.m_hLaserOwner.GetEntity() );
+        if( player is null )
+            @player = this.owner;
+
+        LaserSpot::Hide( player );
     }
 
     void ItemPostFrame()
     {
-        if( self.m_fInReload )
+        if( this.m_bLaserEnabled && !self.m_fInReload )
         {
-            m_kLaserState = 0;
+            LaserSpot::ASPlayerLaserSpot@ laser = LaserSpot::Get( this.owner );
+            if( laser !is null )
+            {
+                laser.Show();
+                laser.UpdateTrace( this.owner );
+            }
+        }
+        else if( self.m_fInReload )
+        {
+            LaserSpot::Hide( this.owner );
         }
 
-        UpdateLaser();
         BaseClass.ItemPostFrame();
     }
 
@@ -289,6 +304,11 @@ class weapon_bts_eagle : BTS_FireWeapon
         switch( type )
         {
             case AttackType::Tertiary:
+            {
+                if( ( player.m_afButtonPressed & IN_ALT1 ) != 0 )
+                    ToggleLaser( player );
+                return;
+            }
             case AttackType::Secondary:
                 return;
         }
@@ -303,7 +323,8 @@ class weapon_bts_eagle : BTS_FireWeapon
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
         float cone = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
-        if( m_kLaserState != 1 )
+
+        if( !this.m_bLaserEnabled )
         {
             cone *= 3.0f;
         }
@@ -314,56 +335,32 @@ class weapon_bts_eagle : BTS_FireWeapon
 
         player.pev.punchangle.x = isTrainedPersonal ? -4.0f : -11.0f;
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( ( m_kLaserState != 0 ) ? 0.5f : 0.22f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + ( this.m_bLaserEnabled ? 0.5f : 0.22f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    
-
-    private void UpdateLaser()
+    private void ToggleLaser( CBasePlayer@ player )
     {
-        // Laser matches flashlight state
-        if( this.owner.FlashlightIsOn() )
+        if( player is null || self.m_fInReload )
+            return;
+
+        LaserSpot::ASPlayerLaserSpot@ laser = LaserSpot::Get( player );
+        if( laser is null )
+            return;
+
+        this.m_bLaserEnabled = !this.m_bLaserEnabled;
+        if( this.m_bLaserEnabled )
         {
-            if( m_kLaserState == 0 )
-            {
-                m_kLaserState = 2; // trigger deploy sound and activation on next tick
-            }
+            laser.Show();
+            laser.UpdateTrace( player );
+            PlaySound( "weapons/desert_eagle_sight.wav" );
         }
         else
         {
-            m_kLaserState = 0;
-            if( m_hLaser )
-            {
-                m_hLaser.GetEntity().pev.effects |= EF_NODRAW;
-            }
-            return;
+            laser.Hide();
+            PlaySound( "weapons/desert_eagle_sight2.wav" );
         }
 
-        if( m_kLaserState == 0 )
-        {
-            return;
-        }
-
-        Math.MakeVectors( this.owner.pev.v_angle );
-        Vector vecSrc = this.owner.GetGunPosition();
-        Vector vecEnd = vecSrc + ( g_Engine.v_forward * 8192.0f );
-
-        TraceResult tr;
-        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, this.owner.edict(), tr );
-        g_EntityFuncs.SetOrigin( m_pLaser, tr.vecEndPos );
-
-        if( m_kLaserState == 2 )
-        {
-            m_kLaserState = 1;
-            m_pLaser.pev.effects &= ~EF_NODRAW;
-            PlaySound( "weapons/desert_eagle_sight.wav" );
-        }
-
-        if( m_pLaser.pev.dmgtime != 0.0f && g_Engine.time > m_pLaser.pev.dmgtime )
-        {
-            m_pLaser.pev.dmgtime = 0.0f;
-            m_pLaser.pev.effects &= ~EF_NODRAW;
-        }
+        self.m_flNextTertiaryAttack = g_Engine.time + 0.25f;
     }
 }

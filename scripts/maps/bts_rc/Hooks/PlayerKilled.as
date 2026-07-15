@@ -22,6 +22,8 @@ namespace Hooks
         if( player is null )
             return HOOK_CONTINUE;
 
+        LaserSpot::Hide( player );
+
         auto character = GetCharacter(player);
 
         if( character is null )
