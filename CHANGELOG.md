@@ -1,4 +1,8 @@
 # 14/07/2026
+## Scripts
+- Fixed the standalone flashlight remaining active after switching or dropping it and prevented interrupted battery reloads from granting a full charge.
+- Corrected M4 and suppressed M4 animation sequences for fire-mode changes, reloads, draws, firing, and idles.
+
 ## Pages
 - Fixed and improved the changelog section.
 
