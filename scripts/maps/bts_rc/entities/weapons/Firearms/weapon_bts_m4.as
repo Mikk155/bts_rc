@@ -96,13 +96,13 @@ ASWeaponM4Config gpWeaponM4Config;
 enum WeaponM4Anim
 {
     LONGIDLE = 0,
-    IDLE1,
-    SEMIE,
-    RELOAD,
-    DRAW,
-    SHOOT1,
-    SHOOT2,
-    SHOOT3
+    IDLE1 = 1,
+    FIREMODE = 2,
+    RELOAD = 3,
+    DRAW = 4,
+    SHOOT1 = 5,
+    SHOOT2 = 6,
+    SHOOT3 = 7
 };
 
 enum M4Mode
@@ -143,7 +143,7 @@ class weapon_bts_m4 : BTS_FireWeapon
                 g_EngineFuncs.ClientPrintf( player, print_center, " Semi\n" );
                 PlaySound( "bts_rc/weapons/grenade_pinpull.wav", 0.8f, 115 );
             }
-            PlayAnim( WeaponM4Anim::LONGIDLE );
+            PlayAnim( WeaponM4Anim::FIREMODE );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;

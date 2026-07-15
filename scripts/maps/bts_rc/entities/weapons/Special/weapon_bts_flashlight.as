@@ -78,12 +78,6 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
         return WeaponFlashlightAnim::Draw;
     }
 
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Holster( player, weapon, character );
-        ASMeleeWeaponConfig::WeaponHolster( player, weapon, character );
-    }
-
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         Flashlight::Think( player, weapon, character, this, this.flashlight_model );
@@ -158,6 +152,12 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
     {
         self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         BTS_MeleeWeapon::Spawn();
+    }
+
+    void Holster( int skiplocal = 0 ) override
+    {
+        Flashlight::Holster( this.owner, self, null );
+        BTS_MeleeWeapon::Holster( skiplocal );
     }
 
     float Idle() override
