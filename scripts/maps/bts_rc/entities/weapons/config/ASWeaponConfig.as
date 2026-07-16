@@ -328,103 +328,53 @@ abstract class ASWeaponConfig : IConfigurable
         }""";
     }
 
-    private weakref<meta_api::json::v2::json> m_CustomJson;
-    private weakref<meta_api::json::v2::json> m_DefaultJson;
-
-    void FirstOrDefault( const string&in name, float&out fValue )
+    bool Register( meta_api::json::v2::json@ config ) override
     {
-        auto@ custom = this.m_CustomJson.get();
+        this.primary_maxammo = config.ValueOrDefault( "primary_maxammo", this.primary_maxammo );
 
-        if( custom !is null && custom.Get( name, fValue, false ) )
-            return;
+        this.secondary_maxammo = config.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo );
 
-        auto@ defaults = this.m_DefaultJson.get();
+        this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo );
+        this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo );
 
-        if( defaults !is null && defaults.Get( name, fValue, false ) )
-        {
-            if( custom !is null && g_MapConfig.WritingSchema() )
-            {
-                custom.Set( name, fValue );
-            }
-        }
-    }
+        this.primary_damage = config.ValueOrDefault( "primary_damage", this.primary_damage );
+        this.secondary_damage = config.ValueOrDefault( "secondary_damage", this.secondary_damage );
+        this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage );
 
-    void FirstOrDefault( const string&in name, string&out sValue )
-    {
-        auto@ custom = this.m_CustomJson.get();
+        this.primary_cooldown = config.ValueOrDefault( "primary_cooldown", this.primary_cooldown );
+        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown );
 
-        if( custom !is null && custom.Get( name, sValue ) )
-            return;
+        this.secondary_cooldown = config.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown );
+        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown );
 
-        auto@ defaults = this.m_DefaultJson.get();
+        this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown );
+        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown );
 
-        if( defaults !is null && defaults.Get( name, sValue ) )
-        {
-            if( custom !is null && g_MapConfig.WritingSchema() )
-            {
-                custom.Set( name, sValue );
-            }
-        }
-    }
-
-    // stupid overload to stupidly supress stupid warnings
-    void FirstOrDefault( const string&in name, int&out iValue )
-    {
-        float fValue;
-        this.FirstOrDefault( name, fValue );
-        iValue = int( fValue );
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        this.m_CustomJson.opHndlAssign( json );
-        this.m_DefaultJson.opHndlAssign( g_WeaponsDefaults[ this.GetName() ] );
-
-        this.FirstOrDefault( "primary_maxammo", this.primary_maxammo );
-
-        this.FirstOrDefault( "secondary_maxammo", this.secondary_maxammo );
-
-        this.FirstOrDefault( "primary_dropammo", this.primary_dropammo );
-        this.FirstOrDefault( "secondary_dropammo", this.secondary_dropammo );
-
-        this.FirstOrDefault( "primary_damage", this.primary_damage );
-        this.FirstOrDefault( "secondary_damage", this.secondary_damage );
-        this.FirstOrDefault( "tertiary_damage", this.tertiary_damage );
-
-        this.FirstOrDefault( "primary_cooldown", this.primary_cooldown );
-        this.FirstOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown );
-
-        this.FirstOrDefault( "secondary_cooldown", this.secondary_cooldown );
-        this.FirstOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown );
-
-        this.FirstOrDefault( "tertiary_cooldown", this.tertiary_cooldown );
-        this.FirstOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown );
-
-        this.FirstOrDefault( "max_clip", this.max_clip );
-        this.FirstOrDefault( "slot", this.slot );
-        this.FirstOrDefault( "position", this.position );
-        this.FirstOrDefault( "weight", this.weight );
-        this.FirstOrDefault( "deploy_time", this.deploy_time );
+        this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip );
+        this.slot = config.ValueOrDefault( "slot", this.slot );
+        this.position = config.ValueOrDefault( "position", this.position );
+        this.weight = config.ValueOrDefault( "weight", this.weight );
+        this.deploy_time = config.ValueOrDefault( "deploy_time", this.deploy_time );
 
         // Melee properties
-        this.FirstOrDefault( "primary_distance", this.primary_distance );
-        this.FirstOrDefault( "secondary_distance", this.secondary_distance );
-        this.FirstOrDefault( "tertiary_distance", this.tertiary_distance );
+        this.primary_distance = config.ValueOrDefault( "primary_distance", this.primary_distance );
+        this.secondary_distance = config.ValueOrDefault( "secondary_distance", this.secondary_distance );
+        this.tertiary_distance = config.ValueOrDefault( "tertiary_distance", this.tertiary_distance );
 
         // -TODO Should maybe schema this and some more other variables.
-        this.FirstOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction );
+        this.subsequent_hits_deduction = config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction );
         this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
 
-        this.FirstOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown );
-        this.FirstOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
-        this.FirstOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
-        this.FirstOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
+        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown );
+        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
+        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
+        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
 
         // Reload properties
-        this.FirstOrDefault( "reload_time", this.reload_time );
-        this.FirstOrDefault( "reload_anim", this.reload_anim );
-        this.FirstOrDefault( "reload_empty_anim", this.reload_empty_anim );
-        this.FirstOrDefault( "reload_sound", this.reload_sound );
+        this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time );
+        this.reload_anim = config.ValueOrDefault( "reload_anim", this.reload_anim );
+        this.reload_empty_anim = config.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim );
+        this.reload_sound = config.ValueOrDefault( "reload_sound", this.reload_sound );
 
         this.Precache();
         this.RegisterWeapon();

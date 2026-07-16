@@ -122,9 +122,7 @@ final class ASMapConfig
         meta_api::json::Error err;
 
         if( !meta_api::json::v2::Deserialize( this.__GetDefaultWeaponConfig__(), g_WeaponsDefaults ) )
-        {
-            @g_WeaponsDefaults = meta_api::json::v2::json();
-        }
+            g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultWeaponConfig__()\"" );
 
         if( !meta_api::json::v2::Deserialize( "store/bts_rc.json", this.m_json, err ) )
         {
@@ -279,6 +277,24 @@ final class ASMapConfig
 #endif
             if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
             {
+                auto@ wpnDefaults = g_WeaponsDefaults[ context.GetName() ];
+
+                // Inject weapon data
+                if( wpnDefaults !is null )
+                {
+                    auto@ weaponProperties = schema.ValueOrDefault( "properties", null, true );
+
+                    uint wpnLength = wpnDefaults.Length();
+                    const array<string>@ wpnKeys = wpnDefaults.Keys;
+
+                    for( uint ui2 = 0; ui2 < wpnLength; ui2++ )
+                    {
+                        string keyName = wpnKeys[ ui2 ];
+                        auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
+                        weaponProperty.Set( "default", wpnDefaults[ keyName ] );
+                    }
+                }
+
                 if( schema.Contains( "allOf" ) )
                 {
                     auto@ allOf = schema[ "allOf" ];
