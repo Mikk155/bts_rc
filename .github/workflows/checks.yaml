@@ -1,4 +1,4 @@
-name: Pull Request Verification
+name: Source verification
 
 on:
   pull_request:
