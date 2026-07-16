@@ -34,7 +34,7 @@ enum WeaponPoolstickAnim
     Idle2
 };
 
-final class ASWeaponPoolstickConfig : ASMeleeWeaponConfig
+final class ASWeaponPoolstickConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_poolstick";
@@ -68,25 +68,7 @@ final class ASWeaponPoolstickConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "debris/wood1.wav" );
         g_SoundSystem.PrecacheSound( "debris/wood2.wav" );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 
