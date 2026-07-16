@@ -328,94 +328,103 @@ abstract class ASWeaponConfig : IConfigurable
         }""";
     }
 
+    private weakref<meta_api::json::v2::json> m_CustomJson;
+    private weakref<meta_api::json::v2::json> m_DefaultJson;
+
+    void FirstOrDefault( const string&in name, float&out fValue )
+    {
+        auto@ custom = this.m_CustomJson.get();
+
+        if( custom !is null && custom.Get( name, fValue, false ) )
+            return;
+
+        auto@ defaults = this.m_DefaultJson.get();
+
+        if( defaults !is null && defaults.Get( name, fValue, false ) )
+        {
+            if( custom !is null && g_MapConfig.WritingSchema() )
+            {
+                custom.Set( name, fValue );
+            }
+        }
+    }
+
+    void FirstOrDefault( const string&in name, string&out sValue )
+    {
+        auto@ custom = this.m_CustomJson.get();
+
+        if( custom !is null && custom.Get( name, sValue ) )
+            return;
+
+        auto@ defaults = this.m_DefaultJson.get();
+
+        if( defaults !is null && defaults.Get( name, sValue ) )
+        {
+            if( custom !is null && g_MapConfig.WritingSchema() )
+            {
+                custom.Set( name, sValue );
+            }
+        }
+    }
+
+    // stupid overload to stupidly supress stupid warnings
+    void FirstOrDefault( const string&in name, int&out iValue )
+    {
+        float fValue;
+        this.FirstOrDefault( name, fValue );
+        iValue = int( fValue );
+    }
+
     bool Register( meta_api::json::v2::json@ json ) override
     {
-        if( g_WeaponsDefaults !is null && g_WeaponsDefaults.Contains( this.GetName() ) )
-        {
-            auto defaults = g_WeaponsDefaults[ this.GetName() ];
+        this.m_CustomJson.opHndlAssign( json );
+        this.m_DefaultJson.opHndlAssign( g_WeaponsDefaults[ this.GetName() ] );
 
-            this.primary_maxammo = defaults.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
-            this.secondary_maxammo = defaults.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
+        this.FirstOrDefault( "primary_maxammo", this.primary_maxammo );
 
-            this.primary_dropammo = defaults.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
-            this.secondary_dropammo = defaults.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
+        this.FirstOrDefault( "secondary_maxammo", this.secondary_maxammo );
 
-            this.primary_damage = defaults.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
-            this.secondary_damage = defaults.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
-            this.tertiary_damage = defaults.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
+        this.FirstOrDefault( "primary_dropammo", this.primary_dropammo );
+        this.FirstOrDefault( "secondary_dropammo", this.secondary_dropammo );
 
-            this.primary_cooldown = defaults.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
-            this.primary_trained_cooldown = defaults.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
+        this.FirstOrDefault( "primary_damage", this.primary_damage );
+        this.FirstOrDefault( "secondary_damage", this.secondary_damage );
+        this.FirstOrDefault( "tertiary_damage", this.tertiary_damage );
 
-            this.secondary_cooldown = defaults.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
-            this.secondary_trained_cooldown = defaults.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
+        this.FirstOrDefault( "primary_cooldown", this.primary_cooldown );
+        this.FirstOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown );
 
-            this.tertiary_cooldown = defaults.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
-            this.tertiary_trained_cooldown = defaults.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
+        this.FirstOrDefault( "secondary_cooldown", this.secondary_cooldown );
+        this.FirstOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown );
 
-            this.max_clip = defaults.ValueOrDefault( "max_clip", this.max_clip, false, false );
-            this.slot = defaults.ValueOrDefault( "slot", this.slot, false, false );
-            this.position = defaults.ValueOrDefault( "position", this.position, false, false );
-            this.weight = defaults.ValueOrDefault( "weight", this.weight, false, false );
-            this.deploy_time = defaults.ValueOrDefault( "deploy_time", this.deploy_time, false, false );
+        this.FirstOrDefault( "tertiary_cooldown", this.tertiary_cooldown );
+        this.FirstOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown );
 
-            // Melee properties
-            this.primary_distance = defaults.ValueOrDefault( "primary_distance", this.primary_distance, false, false );
-            this.secondary_distance = defaults.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
-            this.tertiary_distance = defaults.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
-            this.subsequent_hits_deduction = defaults.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false );
-            this.primary_miss_cooldown = defaults.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
-            this.primary_miss_trained_cooldown = defaults.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
-            this.secondary_miss_cooldown = defaults.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
-            this.secondary_miss_trained_cooldown = defaults.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
-
-            // Reload properties
-            this.reload_time = defaults.ValueOrDefault( "reload_time", this.reload_time, false, false );
-            this.reload_anim = defaults.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
-            this.reload_empty_anim = defaults.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
-            this.reload_sound = defaults.ValueOrDefault( "reload_sound", this.reload_sound );
-        }
-
-        this.primary_maxammo = json.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
-        this.secondary_maxammo = json.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
-
-        this.primary_dropammo = json.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
-        this.secondary_dropammo = json.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
-
-        this.primary_damage = json.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
-        this.secondary_damage = json.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
-        this.tertiary_damage = json.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
-
-        this.primary_cooldown = json.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
-        this.primary_trained_cooldown = json.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
-
-        this.secondary_cooldown = json.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
-        this.secondary_trained_cooldown = json.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
-
-        this.tertiary_cooldown = json.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
-        this.tertiary_trained_cooldown = json.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
-
-        this.max_clip = json.ValueOrDefault( "max_clip", this.max_clip, false, false );
-        this.slot = json.ValueOrDefault( "slot", this.slot, false, false );
-        this.position = json.ValueOrDefault( "position", this.position, false, false );
-        this.weight = json.ValueOrDefault( "weight", this.weight, false, false );
-        this.deploy_time = json.ValueOrDefault( "deploy_time", this.deploy_time, false, false );
+        this.FirstOrDefault( "max_clip", this.max_clip );
+        this.FirstOrDefault( "slot", this.slot );
+        this.FirstOrDefault( "position", this.position );
+        this.FirstOrDefault( "weight", this.weight );
+        this.FirstOrDefault( "deploy_time", this.deploy_time );
 
         // Melee properties
-        this.primary_distance = json.ValueOrDefault( "primary_distance", this.primary_distance, false, false );
-        this.secondary_distance = json.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
-        this.tertiary_distance = json.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
-        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, json.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false ) ) );
-        this.primary_miss_cooldown = json.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
-        this.primary_miss_trained_cooldown = json.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
-        this.secondary_miss_cooldown = json.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
-        this.secondary_miss_trained_cooldown = json.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
+        this.FirstOrDefault( "primary_distance", this.primary_distance );
+        this.FirstOrDefault( "secondary_distance", this.secondary_distance );
+        this.FirstOrDefault( "tertiary_distance", this.tertiary_distance );
+
+        // -TODO Should maybe schema this and some more other variables.
+        this.FirstOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction );
+        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
+
+        this.FirstOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown );
+        this.FirstOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
+        this.FirstOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
+        this.FirstOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
 
         // Reload properties
-        this.reload_time = json.ValueOrDefault( "reload_time", this.reload_time, false, false );
-        this.reload_anim = json.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
-        this.reload_empty_anim = json.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
-        this.reload_sound = json.ValueOrDefault( "reload_sound", this.reload_sound );
+        this.FirstOrDefault( "reload_time", this.reload_time );
+        this.FirstOrDefault( "reload_anim", this.reload_anim );
+        this.FirstOrDefault( "reload_empty_anim", this.reload_empty_anim );
+        this.FirstOrDefault( "reload_sound", this.reload_sound );
 
         this.Precache();
         this.RegisterWeapon();
