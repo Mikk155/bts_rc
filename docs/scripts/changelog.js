@@ -1,3 +1,4 @@
+import { DEV } from "../main.js";
 export async function initChangelog() {
     const container = document.getElementById("changelog");
     if (!container) {
@@ -6,8 +7,12 @@ export async function initChangelog() {
     }
     let res;
     try {
-        //        res = await fetch( "../CHANGELOG.md" );
-        res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
+        if (DEV) {
+            res = await fetch("../CHANGELOG.md");
+        }
+        else {
+            res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
+        }
     }
     catch (err) {
         console.error("Fetch failed:", err);
@@ -22,6 +27,7 @@ export async function initChangelog() {
     const lines = (await res.text())
         .replace(/\r/g, "")
         .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+        .replace(/``(.*?)``/g, "<code class=\"terminal\">$1</code>")
         .replace(/`(.*?)`/g, "<code>$1</code>")
         .split("\n");
     function pushSection(title, elements, container) {
@@ -43,20 +49,23 @@ export async function initChangelog() {
         let ListElements = null;
         for (const element of elements) {
             if (element instanceof HTMLLIElement) {
-                if (!ListElements)
+                if (!ListElements) {
                     ListElements = document.createElement("ul");
+                }
                 ListElements.appendChild(element);
                 continue;
             }
             else {
-                if (ListElements)
+                if (ListElements) {
                     content.appendChild(ListElements);
+                }
                 ListElements = null;
             }
             content.appendChild(element);
         }
-        if (ListElements)
+        if (ListElements) {
             content.appendChild(ListElements);
+        }
         item.appendChild(header);
         item.appendChild(content);
         container.appendChild(item);
@@ -91,10 +100,12 @@ export async function initChangelog() {
         if (line.trim() === "")
             continue;
         let element = document.createElement("p");
-        if (line[0] == " " || line[0] == "\t")
+        if (line[0] == " " || line[0] == "\t") {
             element.innerHTML = `<pre>${line}</pre>`;
-        else
+        }
+        else {
             element.innerHTML = line;
+        }
         elements.push(element);
     }
     pushSection(title, elements, container);
