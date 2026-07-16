@@ -6,8 +6,8 @@ export async function initChangelog() {
     }
     let res;
     try {
-        res = await fetch("../CHANGELOG.md");
-        //        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+        //        res = await fetch( "../CHANGELOG.md" );
+        res = await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
     }
     catch (err) {
         console.error("Fetch failed:", err);
@@ -21,8 +21,6 @@ export async function initChangelog() {
     container.innerHTML = "";
     const lines = (await res.text())
         .replace(/\r/g, "")
-        .replace(/\t/g, "<pre>    </pre>")
-        .replace("    ", "<pre>    </pre>")
         .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
         .replace(/`(.*?)`/g, "<code>$1</code>")
         .split("\n");
@@ -93,7 +91,10 @@ export async function initChangelog() {
         if (line.trim() === "")
             continue;
         let element = document.createElement("p");
-        element.innerHTML = line;
+        if (line[0] == " " || line[0] == "\t")
+            element.innerHTML = `<pre>${line}</pre>`;
+        else
+            element.innerHTML = line;
         elements.push(element);
     }
     pushSection(title, elements, container);
