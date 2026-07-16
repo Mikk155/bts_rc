@@ -12,8 +12,8 @@ export async function initChangelog() : Promise<void>
 
     try
     {
-        res = await fetch( "../CHANGELOG.md" );
-//        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+//        res = await fetch( "../CHANGELOG.md" );
+        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
     }
     catch( err )
     {
@@ -32,8 +32,6 @@ export async function initChangelog() : Promise<void>
 
     const lines : string[] = ( await res.text() )
         .replace( /\r/g, "" )
-        .replace( /\t/g, "<pre>    </pre>" )
-        .replace( "    ", "<pre>    </pre>" )
         .replace( /\*\*(.*?)\*\*/g, "<b>$1</b>" )
         .replace( /`(.*?)`/g, "<code>$1</code>" )
         .split( "\n" );
@@ -132,7 +130,10 @@ export async function initChangelog() : Promise<void>
             continue;
 
         let element: HTMLParagraphElement = document.createElement( "p" );
-        element.innerHTML = line;
+        if( line[0] == " " || line[0] == "\t" )
+            element.innerHTML = `<pre>${line}</pre>`;
+        else
+            element.innerHTML = line;
         elements.push( element );
     }
 
