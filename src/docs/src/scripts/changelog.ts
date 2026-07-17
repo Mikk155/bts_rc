@@ -1,3 +1,5 @@
+import { DEV } from "../main.js";
+
 export async function initChangelog() : Promise<void>
 {
     const container : HTMLElement | null = document.getElementById( "changelog" );
@@ -12,8 +14,14 @@ export async function initChangelog() : Promise<void>
 
     try
     {
-        res = await fetch( "../CHANGELOG.md" );
-//        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+        if( DEV )
+        {
+            res = await fetch( "../CHANGELOG.md" );
+        }
+        else
+        {
+            res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+        }
     }
     catch( err )
     {
@@ -32,9 +40,8 @@ export async function initChangelog() : Promise<void>
 
     const lines : string[] = ( await res.text() )
         .replace( /\r/g, "" )
-        .replace( /\t/g, "<pre>    </pre>" )
-        .replace( "    ", "<pre>    </pre>" )
         .replace( /\*\*(.*?)\*\*/g, "<b>$1</b>" )
+        .replace( /``(.*?)``/g, "<code class=\"terminal\">$1</code>" )
         .replace( /`(.*?)`/g, "<code>$1</code>" )
         .split( "\n" );
 
@@ -69,14 +76,21 @@ export async function initChangelog() : Promise<void>
             if( element instanceof HTMLLIElement )
             {
                 if( !ListElements )
+                {
                     ListElements = document.createElement( "ul" );
+                }
+
                 ListElements.appendChild( element );
+
                 continue;
             }
             else
             {
                 if( ListElements )
+                {
                     content.appendChild( ListElements );
+                }
+
                 ListElements = null;
             }
 
@@ -84,10 +98,13 @@ export async function initChangelog() : Promise<void>
         }
 
         if( ListElements )
+        {
             content.appendChild( ListElements );
+        }
 
         item.appendChild( header );
         item.appendChild( content );
+
         container.appendChild( item );
     }
 
@@ -132,7 +149,16 @@ export async function initChangelog() : Promise<void>
             continue;
 
         let element: HTMLParagraphElement = document.createElement( "p" );
-        element.innerHTML = line;
+
+        if( line[0] == " " || line[0] == "\t" )
+        {
+            element.innerHTML = `<pre>${line}</pre>`;
+        }
+        else
+        {
+            element.innerHTML = line;
+        }
+
         elements.push( element );
     }
 

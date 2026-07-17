@@ -54,7 +54,6 @@ namespace Flashlight
             g_SoundSystem.StopSound( player.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
 
             dictionary@ data = player.GetUserData();
-            data[ weapon.GetClassname() ] = flashlight_ammount;
             weapon.m_fInReload = false;
             data.delete( "flashlight_reload" );
         }

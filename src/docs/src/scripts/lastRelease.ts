@@ -1,3 +1,5 @@
+import { DEV } from "../main.js";
+
 interface ReleaseCache
 {
     timestamp : number;
@@ -45,7 +47,9 @@ export async function initVersionRelease() : Promise<void>
         const raw = localStorage.getItem( CACHE_KEY );
 
         if( !raw )
+        {
             return null;
+        }
 
         try
         {
@@ -70,7 +74,7 @@ export async function initVersionRelease() : Promise<void>
 
     const cache = getCache();
 
-    if( cache && Date.now() - cache.timestamp < CACHE_TTL )
+    if( cache && Date.now() - cache.timestamp < CACHE_TTL || DEV )
     {
         return;
     }

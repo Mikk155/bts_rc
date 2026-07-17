@@ -271,8 +271,8 @@
         "primary_dropammo": 30,
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.105,
-        "reload_anim": 2,
-        "reload_empty_anim": 2,
+        "reload_anim": 3,
+        "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
         "slot": 2,
         "weight": 5

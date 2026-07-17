@@ -37,7 +37,7 @@ enum WeaponFlashlightAnim
     Flashlight
 };
 
-final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
+final class ASWeaponFlashlightConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_flashlight";
@@ -78,22 +78,16 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
         return WeaponFlashlightAnim::Draw;
     }
 
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Holster( player, weapon, character );
-        ASMeleeWeaponConfig::WeaponHolster( player, weapon, character );
-    }
-
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         Flashlight::Think( player, weapon, character, this, this.flashlight_model );
-        ASMeleeWeaponConfig::PlayerThink( player, weapon, character );
+        ASWeaponConfig::PlayerThink( player, weapon, character );
     }
 
     void Precache() override
     {
         g_Game.PrecacheModel( this.flashlight_model );
-        ASMeleeWeaponConfig::Precache();
+        ASWeaponConfig::Precache();
     }
 
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
@@ -108,7 +102,7 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
             case Flashlight::State::NoAmmo:
             {
                 // Find another weapon with flashlight if this has no ammo
-                ASMeleeWeaponConfig::WeaponFlashlight( player, weapon, character );
+                ASWeaponConfig::WeaponFlashlight( player, weapon, character );
                break;
             }
             case Flashlight::State::Reloading:
@@ -126,23 +120,6 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
             }
         }
     }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control flashlight configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
 }
 
 ASWeaponFlashlightConfig gpWeaponFlashlight;
@@ -158,6 +135,12 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
     {
         self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         BTS_MeleeWeapon::Spawn();
+    }
+
+    void Holster( int skiplocal = 0 ) override
+    {
+        Flashlight::Holster( this.owner, self, null );
+        BTS_MeleeWeapon::Holster( skiplocal );
     }
 
     float Idle() override

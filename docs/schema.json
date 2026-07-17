@@ -80,6 +80,76 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.4,
+						"type": "number"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 13,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.95,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 11,
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"default": 1.1,
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"tertiary_damage": 
+					{
+						"default": 17,
+						"type": "number"
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -96,35 +166,7 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -148,18 +190,6 @@
 					{
 						"type": "integer"
 					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
 					"tertiary_distance": 
 					{
 						"type": "number"
@@ -168,22 +198,6 @@
 					{
 						"type": "number",
 						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
 					},
 					"reload_time": 
 					{
@@ -211,6 +225,62 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 8,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.35,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 9,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -227,10 +297,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
@@ -239,19 +305,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -267,44 +325,11 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
 					"secondary_distance": 
 					{
 						"type": "number"
 					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -342,6 +367,92 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 7,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.4,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 11,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 48,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.65,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 8,
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"default": 54,
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"default": 0.8,
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -358,35 +469,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
 					"tertiary_damage": 
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -398,52 +485,7 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -473,6 +515,71 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 14,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.64,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 28,
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"default": 35,
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"default": 0.85,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -489,31 +596,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
 					"tertiary_damage": 
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -529,29 +616,9 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
 					},
 					"tertiary_distance": 
 					{
@@ -561,18 +628,6 @@
 					{
 						"type": "number",
 						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
 					},
 					"secondary_miss_trained_cooldown": 
 					{
@@ -604,6 +659,92 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 16,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 1.34,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 1.1,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.45,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 27,
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"default": 35,
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -620,35 +761,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
 					"tertiary_damage": 
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -660,52 +777,7 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -735,6 +807,92 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 11,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.35,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 18,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.64,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 35,
+						"type": "number"
+					},
+					"secondary_distance": 
+					{
+						"default": 35,
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.64,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -751,35 +909,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
 					"tertiary_damage": 
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -791,52 +925,7 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
-					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -866,6 +955,82 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.8,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 20,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 45,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 1.25,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.9,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.4,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 14,
+						"type": "number"
+					},
+					"secondary_miss_cooldown": 
+					{
+						"default": 1.35,
+						"type": "number"
+					},
+					"secondary_miss_trained_cooldown": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -882,35 +1047,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
 					"tertiary_damage": 
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -922,52 +1063,15 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
 					},
 					"secondary_distance": 
 					{
 						"type": "number"
 					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -997,6 +1101,57 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 12,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.42,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 12,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 56,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.67,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.52,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.26,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -1013,10 +1168,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
@@ -1025,19 +1176,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -1053,44 +1196,15 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
 					},
 					"secondary_distance": 
 					{
 						"type": "number"
 					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -1128,6 +1242,57 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 11,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 9,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.4,
+						"type": "number"
+					},
+					"primary_miss_trained_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.2,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 0,
+						"type": "integer"
+					},
+					"subsequent_hits_deduction": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"description": "Damage multiplier applied to consecutive hits."
+					},
 					"primary_maxammo": 
 					{
 						"type": "integer"
@@ -1144,10 +1309,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
@@ -1156,19 +1317,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -1184,44 +1337,15 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
 					},
 					"secondary_distance": 
 					{
 						"type": "number"
 					},
 					"tertiary_distance": 
-					{
-						"type": "number"
-					},
-					"subsequent_hits_deduction": 
-					{
-						"type": "number",
-						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_miss_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -1259,25 +1383,90 @@
 				"description": "Control beretta configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 15,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 15,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.05,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/9mm_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"secondary_trained_cooldown": 
 					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
+						"default": 0.5,
 						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
 					},
 					"secondary_damage": 
 					{
@@ -1287,47 +1476,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -1367,18 +1520,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -1390,25 +1531,85 @@
 				"description": "Control eagle configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 9,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 9,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.22,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 65,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 18,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.22,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 8,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 7,
+						"type": "integer"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"secondary_trained_cooldown": 
 					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
+						"default": 0.5,
 						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
 					},
 					"secondary_damage": 
 					{
@@ -1418,47 +1619,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -1498,14 +1663,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
 					},
 					"reload_sound": 
 					{
@@ -1521,25 +1678,88 @@
 				"description": "Control glock configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.45,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.05,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/9mm_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
 						"type": "integer"
 					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
@@ -1549,47 +1769,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -1629,18 +1813,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -1652,25 +1824,90 @@
 				"description": "Control glock17f configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 7,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.05,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/9mm_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"secondary_trained_cooldown": 
 					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
+						"default": 0.5,
 						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
 					},
 					"secondary_damage": 
 					{
@@ -1680,47 +1917,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -1760,18 +1961,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -1783,25 +1972,88 @@
 				"description": "Control glock18 configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 19,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.0625,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 19,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.0625,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/9mm_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
 						"type": "integer"
 					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
@@ -1811,47 +2063,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -1891,18 +2107,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -1914,25 +2118,90 @@
 				"description": "Control glocksd configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 16,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.05,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/9mm_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"secondary_trained_cooldown": 
 					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
+						"default": 0.5,
 						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
 					},
 					"secondary_damage": 
 					{
@@ -1942,47 +2211,11 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2022,18 +2255,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -2045,15 +2266,57 @@
 				"description": "Control sw637 configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 25,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 60,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2061,19 +2324,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2085,35 +2340,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2176,15 +2407,67 @@
 				"description": "Control python configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 8,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 66,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 18,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2192,19 +2475,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2216,35 +2491,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2284,14 +2535,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
 					},
 					"reload_sound": 
 					{
@@ -2307,15 +2550,72 @@
 				"description": "Control mp5 configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.09,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 17,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.09,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/mp5_clip.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 5,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2323,19 +2623,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2347,35 +2639,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2415,18 +2683,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -2438,75 +2694,107 @@
 				"description": "Control mp5gl configuration",
 				"properties": 
 				{
-					"primary_maxammo": 
+					"deploy_time": 
 					{
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
-					},
-					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_trained_cooldown": 
-					{
+						"default": 0.6,
 						"type": "number"
 					},
 					"max_clip": 
 					{
-						"type": "integer"
-					},
-					"slot": 
-					{
+						"default": 30,
 						"type": "integer"
 					},
 					"position": 
 					{
+						"default": 5,
 						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.09,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 17,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
+					"primary_maxammo": 
+					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.09,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/mp5_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 2.5,
+						"type": "number"
+					},
+					"secondary_damage": 
+					{
+						"default": 110,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"secondary_maxammo": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 2.5,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"tertiary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"tertiary_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
 					},
 					"weight": 
 					{
+						"default": 5,
 						"type": "integer"
 					},
-					"deploy_time": 
+					"tertiary_damage": 
 					{
 						"type": "number"
 					},
@@ -2546,18 +2834,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -2569,15 +2845,72 @@
 				"description": "Control uzi configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1.275,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 11,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 16,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/fidget1.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2585,19 +2918,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2609,35 +2934,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2677,18 +2978,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -2700,15 +2989,72 @@
 				"description": "Control uzisd configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1.1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 15,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 17,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/fidget1.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2716,19 +3062,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2740,35 +3078,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2808,18 +3122,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -2831,15 +3133,72 @@
 				"description": "Control m4 configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1.2,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 8,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.105,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 22,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 150,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.105,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/fidget_3.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 5,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2847,19 +3206,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2871,35 +3222,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -2939,18 +3266,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -2962,15 +3277,72 @@
 				"description": "Control m4sd configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1.2,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 9,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.105,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 22,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 150,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.105,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/fidget_3.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 5,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -2978,19 +3350,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3002,35 +3366,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3070,18 +3410,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -3093,35 +3421,87 @@
 				"description": "Control m16 configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.142,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 23,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 150,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.142,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/fidget_3.wav",
+						"type": "string"
+					},
+					"secondary_damage": 
+					{
+						"default": 110,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"slot": 
 					{
+						"default": 2,
 						"type": "integer"
 					},
-					"secondary_dropammo": 
+					"weight": 
 					{
+						"default": 5,
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3133,35 +3513,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3201,18 +3557,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -3224,35 +3568,87 @@
 				"description": "Control m16sd configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 11,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.11,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 24,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 150,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.11,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/fidget_3.wav",
+						"type": "string"
+					},
+					"secondary_damage": 
+					{
+						"default": 110,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"slot": 
 					{
+						"default": 2,
 						"type": "integer"
 					},
-					"secondary_dropammo": 
+					"weight": 
 					{
+						"default": 5,
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_damage": 
-					{
-						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3264,35 +3660,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3332,18 +3704,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -3355,15 +3715,57 @@
 				"description": "Control sniperrifle configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 2,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 120,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 10,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 2,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -3371,19 +3773,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3395,35 +3789,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3486,15 +3856,57 @@
 				"description": "Control shotgun configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 8,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 7,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.85,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 16,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 30,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.85,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 15,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -3502,19 +3914,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3526,35 +3930,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3617,35 +3997,71 @@
 				"description": "Control sbshotgun configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.85,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 13,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 30,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.85,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 1,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
+						"default": 10,
 						"type": "integer"
 					},
-					"primary_dropammo": 
+					"slot": 
 					{
+						"default": 2,
 						"type": "integer"
 					},
-					"secondary_dropammo": 
+					"weight": 
 					{
+						"default": 15,
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3657,35 +4073,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3748,15 +4140,72 @@
 				"description": "Control saw configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 100,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.099,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 22,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 50,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 150,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.099,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/saw_reload.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 20,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -3764,19 +4213,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3788,35 +4229,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3856,18 +4273,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -3879,15 +4284,72 @@
 				"description": "Control sawsd configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 100,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.099,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 23,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 50,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 150,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.099,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/saw_reload.wav",
+						"type": "string"
+					},
+					"slot": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 20,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -3895,19 +4357,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -3919,35 +4373,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -3987,18 +4417,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"type": "string"
 					}
 				}
 			},
@@ -4010,15 +4428,67 @@
 				"description": "Control m79 configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1.03,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 130,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 10,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 20,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -4026,19 +4496,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -4050,35 +4512,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -4118,14 +4556,6 @@
 					"reload_time": 
 					{
 						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
 					},
 					"reload_sound": 
 					{
@@ -4141,15 +4571,57 @@
 				"description": "Control xbox configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 11,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 1.8,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 48,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 15,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 1.8,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 2,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -4157,19 +4629,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -4181,35 +4645,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -4272,25 +4712,53 @@
 				"description": "Control handgrenade configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.66,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": -1,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"default": 130,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 10,
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 20,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
 						"type": "integer"
 					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
@@ -4321,26 +4789,6 @@
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -4403,15 +4851,57 @@
 				"description": "Control flamethrower configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.7,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": -1,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 18,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 40,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 30,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
-					{
-						"type": "integer"
-					},
-					"primary_dropammo": 
 					{
 						"type": "integer"
 					},
@@ -4419,19 +4909,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_damage": 
-					{
-						"type": "number"
-					},
 					"secondary_damage": 
 					{
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -4443,35 +4925,11 @@
 					{
 						"type": "number"
 					},
-					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
 					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -4534,25 +4992,53 @@
 				"description": "Control flare configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": -1,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 5,
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 5,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
 						"type": "integer"
 					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
@@ -4583,26 +5069,6 @@
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -4665,25 +5131,63 @@
 				"description": "Control flaregun configuration",
 				"properties": 
 				{
+					"deploy_time": 
+					{
+						"default": 1,
+						"type": "number"
+					},
+					"max_clip": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
+					"position": 
+					{
+						"default": 13,
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"default": 35,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 1,
+						"type": "integer"
+					},
 					"primary_maxammo": 
 					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
+					"slot": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 15,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
 						"type": "integer"
 					},
-					"primary_dropammo": 
-					{
-						"type": "integer"
-					},
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
@@ -4714,26 +5218,6 @@
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"max_clip": 
-					{
-						"type": "integer"
-					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"type": "integer"
-					},
-					"deploy_time": 
 					{
 						"type": "number"
 					},
@@ -4774,14 +5258,6 @@
 					{
 						"type": "number"
 					},
-					"reload_anim": 
-					{
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"type": "integer"
-					},
 					"reload_sound": 
 					{
 						"type": "string"
@@ -4809,9 +5285,40 @@
 					{
 						"type": "integer"
 					},
+					"deploy_time": 
+					{
+						"default": 0.6,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 14,
+						"type": "integer"
+					},
+					"primary_cooldown": 
+					{
+						"default": 2,
+						"type": "number"
+					},
 					"primary_maxammo": 
 					{
+						"default": 120,
 						"type": "integer"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 2,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"tertiary_cooldown": 
+					{
+						"default": 2,
+						"type": "number"
 					},
 					"secondary_maxammo": 
 					{
@@ -4837,18 +5344,6 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
-					"tertiary_cooldown": 
-					{
-						"type": "number"
-					},
 					"primary_trained_cooldown": 
 					{
 						"type": "number"
@@ -4865,21 +5360,9 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
 					},
 					"primary_distance": 
 					{
@@ -4936,29 +5419,62 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control flashlight configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
-					"primary_maxammo": 
+					"deploy_time": 
 					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"position": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"primary_damage": 
+					{
+						"default": 7,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 32,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"secondary_dropammo": 
+					{
+						"default": 0,
 						"type": "integer"
 					},
 					"secondary_maxammo": 
+					{
+						"default": 10,
+						"type": "integer"
+					},
+					"secondary_trained_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 4,
+						"type": "integer"
+					},
+					"primary_maxammo": 
 					{
 						"type": "integer"
 					},
 					"primary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"secondary_dropammo": 
-					{
-						"type": "integer"
-					},
-					"primary_damage": 
-					{
-						"type": "number"
 					},
 					"secondary_damage": 
 					{
@@ -4972,19 +5488,11 @@
 					{
 						"type": "number"
 					},
-					"secondary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
 					"primary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -4996,25 +5504,9 @@
 					{
 						"type": "integer"
 					},
-					"slot": 
-					{
-						"type": "integer"
-					},
-					"position": 
-					{
-						"type": "integer"
-					},
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"deploy_time": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
-					{
-						"type": "number"
 					},
 					"secondary_distance": 
 					{
