@@ -36,7 +36,7 @@ enum WeaponScrewDriverAnim
     Idle3
 };
 
-final class ASWeaponScrewDriverConfig : ASMeleeWeaponConfig
+final class ASWeaponScrewDriverConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_screwdriver";
@@ -70,25 +70,7 @@ final class ASWeaponScrewDriverConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hit1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sd_hit2.wav" );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 

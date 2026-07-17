@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponSpannerConfig : ASMeleeWeaponConfig
+final class ASWeaponSpannerConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
@@ -55,25 +55,7 @@ final class ASWeaponSpannerConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hit1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hit2.wav" );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 

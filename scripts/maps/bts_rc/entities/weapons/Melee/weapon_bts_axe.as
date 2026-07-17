@@ -40,7 +40,7 @@ enum WeaponAxeAnim
     ShoveMissAlt
 };
 
-final class ASWeaponAxeConfig : ASMeleeWeaponConfig
+final class ASWeaponAxeConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_axe";
@@ -74,25 +74,7 @@ final class ASWeaponAxeConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/axe_miss1.wav" );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 

@@ -59,6 +59,15 @@ final class ASMapConfig
     private
         bool m_ShouldWriteSchema = false;
 
+    const bool WritingSchema() const {
+// Always write schema & defaults while on development.
+#if SERVER
+        if( true )
+            return true;
+#endif
+        return this.m_ShouldWriteSchema;
+    }
+
     private
         array<IConfigurable@> m_Contexts(0);
 
@@ -113,9 +122,7 @@ final class ASMapConfig
         meta_api::json::Error err;
 
         if( !meta_api::json::v2::Deserialize( this.__GetDefaultWeaponConfig__(), g_WeaponsDefaults ) )
-        {
-            @g_WeaponsDefaults = meta_api::json::v2::json();
-        }
+            g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultWeaponConfig__()\"" );
 
         if( !meta_api::json::v2::Deserialize( "store/bts_rc.json", this.m_json, err ) )
         {
@@ -270,6 +277,24 @@ final class ASMapConfig
 #endif
             if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
             {
+                auto@ wpnDefaults = g_WeaponsDefaults[ context.GetName() ];
+
+                // Inject weapon data
+                if( wpnDefaults !is null )
+                {
+                    auto@ weaponProperties = schema.ValueOrDefault( "properties", null, true );
+
+                    uint wpnLength = wpnDefaults.Length();
+                    const array<string>@ wpnKeys = wpnDefaults.Keys;
+
+                    for( uint ui2 = 0; ui2 < wpnLength; ui2++ )
+                    {
+                        string keyName = wpnKeys[ ui2 ];
+                        auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
+                        weaponProperty.Set( "default", wpnDefaults[ keyName ] );
+                    }
+                }
+
                 if( schema.Contains( "allOf" ) )
                 {
                     auto@ allOf = schema[ "allOf" ];
@@ -387,7 +412,6 @@ final class ASMapConfig
 
         if( this.m_ShouldWriteServerConfig )
         {
-            // This is a reference file. unused in this code.
             File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.json", OpenFile::WRITE );
             if( file !is null )
             {
@@ -408,19 +432,18 @@ final class ASMapConfig
             }
         }
 
-        string storedVer;
-        if( this.m_ShouldWriteSchema || !this.m_json.Get( "scripts_version", storedVer ) || g_ScriptsVersion != SemVer( storedVer ) )
+        if( this.WritingSchema() )
         {
             meta_api::json::parser::Indentation schemaStyle = meta_api::json::parser::Indentation::AllTogether;
 
 #if SERVER
             schemaStyle = meta_api::json::parser::Indentation::OneTabSpace;
 #endif
-
             // Write out schemas
             meta_api::json::v2::Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaStyle );
 
             // Write out default values
+            // This is a reference file. unused in this code.
             meta_api::json::v2::Serialize( this.m_json, "store/bts_rc_defaults.json",
                 meta_api::json::parser::Indentation::OneTabSpace,
                 meta_api::json::parser::Style::AllMan
