@@ -274,6 +274,7 @@
         "sprites/bts_rc/w_glocksd1.spr",
         "sprites/bts_rc/w_glocksd4.spr",
         "sprites/bts_rc/weapon_m79.spr",
-        "sprites/bts_rc/wepspr.spr"
+        "sprites/bts_rc/wepspr.spr",
+        "sprites/laserdot.spr"
     ]
 }

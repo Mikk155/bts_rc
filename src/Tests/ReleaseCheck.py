@@ -123,7 +123,7 @@ class ReleaseCheck( PyBuilder ):
 
 ## ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g).
 
-## Git changes since [Version {lastTag}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{lastTag}) can be found [here](https://github.com/{self.m_Author}/{self.m_Repository}/compare/{self.m_ProjectVersion}...{lastTag}).
+## Git changes since [Version {lastTag}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{lastTag}) can be found [here](https://github.com/{self.m_Author}/{self.m_Repository}/compare/{lastTag}...{self.m_ProjectVersion}).
 
 <details>
 <summary>Changelog</summary>

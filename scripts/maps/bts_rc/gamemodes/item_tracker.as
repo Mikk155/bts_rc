@@ -237,14 +237,6 @@ namespace item_tracker
 
         dictionary@ data = player.GetUserData();
 
-        // Run inventory checks per-player throttled to every 0.5s instead of every frame
-        float nextCheck = 0.0f;
-        if( !data.get( "it_inventorycd", nextCheck ) || g_Engine.time >= nextCheck )
-        {
-            UpdatePlayerInventory( player );
-            data[ "it_inventorycd" ] = g_Engine.time + 0.5f;
-        }
-
         // Key down check: only trigger when pressing USE and RELOAD (one-shot transition check)
         bool isHolding = ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0;
         bool wasHolding = data.exists( "motd_holding" ) ? bool( data[ "motd_holding" ] ) : false;
@@ -258,6 +250,21 @@ namespace item_tracker
 
         int playerMOTDVersion = data.exists( "motd_update" ) ? int( data[ "motd_update" ] ) : -1;
 
+        edict_t@ edict = player.edict();
+
+        // Run inventory checks per-player throttled to every 0.5s instead of every frame
+        if( g_Engine.time >= float( data[ "it_inventorycd" ] ) )
+        {
+            UpdatePlayerInventory( player );
+            data[ "it_inventorycd" ] = g_Engine.time + 0.5f;
+        }
+
+        {
+            NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
+                msg.WriteString( "Item holders list" );
+            msg.End();
+        }
+
         if( playerMOTDVersion != gpBufferVersion )
         {
             if( gpBufferDirty )
@@ -267,14 +274,6 @@ namespace item_tracker
             }
 
             data[ "motd_update" ] = gpBufferVersion;
-
-            auto edict = player.edict();
-
-            {
-                NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
-                    msg.WriteString( "Item holders list" );
-                msg.End();
-            }
 
             uint length = gpBuffer.Length();
             string buffer;
@@ -290,18 +289,19 @@ namespace item_tracker
                     msg.WriteString( buffer );
                 msg.End();  
             }
-
-            // Restore the hostname
-            {
-                NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
-                    msg.WriteString( g_EngineFuncs.CVarGetString( "hostname" ) );
-                msg.End();
-            }
         }
         else
         {
-            NetworkMessage msg( MSG_ONE, NetworkMessages::SVC_STUFFTEXT, player.edict() );
-                msg.WriteString( "motd\n" );
+            // Open already updated motd
+            NetworkMessage msg( MSG_ONE, NetworkMessages::SVC_STUFFTEXT, edict );
+                msg.WriteString( "servermotd\n" );
+            msg.End();
+        }
+
+        // Restore the hostname
+        {
+            NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
+                msg.WriteString( g_EngineFuncs.CVarGetString( "hostname" ) );
             msg.End();
         }
     }

@@ -1,85 +1,3 @@
-function parseMarkdown( markdown : string ) : string
-{
-    const lines : string[] = markdown.split( "\n" );
-    let html : string = "";
-
-    let currentContent : string = "";
-    let currentTitle : string = "";
-    let inList : boolean = false;
-
-    function flushBlock() : void
-    {
-        if( !currentTitle )
-        {
-            return;
-        }
-
-        if( inList )
-        {
-            currentContent += "</ul>";
-            inList = false;
-        }
-
-        html += `
-<div class="changelog-item">
-    <div class="changelog-header">${currentTitle}</div>
-    <div class="changelog-content">
-        ${currentContent}
-    </div>
-</div>
-`;
-
-        currentContent = "";
-        currentTitle = "";
-    }
-
-    for( const line of lines )
-    {
-        if( line.startsWith( "# " ) )
-        {
-            flushBlock();
-            currentTitle = line.substring(2);
-            continue;
-        }
-
-        if( line.startsWith( "- " ) )
-        {
-            if( !inList )
-            {
-                currentContent += "<ul>";
-                inList = true;
-            }
-
-            currentContent += `<li>${inlineParse( line.substring(2) )}</li>`;
-            continue;
-        }
-        else if( inList )
-        {
-            currentContent += "</ul>";
-            inList = false;
-        }
-
-        if( line.trim() !== "" )
-        {
-            currentContent += `<p>${inlineParse( line )}</p>`;
-        }
-    }
-
-    flushBlock();
-
-    return html;
-}
-
-function inlineParse( text : string ) : string
-{
-    let parsed : string = text;
-
-    parsed = parsed.replace( /\*\*(.*?)\*\*/g, "<b>$1</b>" );
-    parsed = parsed.replace( /`(.*?)`/g, "<code>$1</code>" );
-
-    return parsed;
-}
-
 export async function initChangelog() : Promise<void>
 {
     const container : HTMLElement | null = document.getElementById( "changelog" );
@@ -94,7 +12,8 @@ export async function initChangelog() : Promise<void>
 
     try
     {
-        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
+        res = await fetch( "../CHANGELOG.md" );
+//        res = await fetch( "https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md" );
     }
     catch( err )
     {
@@ -109,14 +28,27 @@ export async function initChangelog() : Promise<void>
         return;
     }
 
-    const markdown : string = await res.text();
+    container.innerHTML = "";
 
-    container.innerHTML = parseMarkdown( markdown );
+    const lines : string[] = ( await res.text() )
+        .replace( /\r/g, "" )
+        .replace( /\t/g, "<pre>    </pre>" )
+        .replace( "    ", "<pre>    </pre>" )
+        .replace( /\*\*(.*?)\*\*/g, "<b>$1</b>" )
+        .replace( /`(.*?)`/g, "<code>$1</code>" )
+        .split( "\n" );
 
-    const headers : NodeListOf<HTMLElement> = document.querySelectorAll( ".changelog-header" );
-
-    headers.forEach( ( header : HTMLElement ) : void =>
+    function pushSection( title: string, elements: Array<HTMLElement>, container: HTMLElement ) : void
     {
+        if( title === "" )
+            return;
+
+        let item: HTMLDivElement = document.createElement( "div" );
+        item.className = "changelog-item";
+
+        let header: HTMLDivElement = document.createElement( "div" );
+        header.className = "changelog-header";
+        header.innerText = title;
         header.addEventListener( "click", () : void =>
         {
             const next : Element | null = header.nextElementSibling;
@@ -126,5 +58,83 @@ export async function initChangelog() : Promise<void>
                 next.classList.toggle( "open" );
             }
         } );
-    } );
+
+        let content: HTMLDivElement = document.createElement( "div" );
+        content.className = "changelog-content";
+
+        let ListElements: HTMLUListElement | null = null;
+
+        for( const element of elements )
+        {
+            if( element instanceof HTMLLIElement )
+            {
+                if( !ListElements )
+                    ListElements = document.createElement( "ul" );
+                ListElements.appendChild( element );
+                continue;
+            }
+            else
+            {
+                if( ListElements )
+                    content.appendChild( ListElements );
+                ListElements = null;
+            }
+
+            content.appendChild( element );
+        }
+
+        if( ListElements )
+            content.appendChild( ListElements );
+
+        item.appendChild( header );
+        item.appendChild( content );
+        container.appendChild( item );
+    }
+
+    let elements: Array<HTMLElement> = [];
+    let title: string = "";
+
+    for( const line of lines )
+    {
+        if( line.startsWith( "# " ) )
+        {
+            pushSection( title, elements, container );
+            title = line.substring(2);
+            elements = []; // how tf there's no "clear" method
+            continue;
+        }
+
+        if( line.startsWith( "- " ) )
+        {
+            let element: HTMLLIElement = document.createElement( "li" );
+            element.innerHTML = line.substring(2);
+            elements.push( element );
+            continue;
+        }
+
+        if( line.startsWith( "## " ) )
+        {
+            let element: HTMLHeadingElement = document.createElement( "h2" );
+            element.innerHTML = line.substring(3);
+            elements.push( element );
+            continue;
+        }
+
+        if( line.startsWith( "### " ) )
+        {
+            let element: HTMLHeadingElement = document.createElement( "h3" );
+            element.innerHTML = line.substring(4);
+            elements.push( element );
+            continue;
+        }
+
+        if( line.trim() === "" )
+            continue;
+
+        let element: HTMLParagraphElement = document.createElement( "p" );
+        element.innerHTML = line;
+        elements.push( element );
+    }
+
+    pushSection( title, elements, container );
 }

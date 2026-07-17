@@ -157,6 +157,13 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "default": 10,
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
+                },
+                "flashlight_ammount":
+                {
+                    "type": "integer",
+                    "default": 100,
+                    "minimum": 10,
+                    "description": "Quantity of ammo carry for flashlight weapons"
                 }
             }
         }""";
@@ -187,7 +194,10 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.m249_knockback = bool( config[ "m249_knockback" ] );
 
         Flashlight::Precache();
-        Flashlight::Register( config );
+
+        Flashlight::flashlight_drain = float( config[ "flashlight_drain" ] );
+        Flashlight::flashlight_capacity = int( config[ "flashlight_capacity" ] );
+        Flashlight::flashlight_ammount = int( config[ "flashlight_ammount" ] );
 
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( this.ItemMappingList );

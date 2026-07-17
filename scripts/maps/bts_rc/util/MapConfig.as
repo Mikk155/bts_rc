@@ -102,9 +102,20 @@ final class ASMapConfig
         return false;
     }
 
+    // This is parsed by python builders. do not change.
+    const string __GetDefaultWeaponConfig__()
+    {
+        return """scripts/maps/bts_rc/entities/weapons/default_config.json""";
+    }
+
     void __LoadMapConfiguration__()
     {
         meta_api::json::Error err;
+
+        if( !meta_api::json::v2::Deserialize( this.__GetDefaultWeaponConfig__(), g_WeaponsDefaults ) )
+        {
+            @g_WeaponsDefaults = meta_api::json::v2::json();
+        }
 
         if( !meta_api::json::v2::Deserialize( "store/bts_rc.json", this.m_json, err ) )
         {
@@ -425,6 +436,8 @@ final class ASMapConfig
 
         this.m_json.Clear();
         @this.m_json = null;
+        g_WeaponsDefaults.Clear();
+        @g_WeaponsDefaults = null;
         this.m_GlobalSchema.Clear();
         @this.m_GlobalSchema = null;
         this.m_GlobalSchemaDefinitions.Clear();
