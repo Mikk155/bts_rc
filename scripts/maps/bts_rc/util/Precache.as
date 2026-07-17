@@ -19,6 +19,7 @@
 // See: src/precaches.json and generate this file using src/main.py.
 void Precache()
 {
+    g_Game.PrecacheModel( "models/bts_rc/furniture/lambda.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/items/w_antidote.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/monsters/snapbug.mdl" );
@@ -161,12 +162,15 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/w_glocksd4.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/weapon_m79.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
+    g_Game.PrecacheModel( "sprites/exit1.spr" );
     g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
+    g_SoundSystem.PrecacheSound( "ambience/port_suckout1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/sprayaid1.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/music/bts_rc_checkpoint.ogg" );
     g_SoundSystem.PrecacheSound( "bts_rc/rgrunt/rbhw_shield_smash.ogg" );
     g_SoundSystem.PrecacheSound( "bts_rc/snapbug/sb_alert3.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/snapbug/sb_attack1.wav" );
@@ -240,6 +244,8 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bullchicken/bc_bite1.wav" );
     g_SoundSystem.PrecacheSound( "bullchicken/bc_bite2.wav" );
     g_SoundSystem.PrecacheSound( "bullchicken/bc_bite3.wav" );
+    g_SoundSystem.PrecacheSound( "debris/beamstart4.wav" );
+    g_SoundSystem.PrecacheSound( "debris/beamstart7.wav" );
     g_SoundSystem.PrecacheSound( "headcrab/hc_headbite.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_reload1.wav" );
