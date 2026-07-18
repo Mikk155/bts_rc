@@ -66,7 +66,6 @@ namespace LaserSpot
             laserEntity.pev.movetype = MOVETYPE_NONE;
             laserEntity.pev.solid = SOLID_NOT;
             laserEntity.pev.rendermode = kRenderGlow;
-            laserEntity.pev.renderamt = 255.0f;
             laserEntity.pev.renderfx = kRenderFxNoDissipation;
             laserEntity.pev.effects |= EF_NODRAW;
 
@@ -137,8 +136,13 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
             if( ( laser.pev.effects & EF_NODRAW ) != 0 )
             {
                 laser.pev.effects &= ~EF_NODRAW;
+                laser.pev.renderamt = 0;
                 g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
             }
+
+            // Gradual turn on
+            if( laser.pev.renderamt < 255 )
+                laser.pev.renderamt += 5;
 
             laser.pev.scale = this.laser_size;
 
