@@ -115,6 +115,9 @@ namespace Hooks
             PlayerInitialized( player, data );
         }
 
+        if( !player.IsAlive() )
+            return HOOK_CONTINUE;
+
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
         // Change impulse 101 command with our own weapons
