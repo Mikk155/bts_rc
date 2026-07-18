@@ -167,19 +167,21 @@ namespace Hooks
         {
             auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
-            string lastWeapon = string( data[ "current_weapon" ] );
+            CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
-            if( !lastWeapon.IsEmpty() && ( weapon is null || weapon.GetClassname() != lastWeapon ) )
+            if( lastWeapon !is null && weapon !is lastWeapon )
             {
-                dictionaryValue@ lastWeaponInterface;
+                ASWeaponConfig@ lastWeaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon.GetClassname() ] );
 
-                if( g_WeaponsConfig.Interfaces.get( lastWeapon, lastWeaponInterface ) )
-                    cast<ASWeaponConfig@>( lastWeaponInterface ).WeaponHolster( player, weapon, character );
+                if( lastWeaponConfig !is null )
+                {
+                    lastWeaponConfig.WeaponHolster( player, lastWeapon, character );
+                }
             }
 
             const string classname = ( weapon is null ? String::EMPTY_STRING : weapon.GetClassname() );
 
-            data[ "current_weapon" ] = classname;
+            @data[ "current_weapon" ] = weapon;
 
             if( weapon !is null )
             {
@@ -196,7 +198,7 @@ namespace Hooks
                 else
                 {
                     // Call deploy for vanilla weapons to update their models
-                    if( lastWeapon != classname || player.pev.viewmodel != weaponConfig.view_model )
+                    if( player.pev.viewmodel != weaponConfig.view_model )
                     {
                         weaponConfig.WeaponDeploy( player, weapon, character );
                     }
