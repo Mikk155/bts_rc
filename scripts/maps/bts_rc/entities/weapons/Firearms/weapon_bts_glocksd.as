@@ -52,16 +52,6 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
         return "ammo_9mmclip";
     }
 
-    const string& get_secondary_ammo() override
-    {
-        return "bts_battery";
-    }
-
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_flashlight";
-    }
-
     const uint8 get_animation_draw() override
     {
         return WeaponGlockSDAnim::Draw;
@@ -70,18 +60,6 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
     const uint8 get_hands_group() override
     {
         return 2;
-    }
-
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Holster( player, weapon, character );
-        ASWeaponLaserConfig::WeaponHolster( player, weapon, character );
-    }
-
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Think( player, weapon, character, this, this.player_model );
-        ASWeaponLaserConfig::PlayerThink( player, weapon, character );
     }
 
     void Precache() override
@@ -93,41 +71,10 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
         ASWeaponLaserConfig::Precache();
     }
 
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        WeaponFlashlight( player, weapon, character );
-    }
-
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        switch( Flashlight::Toggle( player, weapon, 5.0f ) )
-        {
-            case Flashlight::State::NoAmmo:
-            {
-                ASWeaponConfig::WeaponFlashlight( player, weapon, character );
-                break;
-            }
-            case Flashlight::State::Reloading:
-            {
-                weapon.SendWeaponAnim( WeaponGlockSDAnim::Holster, 0, weapon.pev.body );
-                break;
-            }
-            case Flashlight::State::TurnedOn:
-            case Flashlight::State::TurnedOff:
-            default:
-            {
-                weapon.SendWeaponAnim( WeaponGlockSDAnim::Flash, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
-                break;
-            }
-        }
-    }
-
     bool Register( meta_api::json::v2::json@ json ) override
     {
         // Reload properties
         this.reload_time = 1.5f;
-
         return ASWeaponLaserConfig::Register( json );
     }
 }
