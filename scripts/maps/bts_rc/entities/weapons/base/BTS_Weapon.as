@@ -80,7 +80,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     {
         if( self.m_flTimeWeaponIdle < g_Engine.time )
         {
-            self.m_flTimeWeaponIdle = Idle();
+            self.m_flTimeWeaponIdle = g_Engine.time + Idle();
         }
     }
 
