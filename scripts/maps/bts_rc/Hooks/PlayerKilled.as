@@ -22,7 +22,12 @@ namespace Hooks
         if( player is null )
             return HOOK_CONTINUE;
 
-        LaserSpot::Hide( player );
+        CBaseEntity@ laserSpot = LaserSpot::Entity( player );
+
+        if( laserSpot !is null )
+        {
+            laserSpot.pev.effects |= EF_NODRAW;
+        }
 
         auto character = GetCharacter(player);
 

@@ -49,6 +49,9 @@
     },
     "weapon_bts_eagle": {
         "deploy_time": 1.0,
+        "laser_accuracy": 3.0,
+        "laser_cooldown": 2.0,
+        "laser_size": 0.75,
         "max_clip": 9,
         "position": 9,
         "primary_cooldown": 0.22,
@@ -165,6 +168,9 @@
     },
     "weapon_bts_glocksd": {
         "deploy_time": 0.6,
+        "laser_accuracy": 0.3,
+        "laser_cooldown": 1.5,
+        "laser_size": 0.5,
         "max_clip": 17,
         "position": 5,
         "primary_cooldown": 0.1,

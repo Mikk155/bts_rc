@@ -19,11 +19,18 @@ namespace Hooks
 {
     HookReturnCode PlayerDisconnect( CBasePlayer@ player )
     {
-        if( player !is null )
+        if( player is null )
+            return HOOK_CONTINUE;
+    
+        CBaseEntity@ laserSpot = LaserSpot::Entity( player );
+
+        if( laserSpot !is null )
         {
-            LaserSpot::Hide( player );
-            item_tracker::OnPlayerDisconnect( player );
+            laserSpot.pev.effects |= EF_NODRAW;
         }
+
+        item_tracker::OnPlayerDisconnect( player );
+
         return HOOK_CONTINUE;
     }
 }

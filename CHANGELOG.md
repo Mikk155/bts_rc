@@ -1,3 +1,7 @@
+# 17/7/2026
+## Scripts
+- Refactored laser spot structure to a `ASWeaponConfig` system child which allows `json` external configuration.
+
 # 14/07/2026
 ## Scripts
 - Reused one laser spot entity per player slot instead of recreating it whenever the Desert Eagle is deployed.

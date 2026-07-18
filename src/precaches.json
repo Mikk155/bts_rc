@@ -134,9 +134,7 @@
     "PrecacheGeneric": [
         "events/muzzle_saw.txt"
     ],
-    "PrecacheModel":
-    [
-        "sprites/laserdot.spr",
+    "PrecacheModel": [
         "models/bts_rc/furniture/lambda.mdl",
         "models/bts_rc/furniture/w_flashlightbattery.mdl",
         "models/bts_rc/items/w_antidote.mdl",
@@ -280,7 +278,6 @@
         "sprites/bts_rc/w_glocksd4.spr",
         "sprites/bts_rc/weapon_m79.spr",
         "sprites/bts_rc/wepspr.spr",
-        "sprites/laserdot.spr",
         "sprites/exit1.spr"
     ]
 }
