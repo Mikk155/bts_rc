@@ -37,6 +37,16 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
         return "models/bts_rc/weapons/v_desert_eagle.mdl";
     }
 
+    const string& get_player_model_laser() override
+    {
+        return "models/bts_rc/weapons/v_9mmhandgunsd_laser.mdl";
+    }
+
+    uint get_laser_animation() override
+    {
+        return WeaponEagleAnim::LaserToggle;
+    }
+
     const string& get_animation_extension() override
     {
         return "onehanded";
@@ -67,12 +77,6 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponLaserConfig::Precache();
-    }
-
-    void LaserUpdate( bool active, CBasePlayer@ player, CBasePlayerWeapon@ weapon ) override
-    {
-        weapon.SendWeaponAnim( WeaponEagleAnim::LaserToggle, 0, weapon.pev.body );
-        ASWeaponLaserConfig::LaserUpdate( active, player, weapon );
     }
 }
 
@@ -181,7 +185,7 @@ class weapon_bts_eagle : BTS_FireWeapon
 
                 player.pev.punchangle.x = isTrainedPersonal ? -4.0f : -11.0f;
 
-                SetCooldown( isTrainedPersonal, type );
+                gpWeaponEagleConfig.SetCooldown( isTrainedPersonal, type, self, this.owner );
 
                 break;
             }

@@ -37,6 +37,16 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
         return "models/bts_rc/weapons/v_9mmhandgunsd.mdl";
     }
 
+    const string& get_player_model_laser() override
+    {
+        return "models/bts_rc/weapons/v_9mmhandgunsd_laser.mdl";
+    }
+
+    uint get_laser_animation() override
+    {
+        return WeaponGlockSDAnim::LaserToggle;
+    }
+
     const string& get_animation_extension() override
     {
         return "onehanded";
@@ -69,12 +79,6 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponLaserConfig::Precache();
-    }
-
-    void LaserUpdate( bool active, CBasePlayer@ player, CBasePlayerWeapon@ weapon ) override
-    {
-        weapon.SendWeaponAnim( WeaponGlockSDAnim::LaserToggle, 0, weapon.pev.body );
-        ASWeaponLaserConfig::LaserUpdate( active, player, weapon );
     }
 }
 
@@ -154,7 +158,7 @@ class weapon_bts_glocksd : BTS_FireWeapon
 
                 player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 
-                SetCooldown( isTrainedPersonal, type );
+                gpWeaponGlockSDConfig.SetCooldown( isTrainedPersonal, type, self, this.owner );
 
                 self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
 
