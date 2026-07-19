@@ -27,7 +27,6 @@
 #include "config/Flashlight"
 
 #include "base/BTS_FireWeapon"
-#include "base/BTS_LaserSpot"
 #include "base/BTS_MeleeCharge"
 #include "base/BTS_MeleeWeapon"
 #include "base/BTS_Weapon"

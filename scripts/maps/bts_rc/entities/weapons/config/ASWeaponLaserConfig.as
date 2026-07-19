@@ -85,7 +85,46 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
     float laser_cooldown;
     float laser_size;
 
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    // Called when the laser is enabled or disabled
+    void LaserUpdate( bool active, CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    {
+        if( active )
+        {
+            g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+        }
+        else
+        {
+            g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+        }
+    }
+
+    // Toggle laser and sets cooldown based on type
+    void LaserToggle( bool is_trained_personal, AttackType type, CBasePlayerWeapon@ weapon, CBasePlayer@ player )
+    {
+        weapon.pev.iuser1 = ( weapon.pev.iuser1 == 1 ? 0 : 1 );
+
+        float cooldown = this.GetCooldown( is_trained_personal, type );
+
+        if( weapon.pev.iuser1 != 0 )
+        {
+            cooldown *= this.laser_cooldown;
+        }
+
+        weapons::SetCooldown( weapon, player, cooldown );
+    }
+
+    // Call BTS_FireWeapon::Accuracy and pass the result in. returns a modified accuracy cone based on laser spot
+    float LaserAccuracy( float cone, CBasePlayerWeapon@ weapon )
+    {
+        if( weapon.pev.iuser1 == 0 )
+        {
+            cone *= this.laser_accuracy;
+        }
+
+        return cone;
+    }
+
+    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         ASWeaponConfig::WeaponHolster( player, weapon, character );
 
@@ -100,16 +139,8 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         if( ( laser.pev.effects & EF_NODRAW ) == 0 )
         {
             laser.pev.effects |= EF_NODRAW;
-            g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+            LaserUpdate( false, player, weapon );
         }
-    }
-
-    void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        ASWeaponConfig::WeaponTertiaryAttack( player, weapon, character );
-
-        weapon.pev.iuser1 = ( weapon.pev.iuser1 == 1 ? 0 : 1 );
-        weapon.m_flNextTertiaryAttack = g_Engine.time + 0.25f;
     }
 
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
@@ -128,7 +159,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
                 if( ( laser.pev.effects & EF_NODRAW ) == 0 )
                 {
                     laser.pev.effects |= EF_NODRAW;
-                    g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+                    LaserUpdate( false, player, weapon );
                 }
                 return;
             }
@@ -137,7 +168,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
             {
                 laser.pev.effects &= ~EF_NODRAW;
                 laser.pev.renderamt = 0;
-                g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+                LaserUpdate( true, player, weapon );
             }
 
             // Gradual turn on
@@ -159,7 +190,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         if( ( laser.pev.effects & EF_NODRAW ) == 0 )
         {
             laser.pev.effects |= EF_NODRAW;
-            g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+            LaserUpdate( false, player, weapon );
         }
     }
 

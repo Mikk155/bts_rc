@@ -77,6 +77,12 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
         this.reload_time = 1.5f;
         return ASWeaponLaserConfig::Register( json );
     }
+
+    void LaserUpdate( bool active, CBasePlayer@ player, CBasePlayerWeapon@ weapon ) override
+    {
+        weapon.SendWeaponAnim( WeaponGlockSDAnim::LaserToggle, 0, weapon.pev.body );
+        ASWeaponLaserConfig::LaserUpdate( active, player, weapon );
+    }
 }
 
 ASWeaponGlockSDConfig gpWeaponGlockSDConfig;
@@ -93,10 +99,10 @@ enum WeaponGlockSDAnim
     Draw,
     Holster,
     AddSilencer,
-    Flash
+    LaserToggle
 };
 
-class weapon_bts_glocksd : BTS_LaserSpot
+class weapon_bts_glocksd : BTS_FireWeapon
 {
     ASWeaponConfig@ get_config() override
     {
@@ -128,32 +134,39 @@ class weapon_bts_glocksd : BTS_LaserSpot
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
         switch( type )
         {
-            case AttackType::Tertiary:
             case AttackType::Secondary:
-                return;
+            {
+                gpWeaponGlockSDConfig.LaserToggle( isTrainedPersonal, type, self, this.owner );
+                break;
+            }
+            case AttackType::Primary:
+            {
+                if( self.m_iClip <= 0 )
+                {
+                    this.PlayEmptySound();
+                    self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
+                    return;
+                }
+
+                float cone = gpWeaponGlockSDConfig.LaserAccuracy( Accuracy( 0.01f, 0.05f, 0.01f, 0.05f ), self );
+
+                uint8 anim = self.m_iClip > 1 ? WeaponGlockSDAnim::Shoot : WeaponGlockSDAnim::ShootEmpty;
+                string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/glocksd_fire1.wav" : "bts_rc/weapons/glocksd_fire2.wav";
+
+                FireBullet( 1, cone, gpWeaponGlockSDConfig.primary_damage, szSound, anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), false, QUIET_GUN_VOLUME, 0 );
+
+                player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
+
+                SetCooldown( isTrainedPersonal, type );
+
+                self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+
+                break;
+            }
         }
-
-        if( self.m_iClip <= 0 )
-        {
-            this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
-            return;
-        }
-
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = BTS_LaserSpot::Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
-
-        uint8 anim = self.m_iClip > 1 ? WeaponGlockSDAnim::Shoot : WeaponGlockSDAnim::ShootEmpty;
-        string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/glocksd_fire1.wav" : "bts_rc/weapons/glocksd_fire2.wav";
-
-        FireBullet( 1, cone, gpWeaponGlockSDConfig.primary_damage, szSound, anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), false, QUIET_GUN_VOLUME, 0 );
-
-        player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
-
-        SetCooldown( isTrainedPersonal, type );
-
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 }
