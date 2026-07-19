@@ -69,13 +69,6 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
         ASWeaponLaserConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        // Reload properties
-        this.reload_time = 1.5f;
-        return ASWeaponLaserConfig::Register( json );
-    }
-
     void LaserUpdate( bool active, CBasePlayer@ player, CBasePlayerWeapon@ weapon ) override
     {
         weapon.SendWeaponAnim( WeaponEagleAnim::LaserToggle, 0, weapon.pev.body );
