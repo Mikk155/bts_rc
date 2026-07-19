@@ -21,21 +21,21 @@ bool ASWeaponLaserConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeapon
     "laser_accuracy":
     {
         "title": "Laser accuracy multiplier",
-        "description": "Multimplier for the accuracy cone when the laser spot is disabled",
+        "description": "Multiplier for the accuracy cone when the laser spot is disabled",
         "type": "number",
         "minimum": 0.1
     },
     "laser_cooldown":
     {
         "title": "Laser cooldown multiplier",
-        "description": "Multimplier for the cooldown when the laser spot is enabled",
+        "description": "Multiplier for the cooldown when the laser spot is enabled",
         "type": "number",
         "minimum": 0.1
     },
     "laser_size":
     {
         "title": "Laser sprite size multiplier",
-        "description": "Multimplier for the sprite model when the laser spot is enabled",
+        "description": "Multiplier for the sprite model when the laser spot is enabled",
         "type": "number",
         "minimum": 0.1
     }
