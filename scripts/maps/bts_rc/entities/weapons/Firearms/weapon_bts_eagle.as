@@ -39,7 +39,7 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
 
     const string& get_player_model_laser() override
     {
-        return "models/bts_rc/weapons/v_9mmhandgunsd_laser.mdl";
+        return "models/bts_rc/weapons/p_desert_eagle_laser.mdl";
     }
 
     uint get_laser_animation() override
