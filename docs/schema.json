@@ -1527,10 +1527,34 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control eagle configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"laser_size": 
+					{
+						"default": 0.75,
+						"title": "Laser sprite size multiplier",
+						"description": "Multimplier for the sprite model when the laser spot is enabled",
+						"type": "number",
+						"minimum": 0.1
+					},
+					"laser_cooldown": 
+					{
+						"default": 2,
+						"title": "Laser cooldown multiplier",
+						"description": "Multimplier for the cooldown when the laser spot is enabled",
+						"type": "number",
+						"minimum": 0.1
+					},
+					"laser_accuracy": 
+					{
+						"default": 3,
+						"title": "Laser accuracy multiplier",
+						"description": "Multimplier for the accuracy cone when the laser spot is disabled",
+						"type": "number",
+						"minimum": 0.1
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -2114,10 +2138,34 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control glocksd configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"laser_size": 
+					{
+						"default": 0.5,
+						"title": "Laser sprite size multiplier",
+						"description": "Multimplier for the sprite model when the laser spot is enabled",
+						"type": "number",
+						"minimum": 0.1
+					},
+					"laser_cooldown": 
+					{
+						"default": 1.5,
+						"title": "Laser cooldown multiplier",
+						"description": "Multimplier for the cooldown when the laser spot is enabled",
+						"type": "number",
+						"minimum": 0.1
+					},
+					"laser_accuracy": 
+					{
+						"default": 0.3,
+						"title": "Laser accuracy multiplier",
+						"description": "Multimplier for the accuracy cone when the laser spot is disabled",
+						"type": "number",
+						"minimum": 0.1
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,

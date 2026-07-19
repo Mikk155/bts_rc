@@ -1,5 +1,11 @@
+# 17/7/2026
+## Scripts
+- Refactored laser spot structure to a `ASWeaponConfig` system child which allows `json` external configuration.
+
 # 14/07/2026
 ## Scripts
+- Reused one laser spot entity per player slot instead of recreating it whenever the Desert Eagle is deployed.
+- Added a tertiary-fire laser toggle that remembers its state across weapon holsters.
 - Fixed the standalone flashlight remaining active after switching or dropping it and prevented interrupted battery reloads from granting a full charge.
 - Corrected M4 and suppressed M4 animation sequences for fire-mode changes, reloads, draws, firing, and idles.
 
