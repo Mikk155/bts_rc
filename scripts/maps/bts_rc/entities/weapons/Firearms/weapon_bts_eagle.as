@@ -52,16 +52,6 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
         return "ammo_bts_eagle";
     }
 
-    const string& get_secondary_ammo() override
-    {
-        return "bts_battery";
-    }
-
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_flashlight";
-    }
-
     const uint8 get_animation_draw() override
     {
         return WeaponEagleAnim::Draw;
@@ -72,53 +62,11 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
         return 2;
     }
 
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Holster( player, weapon, character );
-        ASWeaponLaserConfig::WeaponHolster( player, weapon, character );
-    }
-
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Think( player, weapon, character, this, this.player_model );
-        ASWeaponLaserConfig::PlayerThink( player, weapon, character );
-    }
-
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponLaserConfig::Precache();
-    }
-
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        WeaponFlashlight( player, weapon, character );
-    }
-
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        switch( Flashlight::Toggle( player, weapon, 5.0f ) )
-        {
-            case Flashlight::State::NoAmmo:
-            {
-                ASWeaponConfig::WeaponFlashlight( player, weapon, character );
-                break;
-            }
-            case Flashlight::State::Reloading:
-            {
-                weapon.SendWeaponAnim( WeaponEagleAnim::Holster, 0, weapon.pev.body );
-                break;
-            }
-            case Flashlight::State::TurnedOn:
-            case Flashlight::State::TurnedOff:
-            default:
-            {
-                weapon.SendWeaponAnim( WeaponEagleAnim::Flash, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
-                break;
-            }
-        }
     }
 
     bool Register( meta_api::json::v2::json@ json ) override
@@ -162,12 +110,6 @@ class weapon_bts_eagle : BTS_LaserSpot
         pev.scale = 1.2;
     }
 
-    void Holster( int skiplocal = 0 ) override
-    {
-        Flashlight::Holster( this.owner, self, null );
-        BTS_FireWeapon::Holster( skiplocal );
-    }
-
     float Idle() override
     {
         self.ResetEmptySound();
@@ -178,7 +120,8 @@ class weapon_bts_eagle : BTS_LaserSpot
         }
 
         const float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
-        if( this.owner.FlashlightIsOn() )
+
+        if( self.pev.iuser1 != 0 )
         {
             if( flNextIdle > 0.5f )
             {
