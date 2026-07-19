@@ -330,50 +330,50 @@ abstract class ASWeaponConfig : IConfigurable
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        this.primary_maxammo = config.ValueOrDefault( "primary_maxammo", this.primary_maxammo );
+        this.primary_maxammo = config.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
 
-        this.secondary_maxammo = config.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo );
+        this.secondary_maxammo = config.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
 
-        this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo );
-        this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo );
+        this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
+        this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
 
-        this.primary_damage = config.ValueOrDefault( "primary_damage", this.primary_damage );
-        this.secondary_damage = config.ValueOrDefault( "secondary_damage", this.secondary_damage );
-        this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage );
+        this.primary_damage = config.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
+        this.secondary_damage = config.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
+        this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
 
-        this.primary_cooldown = config.ValueOrDefault( "primary_cooldown", this.primary_cooldown );
-        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown );
+        this.primary_cooldown = config.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
+        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
 
-        this.secondary_cooldown = config.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown );
-        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown );
+        this.secondary_cooldown = config.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
+        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
 
-        this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown );
-        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown );
+        this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
+        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
 
-        this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip );
-        this.slot = config.ValueOrDefault( "slot", this.slot );
-        this.position = config.ValueOrDefault( "position", this.position );
-        this.weight = config.ValueOrDefault( "weight", this.weight );
-        this.deploy_time = config.ValueOrDefault( "deploy_time", this.deploy_time );
+        this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip, false, false );
+        this.slot = config.ValueOrDefault( "slot", this.slot, false, false );
+        this.position = config.ValueOrDefault( "position", this.position, false, false );
+        this.weight = config.ValueOrDefault( "weight", this.weight, false, false );
+        this.deploy_time = config.ValueOrDefault( "deploy_time", this.deploy_time, false, false );
 
         // Melee properties
-        this.primary_distance = config.ValueOrDefault( "primary_distance", this.primary_distance );
-        this.secondary_distance = config.ValueOrDefault( "secondary_distance", this.secondary_distance );
-        this.tertiary_distance = config.ValueOrDefault( "tertiary_distance", this.tertiary_distance );
+        this.primary_distance = config.ValueOrDefault( "primary_distance", this.primary_distance, false, false );
+        this.secondary_distance = config.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
+        this.tertiary_distance = config.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
 
         // -TODO Should maybe schema this and some more other variables.
-        this.subsequent_hits_deduction = config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction );
+        this.subsequent_hits_deduction = config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false );
         this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
 
-        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown );
-        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown );
-        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown );
-        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown );
+        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown, false, false );
+        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
+        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
+        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
 
         // Reload properties
-        this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time );
-        this.reload_anim = config.ValueOrDefault( "reload_anim", this.reload_anim );
-        this.reload_empty_anim = config.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim );
+        this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
+        this.reload_anim = config.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
+        this.reload_empty_anim = config.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
         this.reload_sound = config.ValueOrDefault( "reload_sound", this.reload_sound );
 
         this.Precache();
