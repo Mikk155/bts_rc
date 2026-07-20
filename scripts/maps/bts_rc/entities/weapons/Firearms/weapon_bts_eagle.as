@@ -122,37 +122,40 @@ class weapon_bts_eagle : BTS_FireWeapon
             return 2.0f;
         }
 
-        const float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
-
+        // Laser active
         if( self.pev.iuser1 != 0 )
         {
-            if( flNextIdle > 0.5f )
-            {
-                PlayAnim( WeaponEagleAnim::Idle5 );
-                return 2.0f;
-            }
-            else
-            {
-                PlayAnim( WeaponEagleAnim::Idle4 );
-                return 2.5f;
-            }
+            PlayAnim( WeaponEagleAnim::Idle3 );
+            return 5.0f;
         }
-        else
+
+        switch( RandomUint(4) )
         {
-            if( flNextIdle <= 0.3f )
+            case 0:
             {
                 PlayAnim( WeaponEagleAnim::Idle1 );
                 return 2.5f;
             }
-            else if( flNextIdle > 0.6f )
-            {
-                PlayAnim( WeaponEagleAnim::Idle3 );
-                return 1.633f;
-            }
-            else
+            case 1:
             {
                 PlayAnim( WeaponEagleAnim::Idle2 );
                 return 2.5f;
+            }
+            case 2:
+            {
+                PlayAnim( WeaponEagleAnim::Idle3 );
+                return 2.5f;
+            }
+            case 3:
+            {
+                PlayAnim( WeaponEagleAnim::Idle4 );
+                return 2.5f;
+            }
+            case 4:
+            default:
+            {
+                PlayAnim( WeaponEagleAnim::Idle5 );
+                return 2.0f;
             }
         }
     }

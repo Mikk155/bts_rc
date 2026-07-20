@@ -114,7 +114,21 @@ class weapon_bts_glocksd : BTS_FireWeapon
 
     float Idle() override
     {
-        switch( Math.RandomLong( 0, 3 ) )
+        self.ResetEmptySound();
+
+        if( self.m_iClip <= 0 )
+        {
+            return 2.0f;
+        }
+
+        // Laser active
+        if( self.pev.iuser1 != 0 )
+        {
+            PlayAnim( WeaponGlockSDAnim::Idle3 );
+            return 5.0f;
+        }
+
+        switch( RandomUint(2) )
         {
             case 0:
                 PlayAnim( WeaponGlockSDAnim::Idle1 );
@@ -122,10 +136,12 @@ class weapon_bts_glocksd : BTS_FireWeapon
             case 1:
                 PlayAnim( WeaponGlockSDAnim::Idle2 );
                 break;
+            case 2:
             default:
                 PlayAnim( WeaponGlockSDAnim::Idle3 );
                 break;
         }
+
         return Math.RandomFloat( 6.0f, 8.0f );
     }
 
