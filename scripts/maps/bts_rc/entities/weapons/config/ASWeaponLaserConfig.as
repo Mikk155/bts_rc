@@ -177,6 +177,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
 
         if( weapon.pev.iuser1 == 1 )
         {
+#if FALSE
             if( weapon.m_fInReload )
             {
                 if( ( laser.pev.effects & EF_NODRAW ) == 0 )
@@ -186,7 +187,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
                 }
                 return;
             }
-
+#endif
             if( ( laser.pev.effects & EF_NODRAW ) != 0 )
             {
                 laser.pev.effects &= ~EF_NODRAW;
