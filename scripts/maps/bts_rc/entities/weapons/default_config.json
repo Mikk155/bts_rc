@@ -10,6 +10,7 @@
         "primary_trained_cooldown": 0.4,
         "secondary_cooldown": 0.5,
         "secondary_damage": 14,
+        "secondary_distance": 45,
         "secondary_miss_cooldown": 1.35,
         "secondary_miss_trained_cooldown": 1.0,
         "secondary_trained_cooldown": 0.25,
