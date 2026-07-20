@@ -76,7 +76,7 @@
         "primary_dropammo": 40,
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.1,
-        "slot": 5,
+        "slot": 3,
         "weight": 30
     },
     "weapon_bts_flare": {
