@@ -105,9 +105,9 @@
     "weapon_bts_flashlight": {
         "deploy_time": 0.5,
         "position": 4,
+        "primary_cooldown": 0.375,
         "primary_damage": 7,
         "primary_distance": 32,
-        "primary_cooldown": 0.375,
         "primary_miss_cooldown": 0.625,
         "secondary_cooldown": 0.5,
         "secondary_dropammo": 0,

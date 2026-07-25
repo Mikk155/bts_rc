@@ -85,6 +85,7 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool blood_splash;
     bool sparks_splash;
     bool m249_knockback;
+    int flashlight_maxcarry;
 
     const string& GetName() const override
     {
@@ -143,6 +144,13 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "type": "boolean",
                     "default": true,
                     "description": "Enable M249 SAW knockback recoil pushing the player backward."
+                },
+                "flashlight_maxcarry":
+                {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 0,
+                    "description": "Quantity of ammo carry for flashlight weapons"
                 }
             }
         }""";
@@ -171,6 +179,7 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.sparks_splash = bool( config[ "sparks_splash" ] );
         this.blood_splash = bool( config[ "blood_splash" ] );
         this.m249_knockback = bool( config[ "m249_knockback" ] );
+        this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
 
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( this.ItemMappingList );

@@ -132,7 +132,7 @@ abstract class BTS_Item : ScriptBasePlayerAmmoEntity
 
         g_EntityFuncs.SetModel( self, this.model );
 
-        const auto entitySize = this.m_Size;
+        const auto@ entitySize = this.m_Size;
 
         g_EntityFuncs.SetSize( self.pev, entitySize[0], entitySize[1] );
 

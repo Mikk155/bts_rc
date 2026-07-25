@@ -1457,9 +1457,7 @@
 					"secondary_maxammo": 
 					{
 						"default": 10,
-						"type": "integer",
-						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
+						"type": "integer"
 					},
 					"secondary_trained_cooldown": 
 					{
@@ -1944,9 +1942,7 @@
 					"secondary_maxammo": 
 					{
 						"default": 10,
-						"type": "integer",
-						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
+						"type": "integer"
 					},
 					"secondary_trained_cooldown": 
 					{
@@ -4143,9 +4139,7 @@
 					"secondary_maxammo": 
 					{
 						"default": 10,
-						"type": "integer",
-						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
+						"type": "integer"
 					},
 					"slot": 
 					{
@@ -5560,6 +5554,16 @@
 						"default": 32,
 						"type": "number"
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.375,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.625,
+						"type": "number"
+					},
 					"secondary_cooldown": 
 					{
 						"default": 0.5,
@@ -5573,9 +5577,7 @@
 					"secondary_maxammo": 
 					{
 						"default": 10,
-						"type": "integer",
-						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
+						"type": "integer"
 					},
 					"secondary_trained_cooldown": 
 					{
@@ -5600,10 +5602,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"primary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -5639,10 +5637,6 @@
 					{
 						"type": "number",
 						"description": "Damage multiplier applied to consecutive hits."
-					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
 					},
 					"primary_miss_trained_cooldown": 
 					{
@@ -5746,6 +5740,13 @@
 						"type": "boolean",
 						"default": true,
 						"description": "Enable M249 SAW knockback recoil pushing the player backward."
+					},
+					"flashlight_maxcarry": 
+					{
+						"type": "integer",
+						"default": 10,
+						"minimum": 0,
+						"description": "Quantity of ammo carry for flashlight weapons"
 					}
 				}
 			},
@@ -5978,7 +5979,7 @@
 						"default": 
 						[
 							1,
-							3
+							5
 						]
 					},
 					"active": 
@@ -6027,7 +6028,7 @@
 						},
 						"default": 
 						[
-							"ammo_bts_battery",
+							"bts_battery",
 							"ammo_bts_sw637",
 							"ammo_bts_eagle",
 							"ammo_bts_glock",
@@ -6047,7 +6048,7 @@
 						},
 						"default": 
 						[
-							"ammo_bts_battery",
+							"bts_battery",
 							"ammo_bts_flarebox",
 							"weapon_bts_flare",
 							"ammo_bts_glock",

@@ -27,12 +27,6 @@ namespace Flashlight
         "minimum": 0.1,
         "description": "flashlight drain time"
     },
-    "secondary_maxammo":
-    {
-        "default": 10,
-        "minimum": 0,
-        "description": "Quantity of ammo carry for flashlight weapons"
-    },
     "flashlight_ammount":
     {
         "type": "integer",
@@ -186,6 +180,22 @@ namespace Flashlight
     }
 }
 
+final class bts_battery : BTS_Ammo
+{
+    const string& get_m_PlaySound() override {
+        return "bts_rc/items/battery_pickup1.wav";
+    }
+
+    const string& get_m_Model() override {
+        return "models/bts_rc/furniture/w_flashlightbattery.mdl";
+    }
+
+    bool AddAmmo( CBaseEntity@ other )
+    {
+        return BTS_Ammo::PickupObject( other, 1, "bts_battery", g_WeaponsConfig.flashlight_maxcarry );
+    }
+}
+
 abstract class ASWeaponLightConfig : ASWeaponConfig
 {
     float flashlight_drain;
@@ -215,6 +225,11 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         return Flashlight::GetAmmoName();
     }
 
+    const string& get_secondary_ammoentity() override
+    {
+        return Flashlight::GetAmmoName();
+    }
+
     void FlashlightToggle( CBasePlayer@ player, CBasePlayerWeapon@ weapon, bool justDeployed = false )
     {
         if( justDeployed )
@@ -230,7 +245,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             if( weapon.m_flNextSecondaryAttack > g_Engine.time )
                 return;
 
-            weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
+            weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
         }
 
         int Battery = Flashlight::GetClip( player, this );
@@ -242,12 +257,13 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             {
                 g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
+                weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 return;
             }
 
             g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
 
+            weapons::SetCooldown( weapon, player, flashlight_reload );
             weapon.m_fInReload = true;
             player.GetUserData()[ "flashlight_reload" ] = weapons::SetCooldown( weapon, player, flashlight_reload );
 
@@ -326,7 +342,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 1 );
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
                 Flashlight::TurnOn( player, weapon, this );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
+                weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 break;
             }
             case Flashlight::State::Deactivate:
@@ -337,7 +353,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
                 Flashlight::TurnOff( player, weapon, this );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
+                weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 break;
             }
             case Flashlight::State::Active:

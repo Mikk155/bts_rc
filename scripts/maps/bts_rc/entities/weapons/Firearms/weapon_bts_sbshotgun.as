@@ -57,11 +57,6 @@ final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
         return "ammo_bts_sbshotgun";
     }
 
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_sbshotgun_battery";
-    }
-
     const uint8 get_animation_draw() override
     {
         return WeaponSBShotgunAnim::DRAW;
