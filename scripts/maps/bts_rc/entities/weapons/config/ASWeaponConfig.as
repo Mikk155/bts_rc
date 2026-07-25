@@ -393,50 +393,6 @@ abstract class ASWeaponConfig : IConfigurable
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of TertiaryAttack
     void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
-    // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
-    {
-        // If the current active weapon doesn't has a usable flashlight then do a loadout check
-        if( ( weapon.pszAmmo2() != "bts_battery" && weapon.pszAmmo1() != "bts_battery" ) || !Flashlight::HasAnyReserve( player, weapon, this ) )
-        {
-            @weapon = null;
-
-            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
-            {
-                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
-
-                while( item !is null )
-                {
-                    @weapon = cast<CBasePlayerWeapon@>(item);
-
-                    if( weapon !is null && ( weapon.pszAmmo2() == "bts_battery" || weapon.pszAmmo1() == "bts_battery" ) && Flashlight::HasAnyReserve( player, weapon, this ) )
-                    {
-                        player.SelectItem( weapon.pev.classname );
-                        weapon.Deploy();
-                        weapon.pev.fuser1 = g_Engine.time + player.m_flNextAttack;
-                        ui = MAX_ITEM_TYPES; // Break for loop
-                        break;
-                    }
-
-                    @weapon = null;
-                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
-                }
-            }
-        }
-
-        ASWeaponLightConfig@ weaponConfig;
-
-        if( weapon !is null )
-        {
-            @weaponConfig = cast<ASWeaponLightConfig@>( g_WeaponsConfig.Interfaces[ weapon.pev.classname ] );
-        }
-
-        if( weaponConfig !is null )
-        {
-            weaponConfig.FlashlightToggle( player, weapon );
-            player.pev.impulse = 0;
-        }
-    }
 
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )

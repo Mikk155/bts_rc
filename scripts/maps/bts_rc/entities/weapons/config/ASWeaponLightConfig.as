@@ -29,7 +29,6 @@ namespace Flashlight
     },
     "secondary_maxammo":
     {
-//        "type": "integer",
         "default": 10,
         "minimum": 0,
         "description": "Quantity of ammo carry for flashlight weapons"
@@ -40,6 +39,13 @@ namespace Flashlight
         "default": 100,
         "minimum": 10,
         "description": "Quantity of ammo carry for flashlight battery clip"
+    },
+    "flashlight_reload":
+    {
+        "type": "nuber",
+        "default": 2.5,
+        "minimum": 0.1,
+        "description": "How long to reload flashlight battery?"
     }
 }""" );
 
@@ -151,79 +157,44 @@ namespace Flashlight
         weapon.pev.iuser1 = Flashlight::State::Active;
     }
 
-    int GetClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
+    int GetClip( CBasePlayer@ player, ASWeaponConfig@ config )
     {
         dictionary@ data = player.GetUserData();
-        const string classname = weapon.GetClassname();
 
         int Battery;
-        if( !data.get( classname, Battery ) )
+
+        if( !data.get( config.GetName(), Battery ) )
         {
-            Battery = Math.RandomLong( 0, config.flashlight_ammount );
-            data[ classname ] = Battery;
+            Battery = Math.RandomLong( 0, config.secondary_dropammo );
+            data[ config.GetName() ] = Battery;
         }
 
         return Battery;
     }
 
-    bool HasClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
+    bool IsValidWeapon( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponConfig@ config )
     {
-        return ( GetClip( player, weapon, config ) > 0 );
-    }
-
-    bool HasFullClip( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
-    {
-        return ( GetClip( player, weapon, config ) >= config.flashlight_ammount );
-    }
-
-    bool HasReserves( CBasePlayer@ player )
-    {
-        return ( player.m_rgAmmo( GetAmmoIndex() ) > 0 );
-    }
-
-    bool HasAnyReserve( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
-    {
-        return ( HasClip( player, weapon, config ) || HasReserves( player ) );
-    }
-
-    bool HasAnyReserve( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponConfig@ config )
-    {
-        return ( HasClip( player, weapon, cast<ASWeaponLightConfig@>( config ) ) || HasReserves( player ) );
-    }
-
-    /// Return whatever we have ammo or not.
-    /// Will start reloading if needed.
-    /// The reload will be completed after the given "time" if the player didn't swap weapon during that time.
-    bool Reload( CBasePlayer@ player, CBasePlayerWeapon@ weapon, float time, ASWeaponLightConfig@ config )
-    {
-        if( HasClip( player, weapon, config ) )
-            return true;
-
-        if( !HasReserves( player ))
-        {
-            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
-            weapon.SendWeaponAnim( config.animation_toggle, 0, weapon.pev.body );
+        if( GetAmmoIndex() != weapon.PrimaryAmmoIndex()
+        && GetAmmoIndex() != weapon.SecondaryAmmoIndex() )
             return false;
-        }
 
-        g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+        return ( GetClip( player, config ) > 0 || player.m_rgAmmo( GetAmmoIndex() ) > 0 );
+    }
 
-        weapons::SetCooldown( weapon, player, time );
-        weapon.m_fInReload = true;
-        player.GetUserData()[ "flashlight_reload" ] = weapon.m_flNextPrimaryAttack;
+    bool IsValidWeapon( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    {
+        BTS_Weapon@ scriptedWeapon = cast<BTS_Weapon@>( CastToScriptClass( weapon ) );
 
-        weapon.pev.body = g_ModelFuncs.SetBodygroup( config.view_model_index, weapon.pev.body, config.hands_group, 0 );
-        player.pev.weaponmodel = config.player_model;
-        weapon.SendWeaponAnim( config.animation_holster, 0, weapon.pev.body );
-
-        return true;
+        ASWeaponConfig@ config = scriptedWeapon.config;
+        ASWeaponLightConfig@ lightConfig = cast<ASWeaponLightConfig@>( config );
+        return IsValidWeapon( player, weapon, lightConfig );
     }
 }
 
 abstract class ASWeaponLightConfig : ASWeaponConfig
 {
     float flashlight_drain;
-    int flashlight_ammount;
+    float flashlight_reload;
 
     // player model used when flashlight is active
     const string& get_player_model_flashlight()
@@ -249,8 +220,15 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         return Flashlight::GetAmmoName();
     }
 
-    void FlashlightToggle( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    void FlashlightToggle( CBasePlayer@ player, CBasePlayerWeapon@ weapon, bool justDeployed = false )
     {
+        if( justDeployed )
+        {
+            player.SelectItem( weapon.pev.classname );
+            weapon.Deploy();
+            weapon.pev.fuser1 = g_Engine.time + player.m_flNextAttack;
+        }
+
         // Method was called just after weapon deployed in ASWeaponConfig so skip the cooldown check & set.
         if( g_Engine.time > weapon.pev.fuser1 )
         {
@@ -260,12 +238,28 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
         }
 
-        int Battery = Flashlight::GetClip( player, weapon, this );
+        int Battery = Flashlight::GetClip( player, this );
         
         if( Battery <= 0 )
         {
-            if( !Flashlight::Reload( player, weapon, 0.5f, this ) )
+            // No reserves
+            if( player.m_rgAmmo( Flashlight::GetAmmoIndex() ) <= 0)
+            {
+                g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
+                weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
+                weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 return;
+            }
+
+            g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav", 1.0f, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
+
+            weapons::SetCooldown( weapon, player, flashlight_reload );
+            weapon.m_fInReload = true;
+            player.GetUserData()[ "flashlight_reload" ] = weapons::SetCooldown( weapon, player, flashlight_reload );
+
+            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
+            player.pev.weaponmodel = this.player_model;
+            weapon.SendWeaponAnim( this.animation_holster, 0, weapon.pev.body );
         }
  
         switch( weapon.pev.iuser1 )
@@ -302,16 +296,13 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
 
         dictionary@ data = player.GetUserData();
 
-        int Battery = Flashlight::GetClip( player, weapon, this );
+        int Battery = Flashlight::GetClip( player, this );
 
         float reloadTime;
         if( data.get( "flashlight_reload", reloadTime ) )
         {
             if( reloadTime > g_Engine.time )
             {
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
-                player.pev.weaponmodel = this.player_model;
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
                 player.m_iFlashBattery = 0;
                 return;
             }
@@ -321,10 +312,11 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             int ammoCount = player.m_rgAmmo( Flashlight::GetAmmoIndex() );
 
             weapon.m_fInReload = false;
-            data[ this.GetName() ] = Battery = flashlight_ammount;
+            data[ this.GetName() ] = Battery = this.secondary_dropammo;
             player.m_rgAmmo( Flashlight::GetAmmoIndex(), ammoCount - 1 );
             data.delete( "flashlight_reload" );
-            weapon.SendWeaponAnim( this.animation_draw, 0, weapon.pev.body );
+            weapons::Deploy( weapon, player, this );
+            weapon.pev.fuser1 = weapon.m_flNextSecondaryAttack;
         }
 
         switch( weapon.pev.iuser1 )
@@ -405,9 +397,9 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             }
         }
 
-        // Normalize to a percentaje 0-100 so flashlight_ammount can be anything else than 100.
+        // Normalize to a percentaje 0-100 so secondary_dropammo can be anything else than 100.
         data[ this.GetName() ] = Battery;
-        player.m_iFlashBattery = int( ( Battery * 100.0f ) / flashlight_ammount + 0.5f );
+        player.m_iFlashBattery = int( ( Battery * 100.0f ) / secondary_dropammo + 0.5f );
     }
 
     const string GetSchema() const override
@@ -441,12 +433,16 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     bool Register( meta_api::json::v2::json@ config ) override
     {
         this.flashlight_drain = config.ValueOrDefault( "flashlight_drain", this.flashlight_drain );
-        this.flashlight_ammount = config.ValueOrDefault( "flashlight_ammount", this.flashlight_ammount );
+        this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );
 
 #if SERVER
         this.flashlight_drain = 0.1f;
 #endif
+        bool result = ASWeaponConfig::Register( config );
 
-        return ASWeaponConfig::Register( config );
+        // HACK: Lazy to cast ASWeaponConfig to ASWeaponLightConfig so we use secondary_dropammo for internals.
+        this.secondary_dropammo = config.ValueOrDefault( "flashlight_ammount", this.secondary_dropammo );
+
+        return result;
     }
 }

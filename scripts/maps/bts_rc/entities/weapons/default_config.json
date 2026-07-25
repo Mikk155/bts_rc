@@ -18,7 +18,6 @@
         "subsequent_hits_deduction": 0.5
     },
     "weapon_bts_beretta": {
-        "reload_time": 1.5,
         "deploy_time": 1.0,
         "max_clip": 15,
         "position": 6,
@@ -30,6 +29,7 @@
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
+        "reload_time": 1.5,
         "secondary_cooldown": 0.5,
         "secondary_dropammo": 1,
         "secondary_maxammo": 10,
@@ -54,8 +54,6 @@
         "laser_accuracy": 3.0,
         "laser_cooldown": 2.0,
         "laser_size": 0.75,
-        "reload_time": 1.5,
-        "secondary_cooldown": 0.5,
         "max_clip": 9,
         "position": 9,
         "primary_cooldown": 0.22,
@@ -65,6 +63,8 @@
         "primary_trained_cooldown": 0.22,
         "reload_anim": 8,
         "reload_empty_anim": 7,
+        "reload_time": 1.5,
+        "secondary_cooldown": 0.5,
         "slot": 1,
         "weight": 10
     },
@@ -131,7 +131,6 @@
         "weight": 10
     },
     "weapon_bts_glock17f": {
-        "reload_time": 1.5,
         "deploy_time": 0.6,
         "max_clip": 17,
         "position": 7,
@@ -143,6 +142,7 @@
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
+        "reload_time": 1.5,
         "secondary_cooldown": 0.5,
         "secondary_dropammo": 1,
         "secondary_maxammo": 10,
@@ -172,8 +172,6 @@
         "laser_accuracy": 3.0,
         "laser_cooldown": 1.5,
         "laser_size": 0.5,
-        "secondary_cooldown": 0.5,
-        "reload_time": 1.5,
         "max_clip": 17,
         "position": 5,
         "primary_cooldown": 0.1,
@@ -184,6 +182,8 @@
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
+        "reload_time": 1.5,
+        "secondary_cooldown": 0.5,
         "slot": 1,
         "weight": 10
     },
