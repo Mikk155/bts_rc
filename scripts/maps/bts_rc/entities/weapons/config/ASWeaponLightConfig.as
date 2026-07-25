@@ -261,7 +261,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             weapon.m_fInReload = true;
             player.GetUserData()[ "flashlight_reload" ] = weapons::SetCooldown( weapon, player, flashlight_reload );
 
-            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
+            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
             weapon.SendWeaponAnim( this.animation_holster, 0, weapon.pev.body );
         }
  
@@ -333,7 +333,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 if( g_Engine.time <= weapon.pev.fuser1 )
                     break;
 
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 1 );
+                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 1 );
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
                 Flashlight::TurnOn( player, weapon, this );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
@@ -344,7 +344,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 if( weapon.m_fInReload )
                     break;
 
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
+                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
                 Flashlight::TurnOff( player, weapon, this );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
@@ -371,7 +371,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                         if( Battery <= 0 )
                         {
                             Battery = 0;
-                            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
+                            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
                             weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
                             Flashlight::TurnOff( player, weapon, this );
                             break;
