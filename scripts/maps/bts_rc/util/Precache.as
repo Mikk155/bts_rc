@@ -162,12 +162,11 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/w_glocksd4.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/weapon_m79.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
-    g_Game.PrecacheModel( "sprites/laserdot.spr" );
     g_Game.PrecacheModel( "sprites/exit1.spr" );
     g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
     g_SoundSystem.PrecacheSound( "ambience/port_suckout1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
-    g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/items/flashlight1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/sprayaid1.wav" );
@@ -260,7 +259,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/reload3.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/sbarrel1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/scock1.wav" );
-    g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
     g_SoundSystem.PrecacheSound( "items/medshotno1.wav" );
     g_SoundSystem.PrecacheSound( "sound/weapons/sniper_reload_second_seq.wav" );
     g_SoundSystem.PrecacheSound( "vox/authorized.wav" );

@@ -161,6 +161,7 @@ abstract class ASWeaponConfig : IConfigurable
     // Weapon deploy bodygroup value. some models has their hands bodgroup on a different value. automatically set in BTS_Weapon::Deploy
     const uint8 get_hands_group() { return 1; }
     const uint8 get_animation_draw() { return 1; }
+    const int get_animation_holster() { return -1; }
     const string& get_primary_ammo() { return String::EMPTY_STRING; }
     const string& get_primary_ammoentity() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
@@ -342,13 +343,13 @@ abstract class ASWeaponConfig : IConfigurable
         this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
 
         this.primary_cooldown = config.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
-        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
+        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_cooldown, false, false );
 
         this.secondary_cooldown = config.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
-        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
+        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_cooldown, false, false );
 
         this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
-        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
+        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_cooldown, false, false );
 
         this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip, false, false );
         this.slot = config.ValueOrDefault( "slot", this.slot, false, false );
@@ -366,9 +367,9 @@ abstract class ASWeaponConfig : IConfigurable
         this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
 
         this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown, false, false );
-        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
+        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_cooldown, false, false );
         this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
-        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
+        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
         // Reload properties
         this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
@@ -392,46 +393,6 @@ abstract class ASWeaponConfig : IConfigurable
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of TertiaryAttack
     void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
-    // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
-    {
-        if( player.pev.impulse == 0 )
-            return; // Avoid looping
-
-        // If the current active weapon doesn't has a usable flashlight then do a loadout check
-        if( ( weapon.pszAmmo2() != "bts_battery" && weapon.pszAmmo1() != "bts_battery" ) || !Flashlight::HasAnyReserve( player, weapon ) )
-        {
-            @weapon = null;
-
-            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
-            {
-                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
-
-                while( item !is null )
-                {
-                    @weapon = cast<CBasePlayerWeapon@>(item);
-
-                    if( weapon !is null && ( weapon.pszAmmo2() == "bts_battery" || weapon.pszAmmo1() == "bts_battery" ) && Flashlight::HasAnyReserve( player, weapon ) )
-                    {
-                        player.SelectItem( weapon.pev.classname );
-                        weapon.Deploy();
-                        ui = MAX_ITEM_TYPES; // Break for loop
-                        break;
-                    }
-
-                    @weapon = null;
-                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
-                }
-            }
-        }
-
-        if( weapon !is null )
-        {
-            player.pev.impulse = 0;
-            ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.pev.classname ] );
-            weaponConfig.WeaponFlashlight( player, weapon, character );
-        }
-    }
 
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )

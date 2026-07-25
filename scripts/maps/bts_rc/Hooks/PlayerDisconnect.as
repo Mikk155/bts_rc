@@ -29,6 +29,13 @@ namespace Hooks
             laserSpot.pev.effects |= EF_NODRAW;
         }
 
+        CBaseEntity@ flashlightSpot = Flashlight::Entity( player );
+
+        if( flashlightSpot !is null )
+        {
+            flashlightSpot.pev.effects |= EF_NODRAW;
+        }
+
         item_tracker::OnPlayerDisconnect( player );
 
         return HOOK_CONTINUE;

@@ -1005,6 +1005,11 @@
 						"default": 14,
 						"type": "number"
 					},
+					"secondary_distance": 
+					{
+						"default": 45,
+						"type": "number"
+					},
 					"secondary_miss_cooldown": 
 					{
 						"default": 1.35,
@@ -1066,10 +1071,6 @@
 					"weight": 
 					{
 						"type": "integer"
-					},
-					"secondary_distance": 
-					{
-						"type": "number"
 					},
 					"tertiary_distance": 
 					{
@@ -1379,8 +1380,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control beretta configuration",
+				"title": "Weapon flashlight config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -1438,6 +1439,11 @@
 						"default": "bts_rc/weapons/9mm_clip.wav",
 						"type": "string"
 					},
+					"reload_time": 
+					{
+						"default": 1.5,
+						"type": "number"
+					},
 					"secondary_cooldown": 
 					{
 						"default": 0.5,
@@ -1517,9 +1523,26 @@
 					{
 						"type": "number"
 					},
-					"reload_time": 
+					"flashlight_drain": 
 					{
-						"type": "number"
+						"type": "number",
+						"default": 0.8,
+						"minimum": 0.1,
+						"description": "flashlight drain time"
+					},
+					"flashlight_ammount": 
+					{
+						"type": "integer",
+						"default": 100,
+						"minimum": 10,
+						"description": "Quantity of ammo carry for flashlight battery clip"
+					},
+					"flashlight_reload": 
+					{
+						"type": "nuber",
+						"default": 2.5,
+						"minimum": 0.1,
+						"description": "How long to reload flashlight battery?"
 					}
 				}
 			},
@@ -1531,11 +1554,16 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
-					"laser_size": 
+					"deploy_time": 
 					{
-						"default": 0.75,
-						"title": "Laser sprite size multiplier",
-						"description": "Multimplier for the sprite model when the laser spot is enabled",
+						"default": 1,
+						"type": "number"
+					},
+					"laser_accuracy": 
+					{
+						"default": 3,
+						"title": "Laser accuracy multiplier",
+						"description": "Multiplier for the accuracy cone when the laser spot is disabled",
 						"type": "number",
 						"minimum": 0.1
 					},
@@ -1543,22 +1571,17 @@
 					{
 						"default": 2,
 						"title": "Laser cooldown multiplier",
-						"description": "Multimplier for the cooldown when the laser spot is enabled",
+						"description": "Multiplier for the cooldown when the laser spot is enabled",
 						"type": "number",
 						"minimum": 0.1
 					},
-					"laser_accuracy": 
+					"laser_size": 
 					{
-						"default": 3,
-						"title": "Laser accuracy multiplier",
-						"description": "Multimplier for the accuracy cone when the laser spot is disabled",
+						"default": 0.75,
+						"title": "Laser sprite size multiplier",
+						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
 						"minimum": 0.1
-					},
-					"deploy_time": 
-					{
-						"default": 1,
-						"type": "number"
 					},
 					"max_clip": 
 					{
@@ -1605,22 +1628,12 @@
 						"default": 7,
 						"type": "integer"
 					},
-					"secondary_cooldown": 
+					"reload_time": 
 					{
-						"default": 0.5,
+						"default": 1.5,
 						"type": "number"
 					},
-					"secondary_dropammo": 
-					{
-						"default": 1,
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"default": 10,
-						"type": "integer"
-					},
-					"secondary_trained_cooldown": 
+					"secondary_cooldown": 
 					{
 						"default": 0.5,
 						"type": "number"
@@ -1635,6 +1648,14 @@
 						"default": 10,
 						"type": "integer"
 					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
 					"secondary_damage": 
 					{
 						"type": "number"
@@ -1644,6 +1665,10 @@
 						"type": "number"
 					},
 					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -1681,10 +1706,6 @@
 						"type": "number"
 					},
 					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"reload_time": 
 					{
 						"type": "number"
 					},
@@ -1844,8 +1865,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control glock17f configuration",
+				"title": "Weapon flashlight config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -1902,6 +1923,11 @@
 					{
 						"default": "bts_rc/weapons/9mm_clip.wav",
 						"type": "string"
+					},
+					"reload_time": 
+					{
+						"default": 1.5,
+						"type": "number"
 					},
 					"secondary_cooldown": 
 					{
@@ -1982,9 +2008,26 @@
 					{
 						"type": "number"
 					},
-					"reload_time": 
+					"flashlight_drain": 
 					{
-						"type": "number"
+						"type": "number",
+						"default": 0.8,
+						"minimum": 0.1,
+						"description": "flashlight drain time"
+					},
+					"flashlight_ammount": 
+					{
+						"type": "integer",
+						"default": 100,
+						"minimum": 10,
+						"description": "Quantity of ammo carry for flashlight battery clip"
+					},
+					"flashlight_reload": 
+					{
+						"type": "nuber",
+						"default": 2.5,
+						"minimum": 0.1,
+						"description": "How long to reload flashlight battery?"
 					}
 				}
 			},
@@ -2142,11 +2185,16 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
-					"laser_size": 
+					"deploy_time": 
 					{
-						"default": 0.5,
-						"title": "Laser sprite size multiplier",
-						"description": "Multimplier for the sprite model when the laser spot is enabled",
+						"default": 0.6,
+						"type": "number"
+					},
+					"laser_accuracy": 
+					{
+						"default": 3,
+						"title": "Laser accuracy multiplier",
+						"description": "Multiplier for the accuracy cone when the laser spot is disabled",
 						"type": "number",
 						"minimum": 0.1
 					},
@@ -2154,22 +2202,17 @@
 					{
 						"default": 1.5,
 						"title": "Laser cooldown multiplier",
-						"description": "Multimplier for the cooldown when the laser spot is enabled",
+						"description": "Multiplier for the cooldown when the laser spot is enabled",
 						"type": "number",
 						"minimum": 0.1
 					},
-					"laser_accuracy": 
+					"laser_size": 
 					{
-						"default": 0.3,
-						"title": "Laser accuracy multiplier",
-						"description": "Multimplier for the accuracy cone when the laser spot is disabled",
+						"default": 0.5,
+						"title": "Laser sprite size multiplier",
+						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
 						"minimum": 0.1
-					},
-					"deploy_time": 
-					{
-						"default": 0.6,
-						"type": "number"
 					},
 					"max_clip": 
 					{
@@ -2221,22 +2264,12 @@
 						"default": "bts_rc/weapons/9mm_clip.wav",
 						"type": "string"
 					},
-					"secondary_cooldown": 
+					"reload_time": 
 					{
-						"default": 0.5,
+						"default": 1.5,
 						"type": "number"
 					},
-					"secondary_dropammo": 
-					{
-						"default": 1,
-						"type": "integer"
-					},
-					"secondary_maxammo": 
-					{
-						"default": 10,
-						"type": "integer"
-					},
-					"secondary_trained_cooldown": 
+					"secondary_cooldown": 
 					{
 						"default": 0.5,
 						"type": "number"
@@ -2251,6 +2284,14 @@
 						"default": 10,
 						"type": "integer"
 					},
+					"secondary_maxammo": 
+					{
+						"type": "integer"
+					},
+					"secondary_dropammo": 
+					{
+						"type": "integer"
+					},
 					"secondary_damage": 
 					{
 						"type": "number"
@@ -2260,6 +2301,10 @@
 						"type": "number"
 					},
 					"tertiary_cooldown": 
+					{
+						"type": "number"
+					},
+					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -2297,10 +2342,6 @@
 						"type": "number"
 					},
 					"secondary_miss_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"reload_time": 
 					{
 						"type": "number"
 					}
@@ -4041,8 +4082,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control sbshotgun configuration",
+				"title": "Weapon flashlight config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4085,6 +4126,11 @@
 						"default": 0.85,
 						"type": "number"
 					},
+					"secondary_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
 					"secondary_dropammo": 
 					{
 						"default": 1,
@@ -4110,10 +4156,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -4177,6 +4219,27 @@
 					"reload_sound": 
 					{
 						"type": "string"
+					},
+					"flashlight_drain": 
+					{
+						"type": "number",
+						"default": 0.8,
+						"minimum": 0.1,
+						"description": "flashlight drain time"
+					},
+					"flashlight_ammount": 
+					{
+						"type": "integer",
+						"default": 100,
+						"minimum": 10,
+						"description": "Quantity of ammo carry for flashlight battery clip"
+					},
+					"flashlight_reload": 
+					{
+						"type": "nuber",
+						"default": 2.5,
+						"minimum": 0.1,
+						"description": "How long to reload flashlight battery?"
 					}
 				}
 			},
@@ -4941,7 +5004,7 @@
 					},
 					"slot": 
 					{
-						"default": 5,
+						"default": 3,
 						"type": "integer"
 					},
 					"weight": 
@@ -5467,7 +5530,7 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
+				"title": "Weapon flashlight config",
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
@@ -5481,6 +5544,11 @@
 						"default": 4,
 						"type": "integer"
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.375,
+						"type": "number"
+					},
 					"primary_damage": 
 					{
 						"default": 7,
@@ -5489,6 +5557,11 @@
 					"primary_distance": 
 					{
 						"default": 32,
+						"type": "number"
+					},
+					"primary_miss_cooldown": 
+					{
+						"default": 0.625,
 						"type": "number"
 					},
 					"secondary_cooldown": 
@@ -5532,10 +5605,6 @@
 					{
 						"type": "number"
 					},
-					"primary_cooldown": 
-					{
-						"type": "number"
-					},
 					"tertiary_cooldown": 
 					{
 						"type": "number"
@@ -5569,10 +5638,6 @@
 						"type": "number",
 						"description": "Damage multiplier applied to consecutive hits."
 					},
-					"primary_miss_cooldown": 
-					{
-						"type": "number"
-					},
 					"primary_miss_trained_cooldown": 
 					{
 						"type": "number"
@@ -5600,6 +5665,27 @@
 					"reload_sound": 
 					{
 						"type": "string"
+					},
+					"flashlight_drain": 
+					{
+						"type": "number",
+						"default": 0.8,
+						"minimum": 0.1,
+						"description": "flashlight drain time"
+					},
+					"flashlight_ammount": 
+					{
+						"type": "integer",
+						"default": 100,
+						"minimum": 10,
+						"description": "Quantity of ammo carry for flashlight battery clip"
+					},
+					"flashlight_reload": 
+					{
+						"type": "nuber",
+						"default": 2.5,
+						"minimum": 0.1,
+						"description": "How long to reload flashlight battery?"
 					}
 				}
 			},
@@ -5655,25 +5741,11 @@
 						"default": true,
 						"description": "Enable M249 SAW knockback recoil pushing the player backward."
 					},
-					"flashlight_drain": 
-					{
-						"type": "number",
-						"default": 0.8,
-						"minimum": 0.1,
-						"description": "flashlight drain time"
-					},
-					"flashlight_capacity": 
+					"flashlight_maxcarry": 
 					{
 						"type": "integer",
 						"default": 10,
 						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
-					},
-					"flashlight_ammount": 
-					{
-						"type": "integer",
-						"default": 100,
-						"minimum": 10,
 						"description": "Quantity of ammo carry for flashlight weapons"
 					}
 				}
@@ -5907,7 +5979,7 @@
 						"default": 
 						[
 							1,
-							3
+							5
 						]
 					},
 					"active": 
@@ -5956,7 +6028,7 @@
 						},
 						"default": 
 						[
-							"ammo_bts_battery",
+							"bts_battery",
 							"ammo_bts_sw637",
 							"ammo_bts_eagle",
 							"ammo_bts_glock",
@@ -5976,7 +6048,7 @@
 						},
 						"default": 
 						[
-							"ammo_bts_battery",
+							"bts_battery",
 							"ammo_bts_flarebox",
 							"weapon_bts_flare",
 							"ammo_bts_glock",

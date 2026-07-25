@@ -16,7 +16,6 @@
 **/
 
 #include "ammo_bts_beretta"
-#include "ammo_bts_flashlight"
 
 class BTS_Ammo : BTS_Item
 {

@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponSBShotgunConfig : ASWeaponConfig
+final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
 {
     const string& GetName() const override
     {
@@ -25,6 +25,11 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
     const string& get_player_model() override
     {
         return "models/bts_rc/weapons/p_sbshotgun.mdl";
+    }
+
+    const string& get_player_model_flashlight() override
+    {
+        return "models/bts_rc/weapons/p_sbshotgun_cone.mdl";
     }
 
     const string& get_world_model() override
@@ -52,19 +57,19 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
         return "ammo_bts_sbshotgun";
     }
 
-    const string& get_secondary_ammo() override
-    {
-        return "bts_battery";
-    }
-
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_sbshotgun_battery";
-    }
-
     const uint8 get_animation_draw() override
     {
         return WeaponSBShotgunAnim::DRAW;
+    }
+
+    const int get_animation_holster() override
+    {
+        return WeaponSBShotgunAnim::HOLSTER;
+    }
+
+    const uint8 get_animation_toggle() override
+    {
+        return WeaponSBShotgunAnim::FLASH;
     }
 
     void Precache() override
@@ -73,27 +78,8 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbscock1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
-        g_SoundSystem.PrecacheSound( "items/flashlight1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control sbshotgun configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponLightConfig::Precache();
     }
 }
 
@@ -122,26 +108,8 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         return @gpWeaponSBShotgunConfig;
     }
 
-    private int m_iFlashBattery
-    {
-        get
-        {
-            if( !this.owner.GetUserData().exists( pev.classname ) )
-            {
-                this.owner.GetUserData()[pev.classname] = Math.RandomLong( 0, 50 );
-            }
-            return int( this.owner.GetUserData()[pev.classname] );
-        }
-        set
-        {
-            this.owner.GetUserData()[pev.classname] = value;
-        }
-    }
-
     private float m_flTimeWeaponReload = 0.0f;
-    private float m_flFlashLightTime = 0.0f;
     private float m_flRestoreAfter = 0.0f;
-    private int m_iCurrentBattery = 0;
     private int m_fInReloadState = 0;
 
     void Spawn() override
@@ -154,69 +122,19 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
     void Holster( int skiplocal = 0 )
     {
         SetThink( null );
-        g_SoundSystem.StopSound( this.owner.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
-
-        if( this.owner.FlashlightIsOn() )
-            FlashlightTurnOff();
 
         m_fInReloadState = 0;
         m_flRestoreAfter = 0.0f;
         self.m_fInReload = false;
-        m_iFlashBattery = m_iCurrentBattery;
-        this.owner.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
         BaseClass.Holster( skiplocal );
     }
 
     void ItemPostFrame()
     {
-        float drainTime = 0.8f;
-        if( m_flFlashLightTime != 0.0f && m_flFlashLightTime <= g_Engine.time )
-        {
-            if( this.owner.FlashlightIsOn() )
-            {
-                if( m_iCurrentBattery != 0 )
-                {
-                    m_flFlashLightTime = g_Engine.time + drainTime;
-                    --m_iCurrentBattery;
-
-                    if( m_iCurrentBattery == 0 )
-                        FlashlightTurnOff();
-                }
-            }
-            else
-            {
-                m_flFlashLightTime = 0.0f;
-            }
-
-            NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, this.owner.edict() );
-            msg.WriteByte( m_iCurrentBattery );
-            msg.End();
-        }
-
-        if( m_flRestoreAfter > 0.0f && m_flRestoreAfter <= g_Engine.time )
-        {
-            m_flRestoreAfter = 0.0f;
-            this.owner.pev.effects |= EF_DIMLIGHT;
-        }
-
         BaseClass.ItemPostFrame();
 
         if( self.m_fInReload && m_fInReloadState != 0 )
             self.Reload();
-    }
-
-    bool Deploy() override
-    {
-        m_iCurrentBattery = m_iFlashBattery;
-        this.owner.pev.effects &= ~EF_DIMLIGHT;
-        this.owner.m_iHideHUD &= ~HIDEHUD_FLASHLIGHT;
-
-        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, this.owner.edict() );
-        msg.WriteByte( 0 );
-        msg.WriteByte( m_iCurrentBattery );
-        msg.End();
-
-        return BTS_FireWeapon::Deploy();
     }
 
     void Attack( CBasePlayer@ player, AttackType type ) override
@@ -225,47 +143,6 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         {
             this.PlayEmptySound();
             self.m_flNextPrimaryAttack = g_Engine.time + 0.12f;
-            return;
-        }
-
-        if( type == AttackType::Secondary )
-        {
-            if( self.m_fInReload )
-                return;
-
-            if( m_iCurrentBattery == 0 )
-            {
-                if( player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 || FinishReload( true ) )
-                {
-                    this.PlayEmptySound();
-                    self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                }
-                else
-                {
-                    SetThink( null );
-                    m_fInReloadState = 0;
-                    m_flRestoreAfter = 0.0f;
-                    self.m_fInReload = false;
-                    m_flFlashLightTime = 0.0f;
-
-                    SetThink( ThinkFunction( BatteryRechargeStart ) );
-                    pev.nextthink = g_Engine.time + ( 10.0f / 30.0f );
-
-                    PlayAnim( WeaponSBShotgunAnim::HOLSTER );
-                    self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
-                }
-            }
-            else
-            {
-                if( player.FlashlightIsOn() )
-                    FlashlightTurnOff();
-                else
-                    FlashlightTurnOn();
-
-                self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
-                PlayAnim( WeaponSBShotgunAnim::FLASH );
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
-            }
             return;
         }
 
@@ -359,9 +236,6 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         if( m_flTimeWeaponReload > g_Engine.time )
             return;
 
-        if( this.owner.FlashlightIsOn() )
-            FlashlightTurnOff();
-
         switch( m_fInReloadState )
         {
             case 0:
@@ -400,58 +274,6 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
     {
         SetThink( null );
         PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 0x1f ) );
-    }
-
-    private void BatteryRechargeStart()
-    {
-        SetThink( ThinkFunction( BatteryRechargeEnd ) );
-        pev.nextthink = g_Engine.time + 4.0f;
-        FlashlightTurnOff();
-
-        PlaySound( "bts_rc/items/battery_reload.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) );
-    }
-
-    private void BatteryRechargeEnd()
-    {
-        SetThink( null );
-
-        PlayAnim( WeaponSBShotgunAnim::DRAW );
-        m_iFlashBattery = m_iCurrentBattery = 100;
-
-        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::FlashBat, this.owner.edict() );
-        msg.WriteByte( m_iCurrentBattery );
-        msg.End();
-
-        this.owner.m_flNextAttack = 0.5f;
-        this.owner.m_rgAmmo( self.m_iSecondaryAmmoType, this.owner.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 12.0f / 24.0f );
-    }
-
-    private void FlashlightTurnOn()
-    {
-        PlaySound( "items/flashlight1.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) );
-        this.owner.pev.effects |= EF_DIMLIGHT;
-
-        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, this.owner.edict() );
-        msg.WriteByte( 1 );
-        msg.WriteByte( m_iCurrentBattery );
-        msg.End();
-
-        float drainTime = 0.8f;
-        m_flFlashLightTime = g_Engine.time + drainTime;
-    }
-
-    private void FlashlightTurnOff()
-    {
-        PlaySound( "items/flashlight1.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) );
-        this.owner.pev.effects &= ~EF_DIMLIGHT;
-
-        NetworkMessage msg( MSG_ONE_UNRELIABLE, NetworkMessages::Flashlight, this.owner.edict() );
-        msg.WriteByte( 0 );
-        msg.WriteByte( m_iCurrentBattery );
-        msg.End();
-
-        m_flFlashLightTime = 0.0f;
     }
 
     private bool FinishReload( bool fCondition )

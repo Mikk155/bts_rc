@@ -41,7 +41,7 @@ final class ASDeathDropConfig : IConfigurable
                     "items": { "type": "string" },
                     "default":
                     [
-                        "ammo_bts_battery",
+                        "bts_battery",
                         "ammo_bts_sw637",
                         "ammo_bts_eagle",
                         "ammo_bts_glock",
@@ -58,7 +58,7 @@ final class ASDeathDropConfig : IConfigurable
                     "items": { "type": "string" },
                     "default":
                     [
-                        "ammo_bts_battery",
+                        "bts_battery",
                         "ammo_bts_flarebox",
                         "weapon_bts_flare",
                         "ammo_bts_glock",

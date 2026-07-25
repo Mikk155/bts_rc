@@ -74,7 +74,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 "bts_battery":
                 {
                     "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 3 ]
+                    "default": [ 1, 5 ]
                 }
             }
         }""";

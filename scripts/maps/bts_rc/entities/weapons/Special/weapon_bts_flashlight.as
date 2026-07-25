@@ -37,7 +37,7 @@ enum WeaponFlashlightAnim
     Flashlight
 };
 
-final class ASWeaponFlashlightConfig : ASWeaponConfig
+final class ASWeaponFlashlightConfig : ASWeaponLightConfig
 {
     const string& GetName() const override {
         return "weapon_bts_flashlight";
@@ -47,7 +47,7 @@ final class ASWeaponFlashlightConfig : ASWeaponConfig
         return "models/bts_rc/weapons/p_flashlight.mdl";
     }
 
-    const string& get_flashlight_model()
+    const string& get_player_model_flashlight() override
     {
         return "models/bts_rc/weapons/p_flashlight_cone.mdl";
     }
@@ -64,61 +64,19 @@ final class ASWeaponFlashlightConfig : ASWeaponConfig
         return "crowbar";
     }
 
-    const string& get_secondary_ammo() override
+    const uint8 get_animation_draw() override
     {
-        return "bts_battery";
-    }
-
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_flashlight";
-    }
-
-    const uint8 get_animation_draw() override {
         return WeaponFlashlightAnim::Draw;
     }
 
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    const int get_animation_holster() override
     {
-        Flashlight::Think( player, weapon, character, this, this.flashlight_model );
-        ASWeaponConfig::PlayerThink( player, weapon, character );
+        return WeaponFlashlightAnim::Holster;
     }
 
-    void Precache() override
+    const uint8 get_animation_toggle() override
     {
-        g_Game.PrecacheModel( this.flashlight_model );
-        ASWeaponConfig::Precache();
-    }
-
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        WeaponFlashlight( player, weapon, character );
-    }
-
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        switch( Flashlight::Toggle( player, weapon, 5 ) )
-        {
-            case Flashlight::State::NoAmmo:
-            {
-                // Find another weapon with flashlight if this has no ammo
-                ASWeaponConfig::WeaponFlashlight( player, weapon, character );
-               break;
-            }
-            case Flashlight::State::Reloading:
-            {
-                weapon.SendWeaponAnim( WeaponFlashlightAnim::Holster, 0, weapon.pev.body );
-                break;
-            }
-            case Flashlight::State::TurnedOn:
-            case Flashlight::State::TurnedOff:
-            default:
-            {
-                weapon.SendWeaponAnim( WeaponFlashlightAnim::Flashlight, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal(player), AttackType::Secondary ) );
-                break;
-            }
-        }
+        return WeaponFlashlightAnim::Flashlight;
     }
 }
 
@@ -135,12 +93,6 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
     {
         self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         BTS_MeleeWeapon::Spawn();
-    }
-
-    void Holster( int skiplocal = 0 ) override
-    {
-        Flashlight::Holster( this.owner, self, null );
-        BTS_MeleeWeapon::Holster( skiplocal );
     }
 
     float Idle() override
@@ -160,8 +112,7 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
         if( type != AttackType::Primary )
             return;
 
-        if( player.FlashlightIsOn() )
-            player.FlashlightTurnOff();
+        Flashlight::TurnOff( player, self, gpWeaponFlashlight );
 
         TraceResult tr;
         CBaseEntity@ hit = null;
