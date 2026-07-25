@@ -343,13 +343,13 @@ abstract class ASWeaponConfig : IConfigurable
         this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
 
         this.primary_cooldown = config.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
-        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
+        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_cooldown, false, false );
 
         this.secondary_cooldown = config.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
-        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
+        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_cooldown, false, false );
 
         this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
-        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
+        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_cooldown, false, false );
 
         this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip, false, false );
         this.slot = config.ValueOrDefault( "slot", this.slot, false, false );
@@ -367,9 +367,9 @@ abstract class ASWeaponConfig : IConfigurable
         this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
 
         this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown, false, false );
-        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
+        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_cooldown, false, false );
         this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
-        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
+        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
         // Reload properties
         this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
