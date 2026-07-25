@@ -1,11 +1,16 @@
 # 27/7/2026
 ## Scripts
-- Re structured flashlight system to a `ASWeaponConfig` system child which allows `json` external configuration and reduces repeated code.
-- Flashlight now renders a glow sprite on the light spot
-- Players using flashlight will have their view model and their player model updated according to flashlight state.
-- Flashlight can now be deployed using F ``impulse 100`` from any weapon at any time, the first weapon with flashlight ammo will be deployed and after the animation ends the flashlight will turn on.
-- Secondary attack to toggle flashlight is still supported if the weapon is equiped. as well as F selection will be skiped if the curent selected weapon has flashlight ammo.
-- Flashlight now propertly reloads when out of flashlight clip and attempts to use it with either F or secondary attack.
+### Flashlight System Overhaul & Refinement
+- System Restructure: Migrated the flashlight logic to a child of ``ASWeaponConfig``. This enables external JSON configurations and drastically reduces code duplication.
+- Enhanced Rendering: Added a dynamic glow sprite effect directly onto the flashlight's light spot.
+- Improved view and player models so now update dynamically to reflect the flashlight's current state in the form of a light cone.
+- Universal Quick-Deploy ``F`` (``impulse 100``) Players can now deploy the flashlight from any weapon at any time. The system automatically selects the first available weapon with flashlight ammo, playing the deployment animation before turning the light on. if no weapon is equiped it will play a switch sound.
+- Contextual Shortcuts: Quick-deploy ``F`` (``impulse 100``) automatically skips weapon selection if the currently equipped weapon already has flashlight ammo.
+- Kept full support for toggling the flashlight via secondary attack while a compatible weapon is active.
+- Smart Fallbacks: Pressing the quick-deploy key when no flashlight-equipped weapons are owned will automatically equip flares or the flare gun instead.
+- Automatic Reloading: Fixed an issue where the flashlight would fail to reload when empty. Triggering the flashlight via quick-deploy or secondary attack with an empty clip now properly initiates a reload.
+- Animation Fixes: Resolved underlying animation glitches during reload and deployment states.
+- Reload Interruption: Reloading any weapon now automatically shuts down the flashlight, requiring the player to re-enable it once the reload animation completes.
 
 # 17/7/2026
 ## Scripts

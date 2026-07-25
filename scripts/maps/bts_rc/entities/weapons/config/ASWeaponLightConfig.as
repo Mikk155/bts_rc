@@ -412,7 +412,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         return """{
             "type": "object",
             "unevaluatedProperties": false,
-            "title": "Weapon config",
+            "title": "Weapon flashlight config",
             "description": "weapon-related gameplay modifiers.",
             "allOf":
             [
@@ -441,8 +441,10 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );
 
 #if SERVER
+        // For fast testing reload
         this.flashlight_drain = 0.1f;
 #endif
+
         bool result = ASWeaponConfig::Register( config );
 
         // HACK: Lazy to cast ASWeaponConfig to ASWeaponLightConfig so we use secondary_dropammo for internals.

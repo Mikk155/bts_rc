@@ -1380,7 +1380,7 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
+				"title": "Weapon flashlight config",
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
@@ -1865,7 +1865,7 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
+				"title": "Weapon flashlight config",
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
@@ -4082,7 +4082,7 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
+				"title": "Weapon flashlight config",
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
@@ -5530,7 +5530,7 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
+				"title": "Weapon flashlight config",
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
@@ -5544,6 +5544,11 @@
 						"default": 4,
 						"type": "integer"
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.375,
+						"type": "number"
+					},
 					"primary_damage": 
 					{
 						"default": 7,
@@ -5552,11 +5557,6 @@
 					"primary_distance": 
 					{
 						"default": 32,
-						"type": "number"
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.375,
 						"type": "number"
 					},
 					"primary_miss_cooldown": 
