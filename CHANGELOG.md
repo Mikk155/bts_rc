@@ -1,3 +1,12 @@
+# 27/7/2026
+## Scripts
+- Re structured flashlight system to a `ASWeaponConfig` system child which allows `json` external configuration and reduces repeated code.
+- Flashlight now renders a glow sprite on the light spot
+- Players using flashlight will have their view model and their player model updated according to flashlight state.
+- Flashlight can now be deployed using F ``impulse 100`` from any weapon at any time, the first weapon with flashlight ammo will be deployed and after the animation ends the flashlight will turn on.
+- Secondary attack to toggle flashlight is still supported if the weapon is equiped. as well as F selection will be skiped if the curent selected weapon has flashlight ammo.
+- Flashlight now propertly reloads when out of flashlight clip and attempts to use it with either F or secondary attack.
+
 # 17/7/2026
 ## Scripts
 - Refactored laser spot structure to a `ASWeaponConfig` system child which allows `json` external configuration.

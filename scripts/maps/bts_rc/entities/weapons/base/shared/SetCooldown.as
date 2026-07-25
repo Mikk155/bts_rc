@@ -17,15 +17,20 @@
 
 namespace weapons
 {
-    // Set weapon cooldown
-    void SetCooldown( CBasePlayerWeapon@ weapon, CBasePlayer@ player, float cooldown = 1.0f )
+    // Set weapon cooldown, returns an absolute value with g_Engine.time added
+    float SetCooldown( CBasePlayerWeapon@ weapon, CBasePlayer@ player, float cooldown = 1.0f )
     {
+        float gCooldown = g_Engine.time + cooldown;
+
         player.m_flNextAttack = cooldown;
 
-        weapon.m_flNextPrimaryAttack = weapon.m_flNextSecondaryAttack = weapon.m_flNextTertiaryAttack =
-            g_Engine.time + cooldown;
+        weapon.m_flNextPrimaryAttack =
+        weapon.m_flNextSecondaryAttack =
+        weapon.m_flNextTertiaryAttack = gCooldown;
 
-        if( weapon.m_flTimeWeaponIdle < weapon.m_flNextPrimaryAttack )
-            weapon.m_flTimeWeaponIdle = weapon.m_flNextPrimaryAttack;
+        if( weapon.m_flTimeWeaponIdle < gCooldown )
+            weapon.m_flTimeWeaponIdle = gCooldown;
+
+        return gCooldown;
     }
 }
