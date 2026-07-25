@@ -35,17 +35,7 @@ namespace weapons
 
         weapon.SendWeaponAnim( config.animation_draw, 0, weapon.pev.body );
 
-        player.m_flNextAttack = config.deploy_time;
-        float globalized_deploy = config.deploy_time + g_Engine.time;
-
-        if( weapon.m_flNextPrimaryAttack < globalized_deploy )
-            weapon.m_flNextPrimaryAttack = globalized_deploy;
-
-        if( weapon.m_flTimeWeaponIdle < globalized_deploy )
-            weapon.m_flTimeWeaponIdle = globalized_deploy;
-
-        if( weapon.m_flNextSecondaryAttack < globalized_deploy )
-            weapon.m_flNextSecondaryAttack = globalized_deploy;
+        SetCooldown( weapon, player, config.deploy_time );
 
         return true;
     }
