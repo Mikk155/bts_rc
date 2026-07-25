@@ -57,11 +57,6 @@ final class ASWeaponBerettaConfig : ASWeaponLightConfig
         return "ammo_bts_beretta";
     }
 
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_flashlight";
-    }
-
     const uint8 get_animation_draw() override
     {
         return WeaponBerettaAnim::Draw;

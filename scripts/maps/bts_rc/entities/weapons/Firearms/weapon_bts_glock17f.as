@@ -57,11 +57,6 @@ final class ASWeaponGlock17fConfig : ASWeaponLightConfig
         return "ammo_9mmclip";
     }
 
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_flashlight";
-    }
-
     const uint8 get_animation_draw() override
     {
         return WeaponGlock17fAnim::Draw;
