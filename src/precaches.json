@@ -2,6 +2,7 @@
     "PrecacheSound": [
         "ambience/port_suckout1.wav",
         "bts_rc/items/battery_pickup1.wav",
+        "bts_rc/items/flashlight1.wav",
         "bts_rc/items/nvg_off.wav",
         "bts_rc/items/nvg_on.wav",
         "bts_rc/items/sprayaid1.wav",
@@ -94,7 +95,6 @@
         "hlclassic/weapons/reload3.wav",
         "hlclassic/weapons/sbarrel1.wav",
         "hlclassic/weapons/scock1.wav",
-        "items/flashlight1.wav",
         "items/medshotno1.wav",
         "sound/weapons/sniper_reload_second_seq.wav",
         "vox/authorized.wav",

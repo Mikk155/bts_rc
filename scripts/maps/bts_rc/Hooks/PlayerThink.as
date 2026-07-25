@@ -289,6 +289,10 @@ namespace Hooks
                                 {
                                     player.SelectItem( "weapon_bts_flare" );
                                 }
+                                else
+                                {
+                                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/flashlight1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
+                                }
                             }
                         }
                     }
