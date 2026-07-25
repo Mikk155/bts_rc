@@ -354,7 +354,6 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 if( weapon.m_fInReload )
                 {
                     Flashlight::TurnOff( player, weapon );
-                    weapon.pev.iuser1 = Flashlight::State::Activate;
                     break;
                 }
 
