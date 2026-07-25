@@ -278,6 +278,18 @@ namespace Hooks
                                     @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
                                 }
                             }
+
+                            if( flashlightWeapon is null )
+                            {
+                                if( player.HasNamedPlayerItem( "weapon_bts_flaregun" ) !is null )
+                                {
+                                    player.SelectItem( "weapon_bts_flaregun" );
+                                }
+                                else if( player.HasNamedPlayerItem( "weapon_bts_flare" ) !is null )
+                                {
+                                    player.SelectItem( "weapon_bts_flare" );
+                                }
+                            }
                         }
                     }
                 }
