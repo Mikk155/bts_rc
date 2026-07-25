@@ -117,8 +117,7 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
         if( type != AttackType::Primary )
             return;
 
-        if( player.FlashlightIsOn() )
-            player.FlashlightTurnOff();
+        Flashlight::TurnOff( player, self, gpWeaponFlashlight );
 
         TraceResult tr;
         CBaseEntity@ hit = null;
