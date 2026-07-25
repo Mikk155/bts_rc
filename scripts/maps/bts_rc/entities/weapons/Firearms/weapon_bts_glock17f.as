@@ -64,7 +64,7 @@ final class ASWeaponGlock17fConfig : ASWeaponLightConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponSBShotgunAnim::DRAW;
+        return WeaponGlock17fAnim::Draw;
     }
 
     const int get_animation_holster() override
