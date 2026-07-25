@@ -18,6 +18,7 @@
         "subsequent_hits_deduction": 0.5
     },
     "weapon_bts_beretta": {
+        "reload_time": 1.5,
         "deploy_time": 1.0,
         "max_clip": 15,
         "position": 6,
@@ -130,6 +131,7 @@
         "weight": 10
     },
     "weapon_bts_glock17f": {
+        "reload_time": 1.5,
         "deploy_time": 0.6,
         "max_clip": 17,
         "position": 7,
@@ -437,6 +439,7 @@
         "primary_dropammo": 3,
         "primary_maxammo": 30,
         "primary_trained_cooldown": 0.85,
+        "secondary_cooldown": 0.3,
         "secondary_dropammo": 1,
         "secondary_maxammo": 10,
         "slot": 2,

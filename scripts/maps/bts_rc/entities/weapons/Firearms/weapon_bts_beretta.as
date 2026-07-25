@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponBerettaConfig : ASWeaponConfig
+final class ASWeaponBerettaConfig : ASWeaponLightConfig
 {
     const string& GetName() const override
     {
@@ -25,6 +25,11 @@ final class ASWeaponBerettaConfig : ASWeaponConfig
     const string& get_player_model() override
     {
         return "models/bts_rc/weapons/p_beretta.mdl";
+    }
+
+    const string& get_player_model_flashlight() override
+    {
+        return "models/bts_rc/weapons/p_beretta_cone.mdl";
     }
 
     const string& get_world_model() override
@@ -52,11 +57,6 @@ final class ASWeaponBerettaConfig : ASWeaponConfig
         return "ammo_bts_beretta";
     }
 
-    const string& get_secondary_ammo() override
-    {
-        return "bts_battery";
-    }
-
     const string& get_secondary_ammoentity() override
     {
         return "ammo_bts_flashlight";
@@ -67,16 +67,14 @@ final class ASWeaponBerettaConfig : ASWeaponConfig
         return WeaponBerettaAnim::Draw;
     }
 
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    const int get_animation_holster() override
     {
-        Flashlight::Holster( player, weapon, character );
-        ASWeaponConfig::WeaponHolster( player, weapon, character );
+        return WeaponBerettaAnim::Holster;
     }
 
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    const uint8 get_animation_toggle() override
     {
-        Flashlight::Think( player, weapon, character, this, this.player_model );
-        ASWeaponConfig::PlayerThink( player, weapon, character );
+        return WeaponBerettaAnim::Flash;
     }
 
     void Precache() override
@@ -84,61 +82,7 @@ final class ASWeaponBerettaConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/beretta_fire1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        WeaponFlashlight( player, weapon, character );
-    }
-
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        switch( Flashlight::Toggle( player, weapon, 5.0f ) )
-        {
-            case Flashlight::State::NoAmmo:
-            {
-                ASWeaponConfig::WeaponFlashlight( player, weapon, character );
-                break;
-            }
-            case Flashlight::State::Reloading:
-            {
-                weapon.SendWeaponAnim( WeaponBerettaAnim::Holster, 0, weapon.pev.body );
-                break;
-            }
-            case Flashlight::State::TurnedOn:
-            case Flashlight::State::TurnedOff:
-            default:
-            {
-                weapon.SendWeaponAnim( WeaponBerettaAnim::Flash, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
-                break;
-            }
-        }
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control beretta configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 1.5f;
-
-        return ASWeaponConfig::Register( json );
+        ASWeaponLightConfig::Precache();
     }
 }
 

@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponSBShotgunConfig : ASWeaponConfig
+final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
 {
     const string& GetName() const override
     {
@@ -25,6 +25,11 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
     const string& get_player_model() override
     {
         return "models/bts_rc/weapons/p_sbshotgun.mdl";
+    }
+
+    const string& get_player_model_flashlight() override
+    {
+        return "models/bts_rc/weapons/p_sbshotgun_cone.mdl";
     }
 
     const string& get_world_model() override
@@ -52,11 +57,6 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
         return "ammo_bts_sbshotgun";
     }
 
-    const string& get_secondary_ammo() override
-    {
-        return "bts_battery";
-    }
-
     const string& get_secondary_ammoentity() override
     {
         return "ammo_bts_sbshotgun_battery";
@@ -67,6 +67,16 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
         return WeaponSBShotgunAnim::DRAW;
     }
 
+    const int get_animation_holster() override
+    {
+        return WeaponSBShotgunAnim::HOLSTER;
+    }
+
+    const uint8 get_animation_toggle() override
+    {
+        return WeaponSBShotgunAnim::FLASH;
+    }
+
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbshotgun_fire1.wav" );
@@ -74,24 +84,7 @@ final class ASWeaponSBShotgunConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbscock1.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control sbshotgun configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponLightConfig::Precache();
     }
 }
 

@@ -167,7 +167,6 @@ void Precache()
     g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
     g_SoundSystem.PrecacheSound( "ambience/port_suckout1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
-    g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_off.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/nvg_on.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/sprayaid1.wav" );

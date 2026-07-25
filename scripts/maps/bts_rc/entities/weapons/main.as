@@ -24,7 +24,7 @@
 // Base
 #include "config/ASWeaponConfig"
 #include "config/ASWeaponLaserConfig"
-#include "config/Flashlight"
+#include "config/ASWeaponLightConfig"
 
 #include "base/BTS_FireWeapon"
 #include "base/BTS_MeleeCharge"
@@ -143,27 +143,6 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "type": "boolean",
                     "default": true,
                     "description": "Enable M249 SAW knockback recoil pushing the player backward."
-                },
-                "flashlight_drain":
-                {
-                    "type": "number",
-                    "default": 0.8,
-                    "minimum": 0.1,
-                    "description": "flashlight drain time"
-                },
-                "flashlight_capacity":
-                {
-                    "type": "integer",
-                    "default": 10,
-                    "minimum": 0,
-                    "description": "Quantity of ammo carry for flashlight weapons"
-                },
-                "flashlight_ammount":
-                {
-                    "type": "integer",
-                    "default": 100,
-                    "minimum": 10,
-                    "description": "Quantity of ammo carry for flashlight weapons"
                 }
             }
         }""";
@@ -193,18 +172,11 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.blood_splash = bool( config[ "blood_splash" ] );
         this.m249_knockback = bool( config[ "m249_knockback" ] );
 
-        Flashlight::Precache();
-
-        Flashlight::flashlight_drain = float( config[ "flashlight_drain" ] );
-        Flashlight::flashlight_capacity = int( config[ "flashlight_capacity" ] );
-        Flashlight::flashlight_ammount = int( config[ "flashlight_ammount" ] );
-
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( this.ItemMappingList );
 
         this.ItemMappingList.resize(0);
 
-        gpWeaponFlashlight.secondary_maxammo = Flashlight::flashlight_capacity;
         return true;
     }
 }

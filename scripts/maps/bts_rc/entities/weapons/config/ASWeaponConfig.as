@@ -161,6 +161,7 @@ abstract class ASWeaponConfig : IConfigurable
     // Weapon deploy bodygroup value. some models has their hands bodgroup on a different value. automatically set in BTS_Weapon::Deploy
     const uint8 get_hands_group() { return 1; }
     const uint8 get_animation_draw() { return 1; }
+    const int get_animation_holster() { return -1; }
     const string& get_primary_ammo() { return String::EMPTY_STRING; }
     const string& get_primary_ammoentity() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
@@ -395,11 +396,8 @@ abstract class ASWeaponConfig : IConfigurable
     // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
     void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
-        if( player.pev.impulse == 0 )
-            return; // Avoid looping
-
         // If the current active weapon doesn't has a usable flashlight then do a loadout check
-        if( ( weapon.pszAmmo2() != "bts_battery" && weapon.pszAmmo1() != "bts_battery" ) || !Flashlight::HasAnyReserve( player, weapon ) )
+        if( ( weapon.pszAmmo2() != "bts_battery" && weapon.pszAmmo1() != "bts_battery" ) || !Flashlight::HasAnyReserve( player, weapon, this ) )
         {
             @weapon = null;
 
@@ -411,10 +409,11 @@ abstract class ASWeaponConfig : IConfigurable
                 {
                     @weapon = cast<CBasePlayerWeapon@>(item);
 
-                    if( weapon !is null && ( weapon.pszAmmo2() == "bts_battery" || weapon.pszAmmo1() == "bts_battery" ) && Flashlight::HasAnyReserve( player, weapon ) )
+                    if( weapon !is null && ( weapon.pszAmmo2() == "bts_battery" || weapon.pszAmmo1() == "bts_battery" ) && Flashlight::HasAnyReserve( player, weapon, this ) )
                     {
                         player.SelectItem( weapon.pev.classname );
                         weapon.Deploy();
+                        weapon.pev.fuser1 = g_Engine.time + player.m_flNextAttack;
                         ui = MAX_ITEM_TYPES; // Break for loop
                         break;
                     }
@@ -425,11 +424,17 @@ abstract class ASWeaponConfig : IConfigurable
             }
         }
 
+        ASWeaponLightConfig@ weaponConfig;
+
         if( weapon !is null )
         {
+            @weaponConfig = cast<ASWeaponLightConfig@>( g_WeaponsConfig.Interfaces[ weapon.pev.classname ] );
+        }
+
+        if( weaponConfig !is null )
+        {
+            weaponConfig.FlashlightToggle( player, weapon );
             player.pev.impulse = 0;
-            ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.pev.classname ] );
-            weaponConfig.WeaponFlashlight( player, weapon, character );
         }
     }
 

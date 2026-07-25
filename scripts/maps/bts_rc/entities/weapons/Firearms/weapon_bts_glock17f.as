@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponGlock17fConfig : ASWeaponConfig
+final class ASWeaponGlock17fConfig : ASWeaponLightConfig
 {
     const string& GetName() const override
     {
@@ -25,6 +25,11 @@ final class ASWeaponGlock17fConfig : ASWeaponConfig
     const string& get_player_model() override
     {
         return "models/bts_rc/weapons/p_glock17f.mdl";
+    }
+
+    const string& get_player_model_flashlight() override
+    {
+        return "models/bts_rc/weapons/p_glock17f_cone.mdl";
     }
 
     const string& get_world_model() override
@@ -52,11 +57,6 @@ final class ASWeaponGlock17fConfig : ASWeaponConfig
         return "ammo_9mmclip";
     }
 
-    const string& get_secondary_ammo() override
-    {
-        return "bts_battery";
-    }
-
     const string& get_secondary_ammoentity() override
     {
         return "ammo_bts_flashlight";
@@ -64,7 +64,17 @@ final class ASWeaponGlock17fConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponGlock17fAnim::Draw;
+        return WeaponSBShotgunAnim::DRAW;
+    }
+
+    const int get_animation_holster() override
+    {
+        return WeaponGlock17fAnim::Holster;
+    }
+
+    const uint8 get_animation_toggle() override
+    {
+        return WeaponGlock17fAnim::Flash;
     }
 
     const uint8 get_hands_group() override
@@ -72,78 +82,12 @@ final class ASWeaponGlock17fConfig : ASWeaponConfig
         return 2;
     }
 
-    void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Holster( player, weapon, character );
-        ASWeaponConfig::WeaponHolster( player, weapon, character );
-    }
-
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        Flashlight::Think( player, weapon, character, this, this.player_model );
-        ASWeaponConfig::PlayerThink( player, weapon, character );
-    }
-
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/glock_fire1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
         g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        WeaponFlashlight( player, weapon, character );
-    }
-
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        switch( Flashlight::Toggle( player, weapon, 5.0f ) )
-        {
-            case Flashlight::State::NoAmmo:
-            {
-                ASWeaponConfig::WeaponFlashlight( player, weapon, character );
-                break;
-            }
-            case Flashlight::State::Reloading:
-            {
-                weapon.SendWeaponAnim( WeaponGlock17fAnim::Holster, 0, weapon.pev.body );
-                break;
-            }
-            case Flashlight::State::TurnedOn:
-            case Flashlight::State::TurnedOff:
-            default:
-            {
-                weapon.SendWeaponAnim( WeaponGlock17fAnim::Flash, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) );
-                break;
-            }
-        }
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control glock17f configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 1.5f;
-
-        return ASWeaponConfig::Register( json );
+        ASWeaponLightConfig::Precache();
     }
 }
 
@@ -176,12 +120,6 @@ class weapon_bts_glock17f : BTS_FireWeapon
         self.m_iDefaultAmmo = Math.RandomLong( 8, gpWeaponGlock17fConfig.max_clip );
         self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
-    }
-
-    void Holster( int skiplocal = 0 ) override
-    {
-        Flashlight::Holster( this.owner, self, null );
-        BTS_FireWeapon::Holster( skiplocal );
     }
 
     float Idle() override

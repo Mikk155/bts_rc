@@ -129,6 +129,15 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     void Holster( int skiplocal = 0 )
     {
+        if( this.config.animation_holster > -1 )
+        {
+            this.PlayAnim( this.config.animation_holster );
+        }
+
+        string buffer;
+        snprintf( buffer, "Active weapon: %1 Holster weapon: %2\n",
+            this.owner.m_hActiveItem.GetEntity().pev.classname, string( self.pev.classname ) );
+        g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, buffer );
         ClearTimerList();
         BaseClass.Holster( skiplocal );
     }

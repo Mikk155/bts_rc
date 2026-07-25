@@ -2,7 +2,6 @@
     "PrecacheSound": [
         "ambience/port_suckout1.wav",
         "bts_rc/items/battery_pickup1.wav",
-        "bts_rc/items/battery_reload.wav",
         "bts_rc/items/nvg_off.wav",
         "bts_rc/items/nvg_on.wav",
         "bts_rc/items/sprayaid1.wav",
