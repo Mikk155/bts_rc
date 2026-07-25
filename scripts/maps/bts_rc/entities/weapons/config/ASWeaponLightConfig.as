@@ -111,7 +111,7 @@ namespace Flashlight
         return flashlightHandle.GetEntity();
     }
 
-    void TurnOff( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    void TurnOff( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
     {
         // Cancel any reload
         if( weapon.m_fInReload )
@@ -128,6 +128,8 @@ namespace Flashlight
             player.FlashlightTurnOff();
         }
 
+        player.pev.weaponmodel = config.player_model;
+
         CBaseEntity@ spot = Flashlight::Entity( player );
 
         if( ( spot.pev.effects & EF_NODRAW ) == 0 )
@@ -139,12 +141,14 @@ namespace Flashlight
         weapon.pev.iuser1 = Flashlight::State::Inactive;
     }
 
-    void TurnOn( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    void TurnOn( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
     {
         if( !player.FlashlightIsOn() )
         {
             player.FlashlightTurnOn();
         }
+
+        player.pev.weaponmodel = config.player_model_flashlight;
 
         CBaseEntity@ spot = Flashlight::Entity( player );
 
@@ -258,7 +262,6 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             player.GetUserData()[ "flashlight_reload" ] = weapons::SetCooldown( weapon, player, flashlight_reload );
 
             weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
-            player.pev.weaponmodel = this.player_model;
             weapon.SendWeaponAnim( this.animation_holster, 0, weapon.pev.body );
         }
  
@@ -285,7 +288,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         ASWeaponConfig::WeaponHolster( player, weapon, character );
-        Flashlight::TurnOff( player, weapon );
+        Flashlight::TurnOff( player, weapon, this );
     }
 
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
@@ -331,9 +334,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                     break;
 
                 weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 1 );
-                player.pev.weaponmodel = this.player_model_flashlight;
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
-                Flashlight::TurnOn( player, weapon );
+                Flashlight::TurnOn( player, weapon, this );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 break;
             }
@@ -343,9 +345,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                     break;
 
                 weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
-                player.pev.weaponmodel = this.player_model;
                 weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
-                Flashlight::TurnOff( player, weapon );
+                Flashlight::TurnOff( player, weapon, this );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 break;
             }
@@ -353,7 +354,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             {
                 if( weapon.m_fInReload )
                 {
-                    Flashlight::TurnOff( player, weapon );
+                    Flashlight::TurnOff( player, weapon, this );
                     break;
                 }
 
@@ -371,9 +372,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                         {
                             Battery = 0;
                             weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, 0 );
-                            player.pev.weaponmodel = this.player_model;
                             weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
-                            Flashlight::TurnOff( player, weapon );
+                            Flashlight::TurnOff( player, weapon, this );
                             break;
                         }
                     }
