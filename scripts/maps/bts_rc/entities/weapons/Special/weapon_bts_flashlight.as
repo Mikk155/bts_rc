@@ -130,7 +130,7 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
 
         if( miss )
         {
-            PlaySound( "bts_rc/weapons/flashlight_miss1.wav", 1.0f, 94 + Math.RandomLong( 0, 0xF ) );
+            PlaySound( "bts_rc/weapons/flashlight_miss1.wav", 1.0f, 94 + Math.RandomLong( 0, 15 ) );
             return;
         }
 

@@ -247,9 +247,9 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
             case 1:
                 PlayAnim( WeaponSBShotgunAnim::RELOAD );
                 if( Math.RandomLong( 0, 1 ) == 0 )
-                    PlaySound( "bts_rc/weapons/reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ) );
+                    PlaySound( "bts_rc/weapons/reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ) );
                 else
-                    PlaySound( "bts_rc/weapons/reload3.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ) );
+                    PlaySound( "bts_rc/weapons/reload3.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ) );
                 m_flTimeWeaponReload = g_Engine.time + 0.4f;
                 m_fInReloadState = 2;
                 BaseClass.Reload();
@@ -273,7 +273,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
     private void PumpWeapon()
     {
         SetThink( null );
-        PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 0x1f ) );
+        PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
     }
 
     private bool FinishReload( bool fCondition )
@@ -290,7 +290,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
                     PlayAnim( WeaponSBShotgunAnim::PUMP );
-                    PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 0x1f ) );
+                    PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f;
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
                     return true;
