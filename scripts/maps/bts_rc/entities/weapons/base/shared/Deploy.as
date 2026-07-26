@@ -27,13 +27,7 @@ namespace weapons
 
         player.set_m_szAnimExtension( config.animation_extension );
 
-        auto character = GetCharacter(player);
-        Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
-
-        // Set the correct bodygroup for character hands in the given hands_group, most of the weapons has it in the bodygroup 1s
-        weapon.pev.body = g_ModelFuncs.SetBodygroup( config.view_model_index, weapon.pev.body, config.hands_group, handGroup );
-
-        weapon.SendWeaponAnim( config.animation_draw, 0, weapon.pev.body );
+        weapon.SendWeaponAnim( config.animation_draw, 0, config.WeaponBody( player, weapon, GetCharacter(player) ) );
 
         SetCooldown( weapon, player, config.deploy_time );
 

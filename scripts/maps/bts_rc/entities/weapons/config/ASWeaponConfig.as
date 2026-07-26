@@ -383,6 +383,19 @@ abstract class ASWeaponConfig : IConfigurable
         return true;
     }
 
+    // Called when the weapon wants to send some animation.
+    // This base class implements the hand selection body group.
+    const int WeaponBody( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
+
+        // Set the correct bodygroup for character hands in the given hands_group.
+        // Most of the weapons has it in the bodygroup 1s
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, handGroup );
+
+        return weapon.pev.body;
+    }
+
     // Called when the weapon is deployed. this is too late!
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Called just before WeaponDeploy at this class
@@ -397,8 +410,15 @@ abstract class ASWeaponConfig : IConfigurable
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
+        uint32 currentVersion = 526;
+
+// Currently unimplemented in the test branch
+#if SERVER
+        currentVersion = 527;
+#endif
+
         // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-        if( gpGameVersion == 526 && !this.IsCustomWeapon() )
+        if( gpGameVersion == currentVersion && !this.IsCustomWeapon() )
         {
             dictionary@ data = player.GetUserData();
 
@@ -410,9 +430,7 @@ abstract class ASWeaponConfig : IConfigurable
             if( sequence != player.pev.weaponanim )
             {
                 data[ "526_weaponsequence" ] = player.pev.weaponanim;
-                Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, handsGroup );
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
+                weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, character ) );
             }
             else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
             {

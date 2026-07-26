@@ -97,6 +97,13 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         return 0;
     }
 
+    const int WeaponBody( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, weapon.pev.iuser1 );
+
+        return ASWeaponConfig::WeaponBody( player, weapon, character );
+    }
+
     // Called when the laser is enabled or disabled
     void LaserUpdate( bool active, CBasePlayer@ player, CBasePlayerWeapon@ weapon )
     {
@@ -110,10 +117,6 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
             g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
             player.pev.weaponmodel = this.player_model;
         }
-
-        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, active ? 1 : 0 );
-
-        weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
     }
 
     // Toggle laser and sets cooldown based on type
@@ -133,7 +136,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
     {
         weapon.pev.iuser1 = ( weapon.pev.iuser1 == 1 ? 0 : 1 );
         SetCooldown( is_trained_personal, type, weapon, player );
-        weapon.SendWeaponAnim( this.laser_animation, 0, weapon.pev.body );
+        weapon.SendWeaponAnim( this.laser_animation, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
     }
 
     // Call BTS_FireWeapon::Accuracy and pass the result in. returns a modified accuracy cone based on laser spot

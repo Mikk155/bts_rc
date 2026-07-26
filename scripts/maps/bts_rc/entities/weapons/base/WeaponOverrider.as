@@ -49,9 +49,7 @@ class WeaponOverrider
         if( sequence != player.pev.weaponanim )
         {
             data[ "526_weaponsequence" ] = player.pev.weaponanim;
-            Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
-            weapon.pev.body = g_ModelFuncs.SetBodygroup( Owner.view_model_index, weapon.pev.body, Owner.hands_group, handsGroup );
-            weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
+            weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.Owner.WeaponBody( player, weapon, character ) );
         }
         else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
         {

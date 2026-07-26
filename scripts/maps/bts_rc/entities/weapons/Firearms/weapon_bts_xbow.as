@@ -249,9 +249,9 @@ class weapon_bts_xbow : BTS_FireWeapon
         if( bResult )
         {
             if( self.m_iClip > 0 )
-                self.SendWeaponAnim( WeaponXBowAnim::CROSSBOW_DRAW1, 0, pev.body );
+                self.SendWeaponAnim( WeaponXBowAnim::CROSSBOW_DRAW1, 0, this.body );
             else
-                self.SendWeaponAnim( WeaponXBowAnim::CROSSBOW_DRAW2, 0, pev.body );
+                self.SendWeaponAnim( WeaponXBowAnim::CROSSBOW_DRAW2, 0, this.body );
         }
         return bResult;
     }
@@ -385,7 +385,7 @@ class weapon_bts_xbow : BTS_FireWeapon
             SecondaryAttack();
         }
 
-        if( self.DefaultReload( gpWeaponXBowConfig.max_clip, WeaponXBowAnim::CROSSBOW_RELOAD, 4.5, pev.body ) )
+        if( self.DefaultReload( gpWeaponXBowConfig.max_clip, WeaponXBowAnim::CROSSBOW_RELOAD, 4.5, this.body ) )
         {
             PlaySound( "bts_rc/weapons/xbow_magready.wav", 1.0, 93 + Math.RandomLong( 0, 0xF ) );
         }

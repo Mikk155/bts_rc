@@ -105,16 +105,20 @@ namespace Flashlight
         return flashlightHandle.GetEntity();
     }
 
-    void TurnOff( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponLightConfig@ config )
+    void TurnOff( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponConfig@ config )
     {
         // Cancel any reload
         if( weapon.m_fInReload )
         {
-            g_SoundSystem.StopSound( player.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
-
             dictionary@ data = player.GetUserData();
-            weapon.m_fInReload = false;
-            data.delete( "flashlight_reload" );
+
+            if( data.exists( "flashlight_reload" ) )
+            {
+                g_SoundSystem.StopSound( player.edict(), CHAN_WEAPON, "bts_rc/items/battery_reload.wav" );
+
+                weapon.m_fInReload = false;
+                data.delete( "flashlight_reload" );
+            }
         }
 
         if( player.FlashlightIsOn() )
@@ -230,6 +234,15 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         return Flashlight::GetAmmoName();
     }
 
+    const int WeaponBody( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        int body = ( weapon.pev.iuser1 == Flashlight::State::Active ? 1 : 0 );
+
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, body );
+
+        return ASWeaponConfig::WeaponBody( player, weapon, character );
+    }
+
     void FlashlightToggle( CBasePlayer@ player, CBasePlayerWeapon@ weapon, bool justDeployed = false )
     {
         if( justDeployed )
@@ -256,7 +269,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             if( player.m_rgAmmo( Flashlight::GetAmmoIndex() ) <= 0)
             {
                 g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "hlclassic/weapons/357_cock1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
-                weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
+                weapon.SendWeaponAnim( this.animation_toggle, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 return;
             }
@@ -267,8 +280,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             weapon.m_fInReload = true;
             player.GetUserData()[ "flashlight_reload" ] = weapons::SetCooldown( weapon, player, flashlight_reload );
 
-            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
-            weapon.SendWeaponAnim( this.animation_holster, 0, weapon.pev.body );
+            weapon.SendWeaponAnim( this.animation_holster, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
         }
  
         switch( weapon.pev.iuser1 )
@@ -339,9 +351,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 if( g_Engine.time <= weapon.pev.fuser1 )
                     break;
 
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 1 );
-                weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
                 Flashlight::TurnOn( player, weapon, this );
+                weapon.SendWeaponAnim( this.animation_toggle, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 break;
             }
@@ -350,9 +361,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 if( weapon.m_fInReload )
                     break;
 
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
-                weapon.SendWeaponAnim( this.animation_toggle, 0, weapon.pev.body );
                 Flashlight::TurnOff( player, weapon, this );
+                weapon.SendWeaponAnim( this.animation_toggle, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
                 weapons::SetCooldown( weapon, player, this.GetCooldown( false, AttackType::Secondary ) );
                 break;
             }
@@ -377,9 +387,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                         if( Battery <= 0 )
                         {
                             Battery = 0;
-                            weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group + 1, 0 );
-                            weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
                             Flashlight::TurnOff( player, weapon, this );
+                            weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
                             break;
                         }
                     }

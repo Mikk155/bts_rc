@@ -101,22 +101,24 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
 
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig, true );
 
+        int body = this.WeaponBody( player, weapon, character );
+
         if( miss )
         {
             switch( RandomUint( 2, player ) )
             {
-                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, weapon.pev.body ); break;
-                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAltMiss, 0, weapon.pev.body ); break;
-                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, weapon.pev.body ); break;
+                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, body ); break;
+                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAltMiss, 0, body ); break;
+                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, body ); break;
             }
         }
         else
         {
             switch( RandomUint( 2, player ) )
             {
-                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, weapon.pev.body ); break;
-                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAlt, 0, weapon.pev.body ); break;
-                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, weapon.pev.body ); break;
+                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, body ); break;
+                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAlt, 0, body ); break;
+                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, body ); break;
             }
 
             weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
