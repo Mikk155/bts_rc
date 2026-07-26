@@ -156,6 +156,12 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return this.config.WeaponBody( this.owner, self, GetCharacter( this.owner ) );
     }
 
+    // Updates pev.body and returns it
+    const int bodygroup( int group, int ibody )
+    {
+        return this.config.WeaponBody( group, ibody, this.owner, self, GetCharacter( this.owner ) );
+    }
+
     // Play the given animation for this weapon. if player_attack_animation is true (by default) it makes the player animation to PLAYER_ATTACK1
     void PlayAnim( uint8 animation, bool player_attack_animation = true )
     {

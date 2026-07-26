@@ -383,8 +383,18 @@ abstract class ASWeaponConfig : IConfigurable
         return true;
     }
 
+    // Called when the weapon wants to send some aniamtion.
+    // This base class calls the WeaponBody overload without int group, int body to set the proper hands.
+    // Override that method and return ASWeaponConfig::WeaponBody( player, weapon, character );
+    const int WeaponBody( int group, int body, CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, group, body );
+        return this.WeaponBody( player, weapon, character );
+    }
+
     // Called when the weapon wants to send some animation.
     // This base class implements the hand selection body group.
+    // Override this method and return ASWeaponConfig::WeaponBody( player, weapon, character );
     const int WeaponBody( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
         Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
