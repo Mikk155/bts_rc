@@ -7,6 +7,8 @@
 
 from enum import IntEnum, auto;
 
+global gpCache;
+gpCache: dict = None;
 global gpAngelScriptFiles;
 gpAngelScriptFiles: list['PyBuilder.AScript'] = None;
 
@@ -31,6 +33,33 @@ class PyBuilder:
         if "+release" in sys.argv and len(sys.argv) > sys.argv.index( "+release" ):
             return sys.argv[ sys.argv.index( "+release" ) + 1 ];
         return None;
+
+    @staticmethod
+    def GetCache() -> dict:
+        '''Get a cache file'''
+        import os;
+        import json;
+        cachePath: str = os.path.join( PyBuilder.GetWorkspace(), "src", "Tests", "cache.json" );
+
+        global gpCache;
+        if gpCache is not None:
+            return gpCache;
+
+        try:
+            with open( cachePath, "r" ) as fStream:
+                gpCache = json.loads( fStream.read() );
+        except:
+            gpCache = {};
+
+        return gpCache;
+
+    @staticmethod
+    def __SaveCache__() -> dict:
+        import os;
+        import json;
+        with open( os.path.join( PyBuilder.GetWorkspace(), "src", "Tests", "cache.json" ), "w" ) as fStream:
+            content = json.dumps( PyBuilder.GetCache(), indent = 4 );
+            fStream.write( content );
 
     @property
     def Tag(self) -> str | None:
@@ -69,6 +98,38 @@ class PyBuilder:
 
     def Build( self ) -> bool:
         raise Exception( f"Instance {self.Name} doesn't overrides the Build method!" );
+
+    def ShouldBuild( self ) -> bool:
+        return True;
+
+    def FileModified( self, path: str ) -> bool:
+        '''Return whatever the given file has been modified'''
+
+        cache = PyBuilder.GetCache();
+        files: dict = cache.get( "modified", {} )
+
+        from datetime import datetime, timedelta;
+        from pathlib import Path;
+
+        dateTime: datetime;
+
+        path: Path = Path( path );
+
+        dateTimeModified: datetime = datetime.fromtimestamp( path.stat().st_mtime ).replace( microsecond = 0 );
+
+        pathRelative: str = path.relative_to( self.Workspace ).as_posix();
+
+        if not pathRelative in files:
+            dateTime = dateTimeModified - timedelta( 1 );
+        else:
+            dateTime = datetime.strptime( files[ pathRelative ], "%Y-%m-%d %H:%M:%S" );
+
+        if dateTime < dateTimeModified:
+            files[ pathRelative ] = dateTimeModified.strftime( "%Y-%m-%d %H:%M:%S" );
+            cache[ "modified" ] = files;
+            return True;
+
+        return False;
 
     @property
     def Name( self ) -> str:

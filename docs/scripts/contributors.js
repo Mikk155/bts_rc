@@ -31,13 +31,21 @@ export async function initContributors() {
             if (response.ok) {
                 const users = await response.json();
                 if (Array.isArray(users)) {
-                    for (const user of users) {
-                        if (typeof user !== "string")
-                            continue;
+                    for (let user of users) {
                         const element = document.createElement("li");
                         element.className = "changelog-header";
-                        element.innerText = user;
-                        container.appendChild(element);
+                        if (Array.isArray(user)) {
+                            element.innerText = user[0];
+                            const url = document.createElement("a");
+                            url.href = user[1];
+                            url.target = "_blanc";
+                            url.appendChild(element);
+                            container.appendChild(url);
+                        }
+                        else {
+                            element.innerText = user;
+                            container.appendChild(element);
+                        }
                     }
                 }
             }

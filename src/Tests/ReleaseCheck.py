@@ -49,6 +49,11 @@ class ReleaseCheck( PyBuilder ):
 
         return False;
 
+    m_UtilsPath: str = os.path.join( PyBuilder.GetWorkspace(), "scripts", "maps", "bts_rc", "util", "utils.as" );
+
+    def ShouldBuild(self) -> bool:
+        return ( self.Type != PyBuilder.BuildType.Local or self.FileModified( self.m_UtilsPath ) );
+
     def Build(self) -> bool:
 
         response: requests.Response = requests.get( f"https://api.github.com/repos/{self.m_Author}/{self.m_Repository}/releases/latest" );
@@ -127,6 +132,8 @@ class ReleaseCheck( PyBuilder ):
 
 <details>
 <summary>Changelog</summary>
+
+## Full changelog can be found [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).
 
 {changelog}
 

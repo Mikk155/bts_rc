@@ -22,8 +22,7 @@ class DebugCheck( PyBuilder ):
                 script.Content = script.Content.replace( processFrom, processTo, 1 );
 
             if currentMatches > 0:
-#                if self.Type != PyBuilder.BuildType.Check:
-#                    self.Log( f"Updated {currentMatches} pre processor on file {script.Path}" );
+                self.Log( f"Updated {currentMatches} pre processor{ 's' if currentMatches > 1 else '' } on file {script.Path}" );
                 totalMatches += currentMatches;
                 files += 1;
 

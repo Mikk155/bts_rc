@@ -7,101 +7,74 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyBuilder import PyBuilder;
 
 # Include checks here
+import Tests.TodolistCheck;
+import Tests.PrecacheCheck;
 import Tests.CreditsCheck;
 import Tests.ReleaseCheck;
 import Tests.FGDCheck;
 import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;
-import Tests.DependancyCheck;
 import Tests.SerializedJsonCheck;
 import Tests.SchemaUpdateCheck;
 import Tests.WeaponsDefaultCheck;
+import Tests.DependancyCheck;
 
-def Main() -> int:
+def Main() -> tuple[int, int]:
 
-    result = 0;
+    passes = 0;
+    fails = 0;
 
     for builder in gpBuilders:
 
         try:
 
-            ok = builder.Build();
+            if builder.ShouldBuild() is True:
 
-            if ok is False:
-                builder.Log( "Build failed." );
-                result += 1;
-            else:
-                builder.Log( "Build success." );
+                ok: bool = builder.Build();
 
-        except Exception as e:
-            builder.Log( f"throw an exception: {e}" );
-            result += 1;
+                if ok is False:
+                    builder.Log( "Build failed." );
+                    fails += 1;
+                    continue;
 
-    return result;
+            passes += 1;
+            builder.Log( "Build success." );
+
+        except:
+            import traceback;
+            builder.Log( f"throw an exception:" );
+            traceback.print_exc();
+            fails += 1;
+
+    return ( fails, passes );
 
 if __name__ == "__main__":
 
-    match PyBuilder.GetType():
+    buildType: PyBuilder.BuildType = PyBuilder.GetType();
+
+    match buildType:
 
         case PyBuilder.BuildType.Release:
             print( f"Formating map scripts for bts_rc as version {PyBuilder.GetTag()}" );
 
-        case PyBuilder.BuildType.Local:
-            print( f"Creating Precache() method with list \"src/precaches.json\"" );
-
-            precacheScript = os.path.join( gpWorkspace, "scripts", "maps", "bts_rc", "util", "Precache.as" );
-            precacheJson = os.path.join( gpWorkspace, "src", "precaches.json" );
-
-            oldContent = "";
-
-            with open( precacheScript, "r" ) as fStream:
-                oldContent = fStream.read();
-
-            assets: dict[list[str]] = None;
-
-            import json;
-            try:
-                with open( precacheJson, "r" ) as fStream:
-                    assets = json.load( fStream );
-            except Exception as e:
-                input( f"Error: {e}" );
-                sys.exit(1);
-
-            PrecacheModel: list[str] = assets[ "PrecacheModel" ];
-            PrecacheSound: list[str] = assets[ "PrecacheSound" ];
-            PrecacheGeneric: list[str] = assets[ "PrecacheGeneric" ];
-            PrecacheModel.sort();
-            PrecacheSound.sort();
-            PrecacheGeneric.sort();
-
-            buffer = "// DO NOT MODIFY THIS FILE!\n// See: src/precaches.json and generate this file using src/main.py.\nvoid Precache()\n{\n"
-            buffer += "".join( f"    g_Game.PrecacheModel( \"{asset}\" );\n" for asset in PrecacheModel );
-            buffer += "".join( f"    g_Game.PrecacheGeneric( \"{asset}\" );\n" for asset in PrecacheGeneric );
-            buffer += "".join( f"    g_SoundSystem.PrecacheSound( \"{asset}\" );\n" for asset in PrecacheSound );
-            buffer += "}\n";
-
-            if not buffer in oldContent: # not equal. has license header.
-                with open( precacheScript, "w" ) as fStream:
-                    fStream.write( buffer );
-                with open( precacheJson, "w" ) as fStream:
-                    fStream.write( json.dumps( assets, indent=4 ) ); # Sorted now
-
         case _:
             pass;
 
-    result: int = Main();
+    ( fails, passes ) = Main();
 
-    if result == 0:
+    if fails == 0:
         PyBuilder.WriteAllScripts();
-        print( f"All done!" );
+        print( f"{passes} checks passed." );
     else:
-        print( f"{result} checks failed." );
+        print( f"{fails} of {fails + passes} checks failed." );
+        sys.exit(1);
 
-    match PyBuilder.GetType():
+    match buildType:
 
         case PyBuilder.BuildType.Local:
-            input( "Press enter to continue" );
+            PyBuilder.__SaveCache__();
+#            input( "Press enter to continue" );
 
         case PyBuilder.BuildType.Release:
             print( "Downloading map assets..." );
@@ -111,4 +84,6 @@ if __name__ == "__main__":
         case _:
             pass;
 
-    sys.exit( result );
+    print( "All done!" );
+
+    sys.exit(0);

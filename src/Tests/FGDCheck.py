@@ -14,7 +14,6 @@ class FGDCheck( PyBuilder ):
 
     def Build(self) -> bool:
         fgd = FgdParse( os.path.join( self.Workspace, "scripts", "maps", "bts_rc", "bts_rc.fgd" ) );
-        self.Log( "FGD file propertly loads" );
         return True;
 
 FGDCheck();

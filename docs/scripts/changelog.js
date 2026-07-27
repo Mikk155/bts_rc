@@ -72,6 +72,19 @@ export async function initChangelog() {
     }
     let elements = [];
     let title = "";
+    {
+        let element = document.createElement("a");
+        element.href = "https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md";
+        element.target = "_blanc";
+        element.innerText = "Full changelog in Markdown.";
+        element.className = "changelog-header";
+        element.style.display = "block";
+        element.style.width = "max-content";
+        element.style.margin = "0 auto";
+        element.style.textAlign = "center";
+        container.appendChild(element);
+        container.appendChild(document.createElement("br"));
+    }
     for (const line of lines) {
         if (line.startsWith("# ")) {
             pushSection(title, elements, container);

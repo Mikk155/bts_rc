@@ -6,6 +6,14 @@
 # ===================================================================
 
 import os;
+import sys;
+
+gpWorkspace: str = os.path.dirname( os.path.dirname( os.path.dirname( __file__ ) ) );
+gpBuilders = []
+
+sys.path.append( os.path.join( gpWorkspace, "src" ) );
+
+from Tests.PyBuilder import PyBuilder;
 
 action: int = None;
 
@@ -31,11 +39,6 @@ processTo: str = "SERVER";
 if action == 1:
     processFrom = "SERVER";
     processTo = "DEBUG";
-
-gpBuilders = []
-gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
-
-from Tests.PyBuilder import PyBuilder;
 
 print( f"Toggle all pre processors {processFrom} -> {processTo}" );
 

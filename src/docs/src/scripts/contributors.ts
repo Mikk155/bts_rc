@@ -66,16 +66,26 @@ export async function initContributors() : Promise<void>
 
                 if( Array.isArray( users ) )
                 {
-                    for( const user of users )
+                    for( let user of users )
                     {
-                        if( typeof user !== "string" )
-                            continue;
-
                         const element : HTMLLIElement = document.createElement( "li" );
                         element.className = "changelog-header";
 
-                        element.innerText = user;
-                        container.appendChild( element );
+                        if( Array.isArray( user ) )
+                        {
+                            element.innerText = user[0];
+
+                            const url : HTMLAnchorElement = document.createElement( "a" );
+                            url.href = user[1];
+                            url.target = "_blanc";
+                            url.appendChild( element );
+                            container.appendChild( url );
+                        }
+                        else
+                        {
+                            element.innerText = user;
+                            container.appendChild( element );
+                        }
                     }
                 }
             }
