@@ -26,7 +26,21 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+- [ ] Split weapons from the Firearms directory to new or existent folders and maybe remove the weapon_bts_ prefix from files?
+- [ ] Optimize & simplify monster_parasite
+- [ ] Optimize & simplify monster_snapbug
+- [ ] Optimize & simplify monster_zombie_parasite
+- [ ] Optimize & simplify scientists.as
+- [ ] Optimize & simplify monster_zombie_gunner
+- [ ] Optimize & simplify monster_zombie_grenadier
+- [ ] Optimize item_tracker (Maybe Re-Implement partially the branch prototype view)
+- [ ] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
+- [ ] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
 - [ ] Debug command to show and select a CCharacter.
+- [ ] Move blood sprites from trace attacks to mikk/folder for reuse
+- [ ] move repeated precache calls into precaches.json and maybe have a python check to find precaches in the scripts based if they exists in precaches.json to warn the user to remove their added calls as these assets are always precached.
+- [ ] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
+- [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
 - [ ] Reimplement item mapping
 - [ ] **Bad hands group**: Fix or update hands model/rig.
 - [ ] flare **Bad hands group**: Fix or update hands model/rig.
