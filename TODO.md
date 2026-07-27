@@ -1,17 +1,29 @@
 # TO-DO List
 
-## Please be organized when updating this file.
-
-- Add a prefix of "``- [ ] ``" to mark a goal.
-- Add a ``x`` inside it when a goal is completed "``- [x] ``"
-- Link to issues if applicable.
-- Each prefixed item is a goal and all the content in the next lines will be considered part of it.
-- Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
+This file contains the list of to-do in the project.
 
 ---
+
+<!-- Python will insert the completion bar by finding the next comments.-->
+## Completion Progress
 <!--CompletionBar-start-->
-## Completion: ![](https://geps.dev/progress/2.564102564102564?barColor=da160b)>
+> ![](https://geps.dev/progress/2.564102564102564?barColor=da160b)
 <!--CompletionBar-end-->
+
+---
+
+# Updating the file
+
+> ## Please be organized when updating this file.
+> - Add a prefix of "``- [ ] ``" to mark a goal.
+> - Add a ``x`` inside it when a goal is completed "``- [x] ``"
+> - Link to issues if applicable.
+> - Each prefixed item is a goal and all the content in the next lines (If applicable) must go using the prefix "``    > ``" for example:
+>   ```
+>   - [x] Add new CCharacter "bts_scientist7"
+>       > because of...
+>   ```
+> - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
 - [ ] Debug command to show and select a CCharacter.
@@ -51,3 +63,11 @@
 - [ ] **SetThink Weapons**: Purge old weapon thinks and transition to `BTS_Weapon` schedule callbacks.
 - [ ] **Bodygroup Hack**: Remove the two duplicate bodygroup hacks located in `ASWeaponConfig::PlayerThink` and `WeaponOverrider`.
 - [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
+
+---
+
+# Completed
+<!-- Python will move the completed goals from above to here.--->
+<!--CompletedGoals-start-->
+
+---
