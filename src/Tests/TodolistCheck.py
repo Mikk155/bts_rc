@@ -25,7 +25,6 @@ class TodolistCheck( PyBuilder ):
             content = fStream.read();
 
         incompleted: int = content.count( "- [ ]" );
-        # -TODO Move completed-marked things on the bottom of the file
         completed: int = content.count( "- [x]" );
 
         total: int = incompleted + completed;
@@ -50,12 +49,32 @@ class TodolistCheck( PyBuilder ):
             if endPos == -1:
                 raise Exception( f"Could not found \"{end}\" in TODO.md" );
 
-            return content[ 0 : startPos + len(start) ] + "\n" + add + content[ endPos - 2 : ];
+            return content[ 0 : startPos + len(start) ] + "\n" + add + "\n" + content[ endPos : ];
 
-        content = InjectContent( "CompletionBar", f"## Completion: ![](https://geps.dev/progress/{percent}?barColor={hex})", content );
+        content = InjectContent( "CompletionBar", f"> ![](https://geps.dev/progress/{percent}?barColor={hex})", content );
+
+        contentLines: list[str] = content.split( "\n" );
+        completedMove: list[str] = [];
+
+        lastCompleted: bool = False;
+
+        for index, line in enumerate( contentLines.copy() ):
+
+            if( line == "<!--CompletedGoals-start-->" ):
+                for completedLine in completedMove:
+                    index += 1;
+                    contentLines.insert( index, completedLine );
+                break;
+
+            if( line.startswith( "- [x]" ) or ( lastCompleted and line.startswith( "    > " ) ) ):
+                contentLines[index] = None;
+                lastCompleted = True;
+                completedMove.append( line );
+            else:
+                lastCompleted = False;
 
         with open( self.m_TODOPath, "w" ) as fStream:
-            fStream.write( content );
+            fStream.writelines( [ f"{line}\n" for line in contentLines if line is not None ] );
 
         return True;
 
