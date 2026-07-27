@@ -427,7 +427,7 @@ abstract class ASWeaponConfig : IConfigurable
         currentVersion = 527;
 #endif
 
-        // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
+        // 5.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
         if( gpGameVersion == currentVersion && !this.IsCustomWeapon() )
         {
             dictionary@ data = player.GetUserData();
