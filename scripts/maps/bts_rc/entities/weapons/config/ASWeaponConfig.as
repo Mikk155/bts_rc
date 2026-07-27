@@ -166,8 +166,6 @@ abstract class ASWeaponConfig : IConfigurable
     const string& get_primary_ammoentity() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
     const string& get_secondary_ammoentity() { return String::EMPTY_STRING; }
-    // Weapon classname to add ItemMapping
-    const string& get_remap() { return String::EMPTY_STRING; }
 
     private int m_view_model_index = -1;
     // Do not override. is automatic.
@@ -268,12 +266,6 @@ abstract class ASWeaponConfig : IConfigurable
 
     void RegisterWeapon()
     {
-        if( !this.remap.IsEmpty() )
-        {
-            auto remap = ItemMapping( this.remap, this.GetName() );
-            g_WeaponsConfig.ItemMappingList.insertLast( @remap );
-        }
-
         if( this.IsCustomWeapon() )
         {
             g_CustomEntityFuncs.RegisterCustomEntity( this.GetName(), this.GetName() );

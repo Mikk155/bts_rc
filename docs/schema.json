@@ -5747,6 +5747,20 @@
 						"default": 10,
 						"minimum": 0,
 						"description": "Quantity of ammo carry for flashlight weapons"
+					},
+					"item_remap": 
+					{
+						"type": "object",
+						"description": "Modify how items are replaced in the map",
+						"default": 
+						{
+							"weapon_sniperrifle": "weapon_bts_sniperrifle"
+						},
+						"additionalProperties": 
+						{
+							"type": "string",
+							"description": "Key names are item classnames to replace to the value names"
+						}
 					}
 				}
 			},

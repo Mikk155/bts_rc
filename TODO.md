@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/2.564102564102564?barColor=da160b)
+> ![](https://geps.dev/progress/5.555555555555555?barColor=da220b)
 <!--CompletionBar-end-->
 
 ---
@@ -41,7 +41,6 @@ This file contains the list of to-do in the project.
 - [ ] move repeated precache calls into precaches.json and maybe have a python check to find precaches in the scripts based if they exists in precaches.json to warn the user to remove their added calls as these assets are always precached.
 - [ ] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
-- [ ] Reimplement item mapping
 - [ ] **Bad hands group**: Fix or update hands model/rig.
 - [ ] flare **Bad hands group**: Fix or update hands model/rig.
 - [ ] shotgun **Bad hands group**: Fix or update hands model/rig.
@@ -83,5 +82,8 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Reimplement item mapping
 
 ---
+
+

@@ -151,6 +151,20 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "default": 10,
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
+                },
+                "item_remap":
+                {
+                    "type": "object",
+                    "description": "Modify how items are replaced in the map",
+                    "default": 
+                    {
+                        "weapon_sniperrifle": "weapon_bts_sniperrifle"
+                    },
+                    "additionalProperties":
+                    {
+                        "type": "string",
+                        "description": "Key names are item classnames to replace to the value names"
+                    }
                 }
             }
         }""";
@@ -181,10 +195,32 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.m249_knockback = bool( config[ "m249_knockback" ] );
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
 
-        g_ClassicMode.ForceItemRemap( true );
-        g_ClassicMode.SetItemMappings( this.ItemMappingList );
+        // ItemMapping stuff
+        {
+            auto@ remaps = config.ValueOrDefault( "item_remap" );
+            const auto@ remaps_from = remaps.Keys;
+            uint length = remaps.Length();
 
-        this.ItemMappingList.resize(0);
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                string classFrom = remaps_from[ui];
+                string classTo = string( remaps[ classFrom ] );
+
+                auto remap = ItemMapping( classFrom, classTo );
+                g_WeaponsConfig.ItemMappingList.insertLast( @remap );
+                
+                if( g_Logger.info.active )
+                {
+                    g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { classFrom, classTo } );
+                }
+            }
+
+            g_ClassicMode.ForceItemRemap( true );
+            g_ClassicMode.SetItemMappings( this.ItemMappingList );
+
+            // Free object
+            this.ItemMappingList.resize(0);
+        }
 
         return true;
     }
