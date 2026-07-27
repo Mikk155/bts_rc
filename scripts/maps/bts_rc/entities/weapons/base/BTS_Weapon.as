@@ -80,7 +80,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     {
         if( self.m_flTimeWeaponIdle < g_Engine.time )
         {
-            self.m_flTimeWeaponIdle = Idle();
+            self.m_flTimeWeaponIdle = g_Engine.time + Idle();
         }
     }
 
@@ -129,6 +129,17 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     void Holster( int skiplocal = 0 )
     {
+#if SERVER
+        if( this.config.animation_holster > -1 )
+        {
+            this.PlayAnim( this.config.animation_holster );
+        }
+
+        string buffer;
+        snprintf( buffer, "Active weapon: %1 Holster weapon: %2\n",
+            this.owner.m_hActiveItem.GetEntity().pev.classname, string( self.pev.classname ) );
+        g_PlayerFuncs.ClientPrint( this.owner, HUD_PRINTTALK, buffer );
+#endif
         ClearTimerList();
         BaseClass.Holster( skiplocal );
     }
@@ -139,10 +150,22 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         weapons::SetCooldown( self, this.owner, config.GetCooldown( is_trained_personal, type ) );
     }
 
+    // Updates pev.body and returns it
+    const int get_body() property
+    {
+        return this.config.WeaponBody( this.owner, self, GetCharacter( this.owner ) );
+    }
+
+    // Updates pev.body and returns it
+    const int bodygroup( int group, int ibody )
+    {
+        return this.config.WeaponBody( group, ibody, this.owner, self, GetCharacter( this.owner ) );
+    }
+
     // Play the given animation for this weapon. if player_attack_animation is true (by default) it makes the player animation to PLAYER_ATTACK1
     void PlayAnim( uint8 animation, bool player_attack_animation = true )
     {
-        self.SendWeaponAnim( animation, 0, pev.body );
+        self.SendWeaponAnim( animation, 0, this.body );
 
         if( player_attack_animation )
             this.owner.SetAnimation( PLAYER_ANIM::PLAYER_ATTACK1 );
@@ -221,7 +244,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return false;
 
-        self.DefaultReload( config.max_clip, iAnim, flTime, pev.body );
+        self.DefaultReload( config.max_clip, iAnim, flTime, this.body );
         self.m_flTimeWeaponIdle = g_Engine.time + flTime;
         return true;
     }

@@ -23,11 +23,13 @@
 
 // Base
 #include "config/ASWeaponConfig"
-#include "config/Flashlight"
-#include "config/ASMeleeWeaponConfig"
-#include "base/BTS_Weapon"
-#include "base/BTS_MeleeWeapon"
+#include "config/ASWeaponLaserConfig"
+#include "config/ASWeaponLightConfig"
+
+#include "base/BTS_FireWeapon"
 #include "base/BTS_MeleeCharge"
+#include "base/BTS_MeleeWeapon"
+#include "base/BTS_Weapon"
 
 // Melee
 #include "Melee/weapon_bts_axe"
@@ -44,7 +46,6 @@
 #include "Special/weapon_medkit"
 #include "Special/weapon_bts_flashlight"
 
-#include "base/BTS_FireWeapon"
 #include "Firearms/weapon_bts_beretta"
 #include "Firearms/weapon_bts_eagle"
 #include "Firearms/weapon_bts_glock"
@@ -84,6 +85,7 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool blood_splash;
     bool sparks_splash;
     bool m249_knockback;
+    int flashlight_maxcarry;
 
     const string& GetName() const override
     {
@@ -143,25 +145,11 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "default": true,
                     "description": "Enable M249 SAW knockback recoil pushing the player backward."
                 },
-                "flashlight_drain":
-                {
-                    "type": "number",
-                    "default": 0.8,
-                    "minimum": 0.1,
-                    "description": "flashlight drain time"
-                },
-                "flashlight_capacity":
+                "flashlight_maxcarry":
                 {
                     "type": "integer",
                     "default": 10,
                     "minimum": 0,
-                    "description": "Quantity of ammo carry for flashlight weapons"
-                },
-                "flashlight_ammount":
-                {
-                    "type": "integer",
-                    "default": 100,
-                    "minimum": 10,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 }
             }
@@ -191,19 +179,13 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.sparks_splash = bool( config[ "sparks_splash" ] );
         this.blood_splash = bool( config[ "blood_splash" ] );
         this.m249_knockback = bool( config[ "m249_knockback" ] );
-
-        Flashlight::Precache();
-
-        Flashlight::flashlight_drain = float( config[ "flashlight_drain" ] );
-        Flashlight::flashlight_capacity = int( config[ "flashlight_capacity" ] );
-        Flashlight::flashlight_ammount = int( config[ "flashlight_ammount" ] );
+        this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
 
         g_ClassicMode.ForceItemRemap( true );
         g_ClassicMode.SetItemMappings( this.ItemMappingList );
 
         this.ItemMappingList.resize(0);
 
-        gpWeaponFlashlight.secondary_maxammo = Flashlight::flashlight_capacity;
         return true;
     }
 }

@@ -110,9 +110,6 @@ enum WeaponSW637Anim
     Holster
 };
 
-const int SW637_BODYGROUP_ROUNDS = 2;
-const int SW637_BODYGROUP_HANDS = 1;
-
 class weapon_bts_sw637 : BTS_FireWeapon
 {
     private bool m_fReloading = false;
@@ -125,9 +122,7 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
     void UpdateViewBodygroups()
     {
-        int mdl = g_ModelFuncs.ModelIndex( gpWeaponSW637Config.view_model );
-        pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, SW637_BODYGROUP_HANDS, int( util::GetClass( this.owner ) ) );
-        pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, SW637_BODYGROUP_ROUNDS, self.m_iClip );
+        this.bodygroup( 2, self.m_iClip );
     }
 
     void Spawn() override
@@ -191,7 +186,7 @@ class weapon_bts_sw637 : BTS_FireWeapon
         }
 
         // Finished reloading
-        pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, SW637_BODYGROUP_ROUNDS, self.m_iClip - 1 );
+        this.bodygroup( 2, self.m_iClip - 1 );
         PlayAnim( WeaponSW637Anim::ReloadFinish );
         m_fReloading = false;
         return 1.5f;
@@ -253,7 +248,7 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
         this.owner.m_rgAmmo( self.m_iPrimaryAmmoType, this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) + self.m_iClip );
         self.m_iClip = 0;
-        pev.body = g_ModelFuncs.SetBodygroup( mdl, pev.body, SW637_BODYGROUP_ROUNDS, 4 );
+        this.bodygroup( 2, 4 );
 
         m_fReloading = true;
         PlayAnim( WeaponSW637Anim::ReloadStart );

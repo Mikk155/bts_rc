@@ -25,28 +25,18 @@ Content driven to github release will remain as-is Markdown.
 
 # Web site formatting
 
----
+| Prefix | HTML Equivalent | Example | Short description |
+|---|---|---|---|
+| ``- `` | ``<li>`` | ``- Fixed func door not opening at dormitories`` | "List" lines prefixed with a dot |
+| ``## `` | ``<h2>`` | ``## Map update`` | Header. medium size |
+| ``### `` | ``<h2>`` | ``### Dormitories`` | Header. small size |
+| \`\` | ``<code>`` | - Fixed \`\`monster_panthereye\`\` | Code block normally shown in green if not a recognized programing language |
+| ``**`` | ``<b>`` | ``- Fixed **func_door** not opening at dormitories`` | Bold text |
+| None | ``<p> | | Default text |
+| ``\t`` or single spaces | ``<pre>`` | | Basically just keeps leading white spaces. |
 
-Lines prefixed with ``- `` will use the html equivalent to ``<li>`` in the website.
+Even though HTML elements are not fully supported in Release's Markdown. HTML elements will make their way into the pages.
 
----
+You can even target ``css`` classes, use href or anything that can fit into the member ``innerHTML`` of the changelog's ``div``.
 
-Lines prefixed with ``## `` will use the html equivalent to ``<h2>`` in the sebsite.
-
----
-
-Lines prefixed with ``### `` will use the html equivalent to ``<h3>`` in the website.
-
----
-
-Content surrounded by double \`\` will use the html equivalent to ``<code>`` in the website.
-
----
-
-Content surrounded by double ``*`` will use the html equivalent to ``<b>`` in the website.
-
----
-
-Lines without any prefix will use the html equivalent to ``<p>`` in the website.
-
----
+For more information visit how it's done in ``src/docs/src/scripts/changelog.ts``

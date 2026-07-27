@@ -231,23 +231,24 @@ class weapon_bts_sawsd : BTS_FireWeapon
 
     private void RecalculateBody( int iClip )
     {
-        int roundsBody;
         if( iClip <= 0 )
-            roundsBody = 8;
+        {
+            this.bodygroup( 2, 8 );
+        }
         else if( iClip < 8 )
-            roundsBody = 9 - iClip;
+        {
+            this.bodygroup( 2, 9 - iClip );
+        }
         else
-            roundsBody = 0;
-
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponSawSDConfig.view_model ), pev.body, 2, roundsBody );
+        {
+            this.bodygroup( 2, 0 );
+        }
     }
 
     private void FinishAnim()
     {
         SetThink( null );
-        int roundsBody = self.m_iClip;
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponSawSDConfig.view_model ), pev.body, 2, roundsBody );
-        pev.body = g_ModelFuncs.SetBodygroup( g_ModelFuncs.ModelIndex( gpWeaponSawSDConfig.view_model ), pev.body, 1, util::GetClass( this.owner ) );
+        this.bodygroup( 2, self.m_iClip );
         PlayAnim( WeaponSawSDAnim::RELOAD_END );
         PlaySound( "bts_rc/weapons/saw_reload2.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
     }

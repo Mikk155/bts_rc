@@ -1,3 +1,5 @@
+import { DEV } from "../main.js";
+
 interface Contributor
 {
     login : string;
@@ -14,10 +16,7 @@ interface ContributorsCache
 
 export async function initContributors() : Promise<void>
 {
-    async function render(
-        container : HTMLElement,
-        contributors : ReadonlyMap<string, Contributor>
-    ) : Promise<void>
+    async function render( container : HTMLElement, contributors : ReadonlyMap<string, Contributor> ) : Promise<void>
     {
         container.innerHTML = "";
 
@@ -27,7 +26,9 @@ export async function initContributors() : Promise<void>
         ordered.sort( ( a : Contributor, b : Contributor ) : number =>
         {
             return b.contributions - a.contributions;
-        });
+        } );
+
+        let slots: number = 0;
 
         for( const user of ordered )
         {
@@ -42,8 +43,16 @@ export async function initContributors() : Promise<void>
                 <div>${user.login}</div>
                 <div>${user.contributions} contributions</div>
             `;
+            slots++;
 
             container.appendChild( el );
+        }
+
+        // Inject dummy elements to account for GIT contributors being in 5 columns
+        while( ( slots % 5 ) != 0 )
+        {
+            container.appendChild( document.createElement( "a" ) );
+            slots++;
         }
 
         // credits.json
@@ -57,15 +66,26 @@ export async function initContributors() : Promise<void>
 
                 if( Array.isArray( users ) )
                 {
-                    for( const user of users )
+                    for( let user of users )
                     {
-                        if( typeof user !== "string" )
-                            continue;
-
                         const element : HTMLLIElement = document.createElement( "li" );
+                        element.className = "changelog-header";
 
-                        element.innerText = user;
-                        container.appendChild( element );
+                        if( Array.isArray( user ) )
+                        {
+                            element.innerText = user[0];
+
+                            const url : HTMLAnchorElement = document.createElement( "a" );
+                            url.href = user[1];
+                            url.target = "_blanc";
+                            url.appendChild( element );
+                            container.appendChild( url );
+                        }
+                        else
+                        {
+                            element.innerText = user;
+                            container.appendChild( element );
+                        }
                     }
                 }
             }
@@ -76,9 +96,7 @@ export async function initContributors() : Promise<void>
         }
     }
 
-    async function loadFromCache(
-        forceLoad : boolean = false
-    ) : Promise<boolean>
+    async function loadFromCache( forceLoad : boolean = false ) : Promise<boolean>
     {
         const cached : string | null = localStorage.getItem( "contributors_cache" );
 
@@ -122,7 +140,7 @@ export async function initContributors() : Promise<void>
         return false;
     }
 
-    if( await loadFromCache() )
+    if( await loadFromCache( DEV ) )
     {
         return;
     }
@@ -184,7 +202,7 @@ export async function initContributors() : Promise<void>
         {
             timestamp : Date.now(),
             data : Array.from( contributors.entries() )
-        })
+        } )
     );
 
     const container : HTMLElement | null = document.getElementById( "contributor_list" );

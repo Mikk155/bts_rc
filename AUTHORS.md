@@ -5,51 +5,51 @@
 | Mikk | Scripting | [@Mikk155](https://github.com/Mikk155) |
 
 ## Contributors
-- Arasefiq._
-- DAVLevels
+- [Arasefiq._](https://github.com/AraseFiq)
 - Darekstar
-- Erty
-- FaLco
+- DAVLevels
+- [Erty](https://github.com/Erty-Gamedev)
 - Fakeyou
+- FaLco
 - Falcon
 - Foran
-- Four-Nines
-- FreeSlave
-- Gaftherman
+- [Four-Nines](https://github.com/Four-Ninez)
+- [FreeSlave](https://github.com/FreeSlave)
+- [Gaftherman](https://github.com/Gaftherman)
 - Gamit
 - Gauna
 - Gearbox
 - Gearbox Software
 - Generic
-- Giegue
+- [Giegue](https://github.com/julianR0)
 - Grunt
-- H2
+- [H2](https://github.com/the-h2)
 - HAPE B
 - Hondrid
+- [hzqst](https://github.com/hzqst)
 - Ixnay
-- KEZÆIV
-- KernCore
-- Kezaeiv
+- [KernCore](https://github.com/KernCore91)
+- KEZAEIV
 - LIL-PIF
-- MTB
-- Mad
-- Mikk155
+- [Mad](https://github.com/MadHLDM)
+- [Mikk155](https://github.com/Mikk155)
 - MiroSklenar
 - MrFailz
 - MrFloyd
+- MTB
 - Nero0
 - Ooleg
 - Organic700
 - Peachcobbler
-- RaptorSKA
-- Rizulix
+- [RaptorSKA](https://github.com/RaptorSKA)
+- [Rizulix](https://github.com/Rizulix)
 - Ryor
-- SV BOY
+- [sashi0034](https://github.com/sashi0034)
 - Sock
-- Solokiller
+- [Solokiller](https://github.com/SamVanheer)
 - Sparks
-- Suno.com
-- Sven Co-op Teams
+- SV BOY
+- Sven Co-op Team
 - TurtleRock Studios
 - Valve
 - Vika
@@ -57,5 +57,4 @@
 - Yomustdie
 - Zasli
 - ZikShadow
-- Zode
-
+- [Zode](https://github.com/Zode)

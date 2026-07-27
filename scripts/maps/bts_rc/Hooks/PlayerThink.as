@@ -115,6 +115,9 @@ namespace Hooks
             PlayerInitialized( player, data );
         }
 
+        if( !player.IsAlive() )
+            return HOOK_CONTINUE;
+
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
         // Change impulse 101 command with our own weapons
@@ -167,19 +170,21 @@ namespace Hooks
         {
             auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
-            string lastWeapon = string( data[ "current_weapon" ] );
+            CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
-            if( !lastWeapon.IsEmpty() && ( weapon is null || weapon.GetClassname() != lastWeapon ) )
+            if( lastWeapon !is null && weapon !is lastWeapon )
             {
-                dictionaryValue@ lastWeaponInterface;
+                ASWeaponConfig@ lastWeaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon.GetClassname() ] );
 
-                if( g_WeaponsConfig.Interfaces.get( lastWeapon, lastWeaponInterface ) )
-                    cast<ASWeaponConfig@>( lastWeaponInterface ).WeaponHolster( player, weapon, character );
+                if( lastWeaponConfig !is null )
+                {
+                    lastWeaponConfig.WeaponHolster( player, lastWeapon, character );
+                }
             }
 
             const string classname = ( weapon is null ? String::EMPTY_STRING : weapon.GetClassname() );
 
-            data[ "current_weapon" ] = classname;
+            @data[ "current_weapon" ] = weapon;
 
             if( weapon !is null )
             {
@@ -196,7 +201,7 @@ namespace Hooks
                 else
                 {
                     // Call deploy for vanilla weapons to update their models
-                    if( lastWeapon != classname || player.pev.viewmodel != weaponConfig.view_model )
+                    if( player.pev.viewmodel != weaponConfig.view_model )
                     {
                         weaponConfig.WeaponDeploy( player, weapon, character );
                     }
@@ -223,13 +228,74 @@ namespace Hooks
                         }
                     }
 
-                    // Are we trying to use a flashlight without suit or with suit but no battery? Then try to use a weapon with attached flashlight
-                    if( player.pev.impulse == 100 && ( !character.IsHEV || player.pev.armorvalue <= 0 ) )
-                    {
-                        weaponConfig.WeaponFlashlight( player, weapon, character );
-                    }
-
                     weaponConfig.PlayerThink( player, weapon, character );
+
+                    if( player.pev.impulse == 100 )
+                    {
+                        if( Flashlight::IsValidWeapon( player, weapon, weaponConfig ) )
+                        {
+                            player.pev.impulse = 0;
+
+                            ASWeaponLightConfig@ weaponFlashlightConfig = cast<ASWeaponLightConfig@>( weaponConfig );
+
+                            if( weaponFlashlightConfig !is null )
+                            {
+                                weaponFlashlightConfig.FlashlightToggle( player, weapon );
+                            }
+                        }
+                        else if( character.IsHEV && player.pev.armorvalue > 0 )
+                        {
+                            // Dummy. night vision code all bellow.
+                        }
+                        else
+                        {
+                            player.pev.impulse = 0;
+
+                            CBasePlayerWeapon@ flashlightWeapon = null;
+
+                            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
+                            {
+                                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
+
+                                while( item !is null )
+                                {
+                                    @flashlightWeapon = cast<CBasePlayerWeapon@>(item);
+
+                                    if( Flashlight::IsValidWeapon( player, flashlightWeapon, weaponConfig ) )
+                                    {
+                                        ASWeaponLightConfig@ weaponFlashlightConfig = cast<ASWeaponLightConfig@>( g_WeaponsConfig.Interfaces[ flashlightWeapon.GetClassname() ] );
+
+                                        if( weaponFlashlightConfig !is null )
+                                        {
+                                            weaponFlashlightConfig.FlashlightToggle( player, flashlightWeapon, true );
+                                        }
+
+                                        ui = MAX_ITEM_TYPES; // Break for loop
+                                        break;
+                                    }
+
+                                    @flashlightWeapon = null;
+                                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
+                                }
+                            }
+
+                            if( flashlightWeapon is null )
+                            {
+                                if( player.HasNamedPlayerItem( "weapon_bts_flaregun" ) !is null )
+                                {
+                                    player.SelectItem( "weapon_bts_flaregun" );
+                                }
+                                else if( player.HasNamedPlayerItem( "weapon_bts_flare" ) !is null )
+                                {
+                                    player.SelectItem( "weapon_bts_flare" );
+                                }
+                                else
+                                {
+                                    g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_WEAPON, "bts_rc/items/flashlight1.wav", 0.8f, ATTN_NORM, 0, PITCH_NORM );
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

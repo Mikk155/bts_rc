@@ -38,7 +38,7 @@ enum WeaponCrowbarAnim
     ShoveAltMiss
 };
 
-final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
+final class ASWeaponCrowbarConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_crowbar";
@@ -68,7 +68,7 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/cbar_draw.wav" );
-        ASMeleeWeaponConfig::Precache();
+        ASWeaponConfig::Precache();
     }
 
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
@@ -101,22 +101,24 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
 
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig, true );
 
+        int body = this.WeaponBody( player, weapon, character );
+
         if( miss )
         {
             switch( RandomUint( 2, player ) )
             {
-                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, weapon.pev.body ); break;
-                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAltMiss, 0, weapon.pev.body ); break;
-                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, weapon.pev.body ); break;
+                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, body ); break;
+                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAltMiss, 0, body ); break;
+                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveMiss, 0, body ); break;
             }
         }
         else
         {
             switch( RandomUint( 2, player ) )
             {
-                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, weapon.pev.body ); break;
-                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAlt, 0, weapon.pev.body ); break;
-                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, weapon.pev.body ); break;
+                case 0: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, body ); break;
+                case 1: weapon.SendWeaponAnim( WeaponCrowbarAnim::ShoveAlt, 0, body ); break;
+                case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, body ); break;
             }
 
             weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
@@ -131,26 +133,8 @@ final class ASWeaponCrowbarConfig : ASMeleeWeaponConfig
         weapon.TertiaryAttack();
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     bool Register( meta_api::json::v2::json@ json ) override {
-        ASMeleeWeaponConfig::Register( json );
+        ASWeaponConfig::Register( json );
         g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
         @MonsterTakeDamageHook( function( DamageInfo@ info )

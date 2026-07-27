@@ -13,14 +13,17 @@ from Tests.PyBuilder import PyBuilder
 
 class WeaponsDefaultCheck( PyBuilder ):
 
-    def Build(self) -> bool:
+    m_DefaultWeaponConfig: str = os.path.join( PyBuilder.GetWorkspace(), "scripts", "maps", "bts_rc", "entities", "weapons", "default_config.json" );
 
-        defaultWeaponConfig: str = os.path.join( self.Workspace, "scripts", "maps", "bts_rc", "entities", "weapons", "default_config.json" );
+    def ShouldBuild(self) -> bool:
+        return ( self.Type != PyBuilder.BuildType.Local or self.FileModified( self.m_DefaultWeaponConfig ) );
+
+    def Build(self) -> bool:
 
         parsed: dict = None;
 
         try:
-            with open( defaultWeaponConfig, "r" ) as fStream:
+            with open( self.m_DefaultWeaponConfig, "r" ) as fStream:
                 parsed = json.load( fStream );
     
         except json.JSONDecodeError as e:
@@ -50,7 +53,7 @@ class WeaponsDefaultCheck( PyBuilder ):
                 newSerialized = json.dumps( sortRecursive(parsed), indent=4 );
 
                 if( oldSerialized != newSerialized ):
-                    with open( defaultWeaponConfig, "w" ) as fStream:
+                    with open( self.m_DefaultWeaponConfig, "w" ) as fStream:
                         fStream.write( newSerialized );
 
         return True;

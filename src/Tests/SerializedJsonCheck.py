@@ -82,8 +82,6 @@ class SerializedJsonCheck( PyBuilder ):
                 int( ( newTotalCharacters / totalCharacters ) * 100 )
             );
 
-        self.Log( "All AngelScript json string literals checked" );
-
         return ( invalidFiles == 0 );
 
 SerializedJsonCheck();

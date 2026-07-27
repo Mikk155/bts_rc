@@ -300,7 +300,7 @@ class weapon_bts_m79 : BTS_FireWeapon
         M79_ROCKET::Shoot( player.pev, vecSrc, vecVelocity, gpWeaponM79Config.primary_damage, 240.0f, "models/grenade.mdl" );
 
         PlayAnim( WeaponM79Anim::SHOOT );
-        PlaySound( "bts_rc/weapons/m79_fire.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 0xf ) );
+        PlaySound( "bts_rc/weapons/m79_fire.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 15 ) );
         player.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );
 
         CheckDepletedAmmo( self.m_iPrimaryAmmoType );

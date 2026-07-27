@@ -37,7 +37,7 @@ enum WeaponFlashlightAnim
     Flashlight
 };
 
-final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
+final class ASWeaponFlashlightConfig : ASWeaponLightConfig
 {
     const string& GetName() const override {
         return "weapon_bts_flashlight";
@@ -47,7 +47,7 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
         return "models/bts_rc/weapons/p_flashlight.mdl";
     }
 
-    const string& get_flashlight_model()
+    const string& get_player_model_flashlight() override
     {
         return "models/bts_rc/weapons/p_flashlight_cone.mdl";
     }
@@ -64,78 +64,19 @@ final class ASWeaponFlashlightConfig : ASMeleeWeaponConfig
         return "crowbar";
     }
 
-    const string& get_secondary_ammo() override
+    const uint8 get_animation_draw() override
     {
-        return "bts_battery";
-    }
-
-    const string& get_secondary_ammoentity() override
-    {
-        return "ammo_bts_flashlight";
-    }
-
-    const uint8 get_animation_draw() override {
         return WeaponFlashlightAnim::Draw;
     }
 
-    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    const int get_animation_holster() override
     {
-        Flashlight::Think( player, weapon, character, this, this.flashlight_model );
-        ASMeleeWeaponConfig::PlayerThink( player, weapon, character );
+        return WeaponFlashlightAnim::Holster;
     }
 
-    void Precache() override
+    const uint8 get_animation_toggle() override
     {
-        g_Game.PrecacheModel( this.flashlight_model );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        WeaponFlashlight( player, weapon, character );
-    }
-
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
-    {
-        switch( Flashlight::Toggle( player, weapon, 5 ) )
-        {
-            case Flashlight::State::NoAmmo:
-            {
-                // Find another weapon with flashlight if this has no ammo
-                ASMeleeWeaponConfig::WeaponFlashlight( player, weapon, character );
-               break;
-            }
-            case Flashlight::State::Reloading:
-            {
-                weapon.SendWeaponAnim( WeaponFlashlightAnim::Holster, 0, weapon.pev.body );
-                break;
-            }
-            case Flashlight::State::TurnedOn:
-            case Flashlight::State::TurnedOff:
-            default:
-            {
-                weapon.SendWeaponAnim( WeaponFlashlightAnim::Flashlight, 0, weapon.pev.body );
-                weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal(player), AttackType::Secondary ) );
-                break;
-            }
-        }
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control flashlight configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        return WeaponFlashlightAnim::Flashlight;
     }
 }
 
@@ -154,12 +95,6 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
         BTS_MeleeWeapon::Spawn();
     }
 
-    void Holster( int skiplocal = 0 ) override
-    {
-        Flashlight::Holster( this.owner, self, null );
-        BTS_MeleeWeapon::Holster( skiplocal );
-    }
-
     float Idle() override
     {
         switch( RandomUint(2) )
@@ -171,169 +106,52 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
 
         return Math.RandomFloat( 6.0f, 8.0f );
     }
-}
 
-#if OLD_CODE_REMAINING
-final class weapon_bts_dflashlight : ScriptBasePlayerWeaponEntity, CBaseWeapon, CBaseMelee
-{
-    private bool Swing( bool fFirst )
+    void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( m_pPlayer.FlashlightIsOn() )
-            FlashlightTurnOff();
+        if( type != AttackType::Primary )
+            return;
+
+        Flashlight::TurnOff( player, self, gpWeaponFlashlight );
 
         TraceResult tr;
-        bool fDidHit = false;
+        CBaseEntity@ hit = null;
 
-        Math.MakeVectors( m_pPlayer.pev.v_angle );
-        Vector vecSrc = m_pPlayer.GetGunPosition();
-        Vector vecEnd = vecSrc + g_Engine.v_forward * RANGE;
+        bool miss = this.Hit( tr, type, hit );
 
-        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, m_pPlayer.edict(), tr );
+        this.SetCooldown( util::IsTrainedPersonal( player ), miss, type );
 
-        if( tr.flFraction >= 1.0f )
+        switch( ( m_iSwing++ ) % 3 )
         {
-            g_Utility.TraceHull( vecSrc, vecEnd, dont_ignore_monsters, head_hull, m_pPlayer.edict(), tr );
-            if( tr.flFraction < 1.0f )
-            {
-                // Calculate the point of intersection of the line (or hull) and the object we hit
-                // This is and approximation of the "best" intersection
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                if( pHit is null || pHit.IsBSPModel() )
-                    g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, m_pPlayer.edict() );
-                vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
-            }
+            case 0: PlayAnim( miss ? WeaponFlashlightAnim::Attack1Miss : WeaponFlashlightAnim::Attack1Hit ); break;
+            case 1: PlayAnim( miss ? WeaponFlashlightAnim::Attack2Miss : WeaponFlashlightAnim::Attack2Hit ); break;
+            case 2: PlayAnim( miss ? WeaponFlashlightAnim::Attack3Miss : WeaponFlashlightAnim::Attack3Hit ); break;
         }
 
-        if( tr.flFraction >= 1.0f )
+        if( miss )
         {
-            if( fFirst )
-            {
-                // miss
-                switch( ( m_iSwing++ ) % 3 )
-                {
-                    case 0:
-                        self.SendWeaponAnim( WeaponFlashlightAnim::Attack1Miss, 0, pev.body );
-                        break;
-                    case 1:
-                        self.SendWeaponAnim( WeaponFlashlightAnim::Attack2Miss, 0, pev.body );
-                        break;
-                    case 2:
-                        self.SendWeaponAnim( WeaponFlashlightAnim::Attack3Miss, 0, pev.body );
-                        break;
-                }
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = m_bFlashLightTurnTime = g_Engine.time + 0.625f;
-                self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
-
-                // play wiff or swish sound
-                g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_miss1.wav", 1.0f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 0xF ) );
-
-                // player "shoot" animation
-                m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-            }
-        }
-        else
-        {
-            // hit
-            fDidHit = true;
-
-            CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
-
-            switch( ( ( m_iSwing++ ) % 2 ) + 1 )
-            {
-                case 0:
-                    self.SendWeaponAnim( WeaponFlashlightAnim::Attack1Hit, 0, pev.body );
-                    break;
-                case 1:
-                    self.SendWeaponAnim( WeaponFlashlightAnim::Attack2Hit, 0, pev.body );
-                    break;
-                case 2:
-                    self.SendWeaponAnim( WeaponFlashlightAnim::Attack3Hit, 0, pev.body );
-                    break;
-            }
-
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = m_bFlashLightTurnTime = g_Engine.time + 0.375f;
-            self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
-
-            // player "shoot" animation
-            m_pPlayer.SetAnimation( PLAYER_ATTACK1 );
-
-            g_WeaponFuncs.ClearMultiDamage();
-
-            if( self.m_flNextPrimaryAttack + 1.0f < g_Engine.time )
-                pEntity.TraceAttack( m_pPlayer.pev, DAMAGE, g_Engine.v_forward, tr, DMG_CLUB );        // first swing does full damage
-            else
-                pEntity.TraceAttack( m_pPlayer.pev, DAMAGE * 0.5f, g_Engine.v_forward, tr, DMG_CLUB ); // subsequent swings do 50% (Changed -Sniper) (Half)
-
-            g_WeaponFuncs.ApplyMultiDamage( m_pPlayer.pev, m_pPlayer.pev );
-
-            // play thwack, smack, or dong sound
-            float flVol = 1.0f;
-            bool fHitWorld = true;
-
-            // for monsters or breakable entity smacking speed function
-            if( pEntity !is null )
-            {
-                if( pEntity.Classify() != CLASS_NONE && pEntity.Classify() != CLASS_MACHINE && pEntity.BloodColor() != DONT_BLEED )
-                {
-                    // aone
-                    if( pEntity.IsPlayer() ) // lets pull them
-                        pEntity.pev.velocity = pEntity.pev.velocity + ( pev.origin - pEntity.pev.origin ).Normalize() * 120.0f;
-                    // end aone
-
-                    // play thwack or smack sound
-                    switch( Math.RandomLong( 1, 3 ) )
-                    {
-                        case 3:
-                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod3.wav", 1.0f, ATTN_NORM );
-                            break;
-                        case 2:
-                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod2.wav", 1.0f, ATTN_NORM );
-                            break;
-                        default:
-                            g_SoundSystem.EmitSound( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hitbod1.wav", 1.0f, ATTN_NORM );
-                            break;
-                    }
-
-                    m_pPlayer.m_iWeaponVolume = 128;
-
-                    if( !pEntity.IsAlive() )
-                        return true;
-                    else
-                        flVol = 0.1f;
-
-                    fHitWorld = false;
-                }
-            }
-
-            // play texture hit sound
-            // UNDONE: Calculate the correct point of intersection when we hit with the hull instead of the line
-
-            if( fHitWorld )
-            {
-                g_SoundSystem.PlayHitSound( tr, vecSrc, vecSrc + ( vecEnd - vecSrc ) * 2.0f, BULLET_PLAYER_CROWBAR );
-
-                // also play crowbar strike
-                switch( Math.RandomLong( 1, 2 ) )
-                {
-                    case 2:
-                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit2.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
-                    default:
-                        g_SoundSystem.EmitSoundDyn( m_pPlayer.edict(), CHAN_WEAPON, "bts_rc/weapons/flashlight_hit1.wav", 1.0f, ATTN_NORM, 0, 98 + Math.RandomLong( 0, 3 ) );
-                        break;
-                }
-            }
-
-            // delay the decal a bit
-            m_trHit = tr;
-            bts_post_attack( tr );
-            SetThink( ThinkFunction( this.Smack ) );
-            pev.nextthink = g_Engine.time + 0.2f;
-
-            m_pPlayer.m_iWeaponVolume = int( flVol * 512 );
+            PlaySound( "bts_rc/weapons/flashlight_miss1.wav", 1.0f, 94 + Math.RandomLong( 0, 15 ) );
+            return;
         }
 
-        return fDidHit;
+        TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+
+        if( this.IsFlesh( hit ) )
+        {
+            switch( RandomUint( 2 ) )
+            {
+                case 0: PlaySound( "bts_rc/weapons/flashlight_hitbod1.wav" ); break;
+                case 1: PlaySound( "bts_rc/weapons/flashlight_hitbod2.wav" ); break;
+                case 2: PlaySound( "bts_rc/weapons/flashlight_hitbod3.wav" ); break;
+            }
+        }
+        else if( this.IsBrush( hit ) )
+        {
+            switch( RandomUint( 1 ) )
+            {
+                case 0: PlaySound( "bts_rc/weapons/flashlight_hit1.wav", 1.0f, 98 + Math.RandomLong( 0, 3 ) ); break;
+                case 1: PlaySound( "bts_rc/weapons/flashlight_hit2.wav", 1.0f, 98 + Math.RandomLong( 0, 3 ) ); break;
+            }
+        }
     }
 }
-#endif

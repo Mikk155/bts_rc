@@ -5,8 +5,9 @@ const sounds = {
 };
 let audioUnlocked = false;
 function unlockAudio() {
-    if (audioUnlocked)
+    if (audioUnlocked) {
         return;
+    }
     Object.values(sounds).forEach(sound => {
         sound.volume = 0;
         sound.play().catch(() => { });
@@ -24,8 +25,9 @@ export async function initUISounds() {
     window.addEventListener("pointerdown", unlockAudio, { once: true });
     document.addEventListener("mouseover", (e) => {
         const target = e.target.closest("button, a[href], .changelog-header");
-        if (target)
+        if (target) {
             playSound(sounds.hover);
+        }
     });
     document.addEventListener("mousedown", (e) => {
         const target = e.target.closest("button, a[href], .changelog-header");

@@ -172,12 +172,12 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
         if( self.m_iClip > 0 )
         {
-            if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::RELOAD3, 2.324f, pev.body ) )
+            if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::RELOAD3, 2.324f, this.body ) )
             {
                 self.m_flNextPrimaryAttack = g_Engine.time + 2.324f;
             }
         }
-        else if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::RELOAD1, 2.324f, pev.body ) )
+        else if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::RELOAD1, 2.324f, this.body ) )
         {
             self.m_flNextPrimaryAttack = g_Engine.time + 4.102f;
             m_flReloadStart = g_Engine.time;

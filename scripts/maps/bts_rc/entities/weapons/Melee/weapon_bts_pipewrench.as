@@ -40,7 +40,7 @@ enum WeaponPipeWrenchAnim
     AttackBigLoop
 };
 
-final class ASWeaponPipeWrenchConfig : ASMeleeWeaponConfig
+final class ASWeaponPipeWrenchConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_pipewrench";
@@ -80,25 +80,7 @@ final class ASWeaponPipeWrenchConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hit1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/pwrench_big_hit2.wav" );
 
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 

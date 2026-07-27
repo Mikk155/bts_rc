@@ -1,3 +1,5 @@
+// Whatever we're running a local host
+export const DEV = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 // HTML Methods
 import { copyCode } from "./scripts/copyCode.js";
 import { initUISounds } from "./scripts/sounds.js";

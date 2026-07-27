@@ -191,7 +191,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
             bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
             PlayAnim( WeaponShotgunAnim::SHOOT2 );
-            PlaySound( "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), 85 + Math.RandomLong( 0, 0x1f ) );
+            PlaySound( "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), 85 + Math.RandomLong( 0, 31 ) );
             player.pev.punchangle.x = isTrainedPersonal ? -10.0f : -24.0f;
 
             Vector vecForward, vecRight, vecUp;
@@ -274,7 +274,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
         PlayAnim( WeaponShotgunAnim::SHOOT );
-        PlaySound( "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 0x1f ) );
+        PlaySound( "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 31 ) );
         player.pev.punchangle.x = isTrainedPersonal ? -5.0f : -11.0f;
 
         Vector vecForward, vecRight, vecUp;
@@ -324,9 +324,9 @@ class weapon_bts_shotgun : BTS_FireWeapon
             case 1:
                 PlayAnim( WeaponShotgunAnim::RELOAD );
                 if( Math.RandomLong( 0, 1 ) == 0 )
-                    PlaySound( "hlclassic/weapons/reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ) );
+                    PlaySound( "hlclassic/weapons/reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ) );
                 else
-                    PlaySound( "hlclassic/weapons/reload3.wav", 1.0f, 85 + Math.RandomLong( 0, 0x1f ) );
+                    PlaySound( "hlclassic/weapons/reload3.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ) );
                 m_flTimeWeaponReload = g_Engine.time + 0.5f;
                 m_fInReloadState = 2;
                 BaseClass.Reload();
@@ -350,7 +350,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
     private void PumpWeapon()
     {
         SetThink( null );
-        PlaySound( "hlclassic/weapons/scock1.wav", 1.0f, 95 + Math.RandomLong( 0, 0x1f ) );
+        PlaySound( "hlclassic/weapons/scock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
     }
 
     private bool FinishReload( bool fCondition )
@@ -364,7 +364,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
                     PlayAnim( WeaponShotgunAnim::PUMP );
-                    PlaySound( "hlclassic/weapons/scock1.wav", 1.0f, 95 + Math.RandomLong( 0, 0x1f ) );
+                    PlaySound( "hlclassic/weapons/scock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.85f;
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
                     return true;

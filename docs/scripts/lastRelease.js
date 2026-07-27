@@ -1,3 +1,4 @@
+import { DEV } from "../main.js";
 export async function initVersionRelease() {
     const CACHE_KEY = "last_release";
     const CACHE_TTL = 1000 * 60 * 5;
@@ -21,8 +22,9 @@ export async function initVersionRelease() {
     }
     function getCache() {
         const raw = localStorage.getItem(CACHE_KEY);
-        if (!raw)
+        if (!raw) {
             return null;
+        }
         try {
             return JSON.parse(raw);
         }
@@ -38,7 +40,7 @@ export async function initVersionRelease() {
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
     }
     const cache = getCache();
-    if (cache && Date.now() - cache.timestamp < CACHE_TTL) {
+    if (cache && Date.now() - cache.timestamp < CACHE_TTL || DEV) {
         return;
     }
     let latestTag = null;

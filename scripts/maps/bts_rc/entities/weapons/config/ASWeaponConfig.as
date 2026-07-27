@@ -161,6 +161,7 @@ abstract class ASWeaponConfig : IConfigurable
     // Weapon deploy bodygroup value. some models has their hands bodgroup on a different value. automatically set in BTS_Weapon::Deploy
     const uint8 get_hands_group() { return 1; }
     const uint8 get_animation_draw() { return 1; }
+    const int get_animation_holster() { return -1; }
     const string& get_primary_ammo() { return String::EMPTY_STRING; }
     const string& get_primary_ammoentity() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
@@ -328,99 +329,81 @@ abstract class ASWeaponConfig : IConfigurable
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
-        if( g_WeaponsDefaults !is null && g_WeaponsDefaults.Contains( this.GetName() ) )
-        {
-            auto defaults = g_WeaponsDefaults[ this.GetName() ];
+        this.primary_maxammo = config.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
 
-            this.primary_maxammo = defaults.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
-            this.secondary_maxammo = defaults.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
+        this.secondary_maxammo = config.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
 
-            this.primary_dropammo = defaults.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
-            this.secondary_dropammo = defaults.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
+        this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
+        this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
 
-            this.primary_damage = defaults.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
-            this.secondary_damage = defaults.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
-            this.tertiary_damage = defaults.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
+        this.primary_damage = config.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
+        this.secondary_damage = config.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
+        this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
 
-            this.primary_cooldown = defaults.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
-            this.primary_trained_cooldown = defaults.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
+        this.primary_cooldown = config.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
+        this.primary_trained_cooldown = config.ValueOrDefault( "primary_trained_cooldown", this.primary_cooldown, false, false );
 
-            this.secondary_cooldown = defaults.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
-            this.secondary_trained_cooldown = defaults.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
+        this.secondary_cooldown = config.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
+        this.secondary_trained_cooldown = config.ValueOrDefault( "secondary_trained_cooldown", this.secondary_cooldown, false, false );
 
-            this.tertiary_cooldown = defaults.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
-            this.tertiary_trained_cooldown = defaults.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
+        this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
+        this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_cooldown, false, false );
 
-            this.max_clip = defaults.ValueOrDefault( "max_clip", this.max_clip, false, false );
-            this.slot = defaults.ValueOrDefault( "slot", this.slot, false, false );
-            this.position = defaults.ValueOrDefault( "position", this.position, false, false );
-            this.weight = defaults.ValueOrDefault( "weight", this.weight, false, false );
-            this.deploy_time = defaults.ValueOrDefault( "deploy_time", this.deploy_time, false, false );
-
-            // Melee properties
-            this.primary_distance = defaults.ValueOrDefault( "primary_distance", this.primary_distance, false, false );
-            this.secondary_distance = defaults.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
-            this.tertiary_distance = defaults.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
-            this.subsequent_hits_deduction = defaults.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false );
-            this.primary_miss_cooldown = defaults.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
-            this.primary_miss_trained_cooldown = defaults.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
-            this.secondary_miss_cooldown = defaults.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
-            this.secondary_miss_trained_cooldown = defaults.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
-
-            // Reload properties
-            this.reload_time = defaults.ValueOrDefault( "reload_time", this.reload_time, false, false );
-            this.reload_anim = defaults.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
-            this.reload_empty_anim = defaults.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
-            this.reload_sound = defaults.ValueOrDefault( "reload_sound", this.reload_sound );
-        }
-
-        this.primary_maxammo = json.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
-        this.secondary_maxammo = json.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
-
-        this.primary_dropammo = json.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
-        this.secondary_dropammo = json.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
-
-        this.primary_damage = json.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
-        this.secondary_damage = json.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
-        this.tertiary_damage = json.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
-
-        this.primary_cooldown = json.ValueOrDefault( "primary_cooldown", this.primary_cooldown, false, false );
-        this.primary_trained_cooldown = json.ValueOrDefault( "primary_trained_cooldown", this.primary_trained_cooldown, false, false );
-
-        this.secondary_cooldown = json.ValueOrDefault( "secondary_cooldown", this.secondary_cooldown, false, false );
-        this.secondary_trained_cooldown = json.ValueOrDefault( "secondary_trained_cooldown", this.secondary_trained_cooldown, false, false );
-
-        this.tertiary_cooldown = json.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
-        this.tertiary_trained_cooldown = json.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_trained_cooldown, false, false );
-
-        this.max_clip = json.ValueOrDefault( "max_clip", this.max_clip, false, false );
-        this.slot = json.ValueOrDefault( "slot", this.slot, false, false );
-        this.position = json.ValueOrDefault( "position", this.position, false, false );
-        this.weight = json.ValueOrDefault( "weight", this.weight, false, false );
-        this.deploy_time = json.ValueOrDefault( "deploy_time", this.deploy_time, false, false );
+        this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip, false, false );
+        this.slot = config.ValueOrDefault( "slot", this.slot, false, false );
+        this.position = config.ValueOrDefault( "position", this.position, false, false );
+        this.weight = config.ValueOrDefault( "weight", this.weight, false, false );
+        this.deploy_time = config.ValueOrDefault( "deploy_time", this.deploy_time, false, false );
 
         // Melee properties
-        this.primary_distance = json.ValueOrDefault( "primary_distance", this.primary_distance, false, false );
-        this.secondary_distance = json.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
-        this.tertiary_distance = json.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
-        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, json.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false ) ) );
-        this.primary_miss_cooldown = json.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown);
-        this.primary_miss_trained_cooldown = json.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_trained_cooldown, false, false );
-        this.secondary_miss_cooldown = json.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
-        this.secondary_miss_trained_cooldown = json.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_trained_cooldown, false, false );
+        this.primary_distance = config.ValueOrDefault( "primary_distance", this.primary_distance, false, false );
+        this.secondary_distance = config.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
+        this.tertiary_distance = config.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
+
+        // -TODO Should maybe schema this and some more other variables.
+        this.subsequent_hits_deduction = config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false );
+        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
+
+        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown, false, false );
+        this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_cooldown, false, false );
+        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
+        this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
         // Reload properties
-        this.reload_time = json.ValueOrDefault( "reload_time", this.reload_time, false, false );
-        this.reload_anim = json.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
-        this.reload_empty_anim = json.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
-        this.reload_sound = json.ValueOrDefault( "reload_sound", this.reload_sound );
+        this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
+        this.reload_anim = config.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
+        this.reload_empty_anim = config.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
+        this.reload_sound = config.ValueOrDefault( "reload_sound", this.reload_sound );
 
         this.Precache();
         this.RegisterWeapon();
 
         return true;
+    }
+
+    // Called when the weapon wants to send some aniamtion.
+    // This base class calls the WeaponBody overload without int group, int body to set the proper hands.
+    // Override that method and return ASWeaponConfig::WeaponBody( player, weapon, character );
+    const int WeaponBody( int group, int body, CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, group, body );
+        return this.WeaponBody( player, weapon, character );
+    }
+
+    // Called when the weapon wants to send some animation.
+    // This base class implements the hand selection body group.
+    // Override this method and return ASWeaponConfig::WeaponBody( player, weapon, character );
+    const int WeaponBody( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        Hands handGroup = ( character !is null ? character.HandsGroup : Hands::Gray );
+
+        // Set the correct bodygroup for character hands in the given hands_group.
+        // Most of the weapons has it in the bodygroup 1s
+        weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, handGroup );
+
+        return weapon.pev.body;
     }
 
     // Called when the weapon is deployed. this is too late!
@@ -433,52 +416,19 @@ abstract class ASWeaponConfig : IConfigurable
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of TertiaryAttack
     void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
-    // Called when the player uses the flashlight. this is not called if the player is a HEV and has suit power.
-    void WeaponFlashlight( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
-    {
-        if( player.pev.impulse == 0 )
-            return; // Avoid looping
-
-        // If the current active weapon doesn't has a usable flashlight then do a loadout check
-        if( ( weapon.pszAmmo2() != "bts_battery" && weapon.pszAmmo1() != "bts_battery" ) || !Flashlight::HasAnyReserve( player, weapon ) )
-        {
-            @weapon = null;
-
-            for( uint ui = 0; ui < MAX_ITEM_TYPES; ui++ )
-            {
-                CBasePlayerItem@ item = player.m_rgpPlayerItems(ui);
-
-                while( item !is null )
-                {
-                    @weapon = cast<CBasePlayerWeapon@>(item);
-
-                    if( weapon !is null && ( weapon.pszAmmo2() == "bts_battery" || weapon.pszAmmo1() == "bts_battery" ) && Flashlight::HasAnyReserve( player, weapon ) )
-                    {
-                        player.SelectItem( weapon.pev.classname );
-                        weapon.Deploy();
-                        ui = MAX_ITEM_TYPES; // Break for loop
-                        break;
-                    }
-
-                    @weapon = null;
-                    @item = cast<CBasePlayerWeapon@>( item.m_hNextItem.GetEntity() );
-                }
-            }
-        }
-
-        if( weapon !is null )
-        {
-            player.pev.impulse = 0;
-            ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.pev.classname ] );
-            weaponConfig.WeaponFlashlight( player, weapon, character );
-        }
-    }
 
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
+        uint32 currentVersion = 526;
+
+// Currently unimplemented in the test branch
+#if SERVER
+        currentVersion = 527;
+#endif
+
         // 2.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-        if( gpGameVersion == 526 && !this.IsCustomWeapon() )
+        if( gpGameVersion == currentVersion && !this.IsCustomWeapon() )
         {
             dictionary@ data = player.GetUserData();
 
@@ -490,9 +440,7 @@ abstract class ASWeaponConfig : IConfigurable
             if( sequence != player.pev.weaponanim )
             {
                 data[ "526_weaponsequence" ] = player.pev.weaponanim;
-                Hands handsGroup = ( character !is null ? character.HandsGroup : Hands::Hevsuit );
-                weapon.pev.body = g_ModelFuncs.SetBodygroup( this.view_model_index, weapon.pev.body, this.hands_group, handsGroup );
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
+                weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, character ) );
             }
             else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
             {

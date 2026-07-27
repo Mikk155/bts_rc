@@ -121,7 +121,7 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
 
         // Execute heal
         player.SetAnimation( PLAYER_ATTACK1 );
-        weapon.SendWeaponAnim( WeaponMedkitAnim::Heal, 0, weapon.pev.body );
+        weapon.SendWeaponAnim( WeaponMedkitAnim::Heal, 0, this.WeaponBody( player, weapon, character ) );
 
         player.TakeHealth( flHealAmount, DMG_MEDKITHEAL );
         player.m_rgAmmo( weapon.m_iPrimaryAmmoType, iAmmoLeft - int( flAmmoUsed ) );

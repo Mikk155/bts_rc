@@ -1,5 +1,25 @@
+# 27/7/2026
+## Scripts
+### Flashlight System Overhaul & Refinement
+- System Restructure: Migrated the flashlight logic to a child of ``ASWeaponConfig``. This enables external JSON configurations and drastically reduces code duplication.
+- Enhanced Rendering: Added a dynamic glow sprite effect directly onto the flashlight's light spot.
+- Improved view and player models so now update dynamically to reflect the flashlight's current state in the form of a light cone.
+- Universal Quick-Deploy ``F`` (``impulse 100``) Players can now deploy the flashlight from any weapon at any time. The system automatically selects the first available weapon with flashlight ammo, playing the deployment animation before turning the light on. if no weapon is equiped it will play a switch sound.
+- Contextual Shortcuts: Quick-deploy ``F`` (``impulse 100``) automatically skips weapon selection if the currently equipped weapon already has flashlight ammo.
+- Kept full support for toggling the flashlight via secondary attack while a compatible weapon is active.
+- Smart Fallbacks: Pressing the quick-deploy key when no flashlight-equipped weapons are owned will automatically equip flares or the flare gun instead.
+- Automatic Reloading: Fixed an issue where the flashlight would fail to reload when empty. Triggering the flashlight via quick-deploy or secondary attack with an empty clip now properly initiates a reload.
+- Animation Fixes: Resolved underlying animation glitches during reload and deployment states.
+- Reload Interruption: Reloading any weapon now automatically shuts down the flashlight, requiring the player to re-enable it once the reload animation completes.
+
+# 17/7/2026
+## Scripts
+- Refactored laser spot structure to a `ASWeaponConfig` system child which allows `json` external configuration.
+
 # 14/07/2026
 ## Scripts
+- Reused one laser spot entity per player slot instead of recreating it whenever the Desert Eagle is deployed.
+- Added a tertiary-fire laser toggle that remembers its state across weapon holsters.
 - Fixed the standalone flashlight remaining active after switching or dropping it and prevented interrupted battery reloads from granting a full charge.
 - Corrected M4 and suppressed M4 animation sequences for fire-mode changes, reloads, draws, firing, and idles.
 - Fix panthereye pushing non-character targets. (i.e doors)

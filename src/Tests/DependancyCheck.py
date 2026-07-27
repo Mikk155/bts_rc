@@ -68,7 +68,7 @@ class DependancyCheck( PyBuilder ):
             if self.Type == PyBuilder.BuildType.Local and os.path.exists( destinationPath ):
                 with open( destinationPath, "r", encoding="utf-8") as f:
                     if f.read() == content:
-                        self.Log( f"Skip up-to-date scripts\\mikk155\\{dependencyPath}.as" );
+                        # self.Log( f"Skip up-to-date scripts\\mikk155\\{dependencyPath}.as" );
                         upToDate = True;
 
             if upToDate is False:
@@ -84,8 +84,6 @@ class DependancyCheck( PyBuilder ):
         return True;
 
     def Build(self) -> bool:
-
-        self.Log( "Downloading third party scripts..." );
 
         mikkFolder = Path( os.path.join( self.Workspace, "scripts", "mikk155" ) );
 

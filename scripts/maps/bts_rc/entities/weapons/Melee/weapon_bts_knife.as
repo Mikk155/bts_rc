@@ -41,7 +41,7 @@ enum WeaponKnifeAnim
     Stab
 };
 
-final class ASWeaponKnifeConfig : ASMeleeWeaponConfig
+final class ASWeaponKnifeConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_knife";
@@ -80,25 +80,7 @@ final class ASWeaponKnifeConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/knife_hit_wall2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/knife_hit_flesh2.wav" );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 

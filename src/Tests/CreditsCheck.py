@@ -12,28 +12,42 @@ from Tests.PyBuilder import PyBuilder;
 
 class CreditsCheck( PyBuilder ):
 
+    m_CreditsPath: str = os.path.join( PyBuilder.GetWorkspace(), "docs", "assets", "credits.json" );
+
+    def ShouldBuild(self) -> bool:
+        return self.FileModified( self.m_CreditsPath );
+
     def Build(self) -> bool:
 
-        creditsPath: str = os.path.join( self.Workspace, "docs", "assets", "credits.json" );
-
         creditsList: list[str];
-        
-        with open( creditsPath, "r" ) as fStream:
+
+        with open( self.m_CreditsPath, "r" ) as fStream:
             creditsList = json.load( fStream );
 
-        creditsFixed: list[str] = creditsList.copy();
-        creditsFixed = sorted(set(creditsFixed));
+        # Format object to ( ( name.lower(), index ), ... )
+        creditsMap: list[tuple[str, int]] = [ ( user.lower() if isinstance( user, str ) else user[0].lower(), i ) for i, user in enumerate( creditsList ) ];
 
-        if( creditsFixed != creditsList ):
+        creditsSorted: list[tuple[str, int]] = sorted( set( creditsMap ) );
 
-            with open( creditsPath, "w" ) as fStream:
-                fStream.write( json.dumps( creditsFixed, indent = 4 ) );
-                self.Log( "Updated and sorted {}", os.path.relpath( creditsPath, self.Workspace ) );
+        # Sortarray credits using the indexes ordering in the sorted tuple
+        creditsFixed = [ creditsList[ index[1] ] for index in creditsSorted ];
 
-            authorsPath: str = os.path.join( self.Workspace, "AUTHORS.md" );
+        if creditsList != creditsFixed:
+            # Update credits.json to be sorted in web
+            with open( self.m_CreditsPath, "w" ) as fStream:
+                content = json.dumps( creditsFixed, indent=4 );
+                fStream.write( content );
+                self.Log( "Updated and sorted {}", os.path.relpath( self.m_CreditsPath, self.Workspace ) );
 
-            with open( authorsPath, "w" ) as fStream:
-                fStream.write( """# Project Maintainers
+        # Apply url markdown
+        for i, contributor in enumerate(creditsFixed):
+            if isinstance( contributor, list ):
+                creditsFixed[i] = f"[{contributor[0]}]({contributor[1]})";
+
+        authorsPath: str = os.path.join( self.Workspace, "AUTHORS.md" );
+
+        with open( authorsPath, "w" ) as fStream:
+            fStream.write( """# Project Maintainers
 
 | RaptorSKA | Level design | [@RaptorSKA](https://github.com/RaptorSKA) |
 |---|---|---|
@@ -41,9 +55,7 @@ class CreditsCheck( PyBuilder ):
 
 ## Contributors
 {}""".format( "".join( f"- {contributor}\n" for contributor in creditsFixed ) ) );
-                self.Log( "Updated {}", os.path.relpath( authorsPath, self.Workspace ) );
-
-            return False;
+            self.Log( "Updated {}", os.path.relpath( authorsPath, self.Workspace ) );
 
         return True;
 

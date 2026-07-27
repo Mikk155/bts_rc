@@ -110,13 +110,10 @@ abstract class BTS_FireWeapon : BTS_Weapon
             return;
         }
 
-        if( this.owner.FlashlightIsOn() )
-        {
-            this.owner.FlashlightTurnOff();
-        }
+        Flashlight::TurnOff( this.owner, self, this.config );
 
         int anim = ( self.m_iClip != 0 ) ? config.reload_anim : config.reload_empty_anim;
-        self.DefaultReload( config.max_clip, anim, config.reload_time, pev.body );
+        self.DefaultReload( config.max_clip, anim, config.reload_time, this.body );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         if( !config.reload_sound.IsEmpty() )
         {

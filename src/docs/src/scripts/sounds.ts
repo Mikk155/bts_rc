@@ -18,12 +18,15 @@ let audioUnlocked = false;
 
 function unlockAudio(): void
 {
-    if( audioUnlocked ) return;
+    if( audioUnlocked )
+    {
+        return;
+    }
 
     Object.values( sounds ).forEach( sound =>
     {
         sound.volume = 0;
-        sound.play().catch(() => {} );
+        sound.play().catch( () => {} );
         sound.pause();
         sound.currentTime = 0;
         sound.volume = 1;
@@ -35,7 +38,7 @@ function unlockAudio(): void
 function playSound( base: UISound ): void
 {
     const sound = base.cloneNode() as UISound;
-    sound.play().catch(() => {} );
+    sound.play().catch( () => {} );
 }
 
 export async function initUISounds(): Promise<void>
@@ -44,12 +47,14 @@ export async function initUISounds(): Promise<void>
 
     document.addEventListener( "mouseover", ( e ) =>
     {
-        const target = (e.target as HTMLElement).closest(
+        const target = ( e.target as HTMLElement ).closest(
             "button, a[href], .changelog-header"
         );
 
         if( target )
+        {
             playSound( sounds.hover );
+        }
     } );
 
     document.addEventListener( "mousedown", ( e ) =>

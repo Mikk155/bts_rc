@@ -87,6 +87,7 @@
     ]
     target(target_destination) : "Target on pickup" : "" : "Fire after pickup pass the player as activator"
     model(studio) : "Custom model" : ""
+    sequence(integer) : "Animation Sequence" : 0
 ]
 
 @PointClass base(BTS_Item, Mandatory) studio( "models/bshift/barney_vest.mdl" ) = item_bts_armorvest : "Suit power" : "Equip 20-30 battery to a non-cleansuit/hevsuit player" [ ]
@@ -119,6 +120,9 @@
 @PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_screwdriver.mdl" ) = weapon_bts_screwdriver : "Weapon" : "Weapon entity" [ ]
 
 @PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_9mmclip.mdl" ) = ammo_bts_beretta : "Ammo" : "Ammo entity" [ ]
+
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/furniture/w_flashlightbattery.mdl" ) = bts_battery : "Battery" : "Battery entity" [ ]
+
 
 // Next entities only takes places outside of bts_rc map (bts_rc_test_chamber)
 @SolidClass base(Mandatory, ZHLT) = trigger_logger: "Fast message displayer"

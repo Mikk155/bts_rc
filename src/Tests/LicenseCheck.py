@@ -56,7 +56,6 @@ class LicenseCheck( PyBuilder ):
 
                 script.Content = licenseHeader + script.Content;
 
-        self.Log( "All files contains license headers" );
         return True;
 
 LicenseCheck();

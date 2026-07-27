@@ -1,3 +1,4 @@
+import { DEV } from "../main.js";
 export async function initContributors() {
     async function render(container, contributors) {
         container.innerHTML = "";
@@ -5,6 +6,7 @@ export async function initContributors() {
         ordered.sort((a, b) => {
             return b.contributions - a.contributions;
         });
+        let slots = 0;
         for (const user of ordered) {
             const el = document.createElement("a");
             el.href = user.html_url;
@@ -15,7 +17,13 @@ export async function initContributors() {
                 <div>${user.login}</div>
                 <div>${user.contributions} contributions</div>
             `;
+            slots++;
             container.appendChild(el);
+        }
+        // Inject dummy elements to account for GIT contributors being in 5 columns
+        while ((slots % 5) != 0) {
+            container.appendChild(document.createElement("a"));
+            slots++;
         }
         // credits.json
         try {
@@ -23,12 +31,21 @@ export async function initContributors() {
             if (response.ok) {
                 const users = await response.json();
                 if (Array.isArray(users)) {
-                    for (const user of users) {
-                        if (typeof user !== "string")
-                            continue;
+                    for (let user of users) {
                         const element = document.createElement("li");
-                        element.innerText = user;
-                        container.appendChild(element);
+                        element.className = "changelog-header";
+                        if (Array.isArray(user)) {
+                            element.innerText = user[0];
+                            const url = document.createElement("a");
+                            url.href = user[1];
+                            url.target = "_blanc";
+                            url.appendChild(element);
+                            container.appendChild(url);
+                        }
+                        else {
+                            element.innerText = user;
+                            container.appendChild(element);
+                        }
                     }
                 }
             }
@@ -64,7 +81,7 @@ export async function initContributors() {
         }
         return false;
     }
-    if (await loadFromCache()) {
+    if (await loadFromCache(DEV)) {
         return;
     }
     const contributors = new Map();

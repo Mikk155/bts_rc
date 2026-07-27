@@ -40,7 +40,7 @@ enum WeaponPipeAnim
     AttackBigLoop
 };
 
-final class ASWeaponPipeConfig : ASMeleeWeaponConfig
+final class ASWeaponPipeConfig : ASWeaponConfig
 {
     const string& GetName() const override {
         return "weapon_bts_pipe";
@@ -74,25 +74,7 @@ final class ASWeaponPipeConfig : ASMeleeWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hitbod3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hit1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/pipe_hit2.wav" );
-        ASMeleeWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon config",
-            "description": "weapon-related gameplay modifiers.",
-            "allOf":
-            [
-                "ASWeaponConfig",
-                "ASMeleeWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
+        ASWeaponConfig::Precache();
     }
 }
 

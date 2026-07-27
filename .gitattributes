@@ -15,4 +15,4 @@ docs/* linguist-documentation=false
 *.ts linguist-language=TypeScript
 *.html linguist-language=HTML
 *.css linguist-language=HTML
-*.md linguist-language=HTML
+*.md linguist-language=Markdown

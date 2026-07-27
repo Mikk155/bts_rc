@@ -31,18 +31,6 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_eagle_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 1, "bts_battery", 10, "bts_rc/items/battery_pickup1.wav" );
-    }
-}
-
 /*
 class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
@@ -78,30 +66,6 @@ class ammo_bts_glock17f : ScriptBasePlayerAmmoEntity, bts_ammo_base
     bool AddAmmo( CBaseEntity@ other )
     {
         return AddAmmo( other, 17, "9mm", 120 );
-    }
-}
-
-class ammo_bts_glock17f_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 1, "bts_battery", 10, "bts_rc/items/battery_pickup1.wav" );
-    }
-}
-
-class ammo_bts_glocksd_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 1, "bts_battery", 10, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 
@@ -176,20 +140,6 @@ class ammo_bts_m16 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     bool AddAmmo( CBaseEntity@ other )
     {
         return AddAmmo( other, 30, "556", 150, "hlclassic/weapons/reload2.wav" );
-    }
-}
-
-// i stepped on a minefield known as trying to respawn a non-weapon/ammo entity resulting in all hell breaking loose
-class ammo_bts_dummy : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-        pev.scale = 0.1;
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 1, "uranium", 1, "bts_rc/weapons/m79_close.wav" );
     }
 }
 
@@ -322,18 +272,6 @@ class ammo_bts_sbshotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
     bool AddAmmo( CBaseEntity@ other )
     {
         return AddAmmo( other, 3, "buckshot", 30, "hlclassic/weapons/reload1.wav" );
-    }
-}
-
-class ammo_bts_sbshotgun_battery : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 1, "bts_battery", 10, "bts_rc/items/battery_pickup1.wav" );
     }
 }
 
