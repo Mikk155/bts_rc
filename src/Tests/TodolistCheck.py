@@ -73,6 +73,10 @@ class TodolistCheck( PyBuilder ):
             else:
                 lastCompleted = False;
 
+        # Not sure why it adds empty lines on the end of the file. lazy hack for now
+        while( contentLines[ len(contentLines) - 1 ] == "" ):
+            contentLines.pop( len(contentLines) - 1 );
+
         with open( self.m_TODOPath, "w" ) as fStream:
             fStream.writelines( [ f"{line}\n" for line in contentLines if line is not None ] );
 
