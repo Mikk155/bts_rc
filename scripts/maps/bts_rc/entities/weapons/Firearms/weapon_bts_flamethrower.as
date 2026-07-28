@@ -61,7 +61,6 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_Game.PrecacheModel( "sprites/bts_rc/fthrow.spr" );
         this.m_iFlameSprite = g_EngineFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flamethrower.txt" );
