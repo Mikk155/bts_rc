@@ -563,13 +563,6 @@ namespace btscm
         g_SoundSystem.PrecacheSound( "garg/gar_stomp1.wav" );
         g_Game.PrecacheModel( SPRITE_SHIELD_AOE );
 
-        // melee attacks
-        g_SoundSystem.PrecacheSound( "zombie/claw_strike1.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_strike2.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_strike3.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_miss1.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_miss2.wav" );
-
         // handles different hitgroups (head, shield), ricochets, and damage reduction for various damage types, probably needs tweaking :eheh:
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @HWRGTakeDamage );
     }

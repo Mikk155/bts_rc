@@ -192,11 +192,6 @@ final class ASPanthereyeConfig : IConfigurable
         g_SoundSystem.PrecacheSound( "bullchicken/bc_idle3.wav" );
         g_SoundSystem.PrecacheSound( "agrunt/ag_alert3.wav" );
         g_SoundSystem.PrecacheSound( "garg/gar_pain1.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_miss1.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_miss2.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_strike1.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_strike2.wav" );
-        g_SoundSystem.PrecacheSound( "zombie/claw_strike3.wav" );
         g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pouncehit.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash1.wav" );

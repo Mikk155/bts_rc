@@ -61,7 +61,6 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
     {
         g_SoundSystem.PrecacheSound( "ambience/rifle2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponConfig::Precache();
     }
 

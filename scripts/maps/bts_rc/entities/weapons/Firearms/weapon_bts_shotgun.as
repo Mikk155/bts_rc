@@ -57,17 +57,6 @@ final class ASWeaponShotgunConfig : ASWeaponConfig
         return WeaponShotgunAnim::DRAW;
     }
 
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/sbarrel1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/spas12_dbarrel1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/reload1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/reload3.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/scock1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

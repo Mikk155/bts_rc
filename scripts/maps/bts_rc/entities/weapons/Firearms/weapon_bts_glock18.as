@@ -62,15 +62,6 @@ final class ASWeaponGlock18Config : ASWeaponConfig
         return 2;
     }
 
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/glock18_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/reload2.wav" );
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

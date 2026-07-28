@@ -67,18 +67,6 @@ final class ASWeaponMP5GLConfig : ASWeaponConfig
         return WeaponMP5GLAnim::Draw;
     }
 
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_slap.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/mp5_clip.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/glauncher2.wav" );
-        g_Game.PrecacheModel( "models/hlclassic/grenade.mdl" );
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

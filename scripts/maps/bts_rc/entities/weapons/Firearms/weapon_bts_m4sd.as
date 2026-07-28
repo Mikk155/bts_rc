@@ -57,15 +57,6 @@ final class ASWeaponM4SDConfig : ASWeaponConfig
         return WeaponM4SDAnim::DRAW;
     }
 
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4sd_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget_3.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_pinpull.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

@@ -57,15 +57,6 @@ final class ASWeaponHandGrenadeConfig : ASWeaponConfig
         return WeaponHandGrenadeAnim::DRAW;
     }
 
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_draw.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw2.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

@@ -69,14 +69,10 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4sd_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m16_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget_3.wav" );
         g_SoundSystem.PrecacheSound( "weapons/glauncher.wav" );
         g_SoundSystem.PrecacheSound( "weapons/glauncher2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/gl_reload.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/fvox/ammowarning.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponConfig::Precache();
     }
 

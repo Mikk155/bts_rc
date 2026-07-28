@@ -60,8 +60,6 @@ final class ASWeaponM79Config : ASWeaponConfig
     void Precache() override
     {
         g_Game.PrecacheModel( "models/grenade.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/m79_fire.wav" );
         ASWeaponConfig::Precache();
     }
 

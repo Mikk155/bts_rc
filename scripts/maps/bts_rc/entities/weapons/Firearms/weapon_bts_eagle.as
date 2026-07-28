@@ -71,13 +71,6 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
     {
         return 2;
     }
-
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "weapons/desert_eagle_fire.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponLaserConfig::Precache();
-    }
 }
 
 ASWeaponEagleConfig gpWeaponEagleConfig;

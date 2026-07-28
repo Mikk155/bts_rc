@@ -57,23 +57,6 @@ final class ASWeaponFlareConfig : ASWeaponConfig
         return WeaponFlareAnim::DRAW;
     }
 
-    void Precache() override
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun_clip.mdl" );
-
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_deploy.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_bounce.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_on.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehit1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehitbod1.wav" );
-
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

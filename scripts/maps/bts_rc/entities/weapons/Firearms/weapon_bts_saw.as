@@ -62,10 +62,6 @@ final class ASWeaponSawConfig : ASWeaponConfig
     void Precache() override
     {
         g_Game.PrecacheModel( "models/saw_link.mdl" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/saw_reload.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/saw_reload2.wav" );
         ASWeaponConfig::Precache();
     }
 

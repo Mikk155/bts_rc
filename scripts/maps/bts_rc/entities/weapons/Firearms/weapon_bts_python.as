@@ -62,14 +62,6 @@ final class ASWeaponPythonConfig : ASWeaponConfig
         return 3;
     }
 
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot2.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponConfig::Precache();
-    }
-
     const string GetSchema() const override
     {
         return """{

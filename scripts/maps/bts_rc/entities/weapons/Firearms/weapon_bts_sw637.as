@@ -65,10 +65,6 @@ final class ASWeaponSW637Config : ASWeaponConfig
     void Precache() override
     {
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_38ammobox.mdl" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/38_shot1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/38_shot2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/sw_bullet_insert_1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponConfig::Precache();
     }
 

@@ -148,8 +148,6 @@ namespace monster_zombie_gunner
         {
             g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_barney3.mdl" );
             g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_blackops3.mdl" );
-            g_Game.PrecacheModel( "models/bts_rc/weapons/w_beretta.mdl" );
-            g_Game.PrecacheModel( "models/bts_rc/weapons/w_9mmhandgunsd.mdl" );
             m_iShell = g_Game.PrecacheModel( "models/shell.mdl" );
 
             for( uint i = 0; i < arrsSounds.length(); i++ )

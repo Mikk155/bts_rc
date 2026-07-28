@@ -71,14 +71,6 @@ final class ASWeaponBerettaConfig : ASWeaponLightConfig
     {
         return WeaponBerettaAnim::Flash;
     }
-
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/beretta_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/9mm_clip.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponLightConfig::Precache();
-    }
 }
 
 ASWeaponBerettaConfig gpWeaponBerettaConfig;

@@ -53,8 +53,6 @@ final class ASWeaponSpannerConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/cbar_hitbod3.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/cbar_hit1.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/cbar_hit2.wav" );
         ASWeaponConfig::Precache();
     }
 }

@@ -129,7 +129,6 @@ namespace monster_snapbug
 
         void Precache()
         {
-            g_Game.PrecacheModel( "models/bts_rc/monsters/snapbug.mdl" );
             g_Game.PrecacheModel( "sprites/" + "bts_rc/bts_rc_snapbug.spr" );
 
             for( uint i = 0; i < arrsSounds.length(); i++ )
@@ -447,8 +446,6 @@ namespace monster_snapbug
 
         void Spawn()
         {
-            Precache();
-
             g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/snapbugattach.mdl" );
             g_EntityFuncs.SetSize( self.pev, g_vecZero, g_vecZero );
 
@@ -458,11 +455,6 @@ namespace monster_snapbug
 
             SetThink( ThinkFunction( this.AttachedThink ) );
             pev.nextthink = g_Engine.time;
-        }
-
-        void Precache()
-        {
-            g_Game.PrecacheModel( "models/bts_rc/monsters/snapbugattach.mdl" );
         }
 
         void AttachedThink()

@@ -61,19 +61,10 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/v_flame.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/p_flame.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_flame.mdl" );
-        g_Game.PrecacheModel( "models/hunger/w_gas.mdl" );
         g_Game.PrecacheModel( "sprites/bts_rc/fthrow.spr" );
         this.m_iFlameSprite = g_EngineFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
 
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flmfire2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flmgrexp.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flamethrower.txt" );
-        g_Game.PrecacheGeneric( "sprites/bts_rc/fthrow.spr" );
 
         ASWeaponConfig::Precache();
     }

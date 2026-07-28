@@ -71,16 +71,6 @@ final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
     {
         return WeaponSBShotgunAnim::FLASH;
     }
-
-    void Precache() override
-    {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbshotgun_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/reload3.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/sbscock1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
-        ASWeaponLightConfig::Precache();
-    }
 }
 
 ASWeaponSBShotgunConfig gpWeaponSBShotgunConfig;

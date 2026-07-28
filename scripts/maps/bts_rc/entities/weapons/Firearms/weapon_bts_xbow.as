@@ -66,7 +66,6 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         g_Game.PrecacheModel( "models/bts_rc/weapons/electro_bolt.mdl" );
 
         g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fire1.ogg" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fire1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_bolt.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fidget2.wav" );
@@ -76,7 +75,6 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magin.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magready.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_draw2.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
 
         ASWeaponConfig::Precache();

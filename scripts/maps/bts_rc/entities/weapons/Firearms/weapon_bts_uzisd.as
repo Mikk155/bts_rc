@@ -59,10 +59,7 @@ final class ASWeaponUziSDConfig : ASWeaponConfig
 
     void Precache() override
     {
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/uzi_fire1.wav" );
         g_SoundSystem.PrecacheSound( "weapons/pl_gun2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget1.wav" );
-        g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
         ASWeaponConfig::Precache();
     }
 
