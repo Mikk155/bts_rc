@@ -144,6 +144,10 @@ void MapInit()
         @chrono = Server::chrono();
     }
 
+    models::Precache();
+
+    Precache();
+
     g_MapConfig.__LoadMapConfiguration__();
 
     // Logger first
@@ -215,10 +219,6 @@ void MapInit()
     g_MapConfig.__ValidateMapConfiguration__();
 
     g_VoiceResponse.Register();
-
-    models::Precache();
-
-    Precache();
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
