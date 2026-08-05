@@ -190,7 +190,6 @@ final class ASPanthereyeConfig : IConfigurable
         g_SoundSystem.PrecacheSound( "agrunt/ag_idle1.wav" );
         g_SoundSystem.PrecacheSound( "bullchicken/bc_die3.wav" );
         g_SoundSystem.PrecacheSound( "bullchicken/bc_idle3.wav" );
-        g_SoundSystem.PrecacheSound( "agrunt/ag_alert3.wav" );
         g_SoundSystem.PrecacheSound( "garg/gar_pain1.wav" );
         g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pouncehit.wav" );
@@ -199,10 +198,12 @@ final class ASPanthereyeConfig : IConfigurable
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash3.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/panthereye/stealth.ogg" );
         g_SoundSystem.PrecacheSound( "garg/gar_pain2.wav" );
-        g_SoundSystem.PrecacheSound( "agrunt/ag_attack2.wav" );
         g_SoundSystem.PrecacheSound( "agrunt/ag_pain2.wav" );
         g_SoundSystem.PrecacheSound( "barnacle/bcl_chew2.wav" );
         g_SoundSystem.PrecacheSound( "barnacle/bcl_chew1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert2.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert3.wav" );
 
         CustomEntity( "monster_panthereye" );
 
@@ -303,10 +304,11 @@ class monster_panthereye : ScriptBaseMonsterEntity
     {
         if( !this.m_bStealthed )
         {
-            switch( RandomUint( 1, self ) )
+            switch( RandomUint( 2, self ) )
             {
-                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_alert3.wav", VOL_NORM, ATTN_IDLE ); break;
-                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_attack2.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert.wav",, VOL_NORM, ATTN_IDLE ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert2.wav",, VOL_NORM, ATTN_IDLE ); break;
+                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert3.wav",, VOL_NORM, ATTN_IDLE ); break;
             }
         }
     }
