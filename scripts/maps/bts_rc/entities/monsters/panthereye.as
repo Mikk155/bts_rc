@@ -306,9 +306,9 @@ class monster_panthereye : ScriptBaseMonsterEntity
         {
             switch( RandomUint( 2, self ) )
             {
-                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert.wav",, VOL_NORM, ATTN_IDLE ); break;
-                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert2.wav",, VOL_NORM, ATTN_IDLE ); break;
-                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert3.wav",, VOL_NORM, ATTN_IDLE ); break;
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert2.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_alert3.wav", VOL_NORM, ATTN_IDLE ); break;
             }
         }
     }

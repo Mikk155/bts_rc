@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/7.2727272727272725?barColor=da290b)
+> ![](https://geps.dev/progress/8.19672131147541?barColor=da2d0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,7 +27,8 @@ This file contains the list of to-do in the project.
 ---
 
 - [ ] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
-- [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/ and maybe remove the weapon_bts_ prefix from files?
+- [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
+- [ ] Fix all angelscript warnings
 - [ ] Optimize & simplify monster_parasite
 - [ ] Optimize & simplify monster_snapbug
 - [ ] Optimize & simplify monster_zombie_parasite
@@ -76,12 +77,17 @@ This file contains the list of to-do in the project.
 - [ ] **SetThink Weapons**: Purge old weapon thinks and transition to `BTS_Weapon` schedule callbacks.
 - [ ] **Bodygroup Hack**: Remove the two duplicate bodygroup hacks located in `ASWeaponConfig::PlayerThink` and `WeaponOverrider`.
 - [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
+- [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
+- [ ] Expose to JSON weapons rate of fire
+- [ ] Expose to JSON weapons accuracy cone
+- [ ] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
 
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Remove weapon_bts_ prefix from angelscript files
 - [x] move repeated precache calls into precaches.json and maybe have a python check to find precaches in the scripts based if they exists in precaches.json to warn the user to remove their added calls as these assets are always precached.
 - [x] Reimplement item mapping
 
