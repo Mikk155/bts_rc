@@ -37,7 +37,7 @@ for assetFolder in gpAssets:
     for root, _, files in os.walk( assetDirectory ):
         for file in files:
             fullAssetPath: str = os.path.join( root, file );
-            relativePath: str = os.path.relpath( fullAssetPath, gpWorkspace );
+            relativePath: str = os.path.relpath( fullAssetPath, gpWorkspace ).replace( "\\", "/" );
             if not relativePath in gpPrecachedAssets:
                 gpResults.append( relativePath );
 
