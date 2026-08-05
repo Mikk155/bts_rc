@@ -412,15 +412,8 @@ abstract class ASWeaponConfig : IConfigurable
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {
-        uint32 currentVersion = 526;
-
-// Currently unimplemented in the test branch
-#if SERVER
-        currentVersion = 527;
-#endif
-
         // 5.27 doesn't force pev->body through SendWeaponAnim so we do this hack in the meanwhile
-        if( gpGameVersion == currentVersion && !this.IsCustomWeapon() )
+        if( gpGameVersion == 526 && !this.IsCustomWeapon() )
         {
             dictionary@ data = player.GetUserData();
 
@@ -432,7 +425,8 @@ abstract class ASWeaponConfig : IConfigurable
             if( sequence != player.pev.weaponanim )
             {
                 data[ "526_weaponsequence" ] = player.pev.weaponanim;
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, character ) );
+                weapon.pev.model = this.WeaponBody( player, weapon, character );
+                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.model );
             }
             else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
             {

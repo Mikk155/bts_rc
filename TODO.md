@@ -75,7 +75,7 @@ This file contains the list of to-do in the project.
 - [ ] Restore the laser after reload finishes if it was active before.
 - [ ] Make the laser activate automatically after the deploy phase finishes.
 - [ ] **SetThink Weapons**: Purge old weapon thinks and transition to `BTS_Weapon` schedule callbacks.
-- [ ] **Bodygroup Hack**: Remove the two duplicate bodygroup hacks located in `ASWeaponConfig::PlayerThink` and `WeaponOverrider`.
+- [x] **Bodygroup Hack**: Remove the two duplicate bodygroup hacks located in `ASWeaponConfig::PlayerThink` and `WeaponOverrider`.
 - [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
 - [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
 - [ ] Expose to JSON weapons rate of fire

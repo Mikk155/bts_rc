@@ -129,7 +129,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     void Holster( int skiplocal = 0 )
     {
-#if SERVER
+#if FALSE
         if( this.config.animation_holster > -1 )
         {
             this.PlayAnim( this.config.animation_holster );
