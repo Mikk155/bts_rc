@@ -1,0 +1,314 @@
+{
+    "models/bts_rc/furniture/construction.mdl": [
+        "bts_rc/construction/con_gears.ogg"
+    ],
+    "models/bts_rc/monsters/agrunt.mdl": [
+        "bts_rc/agrunt/ag_pissed.wav"
+    ],
+    "models/bts_rc/monsters/baby_voltigore.mdl": [
+        "bts_rc/stepsounds/bvoltigore_footstep1.wav",
+        "bts_rc/stepsounds/bvoltigore_footstep2.wav",
+        "bts_rc/stepsounds/bvoltigore_footstep3.wav"
+    ],
+    "models/bts_rc/monsters/bullsquid.mdl": [
+        "bts_rc/stepsounds/bull_step2.wav",
+        "bts_rc/stepsounds/bull_step1.wav",
+        "bts_rc/stepsounds/bull_step3.wav",
+        "bts_rc/stepsounds/bull_step4.wav"
+    ],
+    "models/bts_rc/monsters/chumtoad.mdl": [
+        "bts_rc/stepsounds/chum_step.wav",
+        "bts_rc/stepsounds/chum_ow.wav",
+        "bts_rc/stepsounds/chum_slam.wav",
+        "bts_rc/stepsounds/chum_attk.wav"
+    ],
+    "models/bts_rc/monsters/gonome.mdl": [
+        "bts_rc/stepsounds/gonome_step1.wav",
+        "bts_rc/stepsounds/gonome_step2.wav",
+        "bts_rc/stepsounds/gonome_step3.wav",
+        "bts_rc/stepsounds/gonome_step4.wav"
+    ],
+    "models/bts_rc/monsters/gonome_barney.mdl": [
+        "bts_rc/stepsounds/gonome_step1.wav",
+        "bts_rc/stepsounds/gonome_step2.wav",
+        "bts_rc/stepsounds/gonome_step3.wav",
+        "bts_rc/stepsounds/gonome_step4.wav"
+    ],
+    "models/bts_rc/monsters/gonome_blackops.mdl": [
+        "bts_rc/stepsounds/gonome_step1.wav",
+        "bts_rc/stepsounds/gonome_step2.wav",
+        "bts_rc/stepsounds/gonome_step3.wav",
+        "bts_rc/stepsounds/gonome_step4.wav"
+    ],
+    "models/bts_rc/monsters/gonome_hev.mdl": [
+        "bts_rc/gonome_hev/gonome_step1.ogg",
+        "bts_rc/gonome_hev/gonome_step2.ogg",
+        "bts_rc/gonome_hev/gonome_idle2.ogg",
+        "bts_rc/gonome_hev/gonome_eat.ogg",
+        "bts_rc/gonome_hev/gonome_melee1.ogg",
+        "bts_rc/gonome_hev/gonome_melee2.ogg",
+        "bts_rc/gonome_hev/gonome_throw.ogg",
+        "bts_rc/gonome_hev/gonome_death2.ogg",
+        "bts_rc/gonome_hev/gonome_death3.ogg",
+        "bts_rc/gonome_hev/gonome_death4.ogg",
+        "bts_rc/gonome_hev/gonome_pain4.ogg",
+        "bts_rc/gonome_hev/gonome_pain3.ogg",
+        "bts_rc/gonome_hev/gonome_pain2.ogg"
+    ],
+    "models/bts_rc/monsters/gonome_soldier.mdl": [
+        "bts_rc/stepsounds/gonome_step1.wav",
+        "bts_rc/stepsounds/gonome_step2.wav",
+        "bts_rc/stepsounds/gonome_step3.wav",
+        "bts_rc/stepsounds/gonome_step4.wav"
+    ],
+    "models/bts_rc/monsters/gonome_worker.mdl": [
+        "bts_rc/stepsounds/gonome_step1.wav",
+        "bts_rc/stepsounds/gonome_step2.wav",
+        "bts_rc/stepsounds/gonome_step3.wav",
+        "bts_rc/stepsounds/gonome_step4.wav"
+    ],
+    "models/bts_rc/monsters/headcrab.mdl": [
+        "bts_rc/stepsounds/crab_step1.wav",
+        "bts_rc/stepsounds/crab_step2.wav",
+        "bts_rc/stepsounds/crab_step3.wav",
+        "bts_rc/stepsounds/crab_step4.wav"
+    ],
+    "models/bts_rc/monsters/hgrunt.mdl": [
+        "bts_rc/fgrunt/hg_m203.wav",
+        "bts_rc/fgrunt/hg_m203_alt.wav",
+        "bts_rc/weapons/grenade_pinpull.wav",
+        "bts_rc/weapons/grenade_throw1.wav"
+    ],
+    "models/bts_rc/monsters/hgrunt_alt.mdl": [
+        "bts_rc/weapons/grenade_pinpull.wav",
+        "bts_rc/weapons/grenade_throw1.wav"
+    ],
+    "models/bts_rc/monsters/hgrunt_medic.mdl": [
+        "bts_rc/fgrunt/medic_give_shot.wav"
+    ],
+    "models/bts_rc/monsters/hgrunt_torch.mdl": [
+        "bts_rc/weapons/grenade_pinpull.wav",
+        "bts_rc/weapons/grenade_throw1.wav",
+        "bts_rc/fgrunt/torch_cut.wav"
+    ],
+    "models/bts_rc/monsters/hgrunt_torch2.mdl": [
+        "bts_rc/fgrunt/torch_cut.wav"
+    ],
+    "models/bts_rc/monsters/houndeye.mdl": [
+        "bts_rc/stepsounds/hound_step2.wav",
+        "bts_rc/stepsounds/hound_step3.wav",
+        "bts_rc/stepsounds/hound_step4.wav",
+        "bts_rc/stepsounds/hound_step1.wav"
+    ],
+    "models/bts_rc/monsters/hwrgrunt.mdl": [
+        "bts_rc/rgrunt/rg_step1.wav",
+        "bts_rc/rgrunt/rg_step2.wav",
+        "bts_rc/rgrunt/rb_death1.wav",
+        "bts_rc/rgrunt/rb_death2.wav"
+    ],
+    "models/bts_rc/monsters/islave.mdl": [
+        "bts_rc/stepsounds/aslave_step1.wav",
+        "bts_rc/stepsounds/aslave_step2.wav"
+    ],
+    "models/bts_rc/monsters/massn.mdl": [
+        "bts_rc/ops/ops_kill1.wav",
+        "bts_rc/ops/ops_advance.wav",
+        "bts_rc/ops/ops_flank.wav"
+    ],
+    "models/bts_rc/monsters/massn_medic.mdl": [
+        "bts_rc/fgrunt/medic_give_shot.wav",
+        "bts_rc/ops/ops_med_notime.wav"
+    ],
+    "models/bts_rc/monsters/massn_opfor.mdl": [
+        "bts_rc/ops/ops_kill1.wav",
+        "bts_rc/ops/ops_alert1.ogg"
+    ],
+    "models/bts_rc/monsters/panthereye.mdl": [
+        "bts_rc/panthereye/pe_idle2.wav",
+        "bts_rc/panthereye/pe_alert3.wav",
+        "bts_rc/stepsounds/panther_step1.wav",
+        "bts_rc/stepsounds/panther_step2.wav",
+        "bts_rc/panthereye/pe_scratch.wav",
+        "bts_rc/panthereye/pe_idle1.wav",
+        "bts_rc/stepsounds/panther_step3.wav",
+        "bts_rc/stepsounds/panther_step4.wav",
+        "bts_rc/stepsounds/panther_stealth.wav",
+        "bts_rc/panthereye/pe_moan2.wav",
+        "bts_rc/panthereye/pe_moan.wav"
+    ],
+    "models/bts_rc/monsters/pit_drone.mdl": [
+        "bts_rc/stepsounds/pd_step1.wav",
+        "bts_rc/stepsounds/pd_step4.wav",
+        "bts_rc/stepsounds/pd_step2.wav",
+        "bts_rc/stepsounds/pd_step3.wav"
+    ],
+    "models/bts_rc/monsters/rgrunt.mdl": [
+        "bts_rc/rgrunt/rg_step1.wav",
+        "bts_rc/rgrunt/rg_step2.wav"
+    ],
+    "models/bts_rc/monsters/rgrunt_opfor.mdl": [
+        "bts_rc/rgrunt/rg_step1.wav",
+        "bts_rc/rgrunt/rg_step2.wav"
+    ],
+    "models/bts_rc/monsters/robothwgrunt.mdl": [
+        "bts_rc/rgrunt/rhw_idle2.wav",
+        "bts_rc/rgrunt/rbhw_step1.wav",
+        "bts_rc/rgrunt/rbhw_step2.wav",
+        "bts_rc/rgrunt/rbhw_shield.wav",
+        "bts_rc/rgrunt/rbhw_shield2.wav",
+        "bts_rc/rgrunt/rb_alert2.wav",
+        "bts_rc/sentry/tu_die3.wav",
+        "bts_rc/sentry/tu_die2.wav",
+        "bts_rc/rgrunt/rb_activate.wav",
+        "bts_rc/rgrunt/rbhw_deploy.wav",
+        "bts_rc/sentry/tu_ping.wav",
+        "bts_rc/rgrunt/rbhw_inbound.wav",
+        "bts_rc/rgrunt/rbhw_melee1.wav",
+        "bts_rc/rgrunt/rbhw_shield_smash.ogg"
+    ],
+    "models/bts_rc/monsters/scientist_alt2.mdl": [
+        "bts_rc/scientist/sci_upgradehint.ogg"
+    ],
+    "models/bts_rc/monsters/scientist_classic.mdl": [
+        "bts_rc/scientist/test1.wav"
+    ],
+    "models/bts_rc/monsters/snapbug.mdl": [
+        "bts_rc/stepsounds/crab_step1.wav",
+        "bts_rc/stepsounds/crab_step2.wav"
+    ],
+    "models/bts_rc/monsters/strooper.mdl": [
+        "bts_rc/stepsounds/shock_step1.wav",
+        "bts_rc/stepsounds/shock_step2.wav",
+        "bts_rc/stepsounds/shock_step3.wav",
+        "bts_rc/stepsounds/shock_step4.wav"
+    ],
+    "models/bts_rc/monsters/zombie_hev.mdl": [
+        "bts_rc/zombie_hev/zo_death1.wav",
+        "bts_rc/zombie_hev/zo_death3.wav",
+        "bts_rc/zombie_hev/zo_death2.wav"
+    ],
+    "models/bts_rc/monsters/zombie_hev2.mdl": [
+        "bts_rc/zombie_hev/zo_death1.wav",
+        "bts_rc/zombie_hev/zo_death3.wav",
+        "bts_rc/zombie_hev/zo_death2.wav"
+    ],
+    "models/bts_rc/weapons/v_9mmargl.mdl": [
+        "bts_rc/weapons/m203_open.wav",
+        "bts_rc/weapons/m203_shell.wav",
+        "bts_rc/weapons/m203_in.wav",
+        "bts_rc/weapons/m203_close.wav",
+        "bts_rc/weapons/mp5_clipout.wav",
+        "bts_rc/weapons/mp5_in.wav",
+        "bts_rc/weapons/mp5_slap.wav",
+        "bts_rc/weapons/mp5_draw2.wav",
+        "bts_rc/weapons/mp5_draw.wav"
+    ],
+    "models/bts_rc/weapons/v_9mmhandgun.mdl": [
+        "bts_rc/weapons/9mm_cock2.wav"
+    ],
+    "models/bts_rc/weapons/v_9mmhandgunsd.mdl": [
+        "bts_rc/weapons/9mm_cock2.wav"
+    ],
+    "models/bts_rc/weapons/v_beretta.mdl": [
+        "bts_rc/items/9mmclip2.wav",
+        "bts_rc/items/9mmclip1.wav",
+        "bts_rc/items/9mmcock3.wav",
+        "bts_rc/weapons/beretta_draw.wav"
+    ],
+    "models/bts_rc/weapons/v_crossbow.mdl": [
+        "bts_rc/weapons/xbow_fidget2.wav",
+        "bts_rc/weapons/xbow_bolt.wav",
+        "bts_rc/weapons/xbow_draw2.wav",
+        "bts_rc/weapons/m4_cliprelease1.wav",
+        "bts_rc/weapons/xbow_magready.wav",
+        "bts_rc/weapons/xbow_magin.wav",
+        "bts_rc/weapons/mp5_draw.wav"
+    ],
+    "models/bts_rc/weapons/v_desert_eagle.mdl": [
+        "bts_rc/weapons/desert_eagle_reload.wav",
+        "bts_rc/items/9mmcock3.wav"
+    ],
+    "models/bts_rc/weapons/v_flare.mdl": [
+        "bts_rc/weapons/flare_pinpull.wav"
+    ],
+    "models/bts_rc/weapons/v_flaregun.mdl": [
+        "bts_rc/weapons/flaregun_shellout.wav",
+        "bts_rc/weapons/flaregun_shellin.wav",
+        "bts_rc/weapons/flaregun_draw.wav"
+    ],
+    "models/bts_rc/weapons/v_glock17f.mdl": [
+        "bts_rc/weapons/9mm_cock2.wav"
+    ],
+    "models/bts_rc/weapons/v_glock18.mdl": [
+        "bts_rc/weapons/9mm_cock2.wav",
+        "bts_rc/weapons/9mm_clipout.wav",
+        "bts_rc/weapons/9mm_clip.wav",
+        "bts_rc/weapons/9mm_in.wav",
+        "bts_rc/weapons/9mm_cock1.wav",
+        "bts_rc/weapons/9mm_draw.wav"
+    ],
+    "models/bts_rc/weapons/v_grenade.mdl": [
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/grenade_pinpull.wav"
+    ],
+    "models/bts_rc/weapons/v_m4.mdl": [
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/fidget_4.wav",
+        "bts_rc/weapons/fidget_2.wav",
+        "bts_rc/weapons/m4_cliprelease1.wav",
+        "bts_rc/weapons/mp5_draw.wav",
+        "bts_rc/weapons/m4_clipinsert1.wav",
+        "bts_rc/weapons/m4_clic1.wav"
+    ],
+    "models/bts_rc/weapons/v_m40a1.mdl": [
+        "bts_rc/weapons/fidget_2.wav",
+        "bts_rc/weapons/sniper_bolt1.wav",
+        "bts_rc/weapons/sniper_bolt2.wav",
+        "bts_rc/weapons/sniper_reload_first_seq.wav"
+    ],
+    "models/bts_rc/weapons/v_m4sd.mdl": [
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/fidget_4.wav",
+        "bts_rc/weapons/fidget_2.wav",
+        "bts_rc/weapons/m4_cliprelease1.wav",
+        "bts_rc/weapons/mp5_draw.wav",
+        "bts_rc/weapons/m4_clipinsert1.wav",
+        "bts_rc/weapons/m4_clic1.wav"
+    ],
+    "models/bts_rc/weapons/v_m79.mdl": [
+        "bts_rc/weapons/m79_open.wav",
+        "bts_rc/weapons/m79_shellout.wav",
+        "bts_rc/weapons/m79_shellin.wav",
+        "bts_rc/weapons/m79_close.wav",
+        "bts_rc/weapons/m79_aimon.wav"
+    ],
+    "models/bts_rc/weapons/v_saw.mdl": [
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/fidget_4.wav"
+    ],
+    "models/bts_rc/weapons/v_sawsd.mdl": [
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/fidget_4.wav"
+    ],
+    "models/bts_rc/weapons/v_sbshotgun.mdl": [
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/fidget_4.wav"
+    ],
+    "models/bts_rc/weapons/v_sw637.mdl": [
+        "bts_rc/weapons/sw_cylinder_open.wav",
+        "bts_rc/weapons/sw_bullet_insert_1.wav",
+        "bts_rc/weapons/sw_cylinder_close.wav"
+    ],
+    "models/bts_rc/weapons/v_uzi.mdl": [
+        "bts_rc/items/9mmclip2.wav",
+        "bts_rc/items/9mmclip1.wav",
+        "bts_rc/weapons/9mm_cock1.wav",
+        "bts_rc/weapons/9mm_cock2.wav"
+    ],
+    "models/bts_rc/weapons/v_uzisd.mdl": [
+        "bts_rc/items/9mmclip2.wav",
+        "bts_rc/items/9mmclip1.wav",
+        "bts_rc/weapons/9mm_cock1.wav",
+        "bts_rc/weapons/9mm_cock2.wav"
+    ]
+}
