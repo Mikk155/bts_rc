@@ -20,6 +20,15 @@ import Tests.SchemaUpdateCheck;
 import Tests.WeaponsDefaultCheck;
 import Tests.DependancyCheck;
 
+def Exit( code_error: int = 0 ):
+
+    print( f"return core: {code_error}" );
+
+    if sys.platform == "win32" and PyBuilder.GetType() == PyBuilder.BuildType.Local and "PROMPT" not in os.environ:
+        input( "Press enter to continue." );
+
+    sys.exit( code_error );
+
 def Main() -> tuple[int, int]:
 
     passes = 0;
@@ -68,7 +77,7 @@ if __name__ == "__main__":
         print( f"{passes} checks passed." );
     else:
         print( f"{fails} of {fails + passes} checks failed." );
-        sys.exit(1);
+        Exit(1);
 
     match buildType:
 
@@ -85,5 +94,4 @@ if __name__ == "__main__":
             pass;
 
     print( "All done!" );
-
-    sys.exit(0);
+    Exit(0);
