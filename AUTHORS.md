@@ -30,7 +30,6 @@
 - Ixnay
 - [KernCore](https://github.com/KernCore91)
 - KEZAEIV
-- LIL-PIF
 - [Mad](https://github.com/MadHLDM)
 - [Mikk155](https://github.com/Mikk155)
 - MiroSklenar
@@ -50,11 +49,8 @@
 - Sparks
 - SV BOY
 - Sven Co-op Team
-- TurtleRock Studios
 - Valve
 - Vika
-- XF-Alien
 - Yomustdie
 - Zasli
-- ZikShadow
 - [Zode](https://github.com/Zode)
