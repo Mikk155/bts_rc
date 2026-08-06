@@ -81,7 +81,7 @@ namespace Logger
                         g_Game.AlertMessage( at_console, "Error: Logger with id \"%1\" is printing more arguments than defined in message!\nIssued message: ", this.id );
                         break;
                     }
-                    snprintf( glog, "%1%2%3", glog.SubString( 0, index ), arguments[ui], glog.SubString( index + 2 ) );
+                    glog = glog.SubString( 0, index ) + arguments[ui] + glog.SubString( index + 2 );
                 }
             }
 
@@ -96,8 +96,7 @@ namespace Logger
         protected
             void print_buffer() const
             {
-                string buffer;
-                snprintf( buffer, "[%1] %2\n", this.name, glog );
+                string buffer = "[" + this.name + "] " + glog + "\n";
                 glog = String::EMPTY_STRING;
 
                 if( Logger::gpWriteFile )
@@ -243,12 +242,12 @@ final class CLogger : IConfigurable
             "properties":
             {
                 "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.", "default": false },
-                "trace": { "type": "boolean", "default": false },
-                "debug": { "type": "boolean", "default": false },
-                "info": { "type": "boolean", "default": false },
-                "warning": { "type": "boolean", "default": true },
-                "error": { "type": "boolean", "default": true },
-                "critical": { "type": "boolean", "default": true }
+                "trace": { "type": "boolean" },
+                "debug": { "type": "boolean" },
+                "info": { "type": "boolean" },
+                "warning": { "type": "boolean" },
+                "error": { "type": "boolean" },
+                "critical": { "type": "boolean" }
             }
         }""";
     }
