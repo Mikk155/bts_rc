@@ -80,13 +80,6 @@ final class ASWeaponM16Config : ASWeaponConfig
     {
         return 2;
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 3.25f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponM16Config gpWeaponM16Config;

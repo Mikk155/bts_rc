@@ -61,13 +61,6 @@ final class ASWeaponPythonConfig : ASWeaponConfig
     {
         return 3;
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.0f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponPythonConfig gpWeaponPythonConfig;

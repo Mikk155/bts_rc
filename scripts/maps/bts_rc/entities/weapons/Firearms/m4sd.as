@@ -56,13 +56,6 @@ final class ASWeaponM4SDConfig : ASWeaponConfig
     {
         return WeaponM4SDAnim::DRAW;
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.75f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponM4SDConfig gpWeaponM4SDConfig;

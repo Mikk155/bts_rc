@@ -64,13 +64,6 @@ final class ASWeaponSawConfig : ASWeaponConfig
         g_Game.PrecacheModel( "models/saw_link.mdl" );
         ASWeaponConfig::Precache();
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.0f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponSawConfig gpWeaponSawConfig;

@@ -62,14 +62,6 @@ final class ASWeaponM79Config : ASWeaponConfig
         g_Game.PrecacheModel( "models/grenade.mdl" );
         ASWeaponConfig::Precache();
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        g_CustomEntityFuncs.RegisterCustomEntity( "ASM79Rocket", "m79_rocket" );
-        // Reload properties
-        this.reload_time = 3.88f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponM79Config gpWeaponM79Config;

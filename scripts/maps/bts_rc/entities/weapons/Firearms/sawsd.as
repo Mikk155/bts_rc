@@ -63,13 +63,6 @@ final class ASWeaponSawSDConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/pl_gun2.wav" );
         ASWeaponConfig::Precache();
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.0f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponSawSDConfig gpWeaponSawSDConfig;

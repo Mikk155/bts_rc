@@ -66,13 +66,6 @@ final class ASWeaponMP5GLConfig : ASWeaponConfig
     {
         return WeaponMP5GLAnim::Draw;
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 3.0f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponMP5GLConfig gpWeaponMP5GLConfig;

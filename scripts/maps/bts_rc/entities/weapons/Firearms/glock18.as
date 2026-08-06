@@ -56,13 +56,6 @@ final class ASWeaponGlock18Config : ASWeaponConfig
     {
         return WeaponGlock18Anim::Draw;
     }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.0f;
-
-        return ASWeaponConfig::Register( json );
-    }
 }
 
 ASWeaponGlock18Config gpWeaponGlock18Config;
