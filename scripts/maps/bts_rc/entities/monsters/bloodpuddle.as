@@ -93,7 +93,7 @@ final class ASBloodPuddleConfig : IConfigurable
         @gpBloodPuddle = this;
 
         CustomEntity( "env_bloodpuddle", false );
-        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+        g_Game.PrecacheModel( "models/mikk155/misc/bloodpuddle.mdl" );
 
         this.m_persistent = bool( config[ "persistent" ] );
 
@@ -268,7 +268,7 @@ class env_bloodpuddle : ScriptBaseAnimating
         SetThink( ThinkFunction( this.think ) );
         self.pev.nextthink = g_Engine.time + 0.1;
 
-        g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
+        g_EntityFuncs.SetModel( self, "models/mikk155/misc/bloodpuddle.mdl" );
 
         switch( state )
         {

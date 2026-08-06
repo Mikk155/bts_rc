@@ -1,5 +1,5 @@
 {
-    "$schema": "../../../docs/schema.json",
+    "$schema": "schema.json",
     "aiming_lasers": {
         "active": true,
         "alpha": 150,

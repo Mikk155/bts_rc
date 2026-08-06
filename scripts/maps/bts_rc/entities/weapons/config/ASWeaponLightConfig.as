@@ -36,7 +36,7 @@ namespace Flashlight
     },
     "flashlight_reload":
     {
-        "type": "nuber",
+        "type": "number",
         "default": 2.5,
         "minimum": 0.1,
         "description": "How long to reload flashlight battery?"

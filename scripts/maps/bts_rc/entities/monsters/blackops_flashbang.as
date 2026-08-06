@@ -73,9 +73,9 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         this.detonate_time = float( config[ "detonate_time" ] );
         this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
 
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing_left.wav" );
+        g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
+        g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
+        g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
 
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
 
@@ -176,15 +176,15 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
                 if( ( side < 0 ? -side : side ) < 0.2f )
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
                 else if( side > 0 )
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
                 else
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
             }
 

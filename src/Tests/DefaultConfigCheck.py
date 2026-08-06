@@ -43,8 +43,6 @@ class DefaultConfigCheck( PyBuilder ):
 
             if self.Type == PyBuilder.BuildType.Release:
 
-                parsed.pop( "$schema", None );
-
                 script.Content = script.Content.replace( "scripts/maps/bts_rc/default_config.json", json.dumps( parsed, separators=( ",", ":" ) ) );
 
             elif self.Type == PyBuilder.BuildType.Local:

@@ -1539,7 +1539,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -2024,7 +2024,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -4236,7 +4236,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -5682,7 +5682,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -5823,6 +5823,11 @@
 						"description": "Per-monster custom puddle size overrides.",
 						"default": 
 						{
+							"monster_babycrab": 
+							[
+								0.3,
+								0.8
+							],
 							"monster_headcrab": 
 							[
 								0.5,
@@ -5832,11 +5837,6 @@
 							[
 								1,
 								2
-							],
-							"monster_babycrab": 
-							[
-								0.3,
-								0.8
 							],
 							"monster_snark": 
 							[
@@ -6042,15 +6042,15 @@
 						},
 						"default": 
 						[
-							"bts_battery",
-							"ammo_bts_sw637",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
 							"ammo_bts_glock",
 							"ammo_bts_sbshotgun",
-							"",
-							"",
-							"",
-							""
+							"ammo_bts_sw637",
+							"bts_battery"
 						]
 					},
 					"zworker": 
@@ -6062,15 +6062,15 @@
 						},
 						"default": 
 						[
-							"bts_battery",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_flarebox",
-							"weapon_bts_flare",
 							"ammo_bts_glock",
+							"bts_battery",
 							"item_bts_sprayaid",
-							"",
-							"",
-							"",
-							""
+							"weapon_bts_flare"
 						]
 					},
 					"zmedic": 
@@ -6082,16 +6082,16 @@
 						},
 						"default": 
 						[
-							"ammo_healthkit",
-							"item_bts_sprayaid",
-							"item_bts_sprayaid",
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_healthkit",
 							"grenade",
-							"",
-							"",
-							"",
-							""
+							"item_bts_sprayaid",
+							"item_bts_sprayaid"
 						]
 					},
 					"ztorch": 
@@ -6103,13 +6103,13 @@
 						},
 						"default": 
 						[
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"grenade",
-							"",
-							"",
-							"",
-							""
+							"ammo_bts_glock",
+							"grenade"
 						]
 					},
 					"zhecu": 
@@ -6121,16 +6121,16 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_762",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
 							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_762",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"zblop": 
@@ -6142,17 +6142,17 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_762",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
 							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_762",
 							"ammo_crossbow",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"gonome": 
@@ -6164,19 +6164,19 @@
 						},
 						"default": 
 						[
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
 							"ammo_bts_glock",
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
 							"ammo_crossbow",
-							"item_healthkit",
+							"grenade",
+							"grenade",
+							"grenade",
 							"item_bts_sprayaid",
-							"grenade",
-							"grenade",
-							"grenade",
-							"",
-							"",
-							""
+							"item_healthkit"
 						]
 					},
 					"gonomeb": 
@@ -6188,20 +6188,20 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_bts_eagle",
+							"ammo_bts_eagle",
 							"ammo_bts_shotgun",
-							"ammo_bts_eagle",
-							"ammo_bts_eagle",
 							"ammo_bts_sw637",
 							"ammo_bts_sw637",
 							"ammo_bts_sw637",
-							"item_healthkit",
+							"grenade",
+							"grenade",
+							"grenade",
 							"item_bts_sprayaid",
-							"grenade",
-							"grenade",
-							"grenade",
-							"",
-							"",
-							""
+							"item_healthkit"
 						]
 					},
 					"gonomew": 
@@ -6213,19 +6213,19 @@
 						},
 						"default": 
 						[
-							"ammo_bts_shotgun",
-							"ammo_bts_glock",
-							"ammo_bts_sw637",
-							"item_healthkit",
-							"item_bts_sprayaid",
+							"",
+							"",
+							"",
 							"ammo_bts_flarebox",
-							"weapon_bts_flare",
+							"ammo_bts_glock",
+							"ammo_bts_shotgun",
+							"ammo_bts_sw637",
 							"grenade",
 							"grenade",
 							"grenade",
-							"",
-							"",
-							""
+							"item_bts_sprayaid",
+							"item_healthkit",
+							"weapon_bts_flare"
 						]
 					},
 					"gonomeh": 
@@ -6237,22 +6237,22 @@
 						},
 						"default": 
 						[
-							"ammo_bts_shotgun",
-							"ammo_bts_shotgun",
-							"ammo_bts_glock",
-							"ammo_bts_glock",
-							"ammo_bts_eagle",
-							"ammo_bts_eagle",
-							"ammo_bts_m4",
-							"ammo_bts_m4",
+							"",
+							"",
+							"",
 							"ammo_762",
 							"ammo_762",
+							"ammo_bts_eagle",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_bts_glock",
 							"ammo_bts_m16_grenade",
+							"ammo_bts_m4",
+							"ammo_bts_m4",
+							"ammo_bts_shotgun",
+							"ammo_bts_shotgun",
 							"grenade",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"zhev": 
@@ -6264,22 +6264,22 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"ammo_bts_sw637",
-							"item_bts_hevbattery",
-							"item_bts_sprayaid",
 							"ammo_bts_glock",
 							"ammo_bts_m4",
 							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
 							"ammo_bts_python",
+							"ammo_bts_shotgun",
+							"ammo_bts_sw637",
 							"grenade",
 							"grenade",
 							"grenade",
-							"",
-							"",
-							"",
-							""
+							"item_bts_hevbattery",
+							"item_bts_sprayaid"
 						]
 					},
 					"zcleansuit": 
@@ -6291,12 +6291,12 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"",
 							"item_bts_hevbattery",
-							"item_bts_sprayaid",
-							"",
-							"",
-							"",
-							""
+							"item_bts_sprayaid"
 						]
 					},
 					"Marine": 
@@ -6308,16 +6308,16 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_bts_m16_grenade",
+							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_m4",
-							"item_bts_sprayaid",
-							"ammo_bts_m16_grenade",
 							"grenade",
 							"grenade",
-							"",
-							"",
-							""
+							"item_bts_sprayaid"
 						]
 					},
 					"Medic": 
@@ -6329,14 +6329,14 @@
 						},
 						"default": 
 						[
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"item_healthkit",
-							"item_bts_sprayaid",
+							"ammo_bts_glock",
 							"grenade",
-							"",
-							"",
-							""
+							"item_bts_sprayaid",
+							"item_healthkit"
 						]
 					},
 					"Torch": 
@@ -6348,12 +6348,12 @@
 						},
 						"default": 
 						[
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"grenade",
-							"",
-							"",
-							""
+							"ammo_bts_glock",
+							"grenade"
 						]
 					},
 					"Sniper": 
@@ -6365,14 +6365,14 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
 							"ammo_762",
 							"ammo_762",
 							"ammo_762",
-							"weapon_bts_sniperrifle",
 							"grenade",
-							"",
-							"",
-							""
+							"weapon_bts_sniperrifle"
 						]
 					},
 					"Blackops": 
@@ -6384,14 +6384,14 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_m4",
 							"ammo_crossbow",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"Fassn": 
@@ -6403,14 +6403,14 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
 							"ammo_bts_uzi",
 							"ammo_bts_uzi",
 							"ammo_bts_uzi",
 							"ammo_crossbow",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"robot": 
@@ -6422,12 +6422,12 @@
 						},
 						"default": 
 						[
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
+							"",
+							"",
+							"",
 							"ammo_bts_m4",
-							"",
-							"",
-							""
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun"
 						]
 					},
 					"friendly": 

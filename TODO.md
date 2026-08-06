@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/21.311475409836063?barColor=da630b)
+> ![](https://geps.dev/progress/23.88059701492537?barColor=da6e0b)
 <!--CompletionBar-end-->
 
 ---
@@ -37,13 +37,10 @@ This file contains the list of to-do in the project.
 - [ ] Optimize & simplify monster_zombie_grenadier
 - [ ] Optimize item_tracker (Maybe Re-Implement partially the branch prototype view)
 - [ ] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
-- [ ] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
 - [ ] Debug command to show and select a CCharacter.
-- [ ] Move blood sprites from trace attacks to mikk/folder for reuse
 - [ ] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
 - [ ] **Flare / Flare Gun**: Fix projectile world model (currently invisible or stuck inside the world geometry).
-- [ ] **Shotgun / Shotgun SD**: Fix bad bodygroups (`shotgunsd`).
 - [ ] **Glock Auto/Semi**: Fix bad bodygroups (`glockf17`).
 - [ ] **Uzi**: Add secondary attack to shoot a single bullet per click.
 - [ ] **Uzi Silencer**: Review or implement behavior.
@@ -73,12 +70,21 @@ This file contains the list of to-do in the project.
 - [ ] Expose to JSON weapons rate of fire
 - [ ] Expose to JSON weapons accuracy cone
 - [ ] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
+- [ ] remove file name prefix to item_bts*
+- [ ] make item tracking optional
+- [ ] add a command registry entry to test changing classification (Maybe CTextMenu?)
+- [ ] Make a helper for dynamic ammo returning default value if dynamic ammo is nullptr
+- [ ] make medkit to not automatically recharge, only using health stations [#97](https://github.com/Mikk155/bts_rc/issues/97)
+- [ ] move player characters to default config
 
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
+- [x] Move blood sprites from trace attacks to mikk/folder for reuse
+- [x] **Shotgun / Shotgun SD**: Fix bad bodygroups (`shotgunsd`).
 - [x] **Bad hands group**: Fix or update hands model/rig.
 - [x] flare **Bad hands group**: Fix or update hands model/rig.
 - [x] shotgun **Bad hands group**: Fix or update hands model/rig.
