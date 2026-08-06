@@ -57,23 +57,6 @@ final class ASWeaponM4Config : ASWeaponConfig
         return WeaponM4Anim::DRAW;
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control m4 configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     bool Register( meta_api::json::v2::json@ json ) override {
         // Reload properties
         this.reload_time = 2.75f;

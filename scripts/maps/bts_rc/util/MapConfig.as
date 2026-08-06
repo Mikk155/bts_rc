@@ -33,7 +33,6 @@ interface IConfigurable
     // In this project the key "allOf" in your root object works differently than in regular schema validations,
     // It is an array of string containing key names defined in the schema's "$defs" which you can insert properties using ASMapConfig::RegisterSchemaDefinition
     // Whose values of the property in $defs will be added to your object's properties but not overriden so you can have custom default values, descriptions and the likes.
-    // You can provide a file path (using triple quote string) to read a file locally while on release it will get shiped and optimized in angelscript.
     const string GetSchema() const;
 
     // Called at MapInit with the json object at the root containing GetName() as key.

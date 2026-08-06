@@ -43,8 +43,7 @@ final class ASItemsConfig : IConfigurable
                 {
                     "title": "Lighting battery",
                     "type": "boolean",
-                    "description": "If enabled, HEV batteries will emit a blue dynamic light.",
-                    "default": true
+                    "description": "If enabled, HEV batteries will emit a blue dynamic light."
                 }
             }
         }""";

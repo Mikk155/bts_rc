@@ -57,23 +57,6 @@ final class ASWeaponFlareConfig : ASWeaponConfig
         return WeaponFlareAnim::DRAW;
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control flare configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     const uint8 get_hands_group() override
     {
         return 0;

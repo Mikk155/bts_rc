@@ -56,23 +56,6 @@ final class ASWeaponHandGrenadeConfig : ASWeaponConfig
     {
         return WeaponHandGrenadeAnim::DRAW;
     }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control handgrenade configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
 }
 
 ASWeaponHandGrenadeConfig gpWeaponHandGrenadeConfig;
