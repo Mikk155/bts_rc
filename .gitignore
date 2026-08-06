@@ -5,6 +5,7 @@ __pycache__/
 node_modules/
 
 maps/**
+Rubbish/**
 models/**
 scripts/mikk155
 sound/**
