@@ -24,9 +24,19 @@
 
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
+#if SERVER
+bool gpErr = true;
+#endif
+
 /// Called by the map through trigger_script the moment that the map gameplay has started
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
+#if SERVER
+    if( gpErr )
+        return;
+    gpErr = true;
+#endif
+
     gpGameStarted = true;
     g_SurvivalMode.Activate();
 
@@ -90,6 +100,12 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
 void MapActivate()
 {
+#if SERVER
+    if( gpErr )
+        return;
+    gpErr = true;
+#endif
+
     item_tracker::gpItems.resize(0);
     uint numents = g_EngineFuncs.NumberOfEntities();
 
@@ -130,6 +146,7 @@ void MapActivate()
     meta_api::NoticeInstallation();
 
 #if SERVER
+    gpErr = false;
     if( !g_IsMainMap ) // Automatic call outside of bts_rc
         MapBegin(null, null, USE_TOGGLE, 0 );
 #endif
@@ -229,6 +246,8 @@ void MapInit()
     }
 
 #if SERVER
+    gpErr = false;
+
     if( g_IsMainMap )
         return;
 

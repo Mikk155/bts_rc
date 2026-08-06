@@ -1,5 +1,8 @@
 {
-    "weapon_bts_axe": {
+    "$schema": "../../../docs/schema.json",
+
+    "weapon_bts_axe":
+    {
         "deploy_time": 0.7,
         "position": 10,
         "primary_cooldown": 0.8,
@@ -17,7 +20,8 @@
         "slot": 0,
         "subsequent_hits_deduction": 0.5
     },
-    "weapon_bts_beretta": {
+    "weapon_bts_beretta":
+    {
         "deploy_time": 1.0,
         "max_clip": 15,
         "position": 6,
@@ -37,7 +41,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_broom": {
+    "weapon_bts_broom":
+    {
         "deploy_time": 0.6,
         "position": 12,
         "primary_cooldown": 0.42,
@@ -49,7 +54,8 @@
         "slot": 0,
         "subsequent_hits_deduction": 0.5
     },
-    "weapon_bts_eagle": {
+    "weapon_bts_eagle":
+    {
         "deploy_time": 1.0,
         "laser_accuracy": 3.0,
         "laser_cooldown": 2.0,
@@ -68,7 +74,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_flamethrower": {
+    "weapon_bts_flamethrower":
+    {
         "deploy_time": 0.7,
         "max_clip": -1,
         "position": 5,
@@ -80,7 +87,8 @@
         "slot": 3,
         "weight": 30
     },
-    "weapon_bts_flare": {
+    "weapon_bts_flare":
+    {
         "deploy_time": 0.75,
         "max_clip": -1,
         "position": 5,
@@ -90,7 +98,8 @@
         "slot": 4,
         "weight": 5
     },
-    "weapon_bts_flaregun": {
+    "weapon_bts_flaregun":
+    {
         "deploy_time": 1.0,
         "max_clip": 1,
         "position": 13,
@@ -102,7 +111,8 @@
         "slot": 4,
         "weight": 15
     },
-    "weapon_bts_flashlight": {
+    "weapon_bts_flashlight":
+    {
         "deploy_time": 0.5,
         "position": 4,
         "primary_cooldown": 0.375,
@@ -115,7 +125,8 @@
         "secondary_trained_cooldown": 0.5,
         "slot": 4
     },
-    "weapon_bts_glock": {
+    "weapon_bts_glock":
+    {
         "deploy_time": 0.45,
         "max_clip": 17,
         "position": 4,
@@ -132,7 +143,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_glock17f": {
+    "weapon_bts_glock17f":
+    {
         "deploy_time": 0.6,
         "max_clip": 17,
         "position": 7,
@@ -152,7 +164,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_glock18": {
+    "weapon_bts_glock18":
+    {
         "deploy_time": 0.6,
         "max_clip": 19,
         "position": 10,
@@ -169,7 +182,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_glocksd": {
+    "weapon_bts_glocksd":
+    {
         "deploy_time": 0.6,
         "laser_accuracy": 3.0,
         "laser_cooldown": 1.5,
@@ -189,7 +203,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_handgrenade": {
+    "weapon_bts_handgrenade":
+    {
         "deploy_time": 0.66,
         "max_clip": -1,
         "position": 6,
@@ -199,7 +214,8 @@
         "slot": 4,
         "weight": 20
     },
-    "weapon_bts_knife": {
+    "weapon_bts_knife":
+    {
         "deploy_time": 0.6,
         "position": 11,
         "primary_cooldown": 0.35,
@@ -218,7 +234,8 @@
         "subsequent_hits_deduction": 0.5,
         "weight": 10
     },
-    "weapon_bts_m16": {
+    "weapon_bts_m16":
+    {
         "deploy_time": 1.0,
         "max_clip": 30,
         "position": 10,
@@ -236,7 +253,8 @@
         "slot": 2,
         "weight": 5
     },
-    "weapon_bts_m16sd": {
+    "weapon_bts_m16sd":
+    {
         "deploy_time": 1.0,
         "max_clip": 20,
         "position": 11,
@@ -254,7 +272,8 @@
         "slot": 2,
         "weight": 5
     },
-    "weapon_bts_m4": {
+    "weapon_bts_m4":
+    {
         "deploy_time": 1.2,
         "max_clip": 30,
         "position": 8,
@@ -269,7 +288,8 @@
         "slot": 2,
         "weight": 5
     },
-    "weapon_bts_m4sd": {
+    "weapon_bts_m4sd":
+    {
         "deploy_time": 1.2,
         "max_clip": 30,
         "position": 9,
@@ -284,7 +304,8 @@
         "slot": 2,
         "weight": 5
     },
-    "weapon_bts_m79": {
+    "weapon_bts_m79":
+    {
         "deploy_time": 1.03,
         "max_clip": 1,
         "position": 4,
@@ -298,7 +319,8 @@
         "slot": 5,
         "weight": 20
     },
-    "weapon_bts_mp5": {
+    "weapon_bts_mp5":
+    {
         "deploy_time": 0.6,
         "max_clip": 30,
         "position": 4,
@@ -313,7 +335,8 @@
         "slot": 2,
         "weight": 5
     },
-    "weapon_bts_mp5gl": {
+    "weapon_bts_mp5gl":
+    {
         "deploy_time": 0.6,
         "max_clip": 30,
         "position": 5,
@@ -335,7 +358,8 @@
         "tertiary_trained_cooldown": 0.5,
         "weight": 5
     },
-    "weapon_bts_pipe": {
+    "weapon_bts_pipe":
+    {
         "deploy_time": 0.7,
         "position": 6,
         "primary_cooldown": 0.75,
@@ -354,7 +378,8 @@
         "subsequent_hits_deduction": 0.5,
         "weight": 10
     },
-    "weapon_bts_pipewrench": {
+    "weapon_bts_pipewrench":
+    {
         "deploy_time": 0.6,
         "position": 5,
         "primary_cooldown": 0.75,
@@ -369,7 +394,8 @@
         "secondary_miss_cooldown": 0.85,
         "slot": 0
     },
-    "weapon_bts_poolstick": {
+    "weapon_bts_poolstick":
+    {
         "deploy_time": 0.5,
         "position": 7,
         "primary_cooldown": 0.4,
@@ -388,7 +414,8 @@
         "subsequent_hits_deduction": 0.5,
         "weight": 10
     },
-    "weapon_bts_python": {
+    "weapon_bts_python":
+    {
         "deploy_time": 1.0,
         "max_clip": 6,
         "position": 8,
@@ -402,7 +429,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_saw": {
+    "weapon_bts_saw":
+    {
         "deploy_time": 1.0,
         "max_clip": 100,
         "position": 4,
@@ -417,7 +445,8 @@
         "slot": 3,
         "weight": 20
     },
-    "weapon_bts_sawsd": {
+    "weapon_bts_sawsd":
+    {
         "deploy_time": 1.0,
         "max_clip": 100,
         "position": 5,
@@ -432,7 +461,8 @@
         "slot": 3,
         "weight": 20
     },
-    "weapon_bts_sbshotgun": {
+    "weapon_bts_sbshotgun":
+    {
         "deploy_time": 0.6,
         "max_clip": 6,
         "position": 6,
@@ -447,7 +477,8 @@
         "slot": 2,
         "weight": 15
     },
-    "weapon_bts_screwdriver": {
+    "weapon_bts_screwdriver":
+    {
         "deploy_time": 0.3,
         "position": 8,
         "primary_cooldown": 0.35,
@@ -460,7 +491,8 @@
         "subsequent_hits_deduction": 0.5,
         "weight": 10
     },
-    "weapon_bts_shotgun": {
+    "weapon_bts_shotgun":
+    {
         "deploy_time": 1.0,
         "max_clip": 8,
         "position": 7,
@@ -472,7 +504,8 @@
         "slot": 2,
         "weight": 15
     },
-    "weapon_bts_sniperrifle": {
+    "weapon_bts_sniperrifle":
+    {
         "deploy_time": 1.0,
         "max_clip": 5,
         "position": 5,
@@ -484,7 +517,8 @@
         "slot": 5,
         "weight": 10
     },
-    "weapon_bts_spanner": {
+    "weapon_bts_spanner":
+    {
         "deploy_time": 0.5,
         "position": 11,
         "primary_cooldown": 0.3,
@@ -496,7 +530,8 @@
         "slot": 0,
         "subsequent_hits_deduction": 0.5
     },
-    "weapon_bts_sw637": {
+    "weapon_bts_sw637":
+    {
         "deploy_time": 1.0,
         "max_clip": 5,
         "position": 17,
@@ -508,7 +543,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_uzi": {
+    "weapon_bts_uzi":
+    {
         "deploy_time": 1.275,
         "max_clip": 20,
         "position": 11,
@@ -523,7 +559,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_uzisd": {
+    "weapon_bts_uzisd":
+    {
         "deploy_time": 1.1,
         "max_clip": 20,
         "position": 15,
@@ -538,7 +575,8 @@
         "slot": 1,
         "weight": 10
     },
-    "weapon_bts_xbow": {
+    "weapon_bts_xbow":
+    {
         "deploy_time": 1.0,
         "max_clip": 5,
         "position": 11,
@@ -550,7 +588,8 @@
         "slot": 2,
         "weight": 10
     },
-    "weapon_crowbar": {
+    "weapon_crowbar":
+    {
         "deploy_time": 0.4,
         "primary_cooldown": 0.5,
         "primary_damage": 13,
@@ -566,7 +605,8 @@
         "secondary_trained_cooldown": 0.5,
         "tertiary_damage": 17
     },
-    "weapon_medkit": {
+    "weapon_medkit":
+    {
         "deploy_time": 0.6,
         "position": 14,
         "primary_cooldown": 2.0,
