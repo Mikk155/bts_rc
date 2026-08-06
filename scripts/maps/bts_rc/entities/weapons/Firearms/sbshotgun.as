@@ -71,6 +71,11 @@ final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
     {
         return WeaponSBShotgunAnim::FLASH;
     }
+
+    const uint8 get_hands_group() override
+    {
+        return 2;
+    }
 }
 
 ASWeaponSBShotgunConfig gpWeaponSBShotgunConfig;

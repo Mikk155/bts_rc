@@ -74,6 +74,11 @@ final class ASWeaponFlareConfig : ASWeaponConfig
         }""";
     }
 
+    const uint8 get_hands_group() override
+    {
+        return 0;
+    }
+
     bool Register( meta_api::json::v2::json@ json ) override {
         g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
 

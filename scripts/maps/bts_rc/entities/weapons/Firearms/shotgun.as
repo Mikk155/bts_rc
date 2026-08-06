@@ -57,6 +57,11 @@ final class ASWeaponShotgunConfig : ASWeaponConfig
         return WeaponShotgunAnim::DRAW;
     }
 
+    const uint8 get_hands_group() override
+    {
+        return 2;
+    }
+
     const string GetSchema() const override
     {
         return """{
