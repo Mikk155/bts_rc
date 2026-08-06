@@ -57,23 +57,6 @@ final class ASWeaponFlareGunConfig : ASWeaponConfig
         return WeaponFlareGunAnim::DRAW;
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control flaregun configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     bool Register( meta_api::json::v2::json@ json ) override {
         // Reload properties
         this.reload_time = 3.5f;

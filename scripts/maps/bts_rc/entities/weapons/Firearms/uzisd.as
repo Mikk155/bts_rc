@@ -63,23 +63,6 @@ final class ASWeaponUziSDConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control uzisd configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     const uint8 get_hands_group() override
     {
         return 2;

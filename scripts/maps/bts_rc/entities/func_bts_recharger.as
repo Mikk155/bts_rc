@@ -43,21 +43,18 @@ final class ASWallRechargerConfig : IConfigurable
                 {
                     "type": "integer",
                     "minimum": 1,
-                    "default": 35,
                     "description": "Maximun juice power per station."
                 },
                 "recharge_time":
                 {
                     "type": "integer",
                     "minimum": 0,
-                    "default": 300,
                     "description": "Time (In seconds) required to fully recharge. 0 means never recharge"
                 },
                 "speed_rate":
                 {
                     "type": "number",
                     "minimum": 0.1,
-                    "default": 0.35,
                     "description": "Charge transfer rate to player."
                 }
             }

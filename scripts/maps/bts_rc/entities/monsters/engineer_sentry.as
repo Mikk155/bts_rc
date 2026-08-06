@@ -42,54 +42,46 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
                     "title": "Think rate",
                     "type": "number",
                     "minimum": 0.0,
-                    "default": 0.1,
                     "description": "Internal think rate interval. the lower the value the more cpu usage"
                 },
                 "capacity":
                 {
-                    "default": 5,
                     "type": "integer",
                     "minimum": 1,
                     "description": "Max sentry spawn capacity per engineer"
                 },
                 "distance":
                 {
-                    "default": 128,
                     "type": "number",
                     "minimum": 32,
                     "description": "Distance from the engineer to spawn"
                 },
                 "cooldown_start":
                 {
-                    "default": 6.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "Time until engineer can place a sentry after spawning"
                 },
                 "cooldown_combat":
                 {
-                    "default": 6.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "How often to try to drop a sentry in combat, in seconds"
                 },
                 "cooldown_idle":
                 {
-                    "default": 30.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "How often to try to drop a sentry while idle/roaming, in seconds"
                 },
                 "cooldown_rng":
                 {
-                    "default": 15.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "cooldown_idle plus/minus this"
                 },
                 "chance":
                 {
-                    "default": 75,
                     "type": "number",
                     "minimum": 0,
                     "maximum": 100,

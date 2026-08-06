@@ -15,8 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-meta_api::json::v2::json@ g_WeaponsDefaults = null;
-
 bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfig",
 """{
     "primary_maxammo":

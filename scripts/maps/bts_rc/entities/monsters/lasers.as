@@ -46,7 +46,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
                     "title": "Think rate",
                     "type": "number",
                     "minimum": 0.0,
-                    "default": 0.1,
                     "description": "Internal think rate interval. the lower the value the more cpu usage"
                 },
                 "red":
@@ -54,7 +53,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
                     "title": "Red color",
                     "minimum": 0,
                     "maximum": 255,
-                    "default": 255,
                     "type": "integer",
                     "description": "Red color of effects"
                 },
@@ -63,7 +61,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
                     "title": "Green color",
                     "minimum": 0,
                     "maximum": 255,
-                    "default": 0,
                     "type": "integer",
                     "description": "Green color of effects"
                 },
@@ -72,7 +69,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
                     "title": "Blue color",
                     "minimum": 0,
                     "maximum": 255,
-                    "default": 0,
                     "type": "integer",
                     "description": "Blue color of effects"
                 },
@@ -81,7 +77,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
                     "title": "Alpha color",
                     "minimum": 0,
                     "maximum": 255,
-                    "default": 150,
                     "type": "integer",
                     "description": "Alpha color of effects"
                 }

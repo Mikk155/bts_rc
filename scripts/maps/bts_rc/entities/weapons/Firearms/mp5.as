@@ -57,23 +57,6 @@ final class ASWeaponMP5Config : ASWeaponConfig
         return WeaponMP5Anim::Draw;
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control mp5 configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     bool Register( meta_api::json::v2::json@ json ) override {
         // Reload properties
         this.reload_time = 1.5f;

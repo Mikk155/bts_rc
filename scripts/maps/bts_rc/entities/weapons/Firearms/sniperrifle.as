@@ -63,23 +63,6 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
         ASWeaponConfig::Precache();
     }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control sniperrifle configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
 }
 
 ASWeaponSniperRifleConfig gpWeaponSniperRifleConfig;
