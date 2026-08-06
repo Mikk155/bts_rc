@@ -6,7 +6,7 @@
 | Security | 0 | ``Classification::Security`` | Security guard officer (Blue) |
 | Scientist | 1 | ``Classification::Scientist`` | Scientist |
 | Maintenance | 2 | ``Classification::Maintenance`` | Maintenance |
-| Maintenance | 4 | ``Classification::HEV`` | Player is wearing a HEV suit |
+| HEV | 4 | ``Classification::HEV`` | Player is wearing a HEV suit |
 | Hazard | 5 | ``Classification::Hazard`` | Player is wearing a HAZARD suit |
 | Operative | 6 | ``Classification::Operative`` | Gray security guard |
 
