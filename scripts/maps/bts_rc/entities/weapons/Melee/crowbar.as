@@ -97,6 +97,7 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
         TraceResult tr;
         float prevCooldown = weapon.m_flNextSecondaryAttack;
         weapon.PrimaryAttack();
+        weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, character ) );
         weapon.m_flNextSecondaryAttack = weapon.m_flNextPrimaryAttack = prevCooldown;
 
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Secondary, void, gpWeaponCrowbarConfig, true );
@@ -142,21 +143,21 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
             if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
             {
                 dictionary@ data = info.pInflictor.GetUserData();
-        if( bool( data[ "thrown" ] ) )
+                if( bool( data[ "thrown" ] ) )
                 {
                     data[ "thrown" ] = false;
-        info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
-        int lastHitgroup = g_Engine.trace_hitgroup;
-        Vector endPos = g_Engine.trace_endpos;
-        TraceResult tr;
-        // Effects
+                    info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
+                    int lastHitgroup = g_Engine.trace_hitgroup;
+                    Vector endPos = g_Engine.trace_endpos;
+                    TraceResult tr;
+                    // Effects
                     g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
-        tr.vecEndPos = endPos;
-        @tr.pHit = info.pVictim.edict();
-        //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
-        tr.iHitgroup = lastHitgroup;
-        weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
-        }
+                    tr.vecEndPos = endPos;
+                    @tr.pHit = info.pVictim.edict();
+                    //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
+                    tr.iHitgroup = lastHitgroup;
+                    weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                }
             }
             return HOOK_CONTINUE;
         } ) );

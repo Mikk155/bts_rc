@@ -57,11 +57,6 @@ final class ASWeaponGlock18Config : ASWeaponConfig
         return WeaponGlock18Anim::Draw;
     }
 
-    const uint8 get_hands_group() override
-    {
-        return 2;
-    }
-
     const string GetSchema() const override
     {
         return """{

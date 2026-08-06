@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/8.19672131147541?barColor=da2d0b)
+> ![](https://geps.dev/progress/21.311475409836063?barColor=da630b)
 <!--CompletionBar-end-->
 
 ---
@@ -42,13 +42,6 @@ This file contains the list of to-do in the project.
 - [ ] Move blood sprites from trace attacks to mikk/folder for reuse
 - [ ] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
-- [ ] **Bad hands group**: Fix or update hands model/rig.
-- [ ] flare **Bad hands group**: Fix or update hands model/rig.
-- [ ] shotgun **Bad hands group**: Fix or update hands model/rig.
-- [ ] uzi silencer **Bad hands group**: Fix or update hands model/rig.
-- [ ] glock auto/semi **Bad hands group**: Fix or update hands model/rig.
-- [ ] m16 glauncher silencer **Bad hands group**: Fix or update hands model/rig.
-- [ ] m16 glauncher **Bad hands group**: Fix or update hands model/rig.
 - [ ] **Flare / Flare Gun**: Fix projectile world model (currently invisible or stuck inside the world geometry).
 - [ ] **Shotgun / Shotgun SD**: Fix bad bodygroups (`shotgunsd`).
 - [ ] **Glock Auto/Semi**: Fix bad bodygroups (`glockf17`).
@@ -75,7 +68,6 @@ This file contains the list of to-do in the project.
 - [ ] Restore the laser after reload finishes if it was active before.
 - [ ] Make the laser activate automatically after the deploy phase finishes.
 - [ ] **SetThink Weapons**: Purge old weapon thinks and transition to `BTS_Weapon` schedule callbacks.
-- [ ] **Bodygroup Hack**: Remove the two duplicate bodygroup hacks located in `ASWeaponConfig::PlayerThink` and `WeaponOverrider`.
 - [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
 - [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
 - [ ] Expose to JSON weapons rate of fire
@@ -87,6 +79,14 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] **Bad hands group**: Fix or update hands model/rig.
+- [x] flare **Bad hands group**: Fix or update hands model/rig.
+- [x] shotgun **Bad hands group**: Fix or update hands model/rig.
+- [x] uzi silencer **Bad hands group**: Fix or update hands model/rig.
+- [x] glock auto/semi **Bad hands group**: Fix or update hands model/rig.
+- [x] m16 glauncher silencer **Bad hands group**: Fix or update hands model/rig.
+- [x] m16 glauncher **Bad hands group**: Fix or update hands model/rig.
+- [x] **Bodygroup Hack**: Remove the two duplicate bodygroup hacks located in `ASWeaponConfig::PlayerThink` and `WeaponOverrider`.
 - [x] Remove weapon_bts_ prefix from angelscript files
 - [x] move repeated precache calls into precaches.json and maybe have a python check to find precaches in the scripts based if they exists in precaches.json to warn the user to remove their added calls as these assets are always precached.
 - [x] Reimplement item mapping
