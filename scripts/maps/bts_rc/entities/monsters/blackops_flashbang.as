@@ -47,21 +47,18 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
                     "title": "Think rate",
                     "type": "number",
                     "minimum": 0.0,
-                    "default": 0.5,
                     "description": "Internal think rate interval. the lower the value the more cpu usage"
                 },
                 "throw_flash_cooldown":
                 {
                     "type": "number",
                     "minimum": 1,
-                    "default": 3,
                     "description": "Global cooldown for blackops to throw grenades"
                 },
                 "detonate_time":
                 {
                     "type": "number",
                     "minimum": 1,
-                    "default": 6,
                     "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
                 }
             }

@@ -76,23 +76,6 @@ final class ASWeaponM16Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control m16 configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
     const uint8 get_hands_group() override
     {
         return 2;

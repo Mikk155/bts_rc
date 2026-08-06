@@ -61,23 +61,6 @@ final class ASWeaponShotgunConfig : ASWeaponConfig
     {
         return 2;
     }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control shotgun configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
 }
 
 ASWeaponShotgunConfig gpWeaponShotgunConfig;

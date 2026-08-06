@@ -41,7 +41,6 @@ final class ASZombieUncrabConfig : IConfigurable
                 "track_health":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
                 }
             }

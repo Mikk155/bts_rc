@@ -38,43 +38,35 @@ final class ASDynamicAmmoConfig : IConfigurable
             {
                 "9mm":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 8, 17 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "357":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 6 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "556":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 6, 30 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "buckshot":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 3, 8 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "ARgrenades":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 2 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "38":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 3, 6 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "bts_flare":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 3 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "bts_battery":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 5 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 }
                 }
             }
         }""";

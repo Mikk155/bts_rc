@@ -47,6 +47,9 @@ final class ASMapConfig
         meta_api::json::v2::json@ m_json;
 
     private
+        meta_api::json::v2::json@ m_defaults;
+
+    private
         meta_api::json::v2::json@ m_GlobalSchema = meta_api::json::v2::json();
     private
         meta_api::json::v2::json@ m_GlobalSchemaDefinitions = meta_api::json::v2::json();
@@ -112,17 +115,21 @@ final class ASMapConfig
     }
 
     // This is parsed by python builders. do not change.
-    const string __GetDefaultWeaponConfig__()
+    const string __GetDefaultConfig__()
     {
-        return """scripts/maps/bts_rc/entities/weapons/default_config.json""";
+        return """scripts/maps/bts_rc/default_config.json""";
     }
 
     void __LoadMapConfiguration__()
     {
         meta_api::json::Error err;
 
-        if( !meta_api::json::v2::Deserialize( this.__GetDefaultWeaponConfig__(), g_WeaponsDefaults ) )
-            g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultWeaponConfig__()\"" );
+        if( !meta_api::json::v2::Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
+        {
+            g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultConfig__()\"" );
+            array<int> arr(0);
+            arr[1]; // When SetException x[
+        }
 
         if( !meta_api::json::v2::Deserialize( "store/bts_rc.json", this.m_json, err ) )
         {
@@ -277,21 +284,25 @@ final class ASMapConfig
 #endif
             if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
             {
-                auto@ wpnDefaults = g_WeaponsDefaults[ context.GetName() ];
+                auto@ defaultConfigurations = m_defaults[ context.GetName() ];
 
-                // Inject weapon data
-                if( wpnDefaults !is null )
+                // Inject default configuration data
+                if( defaultConfigurations !is null )
                 {
                     auto@ weaponProperties = schema.ValueOrDefault( "properties", null, true );
 
-                    uint wpnLength = wpnDefaults.Length();
-                    const array<string>@ wpnKeys = wpnDefaults.Keys;
+                    uint defConfigLength = defaultConfigurations.Length();
+                    const array<string>@ wpnKeys = defaultConfigurations.Keys;
 
-                    for( uint ui2 = 0; ui2 < wpnLength; ui2++ )
+                    for( uint ui2 = 0; ui2 < defConfigLength; ui2++ )
                     {
                         string keyName = wpnKeys[ ui2 ];
-                        auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
-                        weaponProperty.Set( "default", wpnDefaults[ keyName ] );
+                        auto@ defaultValue = defaultConfigurations[ keyName ];
+                        if( defaultValue !is null )
+                        {
+                            auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
+                            weaponProperty.Set( "default", defaultValue );
+                        }
                     }
                 }
 
@@ -459,8 +470,8 @@ final class ASMapConfig
 
         this.m_json.Clear();
         @this.m_json = null;
-        g_WeaponsDefaults.Clear();
-        @g_WeaponsDefaults = null;
+        m_defaults.Clear();
+        @m_defaults = null;
         this.m_GlobalSchema.Clear();
         @this.m_GlobalSchema = null;
         this.m_GlobalSchemaDefinitions.Clear();

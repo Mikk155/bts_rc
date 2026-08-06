@@ -104,51 +104,43 @@ final class ASGlobalWeaponConfig : IConfigurable
                 "melee_weapons_pull":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Allow melee weapons to pull allied players."
                 },
                 "melee_weapons_pull_force":
                 {
                     "type": "integer",
                     "minimum": 1,
-                    "default": 300,
                     "description": "Force of push if melee_weapons_pull is true"
                 },
                 "melee_weapons_push":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Allow melee weapons to push enemies."
                 },
                 "melee_weapons_push_force":
                 {
                     "type": "integer",
                     "minimum": 1,
-                    "default": 200,
                     "description": "Force of push if melee_weapons_push is true"
                 },
                 "blood_splash":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Enable extra blood effects on hit."
                 },
                 "sparks_splash":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Enable spark effects when hitting armored enemies."
                 },
                 "m249_knockback":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Enable M249 SAW knockback recoil pushing the player backward."
                 },
                 "flashlight_maxcarry":
                 {
                     "type": "integer",
-                    "default": 10,
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 },
@@ -156,10 +148,6 @@ final class ASGlobalWeaponConfig : IConfigurable
                 {
                     "type": "object",
                     "description": "Modify how items are replaced in the map",
-                    "default": 
-                    {
-                        "weapon_sniperrifle": "weapon_bts_sniperrifle"
-                    },
                     "additionalProperties":
                     {
                         "type": "string",

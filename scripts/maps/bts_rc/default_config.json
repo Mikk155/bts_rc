@@ -1,4 +1,356 @@
 {
+    "$schema": "../../../docs/schema.json",
+    "aiming_lasers": {
+        "active": true,
+        "alpha": 150,
+        "blue": 0,
+        "green": 0,
+        "interval": 0.1,
+        "red": 255
+    },
+    "blackops_flashbang": {
+        "active": true,
+        "detonate_time": 6,
+        "interval": 0.5,
+        "throw_flash_cooldown": 3
+    },
+    "bloodpuddle": {
+        "active": true,
+        "custom_size": {
+            "monster_babycrab": [
+                0.3,
+                0.8
+            ],
+            "monster_headcrab": [
+                0.5,
+                1.5
+            ],
+            "monster_houndeye": [
+                1,
+                2
+            ],
+            "monster_snark": [
+                0.25,
+                0.75
+            ]
+        },
+        "default_size": [
+            1.5,
+            2.5
+        ],
+        "persistent": true
+    },
+    "deathdrop": {
+        "Blackops": [
+            "",
+            "",
+            "",
+            "ammo_bts_m4",
+            "ammo_bts_mp5",
+            "ammo_bts_shotgun",
+            "ammo_crossbow",
+            "grenade"
+        ],
+        "Fassn": [
+            "",
+            "",
+            "",
+            "ammo_bts_uzi",
+            "ammo_bts_uzi",
+            "ammo_bts_uzi",
+            "ammo_crossbow",
+            "grenade"
+        ],
+        "Marine": [
+            "",
+            "",
+            "",
+            "ammo_bts_m16_grenade",
+            "ammo_bts_m4",
+            "ammo_bts_mp5",
+            "ammo_bts_shotgun",
+            "grenade",
+            "grenade",
+            "item_bts_sprayaid"
+        ],
+        "Medic": [
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "grenade",
+            "item_bts_sprayaid",
+            "item_healthkit"
+        ],
+        "Sniper": [
+            "",
+            "",
+            "",
+            "ammo_762",
+            "ammo_762",
+            "ammo_762",
+            "grenade",
+            "weapon_bts_sniperrifle"
+        ],
+        "Torch": [
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "grenade"
+        ],
+        "active": true,
+        "friendly": [
+            ""
+        ],
+        "gonome": [
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_bts_mp5",
+            "ammo_bts_shotgun",
+            "ammo_crossbow",
+            "grenade",
+            "grenade",
+            "grenade",
+            "item_bts_sprayaid",
+            "item_healthkit"
+        ],
+        "gonomeb": [
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_eagle",
+            "ammo_bts_shotgun",
+            "ammo_bts_sw637",
+            "ammo_bts_sw637",
+            "ammo_bts_sw637",
+            "grenade",
+            "grenade",
+            "grenade",
+            "item_bts_sprayaid",
+            "item_healthkit"
+        ],
+        "gonomeh": [
+            "",
+            "",
+            "",
+            "ammo_762",
+            "ammo_762",
+            "ammo_bts_eagle",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_bts_glock",
+            "ammo_bts_m16_grenade",
+            "ammo_bts_m4",
+            "ammo_bts_m4",
+            "ammo_bts_shotgun",
+            "ammo_bts_shotgun",
+            "grenade",
+            "grenade"
+        ],
+        "gonomew": [
+            "",
+            "",
+            "",
+            "ammo_bts_flarebox",
+            "ammo_bts_glock",
+            "ammo_bts_shotgun",
+            "ammo_bts_sw637",
+            "grenade",
+            "grenade",
+            "grenade",
+            "item_bts_sprayaid",
+            "item_healthkit",
+            "weapon_bts_flare"
+        ],
+        "robot": [
+            "",
+            "",
+            "",
+            "ammo_bts_m4",
+            "ammo_bts_mp5",
+            "ammo_bts_shotgun"
+        ],
+        "zblop": [
+            "",
+            "",
+            "",
+            "ammo_762",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_bts_m4",
+            "ammo_bts_mp5",
+            "ammo_bts_shotgun",
+            "ammo_crossbow",
+            "grenade"
+        ],
+        "zcleansuit": [
+            "",
+            "",
+            "",
+            "",
+            "item_bts_hevbattery",
+            "item_bts_sprayaid"
+        ],
+        "zhecu": [
+            "",
+            "",
+            "",
+            "ammo_762",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_bts_m4",
+            "ammo_bts_mp5",
+            "ammo_bts_shotgun",
+            "grenade"
+        ],
+        "zhev": [
+            "",
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_bts_m4",
+            "ammo_bts_mp5",
+            "ammo_bts_python",
+            "ammo_bts_shotgun",
+            "ammo_bts_sw637",
+            "grenade",
+            "grenade",
+            "grenade",
+            "item_bts_hevbattery",
+            "item_bts_sprayaid"
+        ],
+        "zmedic": [
+            "",
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_healthkit",
+            "grenade",
+            "item_bts_sprayaid",
+            "item_bts_sprayaid"
+        ],
+        "zsecurity": [
+            "",
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "ammo_bts_sbshotgun",
+            "ammo_bts_sw637",
+            "bts_battery"
+        ],
+        "ztorch": [
+            "",
+            "",
+            "",
+            "",
+            "ammo_bts_eagle",
+            "ammo_bts_glock",
+            "grenade"
+        ],
+        "zworker": [
+            "",
+            "",
+            "",
+            "",
+            "ammo_bts_flarebox",
+            "ammo_bts_glock",
+            "bts_battery",
+            "item_bts_sprayaid",
+            "weapon_bts_flare"
+        ]
+    },
+    "dynamic_ammo": {
+        "357": [
+            1,
+            6
+        ],
+        "38": [
+            3,
+            6
+        ],
+        "556": [
+            6,
+            30
+        ],
+        "9mm": [
+            8,
+            17
+        ],
+        "ARgrenades": [
+            1,
+            2
+        ],
+        "active": true,
+        "bts_battery": [
+            1,
+            5
+        ],
+        "bts_flare": [
+            1,
+            3
+        ],
+        "buckshot": [
+            3,
+            8
+        ]
+    },
+    "grunt_engineer": {
+        "active": true,
+        "capacity": 5,
+        "chance": 75,
+        "cooldown_combat": 6,
+        "cooldown_idle": 30,
+        "cooldown_rng": 15,
+        "cooldown_start": 6,
+        "distance": 128,
+        "interval": 0.1
+    },
+    "items": {
+        "battery_lighting": true
+    },
+    "logger": {
+        "critical": true,
+        "debug": true,
+        "error": true,
+        "file": true,
+        "info": true,
+        "trace": true,
+        "warning": true
+    },
+    "monster_panthereye": {
+        "dmg_high_swipe": 25,
+        "dmg_leap": 25,
+        "dmg_long_swipe": 25,
+        "dmg_low_swipe": 15,
+        "dmg_thrash": 10,
+        "dmg_thrash_frequency": 0.5,
+        "health": 210,
+        "max_leap": 400,
+        "max_leap_z": 256,
+        "min_leap": 200,
+        "stealth_visibility": 15,
+        "struggle_drain_rate": 15,
+        "struggle_grin": 8,
+        "struggle_max": 100
+    },
+    "wall_recharger": {
+        "juice": 35,
+        "recharge_time": 300,
+        "speed_rate": 0.35
+    },
     "weapon_bts_axe": {
         "deploy_time": 0.7,
         "position": 10,
@@ -574,5 +926,22 @@
         "secondary_cooldown": 2.0,
         "slot": 4,
         "tertiary_cooldown": 2.0
+    },
+    "weapons": {
+        "blood_splash": true,
+        "flashlight_maxcarry": 10,
+        "item_remap": {
+            "weapon_sniperrifle": "weapon_bts_sniperrifle"
+        },
+        "m249_knockback": true,
+        "melee_weapons_pull": true,
+        "melee_weapons_pull_force": 300,
+        "melee_weapons_push": true,
+        "melee_weapons_push_force": 200,
+        "sparks_splash": true
+    },
+    "zombie_uncrab": {
+        "active": true,
+        "track_health": true
     }
 }
