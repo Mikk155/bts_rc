@@ -122,7 +122,7 @@ class weapon_bts_uzisd : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = Accuracy( 0.015f, 0.0175f, 0.015f, 0.0175f );
+        float cone = weapons::Accuracy( player, gpWeaponUziSDConfig.primary_accuracy, isTrainedPersonal );
 
         // In Uzi SD we play weapons/pl_gun2.wav at full volume, and bts_rc/weapons/uzi_fire1.wav at 0.3f volume!
         FireBullet( 1, cone, gpWeaponUziSDConfig.primary_damage, "weapons/pl_gun2.wav", WeaponUziSDAnim::Shoot, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), false, QUIET_GUN_VOLUME, 0 );

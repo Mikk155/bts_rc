@@ -194,14 +194,15 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
         m_fReloading = false;
 
-        float cone = Accuracy( 0.01f, 0.05f, 0.05f, 0.05f );
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float cone = weapons::Accuracy( player, gpWeaponSW637Config.primary_accuracy, isTrainedPersonal );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/38_shot1.wav" : "bts_rc/weapons/38_shot2.wav";
 
         FireBullet( 1, cone, gpWeaponSW637Config.primary_damage, szSound, WeaponSW637Anim::Shoot, -1, TE_BOUNCE_SHELL, 1.0f, PITCH_NORM, true, LOUD_GUN_VOLUME, BRIGHT_GUN_FLASH );
 
         UpdateViewBodygroups();
 
-        player.pev.punchangle.x = util::IsTrainedPersonal( player ) ? -3.0f : -7.0f;
+        player.pev.punchangle.x = isTrainedPersonal ? -3.0f : -7.0f;
         self.m_flNextPrimaryAttack = g_Engine.time + 0.25f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }

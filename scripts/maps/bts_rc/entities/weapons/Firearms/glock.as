@@ -117,18 +117,6 @@ class weapon_bts_glock : BTS_FireWeapon
                 return;
         }
 
-        // Glock shoots on primary AND secondary attack (secondary is faster but less accurate)
-        const float spread = ( type == AttackType::Primary ) ?
-            Accuracy( 0.01f, 0.03f, 0.01f, 0.04f ) :
-            Accuracy( 0.1f, 0.2f, 0.01f, 0.02f );
-
-        if( self.m_iClip <= 0 )
-        {
-            this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.2f;
-            return;
-        }
-
         if( type == AttackType::Primary )
         {
             // Wait for player to press attack key
@@ -138,10 +126,21 @@ class weapon_bts_glock : BTS_FireWeapon
             }
         }
 
+        if( self.m_iClip <= 0 )
+        {
+            this.PlayEmptySound();
+            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.2f;
+            return;
+        }
+
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        // Glock shoots on primary AND secondary attack (secondary is faster but less accurate)
+        float cone = weapons::Accuracy( player, ( type == AttackType::Primary ) ?
+            gpWeaponGlockConfig.primary_accuracy : gpWeaponGlockConfig.secondary_accuracy, isTrainedPersonal );
         uint8 anim = self.m_iClip > 1 ? WeaponGlockAnim::Shoot : WeaponGlockAnim::ShootEmpty;
 
-        FireBullet( 1, spread, gpWeaponGlockConfig.primary_damage, "bts_rc/weapons/glock_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
+        FireBullet( 1, cone, gpWeaponGlockConfig.primary_damage, "bts_rc/weapons/glock_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 

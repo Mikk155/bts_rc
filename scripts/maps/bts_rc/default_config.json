@@ -373,6 +373,12 @@
         "deploy_time": 1.0,
         "max_clip": 15,
         "position": 6,
+        "primary_accuracy": {
+            "crouch": 0.012,
+            "crouch_trained": 0.0054,
+            "stand": 0.03,
+            "stand_trained": 0.006
+        },
         "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_dropammo": 15,
@@ -408,6 +414,12 @@
         "laser_size": 0.75,
         "max_clip": 9,
         "position": 9,
+        "primary_accuracy": {
+            "crouch": 0.02,
+            "crouch_trained": 0.009,
+            "stand": 0.05,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.22,
         "primary_damage": 65,
         "primary_dropammo": 3,
@@ -471,6 +483,12 @@
         "deploy_time": 0.45,
         "max_clip": 17,
         "position": 4,
+        "primary_accuracy": {
+            "crouch": 0.04,
+            "crouch_trained": 0.01,
+            "stand": 0.03,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_dropammo": 17,
@@ -479,6 +497,12 @@
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
+        "secondary_accuracy": {
+            "crouch": 0.02,
+            "crouch_trained": 0.01,
+            "stand": 0.2,
+            "stand_trained": 0.1
+        },
         "secondary_cooldown": 0.3,
         "secondary_trained_cooldown": 0.3,
         "slot": 1,
@@ -488,6 +512,12 @@
         "deploy_time": 0.6,
         "max_clip": 17,
         "position": 7,
+        "primary_accuracy": {
+            "crouch": 0.05,
+            "crouch_trained": 0.01,
+            "stand": 0.05,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_dropammo": 17,
@@ -508,6 +538,12 @@
         "deploy_time": 0.6,
         "max_clip": 19,
         "position": 10,
+        "primary_accuracy": {
+            "crouch": 0.05,
+            "crouch_trained": 0.01,
+            "stand": 0.05,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.0625,
         "primary_damage": 15,
         "primary_dropammo": 19,
@@ -528,6 +564,12 @@
         "laser_size": 0.5,
         "max_clip": 17,
         "position": 5,
+        "primary_accuracy": {
+            "crouch": 0.05,
+            "crouch_trained": 0.01,
+            "stand": 0.05,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.1,
         "primary_damage": 16,
         "primary_dropammo": 17,
@@ -744,6 +786,12 @@
         "deploy_time": 1.0,
         "max_clip": 6,
         "position": 8,
+        "primary_accuracy": {
+            "crouch": 0.05,
+            "crouch_trained": 0.01,
+            "stand": 0.1,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.75,
         "primary_damage": 66,
         "primary_dropammo": 6,
@@ -852,6 +900,12 @@
         "deploy_time": 1.0,
         "max_clip": 5,
         "position": 17,
+        "primary_accuracy": {
+            "crouch": 0.05,
+            "crouch_trained": 0.05,
+            "stand": 0.05,
+            "stand_trained": 0.01
+        },
         "primary_cooldown": 0.25,
         "primary_damage": 25,
         "primary_dropammo": 5,
@@ -864,6 +918,12 @@
         "deploy_time": 1.275,
         "max_clip": 20,
         "position": 11,
+        "primary_accuracy": {
+            "crouch": 0.0175,
+            "crouch_trained": 0.015,
+            "stand": 0.0175,
+            "stand_trained": 0.015
+        },
         "primary_cooldown": 0.07,
         "primary_damage": 16,
         "primary_dropammo": 20,
@@ -879,6 +939,12 @@
         "deploy_time": 1.1,
         "max_clip": 20,
         "position": 15,
+        "primary_accuracy": {
+            "crouch": 0.0175,
+            "crouch_trained": 0.015,
+            "stand": 0.0175,
+            "stand_trained": 0.015
+        },
         "primary_cooldown": 0.07,
         "primary_damage": 17,
         "primary_dropammo": 20,

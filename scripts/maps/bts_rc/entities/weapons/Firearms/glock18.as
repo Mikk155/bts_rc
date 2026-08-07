@@ -153,7 +153,7 @@ class weapon_bts_glock18 : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = Accuracy( 0.01f, 0.05f, 0.01f, 0.05f );
+        float cone = weapons::Accuracy( player, gpWeaponGlock18Config.primary_accuracy, isTrainedPersonal );
         uint8 anim = self.m_iClip > 1 ? WeaponGlock18Anim::Shoot : WeaponGlock18Anim::ShootEmpty;
 
         FireBullet( 1, cone, gpWeaponGlock18Config.primary_damage, "bts_rc/weapons/glock18_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );

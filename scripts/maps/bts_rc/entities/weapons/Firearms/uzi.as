@@ -111,7 +111,7 @@ class weapon_bts_uzi : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = Accuracy( 0.015f, 0.0175f, 0.015f, 0.0175f );
+        float cone = weapons::Accuracy( player, gpWeaponUziConfig.primary_accuracy, isTrainedPersonal );
 
         FireBullet( 1, cone, gpWeaponUziConfig.primary_damage, "bts_rc/weapons/uzi_fire1.wav", WeaponUziAnim::Shoot, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
 

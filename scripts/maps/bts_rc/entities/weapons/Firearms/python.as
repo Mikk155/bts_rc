@@ -138,12 +138,13 @@ class weapon_bts_python : BTS_FireWeapon
             return;
         }
 
-        float cone = Accuracy( 0.01f, 0.1f, 0.01f, 0.05f );
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float cone = weapons::Accuracy( player, gpWeaponPythonConfig.primary_accuracy, isTrainedPersonal );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "hlclassic/weapons/357_shot1.wav" : "hlclassic/weapons/357_shot2.wav";
 
         FireBullet( 1, cone, gpWeaponPythonConfig.primary_damage, szSound, WeaponPythonAnim::Shoot, -1, TE_BOUNCE_SHELL, Math.RandomFloat( 0.8f, 0.9f ), 98 + Math.RandomLong( 0, 3 ), true, LOUD_GUN_VOLUME, BRIGHT_GUN_FLASH );
 
-        player.pev.punchangle.x = util::IsTrainedPersonal( player ) ? -10.0f : -16.0f;
+        player.pev.punchangle.x = isTrainedPersonal ? -10.0f : -16.0f;
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );

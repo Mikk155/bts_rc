@@ -156,7 +156,7 @@ class weapon_bts_glocksd : BTS_FireWeapon
                     return;
                 }
 
-                float cone = gpWeaponGlockSDConfig.LaserAccuracy( Accuracy( 0.01f, 0.05f, 0.01f, 0.05f ), self );
+                float cone = weapons::Accuracy( player, gpWeaponGlockSDConfig.primary_accuracy, isTrainedPersonal );
 
                 uint8 anim = self.m_iClip > 1 ? WeaponGlockSDAnim::Shoot : WeaponGlockSDAnim::ShootEmpty;
                 string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/glocksd_fire1.wav" : "bts_rc/weapons/glocksd_fire2.wav";

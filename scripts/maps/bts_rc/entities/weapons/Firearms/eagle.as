@@ -173,7 +173,7 @@ class weapon_bts_eagle : BTS_FireWeapon
                     return;
                 }
 
-                float cone = gpWeaponEagleConfig.LaserAccuracy( Accuracy( 0.01f, 0.05f, 0.009f, 0.02f ), self );
+                float cone = weapons::Accuracy( player, gpWeaponEagleConfig.primary_accuracy, isTrainedPersonal );
 
                 uint8 anim = self.m_iClip > 1 ? WeaponEagleAnim::Shoot : WeaponEagleAnim::ShootEmpty;
 

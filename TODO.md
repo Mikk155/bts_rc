@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/23.88059701492537?barColor=da6e0b)
+> ![](https://geps.dev/progress/25.0?barColor=da720b)
 <!--CompletionBar-end-->
 
 ---
@@ -68,7 +68,6 @@ This file contains the list of to-do in the project.
 - [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
 - [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
 - [ ] Expose to JSON weapons rate of fire
-- [ ] Expose to JSON weapons accuracy cone
 - [ ] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
 - [ ] remove file name prefix to item_bts*
 - [ ] make item tracking optional
@@ -76,12 +75,14 @@ This file contains the list of to-do in the project.
 - [ ] Make a helper for dynamic ammo returning default value if dynamic ammo is nullptr
 - [ ] make medkit to not automatically recharge, only using health stations [#97](https://github.com/Mikk155/bts_rc/issues/97)
 - [ ] move player characters to default config
+- [ ] Expose to JSON remaining weapons accuracy cone
 
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Expose to JSON weapons accuracy cone
 - [x] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
 - [x] Move blood sprites from trace attacks to mikk/folder for reuse
 - [x] **Shotgun / Shotgun SD**: Fix bad bodygroups (`shotgunsd`).

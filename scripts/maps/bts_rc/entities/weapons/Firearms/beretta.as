@@ -152,8 +152,7 @@ class weapon_bts_beretta : BTS_FireWeapon
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
-        float cone = Accuracy( 0.01f, 0.05f, 0.009f, 0.02f );
-        cone *= 0.6f;
+        float cone = weapons::Accuracy( player, gpWeaponBerettaConfig.primary_accuracy, isTrainedPersonal );
 
         uint8 anim = self.m_iClip > 1 ? WeaponBerettaAnim::Shoot : WeaponBerettaAnim::ShootEmpty;
 

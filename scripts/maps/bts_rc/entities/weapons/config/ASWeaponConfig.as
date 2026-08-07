@@ -122,6 +122,38 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
     {
         "type": "number"
     },
+    "secondary_accuracy":
+    {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "title": "Weapon aim accuracy",
+        "description": "weapon accuracy modifiers.",
+        "properties":
+        {
+            "stand": { "type": "number", "minimum": 0.001 },
+            "stand_trained": { "type": "number", "minimum": 0.001 },
+            "crouch": { "type": "number", "minimum": 0.001 },
+            "crouch_trained": { "type": "number", "minimum": 0.001 },
+            "run": { "type": "number", "minimum": 0.001 },
+            "run_trained": { "type": "number", "minimum": 0.001 }
+        }
+    },
+    "primary_accuracy":
+    {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "title": "Weapon aim accuracy",
+        "description": "weapon accuracy modifiers.",
+        "properties":
+        {
+            "stand": { "type": "number", "minimum": 0.001 },
+            "stand_trained": { "type": "number", "minimum": 0.001 },
+            "crouch": { "type": "number", "minimum": 0.001 },
+            "crouch_trained": { "type": "number", "minimum": 0.001 },
+            "run": { "type": "number", "minimum": 0.001 },
+            "run_trained": { "type": "number", "minimum": 0.001 }
+        }
+    },
     "reload_time":
     {
         "type": "number"
@@ -180,10 +212,14 @@ abstract class ASWeaponConfig : IConfigurable
     int primary_maxammo = WEAPON_NOCLIP;
     // Weapon primary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int primary_dropammo = WEAPON_NOCLIP;
+    // Accuracy for primary attacks
+    float[] primary_accuracy(6);
     // Weapon secondary max ammo capacity. automatically set in BTS_Weapon::GetItemInfo
     int secondary_maxammo = WEAPON_NOCLIP;
     // Weapon secondary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int secondary_dropammo = WEAPON_NOCLIP;
+    // Accuracy for secondary attacks
+    float[] secondary_accuracy(6);
     // Weapon primary max ammo clip capacity. automatically set in BTS_Weapon::GetItemInfo
     int max_clip = WEAPON_NOCLIP;
     // Weapon hud slot. automatically set in BTS_Weapon::GetItemInfo
@@ -360,6 +396,30 @@ abstract class ASWeaponConfig : IConfigurable
         this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_cooldown, false, false );
         this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
         this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
+
+        meta_api::json::v2::json@ accuracy = config[ "primary_accuracy" ];
+
+        if( accuracy !is null )
+        {
+            this.primary_accuracy[0] = accuracy.ValueOrDefault( "stand", 0.001, false, false );
+            this.primary_accuracy[1] = accuracy.ValueOrDefault( "stand_trained", this.primary_accuracy[0], false, false );
+            this.primary_accuracy[2] = accuracy.ValueOrDefault( "crouch", this.primary_accuracy[1], false, false );
+            this.primary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.primary_accuracy[2], false, false );
+            this.primary_accuracy[4] = accuracy.ValueOrDefault( "run", this.primary_accuracy[3], false, false );
+            this.primary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.primary_accuracy[4], false, false );
+        }
+
+        @accuracy = config[ "secondary_accuracy" ];
+
+        if( accuracy !is null )
+        {
+            this.secondary_accuracy[0] = accuracy.ValueOrDefault( "stand", 0.001, false, false );
+            this.secondary_accuracy[1] = accuracy.ValueOrDefault( "stand_trained", this.secondary_accuracy[0], false, false );
+            this.secondary_accuracy[2] = accuracy.ValueOrDefault( "crouch", this.secondary_accuracy[1], false, false );
+            this.secondary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.secondary_accuracy[2], false, false );
+            this.secondary_accuracy[4] = accuracy.ValueOrDefault( "run", this.secondary_accuracy[3], false, false );
+            this.secondary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.secondary_accuracy[4], false, false );
+        }
 
         // Reload properties
         this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
