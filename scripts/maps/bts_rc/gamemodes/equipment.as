@@ -15,10 +15,25 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#include "item_tracker"
-#include "deathdrop"
-#include "dynamic_ammo"
-#include "equipment"
-#include "player_voices"
-#include "PlayerClass"
-#include "randomizer"
+final class ASEquipment : IConfigurable
+{
+    dictionary m_ItemSets;
+    array<dictionary@> m_ClassesEquipment;
+
+    const string& GetName() const override {
+        return "equipment";
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        auto@ precache = config.ValueOrDefault( "precache" );
+
+        return true;
+    }
+}
+
+ASEquipment@ gpEquipment;
+
+#if SERVER
+RegisterCommand@ ASEquipmentTestCommand;
+#endif
