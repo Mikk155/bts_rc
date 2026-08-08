@@ -41,8 +41,8 @@ namespace monster_zombie_gunner
     const int GUN_RANDOM_CHANCE = 40;     // randomly pull the gun out when spotting a player, 1-100
     const int GUN_AMMO_MAX1 = 15;         // barney
     const int GUN_AMMO_MAX2 = 17;         // blackops
-    const float GUN_DAMAGE1 = 9.0;        // barney
-    const float GUN_DAMAGE2 = 9.0;        // blackops
+    const int GUN_DAMAGE1 = 9.0;        // barney
+    const int GUN_DAMAGE2 = 9.0;        // blackops
     const float GUN_DROP_LIFETIME = 20.0; // how long the temporary model stays after being dropped
 
     const int NPC_AE_ATTACK_RIGHT = 1;

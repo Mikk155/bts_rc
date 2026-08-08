@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/25.0?barColor=da720b)
+> ![](https://geps.dev/progress/26.47058823529412?barColor=da780b)
 <!--CompletionBar-end-->
 
 ---
@@ -28,7 +28,6 @@ This file contains the list of to-do in the project.
 
 - [ ] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
 - [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
-- [ ] Fix all angelscript warnings
 - [ ] Optimize & simplify monster_parasite
 - [ ] Optimize & simplify monster_snapbug
 - [ ] Optimize & simplify monster_zombie_parasite
@@ -82,6 +81,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Fix all angelscript warnings
 - [x] Expose to JSON weapons accuracy cone
 - [x] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
 - [x] Move blood sprites from trace attacks to mikk/folder for reuse

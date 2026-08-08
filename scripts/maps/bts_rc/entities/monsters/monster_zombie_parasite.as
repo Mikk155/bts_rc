@@ -454,11 +454,11 @@ final class monster_zombie_parasite : bts_rc_base_monster
 
             for ( int i = 0 ; i < 3 ; i++ )
             {
-                Vector vecSpot = cbeCrab.pev.origin;
+                Vector vecSpot2 = cbeCrab.pev.origin;
 
-                vecSpot.x += Math.RandomFloat( -8.0, 8.0 ); 
-                vecSpot.y += Math.RandomFloat( -8.0, 8.0 ); 
-                vecSpot.z += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.x += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.y += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.z += Math.RandomFloat( -8.0, 8.0 ); 
 
                 g_Utility.BloodDrips( vecSpot, g_vecZero, BLOOD_COLOR_YELLOW, 50 );
             }

@@ -156,7 +156,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
 
         TraceResult tr;
         g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
-        self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, gpWeaponSawSDConfig.primary_damage, player.pev );
+        self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int(gpWeaponSawSDConfig.primary_damage), player.pev );
         TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
 
         if( ( m_iTracerCount++ % 2 ) == 0 )

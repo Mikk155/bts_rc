@@ -35,7 +35,7 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
     private int m_SpriteCanisterGas;
 
     // when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100
-    private uint m_CanisterStrayChance = 5;
+    private int m_CanisterStrayChance = 5;
     private int m_CanisterDamage = 125;
     // damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens
     private float m_CanisterDegrade = 0.5;

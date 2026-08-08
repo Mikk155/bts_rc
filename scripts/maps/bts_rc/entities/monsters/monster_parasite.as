@@ -248,9 +248,9 @@ final class monster_parasite : bts_rc_base_monster
                 {
                     // That didn't finish them. Take them down to one point with drown damage. It'll heal.
                     CBasePlayer@ pPlayer = cast<CBasePlayer@>( pOther );
-                    float flDamage = pPlayer.pev.health - 1;
+                    flDamage = pPlayer.pev.health - 1;
                     pPlayer.TakeDamage( self.pev, self.pev, flDamage, DMG_DROWN );
-                    pPlayer.m_iDrownDmg = flDamage;
+                    pPlayer.m_iDrownDmg = int(flDamage);
                     pPlayer.m_iDrownRestored = 0;
                 }
                 else
