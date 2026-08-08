@@ -44,6 +44,12 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return @m_owner;
     }
 
+    // Get the CBasePlayerWeapon instance of this class
+    CBasePlayerWeapon@ get_Entity()
+    {
+        return self;
+    }
+
     void Spawn()
     {
         g_EntityFuncs.SetModel( self, this.config.world_model );
