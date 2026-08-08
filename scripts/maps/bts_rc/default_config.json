@@ -323,11 +323,11 @@
     },
     "logger": {
         "critical": true,
-        "debug": true,
+        "debug": false,
         "error": true,
-        "file": true,
-        "info": true,
-        "trace": true,
+        "file": false,
+        "info": false,
+        "trace": false,
         "warning": true
     },
     "monster_panthereye": {

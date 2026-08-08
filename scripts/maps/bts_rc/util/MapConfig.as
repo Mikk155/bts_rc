@@ -445,20 +445,15 @@ final class ASMapConfig
 
         if( this.WritingSchema() )
         {
-            meta_api::json::parser::Indentation schemaStyle = meta_api::json::parser::Indentation::AllTogether;
+            meta_api::json::parser::Style schemaStyle = meta_api::json::parser::Style::AllMan;
+            meta_api::json::parser::Indentation schemaIndentation = meta_api::json::parser::Indentation::OneTabSpace;
 
-#if SERVER
-            schemaStyle = meta_api::json::parser::Indentation::OneTabSpace;
-#endif
             // Write out schemas
-            meta_api::json::v2::Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaStyle );
+            meta_api::json::v2::Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaIndentation, schemaStyle );
 
-            // Write out default values
-            // This is a reference file. unused in this code.
-            meta_api::json::v2::Serialize( this.m_json, "store/bts_rc_defaults.json",
-                meta_api::json::parser::Indentation::OneTabSpace,
-                meta_api::json::parser::Style::AllMan
-            );
+            // Write out default values for reference
+            this.m_defaults.Set( "$schema", "bts_rc_schema.json" );
+            meta_api::json::v2::Serialize( this.m_defaults, "store/bts_rc_defaults.json", schemaIndentation, schemaStyle );
 
             if( g_Logger.info.active )
             {
@@ -468,15 +463,17 @@ final class ASMapConfig
             }
         }
 
-        this.m_json.Clear();
+        // Let the garbage collector remove these later, may improve loading time.
+        // this.m_json.Clear();
+        // this.m_defaults.Clear();
+        // this.m_GlobalSchema.Clear();
+        // this.m_GlobalSchemaDefinitions.Clear();
+        // this.m_GlobalSchemaProperties.Clear();
+
         @this.m_json = null;
-        m_defaults.Clear();
-        @m_defaults = null;
-        this.m_GlobalSchema.Clear();
+        @this.m_defaults = null;
         @this.m_GlobalSchema = null;
-        this.m_GlobalSchemaDefinitions.Clear();
         @this.m_GlobalSchemaDefinitions = null;
-        this.m_GlobalSchemaProperties.Clear();
         @this.m_GlobalSchemaProperties = null;
     }
 }
