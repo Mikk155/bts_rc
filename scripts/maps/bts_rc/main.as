@@ -28,9 +28,17 @@ Server::chrono@ MapLoadedChrono = Server::chrono();
 bool gpErr = true;
 #endif
 
+#if METAMOD_PLUGIN_ASCURL
+#include "util/UpdateChecker"
+#endif
+
 /// Called by the map through trigger_script the moment that the map gameplay has started
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
+#if METAMOD_PLUGIN_ASCURL
+    UpdateChecker(); // Notice of new github releases if we're running a old version.
+#endif
+
 #if SERVER
     if( gpErr )
         return;
@@ -44,41 +52,6 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
     if( !g_IsMainMap )
         return;
-
-#if METAMOD_PLUGIN_ASCURL
-    // Tell server ops there's a new update
-    int requestID = g_EngineFuncs.CreateHTTPRequest( "https://api.github.com/repos/Mikk155/bts_rc/releases/latest", true, 0, 5000, 10000 );
-    g_EngineFuncs.AppendHTTPRequestHeader(requestID, "User-Agent: sven-coop" );
-    g_EngineFuncs.AppendHTTPRequestHeader(requestID, "Accept: application/vnd.github+json" );
-    g_EngineFuncs.SetHTTPRequestCallback( requestID, function( int reqid )
-    {
-        int response_code = 0;
-        string response_json;
-        g_EngineFuncs.GetHTTPResponse( reqid, response_code, void, response_json );
-
-        if( response_code >= 200 )
-        {
-            meta_api::json::v2::json@ response;
-            if( meta_api::json::v2::Deserialize( response_json, response ) )
-            {
-                string tagName;
-
-                if( response.Get( "tag_name", tagName ) )
-                {
-                    const SemanticVersion@ latestVersion = SemVer( tagName, true );
-
-                    if( latestVersion > g_ScriptsVersion )
-                    {
-                        g_EngineFuncs.ServerPrint( "Map scripts got a newer version released!\n" );
-                        g_EngineFuncs.ServerPrint( "https://github.com/Mikk155/bts_rc/releases/tag/" + latestVersion.ToString() + "\n" );
-                    }
-                }
-            }
-            g_EngineFuncs.DestroyHTTPRequest(reqid);
-        }
-    } );
-    g_EngineFuncs.SendHTTPRequest( requestID );
-#endif
 
     randomizer::Initialize();
 

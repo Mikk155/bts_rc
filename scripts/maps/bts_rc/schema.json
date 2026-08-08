@@ -21,22 +21,22 @@
 					{
 						"type": "boolean",
 						"description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.",
-						"default": true
+						"default": false
 					},
 					"trace": 
 					{
 						"type": "boolean",
-						"default": true
+						"default": false
 					},
 					"debug": 
 					{
 						"type": "boolean",
-						"default": true
+						"default": false
 					},
 					"info": 
 					{
 						"type": "boolean",
-						"default": true
+						"default": false
 					},
 					"warning": 
 					{

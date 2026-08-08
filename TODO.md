@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/26.47058823529412?barColor=da780b)
+> ![](https://geps.dev/progress/27.941176470588236?barColor=da7e0b)
 <!--CompletionBar-end-->
 
 ---
@@ -37,7 +37,6 @@ This file contains the list of to-do in the project.
 - [ ] Optimize item_tracker (Maybe Re-Implement partially the branch prototype view)
 - [ ] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
 - [ ] Debug command to show and select a CCharacter.
-- [ ] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
 - [ ] **Flare / Flare Gun**: Fix projectile world model (currently invisible or stuck inside the world geometry).
 - [ ] **Glock Auto/Semi**: Fix bad bodygroups (`glockf17`).
@@ -81,6 +80,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [x] Fix all angelscript warnings
 - [x] Expose to JSON weapons accuracy cone
 - [x] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
