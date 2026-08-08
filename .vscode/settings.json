@@ -34,9 +34,16 @@
     "angelScript.files.exclude":
     [
         ".github/**",
+        ".vscode/**",
         "docs/**",
+        "maps/**",
+        "models/**",
         "resource/**",
-        "src/**"
+        "Rubish/**",
+        "sound/**",
+        "sprites/**",
+        "src/**",
+        "wiki/**"
     ],
 
     // Formatting configuration
