@@ -17,6 +17,7 @@
 
 // Shared functions
 #include "base/shared/Accuracy"
+#include "base/shared/bullet"
 #include "base/shared/Deploy"
 #include "base/shared/Hit"
 #include "base/shared/SetCooldown"

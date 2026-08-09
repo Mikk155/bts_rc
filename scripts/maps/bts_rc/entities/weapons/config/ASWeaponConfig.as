@@ -196,6 +196,8 @@ abstract class ASWeaponConfig : IConfigurable
     const string& get_primary_ammoentity() { return String::EMPTY_STRING; }
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
     const string& get_secondary_ammoentity() { return String::EMPTY_STRING; }
+    // Set vector punch angle modifier
+    const AttackKickback( CBasePlayer@ player, AttackType attackType ) { }
 
     private int m_view_model_index = -1;
     // Do not override. is automatic.
