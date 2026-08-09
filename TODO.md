@@ -26,6 +26,9 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+- [ ] weapon json variable int[2] for default ammo min/max on spawn (clip ammo check)
+- [ ] weapon json variable int[2] for default secondary ammo min/max on spawn
+- [ ] replace all FireBullet( & FireBullets( to ASBullet pattern
 - [ ] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
 - [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
 - [ ] Optimize & simplify monster_parasite
