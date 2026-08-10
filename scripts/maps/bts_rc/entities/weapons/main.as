@@ -20,6 +20,7 @@
 #include "base/shared/bullet"
 #include "base/shared/Deploy"
 #include "base/shared/Hit"
+#include "base/shared/Kickback"
 #include "base/shared/SetCooldown"
 #include "base/shared/TraceEffects"
 
@@ -198,7 +199,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 
                 auto remap = ItemMapping( classFrom, classTo );
                 g_WeaponsConfig.ItemMappingList.insertLast( @remap );
-                
+
                 if( g_Logger.info.active )
                 {
                     g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { classFrom, classTo } );

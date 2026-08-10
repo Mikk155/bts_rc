@@ -18,7 +18,6 @@
 - [Gaftherman](https://github.com/Gaftherman)
 - Gamit
 - Gauna
-- Gearbox
 - Gearbox Software
 - Generic
 - [Giegue](https://github.com/julianR0)

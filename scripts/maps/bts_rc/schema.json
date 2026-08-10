@@ -279,6 +279,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -469,6 +559,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -729,6 +909,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -921,6 +1191,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -1181,6 +1541,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -1377,6 +1827,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -1636,6 +2176,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -1825,6 +2455,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -2078,6 +2798,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -2298,6 +3108,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -2603,6 +3503,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_sound": 
 					{
 						"type": "string"
@@ -2843,6 +3833,96 @@
 					{
 						"type": "number"
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3051,6 +4131,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -3301,6 +4471,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -3593,6 +4853,96 @@
 								"minimum": 0.001
 							}
 						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					}
 				}
 			},
@@ -3774,6 +5124,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -4044,6 +5484,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4240,6 +5770,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -4503,6 +6123,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4702,6 +6412,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -4965,6 +6765,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5189,6 +7079,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5381,6 +7361,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -5640,6 +7710,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5867,6 +8027,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -6044,6 +8294,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -6297,6 +8637,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -6489,6 +8919,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -6778,6 +9298,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -6970,6 +9580,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -7221,6 +9921,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -7402,6 +10192,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -7621,6 +10501,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -7874,6 +10844,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -8061,6 +11121,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -8322,6 +11472,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -8545,6 +11785,96 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -8735,6 +12065,96 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",

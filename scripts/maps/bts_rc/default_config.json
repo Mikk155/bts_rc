@@ -379,6 +379,10 @@
             "stand": 0.03,
             "stand_trained": 0.006
         },
+        "primary_kickback": {
+            "stand": 2.5,
+            "stand_trained": 2.0
+        },
         "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_dropammo": 15,

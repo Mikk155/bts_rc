@@ -1,3 +1,8 @@
+# 9/8/2026
+## Scripts
+- Replaced fire arms shooting structure to be more flexible and maintainable.
+- Exposed multiple weapon variables to json.
+
 # 27/7/2026
 ## Scripts
 ### Flashlight System Overhaul & Refinement

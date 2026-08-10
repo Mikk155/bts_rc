@@ -137,6 +137,7 @@ final class ASBullet
 
                 damage = config.primary_damage;
                 coneAccuracy = weapons::Accuracy( player, config.primary_accuracy, isTrainedPersonal );
+                weapons::Kickback( player, config.primary_kickback, isTrainedPersonal );
                 break;
             }
             case AttackType::Secondary:
@@ -144,6 +145,7 @@ final class ASBullet
                 player.m_rgAmmo( weapon.m_iSecondaryAmmoType, --ammo );
                 damage = config.secondary_damage;
                 coneAccuracy = weapons::Accuracy( player, config.secondary_accuracy, isTrainedPersonal );
+                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
             }
         }
 
@@ -189,8 +191,6 @@ final class ASBullet
         g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, this.m_SoundName, this.m_Volume, this.m_Attenuation, 0, this.m_Pitch );
 
         weapon.SendWeaponAnim( Animation, 0, weaponClass.body );
-
-        AttackKickback( player, attackType );
 
         player.SetAnimation( PLAYER_ANIM::PLAYER_ATTACK1 );
 
