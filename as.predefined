@@ -1,7 +1,5 @@
-/*
-*   Dummy as.predefined for implicit inclusion: https://github.com/sashi0034/angel-lsp/issues/333
-*/
+// https://codeberg.org/anggaranothing/svencoop-py-asdocs-vscode
+#include ".vscode/sven.as.predefined"
 
-#define SERVER
-#define EDITOR_ONLY
-#define METAMOD_PLUGIN_ASLP
+// https://github.com/Mikk155/Sven-Co-op/blob/main/aslp.as.predefined
+#include ".vscode/aslp.as.predefined"
