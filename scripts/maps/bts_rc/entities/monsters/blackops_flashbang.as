@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -73,14 +73,17 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         this.detonate_time = float( config[ "detonate_time" ] );
         this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
 
-        g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
-        g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
-        g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
 
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+            EntityOverriden::SetThink( float( config[ "interval" ] ) );
+            EntityOverriden::Register( this );
+        }
 
-        EntityOverriden::SetThink( float( config[ "interval" ] ) );
-        EntityOverriden::Register( this );
         return true;
     }
 

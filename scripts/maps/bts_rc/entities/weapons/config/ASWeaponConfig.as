@@ -491,8 +491,11 @@ abstract class ASWeaponConfig : IConfigurable
         this.reload_empty_anim = config.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
         this.reload_sound = config.ValueOrDefault( "reload_sound", this.reload_sound );
 
-        this.Precache();
-        this.RegisterWeapon();
+        if( g_MapConfig.MapLoading )
+        {
+            this.Precache();
+            this.RegisterWeapon();
+        }
 
         return true;
     }

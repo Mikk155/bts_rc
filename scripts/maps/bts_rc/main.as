@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -138,75 +138,7 @@ void MapInit()
 
     Precache();
 
-    g_MapConfig.__LoadMapConfiguration__();
-
-    // Logger first
-    g_MapConfig.Register( g_Logger );
-
-    // Items
-    g_MapConfig.Register( gpItemsConfig ); // Always active
-
-    // Weapons
-    g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
-    g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
-    g_MapConfig.Register( gpWeaponPoolstickConfig ); // Always active
-    g_MapConfig.Register( gpWeaponPipeWrenchConfig ); // Always active
-    g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponBroomConfig ); // Always active
-    g_MapConfig.Register( gpWeaponSpannerConfig ); // Always active
-    g_MapConfig.Register( gpWeaponBerettaConfig ); // Always active
-    g_MapConfig.Register( gpWeaponEagleConfig ); // Always active
-    g_MapConfig.Register( gpWeaponGlockConfig ); // Always active
-    g_MapConfig.Register( gpWeaponGlock17fConfig ); // Always active
-    g_MapConfig.Register( gpWeaponGlock18Config ); // Always active
-    g_MapConfig.Register( gpWeaponGlockSDConfig ); // Always active
-    g_MapConfig.Register( gpWeaponSW637Config ); // Always active
-    g_MapConfig.Register( gpWeaponPythonConfig ); // Always active
-    g_MapConfig.Register( gpWeaponMP5Config ); // Always active
-    g_MapConfig.Register( gpWeaponMP5GLConfig ); // Always active
-    g_MapConfig.Register( gpWeaponUziConfig ); // Always active
-    g_MapConfig.Register( gpWeaponUziSDConfig ); // Always active
-    g_MapConfig.Register( gpWeaponM4Config ); // Always active
-    g_MapConfig.Register( gpWeaponM4SDConfig ); // Always active
-    g_MapConfig.Register( gpWeaponM16Config ); // Always active
-    g_MapConfig.Register( gpWeaponM16SDConfig ); // Always active
-    g_MapConfig.Register( gpWeaponSniperRifleConfig ); // Always active
-    g_MapConfig.Register( gpWeaponShotgunConfig ); // Always active
-    g_MapConfig.Register( gpWeaponSBShotgunConfig ); // Always active
-    g_MapConfig.Register( gpWeaponSawConfig ); // Always active
-    g_MapConfig.Register( gpWeaponSawSDConfig ); // Always active
-    g_MapConfig.Register( gpWeaponM79Config ); // Always active
-    g_MapConfig.Register( gpWeaponXBowConfig ); // Always active
-    g_MapConfig.Register( gpWeaponHandGrenadeConfig ); // Always active
-    g_MapConfig.Register( gpWeaponFlamethrowerConfig ); // Always active
-    g_MapConfig.Register( gpWeaponFlareConfig ); // Always active
-    g_MapConfig.Register( gpWeaponFlareGunConfig ); // Always active
-    g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
-    g_MapConfig.Register( gpWeaponFlashlight ); // Always active
-
-    g_MapConfig.Register( g_WeaponsConfig ); // Always active
-
-    // No ordering required:
-    g_MapConfig.Register( ASBloodPuddleConfig() );
-    g_MapConfig.Register( ASDynamicAmmoConfig() );
-    g_MapConfig.Register( ASZombieUncrabConfig() );
-    g_MapConfig.Register( ASDeathDropConfig() );
-    g_MapConfig.Register( ASAimingLasersConfig() );
-    g_MapConfig.Register( ASBlackOpsFlashbang() );
-    g_MapConfig.Register( ASGruntEngineer() );
-    g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
-
-    g_MapConfig.Register( gpRoboGrunt ); // Always active
-    g_MapConfig.Register( gpRoboGruntBoss ); // Always active
-    g_MapConfig.Register( gpZombieEngineer ); // Always active
-    g_MapConfig.Register( gpPanthereyeConfig ); // Always active
-
-    // Player characters
-    g_MapConfig.Register( gpCharactersConfig ); // Always active
-
-    g_MapConfig.__ValidateMapConfiguration__();
+    g_MapConfig.__MapInitialize__();
 
     g_VoiceResponse.Register();
 

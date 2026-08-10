@@ -20,7 +20,7 @@ class LicenseCheck( PyBuilder ):
             lines: list[str] = fStream.readlines();
 
             for index, line in enumerate(lines):
-                lines[index] = f"*   {line}";
+                lines[index] = "*{}{}".format( "" if line == "" or line == "\n" else "   ", line );
 
             lines.insert(0, "/**\n" );
             lines.append( "**/\n\n" );
