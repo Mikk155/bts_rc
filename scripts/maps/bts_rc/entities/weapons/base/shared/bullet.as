@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -137,7 +137,6 @@ final class ASBullet
 
                 damage = config.primary_damage;
                 coneAccuracy = weapons::Accuracy( player, config.primary_accuracy, isTrainedPersonal );
-                weapons::Kickback( player, config.primary_kickback, isTrainedPersonal );
                 break;
             }
             case AttackType::Secondary:
@@ -145,7 +144,6 @@ final class ASBullet
                 player.m_rgAmmo( weapon.m_iSecondaryAmmoType, --ammo );
                 damage = config.secondary_damage;
                 coneAccuracy = weapons::Accuracy( player, config.secondary_accuracy, isTrainedPersonal );
-                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
             }
         }
 
@@ -193,6 +191,19 @@ final class ASBullet
         weapon.SendWeaponAnim( Animation, 0, weaponClass.body );
 
         player.SetAnimation( PLAYER_ANIM::PLAYER_ATTACK1 );
+
+        switch( attackType )
+        {
+            case AttackType::Primary:
+            {
+                weapons::Kickback( player, config.primary_kickback, isTrainedPersonal );
+                break;
+            }
+            case AttackType::Secondary:
+            {
+                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
+            }
+        }
 
         this.Clear();
     }

@@ -153,38 +153,16 @@ class weapon_bts_eagle : BTS_FireWeapon
         }
     }
 
-    void Attack( CBasePlayer@ player, AttackType type ) override
+    void SecondaryAttack() override
     {
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        auto player = this.owner;
+        gpWeaponEagleConfig.LaserToggle( util::IsTrainedPersonal( player ), AttackType::Secondary, self, player );
+    }
 
-        switch( type )
-        {
-            case AttackType::Secondary:
-            {
-                gpWeaponEagleConfig.LaserToggle( isTrainedPersonal, type, self, this.owner );
-                break;
-            }
-            case AttackType::Primary:
-            {
-                if( self.m_iClip <= 0 )
-                {
-                    this.PlayEmptySound();
-                    self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
-                    return;
-                }
-
-                float cone = weapons::Accuracy( player, gpWeaponEagleConfig.primary_accuracy, isTrainedPersonal );
-
-                uint8 anim = self.m_iClip > 1 ? WeaponEagleAnim::Shoot : WeaponEagleAnim::ShootEmpty;
-
-                FireBullet( 1, cone, gpWeaponEagleConfig.primary_damage, "weapons/desert_eagle_fire.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
-
-                player.pev.punchangle.x = isTrainedPersonal ? -4.0f : -11.0f;
-
-                gpWeaponEagleConfig.SetCooldown( isTrainedPersonal, type, self, this.owner );
-
-                break;
-            }
-        }
+    void PrimaryAttack() override
+    {
+        uint8 anim = self.m_iClip > 1 ? WeaponEagleAnim::Shoot : WeaponEagleAnim::ShootEmpty;
+        bullet.Sound( "weapons/desert_eagle_fire.wav", Math.RandomFloat( 0.92f, 1.0f ) )
+            .Fire( this.owner, this, AttackType::Primary, gpWeaponEagleConfig, anim );
     }
 }

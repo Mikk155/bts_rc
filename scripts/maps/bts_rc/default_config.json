@@ -1,6 +1,6 @@
 {
     "$schema": "schema.json",
-    
+
     "aiming_lasers": {
         "active": true,
         "alpha": 150,
@@ -424,6 +424,10 @@
             "crouch_trained": 0.009,
             "stand": 0.05,
             "stand_trained": 0.01
+        },
+        "primary_kickback": {
+            "stand": 11.0,
+            "stand_trained": 4.0
         },
         "primary_cooldown": 0.22,
         "primary_damage": 65,
