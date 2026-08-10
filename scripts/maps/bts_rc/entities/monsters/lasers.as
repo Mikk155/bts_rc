@@ -91,10 +91,13 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
 
         this.color = RGBA( int( config[ "red" ] ), int( config[ "green" ] ), int( config[ "blue" ] ), int( config[ "alpha" ] ) );
 
-        g_Game.PrecacheModel( "sprites/glow01.spr" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_Game.PrecacheModel( "sprites/glow01.spr" );
 
-        EntityOverriden::SetThink( float( config[ "interval" ] ) );
-        EntityOverriden::Register( this );
+            EntityOverriden::SetThink( float( config[ "interval" ] ) );
+            EntityOverriden::Register( this );
+        }
         return true;
     }
 
@@ -195,7 +198,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
                 // Dont modulate night vision
                 if( playerClass != Classification::HEV || int( enemy.GetUserData()[ "helmet_nv_state" ] ) == 0 )
                 {
-                    g_PlayerFuncs.ScreenFade( enemy, spr.pev.rendercolor, 0.1f, this.interval + 0.1f, this.color.a, FFADE_MODULATE | FFADE_IN );   
+                    g_PlayerFuncs.ScreenFade( enemy, spr.pev.rendercolor, 0.1f, this.interval + 0.1f, this.color.a, FFADE_MODULATE | FFADE_IN );
                 }
             }
         }

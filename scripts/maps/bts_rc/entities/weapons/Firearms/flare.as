@@ -62,8 +62,12 @@ final class ASWeaponFlareConfig : ASWeaponConfig
         return 0;
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override {
-        g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
+    bool Register( meta_api::json::v2::json@ json ) override
+    {
+        if( g_MapConfig.MapLoading )
+        {
+            g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
+        }
 
         return ASWeaponConfig::Register( json );
     }

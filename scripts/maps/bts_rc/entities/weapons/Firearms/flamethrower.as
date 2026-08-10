@@ -68,8 +68,12 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override {
-        g_CustomEntityFuncs.RegisterCustomEntity( "flame_proj", "flame_proj" );
+    bool Register( meta_api::json::v2::json@ json ) override
+    {
+        if( g_MapConfig.MapLoading )
+        {
+            g_CustomEntityFuncs.RegisterCustomEntity( "flame_proj", "flame_proj" );
+        }
 
         return ASWeaponConfig::Register( json );
     }

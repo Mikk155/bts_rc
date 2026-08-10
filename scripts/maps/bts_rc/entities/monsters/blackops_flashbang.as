@@ -73,14 +73,17 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         this.detonate_time = float( config[ "detonate_time" ] );
         this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
 
-        g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
-        g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
-        g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
 
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+            EntityOverriden::SetThink( float( config[ "interval" ] ) );
+            EntityOverriden::Register( this );
+        }
 
-        EntityOverriden::SetThink( float( config[ "interval" ] ) );
-        EntityOverriden::Register( this );
         return true;
     }
 

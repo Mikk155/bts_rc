@@ -185,6 +185,7 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
 
         // ItemMapping stuff
+        if( g_MapConfig.MapLoading )
         {
             auto@ remaps = config.ValueOrDefault( "item_remap" );
             const auto@ remaps_from = remaps.Keys;
@@ -197,7 +198,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 
                 auto remap = ItemMapping( classFrom, classTo );
                 g_WeaponsConfig.ItemMappingList.insertLast( @remap );
-                
+
                 if( g_Logger.info.active )
                 {
                     g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { classFrom, classTo } );

@@ -262,7 +262,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         }
 
         int Battery = Flashlight::GetClip( player, this );
-        
+
         if( Battery <= 0 )
         {
             // No reserves
@@ -282,7 +282,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
 
             weapon.SendWeaponAnim( this.animation_holster, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
         }
- 
+
         switch( weapon.pev.iuser1 )
         {
             case Flashlight::State::Inactive:
@@ -448,11 +448,6 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     {
         this.flashlight_drain = config.ValueOrDefault( "flashlight_drain", this.flashlight_drain );
         this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );
-
-#if SERVER
-        // For fast testing reload
-        this.flashlight_drain = 0.1f;
-#endif
 
         bool result = ASWeaponConfig::Register( config );
 

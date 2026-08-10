@@ -80,8 +80,12 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override {
-        g_CustomEntityFuncs.RegisterCustomEntity( "electro_bolt", "electro_bolt" );
+    bool Register( meta_api::json::v2::json@ json ) override
+    {
+        if( g_MapConfig.MapLoading )
+        {
+            g_CustomEntityFuncs.RegisterCustomEntity( "electro_bolt", "electro_bolt" );
+        }
 
         return ASWeaponConfig::Register( json );
     }

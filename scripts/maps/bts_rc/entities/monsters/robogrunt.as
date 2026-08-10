@@ -53,16 +53,18 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
         this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
 
-        g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
-        g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
-        g_SoundSystem.PrecacheSound( "debris/beamstart14.wav" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
+            g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
+            g_SoundSystem.PrecacheSound( "debris/beamstart14.wav" );
 
 #if SERVER
-        g_Game.PrecacheOther( "monster_human_grunt_ally" );
-        g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
+            g_Game.PrecacheOther( "monster_human_grunt_ally" );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
 #endif
-
-        EntityOverriden::SetThink( 0.1f );
+            EntityOverriden::SetThink( 0.1f );
+        }
         return true;
     }
 
@@ -421,8 +423,11 @@ final class ASRoboGruntBoss : ASRoboGrunt
     bool Register( meta_api::json::v2::json@ json ) override
     {
 #if SERVER
-        g_Game.PrecacheOther( "monster_hwgrunt" );
-        g_Game.PrecacheModel( "models/bts_rc/monsters/robothwgrunt.mdl" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_Game.PrecacheOther( "monster_hwgrunt" );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/robothwgrunt.mdl" );
+        }
 #endif
         ASRoboGrunt::Register( json );
         return true;

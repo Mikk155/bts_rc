@@ -68,9 +68,13 @@ final class ASWeaponSW637Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override {
-        g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637", "ammo_bts_sw637" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637lmao", "ammo_bts_sw637lmao" );
+    bool Register( meta_api::json::v2::json@ json ) override
+    {
+        if( g_MapConfig.MapLoading )
+        {
+            g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637", "ammo_bts_sw637" );
+            g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637lmao", "ammo_bts_sw637lmao" );
+        }
 
         return ASWeaponConfig::Register( json );
     }

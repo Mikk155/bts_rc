@@ -58,7 +58,8 @@ final class ASZombieUncrabConfig : IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
-        @gpZombieUncrab = this;
+        if( g_MapConfig.MapLoading )
+            @gpZombieUncrab = this;
 
         this.m_TrackHealth = bool( config[ "track_health" ] );
 

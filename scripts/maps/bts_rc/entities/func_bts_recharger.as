@@ -63,10 +63,13 @@ final class ASWallRechargerConfig : IConfigurable
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
-        g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
-        CustomEntity( "func_bts_recharger" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_SoundSystem.PrecacheSound( "bts_rc/items/suitcharge1.wav" );
+            g_SoundSystem.PrecacheSound( "items/suitchargeno1.wav" );
+            g_SoundSystem.PrecacheSound( "items/suitchargeok1.wav" );
+            CustomEntity( "func_bts_recharger" );
+        }
 
         this.m_Juice = int( config[ "juice" ] );
         this.m_RechargeTime = int( config[ "recharge_time" ] );

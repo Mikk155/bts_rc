@@ -113,11 +113,13 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         config.Get( "cooldown_rng", this.m_fCooldownRNG, false );
         config.Get( "chance", this.m_uiRandomChance, false );
 
-        EntityOverriden::SetThink( float( config[ "interval" ] ) );
-
+        if( g_MapConfig.MapLoading )
+        {
+            EntityOverriden::SetThink( float( config[ "interval" ] ) );
 #if SERVER
-        g_Game.PrecacheOther( "monster_human_torch_ally" );
+            g_Game.PrecacheOther( "monster_human_torch_ally" );
 #endif
+        }
 
         return true;
     }

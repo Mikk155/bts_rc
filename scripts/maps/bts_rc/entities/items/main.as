@@ -59,13 +59,16 @@ final class ASItemsConfig : IConfigurable
     {
         this.m_BatteryLighting = bool( config[ "battery_lighting" ] );
 
-        CustomEntity( "item_bts_armorvest", true );
-        CustomEntity( "item_bts_clsuit", true );
-        CustomEntity( "item_bts_helmet", true );
-        CustomEntity( "item_bts_hevbattery", true );
-        CustomEntity( "item_bts_hevsuit", true );
-        CustomEntity( "item_bts_skeleton", true );
-        CustomEntity( "item_bts_sprayaid", true );
+        if( g_MapConfig.MapLoading )
+        {
+            CustomEntity( "item_bts_armorvest", true );
+            CustomEntity( "item_bts_clsuit", true );
+            CustomEntity( "item_bts_helmet", true );
+            CustomEntity( "item_bts_hevbattery", true );
+            CustomEntity( "item_bts_hevsuit", true );
+            CustomEntity( "item_bts_skeleton", true );
+            CustomEntity( "item_bts_sprayaid", true );
+        }
 
         return true;
     }

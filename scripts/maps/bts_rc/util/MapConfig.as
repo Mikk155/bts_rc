@@ -15,6 +15,69 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+void RegisterContexts()
+{
+    // Items
+    g_MapConfig.Register( gpItemsConfig ); // Always active
+
+    // Weapons
+    g_MapConfig.Register( gpWeaponCrowbarConfig ); // Always active
+    g_MapConfig.Register( gpWeaponScrewDriverConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPoolstickConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeWrenchConfig ); // Always active
+    g_MapConfig.Register( gpWeaponPipeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponKnifeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponAxeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponBroomConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSpannerConfig ); // Always active
+    g_MapConfig.Register( gpWeaponBerettaConfig ); // Always active
+    g_MapConfig.Register( gpWeaponEagleConfig ); // Always active
+    g_MapConfig.Register( gpWeaponGlockConfig ); // Always active
+    g_MapConfig.Register( gpWeaponGlock17fConfig ); // Always active
+    g_MapConfig.Register( gpWeaponGlock18Config ); // Always active
+    g_MapConfig.Register( gpWeaponGlockSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSW637Config ); // Always active
+    g_MapConfig.Register( gpWeaponPythonConfig ); // Always active
+    g_MapConfig.Register( gpWeaponMP5Config ); // Always active
+    g_MapConfig.Register( gpWeaponMP5GLConfig ); // Always active
+    g_MapConfig.Register( gpWeaponUziConfig ); // Always active
+    g_MapConfig.Register( gpWeaponUziSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM4Config ); // Always active
+    g_MapConfig.Register( gpWeaponM4SDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM16Config ); // Always active
+    g_MapConfig.Register( gpWeaponM16SDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSniperRifleConfig ); // Always active
+    g_MapConfig.Register( gpWeaponShotgunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSBShotgunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSawConfig ); // Always active
+    g_MapConfig.Register( gpWeaponSawSDConfig ); // Always active
+    g_MapConfig.Register( gpWeaponM79Config ); // Always active
+    g_MapConfig.Register( gpWeaponXBowConfig ); // Always active
+    g_MapConfig.Register( gpWeaponHandGrenadeConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlamethrowerConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlareConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlareGunConfig ); // Always active
+    g_MapConfig.Register( gpWeaponMedkitConfig ); // Always active
+    g_MapConfig.Register( gpWeaponFlashlight ); // Always active
+
+    g_MapConfig.Register( g_WeaponsConfig ); // Always active
+
+    // No ordering required:
+    g_MapConfig.Register( ASBloodPuddleConfig() );
+    g_MapConfig.Register( ASDynamicAmmoConfig() );
+    g_MapConfig.Register( ASZombieUncrabConfig() );
+    g_MapConfig.Register( ASDeathDropConfig() );
+    g_MapConfig.Register( ASAimingLasersConfig() );
+    g_MapConfig.Register( ASBlackOpsFlashbang() );
+    g_MapConfig.Register( ASGruntEngineer() );
+    g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
+
+    g_MapConfig.Register( gpRoboGrunt ); // Always active
+    g_MapConfig.Register( gpRoboGruntBoss ); // Always active
+    g_MapConfig.Register( gpZombieEngineer ); // Always active
+    g_MapConfig.Register( gpPanthereyeConfig ); // Always active
+}
+
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/meta_api/json/v2"
 #include "../../../mikk155/meta_api/json/v2/schema"
@@ -57,6 +120,18 @@ final class ASMapConfig
         meta_api::json::v2::json@ m_GlobalSchemaProperties = meta_api::json::v2::json();
 
     private
+        bool m_MapInit = true;
+
+        // Return true if we're still at MapInit parsing the config for a first time
+        const bool get_MapLoading() const
+        {
+            return m_MapInit;
+        }
+
+    private
+        bool m_AllowReload = false;
+
+    private
         bool m_ShouldWriteServerConfig = false;
 
     private
@@ -75,10 +150,7 @@ final class ASMapConfig
         array<IConfigurable@> m_Contexts(0);
 
     private
-        Server::chrono@ m_chrono = Server::chrono();
-
-    private
-        Server::chrono@ m_chronoMapStart = Server::chrono();
+        Server::chrono@ m_chrono;
 
     // Get a handle to the map configuration. this is null after MapInit
     const meta_api::json::v2::json@ get_json()
@@ -124,6 +196,11 @@ final class ASMapConfig
     {
         meta_api::json::Error err;
 
+        if( m_chrono is null )
+        {
+            @m_chrono = Server::chrono();
+        }
+
         if( !meta_api::json::v2::Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
         {
             g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultConfig__()\"" );
@@ -167,14 +244,17 @@ final class ASMapConfig
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
 
-        this.RegisterSchemaDefinition( "IConfigurable", """{
-            "active":
-            {
-                "type": "boolean",
-                "default": true,
-                "description": "Should this context be active?"
-            }
-        }""" );
+        if( MapLoading )
+        {
+            this.RegisterSchemaDefinition( "IConfigurable", """{
+                "active":
+                {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Should this context be active?"
+                }
+            }""" );
+        }
     }
 
     void Register( IConfigurable@ context )
@@ -221,16 +301,7 @@ final class ASMapConfig
 
         uint length = this.m_Contexts.length();
 
-#if REMOVED_FROM_VALIDATION
-        meta_api::json::v2::json@ defaultEmptySchema = meta_api::json::v2::json();
-
-        {
-            defaultEmptySchema.Set( "type", "object" );
-            defaultEmptySchema.Set( "unevaluatedProperties", false );
-            defaultEmptySchema.Set( "properties", meta_api::json::v2::json() );
-        }
-#endif
-
+        if( MapLoading )
         {
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             m_GlobalSchema.Set( "type", "object" );
@@ -240,6 +311,10 @@ final class ASMapConfig
                         schemaProperty.Set( "type", "string" );
                         schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
                     this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
+                    auto@ allowReloadPoperty = meta_api::json::v2::json();
+                        allowReloadPoperty.Set( "type", "boolean" );
+                        allowReloadPoperty.Set( "description", "When true the map scripts will keep json schemas in memory and register a command to reload json files run time." );
+                    this.m_GlobalSchemaProperties.Set( "allow_reload", allowReloadPoperty );
             m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
         }
 
@@ -381,7 +456,7 @@ final class ASMapConfig
 
             if( g_Logger.info.active )
             {
-                g_EngineFuncs.ServerPrint( "==============================================================\n" );
+                g_Logger.info.print( "==============================================================" );
                 if( config is null )
                 {
                     g_Logger.warning.print( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
@@ -393,7 +468,7 @@ final class ASMapConfig
                     if( g_Logger.trace.active && config.Length() > 0 )
                         g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
                 }
-                g_EngineFuncs.ServerPrint( "==============================================================\n" );
+                g_Logger.info.print( "==============================================================" );
             }
 
             bool result = context.Register( config );
@@ -421,7 +496,7 @@ final class ASMapConfig
             this.m_chrono.Restart();
         }
 
-        if( this.m_ShouldWriteServerConfig )
+        if( this.m_ShouldWriteServerConfig && MapLoading )
         {
             File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.json", OpenFile::WRITE );
             if( file !is null )
@@ -463,18 +538,63 @@ final class ASMapConfig
             }
         }
 
-        // Let the garbage collector remove these later, may improve loading time.
-        // this.m_json.Clear();
-        // this.m_defaults.Clear();
-        // this.m_GlobalSchema.Clear();
-        // this.m_GlobalSchemaDefinitions.Clear();
-        // this.m_GlobalSchemaProperties.Clear();
+#if SERVER
+        this.m_AllowReload = true;
+#endif
+        this.m_AllowReload = this.m_json.ValueOrDefault( "allow_reload", this.m_AllowReload, false );
 
-        @this.m_json = null;
-        @this.m_defaults = null;
-        @this.m_GlobalSchema = null;
-        @this.m_GlobalSchemaDefinitions = null;
-        @this.m_GlobalSchemaProperties = null;
+        if( !this.m_AllowReload )
+        {
+            // Let the garbage collector remove these later, may improve loading time.
+            // this.m_json.Clear();
+            // this.m_defaults.Clear();
+            // this.m_GlobalSchema.Clear();
+            // this.m_GlobalSchemaDefinitions.Clear();
+            // this.m_GlobalSchemaProperties.Clear();
+
+            @this.m_json = null;
+            @this.m_defaults = null;
+            @this.m_GlobalSchema = null;
+            @this.m_GlobalSchemaDefinitions = null;
+            @this.m_GlobalSchemaProperties = null;
+        }
+
+        @this.m_chrono = null;
+
+        this.m_MapInit = false;
+    }
+
+    void __MapInitialize__()
+    {
+        auto chrono = Server::chrono();
+        __LoadMapConfiguration__();
+        this.Register( g_Logger );
+        RegisterContexts();
+        this.Register( gpCharactersConfig );
+        this.__ValidateMapConfiguration__();
+        chrono.Stop();
+
+        string buffer;
+        snprintf( buffer, "Done with all map configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
+        g_EngineFuncs.ServerPrint( buffer );
+
+        if( this.m_AllowReload )
+        {
+            RegisterCommand( "update", "", "Updates the json config for all contexts",
+            @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
+            {
+                auto chrono = Server::chrono();
+
+                g_MapConfig.__LoadMapConfiguration__();
+                g_MapConfig.__ValidateMapConfiguration__();
+
+                chrono.Stop();
+
+                string buffer;
+                snprintf( buffer, "Done with all map configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+            } ), true, "json" );
+        }
     }
 }
 

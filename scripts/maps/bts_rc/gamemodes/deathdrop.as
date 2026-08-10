@@ -170,11 +170,14 @@ final class ASDeathDropConfig : IConfigurable
             }
 
             // Precache
-            for( uint uie = 0; uie < itemNames.length(); uie++ )
+            if( g_MapConfig.MapLoading )
             {
-                string itemName = itemNames[uie];
-                if( !itemName.IsEmpty() && itemName != "grenade" )
-                    g_Game.PrecacheOther( itemName );
+                for( uint uie = 0; uie < itemNames.length(); uie++ )
+                {
+                    string itemName = itemNames[uie];
+                    if( !itemName.IsEmpty() && itemName != "grenade" )
+                        g_Game.PrecacheOther( itemName );
+                }
             }
 
             // Just debug
@@ -248,7 +251,7 @@ final class ASDeathDropConfig : IConfigurable
             return null;
 
         Vector origin = monster.Center(), angles;
-        
+
         auto ckv_attachment = ckv.GetKeyvalue( "$i_deathdrop" );
 
         if( ckv_attachment.Exists() )

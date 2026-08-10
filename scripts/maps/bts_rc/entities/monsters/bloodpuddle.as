@@ -90,10 +90,13 @@ final class ASBloodPuddleConfig : IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
-        @gpBloodPuddle = this;
+        if( g_MapConfig.MapLoading )
+        {
+            @gpBloodPuddle = this;
 
-        CustomEntity( "env_bloodpuddle", false );
-        g_Game.PrecacheModel( "models/mikk155/misc/bloodpuddle.mdl" );
+            CustomEntity( "env_bloodpuddle", false );
+            g_Game.PrecacheModel( "models/mikk155/misc/bloodpuddle.mdl" );
+        }
 
         this.m_persistent = bool( config[ "persistent" ] );
 

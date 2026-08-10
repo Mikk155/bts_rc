@@ -162,36 +162,39 @@ final class ASPanthereyeConfig : IConfigurable
         this.StruggleGrin = int( config[ "struggle_grin" ] );
         this.StealthVisibility = int( config[ "stealth_visibility" ] );
 
-        // Attack schedule start
-        ScriptSchedule@ RangeAttack1 = m_Schedules[0];
-        RangeAttack1.AddTask( ScriptTask(TASK_STOP_MOVING) );
-        RangeAttack1.AddTask( ScriptTask(TASK_FACE_IDEAL) );
-        RangeAttack1.AddTask( ScriptTask(TASK_RANGE_ATTACK1) );
-        RangeAttack1.AddTask( ScriptTask(TASK_SET_ACTIVITY, float(ACT_IDLE)) );
+        if( g_MapConfig.MapLoading )
+        {
+            // Attack schedule start
+            ScriptSchedule@ RangeAttack1 = m_Schedules[0];
+            RangeAttack1.AddTask( ScriptTask(TASK_STOP_MOVING) );
+            RangeAttack1.AddTask( ScriptTask(TASK_FACE_IDEAL) );
+            RangeAttack1.AddTask( ScriptTask(TASK_RANGE_ATTACK1) );
+            RangeAttack1.AddTask( ScriptTask(TASK_SET_ACTIVITY, float(ACT_IDLE)) );
 
-        g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
+            g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
 
-        g_SoundSystem.PrecacheSound( "garg/gar_idle2.wav" );
-        g_SoundSystem.PrecacheSound( "bullchicken/bc_idle5.wav" );
-        g_SoundSystem.PrecacheSound( "agrunt/ag_idle1.wav" );
-        g_SoundSystem.PrecacheSound( "bullchicken/bc_die3.wav" );
-        g_SoundSystem.PrecacheSound( "bullchicken/bc_idle3.wav" );
-        g_SoundSystem.PrecacheSound( "garg/gar_pain1.wav" );
-        g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pouncehit.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash3.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/stealth.ogg" );
-        g_SoundSystem.PrecacheSound( "garg/gar_pain2.wav" );
-        g_SoundSystem.PrecacheSound( "agrunt/ag_pain2.wav" );
-        g_SoundSystem.PrecacheSound( "barnacle/bcl_chew2.wav" );
-        g_SoundSystem.PrecacheSound( "barnacle/bcl_chew1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert3.wav" );
+            g_SoundSystem.PrecacheSound( "garg/gar_idle2.wav" );
+            g_SoundSystem.PrecacheSound( "bullchicken/bc_idle5.wav" );
+            g_SoundSystem.PrecacheSound( "agrunt/ag_idle1.wav" );
+            g_SoundSystem.PrecacheSound( "bullchicken/bc_die3.wav" );
+            g_SoundSystem.PrecacheSound( "bullchicken/bc_idle3.wav" );
+            g_SoundSystem.PrecacheSound( "garg/gar_pain1.wav" );
+            g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pouncehit.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash1.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash2.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash3.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/stealth.ogg" );
+            g_SoundSystem.PrecacheSound( "garg/gar_pain2.wav" );
+            g_SoundSystem.PrecacheSound( "agrunt/ag_pain2.wav" );
+            g_SoundSystem.PrecacheSound( "barnacle/bcl_chew2.wav" );
+            g_SoundSystem.PrecacheSound( "barnacle/bcl_chew1.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert2.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert3.wav" );
 
-        CustomEntity( "monster_panthereye" );
+            CustomEntity( "monster_panthereye" );
+        }
 
         return true;
     }
@@ -676,7 +679,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
         AttackSound( true );
 
-        CBasePlayer@ player; 
+        CBasePlayer@ player;
 
         if( ( other.pev.effects & EF_NODRAW ) == 0 // Target is not being thrashed
         && other.IsAlive() // Target is alive

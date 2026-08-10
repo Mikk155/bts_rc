@@ -111,58 +111,61 @@ final class ASDynamicAmmoConfig : IConfigurable
             g_Logger.info.print( snprintf( glog, "Registered %1 dynamic ammo types.", m_AmmoRanges.getSize() ) );
 
 #if SERVER
-        @m_command = RegisterCommand(
-            "test_ammo",
-            "[simulated_players]",
-            "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
-            function( CBasePlayer@ player, array<string>@ arguments )
-            {
-                int maxClients = g_Engine.maxClients;
-                int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
-                int simPlayers = realPlayers;
-
-                if( arguments !is null && arguments.length() > 0 )
+        if( g_MapConfig.MapLoading )
+        {
+            @m_command = RegisterCommand(
+                "test_ammo",
+                "[simulated_players]",
+                "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
+                function( CBasePlayer@ player, array<string>@ arguments )
                 {
-                    simPlayers = atoi( arguments[0] );
-                    if( simPlayers < 1 ) simPlayers = 1;
-                    if( simPlayers > maxClients ) simPlayers = maxClients;
-                }
+                    int maxClients = g_Engine.maxClients;
+                    int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
+                    int simPlayers = realPlayers;
 
-                string buffer;
-                snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                    if( arguments !is null && arguments.length() > 0 )
+                    {
+                        simPlayers = atoi( arguments[0] );
+                        if( simPlayers < 1 ) simPlayers = 1;
+                        if( simPlayers > maxClients ) simPlayers = maxClients;
+                    }
 
-                float t = 0.0f;
-                if( maxClients > 1 )
-                    t = float( simPlayers - 1 ) / float( maxClients - 1 );
-
-                snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
-
-                auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
-
-                for( uint i = 0; i < keys.length(); i++ )
-                {
-                    array<int>@ range;
-                    gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
-
-                    int minGive = range[0];
-                    int maxGive = range[1];
-
-                    float result = float( maxGive ) + t * float( minGive - maxGive );
-                    int give = int( Math.Ceil( result ) );
-                    if( give < 1 ) give = 1;
-
-                    snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                    string buffer;
+                    snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-                }
 
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
-            },
-            false
-        );
+                    float t = 0.0f;
+                    if( maxClients > 1 )
+                        t = float( simPlayers - 1 ) / float( maxClients - 1 );
+
+                    snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
+
+                    auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
+
+                    for( uint i = 0; i < keys.length(); i++ )
+                    {
+                        array<int>@ range;
+                        gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
+
+                        int minGive = range[0];
+                        int maxGive = range[1];
+
+                        float result = float( maxGive ) + t * float( minGive - maxGive );
+                        int give = int( Math.Ceil( result ) );
+                        if( give < 1 ) give = 1;
+
+                        snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                    }
+
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
+                },
+                false
+            );
+        }
 #endif
         return true;
     }

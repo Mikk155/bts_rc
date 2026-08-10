@@ -114,7 +114,7 @@ CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function
         }
         else
         {
-            if( args.ArgC() < 3 || args[1] != context.Section || args[1] != context.Command )
+            if( args.ArgC() < 3 || args[1] != context.Section || args[2] != context.Command )
                 continue;
             start = 1;
         }
@@ -131,6 +131,8 @@ CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function
             }
 
             context.Lambda( player, newArguments.length() > 0 ? @newArguments : null );
+            return;
         }
     }
+    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Unknown command.\n" );
 } );
