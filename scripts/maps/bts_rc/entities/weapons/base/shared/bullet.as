@@ -112,7 +112,7 @@ final class ASBullet
             case 512:
                 break;
             default:
-                g_Logger.critical.print( "Weapon {} called buller.Flash with value higher than 1.0!other than DIM_GUN_FLASH, BRIGHT_GUN_FLASH or NORMAL_GUN_FLASH!", { this.m_Config.GetName() } );
+                g_Logger.critical.print( "Weapon {} called bullet.Flash with value other than DIM_GUN_FLASH, BRIGHT_GUN_FLASH or NORMAL_GUN_FLASH!", { this.m_Config.GetName() } );
         }
 #endif
         this.m_FlashSize = flash;
@@ -126,11 +126,11 @@ final class ASBullet
 #if SERVER
         if( volume > 1.0 )
         {
-            g_Logger.critical.print( "Weapon {} called buller.Volume with value higher than 1.0!", { this.m_Config.GetName() } );
+            g_Logger.critical.print( "Weapon {} called bullet.Volume with value higher than 1.0!", { this.m_Config.GetName() } );
         }
         else if( volume <= 0.0 )
         {
-            g_Logger.critical.print( "Weapon {} called buller.Volume with value lower than 0.0!", { this.m_Config.GetName() } );
+            g_Logger.critical.print( "Weapon {} called bullet.Volume with value lower than 0.0!", { this.m_Config.GetName() } );
         }
 #endif
 

@@ -2981,6 +2981,21 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 15,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -3030,21 +3045,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.1,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 15,
-						"type": "number"
-					},
-					"primary_dropammo": 
-					{
-						"default": 15,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -3357,6 +3357,21 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.22,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 65,
+						"type": "number"
+					},
+					"primary_dropammo": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -3406,21 +3421,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.22,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 65,
-						"type": "number"
-					},
-					"primary_dropammo": 
-					{
-						"default": 3,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
