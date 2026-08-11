@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -60,30 +60,6 @@ final class ASWeaponPythonConfig : ASWeaponConfig
     const uint8 get_hands_group() override
     {
         return 3;
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control python configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.0f;
-
-        return ASWeaponConfig::Register( json );
     }
 }
 
@@ -162,12 +138,13 @@ class weapon_bts_python : BTS_FireWeapon
             return;
         }
 
-        float cone = Accuracy( 0.01f, 0.1f, 0.01f, 0.05f );
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float cone = weapons::Accuracy( player, gpWeaponPythonConfig.primary_accuracy, isTrainedPersonal );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "hlclassic/weapons/357_shot1.wav" : "hlclassic/weapons/357_shot2.wav";
 
         FireBullet( 1, cone, gpWeaponPythonConfig.primary_damage, szSound, WeaponPythonAnim::Shoot, -1, TE_BOUNCE_SHELL, Math.RandomFloat( 0.8f, 0.9f ), 98 + Math.RandomLong( 0, 3 ), true, LOUD_GUN_VOLUME, BRIGHT_GUN_FLASH );
 
-        player.pev.punchangle.x = util::IsTrainedPersonal( player ) ? -10.0f : -16.0f;
+        player.pev.punchangle.x = isTrainedPersonal ? -10.0f : -16.0f;
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );

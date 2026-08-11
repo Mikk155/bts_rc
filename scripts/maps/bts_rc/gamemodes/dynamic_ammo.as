@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -38,43 +38,35 @@ final class ASDynamicAmmoConfig : IConfigurable
             {
                 "9mm":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 8, 17 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "357":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 6 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "556":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 6, 30 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "buckshot":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 3, 8 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "ARgrenades":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 2 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "38":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 3, 6 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "bts_flare":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 3 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
                 "bts_battery":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 },
-                    "default": [ 1, 5 ]
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 }
                 }
             }
         }""";
@@ -119,58 +111,61 @@ final class ASDynamicAmmoConfig : IConfigurable
             g_Logger.info.print( snprintf( glog, "Registered %1 dynamic ammo types.", m_AmmoRanges.getSize() ) );
 
 #if SERVER
-        @m_command = RegisterCommand(
-            "test_ammo",
-            "[simulated_players]",
-            "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
-            function( CBasePlayer@ player, array<string>@ arguments )
-            {
-                int maxClients = g_Engine.maxClients;
-                int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
-                int simPlayers = realPlayers;
-
-                if( arguments !is null && arguments.length() > 0 )
+        if( g_MapConfig.MapLoading )
+        {
+            @m_command = RegisterCommand(
+                "test_ammo",
+                "[simulated_players]",
+                "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
+                function( CBasePlayer@ player, array<string>@ arguments )
                 {
-                    simPlayers = atoi( arguments[0] );
-                    if( simPlayers < 1 ) simPlayers = 1;
-                    if( simPlayers > maxClients ) simPlayers = maxClients;
-                }
+                    int maxClients = g_Engine.maxClients;
+                    int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
+                    int simPlayers = realPlayers;
 
-                string buffer;
-                snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                    if( arguments !is null && arguments.length() > 0 )
+                    {
+                        simPlayers = atoi( arguments[0] );
+                        if( simPlayers < 1 ) simPlayers = 1;
+                        if( simPlayers > maxClients ) simPlayers = maxClients;
+                    }
 
-                float t = 0.0f;
-                if( maxClients > 1 )
-                    t = float( simPlayers - 1 ) / float( maxClients - 1 );
-
-                snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
-
-                auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
-
-                for( uint i = 0; i < keys.length(); i++ )
-                {
-                    array<int>@ range;
-                    gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
-
-                    int minGive = range[0];
-                    int maxGive = range[1];
-
-                    float result = float( maxGive ) + t * float( minGive - maxGive );
-                    int give = int( Math.Ceil( result ) );
-                    if( give < 1 ) give = 1;
-
-                    snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                    string buffer;
+                    snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-                }
 
-                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
-            },
-            false
-        );
+                    float t = 0.0f;
+                    if( maxClients > 1 )
+                        t = float( simPlayers - 1 ) / float( maxClients - 1 );
+
+                    snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
+
+                    auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
+
+                    for( uint i = 0; i < keys.length(); i++ )
+                    {
+                        array<int>@ range;
+                        gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
+
+                        int minGive = range[0];
+                        int maxGive = range[1];
+
+                        float result = float( maxGive ) + t * float( minGive - maxGive );
+                        int give = int( Math.Ceil( result ) );
+                        if( give < 1 ) give = 1;
+
+                        snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                    }
+
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
+                },
+                false
+            );
+        }
 #endif
         return true;
     }

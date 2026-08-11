@@ -1,21 +1,19 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
-
-
 
 final class ASWeaponSawConfig : ASWeaponConfig
 {
@@ -63,30 +61,6 @@ final class ASWeaponSawConfig : ASWeaponConfig
     {
         g_Game.PrecacheModel( "models/saw_link.mdl" );
         ASWeaponConfig::Precache();
-    }
-
-    const string GetSchema() const override
-    {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control saw configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        // Reload properties
-        this.reload_time = 2.0f;
-
-        return ASWeaponConfig::Register( json );
     }
 }
 
@@ -185,7 +159,7 @@ class weapon_bts_saw : BTS_FireWeapon
 
         TraceResult tr;
         g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
-        self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, gpWeaponSawConfig.primary_damage, player.pev );
+        self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int(gpWeaponSawConfig.primary_damage), player.pev );
         TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
 
         if( ( m_iTracerCount++ % 2 ) == 0 )

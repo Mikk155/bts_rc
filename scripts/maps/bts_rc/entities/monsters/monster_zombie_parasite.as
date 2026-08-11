@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -454,11 +454,11 @@ final class monster_zombie_parasite : bts_rc_base_monster
 
             for ( int i = 0 ; i < 3 ; i++ )
             {
-                Vector vecSpot = cbeCrab.pev.origin;
+                Vector vecSpot2 = cbeCrab.pev.origin;
 
-                vecSpot.x += Math.RandomFloat( -8.0, 8.0 ); 
-                vecSpot.y += Math.RandomFloat( -8.0, 8.0 ); 
-                vecSpot.z += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.x += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.y += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.z += Math.RandomFloat( -8.0, 8.0 ); 
 
                 g_Utility.BloodDrips( vecSpot, g_vecZero, BLOOD_COLOR_YELLOW, 50 );
             }

@@ -199,6 +199,86 @@
 						"type": "number",
 						"description": "Damage multiplier applied to consecutive hits."
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -340,6 +420,86 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"reload_time": 
 					{
@@ -489,6 +649,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -632,6 +872,86 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"reload_time": 
 					{
@@ -781,6 +1101,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -929,6 +1329,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -1076,6 +1556,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -1216,6 +1776,86 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"reload_time": 
 					{
@@ -1358,6 +1998,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -1398,6 +2118,53 @@
 					{
 						"default": 6,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.012,
+							"crouch_trained": 0.0054,
+							"stand": 0.03,
+							"stand_trained": 0.006
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -1523,6 +2290,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"flashlight_drain": 
 					{
 						"type": "number",
@@ -1539,7 +2346,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -1592,6 +2399,53 @@
 					{
 						"default": 9,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.02,
+							"crouch_trained": 0.009,
+							"stand": 0.05,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -1709,6 +2563,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_sound": 
 					{
 						"type": "string"
@@ -1719,8 +2613,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control glock configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -1737,6 +2631,53 @@
 					{
 						"default": 4,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.04,
+							"crouch_trained": 0.01,
+							"stand": 0.03,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -1777,6 +2718,53 @@
 					{
 						"default": "bts_rc/weapons/9mm_clip.wav",
 						"type": "string"
+					},
+					"secondary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.02,
+							"crouch_trained": 0.01,
+							"stand": 0.2,
+							"stand_trained": 0.1
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"secondary_cooldown": 
 					{
@@ -1884,6 +2872,53 @@
 						"default": 7,
 						"type": "integer"
 					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.05,
+							"crouch_trained": 0.01,
+							"stand": 0.05,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"primary_cooldown": 
 					{
 						"default": 0.1,
@@ -2008,6 +3043,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"flashlight_drain": 
 					{
 						"type": "number",
@@ -2024,7 +3099,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -2035,8 +3110,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control glock18 configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -2053,6 +3128,53 @@
 					{
 						"default": 10,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.05,
+							"crouch_trained": 0.01,
+							"stand": 0.05,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -2171,6 +3293,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -2223,6 +3385,53 @@
 					{
 						"default": 5,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.05,
+							"crouch_trained": 0.01,
+							"stand": 0.05,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -2344,6 +3553,46 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					}
 				}
 			},
@@ -2351,8 +3600,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control sw637 configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -2369,6 +3618,53 @@
 					{
 						"default": 17,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.05,
+							"crouch_trained": 0.05,
+							"stand": 0.05,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -2470,6 +3766,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -2492,8 +3828,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control python configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -2510,6 +3846,53 @@
 					{
 						"default": 8,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.05,
+							"crouch_trained": 0.01,
+							"stand": 0.1,
+							"stand_trained": 0.01
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -2621,6 +4004,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -2635,8 +4058,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control mp5 configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -2769,6 +4192,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -2779,8 +4282,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control mp5gl configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -2920,6 +4423,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -2930,8 +4513,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control uzi configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -2948,6 +4531,53 @@
 					{
 						"default": 11,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.0175,
+							"crouch_trained": 0.015,
+							"stand": 0.0175,
+							"stand_trained": 0.015
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -3064,6 +4694,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3074,8 +4744,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control uzisd configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -3092,6 +4762,53 @@
 					{
 						"default": 15,
 						"type": "integer"
+					},
+					"primary_accuracy": 
+					{
+						"default": 
+						{
+							"crouch": 0.0175,
+							"crouch_trained": 0.015,
+							"stand": 0.0175,
+							"stand_trained": 0.015
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_cooldown": 
 					{
@@ -3208,6 +4925,46 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3218,8 +4975,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control m4 configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -3352,6 +5109,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3362,8 +5199,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control m4sd configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -3496,6 +5333,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3506,8 +5423,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control m16 configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -3643,6 +5560,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3653,8 +5650,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control m16sd configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -3790,6 +5787,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3800,8 +5877,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control sniperrifle configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -3919,6 +5996,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -3941,8 +6098,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control shotgun configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4059,6 +6216,86 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"reload_time": 
 					{
@@ -4204,6 +6441,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4236,7 +6553,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -4247,8 +6564,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control saw configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4381,6 +6698,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4391,8 +6788,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control sawsd configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4525,6 +6922,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4535,8 +7012,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control m79 configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4664,6 +7141,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4678,8 +7235,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control xbox configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4797,6 +7354,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4819,8 +7456,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control handgrenade configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -4936,6 +7573,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -4958,8 +7675,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control flamethrower configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -5077,6 +7794,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5099,8 +7896,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control flare configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -5216,6 +8013,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5238,8 +8115,8 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon configuration",
-				"description": "Control flaregun configuration",
+				"title": "Weapon config",
+				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
 					"deploy_time": 
@@ -5364,6 +8241,86 @@
 					"secondary_miss_trained_cooldown": 
 					{
 						"type": "number"
+					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"reload_time": 
 					{
@@ -5508,6 +8465,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5650,6 +8687,86 @@
 					{
 						"type": "number"
 					},
+					"secondary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_accuracy": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon aim accuracy",
+						"description": "weapon accuracy modifiers.",
+						"properties": 
+						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5682,7 +8799,7 @@
 					},
 					"flashlight_reload": 
 					{
-						"type": "nuber",
+						"type": "number",
 						"default": 2.5,
 						"minimum": 0.1,
 						"description": "How long to reload flashlight battery?"
@@ -5700,66 +8817,66 @@
 					"melee_weapons_pull": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "Allow melee weapons to pull allied players."
+						"description": "Allow melee weapons to pull allied players.",
+						"default": true
 					},
 					"melee_weapons_pull_force": 
 					{
 						"type": "integer",
 						"minimum": 1,
-						"default": 300,
-						"description": "Force of push if melee_weapons_pull is true"
+						"description": "Force of push if melee_weapons_pull is true",
+						"default": 300
 					},
 					"melee_weapons_push": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "Allow melee weapons to push enemies."
+						"description": "Allow melee weapons to push enemies.",
+						"default": true
 					},
 					"melee_weapons_push_force": 
 					{
 						"type": "integer",
 						"minimum": 1,
-						"default": 200,
-						"description": "Force of push if melee_weapons_push is true"
+						"description": "Force of push if melee_weapons_push is true",
+						"default": 200
 					},
 					"blood_splash": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "Enable extra blood effects on hit."
+						"description": "Enable extra blood effects on hit.",
+						"default": true
 					},
 					"sparks_splash": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "Enable spark effects when hitting armored enemies."
+						"description": "Enable spark effects when hitting armored enemies.",
+						"default": true
 					},
 					"m249_knockback": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "Enable M249 SAW knockback recoil pushing the player backward."
+						"description": "Enable M249 SAW knockback recoil pushing the player backward.",
+						"default": true
 					},
 					"flashlight_maxcarry": 
 					{
 						"type": "integer",
-						"default": 10,
 						"minimum": 0,
-						"description": "Quantity of ammo carry for flashlight weapons"
+						"description": "Quantity of ammo carry for flashlight weapons",
+						"default": 10
 					},
 					"item_remap": 
 					{
 						"type": "object",
 						"description": "Modify how items are replaced in the map",
-						"default": 
-						{
-							"weapon_sniperrifle": "weapon_bts_sniperrifle"
-						},
 						"additionalProperties": 
 						{
 							"type": "string",
 							"description": "Key names are item classnames to replace to the value names"
+						},
+						"default": 
+						{
+							"weapon_sniperrifle": "weapon_bts_sniperrifle"
 						}
 					}
 				}
@@ -5775,8 +8892,8 @@
 					"persistent": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
+						"description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears.",
+						"default": true
 					},
 					"default_size": 
 					{
@@ -5788,39 +8905,16 @@
 							"minimum": 0.1,
 							"type": "number"
 						},
+						"description": "Random size range for puddles (min, max).",
 						"default": 
 						[
 							1.5,
 							2.5
-						],
-						"description": "Random size range for puddles (min, max)."
+						]
 					},
 					"custom_size": 
 					{
 						"type": "object",
-						"default": 
-						{
-							"monster_headcrab": 
-							[
-								0.5,
-								1.5
-							],
-							"monster_houndeye": 
-							[
-								1,
-								2
-							],
-							"monster_babycrab": 
-							[
-								0.3,
-								0.8
-							],
-							"monster_snark": 
-							[
-								0.25,
-								0.75
-							]
-						},
 						"additionalProperties": 
 						{
 							"type": "array",
@@ -5843,12 +8937,35 @@
 								}
 							]
 						},
-						"description": "Per-monster custom puddle size overrides."
+						"description": "Per-monster custom puddle size overrides.",
+						"default": 
+						{
+							"monster_babycrab": 
+							[
+								0.3,
+								0.8
+							],
+							"monster_headcrab": 
+							[
+								0.5,
+								1.5
+							],
+							"monster_houndeye": 
+							[
+								1,
+								2
+							],
+							"monster_snark": 
+							[
+								0.25,
+								0.75
+							]
+						}
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -5998,8 +9115,8 @@
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -6014,13 +9131,13 @@
 					"track_health": 
 					{
 						"type": "boolean",
-						"default": true,
-						"description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health"
+						"description": "If true, spawning depends on damage dealt. Otherwise always spawns with full health",
+						"default": true
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -6042,15 +9159,15 @@
 						},
 						"default": 
 						[
-							"bts_battery",
-							"ammo_bts_sw637",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
 							"ammo_bts_glock",
 							"ammo_bts_sbshotgun",
-							"",
-							"",
-							"",
-							""
+							"ammo_bts_sw637",
+							"bts_battery"
 						]
 					},
 					"zworker": 
@@ -6062,15 +9179,15 @@
 						},
 						"default": 
 						[
-							"bts_battery",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_flarebox",
-							"weapon_bts_flare",
 							"ammo_bts_glock",
+							"bts_battery",
 							"item_bts_sprayaid",
-							"",
-							"",
-							"",
-							""
+							"weapon_bts_flare"
 						]
 					},
 					"zmedic": 
@@ -6082,16 +9199,16 @@
 						},
 						"default": 
 						[
-							"ammo_healthkit",
-							"item_bts_sprayaid",
-							"item_bts_sprayaid",
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_healthkit",
 							"grenade",
-							"",
-							"",
-							"",
-							""
+							"item_bts_sprayaid",
+							"item_bts_sprayaid"
 						]
 					},
 					"ztorch": 
@@ -6103,13 +9220,13 @@
 						},
 						"default": 
 						[
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"grenade",
-							"",
-							"",
-							"",
-							""
+							"ammo_bts_glock",
+							"grenade"
 						]
 					},
 					"zhecu": 
@@ -6121,16 +9238,16 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_762",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
 							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_762",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"zblop": 
@@ -6142,17 +9259,17 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_762",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
 							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_762",
 							"ammo_crossbow",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"gonome": 
@@ -6164,19 +9281,19 @@
 						},
 						"default": 
 						[
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
 							"ammo_bts_glock",
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun",
 							"ammo_crossbow",
-							"item_healthkit",
+							"grenade",
+							"grenade",
+							"grenade",
 							"item_bts_sprayaid",
-							"grenade",
-							"grenade",
-							"grenade",
-							"",
-							"",
-							""
+							"item_healthkit"
 						]
 					},
 					"gonomeb": 
@@ -6188,20 +9305,20 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_bts_eagle",
+							"ammo_bts_eagle",
 							"ammo_bts_shotgun",
-							"ammo_bts_eagle",
-							"ammo_bts_eagle",
 							"ammo_bts_sw637",
 							"ammo_bts_sw637",
 							"ammo_bts_sw637",
-							"item_healthkit",
+							"grenade",
+							"grenade",
+							"grenade",
 							"item_bts_sprayaid",
-							"grenade",
-							"grenade",
-							"grenade",
-							"",
-							"",
-							""
+							"item_healthkit"
 						]
 					},
 					"gonomew": 
@@ -6213,19 +9330,19 @@
 						},
 						"default": 
 						[
-							"ammo_bts_shotgun",
-							"ammo_bts_glock",
-							"ammo_bts_sw637",
-							"item_healthkit",
-							"item_bts_sprayaid",
+							"",
+							"",
+							"",
 							"ammo_bts_flarebox",
-							"weapon_bts_flare",
+							"ammo_bts_glock",
+							"ammo_bts_shotgun",
+							"ammo_bts_sw637",
 							"grenade",
 							"grenade",
 							"grenade",
-							"",
-							"",
-							""
+							"item_bts_sprayaid",
+							"item_healthkit",
+							"weapon_bts_flare"
 						]
 					},
 					"gonomeh": 
@@ -6237,22 +9354,22 @@
 						},
 						"default": 
 						[
-							"ammo_bts_shotgun",
-							"ammo_bts_shotgun",
-							"ammo_bts_glock",
-							"ammo_bts_glock",
-							"ammo_bts_eagle",
-							"ammo_bts_eagle",
-							"ammo_bts_m4",
-							"ammo_bts_m4",
+							"",
+							"",
+							"",
 							"ammo_762",
 							"ammo_762",
+							"ammo_bts_eagle",
+							"ammo_bts_eagle",
+							"ammo_bts_glock",
+							"ammo_bts_glock",
 							"ammo_bts_m16_grenade",
+							"ammo_bts_m4",
+							"ammo_bts_m4",
+							"ammo_bts_shotgun",
+							"ammo_bts_shotgun",
 							"grenade",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"zhev": 
@@ -6264,22 +9381,22 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"ammo_bts_sw637",
-							"item_bts_hevbattery",
-							"item_bts_sprayaid",
 							"ammo_bts_glock",
 							"ammo_bts_m4",
 							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
 							"ammo_bts_python",
+							"ammo_bts_shotgun",
+							"ammo_bts_sw637",
 							"grenade",
 							"grenade",
 							"grenade",
-							"",
-							"",
-							"",
-							""
+							"item_bts_hevbattery",
+							"item_bts_sprayaid"
 						]
 					},
 					"zcleansuit": 
@@ -6291,12 +9408,12 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"",
 							"item_bts_hevbattery",
-							"item_bts_sprayaid",
-							"",
-							"",
-							"",
-							""
+							"item_bts_sprayaid"
 						]
 					},
 					"Marine": 
@@ -6308,16 +9425,16 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_bts_m16_grenade",
+							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_m4",
-							"item_bts_sprayaid",
-							"ammo_bts_m16_grenade",
 							"grenade",
 							"grenade",
-							"",
-							"",
-							""
+							"item_bts_sprayaid"
 						]
 					},
 					"Medic": 
@@ -6329,14 +9446,14 @@
 						},
 						"default": 
 						[
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"item_healthkit",
-							"item_bts_sprayaid",
+							"ammo_bts_glock",
 							"grenade",
-							"",
-							"",
-							""
+							"item_bts_sprayaid",
+							"item_healthkit"
 						]
 					},
 					"Torch": 
@@ -6348,12 +9465,12 @@
 						},
 						"default": 
 						[
-							"ammo_bts_glock",
+							"",
+							"",
+							"",
 							"ammo_bts_eagle",
-							"grenade",
-							"",
-							"",
-							""
+							"ammo_bts_glock",
+							"grenade"
 						]
 					},
 					"Sniper": 
@@ -6365,14 +9482,14 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
 							"ammo_762",
 							"ammo_762",
 							"ammo_762",
-							"weapon_bts_sniperrifle",
 							"grenade",
-							"",
-							"",
-							""
+							"weapon_bts_sniperrifle"
 						]
 					},
 					"Blackops": 
@@ -6384,14 +9501,14 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
+							"ammo_bts_m4",
 							"ammo_bts_mp5",
 							"ammo_bts_shotgun",
-							"ammo_bts_m4",
 							"ammo_crossbow",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"Fassn": 
@@ -6403,14 +9520,14 @@
 						},
 						"default": 
 						[
+							"",
+							"",
+							"",
 							"ammo_bts_uzi",
 							"ammo_bts_uzi",
 							"ammo_bts_uzi",
 							"ammo_crossbow",
-							"grenade",
-							"",
-							"",
-							""
+							"grenade"
 						]
 					},
 					"robot": 
@@ -6422,12 +9539,12 @@
 						},
 						"default": 
 						[
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
+							"",
+							"",
+							"",
 							"ammo_bts_m4",
-							"",
-							"",
-							""
+							"ammo_bts_mp5",
+							"ammo_bts_shotgun"
 						]
 					},
 					"friendly": 
@@ -6444,8 +9561,8 @@
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -6463,49 +9580,49 @@
 						"title": "Think rate",
 						"type": "number",
 						"minimum": 0,
-						"default": 0.1,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
+						"description": "Internal think rate interval. the lower the value the more cpu usage",
+						"default": 0.1
 					},
 					"red": 
 					{
 						"title": "Red color",
 						"minimum": 0,
 						"maximum": 255,
-						"default": 255,
 						"type": "integer",
-						"description": "Red color of effects"
+						"description": "Red color of effects",
+						"default": 255
 					},
 					"green": 
 					{
 						"title": "Green color",
 						"minimum": 0,
 						"maximum": 255,
-						"default": 0,
 						"type": "integer",
-						"description": "Green color of effects"
+						"description": "Green color of effects",
+						"default": 0
 					},
 					"blue": 
 					{
 						"title": "Blue color",
 						"minimum": 0,
 						"maximum": 255,
-						"default": 0,
 						"type": "integer",
-						"description": "Blue color of effects"
+						"description": "Blue color of effects",
+						"default": 0
 					},
 					"alpha": 
 					{
 						"title": "Alpha color",
 						"minimum": 0,
 						"maximum": 255,
-						"default": 150,
 						"type": "integer",
-						"description": "Alpha color of effects"
+						"description": "Alpha color of effects",
+						"default": 150
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -6523,27 +9640,27 @@
 						"title": "Think rate",
 						"type": "number",
 						"minimum": 0,
-						"default": 0.5,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
+						"description": "Internal think rate interval. the lower the value the more cpu usage",
+						"default": 0.5
 					},
 					"throw_flash_cooldown": 
 					{
 						"type": "number",
 						"minimum": 1,
-						"default": 3,
-						"description": "Global cooldown for blackops to throw grenades"
+						"description": "Global cooldown for blackops to throw grenades",
+						"default": 3
 					},
 					"detonate_time": 
 					{
 						"type": "number",
 						"minimum": 1,
-						"default": 6,
-						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
+						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown.",
+						"default": 6
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -6560,63 +9677,63 @@
 						"title": "Think rate",
 						"type": "number",
 						"minimum": 0,
-						"default": 0.1,
-						"description": "Internal think rate interval. the lower the value the more cpu usage"
+						"description": "Internal think rate interval. the lower the value the more cpu usage",
+						"default": 0.1
 					},
 					"capacity": 
 					{
-						"default": 5,
 						"type": "integer",
 						"minimum": 1,
-						"description": "Max sentry spawn capacity per engineer"
+						"description": "Max sentry spawn capacity per engineer",
+						"default": 5
 					},
 					"distance": 
 					{
-						"default": 128,
 						"type": "number",
 						"minimum": 32,
-						"description": "Distance from the engineer to spawn"
+						"description": "Distance from the engineer to spawn",
+						"default": 128
 					},
 					"cooldown_start": 
 					{
-						"default": 6,
 						"type": "number",
 						"minimum": 0,
-						"description": "Time until engineer can place a sentry after spawning"
+						"description": "Time until engineer can place a sentry after spawning",
+						"default": 6
 					},
 					"cooldown_combat": 
 					{
-						"default": 6,
 						"type": "number",
 						"minimum": 0,
-						"description": "How often to try to drop a sentry in combat, in seconds"
+						"description": "How often to try to drop a sentry in combat, in seconds",
+						"default": 6
 					},
 					"cooldown_idle": 
 					{
-						"default": 30,
 						"type": "number",
 						"minimum": 0,
-						"description": "How often to try to drop a sentry while idle/roaming, in seconds"
+						"description": "How often to try to drop a sentry while idle/roaming, in seconds",
+						"default": 30
 					},
 					"cooldown_rng": 
 					{
-						"default": 15,
 						"type": "number",
 						"minimum": 0,
-						"description": "cooldown_idle plus/minus this"
+						"description": "cooldown_idle plus/minus this",
+						"default": 15
 					},
 					"chance": 
 					{
-						"default": 75,
 						"type": "number",
 						"minimum": 0,
 						"maximum": 100,
-						"description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
+						"description": "Chance to drop a sentry while idle/roaming, in percentage 0-100",
+						"default": 75
 					},
 					"active": 
 					{
-						"type": "boolean",
 						"default": true,
+						"type": "boolean",
 						"description": "Should this context be active?"
 					}
 				}
@@ -6633,22 +9750,22 @@
 					{
 						"type": "integer",
 						"minimum": 1,
-						"default": 35,
-						"description": "Maximun juice power per station."
+						"description": "Maximun juice power per station.",
+						"default": 35
 					},
 					"recharge_time": 
 					{
 						"type": "integer",
 						"minimum": 0,
-						"default": 300,
-						"description": "Time (In seconds) required to fully recharge. 0 means never recharge"
+						"description": "Time (In seconds) required to fully recharge. 0 means never recharge",
+						"default": 300
 					},
 					"speed_rate": 
 					{
 						"type": "number",
 						"minimum": 0.1,
-						"default": 0.35,
-						"description": "Charge transfer rate to player."
+						"description": "Charge transfer rate to player.",
+						"default": 0.35
 					}
 				}
 			},
@@ -6663,101 +9780,101 @@
 					"health": 
 					{
 						"type": "integer",
-						"default": 210,
 						"minimum": 1,
-						"description": "Monster health"
+						"description": "Monster health",
+						"default": 210
 					},
 					"max_leap_z": 
 					{
 						"type": "number",
-						"default": 256,
 						"minimum": 0,
-						"description": "Panther won't pounce at enemies if they're higher up than this from the panther's location"
+						"description": "Panther won't pounce at enemies if they're higher up than this from the panther's location",
+						"default": 256
 					},
 					"min_leap": 
 					{
 						"type": "number",
-						"default": 200,
 						"minimum": 0,
-						"description": "Panther won't pounce at enemies within this range"
+						"description": "Panther won't pounce at enemies within this range",
+						"default": 200
 					},
 					"max_leap": 
 					{
 						"type": "number",
-						"default": 400,
 						"minimum": 0,
-						"description": "Panther won't pounce at enemies beyond this range"
+						"description": "Panther won't pounce at enemies beyond this range",
+						"default": 400
 					},
 					"dmg_high_swipe": 
 					{
 						"type": "integer",
-						"default": 25,
 						"minimum": 1,
-						"description": "Damage on high swipe attack"
+						"description": "Damage on high swipe attack",
+						"default": 25
 					},
 					"dmg_low_swipe": 
 					{
 						"type": "integer",
-						"default": 15,
 						"minimum": 1,
-						"description": "Damage on low swipe attack"
+						"description": "Damage on low swipe attack",
+						"default": 15
 					},
 					"dmg_long_swipe": 
 					{
 						"type": "integer",
-						"default": 25,
 						"minimum": 1,
-						"description": "Damage on long swipe attack"
+						"description": "Damage on long swipe attack",
+						"default": 25
 					},
 					"dmg_leap": 
 					{
 						"type": "integer",
-						"default": 25,
 						"minimum": 1,
-						"description": "Damage on leap attack"
+						"description": "Damage on leap attack",
+						"default": 25
 					},
 					"dmg_thrash": 
 					{
 						"type": "integer",
-						"default": 10,
 						"minimum": 1,
-						"description": "Damage on thrash attack"
+						"description": "Damage on thrash attack",
+						"default": 10
 					},
 					"dmg_thrash_frequency": 
 					{
 						"type": "number",
-						"default": 0.5,
 						"minimum": 0,
-						"description": "Cooldown for thrash attack"
+						"description": "Cooldown for thrash attack",
+						"default": 0.5
 					},
 					"struggle_max": 
 					{
 						"type": "integer",
-						"default": 100,
 						"minimum": 1,
-						"description": ""
+						"description": "",
+						"default": 100
 					},
 					"struggle_drain_rate": 
 					{
 						"type": "number",
-						"default": 15,
 						"minimum": 1,
-						"description": "per second"
+						"description": "per second",
+						"default": 15
 					},
 					"struggle_grin": 
 					{
 						"type": "number",
-						"default": 8,
 						"minimum": 1,
-						"description": "per key press"
+						"description": "per key press",
+						"default": 8
 					},
 					"stealth_visibility": 
 					{
 						"type": "integer",
-						"default": 15,
 						"minimum": 0,
 						"maximum": 100,
-						"description": "Visibility percentage"
+						"description": "Visibility percentage",
+						"default": 15
 					}
 				}
 			},

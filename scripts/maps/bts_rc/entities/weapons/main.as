@@ -1,21 +1,22 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
 // Shared functions
+#include "base/shared/Accuracy"
 #include "base/shared/Deploy"
 #include "base/shared/Hit"
 #include "base/shared/SetCooldown"
@@ -104,51 +105,43 @@ final class ASGlobalWeaponConfig : IConfigurable
                 "melee_weapons_pull":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Allow melee weapons to pull allied players."
                 },
                 "melee_weapons_pull_force":
                 {
                     "type": "integer",
                     "minimum": 1,
-                    "default": 300,
                     "description": "Force of push if melee_weapons_pull is true"
                 },
                 "melee_weapons_push":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Allow melee weapons to push enemies."
                 },
                 "melee_weapons_push_force":
                 {
                     "type": "integer",
                     "minimum": 1,
-                    "default": 200,
                     "description": "Force of push if melee_weapons_push is true"
                 },
                 "blood_splash":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Enable extra blood effects on hit."
                 },
                 "sparks_splash":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Enable spark effects when hitting armored enemies."
                 },
                 "m249_knockback":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "Enable M249 SAW knockback recoil pushing the player backward."
                 },
                 "flashlight_maxcarry":
                 {
                     "type": "integer",
-                    "default": 10,
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 },
@@ -156,10 +149,6 @@ final class ASGlobalWeaponConfig : IConfigurable
                 {
                     "type": "object",
                     "description": "Modify how items are replaced in the map",
-                    "default": 
-                    {
-                        "weapon_sniperrifle": "weapon_bts_sniperrifle"
-                    },
                     "additionalProperties":
                     {
                         "type": "string",
@@ -196,6 +185,7 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
 
         // ItemMapping stuff
+        if( g_MapConfig.MapLoading )
         {
             auto@ remaps = config.ValueOrDefault( "item_remap" );
             const auto@ remaps_from = remaps.Keys;
@@ -208,7 +198,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 
                 auto remap = ItemMapping( classFrom, classTo );
                 g_WeaponsConfig.ItemMappingList.insertLast( @remap );
-                
+
                 if( g_Logger.info.active )
                 {
                     g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { classFrom, classTo } );

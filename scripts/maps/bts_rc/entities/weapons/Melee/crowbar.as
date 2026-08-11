@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -134,33 +134,39 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
         weapon.TertiaryAttack();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override {
+    bool Register( meta_api::json::v2::json@ json ) override
+    {
         ASWeaponConfig::Register( json );
-        g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
-        g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
-        @MonsterTakeDamageHook( function( DamageInfo@ info )
+
+        if( g_MapConfig.MapLoading )
         {
-            if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
+            // -TODO IThrowable xd
+            g_EngineFuncs.CVarSetFloat( "sk_plr_crowbar", 0 );
+            g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage,
+            @MonsterTakeDamageHook( function( DamageInfo@ info )
             {
-                dictionary@ data = info.pInflictor.GetUserData();
-                if( bool( data[ "thrown" ] ) )
+                if( info.pInflictor !is null && info.pAttacker !is null && ( info.bitsDamageType & DMG_BTS_WEAPON ) == 0 )
                 {
-                    data[ "thrown" ] = false;
-                    info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
-                    int lastHitgroup = g_Engine.trace_hitgroup;
-                    Vector endPos = g_Engine.trace_endpos;
-                    TraceResult tr;
-                    // Effects
-                    g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
-                    tr.vecEndPos = endPos;
-                    @tr.pHit = info.pVictim.edict();
-                    //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
-                    tr.iHitgroup = lastHitgroup;
-                    weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                    dictionary@ data = info.pInflictor.GetUserData();
+                    if( bool( data[ "thrown" ] ) )
+                    {
+                        data[ "thrown" ] = false;
+                        info.flDamage = gpWeaponCrowbarConfig.tertiary_damage;
+                        int lastHitgroup = g_Engine.trace_hitgroup;
+                        Vector endPos = g_Engine.trace_endpos;
+                        TraceResult tr;
+                        // Effects
+                        g_Utility.TraceLine( info.pInflictor.pev.origin, info.pInflictor.pev.origin, dont_ignore_monsters, info.pInflictor.edict(), tr );
+                        tr.vecEndPos = endPos;
+                        @tr.pHit = info.pVictim.edict();
+                        //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
+                        tr.iHitgroup = lastHitgroup;
+                        weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                    }
                 }
-            }
-            return HOOK_CONTINUE;
-        } ) );
+                return HOOK_CONTINUE;
+            } ) );
+        }
         return true;
     }
 }

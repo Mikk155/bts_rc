@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -135,19 +135,11 @@ void Precache()
     g_Game.PrecacheModel( "sprites/SAWFLASH.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/640hudof01.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/640hudof02.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/ablood_1.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/ablood_2.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/ablood_3.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/ablood_4.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/ablood_5.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/ammo_battery.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/ammo_flare.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/bts_rc_snapbug.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/flare_selection.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/fthrow.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/hblood_1.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/hblood_2.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/hblood_3.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_research.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_security.spr" );
@@ -163,6 +155,14 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/weapon_m79.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
     g_Game.PrecacheModel( "sprites/exit1.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_1.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_2.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_3.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_4.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_5.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/hblood_1.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/hblood_2.spr" );
+    g_Game.PrecacheModel( "sprites/mikk155/particles/hblood_3.spr" );
     g_Game.PrecacheGeneric( "events/muzzle_saw.txt" );
     g_SoundSystem.PrecacheSound( "ambience/port_suckout1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );

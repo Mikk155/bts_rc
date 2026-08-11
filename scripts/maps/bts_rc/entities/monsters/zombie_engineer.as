@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -35,7 +35,7 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
     private int m_SpriteCanisterGas;
 
     // when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100
-    private uint m_CanisterStrayChance = 5;
+    private int m_CanisterStrayChance = 5;
     private int m_CanisterDamage = 125;
     // damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens
     private float m_CanisterDegrade = 0.5;

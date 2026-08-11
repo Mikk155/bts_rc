@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -68,26 +68,13 @@ final class ASWeaponSW637Config : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    const string GetSchema() const override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
-        return """{
-            "type": "object",
-            "unevaluatedProperties": false,
-            "title": "Weapon configuration",
-            "description": "Control sw637 configuration",
-            "allOf":
-            [
-                "ASWeaponConfig"
-            ],
-            "properties":
-            {
-            }
-        }""";
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override {
-        g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637", "ammo_bts_sw637" );
-        g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637lmao", "ammo_bts_sw637lmao" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637", "ammo_bts_sw637" );
+            g_CustomEntityFuncs.RegisterCustomEntity( "ammo_bts_sw637lmao", "ammo_bts_sw637lmao" );
+        }
 
         return ASWeaponConfig::Register( json );
     }
@@ -211,14 +198,15 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
         m_fReloading = false;
 
-        float cone = Accuracy( 0.01f, 0.05f, 0.05f, 0.05f );
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        float cone = weapons::Accuracy( player, gpWeaponSW637Config.primary_accuracy, isTrainedPersonal );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/38_shot1.wav" : "bts_rc/weapons/38_shot2.wav";
 
         FireBullet( 1, cone, gpWeaponSW637Config.primary_damage, szSound, WeaponSW637Anim::Shoot, -1, TE_BOUNCE_SHELL, 1.0f, PITCH_NORM, true, LOUD_GUN_VOLUME, BRIGHT_GUN_FLASH );
 
         UpdateViewBodygroups();
 
-        player.pev.punchangle.x = util::IsTrainedPersonal( player ) ? -3.0f : -7.0f;
+        player.pev.punchangle.x = isTrainedPersonal ? -3.0f : -7.0f;
         self.m_flNextPrimaryAttack = g_Engine.time + 0.25f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }

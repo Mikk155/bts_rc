@@ -1,21 +1,19 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
-
-meta_api::json::v2::json@ g_WeaponsDefaults = null;
 
 bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfig",
 """{
@@ -124,6 +122,38 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
     {
         "type": "number"
     },
+    "secondary_accuracy":
+    {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "title": "Weapon aim accuracy",
+        "description": "weapon accuracy modifiers.",
+        "properties":
+        {
+            "stand": { "type": "number", "minimum": 0.001 },
+            "stand_trained": { "type": "number", "minimum": 0.001 },
+            "crouch": { "type": "number", "minimum": 0.001 },
+            "crouch_trained": { "type": "number", "minimum": 0.001 },
+            "run": { "type": "number", "minimum": 0.001 },
+            "run_trained": { "type": "number", "minimum": 0.001 }
+        }
+    },
+    "primary_accuracy":
+    {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "title": "Weapon aim accuracy",
+        "description": "weapon accuracy modifiers.",
+        "properties":
+        {
+            "stand": { "type": "number", "minimum": 0.001 },
+            "stand_trained": { "type": "number", "minimum": 0.001 },
+            "crouch": { "type": "number", "minimum": 0.001 },
+            "crouch_trained": { "type": "number", "minimum": 0.001 },
+            "run": { "type": "number", "minimum": 0.001 },
+            "run_trained": { "type": "number", "minimum": 0.001 }
+        }
+    },
     "reload_time":
     {
         "type": "number"
@@ -182,10 +212,14 @@ abstract class ASWeaponConfig : IConfigurable
     int primary_maxammo = WEAPON_NOCLIP;
     // Weapon primary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int primary_dropammo = WEAPON_NOCLIP;
+    // Accuracy for primary attacks
+    float[] primary_accuracy(6);
     // Weapon secondary max ammo capacity. automatically set in BTS_Weapon::GetItemInfo
     int secondary_maxammo = WEAPON_NOCLIP;
     // Weapon secondary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int secondary_dropammo = WEAPON_NOCLIP;
+    // Accuracy for secondary attacks
+    float[] secondary_accuracy(6);
     // Weapon primary max ammo clip capacity. automatically set in BTS_Weapon::GetItemInfo
     int max_clip = WEAPON_NOCLIP;
     // Weapon hud slot. automatically set in BTS_Weapon::GetItemInfo
@@ -285,7 +319,7 @@ abstract class ASWeaponConfig : IConfigurable
             g_Game.PrecacheGeneric( szSpriteDir );
         }
     }
- 
+
     // Precache required assets
     void Precache()
     {
@@ -363,14 +397,41 @@ abstract class ASWeaponConfig : IConfigurable
         this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
         this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
+        meta_api::json::v2::json@ accuracy = config[ "primary_accuracy" ];
+
+        if( accuracy !is null )
+        {
+            this.primary_accuracy[0] = accuracy.ValueOrDefault( "stand", 0.001, false, false );
+            this.primary_accuracy[1] = accuracy.ValueOrDefault( "stand_trained", this.primary_accuracy[0], false, false );
+            this.primary_accuracy[2] = accuracy.ValueOrDefault( "crouch", this.primary_accuracy[1], false, false );
+            this.primary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.primary_accuracy[2], false, false );
+            this.primary_accuracy[4] = accuracy.ValueOrDefault( "run", this.primary_accuracy[3], false, false );
+            this.primary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.primary_accuracy[4], false, false );
+        }
+
+        @accuracy = config[ "secondary_accuracy" ];
+
+        if( accuracy !is null )
+        {
+            this.secondary_accuracy[0] = accuracy.ValueOrDefault( "stand", 0.001, false, false );
+            this.secondary_accuracy[1] = accuracy.ValueOrDefault( "stand_trained", this.secondary_accuracy[0], false, false );
+            this.secondary_accuracy[2] = accuracy.ValueOrDefault( "crouch", this.secondary_accuracy[1], false, false );
+            this.secondary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.secondary_accuracy[2], false, false );
+            this.secondary_accuracy[4] = accuracy.ValueOrDefault( "run", this.secondary_accuracy[3], false, false );
+            this.secondary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.secondary_accuracy[4], false, false );
+        }
+
         // Reload properties
         this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
         this.reload_anim = config.ValueOrDefault( "reload_anim", this.reload_anim, false, false );
         this.reload_empty_anim = config.ValueOrDefault( "reload_empty_anim", this.reload_empty_anim, false, false );
         this.reload_sound = config.ValueOrDefault( "reload_sound", this.reload_sound );
 
-        this.Precache();
-        this.RegisterWeapon();
+        if( g_MapConfig.MapLoading )
+        {
+            this.Precache();
+            this.RegisterWeapon();
+        }
 
         return true;
     }

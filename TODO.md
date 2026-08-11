@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/21.311475409836063?barColor=da630b)
+> ![](https://geps.dev/progress/26.76056338028169?barColor=da7a0b)
 <!--CompletionBar-end-->
 
 ---
@@ -26,9 +26,11 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+- [ ] weapon json variable int[2] for default ammo min/max on spawn (clip ammo check)
+- [ ] weapon json variable int[2] for default secondary ammo min/max on spawn
+- [ ] replace all FireBullet( & FireBullets( to ASBullet pattern
 - [ ] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
 - [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
-- [ ] Fix all angelscript warnings
 - [ ] Optimize & simplify monster_parasite
 - [ ] Optimize & simplify monster_snapbug
 - [ ] Optimize & simplify monster_zombie_parasite
@@ -37,13 +39,9 @@ This file contains the list of to-do in the project.
 - [ ] Optimize & simplify monster_zombie_grenadier
 - [ ] Optimize item_tracker (Maybe Re-Implement partially the branch prototype view)
 - [ ] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
-- [ ] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
 - [ ] Debug command to show and select a CCharacter.
-- [ ] Move blood sprites from trace attacks to mikk/folder for reuse
-- [ ] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
 - [ ] **Flare / Flare Gun**: Fix projectile world model (currently invisible or stuck inside the world geometry).
-- [ ] **Shotgun / Shotgun SD**: Fix bad bodygroups (`shotgunsd`).
 - [ ] **Glock Auto/Semi**: Fix bad bodygroups (`glockf17`).
 - [ ] **Uzi**: Add secondary attack to shoot a single bullet per click.
 - [ ] **Uzi Silencer**: Review or implement behavior.
@@ -71,14 +69,26 @@ This file contains the list of to-do in the project.
 - [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
 - [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
 - [ ] Expose to JSON weapons rate of fire
-- [ ] Expose to JSON weapons accuracy cone
 - [ ] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
+- [ ] remove file name prefix to item_bts*
+- [ ] make item tracking optional
+- [ ] add a command registry entry to test changing classification (Maybe CTextMenu?)
+- [ ] Make a helper for dynamic ammo returning default value if dynamic ammo is nullptr
+- [ ] make medkit to not automatically recharge, only using health stations [#97](https://github.com/Mikk155/bts_rc/issues/97)
+- [ ] move player characters to default config
+- [ ] Expose to JSON remaining weapons accuracy cone
 
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
+- [x] Fix all angelscript warnings
+- [x] Expose to JSON weapons accuracy cone
+- [x] "*Hardcode*" deathdrop list names in schema as only what the map uses would work.
+- [x] Move blood sprites from trace attacks to mikk/folder for reuse
+- [x] **Shotgun / Shotgun SD**: Fix bad bodygroups (`shotgunsd`).
 - [x] **Bad hands group**: Fix or update hands model/rig.
 - [x] flare **Bad hands group**: Fix or update hands model/rig.
 - [x] shotgun **Bad hands group**: Fix or update hands model/rig.

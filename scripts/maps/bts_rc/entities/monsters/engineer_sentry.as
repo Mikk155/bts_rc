@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -42,54 +42,46 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
                     "title": "Think rate",
                     "type": "number",
                     "minimum": 0.0,
-                    "default": 0.1,
                     "description": "Internal think rate interval. the lower the value the more cpu usage"
                 },
                 "capacity":
                 {
-                    "default": 5,
                     "type": "integer",
                     "minimum": 1,
                     "description": "Max sentry spawn capacity per engineer"
                 },
                 "distance":
                 {
-                    "default": 128,
                     "type": "number",
                     "minimum": 32,
                     "description": "Distance from the engineer to spawn"
                 },
                 "cooldown_start":
                 {
-                    "default": 6.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "Time until engineer can place a sentry after spawning"
                 },
                 "cooldown_combat":
                 {
-                    "default": 6.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "How often to try to drop a sentry in combat, in seconds"
                 },
                 "cooldown_idle":
                 {
-                    "default": 30.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "How often to try to drop a sentry while idle/roaming, in seconds"
                 },
                 "cooldown_rng":
                 {
-                    "default": 15.0,
                     "type": "number",
                     "minimum": 0,
                     "description": "cooldown_idle plus/minus this"
                 },
                 "chance":
                 {
-                    "default": 75,
                     "type": "number",
                     "minimum": 0,
                     "maximum": 100,
@@ -121,11 +113,13 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         config.Get( "cooldown_rng", this.m_fCooldownRNG, false );
         config.Get( "chance", this.m_uiRandomChance, false );
 
-        EntityOverriden::SetThink( float( config[ "interval" ] ) );
-
+        if( g_MapConfig.MapLoading )
+        {
+            EntityOverriden::SetThink( float( config[ "interval" ] ) );
 #if SERVER
-        g_Game.PrecacheOther( "monster_human_torch_ally" );
+            g_Game.PrecacheOther( "monster_human_torch_ally" );
 #endif
+        }
 
         return true;
     }

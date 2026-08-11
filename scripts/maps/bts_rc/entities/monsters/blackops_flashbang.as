@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -47,21 +47,18 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
                     "title": "Think rate",
                     "type": "number",
                     "minimum": 0.0,
-                    "default": 0.5,
                     "description": "Internal think rate interval. the lower the value the more cpu usage"
                 },
                 "throw_flash_cooldown":
                 {
                     "type": "number",
                     "minimum": 1,
-                    "default": 3,
                     "description": "Global cooldown for blackops to throw grenades"
                 },
                 "detonate_time":
                 {
                     "type": "number",
                     "minimum": 1,
-                    "default": 6,
                     "description": "Time, in seconds, at which the flashbang will detonate since it's thrown."
                 }
             }
@@ -76,14 +73,17 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         this.detonate_time = float( config[ "detonate_time" ] );
         this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
 
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing.wav" );
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing_right.wav" );
-        g_SoundSystem.PrecacheSound( "mikk/player/earringing_left.wav" );
+        if( g_MapConfig.MapLoading )
+        {
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
+            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+            g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
 
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+            EntityOverriden::SetThink( float( config[ "interval" ] ) );
+            EntityOverriden::Register( this );
+        }
 
-        EntityOverriden::SetThink( float( config[ "interval" ] ) );
-        EntityOverriden::Register( this );
         return true;
     }
 
@@ -179,15 +179,15 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
                 if( ( side < 0 ? -side : side ) < 0.2f )
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
                 else if( side > 0 )
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
                 else
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
             }
 

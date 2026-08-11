@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -81,7 +81,7 @@ namespace Logger
                         g_Game.AlertMessage( at_console, "Error: Logger with id \"%1\" is printing more arguments than defined in message!\nIssued message: ", this.id );
                         break;
                     }
-                    snprintf( glog, "%1%2%3", glog.SubString( 0, index ), arguments[ui], glog.SubString( index + 2 ) );
+                    glog = glog.SubString( 0, index ) + arguments[ui] + glog.SubString( index + 2 );
                 }
             }
 
@@ -96,8 +96,7 @@ namespace Logger
         protected
             void print_buffer() const
             {
-                string buffer;
-                snprintf( buffer, "[%1] %2\n", this.name, glog );
+                string buffer = "[" + this.name + "] " + glog + "\n";
                 glog = String::EMPTY_STRING;
 
                 if( Logger::gpWriteFile )
@@ -243,12 +242,12 @@ final class CLogger : IConfigurable
             "properties":
             {
                 "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.", "default": false },
-                "trace": { "type": "boolean", "default": false },
-                "debug": { "type": "boolean", "default": false },
-                "info": { "type": "boolean", "default": false },
-                "warning": { "type": "boolean", "default": true },
-                "error": { "type": "boolean", "default": true },
-                "critical": { "type": "boolean", "default": true }
+                "trace": { "type": "boolean" },
+                "debug": { "type": "boolean" },
+                "info": { "type": "boolean" },
+                "warning": { "type": "boolean" },
+                "error": { "type": "boolean" },
+                "critical": { "type": "boolean" }
             }
         }""";
     }

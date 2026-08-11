@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -36,7 +36,7 @@ namespace Flashlight
     },
     "flashlight_reload":
     {
-        "type": "nuber",
+        "type": "number",
         "default": 2.5,
         "minimum": 0.1,
         "description": "How long to reload flashlight battery?"
@@ -262,7 +262,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         }
 
         int Battery = Flashlight::GetClip( player, this );
-        
+
         if( Battery <= 0 )
         {
             // No reserves
@@ -282,7 +282,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
 
             weapon.SendWeaponAnim( this.animation_holster, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
         }
- 
+
         switch( weapon.pev.iuser1 )
         {
             case Flashlight::State::Inactive:
@@ -448,11 +448,6 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     {
         this.flashlight_drain = config.ValueOrDefault( "flashlight_drain", this.flashlight_drain );
         this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );
-
-#if SERVER
-        // For fast testing reload
-        this.flashlight_drain = 0.1f;
-#endif
 
         bool result = ASWeaponConfig::Register( config );
 

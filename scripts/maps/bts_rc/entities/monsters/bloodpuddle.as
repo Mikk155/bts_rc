@@ -1,17 +1,17 @@
 /**
 *   Copyright (c) 2026 Mikk155 and contributors of bts_rc
-*   
+*
 *   Permission is hereby granted, free of charge, to any person obtaining a copy
 *   of this software to use, copy, modify, merge, publish, distribute, sublicense,
 *   and/or sell copies of the Software under the following conditions:
-*   
+*
 *   A reference to the original project must be included in all copies or substantial
 *   portions of the Software. This must include, at minimum, a URL to:
 *   https://github.com/Mikk155/bts_rc
-*   
+*
 *   The above copyright notice and this permission notice shall be included in all
 *   copies of the Software when distributed as a whole.
-*   
+*
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
@@ -46,7 +46,6 @@ final class ASBloodPuddleConfig : IConfigurable
                 "persistent":
                 {
                     "type": "boolean",
-                    "default": true,
                     "description": "If true, puddles remain indefinitely until the map is about at 100 free entity slots. Otherwise they fade out as soon as the monster owner disappears."
                 },
                 "default_size":
@@ -59,19 +58,11 @@ final class ASBloodPuddleConfig : IConfigurable
                         "minimum": 0.1,
                         "type": "number"
                     },
-                    "default": [ 1.5, 2.5 ],
                     "description": "Random size range for puddles (min, max)."
                 },
                 "custom_size":
                 {
                     "type": "object",
-                    "default": 
-                    {
-                        "monster_headcrab": [ 0.5, 1.5 ],
-                        "monster_houndeye": [ 1, 2 ],
-                        "monster_babycrab": [ 0.3, 0.8 ],
-                        "monster_snark": [ 0.25, 0.75 ]
-                    },
                     "additionalProperties":
                     {
                         "type": "array",
@@ -99,10 +90,13 @@ final class ASBloodPuddleConfig : IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
-        @gpBloodPuddle = this;
+        if( g_MapConfig.MapLoading )
+        {
+            @gpBloodPuddle = this;
 
-        CustomEntity( "env_bloodpuddle", false );
-        g_Game.PrecacheModel( "models/mikk/misc/bloodpuddle.mdl" );
+            CustomEntity( "env_bloodpuddle", false );
+            g_Game.PrecacheModel( "models/mikk155/misc/bloodpuddle.mdl" );
+        }
 
         this.m_persistent = bool( config[ "persistent" ] );
 
@@ -277,7 +271,7 @@ class env_bloodpuddle : ScriptBaseAnimating
         SetThink( ThinkFunction( this.think ) );
         self.pev.nextthink = g_Engine.time + 0.1;
 
-        g_EntityFuncs.SetModel( self, "models/mikk/misc/bloodpuddle.mdl" );
+        g_EntityFuncs.SetModel( self, "models/mikk155/misc/bloodpuddle.mdl" );
 
         switch( state )
         {

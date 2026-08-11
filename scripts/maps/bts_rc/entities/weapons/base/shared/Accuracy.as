@@ -15,32 +15,23 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-namespace Hooks
+namespace weapons
 {
-    final class CASStartFrame : ScriptBaseEntity
+    // Return the proper accuracy cone based if player is crouching/standing and trained personal
+    float Accuracy( CBasePlayer@ player, float[] values, bool is_trained_personal )
     {
-        void Spawn()
-        {
-            self.pev.movetype = MOVETYPE_NONE;
-            self.pev.solid = SOLID_NOT;
-            self.pev.nextthink = g_Engine.time;
-        }
+        if( player.IsMoving() )
+            return values[ is_trained_personal ? 5 : 4 ];
 
-        void Think()
-        {
-            uint length = EntityOverriden::gpEntityOverriden.length();
+        if( ( player.pev.button & IN_DUCK ) != 0 )
+            return values[ is_trained_personal ? 3 : 2 ];
 
-            for( uint ui = 0; ui < length; ui++ )
-            {
-                EntityOverriden@ overrider = EntityOverriden::gpEntityOverriden[ui];
+        return values[ is_trained_personal ? 1 : 0 ];
+    }
 
-                if( overrider !is null && overrider.ShouldThink() )
-                {
-                    overrider.Think();
-                }
-            }
-
-            self.pev.nextthink = g_Engine.time;
-        }
+    // Return the proper accuracy cone based if player is crouching/standing and trained personal
+    float Accuracy( CBasePlayer@ player, float[] values )
+    {
+        return Accuracy( player, values, util::IsTrainedPersonal( player ) );
     }
 }
