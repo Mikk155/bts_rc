@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/24.358974358974358?barColor=da700b)
+> ![](https://geps.dev/progress/24.050632911392405?barColor=da6e0b)
 <!--CompletionBar-end-->
 
 ---
@@ -26,6 +26,7 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+- [ ] Reimplement the whole hev fvox updates for hev characters (Update ASBullet::DeduceAmmo).
 - [ ] Add "active" checks to all loggers that may not have it.
 - [ ] Implement ASBullet to all fire arms.
 - [ ] Fix loggers with only one item in the array formating the message with an additional ``}`` not removed from the message.

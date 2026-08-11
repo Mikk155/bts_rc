@@ -240,6 +240,8 @@ final class ASBullet
             return;
 
         int ammo = CurrentAmmo - value;
+        int maxAmmo;
+        int totalAmmo;
 
         switch( this.m_AttackType )
         {
@@ -249,18 +251,38 @@ final class ASBullet
                     this.m_WeaponEntity.m_iClip = ammo;
                 else
                     this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iPrimaryAmmoType, ammo );
+                totalAmmo = this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iPrimaryAmmoType );
+                maxAmmo = this.m_WeaponEntity.iMaxAmmo1();
                 break;
             }
             case AttackType::Secondary:
             {
                 this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iSecondaryAmmoType, ammo );
+                totalAmmo = this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iSecondaryAmmoType );
+                maxAmmo = this.m_WeaponEntity.iMaxAmmo2();
                 break;
             }
         }
 
-        if( ammo <= 0 && util::IsHEV( this.m_Player ) )
+        if( util::IsHEV( this.m_Player ) )
         {
-            this.m_Player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+            if( ammo <= 0 )
+            {
+                this.m_Weapon.PlaySound( "fvox/ammo_depleted.wav", 1.0f );
+            }
+            else if( totalAmmo < maxAmmo / 4 )
+            {
+                dictionary@ data = this.m_Player.GetUserData();
+
+                float lastAmmoNotice;
+                string keyName = "HEV_lowammo_" + this.m_WeaponEntity.GetClassname();
+
+                if( !data.get( keyName, lastAmmoNotice ) || lastAmmoNotice < g_Engine.time )
+                {
+                    data[ keyName ] = g_Engine.time + 60.0f;
+                    this.m_Weapon.PlaySound( "bts_rc/fvox/ammowarning.wav", 1.0f );
+                }
+            }
         }
     }
 
