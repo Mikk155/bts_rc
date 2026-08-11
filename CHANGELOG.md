@@ -1,3 +1,11 @@
+# 11/8/2026
+## Scripts
+- Added a null-safe dynamic ammo pickup helper and a command for testing scaled ammo values.
+- Removed the `item_bts_` prefix from item script filenames while preserving entity class names.
+- Optimized item tracking, inventory updates, MOTD generation, and map/disconnect cleanup.
+- Optimized and simplified parasite, snapbug, scientist revival, and zombie grenadier logic.
+- Fixed snapbug cleanup and zombie grenadier damage-mask and melee knockback handling.
+
 # 10/8/2026
 ## Scripts
 - Weapons now displays lighting on firing.
