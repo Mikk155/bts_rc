@@ -186,7 +186,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
             g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
             self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 2048.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int( damage ), player.pev );
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
+            TraceEffects(tr);
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );

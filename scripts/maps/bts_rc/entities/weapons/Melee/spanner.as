@@ -134,7 +134,7 @@ class weapon_bts_spanner : BTS_MeleeWeapon
                 }
             }
 
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            TraceEffects(tr);
 
             if( this.IsFlesh( hit ) )
             {

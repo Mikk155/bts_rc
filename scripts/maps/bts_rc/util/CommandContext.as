@@ -116,7 +116,7 @@ CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function
         {
             if( args.ArgC() < 3 || args[1] != context.Section || args[2] != context.Command )
                 continue;
-            start = 1;
+            start = 3;
         }
 
         if( context.Lambda !is null )

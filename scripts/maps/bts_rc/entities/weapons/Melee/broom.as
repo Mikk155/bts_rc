@@ -144,7 +144,7 @@ class weapon_bts_broom : BTS_MeleeWeapon
                 }
             }
 
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            TraceEffects(tr);
 
             if( this.IsFlesh( hit ) )
             {

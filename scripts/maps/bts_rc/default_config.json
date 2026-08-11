@@ -1,6 +1,5 @@
 {
     "$schema": "schema.json",
-
     "aiming_lasers": {
         "active": true,
         "alpha": 150,
@@ -380,13 +379,13 @@
             "stand": 0.03,
             "stand_trained": 0.006
         },
+        "primary_cooldown": 0.1,
+        "primary_damage": 15,
+        "primary_dropammo": 15,
         "primary_kickback": {
             "stand": 2.5,
             "stand_trained": 2.0
         },
-        "primary_cooldown": 0.1,
-        "primary_damage": 15,
-        "primary_dropammo": 15,
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.05,
         "reload_anim": 6,
@@ -425,13 +424,13 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
+        "primary_cooldown": 0.22,
+        "primary_damage": 65,
+        "primary_dropammo": 3,
         "primary_kickback": {
             "stand": 11.0,
             "stand_trained": 4.0
         },
-        "primary_cooldown": 0.22,
-        "primary_damage": 65,
-        "primary_dropammo": 3,
         "primary_maxammo": 18,
         "primary_trained_cooldown": 0.22,
         "reload_anim": 8,
@@ -1005,6 +1004,7 @@
     "weapons": {
         "blood_splash": true,
         "flashlight_maxcarry": 10,
+        "infinite_ammo": false,
         "item_remap": {
             "weapon_sniperrifle": "weapon_bts_sniperrifle"
         },

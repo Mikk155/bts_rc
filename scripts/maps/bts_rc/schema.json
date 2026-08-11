@@ -9,6 +9,11 @@
 				"type": "string",
 				"description": "Reference to the JSON schema file used for validation and editor hinting."
 			},
+			"allow_reload": 
+			{
+				"type": "boolean",
+				"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time."
+			},
 			"logger": 
 			{
 				"type": "object",
@@ -283,8 +288,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -328,8 +333,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -595,8 +600,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -640,8 +645,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -913,8 +918,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -958,8 +963,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -1227,8 +1232,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -1272,8 +1277,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -1545,8 +1550,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -1590,8 +1595,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -1863,8 +1868,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -1908,8 +1913,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2180,8 +2185,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2225,8 +2230,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2491,8 +2496,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2536,8 +2541,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2802,8 +2807,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2847,8 +2852,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -2944,6 +2949,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 2.5,
+							"stand_trained": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -3140,57 +3195,12 @@
 							}
 						}
 					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
-					},
 					"secondary_kickback": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -3315,6 +3325,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 11,
+							"stand_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -3503,57 +3563,12 @@
 							}
 						}
 					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
-					},
 					"secondary_kickback": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -3837,8 +3852,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -3882,8 +3897,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -4167,8 +4182,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -4212,8 +4227,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -4507,8 +4522,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -4552,8 +4567,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -4858,8 +4873,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -4903,8 +4918,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -5160,8 +5175,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -5205,8 +5220,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -5488,8 +5503,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -5533,8 +5548,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -5806,8 +5821,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -5851,8 +5866,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -6127,8 +6142,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -6172,8 +6187,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -6448,8 +6463,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -6493,8 +6508,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -6769,8 +6784,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -6814,8 +6829,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -7083,8 +7098,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -7128,8 +7143,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -7397,8 +7412,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -7442,8 +7457,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -7714,8 +7729,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -7759,8 +7774,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8031,8 +8046,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8076,8 +8091,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8330,8 +8345,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8375,8 +8390,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8641,8 +8656,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8686,8 +8701,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -8955,8 +8970,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9000,8 +9015,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9302,8 +9317,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9347,8 +9362,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9616,8 +9631,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9661,8 +9676,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9925,8 +9940,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -9970,8 +9985,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -10228,8 +10243,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -10273,8 +10288,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -10537,8 +10552,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -10582,8 +10597,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -10848,8 +10863,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -10893,8 +10908,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -11157,8 +11172,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -11202,8 +11217,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -11476,8 +11491,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -11521,8 +11536,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -11789,8 +11804,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -11834,8 +11849,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -12101,8 +12116,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -12146,8 +12161,8 @@
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
-						"title": "Weapon aim accuracy",
-						"description": "weapon accuracy modifiers.",
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
 						"properties": 
 						{
 							"force": 
@@ -12239,6 +12254,12 @@
 						"type": "boolean",
 						"description": "Allow melee weapons to pull allied players.",
 						"default": true
+					},
+					"infinite_ammo": 
+					{
+						"type": "boolean",
+						"description": "Weapons has infinite ammo. made for testing firing.",
+						"default": false
 					},
 					"melee_weapons_pull_force": 
 					{

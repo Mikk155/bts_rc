@@ -161,8 +161,10 @@ class weapon_bts_eagle : BTS_FireWeapon
 
     void PrimaryAttack() override
     {
-        uint8 anim = self.m_iClip > 1 ? WeaponEagleAnim::Shoot : WeaponEagleAnim::ShootEmpty;
-        bullet.Sound( "weapons/desert_eagle_fire.wav", Math.RandomFloat( 0.92f, 1.0f ) )
-            .Fire( this.owner, this, AttackType::Primary, gpWeaponEagleConfig, anim );
+        bullet.Weapon( this )
+            .Sound( "weapons/desert_eagle_fire.wav" )
+            .Volume( Math.RandomFloat( 0.92f, 1.0f ) )
+            .Animation( self.m_iClip > 1 ? WeaponEagleAnim::Shoot : WeaponEagleAnim::ShootEmpty )
+        .Fire();
     }
 }

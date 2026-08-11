@@ -194,7 +194,7 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
         this.SetCooldown( is_trained_personal, miss, type );
 
         if( !miss )
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            TraceEffects(tr);
     }
 
     float Idle() override

@@ -87,7 +87,7 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
         bool miss = weapons::Hit( weapon, player, tr, AttackType::Primary, void, gpWeaponCrowbarConfig );
 
         if( !miss )
-            weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+            weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr );
 
         weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal(player), AttackType::Primary, miss ) );
     }
@@ -122,7 +122,7 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
                 case 2: weapon.SendWeaponAnim( WeaponCrowbarAnim::Shove, 0, body ); break;
             }
 
-            weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+            weapons::TraceEffects( weapon, player, gpWeaponCrowbarConfig, tr );
         }
 
         weapons::SetCooldown( weapon, player, gpWeaponCrowbarConfig.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary, miss ) );
@@ -161,7 +161,7 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
                         @tr.pHit = info.pVictim.edict();
                         //tr.iHitgroup = cast<CBaseMonster@>( info.pVictim ).m_LastHitGroup;
                         tr.iHitgroup = lastHitgroup;
-                        weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr, Bullet::BULLET_PLAYER_CROWBAR );
+                        weapons::TraceEffects( cast<CBasePlayerWeapon@>(info.pInflictor), cast<CBasePlayer@>(info.pAttacker), gpWeaponCrowbarConfig, tr );
                     }
                 }
                 return HOOK_CONTINUE;

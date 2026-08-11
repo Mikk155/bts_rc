@@ -85,7 +85,6 @@ class weapon_bts_flaregun : BTS_FireWeapon
         BTS_FireWeapon::Spawn();
     }
 
-
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
         switch( type )
@@ -135,7 +134,7 @@ class weapon_bts_flaregun : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 
-    
+
 
     float Idle() override
     {

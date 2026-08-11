@@ -135,10 +135,12 @@ class weapon_bts_beretta : BTS_FireWeapon
 
         if( ( player.m_afButtonPressed & IN_ATTACK ) != 0 )
         {
-            uint8 anim = self.m_iClip > 1 ? WeaponBerettaAnim::Shoot : WeaponBerettaAnim::ShootEmpty;
-
-            bullet.Sound( "bts_rc/weapons/beretta_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ) )
-                .Fire( player, this, AttackType::Primary, gpWeaponBerettaConfig, anim );
+            bullet.Weapon( this )
+                .Sound( "bts_rc/weapons/beretta_fire1.wav" )
+                .Volume( Math.RandomFloat( 0.92f, 1.0f ) )
+                .Flash( DIM_GUN_FLASH )
+                .Animation( self.m_iClip > 1 ? WeaponBerettaAnim::Shoot : WeaponBerettaAnim::ShootEmpty )
+            .Fire();
         }
     }
 }

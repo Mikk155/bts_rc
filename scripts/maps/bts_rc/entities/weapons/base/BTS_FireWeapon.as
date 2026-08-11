@@ -81,7 +81,7 @@ abstract class BTS_FireWeapon : BTS_Weapon
         TraceResult tr;
         g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
         self.FireBullets( cShots, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int( flDamage ), player.pev );
-        TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
+        TraceEffects(tr);
 
         PlayAnim( shootAnim );
         PlaySound( szSound, flVolume, iPitch );

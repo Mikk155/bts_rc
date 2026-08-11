@@ -43,11 +43,11 @@ enum HeadcrabRelease_t
 {
     RELEASE_NO = 0,
     RELEASE_IMMEDIATE,  // release the headcrab right now!
-    RELEASE_VAPORIZE,       // just destroy the crab.   
+    RELEASE_VAPORIZE,       // just destroy the crab.
     RELEASE_RAGDOLL     // release a dead crab
 };
 
-const array<string> arrsSounds = 
+const array<string> arrsSounds =
 {
     "zombie/claw_strike1.wav",
     "zombie/claw_strike2.wav",
@@ -164,7 +164,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
             iIgnore |= bits_COND_SEE_FEAR | bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE;
 
         return iIgnore;
-        
+
     }
 
     int BaseIgnoreConditions()
@@ -381,7 +381,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
         return tookDamage;
     }
 
-    void TraceAttack( entvars_t@ pevAttacker, float flDamage, const Vector &in vecDir, TraceResult &in ptr, int bitsDamageType ) 
+    void TraceAttack( entvars_t@ pevAttacker, float flDamage, const Vector &in vecDir, TraceResult &in ptr, int bitsDamageType )
     {
         if( ptr.iHitgroup == HITGROUP_HEAD )
             m_bHeadShot = true;
@@ -456,9 +456,9 @@ final class monster_zombie_parasite : bts_rc_base_monster
             {
                 Vector vecSpot2 = cbeCrab.pev.origin;
 
-                vecSpot2.x += Math.RandomFloat( -8.0, 8.0 ); 
-                vecSpot2.y += Math.RandomFloat( -8.0, 8.0 ); 
-                vecSpot2.z += Math.RandomFloat( -8.0, 8.0 ); 
+                vecSpot2.x += Math.RandomFloat( -8.0, 8.0 );
+                vecSpot2.y += Math.RandomFloat( -8.0, 8.0 );
+                vecSpot2.z += Math.RandomFloat( -8.0, 8.0 );
 
                 g_Utility.BloodDrips( vecSpot, g_vecZero, BLOOD_COLOR_YELLOW, 50 );
             }
@@ -480,11 +480,11 @@ final class monster_zombie_parasite : bts_rc_base_monster
 
             // don't pop to floor, fall
             //cbeCrab->AddSpawnFlags( SF_NPC_FALL_TO_GROUND );
-            
+
             // add on the parent flags
             //cbeCrab->AddSpawnFlags( m_spawnflags & ZOMBIE_CRAB_INHERITED_SPAWNFLAGS );
             cbeCrab.pev.spawnflags |= ( pev.spawnflags & 2 ); //SF_MONSTER_GAG
-            
+
             g_EntityFuncs.SetOrigin( cbeCrab, vecSpot );
             g_EntityFuncs.DispatchSpawn( cbeCrab.edict() );
 
@@ -544,7 +544,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
 
         TraceResult tr;
         //g_Utility.TraceHull( vecSpawnLoc, vecSpawnLoc - Vector(0, 0, 1), dont_ignore_monsters, head_hull, self.edict(), tr );
-        g_Utility.TraceMonsterHull( pCrab.edict(), vecSpawnLoc, vecSpawnLoc + Vector(0, 0, 1), dont_ignore_monsters, self.edict(), tr ); 
+        g_Utility.TraceMonsterHull( pCrab.edict(), vecSpawnLoc, vecSpawnLoc + Vector(0, 0, 1), dont_ignore_monsters, self.edict(), tr );
 
         if( tr.flFraction != 1.0 )
             return false;
@@ -598,16 +598,16 @@ final class CParasiteZombieCloud : ScriptBaseEntity
     {
         g_EntityFuncs.SetSize( self.pev, g_vecZero, g_vecZero );
 
-        NetworkMessage m1( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+        NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
             m1.WriteByte( TE_FIREFIELD );
             m1.WriteCoord( pev.origin.x );
             m1.WriteCoord( pev.origin.y );
             m1.WriteCoord( pev.origin.z );
-            m1.WriteShort( m_iPoisonCloudRadius ); //radius (fire is made in a square around origin. -radius, -radius to radius, radius) 
+            m1.WriteShort( m_iPoisonCloudRadius ); //radius (fire is made in a square around origin. -radius, -radius to radius, radius)
             m1.WriteShort( g_EngineFuncs.ModelIndex("sprites/poison.spr") );
             m1.WriteByte( m_iPoisonCloudCount ); //count
             m1.WriteByte( TEFIRE_FLAG_ALLFLOAT | TEFIRE_FLAG_ADDITIVE );
-            m1.WriteByte( m_iPoisonCloudDuration ); //duration (in seconds) * 10 (will be randomized a bit) 
+            m1.WriteByte( m_iPoisonCloudDuration ); //duration (in seconds) * 10 (will be randomized a bit)
         m1.End();
 
         m_flRemoveTime = g_Engine.time + POISON_DURATION;
@@ -624,7 +624,7 @@ final class CParasiteZombieCloud : ScriptBaseEntity
             return;
         }
 
-        if( m_flPoisonDamage > 0 ) 
+        if( m_flPoisonDamage > 0 )
         {
             m_flPoisonDamage -= 0.5;
             g_WeaponFuncs.RadiusDamage( pev.origin, self.pev, self.pev, m_flPoisonDamage, POISON_DAMAGE_RADIUS, CLASS_MACHINE, DMG_POISON | DMG_NEVERGIB );
