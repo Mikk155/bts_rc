@@ -137,7 +137,7 @@ namespace item_tracker
                 {
                     array<string>@ details;
 
-                    if( Items.get( name, @details ) )
+                    if( Items.get( name, @details ) && details !is null && details.length() >= 2 )
                         snprintf( buffer, "Item: %1\nDetails: %2\nHolders:", details[0], details[1] );
                     else
                         snprintf( buffer, "Item: %1\nHolders:", name );
