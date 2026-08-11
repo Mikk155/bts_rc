@@ -18,42 +18,8 @@
 namespace weapons
 {
     // Play effects
-    void TraceEffects( CBasePlayerWeapon@ weapon, CBasePlayer@ player, ASWeaponConfig@ config, TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE )
+    void TraceEffects( CBasePlayerWeapon@ weapon, CBasePlayer@ player, ASWeaponConfig@ config, TraceResult &in tr )
     {
-        if( bullet != Bullet::BULLET_NONE )
-        {
-            g_WeaponFuncs.DecalGunshot( tr, bullet );
-            g_SoundSystem.PlayHitSound( tr, ( player !is null ? player.GetGunPosition() : g_vecZero ), tr.vecEndPos, bullet );
-
-            CSoundEnt@ sound = GetSoundEntInstance();
-            sound.InsertSound( bits_SOUND_COMBAT, player.pev.origin, 2048, 0.3, player );
-
-            switch( bullet )
-            {
-                case Bullet::BULLET_PLAYER_9MM:
-                case Bullet::BULLET_PLAYER_MP5:
-                case Bullet::BULLET_PLAYER_SAW:
-                case Bullet::BULLET_PLAYER_SNIPER:
-                case Bullet::BULLET_PLAYER_357:
-                case Bullet::BULLET_PLAYER_EAGLE:
-                case Bullet::BULLET_PLAYER_BUCKSHOT:
-                {
-                    if( player !is null )
-                    {
-                        player.pev.effects |= EF_MUZZLEFLASH;
-                    }
-
-                    // Bullet impact
-                    sound.InsertSound( bits_SOUND_COMBAT, tr.vecEndPos, 1024, 0.3, player );
-                    break;
-                }
-                case Bullet::BULLET_PLAYER_CROWBAR:
-                case Bullet::BULLET_NONE:
-                default:
-                    break;
-            }
-        }
-
         CBaseEntity@ hit = null;
         CBaseMonster@ monster = null;
 
@@ -136,7 +102,7 @@ namespace weapons
                     case 4: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric5.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
                 }
 
-                NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
                     m.WriteByte( TE_STREAK_SPLASH );
                     m.WriteCoord( tr.vecEndPos.x );
                     m.WriteCoord( tr.vecEndPos.y );
@@ -150,7 +116,7 @@ namespace weapons
                     m.WriteShort( 100 );         // Random velocity
                 m.End();
 
-                NetworkMessage m2( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+                NetworkMessage m2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
                     m2.WriteByte( TE_DLIGHT );
                     m2.WriteCoord( tr.vecEndPos.x );
                     m2.WriteCoord( tr.vecEndPos.y );

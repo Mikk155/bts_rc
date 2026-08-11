@@ -207,7 +207,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
                 if( FreeEdicts( 1 ) )
                 {
-                    NetworkMessage m1( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
+                    NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
                         m1.WriteByte( TE_SMOKE );
                         m1.WriteCoord( vecOrigin.x );
                         m1.WriteCoord( vecOrigin.y );

@@ -54,10 +54,12 @@ namespace weapons
                 {
                     g_Utility.FindHullIntersection( vecSrc, tr, tr, VEC_DUCK_HULL_MIN, VEC_DUCK_HULL_MAX, player.edict() );
                 }
-
-                vecEnd = tr.vecEndPos; // This is the point on the actual surface (the hull could have hit space)
             }
         }
+
+        CSoundEnt@ sound = GetSoundEntInstance();
+        sound.InsertSound( bits_SOUND_COMBAT, tr.vecEndPos, 2048, 0.3, player );
+        g_WeaponFuncs.DecalGunshot( tr, Bullet::BULLET_PLAYER_CROWBAR );
 
         if( hit !is null || ( tr.pHit !is null && ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) !is null ) )
         {

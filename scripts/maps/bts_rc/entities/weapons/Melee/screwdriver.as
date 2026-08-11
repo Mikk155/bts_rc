@@ -114,7 +114,7 @@ final class weapon_bts_screwdriver : BTS_MeleeWeapon
         }
         else
         {
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            TraceEffects(tr);
 
             if( this.IsFlesh(hit) )
             {

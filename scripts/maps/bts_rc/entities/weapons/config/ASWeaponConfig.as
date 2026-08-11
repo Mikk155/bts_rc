@@ -154,6 +154,40 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
             "run_trained": { "type": "number", "minimum": 0.001 }
         }
     },
+    "primary_kickback":
+    {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "title": "Weapon accuracy",
+        "description": "weapon kickback modifiers.",
+        "properties":
+        {
+            "force": { "type": "boolean", "description": "if true the values are set, if false the values are added and accumulated." },
+            "stand": { "type": "number", "minimum": 0.001 },
+            "stand_trained": { "type": "number", "minimum": 0.001 },
+            "crouch": { "type": "number", "minimum": 0.001 },
+            "crouch_trained": { "type": "number", "minimum": 0.001 },
+            "run": { "type": "number", "minimum": 0.001 },
+            "run_trained": { "type": "number", "minimum": 0.001 }
+        }
+    },
+    "secondary_kickback":
+    {
+        "type": "object",
+        "unevaluatedProperties": false,
+        "title": "Weapon kickback",
+        "description": "weapon kickback modifiers.",
+        "properties":
+        {
+            "force": { "type": "boolean", "description": "if true the values are set, if false the values are added and accumulated." },
+            "stand": { "type": "number", "minimum": 0.001 },
+            "stand_trained": { "type": "number", "minimum": 0.001 },
+            "crouch": { "type": "number", "minimum": 0.001 },
+            "crouch_trained": { "type": "number", "minimum": 0.001 },
+            "run": { "type": "number", "minimum": 0.001 },
+            "run_trained": { "type": "number", "minimum": 0.001 }
+        }
+    },
     "reload_time":
     {
         "type": "number"
@@ -214,12 +248,16 @@ abstract class ASWeaponConfig : IConfigurable
     int primary_dropammo = WEAPON_NOCLIP;
     // Accuracy for primary attacks
     float[] primary_accuracy(6);
+    // Kickback for primary attacks
+    float[] primary_kickback(7);
     // Weapon secondary max ammo capacity. automatically set in BTS_Weapon::GetItemInfo
     int secondary_maxammo = WEAPON_NOCLIP;
     // Weapon secondary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int secondary_dropammo = WEAPON_NOCLIP;
     // Accuracy for secondary attacks
     float[] secondary_accuracy(6);
+    // Kickback for secondary attacks
+    float[] secondary_kickback(7);
     // Weapon primary max ammo clip capacity. automatically set in BTS_Weapon::GetItemInfo
     int max_clip = WEAPON_NOCLIP;
     // Weapon hud slot. automatically set in BTS_Weapon::GetItemInfo
@@ -419,6 +457,32 @@ abstract class ASWeaponConfig : IConfigurable
             this.secondary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.secondary_accuracy[2], false, false );
             this.secondary_accuracy[4] = accuracy.ValueOrDefault( "run", this.secondary_accuracy[3], false, false );
             this.secondary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.secondary_accuracy[4], false, false );
+        }
+
+        meta_api::json::v2::json@ kickback = config[ "primary_kickback" ];
+
+        if( kickback !is null )
+        {
+            this.primary_kickback[0] = kickback.ValueOrDefault( "stand", 0.001, false, false );
+            this.primary_kickback[1] = kickback.ValueOrDefault( "stand_trained", this.primary_kickback[0], false, false );
+            this.primary_kickback[2] = kickback.ValueOrDefault( "crouch", this.primary_kickback[1], false, false );
+            this.primary_kickback[3] = kickback.ValueOrDefault( "crouch_trained", this.primary_kickback[2], false, false );
+            this.primary_kickback[4] = kickback.ValueOrDefault( "run", this.primary_kickback[3], false, false );
+            this.primary_kickback[5] = kickback.ValueOrDefault( "run_trained", this.primary_kickback[4], false, false );
+            this.primary_kickback[6] = kickback.ValueOrDefault( "force", 0, false, false );
+        }
+
+        @kickback = config[ "secondary_kickback" ];
+
+        if( kickback !is null )
+        {
+            this.secondary_kickback[0] = kickback.ValueOrDefault( "stand", 0.001, false, false );
+            this.secondary_kickback[1] = kickback.ValueOrDefault( "stand_trained", this.secondary_kickback[0], false, false );
+            this.secondary_kickback[2] = kickback.ValueOrDefault( "crouch", this.secondary_kickback[1], false, false );
+            this.secondary_kickback[3] = kickback.ValueOrDefault( "crouch_trained", this.secondary_kickback[2], false, false );
+            this.secondary_kickback[4] = kickback.ValueOrDefault( "run", this.secondary_kickback[3], false, false );
+            this.secondary_kickback[5] = kickback.ValueOrDefault( "run_trained", this.secondary_kickback[4], false, false );
+            this.secondary_kickback[6] = kickback.ValueOrDefault( "force", 0, false, false );
         }
 
         // Reload properties

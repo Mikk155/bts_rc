@@ -129,40 +129,18 @@ class weapon_bts_beretta : BTS_FireWeapon
         return Math.RandomFloat( 6.0f, 8.0f );
     }
 
-    void Attack( CBasePlayer@ player, AttackType type ) override
+    void PrimaryAttack() override
     {
-        switch( type )
+        CBasePlayer@ player = this.owner;
+
+        if( ( player.m_afButtonPressed & IN_ATTACK ) != 0 )
         {
-            case AttackType::Tertiary:
-            case AttackType::Secondary:
-                return;
+            bullet.Weapon( this )
+                .Sound( "bts_rc/weapons/beretta_fire1.wav" )
+                .Volume( Math.RandomFloat( 0.92f, 1.0f ) )
+                .Flash( DIM_GUN_FLASH )
+                .Animation( self.m_iClip > 1 ? WeaponBerettaAnim::Shoot : WeaponBerettaAnim::ShootEmpty )
+            .Fire();
         }
-
-        if( self.m_iClip <= 0 )
-        {
-            this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
-            return;
-        }
-
-        if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
-        {
-            return;
-        }
-
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
-
-        float cone = weapons::Accuracy( player, gpWeaponBerettaConfig.primary_accuracy, isTrainedPersonal );
-
-        uint8 anim = self.m_iClip > 1 ? WeaponBerettaAnim::Shoot : WeaponBerettaAnim::ShootEmpty;
-
-        FireBullet( 1, cone, gpWeaponBerettaConfig.primary_damage, "bts_rc/weapons/beretta_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
-
-        player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.5f;
-
-        self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
-        self.m_flNextPrimaryAttack = g_Engine.time + ( isTrainedPersonal ? 0.05f : 0.10f );
-        self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
-
 }
