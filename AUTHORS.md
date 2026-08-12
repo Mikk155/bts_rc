@@ -16,7 +16,7 @@
 - [Four-Nines](https://github.com/Four-Ninez)
 - [FreeSlave](https://github.com/FreeSlave)
 - [Gaftherman](https://github.com/Gaftherman)
-- Gamit
+- [Gamit](https://gamebanana.com/members/2642325)
 - Gauna
 - [Gearbox Software](https://store.steampowered.com/app/130/HalfLife_Blue_Shift/)
 - Generic
