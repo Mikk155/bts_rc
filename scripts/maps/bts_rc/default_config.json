@@ -1,6 +1,8 @@
 {
     "$schema": "schema.json",
-    
+    "equipment":
+    {
+    },
     "aiming_lasers": {
         "active": true,
         "alpha": 150,

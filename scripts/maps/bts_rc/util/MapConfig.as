@@ -62,6 +62,8 @@ void RegisterContexts()
 
     g_MapConfig.Register( g_WeaponsConfig ); // Always active
 
+    g_MapConfig.Register( gpEquipment ); // Always active
+
     // No ordering required:
     g_MapConfig.Register( ASBloodPuddleConfig() );
     g_MapConfig.Register( ASDynamicAmmoConfig() );

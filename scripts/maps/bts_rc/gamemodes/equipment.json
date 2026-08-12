@@ -44,12 +44,6 @@
             // Operative security officer
             {
             }
-        ],
-
-        // Additional list of precaches if needed
-        "precache":
-        [
-            "models/revolver.mdl"
         ]
     }
 }
