@@ -21,7 +21,7 @@ class BTS_Ammo : BTS_Item
 {
     bool PickupObject( CBaseEntity@ player, const int give, const string&in ammoName, const int max )
     {
-        int finalGive = ( gpDynamicAmmo !is null ? gpDynamicAmmo.GetAmmoGive( ammoName, give ) : give );
+        int finalGive = GetDynamicAmmoGive( ammoName, give );
 
         if( IsValid( player ) && player.GiveAmmo( finalGive, ammoName, max ) != -1 )
         {

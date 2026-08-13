@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/24.050632911392405?barColor=da6e0b)
+> ![](https://geps.dev/progress/32.91139240506329?barColor=da930b)
 <!--CompletionBar-end-->
 
 ---
@@ -39,13 +39,8 @@ This file contains the list of to-do in the project.
 - [ ] replace all FireBullet( & FireBullets( to ASBullet pattern
 - [ ] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
 - [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
-- [ ] Optimize & simplify monster_parasite
-- [ ] Optimize & simplify monster_snapbug
 - [ ] Optimize & simplify monster_zombie_parasite
-- [ ] Optimize & simplify scientists.as
 - [ ] Optimize & simplify monster_zombie_gunner
-- [ ] Optimize & simplify monster_zombie_grenadier
-- [ ] Optimize item_tracker (Maybe Re-Implement partially the branch prototype view)
 - [ ] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
 - [ ] Debug command to show and select a CCharacter.
 - [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
@@ -78,10 +73,8 @@ This file contains the list of to-do in the project.
 - [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
 - [ ] Expose to JSON weapons rate of fire
 - [ ] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
-- [ ] remove file name prefix to item_bts*
 - [ ] make item tracking optional
 - [ ] add a command registry entry to test changing classification (Maybe CTextMenu?)
-- [ ] Make a helper for dynamic ammo returning default value if dynamic ammo is nullptr
 - [ ] make medkit to not automatically recharge, only using health stations [#97](https://github.com/Mikk155/bts_rc/issues/97)
 - [ ] move player characters to default config
 - [ ] Expose to JSON remaining weapons accuracy cone
@@ -91,6 +84,13 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Optimize & simplify monster_parasite
+- [x] Optimize & simplify monster_snapbug
+- [x] Optimize & simplify scientists.as
+- [x] Optimize & simplify monster_zombie_grenadier
+- [x] Optimize item_tracker (Maybe Re-Implement partially the branch prototype view)
+- [x] remove file name prefix to item_bts*
+- [x] Make a helper for dynamic ammo returning default value if dynamic ammo is nullptr
 - [x] Move ascurl version checker code to a single file to use the preprocessor in the ``#include`` directive only.
 - [x] Fix all angelscript warnings
 - [x] Expose to JSON weapons accuracy cone

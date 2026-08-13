@@ -24,82 +24,102 @@ namespace btscm
 
 void ScientistThink()
 {
-    CBaseEntity@ pEntity = null;
-    while( (@pEntity = g_EntityFuncs.FindEntityByClassname(pEntity, "monster_scientist")) !is null )
+    CBaseEntity@ entity = null;
+
+    while( ( @entity = g_EntityFuncs.FindEntityByClassname( entity, "monster_scientist" ) ) !is null )
     {
-        CBaseMonster@ pMonster = pEntity.MyMonsterPointer();
-        if( pMonster is null or pMonster.m_MonsterState == MONSTERSTATE_NONE or IgnoreThisScientist(EHandle(pEntity)) )
+        CBaseMonster@ monster = entity.MyMonsterPointer();
+
+        if( IgnoreThisScientist( monster ) || monster.m_MonsterState == MONSTERSTATE_NONE )
             continue;
 
-        CustomKeyvalues@ pCustom = pEntity.GetCustomKeyvalues();
-        float flNextThink = pCustom.GetKeyvalue(KVN_MONSTERTHINK).GetFloat();
+        CustomKeyvalues@ custom = entity.GetCustomKeyvalues();
 
-        if( flNextThink <= g_Engine.time )
-        {
-            if( pEntity.pev.deadflag == DEAD_NO )
-                CheckForRevive( EHandle(pEntity) );
+        if( custom.GetKeyvalue( KVN_MONSTERTHINK ).GetFloat() > g_Engine.time )
+            continue;
 
-            pCustom.SetKeyvalue( KVN_MONSTERTHINK, g_Engine.time + THINKRATE_OTHER );
-        }
+        if( entity.pev.deadflag == DEAD_NO )
+            CheckForRevive( monster );
+
+        custom.SetKeyvalue( KVN_MONSTERTHINK, g_Engine.time + THINKRATE_OTHER );
     }
 }
 
-bool IgnoreThisScientist( EHandle hMonster )
+bool IgnoreThisScientist( CBaseMonster@ monster )
 {
-    CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
-    if( pMonster is null ) return true;
-    if( pMonster.pev.SpawnFlagBitSet(256) ) return true; //Pre-Disaster
-
-    return false;
+    return monster is null || monster.pev.SpawnFlagBitSet( 256 ); // Pre-Disaster
 }
 
-void CheckForRevive( EHandle hMonster )
+CBaseEntity@ FindPlayerCorpse( CBasePlayer@ player )
 {
-    CBaseMonster@ pMonster = hMonster.GetEntity().MyMonsterPointer();
-    if( pMonster is null ) return;
+    CBaseEntity@ corpse = null;
 
-    if( pMonster.m_hTargetEnt.IsValid() and pMonster.m_hTargetEnt.GetEntity().GetClassname() == "player" )
+    while( ( @corpse = g_EntityFuncs.FindEntityByClassname( corpse, "deadplayer" ) ) !is null )
     {
-        CBasePlayer@ pPlayer = cast<CBasePlayer@>( pMonster.m_hTargetEnt.GetEntity() );
-        if( pPlayer is null or pPlayer.IsAlive() or pPlayer.pev.iuser1 == OBS_NONE )
-            return;
+        if( corpse.pev.renderfx != kRenderFxDeadPlayer || corpse.pev.renderamt < 0 )
+            continue;
 
-        CBaseEntity@ pCorpse = null;
-        while( (@pCorpse = g_EntityFuncs.FindEntityByClassname(pCorpse, "deadplayer")) !is null )
-        {
-            if( pCorpse.pev.renderfx == kRenderFxDeadPlayer and pCorpse.pev.renderamt >= 0 )
-            {
-                CBaseEntity@ cbePlayer = g_EntityFuncs.Instance( int(pCorpse.pev.renderamt) );
-                if( cbePlayer !is null and cbePlayer is pMonster.m_hTargetEnt.GetEntity() )
-                {
-                    if( (pMonster.pev.origin - pCorpse.pev.origin).Length() > 128.0 )
-                        pMonster.m_hTargetEnt = EHandle( pCorpse );
-                    else
-                        pMonster.m_hTargetEnt = EHandle( cbePlayer );
+        CBaseEntity@ corpsePlayer = g_EntityFuncs.Instance( int( corpse.pev.renderamt ) );
 
-                    //keep the player in place while revive is in progress, otherwise the scientist will follow the observer player blyat
-                    if( (pMonster.pev.origin - pCorpse.pev.origin).Length() <= 128.0 and (cbePlayer.pev.origin - pCorpse.pev.origin).Length() > 16.0 )
-                    {
-                        if( pPlayer !is null and pPlayer.pev.iuser1 != OBS_ROAMING )
-                        {
-                            pPlayer.GetObserver().SetMode( OBS_ROAMING );
-                            pPlayer.GetObserver().SetObserverModeControlEnabled( false );
-                        }
-
-                        pPlayer.pev.effects &= ~EF_NODRAW;
-                        pPlayer.pev.rendermode = kRenderTransColor;
-                        pPlayer.pev.renderamt = 0;
-
-                        g_EntityFuncs.SetOrigin( cbePlayer, pCorpse.pev.origin );
-                    }
-
-                    break;
-                }
-            }
-        }
-
-        //g_Game.AlertMessage( at_notice, "m_hTargetEnt: %1\n", pMonster.m_hTargetEnt.GetEntity().GetClassname() );
+        if( corpsePlayer is player )
+            return corpse;
     }
+
+    return null;
+}
+
+void SetPlayerReviveVisibility( CBasePlayer@ player, bool visible )
+{
+    if( visible )
+    {
+        player.pev.effects &= ~EF_NODRAW;
+        player.pev.rendermode = kRenderTransColor;
+        player.pev.renderamt = 0;
+        return;
+    }
+
+    player.pev.effects |= EF_NODRAW;
+    player.pev.rendermode = kRenderNormal;
+}
+
+void CheckForRevive( CBaseMonster@ monster )
+{
+    if( monster is null )
+        return;
+
+    CBaseEntity@ target = monster.m_hTargetEnt.GetEntity();
+
+    if( target is null || target.GetClassname() != "player" )
+        return;
+
+    CBasePlayer@ player = cast<CBasePlayer@>( target );
+
+    if( player is null || player.IsAlive() || player.pev.iuser1 == OBS_NONE )
+        return;
+
+    CBaseEntity@ corpse = FindPlayerCorpse( player );
+
+    if( corpse is null )
+        return;
+
+    float corpseDistance = ( monster.pev.origin - corpse.pev.origin ).Length();
+
+    if( corpseDistance > 128.0 )
+        monster.m_hTargetEnt = EHandle( corpse );
+    else
+        monster.m_hTargetEnt = EHandle( player );
+
+    if( corpseDistance > 128.0 || ( player.pev.origin - corpse.pev.origin ).Length() <= 16.0 )
+        return;
+
+    if( player.pev.iuser1 != OBS_ROAMING )
+    {
+        player.GetObserver().SetMode( OBS_ROAMING );
+        player.GetObserver().SetObserverModeControlEnabled( false );
+    }
+
+    SetPlayerReviveVisibility( player, true );
+    g_EntityFuncs.SetOrigin( player, corpse.pev.origin );
 }
 
 void ScientistMapInit()
@@ -107,95 +127,23 @@ void ScientistMapInit()
     g_Hooks.RegisterHook( Hooks::Player::PlayerPreThink, @PlayerPreThink );
 }
 
-HookReturnCode PlayerPreThink( CBasePlayer@ pPlayer, uint& out uiFlags )
+HookReturnCode PlayerPreThink( CBasePlayer@ player, uint& out uiFlags )
 {
-    if( pPlayer.pev.iuser1 != OBS_NONE )
-    {
-        CustomKeyvalues@ pCustom = pPlayer.GetCustomKeyvalues();
-        float flNextThink = pCustom.GetKeyvalue(KVN_PLAYERTHINK).GetFloat();
+    if( player.pev.iuser1 == OBS_NONE )
+        return HOOK_CONTINUE;
 
-        if( flNextThink <= g_Engine.time )
-        {
-            CBaseEntity@ pCorpse = null;
-            while( (@pCorpse = g_EntityFuncs.FindEntityByClassname(pCorpse, "deadplayer")) !is null )
-            {
-                if( pCorpse.pev.renderfx == kRenderFxDeadPlayer and pCorpse.pev.renderamt >= 0 )
-                {
-                    CBaseEntity@ cbePlayer = g_EntityFuncs.Instance( int(pCorpse.pev.renderamt) );
-                    if( cbePlayer !is null and cbePlayer is pPlayer )
-                    {
-                        if( (cbePlayer.pev.origin - pCorpse.pev.origin).Length() <= 128.0 )
-                        {
-                            pPlayer.pev.effects &= ~EF_NODRAW;
-                            pPlayer.pev.rendermode = kRenderTransColor;
-                            pPlayer.pev.renderamt = 0;
-                        }
-                        else
-                        {
-                            pPlayer.pev.effects |= EF_NODRAW;
-                            pPlayer.pev.rendermode = kRenderNormal;
-                        }
+    CustomKeyvalues@ custom = player.GetCustomKeyvalues();
 
-                        break;
-                    }
-                }
-            }
+    if( custom.GetKeyvalue( KVN_PLAYERTHINK ).GetFloat() > g_Engine.time )
+        return HOOK_CONTINUE;
 
-            pCustom.SetKeyvalue( KVN_PLAYERTHINK, g_Engine.time + THINKRATE_PLAYER );
-        }
-    }
+    CBaseEntity@ corpse = FindPlayerCorpse( player );
 
+    if( corpse !is null )
+        SetPlayerReviveVisibility( player, ( player.pev.origin - corpse.pev.origin ).Length() <= 128.0 );
+
+    custom.SetKeyvalue( KVN_PLAYERTHINK, g_Engine.time + THINKRATE_PLAYER );
     return HOOK_CONTINUE;
 }
 
-} //namespace btscm END
-
-/* TODO
-    Move ScientistThink stuff into PlayerPreThink ??
-*/
-
-
-/* NOTES
-
-//g_Game.AlertMessage( at_notice, "m_pSchedule: %1\n", pMonster.m_pSchedule.szName() );
-//ScheduleFromName "Revive Speak/Revive"
-
-kneel_idle
-of1_a1_cpr1
-
-slScientistCPRrevive: sequence 56 "lean", 49 "cprscientist"
-
-kRenderFxDeadPlayer   17   kRenderAmt is the player index  
-
-void CopyToBodyQue(entvars_t *pev) 
-{
-    if (pev->effects & EF_NODRAW)
-        return;
-
-    entvars_t *pevHead  = VARS(g_pBodyQueueHead);
-
-    pevHead->angles     = pev->angles;
-    pevHead->model      = pev->model;
-    pevHead->modelindex = pev->modelindex;
-    pevHead->frame      = pev->frame;
-    pevHead->colormap   = pev->colormap;
-    pevHead->movetype   = MOVETYPE_TOSS;
-    pevHead->velocity   = pev->velocity;
-    pevHead->flags      = 0;
-    pevHead->deadflag   = pev->deadflag;
-    pevHead->renderfx   = kRenderFxDeadPlayer;
-    pevHead->renderamt  = ENTINDEX( ENT( pev ) );
-
-    pevHead->effects    = pev->effects | EF_NOINTERP;
-    //pevHead->goalstarttime = pev->goalstarttime;
-    //pevHead->goalframe    = pev->goalframe;
-    //pevHead->goalendtime = pev->goalendtime ;
-    
-    pevHead->sequence = pev->sequence;
-    pevHead->animtime = pev->animtime;
-
-    UTIL_SetOrigin(pevHead, pev->origin);
-    UTIL_SetSize(pevHead, pev->mins, pev->maxs);
-    g_pBodyQueueHead = pevHead->owner;
-} 
-*/
+} // namespace btscm END

@@ -15,13 +15,13 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#include "item_bts_armorvest"
-#include "item_bts_clsuit"
-#include "item_bts_helmet"
-#include "item_bts_hevbattery"
-#include "item_bts_hevsuit"
-#include "item_bts_skeleton"
-#include "item_bts_sprayaid"
+#include "armorvest"
+#include "clsuit"
+#include "helmet"
+#include "hevbattery"
+#include "hevsuit"
+#include "skeleton"
+#include "sprayaid"
 
 final class ASItemsConfig : IConfigurable
 {
