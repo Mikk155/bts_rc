@@ -15,36 +15,108 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-interface IEquipment
-{
-    // Equip the given player
-    void Equip( CBasePlayer@ player ) const;
-}
-
 // Class representing set equipment
-final class ASEquipment : IEquipment
+final class ASEquipmentSet
 {
     private array<string> m_Items;
     private array<dictionary> m_Entities;
-    private RGBA m_HUDFade;
     private string m_Description;
 
-    void Equip( CBasePlayer@ player ) const override
+    const string& get_Description() const
+    {
+        return this.m_Description;
+    }
+
+    // dictionary constructor
+    ASEquipmentSet() {}
+
+    ASEquipmentSet( const string&in setName, meta_api::json::v2::json@ config )
+    {
+        this.m_Description = config.ValueOrDefault( "description", String::EMPTY_STRING );
+
+        meta_api::json::v2::json@ items = config[ "items" ];
+
+        if( items !is null )
+        {
+            uint itemsLength = items.Length();
+
+            for( uint ui = 0; ui < itemsLength; ui++ )
+            {
+                meta_api::json::v2::json@ item = items[ui];
+
+                if( !item.is_string() )
+                    g_Logger.critical.print( "only strings allowed in items at index {} for equipment {}", { string(ui), setName } );
+
+                this.m_Items.insertLast( string( items[ui] ) );
+            }
+        }
+
+        meta_api::json::v2::json@ entities = config[ "entities" ];
+
+        if( entities !is null )
+        {
+            uint entitiesLength = entities.Length();
+
+            for( uint ui = 0; ui < entitiesLength; ui++ )
+            {
+                meta_api::json::v2::json@ entity = entities[ui];
+                const array<string>@ entityKeys = entity.Keys;
+                uint entityLength = entity.Length();
+                dictionary@ entityData = {};
+
+                for( uint ui2 = 0; ui2 < entityLength; ui2++ )
+                {
+                    string keyName = entityKeys[ui2];
+
+                    meta_api::json::v2::json@ entityValue = entity[keyName];
+
+                    if( !entityValue.is_string() )
+                        g_Logger.critical.print( "only strings allowed in entities at index {} for equipment {} at key {}", { string(ui), setName, keyName } );
+
+                    entityData[ keyName ] = string( entityValue );
+                }
+
+                if( entityData.getSize() <= 0 )
+                    continue;
+
+                string className;
+
+                if( !entityData.get( "classname", className ) || className.IsEmpty() )
+                    g_Logger.critical.print( "Missing \"classname\" field for entity at index {} for equipment {}", { string(ui), setName } );
+
+                if( g_MapConfig.MapLoading )
+                {
+                    CBaseEntity@ entityCreated = g_EntityFuncs.Create( className, g_vecZero, g_vecZero, false, null );
+
+                    if( entityCreated is null )
+                        g_Logger.critical.print( "Failed to create entity at index {} for equipment {}", { string(ui), setName } );
+
+                    entityCreated.Precache();
+
+                    entityCreated.pev.flags |= FL_KILLME;
+                }
+
+                this.m_Entities.insertLast( entityData );
+            }
+        }
+    }
+
+    void Equip( CBasePlayer@ player )
     {
         uint itemsLength = this.m_Items.length();
 
         for( uint ui = 0; ui < itemsLength; ui++ )
         {
-            player.GiveNamedItem( m_Items[ui] );
+            player.GiveNamedItem( this.m_Items[ui] );
         }
 
         uint entitiesLength = this.m_Entities.length();
 
         for( uint ui = 0; ui < entitiesLength; ui++ )
         {
-            dictionary@ entData = m_Entities[ui];
+            dictionary@ entData = this.m_Entities[ui];
 
-            auto entity = g_EntityFuncs.CreateEntity( string( entData[ "classname" ] ), entData );
+            CBaseEntity@ entity = g_EntityFuncs.CreateEntity( string( entData[ "classname" ] ), entData );
 
             if( entity !is null )
             {
@@ -55,24 +127,99 @@ final class ASEquipment : IEquipment
 }
 
 // Class representing a classification equipment
-final class ASEquipmentCharacter : IEquipment
+final class ASEquipmentCharacter
 {
-    private array<ASEquipment@> m_Sets;
-
-    // Last ASEquipment that was equiped to not repeat kits onto players
+    private string m_Description;
+    private uint[] m_HUDFade(3);
+    private uint[] m_HUDMessage(3);
     private int m_LastEquipment;
+    private array<ASEquipmentSet@> m_Sets;
+    private array<ASEquipmentSet@> m_SetsEnforced;
 
-    void Equip( CBasePlayer@ player ) const override
+    // dictionary constructor
+    ASEquipmentCharacter() {}
+
+    ASEquipmentCharacter( const Classification&in classification, meta_api::json::v2::json@ config )
     {
+        // Get random sets
+        meta_api::json::v2::json@ sets = config[ "sets" ];
+
+        if( sets !is null )
+        {
+            uint setsLength = sets.Length();
+
+            for( uint ui = 0; ui < setsLength; ui++ )
+            {
+                string setName = string( sets[ui] );
+
+                ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
+
+                if( equipSet is null )
+                    g_Logger.critical.print( "undefined kit sets with name {} at index {} for character {}", { setName, string(ui), string(int(classification)) } );
+
+                m_Sets.insertLast( equipSet );
+            }
+
+            // Randomize list
+            for( uint ui = setsLength - 1; ui > 0; ui-- )
+            {
+                uint ui2 = Math.RandomLong( 0, ui );
+
+                ASEquipmentSet@ temp = this.m_Sets[ui];
+                @this.m_Sets[ui] = this.m_Sets[ui2];
+                @this.m_Sets[ui2] = temp;
+            }
+
+            this.m_LastEquipment = -1;
+        }
+
+        // Get enforced sets
+        meta_api::json::v2::json@ sets_enforce = config[ "sets_enforce" ];
+
+        if( sets_enforce !is null )
+        {
+            uint setsLength = sets_enforce.Length();
+
+            for( uint ui = 0; ui < setsLength; ui++ )
+            {
+                string setName = string( sets_enforce[ui] );
+
+                ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
+
+                if( equipSet is null )
+                    g_Logger.critical.print( "undefined kit at sets_enforce with name {} at index {} for character {} in ", { setName, string(ui), string(int(classification)) } );
+
+                m_SetsEnforced.insertLast( equipSet );
+            }
+        }
+
+        this.m_Description = config.ValueOrDefault( "description", String::EMPTY_STRING );
+
+        if( !this.m_Description.IsEmpty() )
+        {
+            meta_api::json::v2::json@ fade = config[ "fade" ];
+            this.m_HUDFade[0] = uint( int( fade[0] ) );
+            this.m_HUDFade[1] = uint( int( fade[1] ) );
+            this.m_HUDFade[2] = uint( int( fade[2] ) );
+
+            meta_api::json::v2::json@ notice = config[ "notice" ];
+            this.m_HUDMessage[0] = uint( int( notice[0] ) );
+            this.m_HUDMessage[1] = uint( int( notice[1] ) );
+            this.m_HUDMessage[2] = uint( int( notice[2] ) );
+        }
+    }
+
+    void Equip( CBasePlayer@ player )
+    {
+        if( ++this.m_LastEquipment >= int(m_Sets.length()) )
+            this.m_LastEquipment = 0;
+
+        const ASEquipmentSet@ kitSet = this.m_Sets[this.m_LastEquipment];
     }
 }
 
 final class ASEquipmentConfig : IConfigurable
 {
-    // Container of character-equipments
-    private array<ASEquipmentCharacter@> m_Characters(Classification::__Size__);
-    private array<ASEquipment@> m_AllEquipments;
-
     const string& GetName() const override {
         return "equipment";
     }
@@ -94,29 +241,148 @@ final class ASEquipmentConfig : IConfigurable
                     "type": "object",
                     "title": "kit sets",
                     "description": "Set to equip, additional objects in within are entities to create and give to the player.",
-                    "unevaluatedProperties": true,
-                    "properties":
+                    "unevaluatedProperties": false,
+                    "additionalProperties":
                     {
-                        "type": "array",
-                        "description": "List of weapon/ammo/items to give to the player",
-                        "items": { "type": "string" }
+                        "type": "object",
+                        "unevaluatedProperties": false,
+                        "title": "Player Equipment",
+                        "description": "Player equipment kits configuration.",
+                        "properties":
+                        {
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "Description of the kit."
+                            },
+                            "items":
+                            {
+                                "type": "array",
+                                "description": "List of weapon/item classname to give to the player.",
+                                "items": { "type": "string" }
+                            },
+                            "entities":
+                            {
+                                "type": "array",
+                                "description": "List of entities key-value pairs to create onto the player.",
+                                "items":
+                                {
+                                    "unevaluatedProperties": true,
+                                    "description": "Object representing a entity key-value pairs.",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "characters":
+                {
+                    "type": "array",
+                    "minItems": 6,
+                    "maxItems": 6,
+                    "description": "Characters equipment config. each objects corresponds to Security, Scientist, Maintenance, HEV, Hazard and Operative respectivelly.",
+                    "items":
+                    {
+                        "type": "object",
+                        "unevaluatedProperties": false,
+                        "properties":
+                        {
+                            "description":
+                            {
+                                "type": "string",
+                                "description": "message used on equipment where %1 is the player name and %2 is the set's description."
+                            },
+                            "sets":
+                            {
+                                "type": "array",
+                                "description": "List of sets names to pick up randomly.",
+                                "items": { "type": "string" }
+                            },
+                            "fade":
+                            {
+                                "type": "array",
+                                "minItems": 3,
+                                "maxItems": 3,
+                                "description": "RGB used for the fade effect.",
+                                "items": { "type": "integer" }
+                            },
+                            "notice":
+                            {
+                                "type": "array",
+                                "minItems": 3,
+                                "maxItems": 3,
+                                "description": "RGB used for the notice message.",
+                                "items": { "type": "integer" }
+                            },
+                            "trigger":
+                            {
+                                "type": "string",
+                                "description": "Target after equip, passes the player as !activator."
+                            },
+                            "sets_enforce":
+                            {
+                                "type": "array",
+                                "description": "List of sets names to always equip.",
+                                "items": { "type": "string" }
+                            }
+                        }
                     }
                 }
             }
         }""";
     }
 
+    // Container of character-equipments
+    private array<ASEquipmentCharacter@> m_Characters(Classification::__Size__);
+    private dictionary m_AllEquipments;
+
+    ASEquipmentSet@ EquipmentSet( const string&in setName ) const
+    {
+        ASEquipmentSet@ equipSet = null;
+        this.m_AllEquipments.get( setName, @equipSet );
+        return equipSet;
+    }
+
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        if( g_MapConfig.MapLoading )
+        this.m_AllEquipments.deleteAll();
+        this.m_Characters.resize(0);
+        this.m_Characters.resize(Classification::__Size__);
+
+        // Register all sets
         {
+            meta_api::json::v2::json@ sets = config[ "sets" ];
+            const array<string>@ setsNames = sets.Keys;
+            uint setsLength = sets.Length();
+
+            for( uint ui = 0; ui < setsLength; ui++ )
+            {
+                string setName = setsNames[ui];
+                meta_api::json::v2::json@ setProperties = sets[ setName ];
+
+                ASEquipmentSet@ kitSet = ASEquipmentSet( setName, setProperties );
+
+                m_AllEquipments[ setName ] = kitSet;
+            }
+        }
+
+        // Register all character sets
+        {
+            meta_api::json::v2::json@ characters = config[ "characters" ];
+            uint charactersLength = characters.Length();
+
+            for( uint ui = 0; ui < charactersLength; ui++ )
+            {
+                ASEquipmentCharacter@ characterSet = ASEquipmentCharacter( Classification(ui), characters[ui] );
+                @this.m_Characters[ui] = characterSet;
+            }
         }
 
         return true;
     }
 }
 
-ASEquipmentConfig@ gpEquipment;
+ASEquipmentConfig gpEquipment;
 
 #if SERVER
 RegisterCommand@ ASEquipmentTestCommand;

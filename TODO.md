@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/26.76056338028169?barColor=da7a0b)
+> ![](https://geps.dev/progress/26.38888888888889?barColor=da780b)
 <!--CompletionBar-end-->
 
 ---
@@ -26,6 +26,7 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+- [ ] move to src/precaches.json models in the map that has the targetname "PRECACHE" and notify raptor.
 - [ ] weapon json variable int[2] for default ammo min/max on spawn (clip ammo check)
 - [ ] weapon json variable int[2] for default secondary ammo min/max on spawn
 - [ ] replace all FireBullet( & FireBullets( to ASBullet pattern

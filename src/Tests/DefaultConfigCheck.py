@@ -31,7 +31,7 @@ class DefaultConfigCheck( PyBuilder ):
                 #         content += line;
                 # I prefer to sort the object more than comments.
                 parsed = json.load( fStream );
-    
+
         except json.JSONDecodeError as e:
             self.Log( "{} > invalid JSON: scripts/maps/bts_rc/default_config.json at line {}:{}", e.msg, e.lineno, e.colno );
             return False;
@@ -50,8 +50,6 @@ class DefaultConfigCheck( PyBuilder ):
                 def sortRecursive( obj: dict | list ) -> dict | list:
                     if isinstance( obj, dict ):
                         return { k: sortRecursive( obj[k] ) for k in sorted( obj ) };
-                    elif isinstance( obj, list ):
-                        return [ sortRecursive( item ) for item in sorted( obj ) ];
                     else:
                         return obj
 
