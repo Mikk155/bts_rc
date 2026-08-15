@@ -207,7 +207,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
 
         if( classname == "monster_turret" )
         {
-            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
                 m.WriteByte( TE_DLIGHT );
                 m.WriteCoord( VecStart.x );
                 m.WriteCoord( VecStart.y );
@@ -221,7 +221,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
             m.End();
         }
         {
-            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
                 m.WriteByte( TE_DLIGHT );
                 m.WriteCoord( tr.vecEndPos.x );
                 m.WriteCoord( tr.vecEndPos.y );
@@ -235,7 +235,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
             m.End();
         }
         {
-            NetworkMessage m( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
                 m.WriteByte( TE_BEAMPOINTS );
                 m.WriteCoord( VecStart.x );
                 m.WriteCoord( VecStart.y );

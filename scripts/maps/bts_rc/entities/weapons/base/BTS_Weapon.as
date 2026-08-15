@@ -203,9 +203,9 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         }
     }
 
-    void TraceEffects( TraceResult &in tr, Bullet bullet = Bullet::BULLET_NONE )
+    void TraceEffects( TraceResult &in tr )
     {
-        weapons::TraceEffects( self, this.owner, this.config, tr, bullet );
+        weapons::TraceEffects( self, this.owner, this.config, tr );
     }
 
     protected uint8 __last_random__ = 0;

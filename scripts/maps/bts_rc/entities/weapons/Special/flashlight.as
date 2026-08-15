@@ -134,7 +134,7 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
             return;
         }
 
-        TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+        TraceEffects(tr);
 
         if( this.IsFlesh( hit ) )
         {

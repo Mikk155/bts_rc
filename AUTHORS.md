@@ -16,9 +16,9 @@
 - [Four-Nines](https://github.com/Four-Ninez)
 - [FreeSlave](https://github.com/FreeSlave)
 - [Gaftherman](https://github.com/Gaftherman)
-- Gamit
+- [Gamit](https://gamebanana.com/members/2642325)
 - Gauna
-- Gearbox Software
+- [Gearbox Software](https://store.steampowered.com/app/130/HalfLife_Blue_Shift/)
 - Generic
 - [Giegue](https://github.com/julianR0)
 - Grunt
@@ -34,21 +34,21 @@
 - MiroSklenar
 - MrFailz
 - MrFloyd
-- MTB
-- Nero0
+- [MTB](https://gamebanana.com/members/1522427)
+- [Nero0](https://github.com/Neyami)
 - Ooleg
 - Organic700
 - Peachcobbler
 - [RaptorSKA](https://github.com/RaptorSKA)
 - [Rizulix](https://github.com/Rizulix)
 - Ryor
-- [sashi0034](https://github.com/sashi0034)
+- [sashi0034](https://github.com/sashi0034/angel-lsp)
 - Sock
 - [Solokiller](https://github.com/SamVanheer)
 - Sparks
-- SV BOY
-- Sven Co-op Team
-- Valve
+- [SV BOY](https://github.com/SVB0Y)
+- [Sven Co-op Team](https://discord.com/invite/svencoop)
+- [Valve](https://store.steampowered.com/app/70/HalfLife/)
 - Vika
 - Yomustdie
 - Zasli

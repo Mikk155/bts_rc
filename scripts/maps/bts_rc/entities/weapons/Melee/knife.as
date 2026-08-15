@@ -170,7 +170,7 @@ final class weapon_bts_knife : BTS_MeleeCharge
         }
         else
         {
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            TraceEffects(tr);
 
             if( this.IsFlesh(hit) )
             {

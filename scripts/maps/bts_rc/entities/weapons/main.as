@@ -17,8 +17,10 @@
 
 // Shared functions
 #include "base/shared/Accuracy"
+#include "base/shared/bullet"
 #include "base/shared/Deploy"
 #include "base/shared/Hit"
+#include "base/shared/Kickback"
 #include "base/shared/SetCooldown"
 #include "base/shared/TraceEffects"
 
@@ -81,6 +83,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 {
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
+    bool infinite_ammo;
     bool melee_weapons_push;
     float melee_weapons_push_force;
     bool blood_splash;
@@ -106,6 +109,11 @@ final class ASGlobalWeaponConfig : IConfigurable
                 {
                     "type": "boolean",
                     "description": "Allow melee weapons to pull allied players."
+                },
+                "infinite_ammo":
+                {
+                    "type": "boolean",
+                    "description": "Weapons has infinite ammo. made for testing firing."
                 },
                 "melee_weapons_pull_force":
                 {
@@ -183,6 +191,7 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.blood_splash = bool( config[ "blood_splash" ] );
         this.m249_knockback = bool( config[ "m249_knockback" ] );
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
+        this.infinite_ammo = bool( config[ "infinite_ammo" ] );
 
         // ItemMapping stuff
         if( g_MapConfig.MapLoading )
@@ -210,6 +219,16 @@ final class ASGlobalWeaponConfig : IConfigurable
 
             // Free object
             this.ItemMappingList.resize(0);
+
+            RegisterCommand( "infinite_ammo", "<int 0/1 (optional)>", "Toggle infinite ammunition mode",
+                @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
+                {
+                    if( arguments !is null && arguments.length() > 0 )
+                        g_WeaponsConfig.infinite_ammo = ( atoi( arguments[0] ) != 0 );
+                    else
+                        g_WeaponsConfig.infinite_ammo = !g_WeaponsConfig.infinite_ammo;
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Infinite ammo has been " + ( g_WeaponsConfig.infinite_ammo ? "activated\n" : "deactivated\n" ) );
+                } ), true, "weapon" );
         }
 
         return true;

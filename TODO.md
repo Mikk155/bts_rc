@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/26.38888888888889?barColor=da780b)
+> ![](https://geps.dev/progress/23.75?barColor=da6d0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,6 +27,14 @@ This file contains the list of to-do in the project.
 ---
 
 - [ ] move to src/precaches.json models in the map that has the targetname "PRECACHE" and notify raptor.
+- [ ] Reimplement the whole hev fvox updates for hev characters (Update ASBullet::DeduceAmmo).
+- [ ] Add "active" checks to all loggers that may not have it.
+- [ ] Implement ASBullet to all fire arms.
+- [ ] Fix loggers with only one item in the array formating the message with an additional ``}`` not removed from the message.
+- [ ] Replace ASBullet's g_Engine.trace_* to g_Utility's GetGlobalTrace.
+- [ ] RegisterCommand rename class to ASCommand and create a method for RegisterCommand.
+- [ ] CommandContext should print help for specific commands in the argument 1 if it's a section i.e "bts_rc weapon" should print all commands in the weapon section.
+- [ ] Maybe reuse weapon melee distance configs into ASBullet
 - [ ] weapon json variable int[2] for default ammo min/max on spawn (clip ammo check)
 - [ ] weapon json variable int[2] for default secondary ammo min/max on spawn
 - [ ] replace all FireBullet( & FireBullets( to ASBullet pattern

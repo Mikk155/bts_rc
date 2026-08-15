@@ -3,7 +3,8 @@
     {
         // We allow comments in AngelScript json
         "*.json": "jsonc",
-        "*.as": "angelscript"
+        "*.as": "angelscript",
+        "*.predefined": "angelscript"
     },
 
     // Sven co-op specifics

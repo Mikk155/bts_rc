@@ -334,7 +334,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
 
             weapon.m_fInReload = false;
             data[ this.GetName() ] = Battery = this.secondary_dropammo;
-            player.m_rgAmmo( Flashlight::GetAmmoIndex(), ammoCount - 1 );
+            if( !g_WeaponsConfig.infinite_ammo )
+                player.m_rgAmmo( Flashlight::GetAmmoIndex(), ammoCount - 1 );
             data.delete( "flashlight_reload" );
             weapons::Deploy( weapon, player, this );
             weapon.pev.fuser1 = weapon.m_flNextSecondaryAttack;
@@ -378,7 +379,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                 {
                     float nextDrain = float( data[ "flashlight_nextdrain" ] );
 
-                    if( nextDrain <= g_Engine.time )
+                    if( nextDrain <= g_Engine.time && !g_WeaponsConfig.infinite_ammo )
                     {
                         data[ "flashlight_nextdrain" ] = g_Engine.time + flashlight_drain;
 

@@ -81,7 +81,7 @@ abstract class BTS_FireWeapon : BTS_Weapon
         TraceResult tr;
         g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
         self.FireBullets( cShots, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int( flDamage ), player.pev );
-        TraceEffects( tr, Bullet::BULLET_PLAYER_CUSTOMDAMAGE );
+        TraceEffects(tr);
 
         PlayAnim( shootAnim );
         PlaySound( szSound, flVolume, iPitch );
@@ -110,14 +110,14 @@ abstract class BTS_FireWeapon : BTS_Weapon
             return;
         }
 
-        Flashlight::TurnOff( this.owner, self, this.config );
+        Flashlight::TurnOff( this.owner, self, config );
 
         int anim = ( self.m_iClip != 0 ) ? config.reload_anim : config.reload_empty_anim;
         self.DefaultReload( config.max_clip, anim, config.reload_time, this.body );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         if( !config.reload_sound.IsEmpty() )
         {
-            PlaySound( config.reload_sound, 0.2f );
+            PlaySound( this.config.reload_sound, 0.2f );
         }
         BaseClass.Reload();
     }

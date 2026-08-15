@@ -1,3 +1,17 @@
+# 10/8/2026
+## Scripts
+- Weapons now displays lighting on firing.
+- Weapons now displays trace effects on firing (Visible in first person now).
+- Weapons now displays bubble trails under water.
+- Weapons now has proper accumulative kick back.
+- Swapped some effects map-wide broadcasts (`MSG_BROADCAST`) to Potentially Visible Set broadcasts (`MSG_PVS`).
+- Added an admin command ``bts_rc weapon infinite_ammo`` to global toggle infinite ammo of weapons and flashlight.
+
+# 9/8/2026
+## Scripts
+- Replaced fire arms shooting structure to be more flexible and maintainable.
+- Exposed multiple weapon variables to json.
+
 # 27/7/2026
 ## Scripts
 ### Flashlight System Overhaul & Refinement

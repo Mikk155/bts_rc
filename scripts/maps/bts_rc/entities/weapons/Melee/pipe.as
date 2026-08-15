@@ -147,7 +147,7 @@ final class weapon_bts_pipe : BTS_MeleeCharge
         }
         else
         {
-            TraceEffects( tr, Bullet::BULLET_PLAYER_CROWBAR );
+            TraceEffects(tr);
 
             if( this.IsFlesh(hit) )
             {
