@@ -215,6 +215,22 @@ final class ASEquipmentCharacter
             this.m_LastEquipment = 0;
 
         const ASEquipmentSet@ kitSet = this.m_Sets[this.m_LastEquipment];
+
+        if( !this.m_Description.IsEmpty() )
+        {
+            string buffer;
+            snprintf( buffer, this.m_Description, string( player.pev.netname ), kitSet.Description );
+            auto msgParams = gpEquipment.MessageParams( this.m_HUDMessage[0], this.m_HUDMessage[1], this.m_HUDMessage[2] );
+            g_PlayerFuncs.HudMessageAll( msgParams, buffer );
+            g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
+        }
+
+        if( this.m_HUDFade[0] != 0 || this.m_HUDFade[1] != 0 && this.m_HUDFade[2] != 0 )
+        {
+            Vector color( this.m_HUDFade[0], this.m_HUDFade[1], this.m_HUDFade[2] );
+            g_PlayerFuncs.ScreenFade( player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT );
+            g_Scheduler.SetTimeout( @g_PlayerFuncs, "ScreenFade", 1.0f, @player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
+        }
     }
 }
 
@@ -348,6 +364,16 @@ final class ASEquipmentConfig : IConfigurable
         return this.m_AllEquipments;
     }
 
+    private HUDTextParams m_MessageParams;
+
+    const HUDTextParams& MessageParams( uint red, uint green, uint blue )
+    {
+        this.m_MessageParams.r1 = red;
+        this.m_MessageParams.g1 = green;
+        this.m_MessageParams.b1 = blue;
+        return this.m_MessageParams;
+    }
+
     const ASEquipmentSet@ EquipmentSet( const string&in setName ) const
     {
         ASEquipmentSet@ equipSet = null;
@@ -388,6 +414,20 @@ final class ASEquipmentConfig : IConfigurable
                 @ASEquipmentCharacter( Classification::Operative, characters[5] )
             };
         }
+
+        this.m_MessageParams.x = 0;
+        this.m_MessageParams.y = 0;
+        this.m_MessageParams.effect = 2;
+        this.m_MessageParams.a1 = 0;
+        this.m_MessageParams.r2 = 240;
+        this.m_MessageParams.g2 = 110;
+        this.m_MessageParams.b2 = 0;
+        this.m_MessageParams.a2 = 0;
+        this.m_MessageParams.fadeinTime = 0.05f;
+        this.m_MessageParams.fadeoutTime = 0.5f;
+        this.m_MessageParams.holdTime = 1.2f;
+        this.m_MessageParams.fxTime = 0.025f;
+        this.m_MessageParams.channel = 5;
 
         return true;
     }
