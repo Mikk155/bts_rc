@@ -133,8 +133,8 @@ final class ASEquipmentCharacter
     private uint[] m_HUDFade(3);
     private uint[] m_HUDMessage(3);
     private int m_LastEquipment;
-    private array<ASEquipmentSet@> m_Sets;
-    private array<ASEquipmentSet@> m_SetsEnforced;
+    private array<const ASEquipmentSet@> m_Sets;
+    private array<const ASEquipmentSet@> m_SetsEnforced;
 
     // dictionary constructor
     ASEquipmentCharacter() {}
@@ -152,7 +152,7 @@ final class ASEquipmentCharacter
             {
                 string setName = string( sets[ui] );
 
-                ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
+                const ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
 
                 if( equipSet is null )
                     g_Logger.critical.print( "undefined kit sets with name {} at index {} for character {}", { setName, string(ui), string(int(classification)) } );
@@ -165,7 +165,7 @@ final class ASEquipmentCharacter
             {
                 uint ui2 = Math.RandomLong( 0, ui );
 
-                ASEquipmentSet@ temp = this.m_Sets[ui];
+                const ASEquipmentSet@ temp = this.m_Sets[ui];
                 @this.m_Sets[ui] = this.m_Sets[ui2];
                 @this.m_Sets[ui2] = temp;
             }
@@ -184,7 +184,7 @@ final class ASEquipmentCharacter
             {
                 string setName = string( sets_enforce[ui] );
 
-                ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
+                const ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
 
                 if( equipSet is null )
                     g_Logger.critical.print( "undefined kit at sets_enforce with name {} at index {} for character {} in ", { setName, string(ui), string(int(classification)) } );
@@ -332,11 +332,23 @@ final class ASEquipmentConfig : IConfigurable
         }""";
     }
 
-    // Container of character-equipments
-    private array<ASEquipmentCharacter@> m_Characters(Classification::__Size__);
+    private array<const ASEquipmentCharacter@> m_Characters;
+
+    // Return the list of character equipents where the index ordering equals to Classification enum.
+    const array<const ASEquipmentCharacter@>@ get_Characters() const
+    {
+        return this.m_Characters;
+    }
+
     private dictionary m_AllEquipments;
 
-    ASEquipmentSet@ EquipmentSet( const string&in setName ) const
+    // Return the map of all equipment sets
+    const dictionary& get_Equipments() const
+    {
+        return this.m_AllEquipments;
+    }
+
+    const ASEquipmentSet@ EquipmentSet( const string&in setName ) const
     {
         ASEquipmentSet@ equipSet = null;
         this.m_AllEquipments.get( setName, @equipSet );
@@ -347,7 +359,6 @@ final class ASEquipmentConfig : IConfigurable
     {
         this.m_AllEquipments.deleteAll();
         this.m_Characters.resize(0);
-        this.m_Characters.resize(Classification::__Size__);
 
         // Register all sets
         {
@@ -359,23 +370,23 @@ final class ASEquipmentConfig : IConfigurable
             {
                 string setName = setsNames[ui];
                 meta_api::json::v2::json@ setProperties = sets[ setName ];
-
-                ASEquipmentSet@ kitSet = ASEquipmentSet( setName, setProperties );
-
-                m_AllEquipments[ setName ] = kitSet;
+                const ASEquipmentSet@ kitSet = ASEquipmentSet( setName, setProperties );
+                this.m_AllEquipments[ setName ] = kitSet;
             }
         }
 
         // Register all character sets
         {
             meta_api::json::v2::json@ characters = config[ "characters" ];
-            uint charactersLength = characters.Length();
 
-            for( uint ui = 0; ui < charactersLength; ui++ )
-            {
-                ASEquipmentCharacter@ characterSet = ASEquipmentCharacter( Classification(ui), characters[ui] );
-                @this.m_Characters[ui] = characterSet;
-            }
+            this.m_Characters = {
+                @ASEquipmentCharacter( Classification::Security, characters[0] ),
+                @ASEquipmentCharacter( Classification::Scientist, characters[1] ),
+                @ASEquipmentCharacter( Classification::Maintenance, characters[2] ),
+                @ASEquipmentCharacter( Classification::HEV, characters[3] ),
+                @ASEquipmentCharacter( Classification::Hazard, characters[4] ),
+                @ASEquipmentCharacter( Classification::Operative, characters[5] )
+            };
         }
 
         return true;
