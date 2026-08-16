@@ -139,21 +139,6 @@ final class point_checkpoint : ScriptBaseAnimating
                         if( util::GetClass(player) == Classification::Unset )
                             SetRandomClass( player, { Classification::Security, Classification::Scientist, Classification::Maintenance, Classification::Operative } );
 
-                        if( !player.HasWeapons() )
-                            EquipPlayer( player );
-
-                        string classifyName;
-                        switch( util::GetClass( player ) )
-                        {
-                            case Classification::Security: classifyName = "Security";
-                            case Classification::Scientist: classifyName = "Scientist";
-                            case Classification::Maintenance: classifyName = "Maintenance";
-                            case Classification::Operative: classifyName = "Operative";
-                        }
-                        string message;
-                        snprintf( message, "Player %1 entered the simulation as %2.\n", string( player.pev.netname ), classifyName );
-                        g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, message );
-
                         // Congratulations, and celebrations, YOU'RE ALIVE!
                         g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "debris/beamstart4.wav", 1.0f, ATTN_NORM );
 

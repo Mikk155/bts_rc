@@ -39,4 +39,3 @@
 #if SERVER
 #include "trigger_logger"
 #endif
-#include "trigger_update_class"

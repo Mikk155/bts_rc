@@ -22,7 +22,7 @@ final class ASEquipmentSet
     private array<dictionary> m_Entities;
     private string m_Description;
 
-    const string& get_Description() const
+    const string& get_Description()
     {
         return this.m_Description;
     }
@@ -133,8 +133,8 @@ final class ASEquipmentCharacter
     private uint[] m_HUDFade(3);
     private uint[] m_HUDMessage(3);
     private int m_LastEquipment;
-    private array<const ASEquipmentSet@> m_Sets;
-    private array<const ASEquipmentSet@> m_SetsEnforced;
+    private array<ASEquipmentSet@> m_Sets;
+    private array<ASEquipmentSet@> m_SetsEnforced;
 
     // dictionary constructor
     ASEquipmentCharacter() {}
@@ -152,7 +152,7 @@ final class ASEquipmentCharacter
             {
                 string setName = string( sets[ui] );
 
-                const ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
+                ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
 
                 if( equipSet is null )
                     g_Logger.critical.print( "undefined kit sets with name {} at index {} for character {}", { setName, string(ui), string(int(classification)) } );
@@ -165,7 +165,7 @@ final class ASEquipmentCharacter
             {
                 uint ui2 = Math.RandomLong( 0, ui );
 
-                const ASEquipmentSet@ temp = this.m_Sets[ui];
+                ASEquipmentSet@ temp = this.m_Sets[ui];
                 @this.m_Sets[ui] = this.m_Sets[ui2];
                 @this.m_Sets[ui2] = temp;
             }
@@ -184,7 +184,7 @@ final class ASEquipmentCharacter
             {
                 string setName = string( sets_enforce[ui] );
 
-                const ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
+                ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
 
                 if( equipSet is null )
                     g_Logger.critical.print( "undefined kit at sets_enforce with name {} at index {} for character {} in ", { setName, string(ui), string(int(classification)) } );
@@ -214,7 +214,7 @@ final class ASEquipmentCharacter
         if( ++this.m_LastEquipment >= int(m_Sets.length()) )
             this.m_LastEquipment = 0;
 
-        const ASEquipmentSet@ kitSet = this.m_Sets[this.m_LastEquipment];
+        ASEquipmentSet@ kitSet = this.m_Sets[this.m_LastEquipment];
 
         if( !this.m_Description.IsEmpty() )
         {
@@ -348,10 +348,10 @@ final class ASEquipmentConfig : IConfigurable
         }""";
     }
 
-    private array<const ASEquipmentCharacter@> m_Characters;
+    private array<ASEquipmentCharacter@> m_Characters;
 
     // Return the list of character equipents where the index ordering equals to Classification enum.
-    const array<const ASEquipmentCharacter@>@ get_Characters() const
+    const array<ASEquipmentCharacter@>@ get_Characters()
     {
         return this.m_Characters;
     }
@@ -359,7 +359,7 @@ final class ASEquipmentConfig : IConfigurable
     private dictionary m_AllEquipments;
 
     // Return the map of all equipment sets
-    const dictionary& get_Equipments() const
+    const dictionary& get_Equipments()
     {
         return this.m_AllEquipments;
     }
@@ -374,11 +374,17 @@ final class ASEquipmentConfig : IConfigurable
         return this.m_MessageParams;
     }
 
-    const ASEquipmentSet@ EquipmentSet( const string&in setName ) const
+    ASEquipmentSet@ EquipmentSet( const string&in setName )
     {
         ASEquipmentSet@ equipSet = null;
         this.m_AllEquipments.get( setName, @equipSet );
         return equipSet;
+    }
+
+    void Equip( CBasePlayer@ player )
+    {
+        ASEquipmentCharacter@ equipmentCharacter = this.m_Characters[ util::GetClass( player ) ];
+        equipmentCharacter.Equip( player );
     }
 
     bool Register( meta_api::json::v2::json@ config ) override
@@ -396,7 +402,7 @@ final class ASEquipmentConfig : IConfigurable
             {
                 string setName = setsNames[ui];
                 meta_api::json::v2::json@ setProperties = sets[ setName ];
-                const ASEquipmentSet@ kitSet = ASEquipmentSet( setName, setProperties );
+                ASEquipmentSet@ kitSet = ASEquipmentSet( setName, setProperties );
                 this.m_AllEquipments[ setName ] = kitSet;
             }
         }
