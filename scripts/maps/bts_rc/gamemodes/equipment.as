@@ -129,6 +129,7 @@ final class ASEquipmentSet
 // Class representing a classification equipment
 final class ASEquipmentCharacter
 {
+    private string m_Target;
     private string m_Description;
     private uint[] m_HUDFade(3);
     private uint[] m_HUDMessage(3);
@@ -194,6 +195,7 @@ final class ASEquipmentCharacter
         }
 
         this.m_Description = config.ValueOrDefault( "description", String::EMPTY_STRING );
+        this.m_Target = config.ValueOrDefault( "trigger", String::EMPTY_STRING );
 
         if( !this.m_Description.IsEmpty() )
         {
@@ -215,6 +217,7 @@ final class ASEquipmentCharacter
             this.m_LastEquipment = 0;
 
         ASEquipmentSet@ kitSet = this.m_Sets[this.m_LastEquipment];
+        kitSet.Equip( player );
 
         if( !this.m_Description.IsEmpty() )
         {
@@ -231,6 +234,8 @@ final class ASEquipmentCharacter
             g_PlayerFuncs.ScreenFade( player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT );
             g_Scheduler.SetTimeout( @g_PlayerFuncs, "ScreenFade", 1.0f, @player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
         }
+
+        g_EntityFuncs.FireTargets( this.m_Target, player, null, USE_TOGGLE, 0.0f );
     }
 }
 
