@@ -213,25 +213,46 @@ final class ASEquipmentCharacter
 
     void Equip( CBasePlayer@ player )
     {
-        if( ++this.m_LastEquipment >= int(m_Sets.length()) )
-            this.m_LastEquipment = 0;
+        int setsLength = int( m_Sets.length() );
 
-        ASEquipmentSet@ kitSet = this.m_Sets[this.m_LastEquipment];
-        kitSet.Equip( player );
+        bool hasKits = ( setsLength > 0 );
+
+        ASEquipmentSet@ kitSet = null;
+
+        if( hasKits )
+        {
+            if( ++this.m_LastEquipment >= setsLength )
+            {
+                this.m_LastEquipment = 0;
+            }
+
+            @kitSet = this.m_Sets[this.m_LastEquipment];
+            kitSet.Equip( player );
+        }
 
         if( !this.m_Description.IsEmpty() )
         {
             string buffer;
-            snprintf( buffer, this.m_Description, string( player.pev.netname ), kitSet.Description );
-            auto msgParams = gpEquipment.MessageParams( this.m_HUDMessage[0], this.m_HUDMessage[1], this.m_HUDMessage[2] );
+            snprintf( buffer, this.m_Description, string( player.pev.netname ), ( hasKits ? kitSet.Description : "" ) );
+
+            auto msgParams = gpEquipment.MessageParams(
+                this.m_HUDMessage[0], // Red
+                this.m_HUDMessage[1], // Green
+                this.m_HUDMessage[2] // Blue
+            );
+
             g_PlayerFuncs.HudMessageAll( msgParams, buffer );
+
+            // Notice to console
             g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
         }
 
         if( this.m_HUDFade[0] != 0 || this.m_HUDFade[1] != 0 && this.m_HUDFade[2] != 0 )
         {
             Vector color( this.m_HUDFade[0], this.m_HUDFade[1], this.m_HUDFade[2] );
+
             g_PlayerFuncs.ScreenFade( player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT );
+
             g_Scheduler.SetTimeout( @g_PlayerFuncs, "ScreenFade", 1.0f, @player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
         }
 
