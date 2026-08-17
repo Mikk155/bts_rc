@@ -47,11 +47,6 @@
 					{
 						"type": "boolean",
 						"default": true
-					},
-					"error": 
-					{
-						"type": "boolean",
-						"default": true
 					}
 				}
 			},

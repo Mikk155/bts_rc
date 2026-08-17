@@ -150,14 +150,22 @@ namespace Logger
     float gpLastSecond;
     bool gpWriteFile;
 
-    final class ASCriticalLogger : ASLogger
+    abstract class ASLoggerAlways : ASLogger
     {
-        ASCriticalLogger() {}
-
         const bool get_active() const override {
             return true;
         }
+    }
 
+    final class ASErrorLogger : ASLoggerAlways
+    {
+        const string& get_name() const override {
+            return "Error";
+        }
+    }
+
+    final class ASCriticalLogger : ASLoggerAlways
+    {
         const string& get_name() const override {
             return "Critical";
         }
@@ -208,7 +216,7 @@ final class CLogger : IConfigurable
     Logger::ASLogger debug( "debug", "Debug" );
     Logger::ASLogger info( "info", "Information" );
     Logger::ASLogger warning( "warning", "Warning" );
-    Logger::ASLogger error( "error", "Error" );
+    Logger::ASErrorLogger error();
     // The critical logger is always enabled and is not required to check if it's active.
     Logger::ASCriticalLogger critical();
 
@@ -266,8 +274,7 @@ final class CLogger : IConfigurable
                 "trace": { "type": "boolean" },
                 "debug": { "type": "boolean" },
                 "info": { "type": "boolean" },
-                "warning": { "type": "boolean" },
-                "error": { "type": "boolean" }
+                "warning": { "type": "boolean" }
             }
         }""";
     }
@@ -287,7 +294,6 @@ final class CLogger : IConfigurable
         this.debug.SetLevel( bool( config[ "debug" ] ) );
         this.info.SetLevel( bool( config[ "info" ] ) );
         this.warning.SetLevel( bool( config[ "warning" ] ) );
-        this.error.SetLevel( bool( config[ "error" ] ) );
 
         Logger::gpWriteFile = bool( config[ "file" ] );
 

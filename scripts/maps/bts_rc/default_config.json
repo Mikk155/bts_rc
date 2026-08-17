@@ -323,7 +323,6 @@
     },
     "logger": {
         "debug": false,
-        "error": true,
         "file": false,
         "info": false,
         "trace": false,
