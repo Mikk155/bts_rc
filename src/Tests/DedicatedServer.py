@@ -53,14 +53,23 @@ class DedicatedServer( PyBuilder ):
         lastLoadingChar = "/";
         printed: int = 0;
 
+        def cleanUpConsole() -> None:
+
+            nonlocal printed;
+
+            if printed > 0:
+                sys.stdout.write( f"\033[{printed}A" );
+                for i in range(printed):
+                    sys.stdout.write( f"\033[K\n" );
+                sys.stdout.write( f"\033[{printed}A" );
+                sys.stdout.flush();
+
         def checkCloseServer( finished: bool = False ) -> bool:
 
-            nonlocal errorMessages, criticalMessages;
+            nonlocal printed, errorMessages, criticalMessages;
 
-            sys.stdout.write( f"\033[1A" );
-            sys.stdout.write( f"\033[K\n" );
-            sys.stdout.write( f"\033[1A" );
-            sys.stdout.flush(); # Clean up the above print
+            printed += 1; # The above notice of running svends
+            cleanUpConsole();
 
             for line in criticalMessages:
                 self.Log( line );
@@ -74,13 +83,6 @@ class DedicatedServer( PyBuilder ):
         mapLoaded = True;
 
         while( True ):
-
-            if printed > 0:
-                sys.stdout.write( f"\033[{printed}A" );
-                for i in range(printed):
-                    sys.stdout.write( f"\033[K\n" );
-                sys.stdout.write( f"\033[{printed}A" );
-                sys.stdout.flush();
 
             lastLoadingChar = "\\" if lastLoadingChar == "/" else "/";
 
@@ -111,6 +113,8 @@ class DedicatedServer( PyBuilder ):
             buffer.pop(0)
             buffer[0] = lastLoadingChar;
             buffer.append( line );
+
+            cleanUpConsole();
 
             for bufferLine in buffer:
                 sys.stdout.write( f"\033[K\033[36m{bufferLine[:110]}\033[0m\n" )
