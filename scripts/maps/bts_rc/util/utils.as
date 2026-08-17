@@ -147,3 +147,4 @@ void SetDebugName( CBaseEntity@ target, const string&in name )
         g_EntityFuncs.DispatchKeyValue( target.edict(), "$s_message", name );
     }
 }
+#endif
