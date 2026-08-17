@@ -52,11 +52,6 @@
 					{
 						"type": "boolean",
 						"default": true
-					},
-					"critical": 
-					{
-						"type": "boolean",
-						"default": true
 					}
 				}
 			},

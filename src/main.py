@@ -16,9 +16,10 @@ import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;
 import Tests.SerializedJsonCheck;
+import Tests.DependancyCheck;
+import Tests.DedicatedServer;
 import Tests.SchemaUpdateCheck;
 import Tests.DefaultConfigCheck;
-import Tests.DependancyCheck;
 
 def Exit( code_error: int = 0 ):
 
