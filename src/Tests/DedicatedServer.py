@@ -6,8 +6,9 @@
 # ===================================================================
 
 import os;
-import subprocess;
+import sys;
 import time;
+import subprocess;
 
 from Tests.PyBuilder import PyBuilder;
 
@@ -22,10 +23,11 @@ class DedicatedServer( PyBuilder ):
 
     def Build(self) -> bool:
 
-        gameLogPath: str = os.path.join( os.path.dirname( self.Workspace ), "svencoop", "scripts", "maps", "store", "bts_rc.log" );
-
-        if os.path.exists( gameLogPath ):
-                os.remove( gameLogPath )
+        if sys.platform == "win32":
+            import ctypes;
+            kernel32 = ctypes.windll.kernel32
+            modo_consola = kernel32.GetStdHandle(-11)
+            kernel32.SetConsoleMode(modo_consola, 0x0007 | 0x0004)
 
         process = subprocess.Popen(
             [
@@ -35,52 +37,95 @@ class DedicatedServer( PyBuilder ):
                 "+developer", "1"
             ],
             executable = self.m_DedicatedServer,
-            cwd = os.path.dirname( self.Workspace )
+            cwd = os.path.dirname( self.Workspace ),
+            stdout = subprocess.PIPE,
+            stderr = subprocess.STDOUT,
+            text = True,
+            bufsize = 1
         );
+
+        buffer: list[str] = [ "" for _ in range(10) ];
+        print( "== Running Sven Co-op dedicated server ===" );
 
         errorMessages: list[str] = [];
         criticalMessages: list[str] = [];
 
+        lastLoadingChar = "/";
+
+        def checkCloseServer( finished: bool = False ) -> bool:
+
+            nonlocal buffer, errorMessages, criticalMessages;
+
+            sys.stdout.write( f"\033[1A" );
+            sys.stdout.flush();
+
+            for line in criticalMessages:
+                self.Log( line );
+
+            for line in errorMessages:
+                self.Log( line );
+
+            return ( len(errorMessages) + len(criticalMessages) == 0 and finished );
+
+        mapLoaded = False;
+
         while( True ):
 
-            if process.poll() is not None:
-                return False;
+            lastLoadingChar = "\\" if lastLoadingChar == "/" else "/";
 
-            if( not os.path.exists( gameLogPath ) ):
-                time.sleep( 0.5 );
+            line: str | None = process.stdout.readline();
+
+            if not line:
+
+                if process.poll() is not None:
+                    process = None;
+                    return checkCloseServer( False );
+
+#                time.sleep( 0.01 );
                 continue;
 
-            if( not self.FileModified( gameLogPath ) ):
-                time.sleep( 0.5 );
-                continue;
+            line = line.replace( '\r', '' ).replace( '\n', '' ).strip()
 
-            with open( gameLogPath, "r", errors="ignore" ) as fStream:
-                lines: list[str] = fStream.readlines();
+            lineLower: str = line.lower();
 
-                for line in lines:
-                    lineLower = line.lower();
+            if mapLoaded is False:
+                if "bts_rc_test_chamber" in lineLower:
+                    mapLoaded = True;
+                else:
+                    sys.stdout.write( f"\033[K{lastLoadingChar}\n" );
+                    sys.stdout.flush();
+                    sys.stdout.write( f"\033[{1}A" );
+                    continue;
 
-                    if lineLower.startswith( "[critical]" ):
-                        criticalMessages.append( line );
+            buffer.pop(0)
+            buffer[0] = lastLoadingChar;
+            buffer.append( line );
 
-                    if lineLower.startswith( "[error]" ):
-                        errorMessages.append( line );
+            for bufferLine in buffer:
+                sys.stdout.write( f"\033[K{bufferLine[:110]}\n" );
+
+            sys.stdout.flush();
+
+            sys.stdout.write( f"\033[{len( buffer )}A" );
+
+            if line.startswith( "[Critical]" ):
+                criticalMessages.append( line );
+
+            if lineLower.startswith( "[Error]" ):
+                errorMessages.append( line );
+
+            if "started map \"bts_rc_test_chamber\"" in lineLower:
 
                 process.terminate();
 
                 try:
-                    process.wait( timeout = 5 );
-                except subprocess.TimeoutExpired:
                     process.kill();
+                    process.wait(2);
+                except Exception:
+                    pass;
 
-                for line in criticalMessages:
-                    self.Log( line );
+                return checkCloseServer( True );
 
-                for line in errorMessages:
-                    self.Log( line );
-
-                break;
-
-        return ( len(errorMessages) + len(criticalMessages) == 0 );
+        return False;
 
 DedicatedServer();
