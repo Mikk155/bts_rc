@@ -322,7 +322,6 @@
         "battery_lighting": true
     },
     "logger": {
-        "critical": true,
         "debug": false,
         "error": true,
         "file": false,

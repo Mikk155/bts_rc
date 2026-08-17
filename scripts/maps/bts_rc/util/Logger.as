@@ -19,7 +19,7 @@ string glog;
 
 namespace Logger
 {
-    final class ASLogger
+    class ASLogger
     {
         protected
             bool m_IsActive = true;
@@ -54,6 +54,8 @@ namespace Logger
         const string& get_id() const {
             return this.m_Id;
         }
+
+        ASLogger() {}
 
         ASLogger( const string&in id, const string&in name )
         {
@@ -144,25 +146,43 @@ namespace Logger
                 g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
             }
     }
-}
 
-namespace Logger
-{
     float gpLastSecond;
     bool gpWriteFile;
+
+    final class ASCriticalLogger : ASLogger
+    {
+        ASCriticalLogger() {}
+
+        const bool get_active() const override {
+            return true;
+        }
+
+        const string& get_name() const override {
+            return "Critical";
+        }
+
+        protected void print_buffer() const override
+        {
+            string buffer = "[Critical] " + glog + "\n";
+#if SERVER
+            g_Scheduler.SetInterval( @g_EngineFuncs, "ServerPrint", 1.0f, g_Scheduler.REPEAT_INFINITE_TIMES, buffer );
+#endif
+        }
+    }
 }
 
 final class CLogger : IConfigurable
 {
     protected
         array<Logger::ASLogger@> m_Loggers(0);
-    
+
     const array<Logger::ASLogger@>@ get_Loggers()
     {
         return @this.m_Loggers;
     }
 
-    protected 
+    protected
         Logger::ASLogger@ GetLoggerHandle( const string&in id )
         {
             uint length = this.m_Loggers.length();
@@ -189,7 +209,8 @@ final class CLogger : IConfigurable
     Logger::ASLogger info( "info", "Information" );
     Logger::ASLogger warning( "warning", "Warning" );
     Logger::ASLogger error( "error", "Error" );
-    Logger::ASLogger critical( "critical", "Critical" );
+    // The critical logger is always enabled and is not required to check if it's active.
+    Logger::ASCriticalLogger critical();
 
     bool IsActive( const string&in id )
     {
@@ -246,8 +267,7 @@ final class CLogger : IConfigurable
                 "debug": { "type": "boolean" },
                 "info": { "type": "boolean" },
                 "warning": { "type": "boolean" },
-                "error": { "type": "boolean" },
-                "critical": { "type": "boolean" }
+                "error": { "type": "boolean" }
             }
         }""";
     }
@@ -268,7 +288,6 @@ final class CLogger : IConfigurable
         this.info.SetLevel( bool( config[ "info" ] ) );
         this.warning.SetLevel( bool( config[ "warning" ] ) );
         this.error.SetLevel( bool( config[ "error" ] ) );
-        this.critical.SetLevel( bool( config[ "critical" ] ) );
 
         Logger::gpWriteFile = bool( config[ "file" ] );
 
@@ -287,7 +306,7 @@ final class CLogger : IConfigurable
             snprintf( commandHelp, "%1%2%3", commandHelp, ( ui > 0 ? ", " : "" ), logger.id );
         }
 
-        @command = RegisterCommand( "log", "<string logger>", commandHelp, 
+        @command = RegisterCommand( "log", "<string logger>", commandHelp,
             CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
                 bool isValid = ( arguments !is null && arguments.length() > 0 );
