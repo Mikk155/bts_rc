@@ -44,20 +44,23 @@ class DedicatedServer( PyBuilder ):
             bufsize = 1
         );
 
-        buffer: list[str] = [ "" for _ in range(10) ];
+        buffer: list[str] = [ "" for _ in range(5) ];
         print( "== Running Sven Co-op dedicated server ===" );
 
         errorMessages: list[str] = [];
         criticalMessages: list[str] = [];
 
         lastLoadingChar = "/";
+        printed: int = 0;
 
         def checkCloseServer( finished: bool = False ) -> bool:
 
-            nonlocal buffer, errorMessages, criticalMessages;
+            nonlocal errorMessages, criticalMessages;
 
             sys.stdout.write( f"\033[1A" );
-            sys.stdout.flush();
+            sys.stdout.write( f"\033[K\n" );
+            sys.stdout.write( f"\033[1A" );
+            sys.stdout.flush(); # Clean up the above print
 
             for line in criticalMessages:
                 self.Log( line );
@@ -68,8 +71,16 @@ class DedicatedServer( PyBuilder ):
             return ( len(errorMessages) + len(criticalMessages) == 0 and finished );
 
         mapLoaded = False;
+        mapLoaded = True;
 
         while( True ):
+
+            if printed > 0:
+                sys.stdout.write( f"\033[{printed}A" );
+                for i in range(printed):
+                    sys.stdout.write( f"\033[K\n" );
+                sys.stdout.write( f"\033[{printed}A" );
+                sys.stdout.flush();
 
             lastLoadingChar = "\\" if lastLoadingChar == "/" else "/";
 
@@ -89,12 +100,12 @@ class DedicatedServer( PyBuilder ):
             lineLower: str = line.lower();
 
             if mapLoaded is False:
-                if "bts_rc_test_chamber" in lineLower:
+                if "maps/bts_rc_test_chamber.cfg" in lineLower:
                     mapLoaded = True;
                 else:
                     sys.stdout.write( f"\033[K{lastLoadingChar}\n" );
                     sys.stdout.flush();
-                    sys.stdout.write( f"\033[{1}A" );
+                    printed = 1;
                     continue;
 
             buffer.pop(0)
@@ -102,11 +113,11 @@ class DedicatedServer( PyBuilder ):
             buffer.append( line );
 
             for bufferLine in buffer:
-                sys.stdout.write( f"\033[K{bufferLine[:110]}\n" );
+                sys.stdout.write( f"\033[K\033[36m{bufferLine[:110]}\033[0m\n" )
 
             sys.stdout.flush();
 
-            sys.stdout.write( f"\033[{len( buffer )}A" );
+            printed = len( buffer );
 
             if line.startswith( "[Critical]" ):
                 criticalMessages.append( line );
