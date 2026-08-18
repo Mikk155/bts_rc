@@ -29,6 +29,15 @@ class DedicatedServer( PyBuilder ):
             modo_consola = kernel32.GetStdHandle(-11)
             kernel32.SetConsoleMode(modo_consola, 0x0007 | 0x0004)
 
+        generateFiles: dict[str, str] = {
+            "mapcycle.txt": "bts_rc_test_chamber\n",
+            "default_plugins.txt": "\"plugins\"\n{\n}\n"
+        };
+
+        for k, v in generateFiles.items():
+            with open( os.path.join( self.Workspace, k ), "w" ) as fStream:
+                fStream.write( v );
+
         process = subprocess.Popen(
             [
                 "-console",
@@ -67,7 +76,7 @@ class DedicatedServer( PyBuilder ):
 
         def checkCloseServer( finished: bool = False ) -> bool:
 
-            nonlocal printed, errorMessages, criticalMessages;
+            nonlocal printed, generateFiles, errorMessages, criticalMessages;
 
             printed += 1; # The above notice of running svends
             cleanUpConsole();
@@ -77,6 +86,11 @@ class DedicatedServer( PyBuilder ):
 
             for line in errorMessages:
                 self.Log( line );
+
+            for k, _ in generateFiles.items():
+                os.remove( os.path.join( self.Workspace, k ) );
+
+            #-TODO self.log these items if any.
 
             return ( len(errorMessages) + len(criticalMessages) == 0 and finished );
 
