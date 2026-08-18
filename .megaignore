@@ -1,7 +1,7 @@
 sync:.megaignore
 
 # MEGA backups
--d:Rubish*
+-d:Rubbish*
 
 # Github
 -d:.git*
