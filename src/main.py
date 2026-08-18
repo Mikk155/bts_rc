@@ -7,6 +7,7 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyBuilder import PyBuilder;
 
 # Include checks here
+import Tests.TestChamberUpdate;
 import Tests.TodolistCheck;
 import Tests.PrecacheCheck;
 import Tests.CreditsCheck;
@@ -16,9 +17,10 @@ import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;
 import Tests.SerializedJsonCheck;
+import Tests.DependancyCheck;
+import Tests.DedicatedServer;
 import Tests.SchemaUpdateCheck;
 import Tests.DefaultConfigCheck;
-import Tests.DependancyCheck;
 
 def Exit( code_error: int = 0 ):
 

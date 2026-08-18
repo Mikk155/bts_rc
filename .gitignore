@@ -10,11 +10,18 @@ node_modules/
 # https://codeberg.org/anggaranothing/svencoop-py-asdocs-vscode
 .vscode/aslp.as.predefined
 
+# Assets
 maps/**
-Rubbish/**
 models/**
-scripts/mikk155
 sound/**
 sprites/**
 
+# Map sources
+src/maps/**
+
+# Third party
+scripts/mikk155
+
+# MEGA
+Rubbish/**
 desktop.ini

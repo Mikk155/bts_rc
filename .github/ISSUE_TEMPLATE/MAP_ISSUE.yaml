@@ -38,7 +38,7 @@ body:
         2. Walk to the warehouse loading dock.
         3. Try to press the yellow button...
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: logs

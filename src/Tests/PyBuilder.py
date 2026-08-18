@@ -117,7 +117,8 @@ class PyBuilder:
 
         dateTimeModified: datetime = datetime.fromtimestamp( path.stat().st_mtime ).replace( microsecond = 0 );
 
-        pathRelative: str = path.relative_to( self.Workspace ).as_posix();
+        import os;
+        pathRelative: str = path.relative_to( os.path.dirname( self.Workspace ) ).as_posix();
 
         if not pathRelative in files:
             dateTime = dateTimeModified - timedelta( 1 );

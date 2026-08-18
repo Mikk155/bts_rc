@@ -137,52 +137,20 @@ namespace monster_snapbug
 
         void SetYawSpeed()
         {
-            int ys = 240;
-
-            /*switch( self.m_Activity )
-            {
-                case ACT_IDLE:
-                    ys = 30;
-                    break;
-                case ACT_RUN:
-                case ACT_WALK:
-                    ys = 20;
-                    break;
-                case ACT_TURN_LEFT:
-                case ACT_TURN_RIGHT:
-                    ys = 60;
-                    break;
-                case ACT_RANGE_ATTACK1:
-                    ys = 30;
-                    break;
-                default:
-                    ys = 30;
-                    break;
-            }*/
-
-            pev.yaw_speed = ys;
+            pev.yaw_speed = 240;
         }
 
         void RunTask( Task@ pTask )
         {
-            switch( pTask.iTask )
+            if( ( pTask.iTask == TASK_RANGE_ATTACK1 || pTask.iTask == TASK_RANGE_ATTACK2 ) && self.m_fSequenceFinished )
             {
-                case TASK_RANGE_ATTACK1:
-                case TASK_RANGE_ATTACK2:
-                {
-                    if( self.m_fSequenceFinished )
-                    {
-                        self.TaskComplete();
-                        SetTouch( null );
-                        self.m_IdealActivity = ACT_IDLE;
-                        break;
-                    }
-                }
-
-                default:
-                    BaseClass.RunTask( pTask );
-                    break;
+                self.TaskComplete();
+                SetTouch( null );
+                self.m_IdealActivity = ACT_IDLE;
+                return;
             }
+
+            BaseClass.RunTask( pTask );
         }
 
         void StartTask( Task@ pTask )
@@ -204,16 +172,6 @@ namespace monster_snapbug
                     break;
             }
         }
-
-        /*Vector Center()
-        {
-            return Vector( pev.origin.x, pev.origin.y, pev.origin.z + 6 );
-        }
-
-        Vector BodyTarget( const Vector& in posSrc )
-        {
-            return Center();
-        }*/
 
         int Classify()
         {
@@ -262,14 +220,16 @@ namespace monster_snapbug
                     Math.MakeVectors( pev.angles );
 
                     Vector vecJumpDir;
-                    if( self.m_hEnemy.IsValid() )
+                    CBaseEntity@ enemy = self.m_hEnemy.GetEntity();
+
+                    if( enemy !is null )
                     {
                         float gravity = g_EngineFuncs.CVarGetFloat( "sv_gravity" );
                         if( gravity <= 1 )
                             gravity = 1;
 
                         // How fast does the snapbug need to travel to reach that height given gravity?
-                        float height = ( self.m_hEnemy.GetEntity().pev.origin.z + self.m_hEnemy.GetEntity().pev.view_ofs.z - pev.origin.z );
+                        float height = enemy.pev.origin.z + enemy.pev.view_ofs.z - pev.origin.z;
                         if( height < 16 )
                             height = 16;
 
@@ -277,8 +237,7 @@ namespace monster_snapbug
                         float time = speed / gravity;
 
                         // Scale the sideways velocity to get there at the right time
-                        vecJumpDir = ( self.m_hEnemy.GetEntity().pev.origin + self.m_hEnemy.GetEntity().pev.view_ofs - pev.origin );
-                        vecJumpDir = vecJumpDir * ( 1.0 / time );
+                        vecJumpDir = ( enemy.pev.origin + enemy.pev.view_ofs - pev.origin ) * ( 1.0 / time );
 
                         // Speed to offset gravity at the desired height
                         vecJumpDir.z = speed;
@@ -312,19 +271,13 @@ namespace monster_snapbug
 
         bool CheckRangeAttack1( float flDot, float flDist )
         {
-            if( pev.FlagBitSet( FL_ONGROUND ) and flDist <= 256.0 and flDot >= 0.65 )
-                return true;
-
-            return false;
+            return pev.FlagBitSet( FL_ONGROUND ) && flDist <= 256.0 && flDot >= 0.65;
         }
 
         Schedule@ GetScheduleOfType( int iType )
         {
-            switch( iType )
-            {
-                case SCHED_RANGE_ATTACK1:
-                    return slSBRangeAttack1Fast; // slSBRangeAttack1;
-            }
+            if( iType == SCHED_RANGE_ATTACK1 )
+                return slSBRangeAttack1Fast;
 
             return BaseClass.GetScheduleOfType( iType );
         }
@@ -357,7 +310,11 @@ namespace monster_snapbug
 
             CBasePlayer@ pPlayer = cast<CBasePlayer@>( pOther );
 
+            if( pPlayer is null )
+                return;
+
             CustomKeyvalues@ pCustom = pPlayer.GetCustomKeyvalues();
+
             if( pCustom.GetKeyvalue( "$i_snapbugged" ).GetInteger() == 1 )
                 return;
 
@@ -368,6 +325,10 @@ namespace monster_snapbug
                 return;
 
             CBaseEntity@ pSnapbug = g_EntityFuncs.Create( "snapbug", pPlayer.pev.origin, g_vecZero, false, pPlayer.edict() );
+
+            if( pSnapbug is null )
+                return;
+
             @pSnapbug.pev.aiment = pPlayer.edict();
             pSnapbug.pev.movetype = MOVETYPE_FOLLOW;
 
@@ -459,36 +420,40 @@ namespace monster_snapbug
 
         void AttachedThink()
         {
-            if( m_pOwner is null or !m_pOwner.IsConnected() )
+            CBasePlayer@ owner = m_pOwner;
+
+            if( owner is null || !owner.IsConnected() )
             {
                 g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_DEATH1, SND_DEATH2 )], VOL_NORM, ATTN_IDLE );
                 g_EntityFuncs.Remove( self );
                 return;
             }
 
-            if( !m_pOwner.IsAlive() )
-                btscm::RemoveSnapbug( m_pOwner );
-
-            if( m_flDealDamage > 0 and m_flDealDamage < g_Engine.time )
+            if( !owner.IsAlive() )
             {
-                g_SoundSystem.EmitSoundDyn( m_pOwner.edict(), CHAN_WEAPON, arrsSounds[SND_BITE], VOL_NORM, ATTN_IDLE, 0, PITCH_HIGH );
-                g_SoundSystem.EmitSound( m_pOwner.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_IDLE1, SND_IDLE3 )], VOL_NORM, ATTN_IDLE );
+                btscm::RemoveSnapbug( owner );
+                return;
+            }
 
-                m_pOwner.pev.punchangle.x = -2;
+            if( m_flDealDamage > 0 && m_flDealDamage < g_Engine.time )
+            {
+                g_SoundSystem.EmitSoundDyn( owner.edict(), CHAN_WEAPON, arrsSounds[SND_BITE], VOL_NORM, ATTN_IDLE, 0, PITCH_HIGH );
+                g_SoundSystem.EmitSound( owner.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_IDLE1, SND_IDLE3 )], VOL_NORM, ATTN_IDLE );
+
+                owner.pev.punchangle.x = -2;
 
                 // This is all so the damage indicator shows damage from behind and the player doesn't get poisoned (damage over time) but still flashes the poisoned icon
                 TraceResult tr;
-                Math.MakeVectors( m_pOwner.pev.angles );
+                Math.MakeVectors( owner.pev.angles );
 
-                Vector vecTraceEnd = m_pOwner.Center() + Vector( 0.0, 0.0, 16.0 );
+                Vector vecTraceEnd = owner.Center() + Vector( 0, 0, 16 );
                 Vector vecBehindPlayer = vecTraceEnd + g_Engine.v_forward * -128.0;
                 g_Utility.TraceLine( vecBehindPlayer, vecBehindPlayer + g_Engine.v_forward * 120.0, dont_ignore_monsters, self.edict(), tr );
 
-                Vector vecBlood = vecTraceEnd + g_Engine.v_forward * -8.0;
-                g_WeaponFuncs.SpawnBlood( vecBlood, BLOOD_COLOR_RED, DAMAGE_POISON );
-                m_pOwner.TraceBleed( DAMAGE_POISON, ( tr.vecEndPos - vecBehindPlayer ).Normalize(), tr, DAMAGE_TYPE );
+                g_WeaponFuncs.SpawnBlood( vecTraceEnd + g_Engine.v_forward * -8.0, BLOOD_COLOR_RED, DAMAGE_POISON );
+                owner.TraceBleed( DAMAGE_POISON, ( tr.vecEndPos - vecBehindPlayer ).Normalize(), tr, DAMAGE_TYPE );
 
-                NetworkMessage m1( MSG_ONE, NetworkMessages::Damage, m_pOwner.edict() );
+                NetworkMessage m1( MSG_ONE, NetworkMessages::Damage, owner.edict() );
                 m1.WriteByte( DAMAGE_POISON ); // pev->dmg_save
                 m1.WriteByte( DAMAGE_POISON ); // pev->dmg_take
                 m1.WriteLong( DAMAGE_TYPE );   // visibleDamageBits
@@ -498,24 +463,27 @@ namespace monster_snapbug
                 m1.End();
 
                 // this deals the actual damage
-                m_pOwner.pev.health -= DAMAGE_POISON;
-                if( m_pOwner.pev.health <= 0 )
-                    m_pOwner.Killed( self.pev, GIB_NEVER );
+                owner.pev.health -= DAMAGE_POISON;
+
+                if( owner.pev.health <= 0 )
+                    owner.Killed( self.pev, GIB_NEVER );
 
                 float flElapsed = g_Engine.time - m_flAttachTime;
-                float flNextBite;
-
-                if( flElapsed >= 240.0 )
-                    flNextBite = DAMAGE_TIME_FASTER;
-                else if( flElapsed >= 100.0 )
-                    flNextBite = DAMAGE_TIME_FAST;
-                else
-                    flNextBite = DAMAGE_TIME_NORMAL;
-
-                m_flDealDamage = g_Engine.time + flNextBite;
+                m_flDealDamage = g_Engine.time + GetDamageInterval( flElapsed );
             }
 
             pev.nextthink = g_Engine.time + 0.1;
+        }
+
+        float GetDamageInterval( float elapsed )
+        {
+            if( elapsed >= 240.0 )
+                return DAMAGE_TIME_FASTER;
+
+            if( elapsed >= 100.0 )
+                return DAMAGE_TIME_FAST;
+
+            return DAMAGE_TIME_NORMAL;
         }
     }
 

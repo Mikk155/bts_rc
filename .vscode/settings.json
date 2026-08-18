@@ -7,6 +7,17 @@
         "*.predefined": "angelscript"
     },
 
+    "files.exclude":
+    {
+        "**/.git": true,
+        "**/__pycache__/**": true,
+        "**/node_modules/**": true,
+        "maps/soundcache/**": true,
+        "src/maps/**": true,
+        "Rubbish/tmp/**": true,
+        "desktop.ini": true
+    },
+
     // Sven co-op specifics
     "angelScript.characterLiterals": true,
     "angelScript.explicitPropertyAccessor": false,

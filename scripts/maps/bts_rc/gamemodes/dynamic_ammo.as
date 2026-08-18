@@ -229,3 +229,8 @@ final class ASDynamicAmmoConfig : IConfigurable
 }
 
 ASDynamicAmmoConfig@ gpDynamicAmmo = null;
+
+int GetDynamicAmmoGive( const string&in ammoType, int defaultGive )
+{
+    return gpDynamicAmmo is null ? defaultGive : gpDynamicAmmo.GetAmmoGive( ammoType, defaultGive );
+}

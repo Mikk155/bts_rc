@@ -17,21 +17,21 @@
 
 namespace item_tracker
 {
+    const float INVENTORY_UPDATE_INTERVAL = 0.5f;
+    const uint MOTD_CHUNK_SIZE = 45;
+
+    const string TRACKED_ITEMS_KEY = "tracked_items";
+    const string INVENTORY_COOLDOWN_KEY = "it_inventorycd";
+    const string MOTD_HOLDING_KEY = "motd_holding";
+    const string MOTD_VERSION_KEY = "motd_update";
+
     dictionary Items;
+    dictionary gpItemEntities;
 
-    // Array of EHandle to track item_inventory entities from MapActivate
-    array<EHandle> gpItems;
-
-    // String containing all the information.
     string gpBuffer;
-
-    // Global integer (version/revision count of the global buffer)
     int gpBufferVersion = 0;
-
-    // Flag indicating if gpBuffer needs to be rebuilt
     bool gpBufferDirty = true;
 
-    // List containing all the item_inventory names
     const array<string>@ ValidItemNames =
     {
         "GEAR_1",
@@ -52,38 +52,82 @@ namespace item_tracker
         "Blackmesa_Security_Clearance_3"
     };
 
+    string EntityKey( CBaseEntity@ entity )
+    {
+        string key;
+        snprintf( key, "%1", entity.entindex() );
+        return key;
+    }
+
+    void MarkDirty()
+    {
+        gpBufferVersion++;
+        gpBufferDirty = true;
+    }
+
+    void Reset()
+    {
+        Items.deleteAll();
+        gpItemEntities.deleteAll();
+        gpBuffer = String::EMPTY_STRING;
+        MarkDirty();
+    }
+
+    void RegisterItem( CItemInventory@ item )
+    {
+        if( item is null )
+            return;
+
+        gpItemEntities[ EntityKey( item ) ] = @item;
+
+        string itemName = item.m_szItemName;
+        array<string> details = { item.m_szDisplayName, item.m_szDescription };
+        Items[ itemName ] = details;
+    }
+
+    bool IsTrackedItem( CItemInventory@ item )
+    {
+        if( item is null )
+            return false;
+
+        CItemInventory@ trackedItem;
+        return gpItemEntities.get( EntityKey( item ), @trackedItem ) && trackedItem is item;
+    }
+
     void OnPlayerDisconnect( CBasePlayer@ player )
     {
         if( player !is null )
         {
             dictionary@ data = player.GetUserData();
-            data[ "tracked_items" ] = "";
+            data[ TRACKED_ITEMS_KEY ] = String::EMPTY_STRING;
         }
-        gpBufferVersion++;
-        gpBufferDirty = true;
+
+        MarkDirty();
     }
 
     void UpdateGlobalBuffer()
     {
         dictionary bufferList;
 
-        for( int iPlayer = 1; iPlayer <= g_Engine.maxClients; iPlayer++ )
+        for( int playerIndex = 1; playerIndex <= g_Engine.maxClients; playerIndex++ )
         {
-            CBasePlayer@ players = g_PlayerFuncs.FindPlayerByIndex( iPlayer );
+            CBasePlayer@ player = g_PlayerFuncs.FindPlayerByIndex( playerIndex );
 
-            if( players is null || !players.IsConnected() )
+            if( player is null || !player.IsConnected() )
                 continue;
 
-            dictionary@ data = players.GetUserData();
-            string trackedStr = data.exists( "tracked_items" ) ? string( data[ "tracked_items" ] ) : "";
-            if( trackedStr.IsEmpty() )
+            dictionary@ data = player.GetUserData();
+            string trackedItems = data.exists( TRACKED_ITEMS_KEY ) ? string( data[ TRACKED_ITEMS_KEY ] ) : String::EMPTY_STRING;
+
+            if( trackedItems.IsEmpty() )
                 continue;
 
-            array<string>@ storedItems = trackedStr.Split( ";" );
+            array<string>@ storedItems = trackedItems.Split( ";" );
 
-            for( uint i = 0; i < storedItems.length(); i++ )
+            for( uint itemIndex = 0; itemIndex < storedItems.length(); itemIndex++ )
             {
-                string name = storedItems[i];
+                string name = storedItems[itemIndex];
+
                 if( name.IsEmpty() )
                     continue;
 
@@ -91,142 +135,126 @@ namespace item_tracker
 
                 if( !bufferList.get( name, buffer ) )
                 {
-                    array<string>@ KeyvaluePairData;
+                    array<string>@ details;
 
-                    if( Items.get( name, @KeyvaluePairData ) )
-                    {
-                        snprintf( buffer, "Item: %1\nDetails: %2\nHolders:", KeyvaluePairData[0], KeyvaluePairData[1] );
-                    }
+                    if( Items.get( name, @details ) && details !is null && details.length() >= 2 )
+                        snprintf( buffer, "Item: %1\nDetails: %2\nHolders:", details[0], details[1] );
                     else
-                    {
                         snprintf( buffer, "Item: %1\nHolders:", name );
-                    }
                 }
 
-                snprintf( buffer, "%1\n - %2\n", buffer, string( players.pev.netname ) );
+                buffer += "\n - " + string( player.pev.netname ) + "\n";
                 bufferList[ name ] = buffer;
             }
         }
 
-        array<string> item_names = bufferList.getKeys();
-        uint length = item_names.length();
+        array<string> itemNames = bufferList.getKeys();
 
-        if( length == 0 )
+        if( itemNames.length() == 0 )
         {
             gpBuffer = "There is no player that has currently any item.";
+            return;
         }
-        else
-        {
-            gpBuffer = "List of players and inventory information\n";
 
-            for( uint ui = 0; ui < length; ui++ )
-            {
-                snprintf( gpBuffer, "%1\n%2", gpBuffer, string( bufferList[ item_names[ui] ] ) );
-            }
+        gpBuffer = "List of players and inventory information\n";
+
+        for( uint itemIndex = 0; itemIndex < itemNames.length(); itemIndex++ )
+            gpBuffer += "\n" + string( bufferList[ itemNames[itemIndex] ] );
+    }
+
+    string SerializeItems( const array<string>@ items )
+    {
+        string serialized;
+
+        for( uint itemIndex = 0; itemIndex < items.length(); itemIndex++ )
+        {
+            if( items[itemIndex].IsEmpty() )
+                continue;
+
+            if( !serialized.IsEmpty() )
+                serialized += ";";
+
+            serialized += items[itemIndex];
         }
+
+        return serialized;
     }
 
     void UpdatePlayerInventory( CBasePlayer@ player )
     {
         dictionary@ data = player.GetUserData();
-        string trackedStr = data.exists( "tracked_items" ) ? string( data[ "tracked_items" ] ) : "";
-        array<string>@ storedItems = null;
-        if( !trackedStr.IsEmpty() )
-            @storedItems = trackedStr.Split( ";" );
+        string trackedItems = data.exists( TRACKED_ITEMS_KEY ) ? string( data[ TRACKED_ITEMS_KEY ] ) : String::EMPTY_STRING;
 
-        array<string> temp;
+        array<string> emptyItems;
+        array<string>@ storedItems = @emptyItems;
 
-        // Clean up invalid handles from gpItems to prevent memory/handle leak
-        for( int i = int( gpItems.length() ) - 1; i >= 0; i-- )
-        {
-            if( !gpItems[i].IsValid() )
-            {
-                gpItems.removeAt( i );
-            }
-        }
+        if( !trackedItems.IsEmpty() )
+            @storedItems = trackedItems.Split( ";" );
 
         array<string> currentItems;
         InventoryList@ inventory = player.m_pInventory;
+
         while( inventory !is null )
         {
             CItemInventory@ item = cast<CItemInventory@>( inventory.hItem.GetEntity() );
             @inventory = inventory.pNext;
 
-            if( item is null )
+            if( !IsTrackedItem( item ) )
                 continue;
 
-            // Validate that this item is in the tracked map items (gpItems)
-            bool isTracked = false;
-            for( uint i = 0; i < gpItems.length(); i++ )
-            {
-                if( cast<CBaseEntity@>( gpItems[i].GetEntity() ) is cast<CBaseEntity@>( item ) )
-                {
-                    isTracked = true;
-                    break;
-                }
-            }
+            string itemName = item.m_szItemName;
 
-            if( !isTracked )
+            if( itemName.IsEmpty() || currentItems.find( itemName ) >= 0 )
                 continue;
 
-            string name = item.m_szItemName;
-            if( name.IsEmpty() )
-                continue;
-
-            if( currentItems.find( name ) < 0 )
-            {
-                currentItems.insertLast( name );
-            }
+            currentItems.insertLast( itemName );
         }
 
         bool changed = false;
 
-        // Check if item was not stored (newly collected)
-        for( uint i = 0; i < currentItems.length(); i++ )
+        for( uint itemIndex = 0; itemIndex < currentItems.length(); itemIndex++ )
         {
-            string name = currentItems[i];
-            if( storedItems is null || storedItems.find( name ) < 0 )
-            {
-                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, string( player.pev.netname ) + " collected " + name + "\n" );
-                if( storedItems is null )
-                {
-                    @storedItems = @temp;
-                }
-                storedItems.insertLast( name );
-                changed = true;
-            }
+            string name = currentItems[itemIndex];
+
+            if( storedItems.find( name ) >= 0 )
+                continue;
+
+            g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, string( player.pev.netname ) + " collected " + name + "\n" );
+            storedItems.insertLast( name );
+            changed = true;
         }
 
-        // Check if there are items in userdata that are no longer in the inventory (dropped/lost)
-        if( storedItems !is null )
+        for( int itemIndex = int( storedItems.length() ) - 1; itemIndex >= 0; itemIndex-- )
         {
-            for( int i = int( storedItems.length() ) - 1; i >= 0; i-- )
-            {
-                string name = storedItems[i];
-                if( currentItems.find( name ) < 0 )
-                {
-                    storedItems.removeAt( i );
-                    changed = true;
-                }
-            }
+            if( currentItems.find( storedItems[itemIndex] ) >= 0 )
+                continue;
+
+            storedItems.removeAt( itemIndex );
+            changed = true;
         }
 
-        if( changed )
-        {
-            // Serialize back to userdata
-            string newTrackedStr = "";
-            for( uint i = 0; i < storedItems.length(); i++ )
-            {
-                if( storedItems[i].IsEmpty() )
-                    continue;
-                if( !newTrackedStr.IsEmpty() )
-                    newTrackedStr += ";";
-                newTrackedStr += storedItems[i];
-            }
-            data[ "tracked_items" ] = newTrackedStr;
+        if( !changed )
+            return;
 
-            gpBufferVersion++;
-            gpBufferDirty = true;
+        data[ TRACKED_ITEMS_KEY ] = SerializeItems( storedItems );
+        MarkDirty();
+    }
+
+    void SendBuffer( edict_t@ edict )
+    {
+        uint length = gpBuffer.Length();
+        uint offset = 0;
+
+        while( offset < length )
+        {
+            uint chunkLength = offset + MOTD_CHUNK_SIZE > length ? length - offset : MOTD_CHUNK_SIZE;
+            string chunk = gpBuffer.SubString( offset, chunkLength );
+            offset += chunkLength;
+
+            NetworkMessage msg( MSG_ONE, NetworkMessages::MOTD, edict );
+                msg.WriteByte( offset >= length ? 1 : 0 );
+                msg.WriteString( chunk );
+            msg.End();
         }
     }
 
@@ -236,28 +264,30 @@ namespace item_tracker
             return;
 
         dictionary@ data = player.GetUserData();
+        float nextInventoryUpdate = data.exists( INVENTORY_COOLDOWN_KEY ) ? float( data[ INVENTORY_COOLDOWN_KEY ] ) : 0.0f;
 
-        // Key down check: only trigger when pressing USE and RELOAD (one-shot transition check)
+        if( g_Engine.time >= nextInventoryUpdate )
+        {
+            UpdatePlayerInventory( player );
+            data[ INVENTORY_COOLDOWN_KEY ] = g_Engine.time + INVENTORY_UPDATE_INTERVAL;
+        }
+
         bool isHolding = ( player.pev.button & IN_USE ) != 0 && ( player.pev.button & IN_RELOAD ) != 0;
-        bool wasHolding = data.exists( "motd_holding" ) ? bool( data[ "motd_holding" ] ) : false;
-        data[ "motd_holding" ] = isHolding;
+        bool wasHolding = data.exists( MOTD_HOLDING_KEY ) ? bool( data[ MOTD_HOLDING_KEY ] ) : false;
 
-        if( !isHolding || wasHolding )
+        if( isHolding == wasHolding )
+            return;
+
+        data[ MOTD_HOLDING_KEY ] = isHolding;
+
+        if( !isHolding )
             return;
 
         player.pev.button &= ~IN_RELOAD;
         player.pev.button &= ~IN_USE;
 
-        int playerMOTDVersion = data.exists( "motd_update" ) ? int( data[ "motd_update" ] ) : -1;
-
+        int playerMOTDVersion = data.exists( MOTD_VERSION_KEY ) ? int( data[ MOTD_VERSION_KEY ] ) : -1;
         edict_t@ edict = player.edict();
-
-        // Run inventory checks per-player throttled to every 0.5s instead of every frame
-        if( g_Engine.time >= float( data[ "it_inventorycd" ] ) )
-        {
-            UpdatePlayerInventory( player );
-            data[ "it_inventorycd" ] = g_Engine.time + 0.5f;
-        }
 
         {
             NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
@@ -273,32 +303,16 @@ namespace item_tracker
                 gpBufferDirty = false;
             }
 
-            data[ "motd_update" ] = gpBufferVersion;
-
-            uint length = gpBuffer.Length();
-            string buffer;
-            uint cur = 0;
-
-            while( length > cur )
-            {
-                buffer = gpBuffer.SubString( cur, cur + 45 > length ? length - cur : 45 );
-                cur += 45;
-
-                NetworkMessage msg( MSG_ONE, NetworkMessages::MOTD, edict );
-                    msg.WriteByte( buffer.Length() == 45 ? 0 : 1 );
-                    msg.WriteString( buffer );
-                msg.End();  
-            }
+            data[ MOTD_VERSION_KEY ] = gpBufferVersion;
+            SendBuffer( edict );
         }
         else
         {
-            // Open already updated motd
             NetworkMessage msg( MSG_ONE, NetworkMessages::SVC_STUFFTEXT, edict );
                 msg.WriteString( "servermotd\n" );
             msg.End();
         }
 
-        // Restore the hostname
         {
             NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
                 msg.WriteString( g_EngineFuncs.CVarGetString( "hostname" ) );

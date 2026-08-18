@@ -149,8 +149,7 @@ namespace monster_zombie_grenadier
 
         void SetYawSpeed()
         {
-            int ys = 120;
-            pev.yaw_speed = ys;
+            pev.yaw_speed = 120;
         }
 
         int Classify()
@@ -165,20 +164,20 @@ namespace monster_zombie_grenadier
         {
             int iIgnore = BaseIgnoreConditions();
 
-            if( ( self.m_Activity == ACT_MELEE_ATTACK1 ) or ( self.m_Activity == ACT_MELEE_ATTACK1 ) )
+            if( self.m_Activity == ACT_MELEE_ATTACK1 )
             {
                 if( m_flNextFlinch >= g_Engine.time )
                     iIgnore |= ( bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE );
             }
 
-            if( ( self.m_Activity == ACT_SMALL_FLINCH ) or ( self.m_Activity == ACT_BIG_FLINCH ) )
+            if( self.m_Activity == ACT_SMALL_FLINCH || self.m_Activity == ACT_BIG_FLINCH )
             {
                 if( m_flNextFlinch < g_Engine.time )
                     m_flNextFlinch = g_Engine.time + NPC_FLINCH_DELAY;
             }
 
             // don't run away at low health
-            if( self.m_Activity == ACT_RANGE_ATTACK1 or self.m_Activity == ACT_RUN )
+            if( self.m_Activity == ACT_RANGE_ATTACK1 || self.m_Activity == ACT_RUN )
                 iIgnore |= bits_COND_SEE_FEAR | bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE;
 
             return iIgnore;
@@ -194,7 +193,7 @@ namespace monster_zombie_grenadier
                 iIgnoreConditions |= bits_COND_SMELL_FOOD;
             }
 
-            if( self.m_MonsterState == MONSTERSTATE_SCRIPT and self.m_hCine.GetEntity() !is null )
+            if( self.m_MonsterState == MONSTERSTATE_SCRIPT && self.m_hCine.GetEntity() !is null )
             {
                 CCineMonster@ pCine = cast<CCineMonster@>( self.m_hCine.GetEntity() );
                 if( pCine !is null )
@@ -208,9 +207,9 @@ namespace monster_zombie_grenadier
         {
             BaseClass.RunAI();
 
-            if( !m_bGrenadeHalftime and m_flGrenadeTimer > 0 and g_Engine.time > ( m_flGrenadeTimer - ( GRENADE_TIMER * 0.5 ) ) )
+            if( !m_bGrenadeHalftime && m_flGrenadeTimer > 0 && g_Engine.time > ( m_flGrenadeTimer - ( GRENADE_TIMER * 0.5 ) ) )
                 m_bGrenadeHalftime = true;
-            else if( m_bGrenadeOut and m_flGrenadeTimer > 0 and g_Engine.time > m_flGrenadeTimer )
+            else if( m_bGrenadeOut && m_flGrenadeTimer > 0 && g_Engine.time > m_flGrenadeTimer )
                 DropOrExplode( g_vecZero );
         }
 
@@ -220,47 +219,13 @@ namespace monster_zombie_grenadier
             {
                 case NPC_AE_ATTACK_RIGHT:
                 {
-                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
-                    if( pHurt !is null )
-                    {
-                        if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
-                        {
-                            pHurt.pev.punchangle.z = -18;
-                            pHurt.pev.punchangle.x = 5;
-                            pHurt.pev.velocity = pHurt.pev.velocity - g_Engine.v_right * 100;
-                        }
-
-                        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong( SND_ATTACK_HIT1, SND_ATTACK_HIT3 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
-                    }
-                    else
-                        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong( SND_ATTACK_MISS1, SND_ATTACK_MISS2 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
-
-                    if( Math.RandomLong( 0, 1 ) == 1 )
-                        AttackSound();
-
+                    HandleMeleeAttack( -1.0f );
                     break;
                 }
 
                 case NPC_AE_ATTACK_LEFT:
                 {
-                    CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
-                    if( pHurt !is null )
-                    {
-                        if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
-                        {
-                            pHurt.pev.punchangle.z = 18;
-                            pHurt.pev.punchangle.x = 5;
-                            pHurt.pev.velocity = pHurt.pev.velocity + g_Engine.v_right * 100;
-                        }
-
-                        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong( SND_ATTACK_HIT1, SND_ATTACK_HIT3 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
-                    }
-                    else
-                        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong( SND_ATTACK_MISS1, SND_ATTACK_MISS2 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
-
-                    if( Math.RandomLong( 0, 1 ) == 1 )
-                        AttackSound();
-
+                    HandleMeleeAttack( 1.0f );
                     break;
                 }
 
@@ -288,6 +253,30 @@ namespace monster_zombie_grenadier
             }
         }
 
+        void HandleMeleeAttack( float direction )
+        {
+            CBaseEntity@ hurt = CheckTraceHullAttack( 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
+
+            if( hurt !is null )
+            {
+                if( btscm::HasFlags( hurt.pev.flags, FL_MONSTER | FL_CLIENT ) )
+                {
+                    hurt.pev.punchangle.z = 18 * direction;
+                    hurt.pev.punchangle.x = 5;
+                    hurt.pev.velocity = hurt.pev.velocity + g_Engine.v_right * ( 100 * direction );
+                }
+
+                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong( SND_ATTACK_HIT1, SND_ATTACK_HIT3 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
+            }
+            else
+            {
+                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_WEAPON, arrsSounds[Math.RandomLong( SND_ATTACK_MISS1, SND_ATTACK_MISS2 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
+            }
+
+            if( Math.RandomLong( 0, 1 ) == 1 )
+                AttackSound();
+        }
+
         int TakeDamage( entvars_t@ pevInflictor, entvars_t@ pevAttacker, float flDamage, int bitsDamageType )
         {
             // take no damage when pulling out a grenade
@@ -295,7 +284,7 @@ namespace monster_zombie_grenadier
                 return 0;
 
             // Take 30% damage from bullets
-            if( bitsDamageType == DMG_BULLET )
+            if( btscm::HasFlags( bitsDamageType, DMG_BULLET ) )
             {
                 Vector vecDir = pev.origin - ( pevInflictor.absmin + pevInflictor.absmax ) * 0.5;
                 vecDir = vecDir.Normalize();
@@ -304,7 +293,7 @@ namespace monster_zombie_grenadier
                 flDamage *= 0.3;
             }
 
-            if( m_bGrenadeOut and self.m_LastHitGroup == HITGROUP_GRENADE )
+            if( m_bGrenadeOut && self.m_LastHitGroup == HITGROUP_GRENADE )
             {
                 DropOrExplode( pevInflictor.origin );
                 self.ChangeSchedule( self.GetScheduleOfType( SCHED_ARM_WEAPON ) );
@@ -331,14 +320,16 @@ namespace monster_zombie_grenadier
 
         void DropOrExplode( Vector vecAttacker )
         {
-            // g_Game.AlertMessage( at_notice, "DropOrExplode: %1\n", vecAttacker.ToString() );
-            Vector vecOrigin;
-            g_EngineFuncs.GetBonePosition( self.edict(), 17, vecOrigin, void ); // using the hand bone
-
             if( !m_bGrenadeHalftime )
+            {
                 DropGrenade( vecAttacker );
+            }
             else
+            {
+                Vector vecOrigin;
+                g_EngineFuncs.GetBonePosition( self.edict(), 17, vecOrigin, void ); // using the hand bone
                 ExplodeGrenade( vecOrigin );
+            }
 
             m_flGrenadeTimer = 0;
         }
@@ -368,11 +359,7 @@ namespace monster_zombie_grenadier
             {
                 case TASK_RUN_PATH:
                 {
-                    if( m_bGrenadeOut )
-                        self.m_movementActivity = ACT_RUN;
-                    else
-                        self.m_movementActivity = ACT_WALK;
-
+                    self.m_movementActivity = m_bGrenadeOut ? ACT_RUN : ACT_WALK;
                     self.TaskComplete();
                     break;
                 }
@@ -390,18 +377,15 @@ namespace monster_zombie_grenadier
         {
             bool bCheckMeleeAttack1 = BaseClass.CheckMeleeAttack1( flDot, flDist );
 
-            if( m_bGrenadeOut and self.m_Activity == ACT_RUN and bCheckMeleeAttack1 )
+            if( m_bGrenadeOut && self.m_Activity == ACT_RUN && bCheckMeleeAttack1 )
                 DropOrExplode( g_vecZero );
 
-            if( m_bGrenadeOut or self.m_Activity == ACT_RANGE_ATTACK1 )
-                return false;
-
-            return bCheckMeleeAttack1;
+            return !m_bGrenadeOut && self.m_Activity != ACT_RANGE_ATTACK1 && bCheckMeleeAttack1;
         }
 
         bool CheckRangeAttack1( float flDot, float flDist )
         {
-            if( m_bHasGrenade and !m_bGrenadeOut and pev.health <= ( pev.max_health * btscm::ptof( GRENADE_TRIGGER ) ) and self.m_Activity != ACT_RUN )
+            if( m_bHasGrenade && !m_bGrenadeOut && pev.health <= ( pev.max_health * btscm::ptof( GRENADE_TRIGGER ) ) && self.m_Activity != ACT_RUN )
             {
                 m_bGrenadeOut = true;
                 self.ChangeSchedule( self.GetScheduleOfType( SCHED_RANGE_ATTACK1 ) ); // this shouldn't be needed but for some reason it is, blyat
@@ -415,27 +399,27 @@ namespace monster_zombie_grenadier
             return false;
         }
 
-        CBaseEntity@ CheckTraceHullAttack( CBaseMonster@ pThis, float flDist, int iDamage, int iDmgType )
+        CBaseEntity@ CheckTraceHullAttack( float flDist, int iDamage, int iDmgType )
         {
             TraceResult tr;
 
-            if( pThis.IsPlayer() )
-                Math.MakeVectors( pThis.pev.angles );
-            else
-                Math.MakeAimVectors( pThis.pev.angles );
+            Math.MakeAimVectors( pev.angles );
 
             Vector vecStart = pev.origin;
             vecStart.z += pev.size.z * 0.5;
             Vector vecEnd = vecStart + ( g_Engine.v_forward * flDist );
 
-            g_Utility.TraceHull( vecStart, vecEnd, dont_ignore_monsters, head_hull, pThis.edict(), tr );
+            g_Utility.TraceHull( vecStart, vecEnd, dont_ignore_monsters, head_hull, self.edict(), tr );
 
             if( tr.pHit !is null )
             {
                 CBaseEntity@ pEntity = g_EntityFuncs.Instance( tr.pHit );
 
+                if( pEntity is null )
+                    return null;
+
                 if( iDamage > 0 )
-                    pEntity.TakeDamage( pThis.pev, pThis.pev, iDamage, iDmgType );
+                    pEntity.TakeDamage( self.pev, self.pev, iDamage, iDmgType );
 
                 return pEntity;
             }
