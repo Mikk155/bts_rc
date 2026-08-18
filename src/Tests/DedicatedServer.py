@@ -32,6 +32,7 @@ class DedicatedServer( PyBuilder ):
         process = subprocess.Popen(
             [
                 "-console",
+                "-dll", "dlls/server.dll",
                 "+maxplayers", "1",
                 "+map", "_server_start",
                 "+developer", "1"
@@ -129,7 +130,7 @@ class DedicatedServer( PyBuilder ):
             if lineLower.startswith( "[Error]" ):
                 errorMessages.append( line );
 
-            if "started map \"bts_rc_test_chamber\"" in lineLower:
+            if "map<bts_rc_test_chamber> ended" in lineLower:
 
                 process.terminate();
 
