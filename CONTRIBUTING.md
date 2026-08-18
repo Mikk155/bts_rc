@@ -34,6 +34,7 @@ To ensure quality and consistency across all community contributions, please fol
    Navigate to the `src` folder inside the cloned repository and run the main script
    ```bash
    cd svencoop_event_bts/src
+   pip install -r requirements.txt
    python main.py
    ```
    This will download all the third party angelscript utility files into the working directory.
@@ -93,7 +94,7 @@ All AngelScript scripts should match the formatting conventions enforced by the 
 
 ## Checkers
 
-Every `.as` script must contain the MIT license header. Do not write this manually! 
+Every `.as` script must contain the MIT license header. Do not write this manually!
 
 Before committing your changes, run the python utility to run various tests and format the AngelScript files:
 ```bash
