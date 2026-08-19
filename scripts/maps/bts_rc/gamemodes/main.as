@@ -18,6 +18,7 @@
 #include "item_tracker"
 #include "deathdrop"
 #include "dynamic_ammo"
+#include "equipment"
 #include "player_voices"
 #include "PlayerClass"
 #include "randomizer"

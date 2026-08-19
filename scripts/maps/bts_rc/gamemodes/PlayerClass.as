@@ -40,6 +40,67 @@ enum Classification
     __Size__
 };
 
+namespace Classification
+{
+    const string& ToString( Classification classification )
+    {
+        switch( classification )
+        {
+            case Classification::Security:
+                return "Security";
+            case Classification::Scientist:
+                return "Scientist";
+            case Classification::Maintenance:
+                return "Maintenance";
+            case Classification::HEV:
+                return "HEV";
+            case Classification::Hazard:
+                return "Hazard";
+            case Classification::Operative:
+                return "Operative";
+            case Classification::Unset:
+            default:
+                return String::EMPTY_STRING;
+        }
+    }
+
+    const string ToString( CBasePlayer@ player )
+    {
+        return ToString( util::GetClass(player) );
+    }
+
+    const Classification FromString( string className )
+    {
+        if( className.IsEmpty() )
+            return Classification::Unset;
+
+        className.ToLowercase();
+
+        if( className == "security" )
+            return Classification::Security;
+
+        if( className == "scientist" )
+            return Classification::Scientist;
+
+        if( className == "scientist" )
+            return Classification::Scientist;
+
+        if( className == "maintenance" )
+            return Classification::Maintenance;
+
+        if( className == "hev" )
+            return Classification::HEV;
+
+        if( className == "hazard" )
+            return Classification::Hazard;
+
+        if( className == "operative" )
+            return Classification::Operative;
+
+        return Classification::Unset;
+    }
+}
+
 // View model hands bodygroups
 enum Hands
 {
@@ -385,8 +446,6 @@ CCharacter@ GetCharacter( CBaseEntity@ player )
     return GetCharacter( cast<CBasePlayer@>(player) );
 }
 
-dictionary __JoinedPlayers__;
-
 /// Set the player class
 void SetClass( CBasePlayer@ player, const Classification&in classify )
 {
@@ -398,47 +457,35 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
     if( data is null )
         return;
 
+    if( classify <= Classification::Unset || classify >= Classification::__Size__ )
+    {
+        data.delete( "character" );
+        data.delete( "security" );
+        return;
+    }
+
     auto character = SetRandomCharacter( player, classify );
 
     if( character is null )
         return;
 
-    switch( classify )
-    {
-        case Classification::Security:
-        case Classification::Operative:
-            data[ "security" ] = true;
-        break;
-    }
-
     @data[ "character" ] = character;
 
-    if( player.IsAlive() )
-    {
-        // Re-Deploy weapon to update view model hands
-        if( player.m_hActiveItem.IsValid() )
-        {
-            CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
-
-            if( active_item !is null )
-            {
-                CBasePlayerItem@ weapon = cast<CBasePlayerItem@>( active_item );
-
-                if( weapon !is null )
-                {
-                    weapon.Deploy();
-                }
-            }
-        }
-    }
-    else if( !__JoinedPlayers__.exists( g_EngineFuncs.GetPlayerAuthId( player.edict() ) ) )
-    {
-        g_PlayerFuncs.RespawnPlayer( player, false, true );
-    }
-
-    __JoinedPlayers__[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] = true;
-
     UpdatePlayerData( player, classify );
+
+    Hooks::PlayerSetClass( player, character );
+}
+
+void PlayerSetClass( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+{
+    CBasePlayer@ player = null;
+
+    if( activator is null || caller is null || !activator.IsPlayer() || ( @player = cast<CBasePlayer@>( activator ) ) is null )
+        return;
+
+    const Classification classification = Classification( int( caller.pev.health ) );
+
+    SetClass( player, classification );
 }
 
 void SetRandomClass( CBasePlayer@ player, array<Classification>@ range )
@@ -484,3 +531,43 @@ void UpdatePlayerData( CBasePlayer@ player )
 
     UpdatePlayerData( player, util::GetClass( player ) );
 }
+
+#if SERVER
+RegisterCommand ASEquipmentTestCommand(
+"set",
+"[class index]",
+"Set your class to the given index, use w/o arguments to see indexes",
+function( CBasePlayer@ player, array<string>@ arguments )
+{
+    if( arguments is null || arguments.length() <= 0 )
+    {
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Possible class values are either these numerical indexes or names (case unsensitive)\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Unset) + " | \"" + Classification::ToString(Classification::Unset) + "\"\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Security) + " | \"" + Classification::ToString(Classification::Security) + "\"\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Scientist) + " | \"" + Classification::ToString(Classification::Scientist) + "\"\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Maintenance) + " | \"" + Classification::ToString(Classification::Maintenance) + "\"\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::HEV) + " | \"" + Classification::ToString(Classification::HEV) + "\"\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Hazard) + " | \"" + Classification::ToString(Classification::Hazard) + "\"\n" );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Operative) + " | \"" + Classification::ToString(Classification::Operative) + "\"\n" );
+        return;
+    }
+
+
+    string arg = arguments[0];
+    Classification classify;
+
+    if( g_Utility.IsStringInt( arg ) )
+    {
+        classify = Classification( int( atoi( arg ) ) );
+    }
+    else
+    {
+        classify = Classification::FromString( arg );
+    }
+
+    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Set Classification \"" + Classification::ToString(classify) + " (" + int(classify) + ")\n" );
+
+    SetClass( player, classify );
+
+}, true, "class" );
+#endif

@@ -22,6 +22,7 @@
 #include "PlayerInitialized"
 #include "PlayerKilled"
 #include "PlayerRevive"
+#include "PlayerSetClass"
 #include "PlayerSpawn"
 #include "PlayerTakeDamage"
 #include "PlayerThink"

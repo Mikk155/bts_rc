@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/32.91139240506329?barColor=da930b)
+> ![](https://geps.dev/progress/32.5?barColor=da910b)
 <!--CompletionBar-end-->
 
 ---
@@ -26,6 +26,7 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+- [ ] move to src/precaches.json models in the map that has the targetname "PRECACHE" and notify raptor.
 - [ ] Reimplement the whole hev fvox updates for hev characters (Update ASBullet::DeduceAmmo).
 - [ ] Add "active" checks to all loggers that may not have it.
 - [ ] Implement ASBullet to all fire arms.

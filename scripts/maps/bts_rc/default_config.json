@@ -307,6 +307,53 @@
             8
         ]
     },
+    "equipment": {
+        "characters": [
+            {
+                "sets": [
+                    "BeretaFlashlight"
+                ],
+                "description": "%1 entered the simulation as security guard\nEquiped with %2",
+                "notice": [
+                    0,
+                    0,
+                    255
+                ],
+                "fade": [
+                    100,
+                    100,
+                    255
+                ],
+                "trigger": "FireThisentity",
+                "sets_enforce": []
+            },
+            {},
+            {},
+            {},
+            {},
+            {}
+        ],
+        "sets": {
+            "BeretaFlashlight": {
+                "description": "M9 Beretta, Flashlight",
+                "entities": [
+                    {
+                        "classname": "item_inventory",
+                        "targetname": "keycard_level_2"
+                    },
+                    {
+                        "classname": "item_inventory",
+                        "targetname": "security_helmet"
+                    }
+                ],
+                "items": [
+                    "weapon_bts_beretta",
+                    "item_bts_armorvest",
+                    "weapon_bts_flashlight"
+                ]
+            }
+        }
+    },
     "grunt_engineer": {
         "active": true,
         "capacity": 5,
