@@ -466,7 +466,3 @@ final class ASEquipmentConfig : IConfigurable
 }
 
 ASEquipmentConfig gpEquipment;
-
-#if SERVER
-RegisterCommand@ ASEquipmentTestCommand;
-#endif
