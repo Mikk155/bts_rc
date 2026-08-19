@@ -253,10 +253,20 @@ final class ASEquipmentCharacter
 
             g_PlayerFuncs.ScreenFade( player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT );
 
-            g_Scheduler.SetTimeout( @g_PlayerFuncs, "ScreenFade", 1.0f, @player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
+            g_Scheduler.SetTimeout( this, "__StupidAssSchedulerStupidAssAPI__", 1.0f, EHandle(player), color );
         }
 
         g_EntityFuncs.FireTargets( this.m_Target, player, null, USE_TOGGLE, 0.0f );
+    }
+
+    void __StupidAssSchedulerStupidAssAPI__( EHandle hPlayer, Vector color )
+    {
+        CBaseEntity@ player = null;
+
+        if( hPlayer.IsValid() && ( @player = hPlayer.GetEntity() ) !is null )
+        {
+            g_PlayerFuncs.ScreenFade( player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
+        }
     }
 }
 
