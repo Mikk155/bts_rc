@@ -1,3 +1,7 @@
+# 18/8/2026
+## Scripts
+- Rewrite & restructure of the random equipment system to a simpler and more flexible json context.
+
 # 11/8/2026
 ## Scripts
 - Added a null-safe dynamic ammo pickup helper and a command for testing scaled ammo values.

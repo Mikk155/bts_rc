@@ -385,7 +385,7 @@ final class ASBullet
             g_EngineFuncs.GetAttachment( this.m_Player.edict(), 0, playerHandPosition, void );
             playerHandPosition = playerHandPosition + g_Engine.v_forward * 64 + g_Engine.v_right * 2;
 
-            NetworkMessage msg( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, null );
+            NetworkMessage msg( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
                 msg.WriteByte( TE_TRACER );
                 msg.WriteCoord( playerHandPosition.x );
                 msg.WriteCoord( playerHandPosition.y );

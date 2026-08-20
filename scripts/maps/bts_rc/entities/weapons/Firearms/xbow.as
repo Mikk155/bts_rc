@@ -125,7 +125,7 @@ class electro_bolt : ScriptBaseEntity
         g_EntityFuncs.SetOrigin( self, pev.origin );
         g_EntityFuncs.SetSize( self.pev, g_vecZero, g_vecZero );
 
-        NetworkMessage m2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
+        NetworkMessage m2( MSG_BROADCAST, NetworkMessages::SVC_TEMPENTITY );
         m2.WriteByte( TE_BEAMFOLLOW );
         m2.WriteShort( self.entindex() );
         m2.WriteShort( models::laserbeam );

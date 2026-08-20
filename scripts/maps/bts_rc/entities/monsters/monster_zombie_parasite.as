@@ -598,7 +598,7 @@ final class CParasiteZombieCloud : ScriptBaseEntity
     {
         g_EntityFuncs.SetSize( self.pev, g_vecZero, g_vecZero );
 
-        NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
+        NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pev.origin );
             m1.WriteByte( TE_FIREFIELD );
             m1.WriteCoord( pev.origin.x );
             m1.WriteCoord( pev.origin.y );

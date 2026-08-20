@@ -102,7 +102,7 @@ namespace weapons
                     case 4: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric5.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
                 }
 
-                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
                     m.WriteByte( TE_STREAK_SPLASH );
                     m.WriteCoord( tr.vecEndPos.x );
                     m.WriteCoord( tr.vecEndPos.y );
@@ -116,7 +116,7 @@ namespace weapons
                     m.WriteShort( 100 );         // Random velocity
                 m.End();
 
-                NetworkMessage m2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
+                NetworkMessage m2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
                     m2.WriteByte( TE_DLIGHT );
                     m2.WriteCoord( tr.vecEndPos.x );
                     m2.WriteCoord( tr.vecEndPos.y );

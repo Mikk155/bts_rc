@@ -87,7 +87,7 @@ class item_bts_hevbattery : BTS_Item
         m_Sprite.pev.origin.z += 4;
 
         // Unreliable, PVS
-        NetworkMessage message( MSG_PVS, NetworkMessages::SVC_TEMPENTITY );
+        NetworkMessage message( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, m_Sprite.pev.origin );
             message.WriteByte( TE_DLIGHT );
             message.WriteCoord( m_Sprite.pev.origin.x );
             message.WriteCoord( m_Sprite.pev.origin.y );
