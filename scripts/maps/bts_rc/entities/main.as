@@ -30,6 +30,9 @@
 #include "monsters/zombie_engineer"
 #include "monsters/zombie_uncrab"
 
+#if SERVER
+#include "entitymaker"
+#endif
 #include "env_commentary"
 #include "func_bts_recharger"
 #if SERVER
