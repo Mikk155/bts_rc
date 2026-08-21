@@ -43,7 +43,7 @@ namespace Hooks
 
         if( gib != GIB_ALWAYS )
         {
-            CVoices@ voices = g_VoiceResponse[player];
+            CVoices@ voices = character.Voices;
 
             if( voices !is null && voices.killed !is null )
                 voices.killed.PlaySound( player );

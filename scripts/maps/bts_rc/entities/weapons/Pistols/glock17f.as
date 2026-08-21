@@ -104,8 +104,6 @@ class weapon_bts_glock17f : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 8, gpWeaponGlock17fConfig.max_clip );
-        self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
     }
 
@@ -149,10 +147,13 @@ class weapon_bts_glock17f : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = weapons::Accuracy( player, gpWeaponGlock17fConfig.primary_accuracy, isTrainedPersonal );
         uint8 anim = self.m_iClip > 1 ? WeaponGlock17fAnim::Shoot : WeaponGlock17fAnim::ShootEmpty;
 
-        FireBullet( 1, cone, gpWeaponGlock17fConfig.primary_damage, "bts_rc/weapons/glock_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
+        bullet.Weapon( this )
+            .Sound( "bts_rc/weapons/glock_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ) )
+            .Shell( models::shell )
+            .Animation( anim )
+        .Fire();
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
 

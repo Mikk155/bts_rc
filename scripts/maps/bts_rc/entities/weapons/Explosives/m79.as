@@ -234,8 +234,65 @@ class weapon_bts_m79 : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 0, 3 );
         BTS_FireWeapon::Spawn();
+    }
+
+    void ItemPostFrame()
+    {
+        BaseClass.ItemPostFrame();
+
+        if( ( this.owner.pev.button & IN_ALT1 ) == 0 || self.pev.fuser2 > g_Engine.time )
+            return;
+
+        self.pev.fuser2 = g_Engine.time + 0.15f;
+        DrawTrajectory( this.owner, -2.0f, 255, 180, 0 );
+        DrawTrajectory( this.owner, 0.0f, 64, 255, 64 );
+        DrawTrajectory( this.owner, 2.0f, 255, 180, 0 );
+    }
+
+    private void DrawTrajectory( CBasePlayer@ player, float yawOffset, uint8 red, uint8 green, uint8 blue )
+    {
+        Vector angles = player.pev.v_angle + player.pev.punchangle;
+        angles.y += yawOffset;
+        Math.MakeVectors( angles );
+
+        Vector position = player.GetGunPosition() + g_Engine.v_forward * 8.0f + g_Engine.v_right * 4.0f - g_Engine.v_up * 2.0f;
+        Vector velocity = g_Engine.v_forward * 1200.0f;
+        const float interval = 0.1f;
+
+        for( uint segment = 0; segment < 8; segment++ )
+        {
+            Vector nextPosition = position + velocity * interval;
+            velocity.z -= 800.0f * interval;
+
+            TraceResult trace;
+            g_Utility.TraceLine( position, nextPosition, ignore_monsters, player.edict(), trace );
+
+            NetworkMessage message( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, player.edict() );
+                message.WriteByte( TE_BEAMPOINTS );
+                message.WriteCoord( position.x );
+                message.WriteCoord( position.y );
+                message.WriteCoord( position.z );
+                message.WriteCoord( trace.vecEndPos.x );
+                message.WriteCoord( trace.vecEndPos.y );
+                message.WriteCoord( trace.vecEndPos.z );
+                message.WriteShort( models::laserbeam );
+                message.WriteByte( 0 );
+                message.WriteByte( 1 );
+                message.WriteByte( 2 );
+                message.WriteByte( 2 );
+                message.WriteByte( 0 );
+                message.WriteByte( red );
+                message.WriteByte( green );
+                message.WriteByte( blue );
+                message.WriteByte( 160 );
+                message.WriteByte( 0 );
+            message.End();
+
+            position = trace.vecEndPos;
+            if( trace.flFraction < 1.0f )
+                break;
+        }
     }
 
     void Attack( CBasePlayer@ player, AttackType type ) override

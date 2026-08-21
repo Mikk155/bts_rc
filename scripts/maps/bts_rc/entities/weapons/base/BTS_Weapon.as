@@ -52,13 +52,28 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     void Spawn()
     {
+        int defaultAmmo = this.config.GetDefaultAmmo( AttackType::Primary );
+
+        if( defaultAmmo >= 0 )
+            self.m_iDefaultAmmo = defaultAmmo;
+
+        int defaultSecondaryAmmo = this.config.GetDefaultAmmo( AttackType::Secondary );
+
+        if( defaultSecondaryAmmo >= 0 )
+            self.m_iDefaultSecAmmo = defaultSecondaryAmmo;
+
         g_EntityFuncs.SetModel( self, this.config.world_model );
         self.FallInit();
     }
 
     bool Deploy()
     {
-        return weapons::Deploy( self, this.owner, this.config );
+        bool deployed = weapons::Deploy( self, this.owner, this.config );
+
+        if( deployed )
+            this.config.WeaponDeploy( this.owner, self, GetCharacter( this.owner ) );
+
+        return deployed;
     }
 
     bool GetItemInfo( ItemInfo& out info )

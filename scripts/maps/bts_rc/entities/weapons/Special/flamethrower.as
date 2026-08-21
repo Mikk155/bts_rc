@@ -61,7 +61,7 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 
     void Precache() override
     {
-        this.m_iFlameSprite = g_EngineFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
+        this.m_iFlameSprite = g_ModelFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
 
         g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flamethrower.txt" );
 
@@ -73,6 +73,7 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
         if( g_MapConfig.MapLoading )
         {
             g_CustomEntityFuncs.RegisterCustomEntity( "flame_proj", "flame_proj" );
+            g_CustomEntityFuncs.RegisterCustomEntity( "ASBurningMonster", "bts_burning_monster" );
         }
 
         return ASWeaponConfig::Register( json );
@@ -97,6 +98,97 @@ enum WeaponFlamethrowerAnim
 };
 
 const float FLAME_SPEED = 800.0f;
+const Vector FLAME_OFFSET = Vector( 34.333031f, 12.009664f, -5.616758f );
+
+final class ASBurningMonster : ScriptBaseEntity
+{
+    private EHandle m_Target;
+    private EHandle m_Attacker;
+    private float m_Damage;
+    private float m_EndTime;
+
+    void Spawn()
+    {
+        self.pev.effects |= EF_NODRAW;
+        self.pev.solid = SOLID_NOT;
+        self.pev.movetype = MOVETYPE_NONE;
+    }
+
+    void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration )
+    {
+        m_Target = EHandle( target );
+        m_Attacker = EHandle( attacker );
+        m_Damage = damage;
+        m_EndTime = Math.max( m_EndTime, g_Engine.time + duration );
+        self.pev.nextthink = g_Engine.time + 0.5f;
+        SetThink( ThinkFunction( this.BurnThink ) );
+    }
+
+    void Refresh( CBaseEntity@ attacker, float damage, float duration )
+    {
+        m_Attacker = EHandle( attacker );
+        m_Damage = Math.max( m_Damage, damage );
+        m_EndTime = Math.max( m_EndTime, g_Engine.time + duration );
+    }
+
+    void BurnThink()
+    {
+        CBaseEntity@ target = m_Target.GetEntity();
+        CBaseEntity@ attacker = m_Attacker.GetEntity();
+
+        if( target is null || !target.IsAlive() || g_Engine.time >= m_EndTime )
+        {
+            if( target !is null )
+                target.GetUserData().delete( "bts_burning_monster" );
+            g_EntityFuncs.Remove( self );
+            return;
+        }
+
+        entvars_t@ attackerVars = attacker is null ? self.pev : attacker.pev;
+        target.TakeDamage( self.pev, attackerVars, m_Damage, DMG_BURN | DMG_SLOWBURN | DMG_NEVERGIB );
+
+        NetworkMessage flame( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, target.Center() );
+            flame.WriteByte( TE_EXPLOSION );
+            flame.WriteCoord( target.Center().x );
+            flame.WriteCoord( target.Center().y );
+            flame.WriteCoord( target.Center().z );
+            flame.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
+            flame.WriteByte( 6 );
+            flame.WriteByte( 12 );
+            flame.WriteByte( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES );
+        flame.End();
+
+        self.pev.nextthink = g_Engine.time + 0.5f;
+    }
+}
+
+namespace BurningMonster
+{
+    void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration = 4.0f )
+    {
+        if( target is null || !target.IsMonster() || target.IsMachine() || !target.IsAlive() )
+            return;
+
+        dictionary@ data = target.GetUserData();
+        ASBurningMonster@ burning;
+
+        if( data.get( "bts_burning_monster", @burning ) && burning !is null )
+        {
+            burning.Refresh( attacker, damage, duration );
+            return;
+        }
+
+        CBaseEntity@ entity = g_EntityFuncs.CreateEntity( "bts_burning_monster", null, false );
+        @burning = cast<ASBurningMonster@>( CastToScriptClass( entity ) );
+
+        if( burning is null )
+            return;
+
+        g_EntityFuncs.DispatchSpawn( entity.edict() );
+        @data[ "bts_burning_monster" ] = burning;
+        burning.Ignite( target, attacker, damage, duration );
+    }
+}
 
 class flame_proj : ScriptBaseEntity
 {
@@ -143,12 +235,10 @@ class flame_proj : ScriptBaseEntity
 
     void FlameTouch( CBaseEntity@ pOther )
     {
-        TraceResult tr = g_Utility.GetGlobalTrace();
-
-        if( pOther.pev.modelindex == self.pev.modelindex && tr.pHit is null && self.pev.modelindex != tr.pHit.vars.modelindex )
-        {
+        if( pOther is null || pOther.GetClassname() == "flame_proj" )
             return;
-        }
+
+        TraceResult tr = g_Utility.GetGlobalTrace();
 
         entvars_t@ pevOwner;
         if( self.pev.owner !is null )
@@ -172,6 +262,7 @@ class flame_proj : ScriptBaseEntity
                 pOther.TraceAttack( pevOwner, self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_SLOWBURN | DMG_NEVERGIB | DMG_POISON );
 
             g_WeaponFuncs.ApplyMultiDamage( self.pev, pevOwner );
+            BurningMonster::Ignite( pOther, g_EntityFuncs.Instance( pevOwner.pContainingEntity ), self.pev.dmg * 0.15f );
         }
 
         if( pOther.IsBSPModel() )
@@ -198,7 +289,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = 40;
         BTS_FireWeapon::Spawn();
         pev.scale = 1.5;
     }
@@ -242,7 +332,9 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         player.pev.punchangle.x -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
         player.pev.punchangle.y -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
 
-        Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * 16 + g_Engine.v_right * 2 + g_Engine.v_up * -2;
+        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+        Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * FLAME_OFFSET.x
+            + g_Engine.v_right * FLAME_OFFSET.y + g_Engine.v_up * FLAME_OFFSET.z;
         Vector vecDir = player.pev.v_angle * Vector( -1, 1, 1 );
 
         CBaseEntity@ preFlame = g_EntityFuncs.Create( "flame_proj", vecSrc, vecDir, false, player.edict() );
@@ -253,7 +345,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
             preFlame.pev.avelocity.z = 10;
         }
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 0.1;
+        self.m_flNextPrimaryAttack = g_Engine.time + gpWeaponFlamethrowerConfig.GetCooldown( is_trained_personal, AttackType::Primary );
         self.m_flTimeWeaponIdle = g_Engine.time + 0.5;
     }
 
@@ -286,7 +378,7 @@ class ammo_bts_flamethrower : ScriptBasePlayerAmmoEntity
 
     bool AddAmmo( CBaseEntity@ pOther )
     {
-        if( pOther.GiveAmmo( 40, "fuel", 120 ) != -1 )
+        if( pOther.GiveAmmo( 40, "fuel", gpWeaponFlamethrowerConfig.primary_maxammo ) != -1 )
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/weapons/g_bounce3.wav", 1, ATTN_NORM );
             return true;

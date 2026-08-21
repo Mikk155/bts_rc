@@ -71,7 +71,8 @@ namespace weapons
 
             if( g_WeaponsConfig.melee_weapons_push )
             {
-                if( ( hit.pev.flags & FL_ONGROUND ) == 0 && "monster_headcrab" == hit.GetClassname() )
+                if( ( hit.pev.flags & FL_ONGROUND ) == 0
+                && g_WeaponsConfig.melee_weapons_push_monsters.find( hit.GetClassname() ) >= 0 )
                 {
                     hit.pev.velocity = ( hit.pev.origin - player.pev.origin ).Normalize() * g_WeaponsConfig.melee_weapons_pull_force;
                     hit.pev.velocity.z = 200.0f;

@@ -223,7 +223,6 @@ class weapon_bts_xbow : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = 5;
         BTS_FireWeapon::Spawn();
         pev.scale = 0.8;
     }
@@ -328,6 +327,9 @@ class weapon_bts_xbow : BTS_FireWeapon
 
         player.pev.punchangle.x = -3.0f;
 
+        if( self.m_fInZoom )
+            SecondaryAttack();
+
         self.m_flNextPrimaryAttack = g_Engine.time + 1.8;
         self.m_flNextSecondaryAttack = g_Engine.time + 1.8;
 
@@ -343,12 +345,14 @@ class weapon_bts_xbow : BTS_FireWeapon
         if( this.owner.pev.fov != 0 )
         {
             this.owner.pev.fov = this.owner.m_iFOV = 0;
+            this.owner.pev.viewmodel = gpWeaponXBowConfig.view_model;
             this.owner.m_szAnimExtension = "bow";
             self.m_fInZoom = false;
         }
         else if( this.owner.pev.fov != 20 )
         {
             this.owner.pev.fov = this.owner.m_iFOV = 20;
+            this.owner.pev.viewmodel = String::EMPTY_STRING;
             this.owner.m_szAnimExtension = "bowscope";
             self.m_fInZoom = true;
         }

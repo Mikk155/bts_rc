@@ -460,7 +460,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
 ASRoboGruntBoss gpRoboGruntBoss;
 
 #if SERVER
-RegisterCommand __gpRoboGruntTestCmd__(
+ASCommand __gpRoboGruntTestCmd__(
     "robogrunt_test",
     "0/1 for regular or boss",
     "Spawn a robogrunt ahead",

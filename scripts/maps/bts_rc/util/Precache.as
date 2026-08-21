@@ -19,9 +19,12 @@
 // See: src/precaches.json and generate this file using src/main.py.
 void Precache()
 {
+    g_Game.PrecacheModel( "models/bshift/barney_helmet.mdl" );
+    g_Game.PrecacheModel( "models/bshift/barney_vest.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/furniture/lambda.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/items/w_antidote.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/items/w_medkits.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/monsters/snapbug.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/monsters/snapbugattach.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_barney.mdl" );
@@ -126,6 +129,7 @@ void Precache()
     g_Game.PrecacheModel( "models/hlclassic/w_357ammobox.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_9mmarclip.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_argrenade.mdl" );
+    g_Game.PrecacheModel( "models/hlclassic/w_battery.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_grenade.mdl" );
     g_Game.PrecacheModel( "models/hlclassic/w_shotshell.mdl" );
     g_Game.PrecacheModel( "models/hunger/w_gas.mdl" );

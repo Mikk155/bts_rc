@@ -17,6 +17,34 @@
 
 funcdef void FireBulletCallback( TraceResult&in );
 
+namespace HEVVoice
+{
+    void UpdateAmmo( CBasePlayer@ player, CBasePlayerWeapon@ weapon, int currentAmmo, int reserveAmmo, int maxAmmo )
+    {
+        if( player is null || weapon is null || !util::IsHEV( player ) )
+            return;
+
+        if( currentAmmo <= 0 && reserveAmmo <= 0 )
+        {
+            player.SetSuitUpdate( "!HEV_AMO0", false, 0 );
+            return;
+        }
+
+        if( maxAmmo <= 0 || currentAmmo + reserveAmmo >= maxAmmo / 4 )
+            return;
+
+        dictionary@ data = player.GetUserData();
+        float lastAmmoNotice;
+        string keyName = "HEV_lowammo_" + weapon.GetClassname();
+
+        if( !data.get( keyName, lastAmmoNotice ) || lastAmmoNotice < g_Engine.time )
+        {
+            data[ keyName ] = g_Engine.time + 60.0f;
+            g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_ITEM, "bts_rc/fvox/ammowarning.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+        }
+    }
+}
+
 final class ASBullet
 {
     private bool m_Underwater;
@@ -41,6 +69,17 @@ final class ASBullet
     private bool m_PlayerIsTrainedPersonal;
     private FireBulletCallback@ m_Callback;
     private Bullet m_BulletType;
+    private float m_AccuracyOverride;
+    private float m_DamageOverride;
+    private float m_DistanceOverride;
+    private uint m_AmmoCost;
+    private bool m_Tracer;
+    private Vector m_SpreadOverride;
+
+    ASBullet()
+    {
+        Clear();
+    }
 
     // Set a custom logic instead of our FireBullets call you fire it yourself using a class or something
     ASBullet@ Callback( FireBulletCallback@ callback = null )
@@ -90,6 +129,42 @@ final class ASBullet
     ASBullet@ Shots( uint shots = 1 )
     {
         this.m_Shots = shots;
+        return this;
+    }
+
+    ASBullet@ AmmoCost( uint ammoCost = 1 )
+    {
+        this.m_AmmoCost = ammoCost;
+        return this;
+    }
+
+    ASBullet@ Accuracy( float accuracy = -1.0f )
+    {
+        this.m_AccuracyOverride = accuracy;
+        return this;
+    }
+
+    ASBullet@ Damage( float damage = -1.0f )
+    {
+        this.m_DamageOverride = damage;
+        return this;
+    }
+
+    ASBullet@ Range( float distance = -1.0f )
+    {
+        this.m_DistanceOverride = distance;
+        return this;
+    }
+
+    ASBullet@ Tracer( bool enabled = false )
+    {
+        this.m_Tracer = enabled;
+        return this;
+    }
+
+    ASBullet@ Spread( const Vector&in spread = Vector( -1.0f, -1.0f, -1.0f ) )
+    {
+        this.m_SpreadOverride = spread;
         return this;
     }
 
@@ -177,7 +252,13 @@ final class ASBullet
             .Type()
             .Weapon()
             .Animation()
-            .Callback();
+            .Callback()
+            .AmmoCost()
+            .Accuracy()
+            .Damage()
+            .Range()
+            .Tracer()
+            .Spread();
     }
 
     // Return ammo count for the current type
@@ -200,8 +281,35 @@ final class ASBullet
         }
     }
 
-    float get_Damage() property
+    int get_ReserveAmmo() property
     {
+        switch( this.m_AttackType )
+        {
+            case AttackType::Primary:
+            {
+                if( this.m_Config.max_clip == WEAPON_NOCLIP )
+                    return 0;
+                return this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iPrimaryAmmoType );
+            }
+            case AttackType::Secondary:
+            {
+                return 0;
+            }
+            default:
+                return 0;
+        }
+    }
+
+    int get_MaxAmmo() property
+    {
+        return this.m_AttackType == AttackType::Secondary ? this.m_WeaponEntity.iMaxAmmo2() : this.m_WeaponEntity.iMaxAmmo1();
+    }
+
+    float get_ResolvedDamage() property
+    {
+        if( this.m_DamageOverride >= 0.0f )
+            return this.m_DamageOverride;
+
         switch( this.m_AttackType )
         {
             case AttackType::Primary:
@@ -217,21 +325,51 @@ final class ASBullet
         }
     }
 
-    float get_Accuracy() property
+    float get_ResolvedAccuracy() property
     {
+        float ironSightMultiplier = ( this.m_Player.pev.button & IN_ALT1 ) != 0 ? this.m_Config.iron_sight_accuracy : 1.0f;
+
+        if( this.m_AccuracyOverride >= 0.0f )
+            return this.m_AccuracyOverride * ironSightMultiplier;
+
         switch( this.m_AttackType )
         {
             case AttackType::Primary:
             {
-                return weapons::Accuracy( this.m_Player, this.m_Config.primary_accuracy, this.m_PlayerIsTrainedPersonal );
+                float accuracy = weapons::Accuracy( this.m_Player, this.m_Config.primary_accuracy, this.m_PlayerIsTrainedPersonal );
+                ASWeaponLaserConfig@ laserConfig = cast<ASWeaponLaserConfig@>( this.m_Config );
+                accuracy = laserConfig is null ? accuracy : laserConfig.LaserAccuracy( accuracy, this.m_WeaponEntity );
+                return accuracy * ironSightMultiplier;
             }
             case AttackType::Secondary:
             {
-                return weapons::Accuracy( this.m_Player, this.m_Config.secondary_accuracy, this.m_PlayerIsTrainedPersonal );
+                float accuracy = weapons::Accuracy( this.m_Player, this.m_Config.secondary_accuracy, this.m_PlayerIsTrainedPersonal );
+                ASWeaponLaserConfig@ laserConfig = cast<ASWeaponLaserConfig@>( this.m_Config );
+                accuracy = laserConfig is null ? accuracy : laserConfig.LaserAccuracy( accuracy, this.m_WeaponEntity );
+                return accuracy * ironSightMultiplier;
             }
             default:
                 return 0;
         }
+    }
+
+    Vector get_ResolvedSpread() property
+    {
+        if( this.m_SpreadOverride.x >= 0.0f )
+        {
+            float multiplier = ( this.m_Player.pev.button & IN_ALT1 ) != 0 ? this.m_Config.iron_sight_accuracy : 1.0f;
+            return this.m_SpreadOverride * multiplier;
+        }
+
+        Vector configuredSpread = this.m_AttackType == AttackType::Secondary ? this.m_Config.secondary_spread : this.m_Config.primary_spread;
+        if( configuredSpread.x >= 0.0f )
+        {
+            float multiplier = ( this.m_Player.pev.button & IN_ALT1 ) != 0 ? this.m_Config.iron_sight_accuracy : 1.0f;
+            return configuredSpread * multiplier;
+        }
+
+        float accuracy = this.ResolvedAccuracy;
+        return Vector( accuracy, accuracy, 0.0f );
     }
 
     void DeduceAmmo( uint value )
@@ -239,9 +377,7 @@ final class ASBullet
         if( g_WeaponsConfig.infinite_ammo )
             return;
 
-        int ammo = CurrentAmmo - value;
-        int maxAmmo;
-        int totalAmmo;
+        int ammo = CurrentAmmo - int( value );
 
         switch( this.m_AttackType )
         {
@@ -251,60 +387,70 @@ final class ASBullet
                     this.m_WeaponEntity.m_iClip = ammo;
                 else
                     this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iPrimaryAmmoType, ammo );
-                totalAmmo = this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iPrimaryAmmoType );
-                maxAmmo = this.m_WeaponEntity.iMaxAmmo1();
                 break;
             }
             case AttackType::Secondary:
             {
                 this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iSecondaryAmmoType, ammo );
-                totalAmmo = this.m_Player.m_rgAmmo( this.m_WeaponEntity.m_iSecondaryAmmoType );
-                maxAmmo = this.m_WeaponEntity.iMaxAmmo2();
                 break;
             }
         }
 
-        if( util::IsHEV( this.m_Player ) )
-        {
-            if( ammo <= 0 )
-            {
-                this.m_Weapon.PlaySound( "fvox/ammo_depleted.wav", 1.0f );
-            }
-            else if( totalAmmo < maxAmmo / 4 )
-            {
-                dictionary@ data = this.m_Player.GetUserData();
-
-                float lastAmmoNotice;
-                string keyName = "HEV_lowammo_" + this.m_WeaponEntity.GetClassname();
-
-                if( !data.get( keyName, lastAmmoNotice ) || lastAmmoNotice < g_Engine.time )
-                {
-                    data[ keyName ] = g_Engine.time + 60.0f;
-                    this.m_Weapon.PlaySound( "bts_rc/fvox/ammowarning.wav", 1.0f );
-                }
-            }
-        }
+        HEVVoice::UpdateAmmo( this.m_Player, this.m_WeaponEntity, ammo, this.ReserveAmmo, this.MaxAmmo );
     }
 
     float get_Distance() property
     {
-        return 8192;
+        if( this.m_DistanceOverride > 0.0f )
+            return this.m_DistanceOverride;
+
+        float configuredDistance;
+
+        switch( this.m_AttackType )
+        {
+            case AttackType::Primary: configuredDistance = this.m_Config.primary_distance; break;
+            case AttackType::Secondary: configuredDistance = this.m_Config.secondary_distance; break;
+            case AttackType::Tertiary: configuredDistance = this.m_Config.tertiary_distance; break;
+        }
+
+        return configuredDistance > 0.0f ? configuredDistance : 8192.0f;
     }
 
     // Fire bullet
     // If something in here is needed they could be moved to methods just like this.DeduceAmmo, get_Damage etc
+    bool FireMonster( CBaseMonster@ monster, const Vector&in source, const Vector&in direction,
+        const Vector&in spread, float distance, int damage, uint shots = 1 )
+    {
+        if( monster is null )
+            return false;
+
+        monster.FireBullets( shots, source, direction, spread, distance,
+            Bullet::BULLET_PLAYER_CUSTOMDAMAGE, 0, damage, monster.pev );
+        return true;
+    }
+
     bool Fire()
     {
         int ammo = CurrentAmmo;
 
-        weapons::SetCooldown( this.m_WeaponEntity, this.m_Player, this.m_Config.GetCooldown( this.m_PlayerIsTrainedPersonal, this.m_AttackType ) );
-
-        if( ( ammo <= 0 ) || ( !this.m_Underwater && this.m_Player.pev.waterlevel == WATERLEVEL_HEAD ) )
+        if( ammo < int( this.m_AmmoCost ) || ( !this.m_Underwater && this.m_Player.pev.waterlevel == WATERLEVEL_HEAD ) )
         {
+            this.m_WeaponEntity.pev.fuser4 = weapons::SetCooldown(
+                this.m_WeaponEntity,
+                this.m_Player,
+                this.m_Config.GetCooldown( this.m_PlayerIsTrainedPersonal, this.m_AttackType, true )
+            );
             this.m_WeaponEntity.PlayEmptySound();
+            HEVVoice::UpdateAmmo( this.m_Player, this.m_WeaponEntity, ammo, this.ReserveAmmo, this.MaxAmmo );
             Clear();
             return false;
         }
+
+        this.m_WeaponEntity.pev.fuser3 = weapons::SetCooldown(
+            this.m_WeaponEntity,
+            this.m_Player,
+            this.m_Config.GetCooldown( this.m_PlayerIsTrainedPersonal, this.m_AttackType )
+        );
 
         Vector gunPosition = this.m_Player.GetGunPosition();
 
@@ -315,9 +461,8 @@ final class ASBullet
         float x, y;
         g_Utility.GetCircularGaussianSpread( x, y );
 
-        float coneAccuracy = this.Accuracy;
-
-        Vector vecDir = vecAiming + x * coneAccuracy * g_Engine.v_right + y * coneAccuracy * g_Engine.v_up;
+        Vector spread = this.ResolvedSpread;
+        Vector vecDir = vecAiming + x * spread.x * g_Engine.v_right + y * spread.y * g_Engine.v_up;
 
         TraceResult tr;
 
@@ -332,27 +477,16 @@ final class ASBullet
             this.m_WeaponEntity.FireBullets(
                 this.m_Shots,
                 vecSrc,
-                vecDir,
-                g_vecZero,
+                vecAiming,
+                spread,
                 this.Distance,
                 Bullet::BULLET_PLAYER_CUSTOMDAMAGE,
                 0,
-                int(this.Damage),
+                int(this.ResolvedDamage),
                 this.m_Player.pev
             );
 
-            // God bless valve
-            tr.fAllSolid = int(g_Engine.trace_allsolid);
-            tr.fStartSolid = int(g_Engine.trace_startsolid);
-            tr.flFraction = g_Engine.trace_fraction;
-            tr.vecEndPos = g_Engine.trace_endpos;
-            tr.vecPlaneNormal = g_Engine.trace_plane_normal;
-            tr.flPlaneDist = g_Engine.trace_plane_dist;
-            // stupid sven API
-            @tr.pHit = g_EngineFuncs.PEntityOfEntIndex( g_EngineFuncs.IndexOfEdict( g_Engine.trace_ent ) ); // when const_cast
-            tr.fInOpen = int(g_Engine.trace_inopen);
-            tr.fInWater = int(g_Engine.trace_inwater);
-            tr.iHitgroup = g_Engine.trace_hitgroup;
+            tr = g_Utility.GetGlobalTrace();
         }
 
         weapons::TraceEffects( this.m_WeaponEntity, this.m_Player, this.m_Config, tr );
@@ -380,6 +514,7 @@ final class ASBullet
 
         g_Utility.BubbleTrail( gunPosition, tr.vecEndPos, 16 );
 
+        if( this.m_Tracer )
         {
             Vector playerHandPosition;
             g_EngineFuncs.GetAttachment( this.m_Player.edict(), 0, playerHandPosition, void );
@@ -406,7 +541,7 @@ final class ASBullet
 
                 if( this.m_FlashSize >= BRIGHT_GUN_FLASH )
                     msg.WriteByte( 30 );
-                if( this.m_FlashSize >= NORMAL_GUN_FLASH )
+                else if( this.m_FlashSize >= NORMAL_GUN_FLASH )
                     msg.WriteByte( 20 );
                 else
                     msg.WriteByte( 10 );
@@ -429,7 +564,7 @@ final class ASBullet
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, flYaw, this.m_ShellModel, this.m_ShellType );
         }
 
-        this.DeduceAmmo(1);
+        this.DeduceAmmo( this.m_AmmoCost );
 
         switch( this.m_AttackType )
         {

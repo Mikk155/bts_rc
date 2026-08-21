@@ -23,6 +23,7 @@
 #include "base/shared/Kickback"
 #include "base/shared/SetCooldown"
 #include "base/shared/TraceEffects"
+#include "base/shared/Throwable"
 
 // Base
 #include "config/ASWeaponConfig"
@@ -49,33 +50,44 @@
 #include "Special/medkit"
 #include "Special/flashlight"
 
-#include "Firearms/beretta"
-#include "Firearms/eagle"
-#include "Firearms/glock"
-#include "Firearms/glock17f"
-#include "Firearms/glock18"
-#include "Firearms/glocksd"
-#include "Firearms/sw637"
-#include "Firearms/python"
-#include "Firearms/mp5"
-#include "Firearms/mp5gl"
-#include "Firearms/uzi"
-#include "Firearms/uzisd"
-#include "Firearms/m4"
-#include "Firearms/m4sd"
-#include "Firearms/m16"
-#include "Firearms/m16sd"
-#include "Firearms/sniperrifle"
-#include "Firearms/shotgun"
-#include "Firearms/sbshotgun"
-#include "Firearms/saw"
-#include "Firearms/sawsd"
-#include "Firearms/m79"
-#include "Firearms/xbow"
-#include "Firearms/handgrenade"
-#include "Firearms/flamethrower"
-#include "Firearms/flare"
-#include "Firearms/flaregun"
+// Pistols
+#include "Pistols/beretta"
+#include "Pistols/eagle"
+#include "Pistols/glock"
+#include "Pistols/glock17f"
+#include "Pistols/glock18"
+#include "Pistols/glocksd"
+#include "Pistols/sw637"
+#include "Pistols/python"
+
+// Submachine guns
+#include "SMGs/mp5"
+#include "SMGs/mp5gl"
+#include "SMGs/uzi"
+#include "SMGs/uzisd"
+
+// Rifles and machine guns
+#include "Rifles/m4"
+#include "Rifles/m4sd"
+#include "Rifles/m16"
+#include "Rifles/m16sd"
+#include "Rifles/sniperrifle"
+#include "Rifles/saw"
+#include "Rifles/sawsd"
+
+// Shotguns
+#include "Shotguns/shotgun"
+#include "Shotguns/sbshotgun"
+
+// Explosives and flares
+#include "Explosives/m79"
+#include "Explosives/handgrenade"
+#include "Explosives/flare"
+#include "Explosives/flaregun"
+
+// Special firearms
+#include "Special/xbow"
+#include "Special/flamethrower"
 
 const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
 
@@ -90,6 +102,8 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool sparks_splash;
     bool m249_knockback;
     int flashlight_maxcarry;
+    bool item_tracking;
+    array<string> melee_weapons_push_monsters;
 
     const string& GetName() const override
     {
@@ -132,6 +146,17 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "minimum": 1,
                     "description": "Force of push if melee_weapons_push is true"
                 },
+                "melee_weapons_push_monsters":
+                {
+                    "type": "array",
+                    "description": "Monster classnames that receive the airborne melee launch behavior.",
+                    "items":
+                    {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "uniqueItems": true
+                },
                 "blood_splash":
                 {
                     "type": "boolean",
@@ -152,6 +177,11 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "type": "integer",
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
+                },
+                "item_tracking":
+                {
+                    "type": "boolean",
+                    "description": "Track important inventory items and expose the inventory status display."
                 },
                 "item_remap":
                 {
@@ -192,6 +222,9 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.m249_knockback = bool( config[ "m249_knockback" ] );
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
+        this.item_tracking = bool( config[ "item_tracking" ] );
+        this.melee_weapons_push_monsters.resize( 0 );
+        meta_api::json::v2::fmt::ToArray( config[ "melee_weapons_push_monsters" ], this.melee_weapons_push_monsters );
 
         // ItemMapping stuff
         if( g_MapConfig.MapLoading )

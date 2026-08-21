@@ -33,6 +33,22 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
     {
         "type": "integer"
     },
+    "primary_default_ammo":
+    {
+        "type": "array",
+        "description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+    },
+    "secondary_default_ammo":
+    {
+        "type": "array",
+        "description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+    },
     "primary_damage":
     {
         "type": "number"
@@ -56,6 +72,37 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
     "tertiary_cooldown":
     {
         "type": "number"
+    },
+    "primary_rate_of_fire":
+    {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "description": "Primary attacks per minute. When set, this replaces the primary cooldown."
+    },
+    "secondary_rate_of_fire":
+    {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
+    },
+    "tertiary_rate_of_fire":
+    {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
+    },
+    "iron_sight_accuracy":
+    {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 1,
+        "description": "Accuracy-cone multiplier while the iron-sight key is held."
+    },
+    "automatic_accuracy_multiplier":
+    {
+        "type": "number",
+        "minimum": 1,
+        "description": "Accuracy-cone multiplier applied by weapons during sustained automatic fire."
     },
     "primary_trained_cooldown":
     {
@@ -153,6 +200,22 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
             "run": { "type": "number", "minimum": 0.001 },
             "run_trained": { "type": "number", "minimum": 0.001 }
         }
+    },
+    "primary_spread":
+    {
+        "type": "array",
+        "description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
+        "items": { "type": "number", "minimum": 0 },
+        "minItems": 3,
+        "maxItems": 3
+    },
+    "secondary_spread":
+    {
+        "type": "array",
+        "description": "Explicit X/Y/Z spread vector for the secondary attack.",
+        "items": { "type": "number", "minimum": 0 },
+        "minItems": 3,
+        "maxItems": 3
     },
     "primary_kickback":
     {
@@ -254,8 +317,13 @@ abstract class ASWeaponConfig : IConfigurable
     int secondary_maxammo = WEAPON_NOCLIP;
     // Weapon secondary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int secondary_dropammo = WEAPON_NOCLIP;
+    // Min/max ammo supplied by each spawned weapon. Negative values leave the engine default unchanged.
+    array<int> primary_default_ammo = { -1, -1 };
+    array<int> secondary_default_ammo = { -1, -1 };
     // Accuracy for secondary attacks
     float[] secondary_accuracy(6);
+    Vector primary_spread( -1.0f, -1.0f, -1.0f );
+    Vector secondary_spread( -1.0f, -1.0f, -1.0f );
     // Kickback for secondary attacks
     float[] secondary_kickback(7);
     // Weapon primary max ammo clip capacity. automatically set in BTS_Weapon::GetItemInfo
@@ -284,6 +352,8 @@ abstract class ASWeaponConfig : IConfigurable
     float tertiary_cooldown = 1;
     // Weapon cooldown for tertiary attack for trained personal
     float tertiary_trained_cooldown = 1;
+    float iron_sight_accuracy = 0.5f;
+    float automatic_accuracy_multiplier = 2.5f;
 
     // Melee weapon properties
     float primary_distance;
@@ -313,7 +383,7 @@ abstract class ASWeaponConfig : IConfigurable
             case AttackType::Primary:
             {
                 if( is_trained_personal )
-                    return ( miss ? this.primary_miss_trained_cooldown : this.primary_cooldown );
+                    return ( miss ? this.primary_miss_trained_cooldown : this.primary_trained_cooldown );
                 return ( miss ? this.primary_miss_cooldown : this.primary_cooldown );
             }
             case AttackType::Secondary:
@@ -328,6 +398,28 @@ abstract class ASWeaponConfig : IConfigurable
                 return ( is_trained_personal ? this.tertiary_trained_cooldown : this.tertiary_cooldown );
             }
         }
+    }
+
+    int GetDefaultAmmo( AttackType type )
+    {
+        array<int>@ range;
+        int maximum;
+
+        if( type == AttackType::Secondary )
+        {
+            @range = @this.secondary_default_ammo;
+            maximum = this.secondary_maxammo;
+        }
+        else
+        {
+            @range = @this.primary_default_ammo;
+            maximum = this.primary_maxammo;
+        }
+
+        if( range[0] < 0 || range[1] < 0 )
+            return -1;
+
+        return Math.clamp( 0, maximum, Math.RandomLong( range[0], range[1] ) );
     }
 
     // Whatever this is a custom weapon
@@ -402,6 +494,30 @@ abstract class ASWeaponConfig : IConfigurable
         this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
         this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
 
+        array<int>@ ammoRange;
+        if( meta_api::json::v2::fmt::ToArray( config[ "primary_default_ammo" ], ammoRange, true, false ) )
+        {
+            if( ammoRange[0] > ammoRange[1] )
+            {
+                int minimum = ammoRange[1];
+                ammoRange[1] = ammoRange[0];
+                ammoRange[0] = minimum;
+            }
+            this.primary_default_ammo = ammoRange;
+        }
+
+        @ammoRange = null;
+        if( meta_api::json::v2::fmt::ToArray( config[ "secondary_default_ammo" ], ammoRange, true, false ) )
+        {
+            if( ammoRange[0] > ammoRange[1] )
+            {
+                int minimum = ammoRange[1];
+                ammoRange[1] = ammoRange[0];
+                ammoRange[0] = minimum;
+            }
+            this.secondary_default_ammo = ammoRange;
+        }
+
         this.primary_damage = config.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
         this.secondary_damage = config.ValueOrDefault( "secondary_damage", this.secondary_damage, false, false );
         this.tertiary_damage = config.ValueOrDefault( "tertiary_damage", this.tertiary_damage, false, false );
@@ -414,6 +530,21 @@ abstract class ASWeaponConfig : IConfigurable
 
         this.tertiary_cooldown = config.ValueOrDefault( "tertiary_cooldown", this.tertiary_cooldown, false, false );
         this.tertiary_trained_cooldown = config.ValueOrDefault( "tertiary_trained_cooldown", this.tertiary_cooldown, false, false );
+
+        float rateOfFire = config.ValueOrDefault( "primary_rate_of_fire", 0.0f, false, false );
+        if( rateOfFire > 0.0f )
+            this.primary_cooldown = this.primary_trained_cooldown = 60.0f / rateOfFire;
+
+        rateOfFire = config.ValueOrDefault( "secondary_rate_of_fire", 0.0f, false, false );
+        if( rateOfFire > 0.0f )
+            this.secondary_cooldown = this.secondary_trained_cooldown = 60.0f / rateOfFire;
+
+        rateOfFire = config.ValueOrDefault( "tertiary_rate_of_fire", 0.0f, false, false );
+        if( rateOfFire > 0.0f )
+            this.tertiary_cooldown = this.tertiary_trained_cooldown = 60.0f / rateOfFire;
+
+        this.iron_sight_accuracy = config.ValueOrDefault( "iron_sight_accuracy", this.iron_sight_accuracy, false, false );
+        this.automatic_accuracy_multiplier = config.ValueOrDefault( "automatic_accuracy_multiplier", this.automatic_accuracy_multiplier, false, false );
 
         this.max_clip = config.ValueOrDefault( "max_clip", this.max_clip, false, false );
         this.slot = config.ValueOrDefault( "slot", this.slot, false, false );
@@ -430,9 +561,9 @@ abstract class ASWeaponConfig : IConfigurable
         this.subsequent_hits_deduction = config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false );
         this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
 
-        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_miss_cooldown, false, false );
+        this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_cooldown, false, false );
         this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_cooldown, false, false );
-        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_miss_cooldown, false, false );
+        this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_cooldown, false, false );
         this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
         meta_api::json::v2::json@ accuracy = config[ "primary_accuracy" ];
@@ -458,6 +589,14 @@ abstract class ASWeaponConfig : IConfigurable
             this.secondary_accuracy[4] = accuracy.ValueOrDefault( "run", this.secondary_accuracy[3], false, false );
             this.secondary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.secondary_accuracy[4], false, false );
         }
+
+        array<float>@ spread;
+        if( meta_api::json::v2::fmt::ToArray( config[ "primary_spread" ], spread, true, false ) )
+            this.primary_spread = Vector( spread[0], spread[1], spread[2] );
+
+        @spread = null;
+        if( meta_api::json::v2::fmt::ToArray( config[ "secondary_spread" ], spread, true, false ) )
+            this.secondary_spread = Vector( spread[0], spread[1], spread[2] );
 
         meta_api::json::v2::json@ kickback = config[ "primary_kickback" ];
 
@@ -550,8 +689,8 @@ abstract class ASWeaponConfig : IConfigurable
             if( sequence != player.pev.weaponanim )
             {
                 data[ "526_weaponsequence" ] = player.pev.weaponanim;
-                weapon.pev.model = this.WeaponBody( player, weapon, character );
-                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.model );
+                weapon.pev.body = this.WeaponBody( player, weapon, character );
+                weapon.SendWeaponAnim( player.pev.weaponanim, 0, weapon.pev.body );
             }
             else if( weapon.m_flTimeWeaponIdle <= g_Engine.time )
             {

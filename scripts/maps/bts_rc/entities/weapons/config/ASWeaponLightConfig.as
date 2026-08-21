@@ -159,7 +159,7 @@ namespace Flashlight
         weapon.pev.iuser1 = Flashlight::State::Active;
     }
 
-    int GetClip( CBasePlayer@ player, ASWeaponConfig@ config )
+    int GetClip( CBasePlayer@ player, ASWeaponLightConfig@ config )
     {
         dictionary@ data = player.GetUserData();
 
@@ -167,7 +167,7 @@ namespace Flashlight
 
         if( !data.get( config.GetName(), Battery ) )
         {
-            Battery = Math.RandomLong( 0, config.secondary_dropammo );
+            Battery = Math.RandomLong( 0, config.flashlight_ammount );
             data[ config.GetName() ] = Battery;
         }
 
@@ -176,11 +176,15 @@ namespace Flashlight
 
     bool IsValidWeapon( CBasePlayer@ player, CBasePlayerWeapon@ weapon, ASWeaponConfig@ config )
     {
+        ASWeaponLightConfig@ lightConfig = cast<ASWeaponLightConfig@>( config );
+        if( lightConfig is null )
+            return false;
+
         if( GetAmmoIndex() != weapon.PrimaryAmmoIndex()
         && GetAmmoIndex() != weapon.SecondaryAmmoIndex() )
             return false;
 
-        return ( GetClip( player, config ) > 0 || player.m_rgAmmo( GetAmmoIndex() ) > 0 );
+        return ( GetClip( player, lightConfig ) > 0 || player.m_rgAmmo( GetAmmoIndex() ) > 0 );
     }
 }
 
@@ -204,6 +208,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
 {
     float flashlight_drain;
     float flashlight_reload;
+    int flashlight_ammount = 100;
 
     // player model used when flashlight is active
     const string& get_player_model_flashlight()
@@ -333,7 +338,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             int ammoCount = player.m_rgAmmo( Flashlight::GetAmmoIndex() );
 
             weapon.m_fInReload = false;
-            data[ this.GetName() ] = Battery = this.secondary_dropammo;
+            data[ this.GetName() ] = Battery = this.flashlight_ammount;
             if( !g_WeaponsConfig.infinite_ammo )
                 player.m_rgAmmo( Flashlight::GetAmmoIndex(), ammoCount - 1 );
             data.delete( "flashlight_reload" );
@@ -412,9 +417,9 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
             }
         }
 
-        // Normalize to a percentaje 0-100 so secondary_dropammo can be anything else than 100.
+        // Normalize to a percentage so the configured battery capacity can be any positive value.
         data[ this.GetName() ] = Battery;
-        player.m_iFlashBattery = int( ( Battery * 100.0f ) / secondary_dropammo + 0.5f );
+        player.m_iFlashBattery = int( ( Battery * 100.0f ) / flashlight_ammount + 0.5f );
     }
 
     const string GetSchema() const override
@@ -449,12 +454,8 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     {
         this.flashlight_drain = config.ValueOrDefault( "flashlight_drain", this.flashlight_drain );
         this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );
+        this.flashlight_ammount = config.ValueOrDefault( "flashlight_ammount", this.flashlight_ammount );
 
-        bool result = ASWeaponConfig::Register( config );
-
-        // HACK: Lazy to cast ASWeaponConfig to ASWeaponLightConfig so we use secondary_dropammo for internals.
-        this.secondary_dropammo = config.ValueOrDefault( "flashlight_ammount", this.secondary_dropammo );
-
-        return result;
+        return ASWeaponConfig::Register( config );
     }
 }

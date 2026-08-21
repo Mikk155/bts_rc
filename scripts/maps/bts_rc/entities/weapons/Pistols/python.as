@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponPythonConfig : ASWeaponConfig
+final class ASWeaponPythonConfig : ASWeaponLaserConfig
 {
     const string& GetName() const override
     {
@@ -61,6 +61,11 @@ final class ASWeaponPythonConfig : ASWeaponConfig
     {
         return 3;
     }
+
+    uint get_laser_animation() override
+    {
+        return WeaponPythonAnim::Idle1;
+    }
 }
 
 ASWeaponPythonConfig gpWeaponPythonConfig;
@@ -86,7 +91,6 @@ class weapon_bts_python : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 3, gpWeaponPythonConfig.max_clip );
         BTS_FireWeapon::Spawn();
     }
 
@@ -124,12 +128,20 @@ class weapon_bts_python : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        if( type == AttackType::Secondary )
+        {
+            gpWeaponPythonConfig.LaserToggle( util::IsTrainedPersonal( player ), type, self, player );
+            return;
+        }
+
         switch( type )
         {
             case AttackType::Tertiary:
-            case AttackType::Secondary:
                 return;
         }
+
+        if( self.m_fInReload )
+            return;
 
         if( self.m_iClip <= 0 )
         {
@@ -139,10 +151,14 @@ class weapon_bts_python : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = weapons::Accuracy( player, gpWeaponPythonConfig.primary_accuracy, isTrainedPersonal );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "hlclassic/weapons/357_shot1.wav" : "hlclassic/weapons/357_shot2.wav";
 
-        FireBullet( 1, cone, gpWeaponPythonConfig.primary_damage, szSound, WeaponPythonAnim::Shoot, -1, TE_BOUNCE_SHELL, Math.RandomFloat( 0.8f, 0.9f ), 98 + Math.RandomLong( 0, 3 ), true, LOUD_GUN_VOLUME, BRIGHT_GUN_FLASH );
+        bullet.Weapon( this )
+            .Sound( szSound, Math.RandomFloat( 0.8f, 0.9f ), 98 + Math.RandomLong( 0, 3 ), LOUD_GUN_VOLUME )
+            .Shell( -1 )
+            .Flash( BRIGHT_GUN_FLASH )
+            .Animation( WeaponPythonAnim::Shoot )
+        .Fire();
 
         player.pev.punchangle.x = isTrainedPersonal ? -10.0f : -16.0f;
 

@@ -15,26 +15,26 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponMP5Config : ASWeaponConfig
+final class ASWeaponMP5GLConfig : ASWeaponConfig
 {
     const string& GetName() const override
     {
-        return "weapon_bts_mp5";
+        return "weapon_bts_mp5gl";
     }
 
     const string& get_player_model() override
     {
-        return "models/bts_rc/weapons/p_9mmar.mdl";
+        return "models/bts_rc/weapons/p_9mmargl.mdl";
     }
 
     const string& get_world_model() override
     {
-        return "models/bts_rc/weapons/w_9mmar.mdl";
+        return "models/bts_rc/weapons/w_9mmargl.mdl";
     }
 
     const string& get_view_model() override
     {
-        return "models/bts_rc/weapons/v_9mmar.mdl";
+        return "models/bts_rc/weapons/v_9mmargl.mdl";
     }
 
     const string& get_animation_extension() override
@@ -49,18 +49,28 @@ final class ASWeaponMP5Config : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_mp5";
+        return "ammo_bts_mp5gl";
+    }
+
+    const string& get_secondary_ammo() override
+    {
+        return "ARgrenades";
+    }
+
+    const string& get_secondary_ammoentity() override
+    {
+        return "ammo_bts_mp5gl_grenade";
     }
 
     const uint8 get_animation_draw() override
     {
-        return WeaponMP5Anim::Draw;
+        return WeaponMP5GLAnim::Draw;
     }
 }
 
-ASWeaponMP5Config gpWeaponMP5Config;
+ASWeaponMP5GLConfig gpWeaponMP5GLConfig;
 
-enum WeaponMP5Anim
+enum WeaponMP5GLAnim
 {
     LongIdle = 0,
     Idle1,
@@ -69,30 +79,30 @@ enum WeaponMP5Anim
     Draw,
     Shoot1,
     Shoot2,
-    Shoot3
+    Shoot3,
+    BurstE
 };
 
-enum MP5Mode
+enum MP5GLMode
 {
-    MP5_BURST = 0,
-    MP5_FULL_AUTO
+    MP5GL_BURST = 0,
+    MP5GL_FULL_AUTO
 };
 
-class weapon_bts_mp5 : BTS_FireWeapon
+class weapon_bts_mp5gl : BTS_FireWeapon
 {
     ASWeaponConfig@ get_config() override
     {
-        return @gpWeaponMP5Config;
+        return @gpWeaponMP5GLConfig;
     }
 
     private int m_iTracerCount = 0;
-    private int m_iFireMode = MP5_FULL_AUTO;
+    private int m_iFireMode = MP5GL_FULL_AUTO;
     private int m_iBurstCount = 0, m_iBurstLeft = 0;
     private float m_flNextBurstFireTime = 0;
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 5, gpWeaponMP5Config.max_clip );
         BTS_FireWeapon::Spawn();
     }
 
@@ -104,7 +114,7 @@ class weapon_bts_mp5 : BTS_FireWeapon
 
     void ItemPostFrame()
     {
-        if( m_iFireMode == MP5_BURST )
+        if( m_iFireMode == MP5GL_BURST )
         {
             if( m_iBurstLeft > 0 )
             {
@@ -139,23 +149,71 @@ class weapon_bts_mp5 : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Secondary )
+        if( type == AttackType::Tertiary )
         {
-            if( m_iFireMode == MP5_BURST )
+            if( m_iFireMode == MP5GL_BURST )
             {
-                m_iFireMode = MP5_FULL_AUTO;
+                m_iFireMode = MP5GL_FULL_AUTO;
                 g_EngineFuncs.ClientPrintf( player, print_center, " Full-Auto\n" );
                 PlaySound( "bts_rc/weapons/mp5_slap.wav", 0.8f, 100 );
             }
             else
             {
-                m_iFireMode = MP5_BURST;
+                m_iFireMode = MP5GL_BURST;
                 g_EngineFuncs.ClientPrintf( player, print_center, " Burst\n" );
                 PlaySound( "bts_rc/weapons/mp5_slap.wav", 0.8f, 115 );
             }
-            PlayAnim( WeaponMP5Anim::Launch );
+            PlayAnim( WeaponMP5GLAnim::BurstE );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.5f;
+            return;
+        }
+
+        if( type == AttackType::Secondary )
+        {
+            if( player.pev.waterlevel == WATERLEVEL_HEAD || player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
+            {
+                this.PlayEmptySound( AttackType::Secondary );
+                self.m_flNextSecondaryAttack = g_Engine.time + 0.15f;
+                return;
+            }
+
+            player.m_iWeaponVolume = NORMAL_GUN_VOLUME;
+            player.m_iWeaponFlash = BRIGHT_GUN_FLASH;
+
+            player.m_iExtraSoundTypes = bits_SOUND_DANGER;
+            player.m_flStopExtraSoundTime = g_Engine.time + 0.2f;
+
+            player.m_rgAmmo( self.m_iSecondaryAmmoType, player.m_rgAmmo( self.m_iSecondaryAmmoType ) - 1 );
+
+            Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+            Vector vecSrc = player.pev.origin + g_Engine.v_forward * 16.0f + g_Engine.v_right * 6.0f;
+            vecSrc = vecSrc + ( ( ( player.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( player.pev.view_ofs * 0.5f ) );
+
+            CGrenade@ pGrenade = g_EntityFuncs.ShootContact( player.pev, vecSrc, g_Engine.v_forward * 900.0f );
+            if( pGrenade !is null )
+            {
+                g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/grenade.mdl" );
+                pGrenade.pev.dmg = gpWeaponMP5GLConfig.secondary_damage;
+            }
+
+            PlayAnim( WeaponMP5GLAnim::Launch );
+
+            if( Math.RandomLong( 0, 1 ) != 0 )
+            {
+                PlaySound( "hlclassic/weapons/glauncher.wav", 0.8f );
+            }
+            else
+            {
+                PlaySound( "hlclassic/weapons/glauncher2.wav", 0.8f );
+            }
+
+            player.pev.punchangle.x = -10.0f;
+
+            CheckDepletedAmmo( self.m_iSecondaryAmmoType );
+
+            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 2.5f;
+            self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
             return;
         }
 
@@ -171,13 +229,13 @@ class weapon_bts_mp5 : BTS_FireWeapon
             return;
         }
 
-        if( m_iFireMode == MP5_BURST )
+        if( m_iFireMode == MP5GL_BURST )
         {
             m_iBurstCount = Math.min( 3, self.m_iClip );
             m_iBurstLeft = m_iBurstCount - 1;
 
             m_flNextBurstFireTime = g_Engine.time + 0.09f;
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.425f;
+            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.425f;
         }
 
         Fire();
@@ -186,8 +244,8 @@ class weapon_bts_mp5 : BTS_FireWeapon
     void Fire()
     {
         bool isTrainedPersonal = util::IsTrainedPersonal( this.owner );
-        float cone = Accuracy( ( this.owner.IsMoving() ? 0.02618f : 0.01f ), ( this.owner.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
-        if( m_iFireMode == MP5_BURST )
+        float cone = weapons::Accuracy( this.owner, this.config.primary_accuracy, isTrainedPersonal );
+        if( m_iFireMode == MP5GL_BURST )
         {
             cone *= 0.2f;
         }
@@ -195,12 +253,17 @@ class weapon_bts_mp5 : BTS_FireWeapon
         uint8 anim;
         switch( Math.RandomLong( 0, 2 ) )
         {
-            case 0: anim = WeaponMP5Anim::Shoot1; break;
-            case 1: anim = WeaponMP5Anim::Shoot2; break;
-            default: anim = WeaponMP5Anim::Shoot3; break;
+            case 0: anim = WeaponMP5GLAnim::Shoot1; break;
+            case 1: anim = WeaponMP5GLAnim::Shoot2; break;
+            default: anim = WeaponMP5GLAnim::Shoot3; break;
         }
 
-        FireBullet( 1, cone, gpWeaponMP5Config.primary_damage, "bts_rc/weapons/mp5_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, 1.0f, 95 + Math.RandomLong( 0, 10 ) );
+        bullet.Weapon( this )
+            .Accuracy( cone )
+            .Sound( "bts_rc/weapons/mp5_fire1.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) )
+            .Shell( models::shell )
+            .Animation( anim )
+        .Fire();
 
         if( ( m_iTracerCount++ % 2 ) == 0 )
         {
@@ -235,7 +298,7 @@ class weapon_bts_mp5 : BTS_FireWeapon
         }
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
-        if( m_iFireMode == MP5_BURST )
+        if( m_iFireMode == MP5GL_BURST )
         {
             self.m_flNextPrimaryAttack = g_Engine.time + 0.24f;
         }
@@ -252,11 +315,11 @@ class weapon_bts_mp5 : BTS_FireWeapon
         switch( Math.RandomLong( 0, 2 ) )
         {
             case 0:
-                PlayAnim( WeaponMP5Anim::LongIdle );
+                PlayAnim( WeaponMP5GLAnim::LongIdle );
                 break;
             case 1:
             default:
-                PlayAnim( WeaponMP5Anim::Idle1 );
+                PlayAnim( WeaponMP5GLAnim::Idle1 );
                 break;
         }
 

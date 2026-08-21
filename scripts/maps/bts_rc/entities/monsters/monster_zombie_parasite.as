@@ -24,6 +24,8 @@
 namespace monster_zombie_parasite
 {
 
+int g_iPoisonSprite;
+
 //SETTINGS
 const float NPC_FLINCH_DELAY            = 3.0; // at most one flinch every n secs
 const float NPC_HEALTH                  = 120;
@@ -126,7 +128,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
     void Precache()
     {
         g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_parasite.mdl" );
-        g_Game.PrecacheModel( "sprites/poison.spr" );
+        g_iPoisonSprite = g_Game.PrecacheModel( "sprites/poison.spr" );
 
         for( uint i = 0; i < arrsSounds.length(); i++ )
             g_SoundSystem.PrecacheSound( arrsSounds[i] );
@@ -147,7 +149,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
     {
         int iIgnore = BaseIgnoreConditions();
 
-        if( (self.m_Activity == ACT_MELEE_ATTACK1) or (self.m_Activity == ACT_MELEE_ATTACK1) )
+        if( self.m_Activity == ACT_MELEE_ATTACK1 || self.m_Activity == ACT_MELEE_ATTACK2 )
         {
             if( m_flNextFlinch >= g_Engine.time )
                 iIgnore |= (bits_COND_LIGHT_DAMAGE|bits_COND_HEAVY_DAMAGE);
@@ -230,7 +232,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
                 CBaseEntity@ pHurt = CheckTraceHullAttack( 70, NPC_DMG_ONE_SLASH, DMG_POISON );
                 if( pHurt !is null )
                 {
-                    if( (pHurt.pev.flags & (FL_MONSTER|FL_CLIENT)) == 1 )
+                    if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0 )
                     {
                         pHurt.pev.punchangle.z = -18;
                         pHurt.pev.punchangle.x = 5;
@@ -253,7 +255,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
                 CBaseEntity@ pHurt = CheckTraceHullAttack( 70, NPC_DMG_ONE_SLASH, DMG_POISON );
                 if( pHurt !is null )
                 {
-                    if( (pHurt.pev.flags & (FL_MONSTER|FL_CLIENT)) == 1 )
+                    if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0 )
                     {
                         pHurt.pev.punchangle.z = 18;
                         pHurt.pev.punchangle.x = 5;
@@ -442,7 +444,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
 
         if( fRagdollCrab )
         {
-            @cbeCrab = g_EntityFuncs.Create( GetHeadcrabClassname(), vecSpot, pev.angles, false, self.edict() );
+            @cbeCrab = g_EntityFuncs.Create( GetHeadcrabClassname(), vecSpot, pev.angles, true, self.edict() );
 
             if( !HeadcrabFits(cbeCrab) )
             {
@@ -460,7 +462,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
                 vecSpot2.y += Math.RandomFloat( -8.0, 8.0 );
                 vecSpot2.z += Math.RandomFloat( -8.0, 8.0 );
 
-                g_Utility.BloodDrips( vecSpot, g_vecZero, BLOOD_COLOR_YELLOW, 50 );
+                g_Utility.BloodDrips( vecSpot2, g_vecZero, BLOOD_COLOR_YELLOW, 50 );
             }
 
             cbeCrab.Killed( self.pev, GIB_NEVER );
@@ -470,7 +472,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
         }
         else
         {
-            @cbeCrab = g_EntityFuncs.Create( GetHeadcrabClassname(), vecSpot, pev.angles, true, self.edict() );
+            @cbeCrab = g_EntityFuncs.Create( GetHeadcrabClassname(), vecSpot, pev.angles, false, self.edict() );
 
             if( cbeCrab is null )
             {
@@ -604,7 +606,7 @@ final class CParasiteZombieCloud : ScriptBaseEntity
             m1.WriteCoord( pev.origin.y );
             m1.WriteCoord( pev.origin.z );
             m1.WriteShort( m_iPoisonCloudRadius ); //radius (fire is made in a square around origin. -radius, -radius to radius, radius)
-            m1.WriteShort( g_EngineFuncs.ModelIndex("sprites/poison.spr") );
+            m1.WriteShort( g_iPoisonSprite );
             m1.WriteByte( m_iPoisonCloudCount ); //count
             m1.WriteByte( TEFIRE_FLAG_ALLFLOAT | TEFIRE_FLAG_ADDITIVE );
             m1.WriteByte( m_iPoisonCloudDuration ); //duration (in seconds) * 10 (will be randomized a bit)

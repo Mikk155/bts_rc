@@ -37,6 +37,11 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
         return "models/bts_rc/weapons/v_m40a1.mdl";
     }
 
+    const string& get_zoom_view_model()
+    {
+        return "models/v_m40a1.mdl";
+    }
+
     const string& get_animation_extension() override
     {
         return "sniper";
@@ -61,6 +66,7 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
     {
         g_SoundSystem.PrecacheSound( "ambience/rifle2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
+        g_Game.PrecacheModel( this.zoom_view_model );
         ASWeaponConfig::Precache();
     }
 }
@@ -92,7 +98,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = gpWeaponSniperRifleConfig.max_clip;
         BTS_FireWeapon::Spawn();
     }
 
@@ -128,11 +133,13 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = 0.01f;
-
         uint8 anim = ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FIRELASTROUND : WeaponSniperRifleAnim::FIRE;
 
-        FireBullet( 1, cone, gpWeaponSniperRifleConfig.primary_damage, "ambience/rifle2.wav", anim, -1, TE_BOUNCE_SHELL, Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), true, QUIET_GUN_VOLUME );
+        bullet.Weapon( this )
+            .Sound( "ambience/rifle2.wav", Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), QUIET_GUN_VOLUME )
+            .Shell( -1 )
+            .Animation( anim )
+        .Fire();
 
         player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -18.0f;
 
@@ -179,10 +186,12 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
         if( this.owner.m_iFOV == 0 )
         {
             this.owner.m_iFOV = 18;
+            this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.zoom_view_model;
         }
         else
         {
             this.owner.m_iFOV = 0;
+            this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.view_model;
         }
     }
 

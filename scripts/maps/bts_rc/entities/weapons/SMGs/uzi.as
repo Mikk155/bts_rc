@@ -90,7 +90,6 @@ class weapon_bts_uzi : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 6, gpWeaponUziConfig.max_clip );
         BTS_FireWeapon::Spawn();
     }
 
@@ -99,9 +98,11 @@ class weapon_bts_uzi : BTS_FireWeapon
         switch( type )
         {
             case AttackType::Tertiary:
-            case AttackType::Secondary:
                 return;
         }
+
+        if( type == AttackType::Secondary && ( player.m_afButtonPressed & IN_ATTACK2 ) == 0 )
+            return;
 
         if( self.m_iClip <= 0 )
         {
@@ -111,9 +112,11 @@ class weapon_bts_uzi : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = weapons::Accuracy( player, gpWeaponUziConfig.primary_accuracy, isTrainedPersonal );
-
-        FireBullet( 1, cone, gpWeaponUziConfig.primary_damage, "bts_rc/weapons/uzi_fire1.wav", WeaponUziAnim::Shoot, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
+        bullet.Weapon( this )
+            .Sound( "bts_rc/weapons/uzi_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ) )
+            .Shell( models::shell )
+            .Animation( WeaponUziAnim::Shoot )
+        .Fire();
 
         if( isTrainedPersonal )
         {

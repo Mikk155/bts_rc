@@ -72,7 +72,7 @@ enum WeaponHandGrenadeAnim
     DRAW
 };
 
-class weapon_bts_handgrenade : BTS_Weapon
+class weapon_bts_handgrenade : BTS_Weapon, IThrowable
 {
     ASWeaponConfig@ get_config() override
     {
@@ -83,12 +83,28 @@ class weapon_bts_handgrenade : BTS_Weapon
     private bool m_bInAttack = false;
     private bool m_bThrown = false;
     private int m_iAmmoSave = 0;
+    private bool m_bRoll = false;
+
+    CBasePlayer@ get_Thrower() property { return this.owner; }
+    CBasePlayerWeapon@ get_ThrowableWeapon() property { return self; }
+    ASWeaponConfig@ get_ThrowableConfig() property { return this.config; }
+    AttackType get_ThrowAttackType() property { return m_bRoll ? AttackType::Secondary : AttackType::Primary; }
+    bool get_Rolling() property { return m_bRoll; }
+
+    void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage )
+    {
+        CGrenade@ grenade = g_EntityFuncs.ShootTimed( this.owner.pev, source, velocity, 3.0f );
+
+        if( grenade !is null )
+        {
+            g_EntityFuncs.SetModel( grenade, this.config.world_model );
+            grenade.pev.dmg = damage;
+        }
+    }
 
     void Spawn() override
     {
-        g_EntityFuncs.SetModel( self, "models/hlclassic/w_grenade.mdl" );
-        self.m_iDefaultAmmo = 1;
-        self.FallInit();
+        BTS_Weapon::Spawn();
     }
 
     bool CanHaveDuplicates()
@@ -141,7 +157,7 @@ class weapon_bts_handgrenade : BTS_Weapon
         m_bThrown = false;
         m_bInAttack = false;
 
-        SetThink( null );
+        ClearTimerList();
 
         if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
         {
@@ -150,14 +166,23 @@ class weapon_bts_handgrenade : BTS_Weapon
 
         if( m_iAmmoSave <= 0 )
         {
-            SetThink( ThinkFunction( this.DestroyThink ) );
-            pev.nextthink = g_Engine.time + 0.1f;
+            StartSchedule( g_Scheduler.SetTimeout( @this, "DestroyThink", 0.1f ) );
         }
 
         BaseClass.Holster( skiplocal );
     }
 
     void PrimaryAttack() override
+    {
+        StartThrow( false );
+    }
+
+    void SecondaryAttack() override
+    {
+        StartThrow( true );
+    }
+
+    private void StartThrow( bool rolling )
     {
         if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
@@ -167,6 +192,7 @@ class weapon_bts_handgrenade : BTS_Weapon
 
         self.m_flNextPrimaryAttack = g_Engine.time + ( 24.0f / 30.0f );
         PlayAnim( WeaponHandGrenadeAnim::PULLPIN );
+        m_bRoll = rolling;
 
         m_bInAttack = true;
         m_fAttackStart = g_Engine.time + ( 24.0f / 30.0f );
@@ -174,36 +200,14 @@ class weapon_bts_handgrenade : BTS_Weapon
         self.m_flTimeWeaponIdle = g_Engine.time + ( 24.0f / 30.0f ) + ( 9.0f / 30.0f );
     }
 
-    private void LaunchThink()
+    void LaunchThink()
     {
-        Vector angThrow = this.owner.pev.v_angle + this.owner.pev.punchangle;
-
         if( Math.RandomLong( 0, 1 ) == 0 )
             PlaySound( "bts_rc/weapons/grenade_throw1.wav", 1.0f, PITCH_NORM, CHAN_ITEM );
         else
             PlaySound( "bts_rc/weapons/grenade_throw2.wav", 1.0f, PITCH_NORM, CHAN_ITEM );
 
-        if( angThrow.x < 0.0f )
-            angThrow.x = -10.0f + angThrow.x * ( ( 90.0f - 10.0f ) / 90.0f );
-        else
-            angThrow.x = -10.0f + angThrow.x * ( ( 90.0f + 10.0f ) / 90.0f );
-
-        float flVel = ( 90.0f - angThrow.x ) * 4.0f;
-
-        if( flVel > 500.0f )
-            flVel = 500.0f;
-
-        Math.MakeVectors( angThrow );
-        Vector offset = Vector( 16.0f, 0.0f, 0.0f );
-        Vector vecSrc = this.owner.GetGunPosition() + g_Engine.v_forward * offset.x + g_Engine.v_right * offset.y + g_Engine.v_up * offset.z;
-        Vector vecThrow = g_Engine.v_forward * flVel + this.owner.pev.velocity;
-
-        CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( this.owner.pev, vecSrc, vecThrow, 3.0f );
-        if( pGrenade !is null )
-        {
-            g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );
-            pGrenade.pev.dmg = gpWeaponHandGrenadeConfig.primary_damage;
-        }
+        weapons::Throw( this );
 
         this.owner.m_rgAmmo( self.m_iPrimaryAmmoType, this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
         m_fAttackStart = 0.0f;
@@ -231,23 +235,16 @@ class weapon_bts_handgrenade : BTS_Weapon
 
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 9.0f / 30.0f );
 
-        Vector angThrow = this.owner.pev.v_angle + this.owner.pev.punchangle;
-        angThrow.x = -10.0f + angThrow.x * ( angThrow.x < 0.0f ? 0.888889f : 1.11111f );
-        float flVel = Math.min( ( 90.0f - angThrow.x ) * 4.0f, 500.0f );
-
-        if( flVel < 500.0f )
+        if( m_bRoll )
             PlayAnim( WeaponHandGrenadeAnim::THROW1 );
-        else if( flVel < 1000.0f )
-            PlayAnim( WeaponHandGrenadeAnim::THROW2 );
         else
-            PlayAnim( WeaponHandGrenadeAnim::THROW3 );
+            PlayAnim( WeaponHandGrenadeAnim::THROW1 );
 
         m_bThrown = true;
         m_bInAttack = false;
         this.owner.SetAnimation( PLAYER_ATTACK1 );
 
-        SetThink( ThinkFunction( this.LaunchThink ) );
-        pev.nextthink = g_Engine.time + 0.2f;
+        StartSchedule( g_Scheduler.SetTimeout( @this, "LaunchThink", 0.2f ) );
 
         BaseClass.ItemPreFrame();
     }
@@ -272,9 +269,8 @@ class weapon_bts_handgrenade : BTS_Weapon
         return ( this.owner.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) ) != 0;
     }
 
-    private void DestroyThink()
+    void DestroyThink()
     {
-        SetThink( null );
         self.DestroyItem();
     }
 }

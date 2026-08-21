@@ -1,3 +1,11 @@
+# 21/8/2026
+## Scripts
+- Unified firearm hitscan behavior under `ASBullet`, including HEV ammo warnings, JSON-controlled accuracy, spread, range, rate of fire, spawn ammo, iron-sight accuracy, and empty-fire cooldowns.
+- Added shared throwable handling, grenade rolling, M79 trajectory previews, monster-burning flames, weapon laser lifecycle fixes, and medkit recharging through health stations.
+- Fixed flare placement, Glock bodygroups, Uzi secondary fire, M16 grenade-loading and automatic accuracy, SAW reload animations/bodygroups, scoped weapon view models, and crossbow ADS behavior.
+- Moved player characters and voice profiles into configuration, added character/classification debug commands, made item tracking optional, and made melee push targets configurable.
+- Reorganized firearms by weapon family, simplified zombie variants, completed logger and command registry fixes, and centralized map precaches.
+
 # 18/8/2026
 ## Scripts
 - Rewrite & restructure of the random equipment system to a simpler and more flexible json context.
