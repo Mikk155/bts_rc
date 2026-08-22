@@ -119,24 +119,24 @@ final class CVoiceResponse
         return cast<CVoices@>( this.voices[name] );
     }
 
-    CVoices@ ForClass( int playerClass ) const
+    CVoices@ ForClass( Classification playerClass ) const
     {
         switch( playerClass )
         {
-            case 6:
-            case 0:
+            case Classification::Operative:
+            case Classification::Security:
                 return cast<CVoices@>( this.voices["barney"] );
 
-            case 2:
+            case Classification::Maintenance:
                 return cast<CVoices@>( this.voices["construction"] );
 
-            case 4:
+            case Classification::HEV:
                 return cast<CVoices@>( this.voices["helmet"] );
 
-            case 5:
+            case Classification::Hazard:
                 return cast<CVoices@>( this.voices["cleansuit"] );
 
-            case 1:
+            case Classification::Scientist:
             default:
                 return cast<CVoices@>( this.voices["scientist"] );
         }

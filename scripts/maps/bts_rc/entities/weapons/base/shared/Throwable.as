@@ -25,6 +25,16 @@ interface IThrowable
     void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage );
 }
 
+void DestroyThrowableWeapon( EHandle weapon )
+{
+    if( !weapon.IsValid() )
+        return;
+
+    CBasePlayerItem@ item = cast<CBasePlayerItem@>( weapon.GetEntity() );
+    if( item !is null )
+        item.DestroyItem();
+}
+
 namespace weapons
 {
     void Throw( IThrowable@ throwable )

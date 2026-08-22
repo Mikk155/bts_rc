@@ -450,7 +450,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
         if( m_iAmmoSave <= 0 )
         {
-            StartSchedule( g_Scheduler.SetTimeout( @this, "DestroyThink", 0.1f ) );
+            g_Scheduler.SetTimeout( "DestroyThrowableWeapon", 0.1f, EHandle( self ) );
         }
 
         BaseClass.Holster( skiplocal );
@@ -542,10 +542,5 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
     private bool CheckButton()
     {
         return ( this.owner.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) ) != 0;
-    }
-
-    void DestroyThink()
-    {
-        self.DestroyItem();
     }
 }

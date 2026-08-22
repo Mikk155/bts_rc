@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/98.75?barColor=10da0b)
+> ![](https://geps.dev/progress/96.34146341463415?barColor=1ada0b)
 <!--CompletionBar-end-->
 
 ---
@@ -26,6 +26,10 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
+# Pending
+
+- [ ] **Sniper Rifle**: Upload and update the scoped view model used while zooming (`models/v_m40a1.mdl`).
+- [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 
 ---
 

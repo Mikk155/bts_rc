@@ -165,7 +165,7 @@ final class CCharacter
         @this.m_Voices = g_VoiceResponse[voiceProfile];
 
         if( this.m_Voices is null )
-            @this.m_Voices = g_VoiceResponse.ForClass( int( classify ) );
+            @this.m_Voices = g_VoiceResponse.ForClass( classify );
 
         string model;
         snprintf( model, "models/player/%1/%1.mdl", modelName, modelName );

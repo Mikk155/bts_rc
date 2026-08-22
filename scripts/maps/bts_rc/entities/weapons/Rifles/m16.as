@@ -198,26 +198,22 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
         uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::SHOOT1 : WeaponM16Anim::SHOOT2;
 
+        bullet.Weapon( this )
+            .Accuracy( cone )
+            .Shell( models::saw_shell )
+            .Animation( anim );
+
         if( IsSilenced() )
         {
-            bullet.Weapon( this )
-                .Accuracy( cone )
-                .Sound( "bts_rc/weapons/m4sd_fire1.wav", 1.0f, 105 + Math.RandomLong( 0, 10 ), QUIET_GUN_VOLUME )
-                .Shell( models::saw_shell )
-                .Flash( 0, false )
-                .Animation( anim )
-            .Fire();
-            PlaySound( "bts_rc/weapons/m16_fire1.wav", 0.3f, 95 + Math.RandomLong( 0, 10 ) );
+            bullet.Flash( 0, false )
+                .Sound( "bts_rc/weapons/m4sd_fire1.wav", 1.0f, 105 + Math.RandomLong( 0, 10 ), QUIET_GUN_VOLUME );
         }
         else
         {
-            bullet.Weapon( this )
-                .Accuracy( cone )
-                .Sound( "bts_rc/weapons/m16_fire1.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) )
-                .Shell( models::saw_shell )
-                .Animation( anim )
-            .Fire();
+            bullet.Sound( "bts_rc/weapons/m16_fire1.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) );
         }
+
+        bullet.Fire();
 
         if( ( m_iTracerCount++ % 4 ) == 0 )
         {
