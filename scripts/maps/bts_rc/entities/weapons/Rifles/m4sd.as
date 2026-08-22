@@ -90,7 +90,6 @@ class weapon_bts_m4sd : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 9, gpWeaponM4SDConfig.max_clip );
         BTS_FireWeapon::Spawn();
     }
 
@@ -135,7 +134,7 @@ class weapon_bts_m4sd : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = Accuracy( ( player.IsMoving() ? 0.02618f : 0.01f ), ( player.IsMoving() ? 0.1f : 0.05f ), 0.01f, 0.05f );
+        float cone = weapons::Accuracy( player, this.config.primary_accuracy, isTrainedPersonal );
         if( m_iFireMode == M4SD_SEMI )
         {
             cone *= 0.8f;
@@ -149,7 +148,13 @@ class weapon_bts_m4sd : BTS_FireWeapon
             default: anim = WeaponM4SDAnim::SHOOT3; break;
         }
 
-        FireBullet( 1, cone, gpWeaponM4SDConfig.primary_damage, "bts_rc/weapons/m4sd_fire1.wav", anim, models::saw_shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), false, QUIET_GUN_VOLUME, 0 );
+        bullet.Weapon( this )
+            .Accuracy( cone )
+            .Sound( "bts_rc/weapons/m4sd_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), QUIET_GUN_VOLUME )
+            .Shell( models::saw_shell )
+            .Flash( 0, false )
+            .Animation( anim )
+        .Fire();
 
         if( ( m_iTracerCount++ % 4 ) == 0 )
         {

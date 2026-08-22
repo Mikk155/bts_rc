@@ -162,7 +162,10 @@ namespace Hooks
                 player.pev.impulse = 0;
         }
 
-        item_tracker::Think(player);
+        if( g_WeaponsConfig.item_tracking )
+            item_tracker::Think( player );
+
+        MedkitAmmo::Think( player );
 
         player.SetOverriddenPlayerModel(character.Name);
 
@@ -260,15 +263,14 @@ namespace Hooks
                                 while( item !is null )
                                 {
                                     @flashlightWeapon = cast<CBasePlayerWeapon@>(item);
+                                    ASWeaponLightConfig@ weaponFlashlightConfig = null;
 
-                                    if( Flashlight::IsValidWeapon( player, flashlightWeapon, weaponConfig ) )
+                                    if( flashlightWeapon !is null )
+                                        @weaponFlashlightConfig = cast<ASWeaponLightConfig@>( g_WeaponsConfig.Interfaces[ flashlightWeapon.GetClassname() ] );
+
+                                    if( weaponFlashlightConfig !is null && Flashlight::IsValidWeapon( player, flashlightWeapon, weaponFlashlightConfig ) )
                                     {
-                                        ASWeaponLightConfig@ weaponFlashlightConfig = cast<ASWeaponLightConfig@>( g_WeaponsConfig.Interfaces[ flashlightWeapon.GetClassname() ] );
-
-                                        if( weaponFlashlightConfig !is null )
-                                        {
-                                            weaponFlashlightConfig.FlashlightToggle( player, flashlightWeapon, true );
-                                        }
+                                        weaponFlashlightConfig.FlashlightToggle( player, flashlightWeapon, true );
 
                                         ui = MAX_ITEM_TYPES; // Break for loop
                                         break;

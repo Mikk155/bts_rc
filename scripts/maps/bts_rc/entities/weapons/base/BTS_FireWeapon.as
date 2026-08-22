@@ -36,64 +36,36 @@ abstract class BTS_FireWeapon : BTS_Weapon
         return def;
     }
 
-    void PlayEmptySound()
+    void PlayEmptySound( AttackType type = AttackType::Primary )
     {
+        self.pev.fuser4 = g_Engine.time + config.GetCooldown( util::IsTrainedPersonal( this.owner ), type, true );
+
         if( self.m_bPlayEmptySound )
         {
             self.m_bPlayEmptySound = false;
             PlaySound( "hlclassic/weapons/357_cock1.wav", 0.8f );
-            CheckDepletedAmmo( self.m_iPrimaryAmmoType );
+            CheckDepletedAmmo( type == AttackType::Secondary ? self.m_iSecondaryAmmoType : self.m_iPrimaryAmmoType );
         }
     }
 
-    void FireBullet( int cShots, float flSpread, float flDamage, const string& in szSound, uint8 shootAnim, int iShellModel = -1, TE_BOUNCE iShellType = TE_BOUNCE_SHELL, float flVolume = 1.0f, int iPitch = 98 + Math.RandomLong( 0, 3 ), bool bMuzzleFlash = true, int iWeaponVolume = NORMAL_GUN_VOLUME, int iWeaponFlash = NORMAL_GUN_FLASH )
+    void ItemPostFrame()
     {
-        auto player = this.owner;
+        BaseClass.ItemPostFrame();
 
-        if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
+        if( self.pev.fuser3 > 0.0f )
         {
-            this.PlayEmptySound();
-            return;
+            self.m_flNextPrimaryAttack = self.pev.fuser3;
+            self.m_flNextSecondaryAttack = self.pev.fuser3;
+            self.m_flNextTertiaryAttack = self.pev.fuser3;
+            self.pev.fuser3 = 0.0f;
         }
 
-        player.m_iWeaponVolume = iWeaponVolume;
-        player.m_iWeaponFlash = iWeaponFlash;
-
-        --self.m_iClip;
-        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
-
-        if( bMuzzleFlash )
+        if( self.pev.fuser4 > 0.0f )
         {
-            player.pev.effects |= EF_MUZZLEFLASH;
-            pev.effects |= EF_MUZZLEFLASH;
-        }
-
-        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        Vector vecSrc = player.GetGunPosition();
-        Vector vecAiming = player.GetAutoaimVector( AUTOAIM_5DEGREES );
-
-        float x, y;
-        g_Utility.GetCircularGaussianSpread( x, y );
-
-        Vector vecDir = vecAiming + x * flSpread * g_Engine.v_right + y * flSpread * g_Engine.v_up;
-        Vector vecEnd = vecSrc + vecDir * 8192.0f;
-
-        TraceResult tr;
-        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
-        self.FireBullets( cShots, vecSrc, vecDir, g_vecZero, 8192.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int( flDamage ), player.pev );
-        TraceEffects(tr);
-
-        PlayAnim( shootAnim );
-        PlaySound( szSound, flVolume, iPitch );
-
-        if( iShellModel != -1 )
-        {
-            Vector vecForward, vecRight, vecUp;
-            g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
-            Vector vecOrigin = player.GetGunPosition() + vecForward * 32.0f + vecRight * 6.0f - vecUp * 12.0f;
-            Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
-            float flYaw = player.pev.v_angle.y;
-            g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, flYaw, iShellModel, iShellType );
+            self.m_flNextPrimaryAttack = self.pev.fuser4;
+            self.m_flNextSecondaryAttack = self.pev.fuser4;
+            self.m_flNextTertiaryAttack = self.pev.fuser4;
+            self.pev.fuser4 = 0.0f;
         }
     }
 

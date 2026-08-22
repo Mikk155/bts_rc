@@ -83,7 +83,9 @@ namespace Logger
                         g_Game.AlertMessage( at_console, "Error: Logger with id \"%1\" is printing more arguments than defined in message!\nIssued message: ", this.id );
                         break;
                     }
-                    glog = glog.SubString( 0, index ) + arguments[ui] + glog.SubString( index + 2 );
+                    string before = glog.SubString( 0, index );
+                    string after = glog.SubString( index + 2, glog.Length() - index - 2 );
+                    glog = before + arguments[ui] + after;
                 }
             }
 
@@ -251,8 +253,8 @@ final class CLogger : IConfigurable
         return false;
     }
 
-    protected RegisterCommand@ command;
-    const RegisterCommand@ get_Command()
+    protected ASCommand@ command;
+    const ASCommand@ get_Command()
     {
         return @this.command;
     }

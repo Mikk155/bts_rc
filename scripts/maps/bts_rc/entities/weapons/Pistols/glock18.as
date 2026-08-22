@@ -91,7 +91,6 @@ class weapon_bts_glock18 : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 9, gpWeaponGlock18Config.max_clip );
         BTS_FireWeapon::Spawn();
         m_iFireMode = Glock18Mode::SemiAuto;
     }
@@ -153,10 +152,13 @@ class weapon_bts_glock18 : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = weapons::Accuracy( player, gpWeaponGlock18Config.primary_accuracy, isTrainedPersonal );
         uint8 anim = self.m_iClip > 1 ? WeaponGlock18Anim::Shoot : WeaponGlock18Anim::ShootEmpty;
 
-        FireBullet( 1, cone, gpWeaponGlock18Config.primary_damage, "bts_rc/weapons/glock18_fire1.wav", anim, models::shell, TE_BOUNCE_SHELL, Math.RandomFloat( 0.92f, 1.0f ) );
+        bullet.Weapon( this )
+            .Sound( "bts_rc/weapons/glock18_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ) )
+            .Shell( models::shell )
+            .Animation( anim )
+        .Fire();
 
         if( m_iFireMode == Glock18Mode::SemiAuto )
         {

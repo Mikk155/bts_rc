@@ -62,12 +62,6 @@ final class ASWeaponSW637Config : ASWeaponConfig
         return 1;
     }
 
-    void Precache() override
-    {
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_38ammobox.mdl" );
-        ASWeaponConfig::Precache();
-    }
-
     bool Register( meta_api::json::v2::json@ json ) override
     {
         if( g_MapConfig.MapLoading )
@@ -110,7 +104,6 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = 0;
         BTS_FireWeapon::Spawn();
     }
 
@@ -199,10 +192,14 @@ class weapon_bts_sw637 : BTS_FireWeapon
         m_fReloading = false;
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = weapons::Accuracy( player, gpWeaponSW637Config.primary_accuracy, isTrainedPersonal );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/38_shot1.wav" : "bts_rc/weapons/38_shot2.wav";
 
-        FireBullet( 1, cone, gpWeaponSW637Config.primary_damage, szSound, WeaponSW637Anim::Shoot, -1, TE_BOUNCE_SHELL, 1.0f, PITCH_NORM, true, LOUD_GUN_VOLUME, BRIGHT_GUN_FLASH );
+        bullet.Weapon( this )
+            .Sound( szSound, 1.0f, PITCH_NORM, LOUD_GUN_VOLUME )
+            .Shell( -1 )
+            .Flash( BRIGHT_GUN_FLASH )
+            .Animation( WeaponSW637Anim::Shoot )
+        .Fire();
 
         UpdateViewBodygroups();
 
@@ -248,7 +245,7 @@ class ammo_bts_sw637 : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_38ammobox.mdl" );
+        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_sw637_ammobox.mdl" );
         pev.scale = 1.0;
         BaseClass.Spawn();
     }
@@ -268,7 +265,7 @@ class ammo_bts_sw637lmao : ScriptBasePlayerAmmoEntity
 {
     void Spawn()
     {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_38ammobox.mdl" );
+        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_sw637_ammobox.mdl" );
         pev.scale = 1.0;
         BaseClass.Spawn();
     }

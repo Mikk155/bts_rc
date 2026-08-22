@@ -81,7 +81,6 @@ class weapon_bts_flaregun : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = 3;
         BTS_FireWeapon::Spawn();
     }
 
@@ -113,7 +112,7 @@ class weapon_bts_flaregun : BTS_FireWeapon
         pev.effects |= EF_MUZZLEFLASH;
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        Vector offset = Vector( 8.0f, 4.0f, -2.0f );
+        Vector offset = Vector( 16.0f, 6.0f, -2.0f );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * offset.x + g_Engine.v_right * offset.y + g_Engine.v_up * offset.z;
         Vector vecVelocity = g_Engine.v_forward * 1500.0f;
 
@@ -164,13 +163,4 @@ class weapon_bts_flaregun : BTS_FireWeapon
         }
     }
 
-    private void FinishAnim()
-    {
-        SetThink( null );
-
-        if( Math.RandomLong( 0, 1 ) == 0 )
-            PlaySound( "bts_rc/weapons/flaregun_reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ), CHAN_ITEM );
-        else
-            PlaySound( "bts_rc/weapons/flaregun_reload2.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ), CHAN_ITEM );
-    }
 }

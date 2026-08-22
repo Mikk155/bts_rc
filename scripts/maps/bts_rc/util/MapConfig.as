@@ -165,7 +165,8 @@ final class ASMapConfig
     {
         if( this.m_GlobalSchemaDefinitions.Contains( name ) )
         {
-            g_Logger.warning.print( "Failed to parse RegisterSchemaDefinition() for \"{}\" key name already exists!", { name } );
+            if( g_Logger.warning.active )
+                g_Logger.warning.print( "Failed to parse RegisterSchemaDefinition() for \"{}\" key name already exists!", { name } );
             return false;
         }
 
@@ -448,7 +449,8 @@ final class ASMapConfig
 
         if( !meta_api::json::v2::schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
         {
-            g_Logger.warning.print( "Error validating some values for json. Using default values..." );
+            if( g_Logger.warning.active )
+                g_Logger.warning.print( "Error validating some values for json. Using default values..." );
         }
 
         for( uint ui = 0; ui < length; ui++ )
@@ -461,7 +463,8 @@ final class ASMapConfig
                 g_Logger.info.print( "==============================================================" );
                 if( config is null )
                 {
-                    g_Logger.warning.print( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
+                    if( g_Logger.warning.active )
+                        g_Logger.warning.print( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
                 }
                 else
                 {

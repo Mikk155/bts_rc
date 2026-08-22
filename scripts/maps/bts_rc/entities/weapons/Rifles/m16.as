@@ -15,26 +15,26 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponM16SDConfig : ASWeaponConfig
+final class ASWeaponM16Config : ASWeaponConfig
 {
     const string& GetName() const override
     {
-        return "weapon_bts_m16sd";
+        return "weapon_bts_m16";
     }
 
     const string& get_player_model() override
     {
-        return "models/bts_rc/weapons/p_m16sd.mdl";
+        return "models/bts_rc/weapons/p_m16.mdl";
     }
 
     const string& get_world_model() override
     {
-        return "models/bts_rc/weapons/w_m16sd.mdl";
+        return "models/bts_rc/weapons/w_m16.mdl";
     }
 
     const string& get_view_model() override
     {
-        return "models/bts_rc/weapons/v_m16a2sd.mdl";
+        return "models/bts_rc/weapons/v_m16a2.mdl";
     }
 
     const string& get_animation_extension() override
@@ -49,7 +49,7 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_m16sd";
+        return "ammo_bts_m16";
     }
 
     const string& get_secondary_ammo() override
@@ -59,12 +59,12 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
 
     const string& get_secondary_ammoentity() override
     {
-        return "ammo_bts_m16sd_grenade";
+        return "ammo_bts_m16_grenade";
     }
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM16SDAnim::DRAW;
+        return WeaponM16Anim::DRAW;
     }
 
     void Precache() override
@@ -72,7 +72,6 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "weapons/glauncher.wav" );
         g_SoundSystem.PrecacheSound( "weapons/glauncher2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/gl_reload.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/fvox/ammowarning.wav" );
         ASWeaponConfig::Precache();
     }
 
@@ -82,9 +81,9 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
     }
 }
 
-ASWeaponM16SDConfig gpWeaponM16SDConfig;
+ASWeaponM16Config gpWeaponM16Config;
 
-enum WeaponM16SDAnim
+enum WeaponM16Anim
 {
     DRAW = 0,
     HOLSTER,
@@ -97,21 +96,20 @@ enum WeaponM16SDAnim
     RELOAD2
 };
 
-class weapon_bts_m16sd : BTS_FireWeapon
+abstract class weapon_bts_m16_base : BTS_FireWeapon
 {
-    ASWeaponConfig@ get_config() override
-    {
-        return @gpWeaponM16SDConfig;
-    }
-
     private int m_iTracerCount = 0;
     private float m_flGrenadeLaunchTime = 0;
     private bool m_bGrenadeFire = false;
+    private float m_flLastPrimaryShot = 0.0f;
+
+    bool IsSilenced()
+    {
+        return false;
+    }
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 9, gpWeaponM16SDConfig.max_clip );
-        self.m_iDefaultSecAmmo = Math.RandomLong( 0, 1 );
         BTS_FireWeapon::Spawn();
     }
 
@@ -128,7 +126,7 @@ class weapon_bts_m16sd : BTS_FireWeapon
         {
             if( player.pev.waterlevel == WATERLEVEL_HEAD || player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
             {
-                this.PlayEmptySound();
+                this.PlayEmptySound( AttackType::Secondary );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.15f;
                 return;
             }
@@ -142,7 +140,7 @@ class weapon_bts_m16sd : BTS_FireWeapon
 
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
-            PlayAnim( WeaponM16SDAnim::LAUNCH );
+            PlayAnim( WeaponM16Anim::LAUNCH );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -174,12 +172,7 @@ class weapon_bts_m16sd : BTS_FireWeapon
                 self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
             }
 
-            if( player.m_rgAmmo( self.m_iSecondaryAmmoType ) == 3 )
-            {
-                PlaySound( "bts_rc/fvox/ammowarning.wav", 1.0f );
-            }
-
-            CheckDepletedAmmo( self.m_iSecondaryAmmoType );
+            HEVVoice::UpdateAmmo( player, self, player.m_rgAmmo( self.m_iSecondaryAmmoType ), 0, self.iMaxAmmo2() );
 
             return;
         }
@@ -197,12 +190,30 @@ class weapon_bts_m16sd : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        float cone = isTrainedPersonal ? ( player.IsMoving() ? 0.02618f : 0.01f ) : ( player.IsMoving() ? 0.1f : 0.05f );
+        float cone = weapons::Accuracy( player, this.config.primary_accuracy, isTrainedPersonal );
 
-        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16SDAnim::SHOOT1 : WeaponM16SDAnim::SHOOT2;
+        if( g_Engine.time - m_flLastPrimaryShot < 0.25f )
+            cone *= this.config.automatic_accuracy_multiplier;
+        m_flLastPrimaryShot = g_Engine.time;
 
-        FireBullet( 1, cone, gpWeaponM16SDConfig.primary_damage, "bts_rc/weapons/m4sd_fire1.wav", anim, models::saw_shell, TE_BOUNCE_SHELL, 1.0f, 105 + Math.RandomLong( 0, 10 ), false, QUIET_GUN_VOLUME, 0 );
-        PlaySound( "bts_rc/weapons/m16_fire1.wav", 0.3f, 95 + Math.RandomLong( 0, 10 ) );
+        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::SHOOT1 : WeaponM16Anim::SHOOT2;
+
+        bullet.Weapon( this )
+            .Accuracy( cone )
+            .Shell( models::saw_shell )
+            .Animation( anim );
+
+        if( IsSilenced() )
+        {
+            bullet.Flash( 0, false )
+                .Sound( "bts_rc/weapons/m4sd_fire1.wav", 1.0f, 105 + Math.RandomLong( 0, 10 ), QUIET_GUN_VOLUME );
+        }
+        else
+        {
+            bullet.Sound( "bts_rc/weapons/m16_fire1.wav", 1.0f, 95 + Math.RandomLong( 0, 10 ) );
+        }
+
+        bullet.Fire();
 
         if( ( m_iTracerCount++ % 4 ) == 0 )
         {
@@ -236,12 +247,28 @@ class weapon_bts_m16sd : BTS_FireWeapon
             player.pev.punchangle.x = player.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -8, 3 ) );
         }
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 0.11f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+    }
+
+    private void LoadGrenade()
+    {
+        PlayAnim( WeaponM16Anim::RELOAD2 );
+        m_bGrenadeFire = false;
+        m_flGrenadeLaunchTime = 0;
+        PlaySound( "weapons/gl_reload.wav", 1.0f );
+
+        this.owner.m_Activity = ACT_RELOAD;
+        this.owner.pev.frame = 0;
+        this.owner.pev.sequence = 150;
+        this.owner.ResetSequenceInfo();
+        self.m_flTimeWeaponIdle = g_Engine.time + 6.8f;
     }
 
     void ItemPostFrame()
     {
+        if( m_bGrenadeFire && g_Engine.time >= m_flGrenadeLaunchTime + 1.0f && this.owner.m_rgAmmo( self.m_iSecondaryAmmoType ) > 0 )
+            LoadGrenade();
+
         if( m_bGrenadeFire && g_Engine.time < m_flGrenadeLaunchTime + 2.9f && this.owner.m_rgAmmo( self.m_iSecondaryAmmoType ) >= 0 )
         {
             this.owner.pev.framerate = 1.25f;
@@ -255,31 +282,24 @@ class weapon_bts_m16sd : BTS_FireWeapon
     {
         self.ResetEmptySound();
 
-        if( m_bGrenadeFire && g_Engine.time >= m_flGrenadeLaunchTime + 1.0f && this.owner.m_rgAmmo( self.m_iSecondaryAmmoType ) > 0 )
-        {
-            PlayAnim( WeaponM16SDAnim::RELOAD2 );
-            m_bGrenadeFire = false;
-            m_flGrenadeLaunchTime = 0;
-            PlaySound( "weapons/gl_reload.wav", 1.0f );
-
-            this.owner.m_Activity = ACT_RELOAD;
-            this.owner.pev.frame = 0;
-            this.owner.pev.sequence = 150;
-            this.owner.ResetSequenceInfo();
-
-            return 6.8f;
-        }
-
         float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
         if( flNextIdle <= 0.66f )
         {
-            PlayAnim( WeaponM16SDAnim::IDLE );
+            PlayAnim( WeaponM16Anim::IDLE );
             return 50.0f / 15.0f;
         }
         else
         {
-            PlayAnim( WeaponM16SDAnim::FIDGET );
+            PlayAnim( WeaponM16Anim::FIDGET );
             return 86.0f / 30.0f;
         }
+    }
+}
+
+class weapon_bts_m16 : weapon_bts_m16_base
+{
+    ASWeaponConfig@ get_config() override
+    {
+        return @gpWeaponM16Config;
     }
 }

@@ -723,6 +723,21 @@ class monster_panthereye : ScriptBaseMonsterEntity
             player.pev.velocity = g_vecZero;
             player.pev.movetype = MOVETYPE_NOCLIP; //without this, the player gets pushed by the panthereye
 
+            CBasePlayerWeapon@ activeWeapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
+
+            if( activeWeapon !is null )
+            {
+                ASWeaponConfig@ weaponConfig = g_WeaponsConfig.GetContext( activeWeapon.GetClassname() );
+                ASWeaponLightConfig@ lightConfig = cast<ASWeaponLightConfig@>( weaponConfig );
+                ASWeaponLaserConfig@ laserConfig = cast<ASWeaponLaserConfig@>( weaponConfig );
+
+                if( lightConfig !is null )
+                    Flashlight::TurnOff( player, activeWeapon, lightConfig );
+
+                if( laserConfig !is null )
+                    laserConfig.ForceLaserOff( player, activeWeapon );
+            }
+
             self.pev.origin.x = player.pev.origin.x;
             self.pev.origin.y = player.pev.origin.y;
             self.pev.origin.z = player.pev.absmin.z;
@@ -926,7 +941,7 @@ monster_panthereye@ GetNearPanther( const Vector&in pos )
     return null;
 }
 
-RegisterCommand __gpPanthereyeTestCmd__(
+ASCommand __gpPanthereyeTestCmd__(
     "test_panthereye",
     "",
     "Spawn a panthereye ahead",

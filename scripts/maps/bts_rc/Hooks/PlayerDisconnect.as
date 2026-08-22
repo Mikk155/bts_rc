@@ -36,7 +36,8 @@ namespace Hooks
             flashlightSpot.pev.effects |= EF_NODRAW;
         }
 
-        item_tracker::OnPlayerDisconnect( player );
+        if( g_WeaponsConfig.item_tracking )
+            item_tracker::OnPlayerDisconnect( player );
 
         return HOOK_CONTINUE;
     }

@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/32.5?barColor=da910b)
+> ![](https://geps.dev/progress/96.34146341463415?barColor=1ada0b)
 <!--CompletionBar-end-->
 
 ---
@@ -26,65 +26,69 @@ This file contains the list of to-do in the project.
 > - Run ``src/main.py`` to generate roadmap graph and organize completion of goals.
 ---
 
-- [ ] move to src/precaches.json models in the map that has the targetname "PRECACHE" and notify raptor.
-- [ ] Reimplement the whole hev fvox updates for hev characters (Update ASBullet::DeduceAmmo).
-- [ ] Add "active" checks to all loggers that may not have it.
-- [ ] Implement ASBullet to all fire arms.
-- [ ] Fix loggers with only one item in the array formating the message with an additional ``}`` not removed from the message.
-- [ ] Replace ASBullet's g_Engine.trace_* to g_Utility's GetGlobalTrace.
-- [ ] RegisterCommand rename class to ASCommand and create a method for RegisterCommand.
-- [ ] CommandContext should print help for specific commands in the argument 1 if it's a section i.e "bts_rc weapon" should print all commands in the weapon section.
-- [ ] Maybe reuse weapon melee distance configs into ASBullet
-- [ ] weapon json variable int[2] for default ammo min/max on spawn (clip ammo check)
-- [ ] weapon json variable int[2] for default secondary ammo min/max on spawn
-- [ ] replace all FireBullet( & FireBullets( to ASBullet pattern
-- [ ] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
-- [ ] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
-- [ ] Optimize & simplify monster_zombie_parasite
-- [ ] Optimize & simplify monster_zombie_gunner
-- [ ] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
-- [ ] Debug command to show and select a CCharacter.
-- [ ] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
-- [ ] **Flare / Flare Gun**: Fix projectile world model (currently invisible or stuck inside the world geometry).
-- [ ] **Glock Auto/Semi**: Fix bad bodygroups (`glockf17`).
-- [ ] **Uzi**: Add secondary attack to shoot a single bullet per click.
-- [ ] **Uzi Silencer**: Review or implement behavior.
-- [ ] **M16 & M16 with Grenade Launcher**: Fix secondary attack hold not playing the grenade loading animation.
-- [ ] **M16 & M16 with Grenade Launcher**: Fix semi-to-full auto accuracy (make full-auto accuracy significantly worse).
-- [ ] **M16 & M16 with Grenade Launcher**: Merge standard and silenced versions into a single class or use inheritance.
-- [ ] **M16 Grenade Launcher Silencer**: Review or implement behavior.
-- [ ] **SAW**: Fix bodygroup not updating after reload (they remain empty).
-- [ ] **SAW**: Fix paused animation (missing the bullet-feeding animation from the original SAW).
-- [ ] **Flamethrower**:  Fix bad view offset.
-- [ ] **Flamethrower**:  Implement a class to set monsters on fire. [#87](https://github.com/Mikk155/bts_rc/issues/87)
-- [ ] **Sniper Rifle**: Assign a different view model when using zoom. [#72](https://github.com/Mikk155/bts_rc/issues/72), [#87](https://github.com/Mikk155/bts_rc/issues/87)
-- [ ] **Grenade**: Implement grenade roll as a secondary attack.
-- [ ] **Crossbow**: Remove zoom after firing.
-- [ ] **Crossbow**: Hide the view model when aiming down sights (ADS).
-- [ ] **Iron Sights**: Implement to improve accuracy across weapons.
-- [ ] **Grenade Launcher Iron Sight**: Add a drop trajectory/probability preview view.
-- [ ] **357**: Implement laser spot.
-- [ ] **357**: Disable firing while reloading.
-- [ ] **Flashlight Weapon**: Fix ammo sprite bug (it has no primary ammo, but the sprite bugs out); change secondary ammo to primary using `BaseClass` calls.
-- [ ] **Firearms**: Use a "miss" cooldown when there is no ammo.
-- [ ] Restore the laser after reload finishes if it was active before.
-- [ ] Make the laser activate automatically after the deploy phase finishes.
-- [ ] **SetThink Weapons**: Purge old weapon thinks and transition to `BTS_Weapon` schedule callbacks.
-- [ ] Flashlight/Laser shutdown on panthereye's freeze attack.
-- [ ] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
-- [ ] Expose to JSON weapons rate of fire
-- [ ] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
-- [ ] make item tracking optional
-- [ ] add a command registry entry to test changing classification (Maybe CTextMenu?)
-- [ ] make medkit to not automatically recharge, only using health stations [#97](https://github.com/Mikk155/bts_rc/issues/97)
-- [ ] move player characters to default config
-- [ ] Expose to JSON remaining weapons accuracy cone
+# Pending
+
+- [ ] **Sniper Rifle**: Upload and update the scoped view model used while zooming (`models/v_m40a1.mdl`).
+- [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] move to src/precaches.json models in the map that has the targetname "PRECACHE" and notify raptor.
+- [x] Reimplement the whole hev fvox updates for hev characters (Update ASBullet::DeduceAmmo).
+- [x] Add "active" checks to all loggers that may not have it.
+- [x] Implement ASBullet to all fire arms.
+- [x] Fix loggers with only one item in the array formating the message with an additional ``}`` not removed from the message.
+- [x] Replace ASBullet's g_Engine.trace_* to g_Utility's GetGlobalTrace.
+- [x] RegisterCommand rename class to ASCommand and create a method for RegisterCommand.
+- [x] CommandContext should print help for specific commands in the argument 1 if it's a section i.e "bts_rc weapon" should print all commands in the weapon section.
+- [x] Maybe reuse weapon melee distance configs into ASBullet
+- [x] weapon json variable int[2] for default ammo min/max on spawn (clip ammo check)
+- [x] weapon json variable int[2] for default secondary ammo min/max on spawn
+- [x] replace all FireBullet( & FireBullets( to ASBullet pattern
+- [x] Remove all ``g_EngineFuncs.ModelIndex`` where applicable.
+- [x] Split weapons from the Firearms directory to new or existent folders like pistols/, rifles/
+- [x] Optimize & simplify monster_zombie_parasite
+- [x] Optimize & simplify monster_zombie_gunner
+- [x] Merge in player_voices into CCharacter [#37](https://github.com/Mikk155/bts_rc/issues/37)
+- [x] Debug command to show and select a CCharacter.
+- [x] Create a IThrowable interface that enforces to set various variables and a Throw(IThrowable@) method for handling all the logic using the ASWeaponConfig defined variables with the IThrowable interface.
+- [x] **Flare / Flare Gun**: Fix projectile world model (currently invisible or stuck inside the world geometry).
+- [x] **Glock Auto/Semi**: Fix bad bodygroups (`glockf17`).
+- [x] **Uzi**: Add secondary attack to shoot a single bullet per click.
+- [x] **Uzi Silencer**: Review or implement behavior.
+- [x] **M16 & M16 with Grenade Launcher**: Fix secondary attack hold not playing the grenade loading animation.
+- [x] **M16 & M16 with Grenade Launcher**: Fix semi-to-full auto accuracy (make full-auto accuracy significantly worse).
+- [x] **M16 & M16 with Grenade Launcher**: Merge standard and silenced versions into a single class or use inheritance.
+- [x] **M16 Grenade Launcher Silencer**: Review or implement behavior.
+- [x] **SAW**: Fix bodygroup not updating after reload (they remain empty).
+- [x] **SAW**: Fix paused animation (missing the bullet-feeding animation from the original SAW).
+- [x] **Flamethrower**:  Fix bad view offset.
+- [x] **Flamethrower**:  Implement a class to set monsters on fire. [#87](https://github.com/Mikk155/bts_rc/issues/87)
+- [x] **Sniper Rifle**: Assign a different view model when using zoom. [#72](https://github.com/Mikk155/bts_rc/issues/72), [#87](https://github.com/Mikk155/bts_rc/issues/87)
+- [x] **Grenade**: Implement grenade roll as a secondary attack.
+- [x] **Crossbow**: Remove zoom after firing.
+- [x] **Crossbow**: Hide the view model when aiming down sights (ADS).
+- [x] **Iron Sights**: Implement to improve accuracy across weapons.
+- [x] **Grenade Launcher Iron Sight**: Add a drop trajectory/probability preview view.
+- [x] **357**: Implement laser spot.
+- [x] **357**: Disable firing while reloading.
+- [x] **Flashlight Weapon**: Fix ammo sprite bug (it has no primary ammo, but the sprite bugs out); change secondary ammo to primary using `BaseClass` calls.
+- [x] **Firearms**: Use a "miss" cooldown when there is no ammo.
+- [x] Restore the laser after reload finishes if it was active before.
+- [x] Make the laser activate automatically after the deploy phase finishes.
+- [x] **SetThink Weapons**: Purge old weapon thinks and transition to `BTS_Weapon` schedule callbacks.
+- [x] Flashlight/Laser shutdown on panthereye's freeze attack.
+- [x] Relocate the play sound of ``"bts_rc/fvox/ammowarning.wav"`` in low ammo grenade launcher to a composition namespace [#80](https://github.com/Mikk155/bts_rc/issues/80)
+- [x] Expose to JSON weapons rate of fire
+- [x] Expose to JSON melee weapon list of monsters that can be pushed (additional to headcrabs)
+- [x] make item tracking optional
+- [x] add a command registry entry to test changing classification (Maybe CTextMenu?)
+- [x] make medkit to not automatically recharge, only using health stations [#97](https://github.com/Mikk155/bts_rc/issues/97)
+- [x] move player characters to default config
+- [x] Expose to JSON remaining weapons accuracy cone
 - [x] Optimize & simplify monster_parasite
 - [x] Optimize & simplify monster_snapbug
 - [x] Optimize & simplify scientists.as

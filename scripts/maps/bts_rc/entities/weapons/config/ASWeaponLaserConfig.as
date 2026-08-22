@@ -87,7 +87,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
     // player model used when laser is active
     const string& get_player_model_laser()
     {
-        return this.player_model;
+        return this.get_player_model();
     }
 
     // Animation used when LaserToggle is called
@@ -138,6 +138,19 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         weapon.SendWeaponAnim( this.laser_animation, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
     }
 
+    void ForceLaserOff( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    {
+        weapon.pev.iuser1 = 0;
+        CBaseEntity@ laser = LaserSpot::Entity( player );
+
+        if( laser !is null && ( laser.pev.effects & EF_NODRAW ) == 0 )
+        {
+            laser.pev.effects |= EF_NODRAW;
+            laser.pev.renderamt = 0;
+            LaserUpdate( false, player, weapon );
+        }
+    }
+
     // Call BTS_FireWeapon::Accuracy and pass the result in. returns a modified accuracy cone based on laser spot
     float LaserAccuracy( float cone, CBasePlayerWeapon@ weapon )
     {
@@ -168,6 +181,13 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         }
     }
 
+    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        ASWeaponConfig::WeaponDeploy( player, weapon, character );
+        weapon.pev.iuser1 = 1;
+        weapon.pev.fuser1 = g_Engine.time + this.deploy_time;
+    }
+
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         ASWeaponConfig::PlayerThink( player, weapon, character );
@@ -179,7 +199,6 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
 
         if( weapon.pev.iuser1 == 1 )
         {
-#if FALSE
             if( weapon.m_fInReload )
             {
                 if( ( laser.pev.effects & EF_NODRAW ) == 0 )
@@ -189,7 +208,10 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
                 }
                 return;
             }
-#endif
+
+            if( g_Engine.time < weapon.pev.fuser1 )
+                return;
+
             if( ( laser.pev.effects & EF_NODRAW ) != 0 )
             {
                 laser.pev.effects &= ~EF_NODRAW;

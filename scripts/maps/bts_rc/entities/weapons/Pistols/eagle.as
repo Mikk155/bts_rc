@@ -100,8 +100,6 @@ class weapon_bts_eagle : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 1, gpWeaponEagleConfig.max_clip );
-        self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
         pev.scale = 1.2;
     }

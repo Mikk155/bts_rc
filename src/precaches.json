@@ -135,9 +135,12 @@
         "events/muzzle_saw.txt"
     ],
     "PrecacheModel": [
+        "models/bshift/barney_helmet.mdl",
+        "models/bshift/barney_vest.mdl",
         "models/bts_rc/furniture/lambda.mdl",
         "models/bts_rc/furniture/w_flashlightbattery.mdl",
         "models/bts_rc/items/w_antidote.mdl",
+        "models/bts_rc/items/w_medkits.mdl",
         "models/bts_rc/monsters/snapbug.mdl",
         "models/bts_rc/monsters/snapbugattach.mdl",
         "models/bts_rc/monsters/zombie_barney.mdl",
@@ -242,6 +245,7 @@
         "models/hlclassic/w_357ammobox.mdl",
         "models/hlclassic/w_9mmarclip.mdl",
         "models/hlclassic/w_argrenade.mdl",
+        "models/hlclassic/w_battery.mdl",
         "models/hlclassic/w_grenade.mdl",
         "models/hlclassic/w_shotshell.mdl",
         "models/hunger/w_gas.mdl",

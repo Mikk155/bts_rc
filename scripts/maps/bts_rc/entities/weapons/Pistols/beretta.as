@@ -99,8 +99,6 @@ class weapon_bts_beretta : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 1, gpWeaponBerettaConfig.max_clip );
-        self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
     }
 

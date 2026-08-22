@@ -51,7 +51,8 @@ final class CVoice
 
         dictionary@ data = target.GetUserData();
 
-        if( g_Engine.time < float( data[this.__type__] ) )
+        float nextVoice;
+        if( data.get( this.__type__, nextVoice ) && g_Engine.time < nextVoice )
             return false;
 
         if( this.voices.length() <= 0 )
@@ -69,10 +70,10 @@ final class CVoice
         }
         else
         {
-            auto player = cast<CBasePlayer@>(target);
-            auto watchyoutone = GetCharacter(player);
+            CBasePlayer@ player = cast<CBasePlayer@>(target);
+            CCharacter@ character = GetCharacter(player);
 
-            if( watchyoutone.HandsGroup == Hands::WhiteBlackHands || watchyoutone.HandsGroup == Hands::BlueBlackHands || watchyoutone.Name == "bts_otis" || watchyoutone.Name == "bts_otis2" )
+            if( character !is null && ( character.HandsGroup == Hands::WhiteBlackHands || character.HandsGroup == Hands::BlueBlackHands || character.Name == "bts_otis" || character.Name == "bts_otis2" ) )
             {
                 finalPitch = 94;
             }
@@ -110,14 +111,17 @@ final class CVoiceResponse
 {
     dictionary voices;
 
-    CVoices@ opIndex( CBasePlayer@ player ) const
+    CVoices@ opIndex( const string&in name ) const
     {
-        if( player is null )
+        if( name.IsEmpty() || !this.voices.exists( name ) )
             return null;
 
-        const Classification player_class = util::GetClass( player );
+        return cast<CVoices@>( this.voices[name] );
+    }
 
-        switch( player_class )
+    CVoices@ ForClass( Classification playerClass ) const
+    {
+        switch( playerClass )
         {
             case Classification::Operative:
             case Classification::Security:
@@ -138,87 +142,41 @@ final class CVoiceResponse
         }
     }
 
-    bool Register()
+    private void RegisterVoice( CVoice@ voice, meta_api::json::v2::json@ config )
     {
-        // Initialize handlers for specific classes
-        CVoices@ scientist = @CVoices( "scientist" );
-        CVoices@ barney = @CVoices( "barney" );
-        CVoices@ construction = @CVoices( "construction" );
-        CVoices@ helmet = @CVoices( "helmet" );
-        CVoices@ cleansuit = @CVoices( "cleansuit" );
+        if( voice is null || config is null )
+            return;
 
-        // Save them in the voice responses class
-        this.voices["scientist"] = @scientist;
-        this.voices["barney"] = @barney;
-        this.voices["construction"] = @construction;
-        this.voices["helmet"] = @helmet;
-        this.voices["cleansuit"] = @cleansuit;
+        voice.cooldown = config.ValueOrDefault( "cooldown", voice.cooldown, false, false );
+        voice.pitch = config.ValueOrDefault( "pitch", voice.pitch, false, false );
 
-        // Constructor
-        construction.takedamage.cooldown = 1.0;
-        construction.takedamage.push_back( "bts_rc/player/construction/co_pain1.wav" );
-        construction.takedamage.push_back( "bts_rc/player/construction/co_pain2.wav" );
-        construction.takedamage.push_back( "bts_rc/player/construction/co_pain3.wav" );
-        construction.takedamage.push_back( "bts_rc/player/construction/co_pain4.wav" );
-        construction.killed.push_back( "bts_rc/player/construction/co_die1.wav" );
-        construction.killed.push_back( "bts_rc/player/construction/co_die2.wav" );
-        construction.killed.push_back( "bts_rc/player/construction/co_die3.wav" );
-        construction.killed.push_back( "bts_rc/player/construction/co_die4.wav" );
+        array<string>@ sounds;
+        if( meta_api::json::v2::fmt::ToArray( config[ "sounds" ], sounds, true, false ) )
+        {
+            uint length = sounds.length();
+            for( uint ui = 0; ui < length; ui++ )
+                voice.push_back( sounds[ui] );
+        }
+    }
 
-        // Barney
-        barney.takedamage.cooldown = 1.0;
-        barney.takedamage.push_back( "barney/ba_pain1.wav" );
-        barney.takedamage.push_back( "barney/ba_pain2.wav" );
-        barney.takedamage.push_back( "barney/ba_pain3.wav" );
-        barney.takedamage.push_back( "barney/aghh.wav" );
-        barney.takedamage.push_back( "barney/ba_die3.wav" );
-        barney.killed.push_back( "barney/ba_die1.wav" );
-        barney.killed.push_back( "barney/ba_die2.wav" );
-        barney.killed.push_back( "barney/ba_die3.wav" );
+    bool Register( meta_api::json::v2::json@ profiles )
+    {
+        this.voices.deleteAll();
 
-        // H.E.V
-        helmet.takedamage.cooldown = 1.0;
-        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain1.wav" );
-        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain2.wav" );
-        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain3.wav" );
-        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain4.wav" );
-        helmet.takedamage.push_back( "bts_rc/player/helmet/hm_pain5.wav" );
-        helmet.killed.push_back( "bts_rc/player/helmet/hm_death1.wav" );
-        helmet.killed.push_back( "bts_rc/player/helmet/hm_death2.wav" );
-        helmet.killed.push_back( "bts_rc/player/helmet/hm_death3.wav" );
-        helmet.killed.push_back( "bts_rc/player/helmet/hm_death4.wav" );
+        if( profiles is null )
+            return false;
 
-        // Cleansuit
-        cleansuit.takedamage.cooldown = 1.0;
-        cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain1.wav" );
-        cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain2.wav" );
-        cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain3.wav" );
-        cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain4.wav" );
-        cleansuit.takedamage.push_back( "bts_rc/player/cleansuit/cl_pain5.wav" );
-        cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death1.wav" );
-        cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death2.wav" );
-        cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death3.wav" );
-        cleansuit.killed.push_back( "bts_rc/player/cleansuit/cl_death4.wav" );
+        uint length = profiles.Length();
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            meta_api::json::v2::json@ profile = profiles[ui];
+            string name = profile.Name;
+            CVoices@ voiceProfile = CVoices( name );
 
-        // Scientist
-        scientist.takedamage.cooldown = 1.0;
-        scientist.takedamage.push_back( "scientist/sci_pain1.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain2.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain3.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain4.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain5.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain6.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain7.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain8.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain9.wav" );
-        scientist.takedamage.push_back( "scientist/sci_pain10.wav" );
-        scientist.takedamage.push_back( "scientist/sci_fear11.wav" );
-        scientist.takedamage.push_back( "scientist/sci_fear15.wav" );
-        scientist.killed.push_back( "scientist/sci_die1.wav" );
-        scientist.killed.push_back( "scientist/sci_die2.wav" );
-        scientist.killed.push_back( "scientist/sci_die3.wav" );
-        scientist.killed.push_back( "scientist/scream21.wav" );
-        scientist.killed.push_back( "scientist/scream23.wav" );
+            RegisterVoice( voiceProfile.takedamage, profile[ "takedamage" ] );
+            RegisterVoice( voiceProfile.killed, profile[ "killed" ] );
+            @this.voices[name] = voiceProfile;
+        }
 
         return true;
     }

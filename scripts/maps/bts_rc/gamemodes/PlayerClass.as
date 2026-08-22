@@ -126,6 +126,12 @@ array<CCharacter@> g_OperativeTeam;
 
 final class CCharacter
 {
+    private CVoices@ m_Voices;
+    CVoices@ get_Voices() const property
+    {
+        return @this.m_Voices;
+    }
+
     private Hands m_Hands;
     const Hands& HandsGroup {
         get const {
@@ -151,11 +157,15 @@ final class CCharacter
     // dictionary constructor
     CCharacter() {}
 
-    CCharacter( const string&in modelName, Hands hands, const Classification&in classify )
+    CCharacter( const string&in modelName, Hands hands, const Classification&in classify, const string&in voiceProfile = String::EMPTY_STRING )
     {
         this.m_Name = modelName;
         this.m_Hands = hands;
         this.m_Classify = classify;
+        @this.m_Voices = g_VoiceResponse[voiceProfile];
+
+        if( this.m_Voices is null )
+            @this.m_Voices = g_VoiceResponse.ForClass( classify );
 
         string model;
         snprintf( model, "models/player/%1/%1.mdl", modelName, modelName );
@@ -224,11 +234,11 @@ array<uint> g_LastSelectedCharacter(Classification::__Size__);
 final class ASPlayerCharactersConfig : IConfigurable
 {
     private
-        void __RegisterCharacter__( string character_name, Classification character_classify, Hands character_hands )
+        void __RegisterCharacter__( string character_name, Classification character_classify, Hands character_hands, const string&in voice_profile = String::EMPTY_STRING )
         {
             array<CCharacter@>@ list = g_Characters[character_classify];
 
-            CCharacter@ character = CCharacter( character_name, character_hands, character_classify );
+            CCharacter@ character = CCharacter( character_name, character_hands, character_classify, voice_profile );
 
             list.insertLast( @character );
 
@@ -277,27 +287,75 @@ final class ASPlayerCharactersConfig : IConfigurable
             "type": "object",
             "unevaluatedProperties": false,
             "title": "Characters",
-            "description": "Control player characters",
-            "additionalProperties":
+            "description": "Control player characters and their voice profiles.",
+            "properties":
             {
-                "type": "object",
-                "unevaluatedProperties": false,
-                "description": "Playable character definition",
-                "properties":
+                "voice_profiles":
                 {
-                    "classify":
+                    "type": "object",
+                    "description": "Named voice profiles referenced by playable characters.",
+                    "additionalProperties":
                     {
-                        "type": "number",
-                        "description": "Classification used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#playable-characters",
-                        "minimum": 0,
-                        "maximum": 6
-                    },
-                    "hands":
+                        "type": "object",
+                        "unevaluatedProperties": false,
+                        "properties":
+                        {
+                            "takedamage":
+                            {
+                                "type": "object",
+                                "unevaluatedProperties": false,
+                                "properties":
+                                {
+                                    "sounds": { "type": "array", "items": { "type": "string" } },
+                                    "cooldown": { "type": "number", "minimum": 0 },
+                                    "pitch": { "type": "number", "minimum": 1, "maximum": 255 }
+                                }
+                            },
+                            "killed":
+                            {
+                                "type": "object",
+                                "unevaluatedProperties": false,
+                                "properties":
+                                {
+                                    "sounds": { "type": "array", "items": { "type": "string" } },
+                                    "cooldown": { "type": "number", "minimum": 0 },
+                                    "pitch": { "type": "number", "minimum": 1, "maximum": 255 }
+                                }
+                            }
+                        }
+                    }
+                },
+                "models":
+                {
+                    "type": "object",
+                    "description": "Playable character models.",
+                    "additionalProperties":
                     {
-                        "type": "number",
-                        "description": "View model hands used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#player-view-hands",
-                        "minimum": 0,
-                        "maximum": 9
+                        "type": "object",
+                        "unevaluatedProperties": false,
+                        "description": "Playable character definition",
+                        "properties":
+                        {
+                            "classify":
+                            {
+                                "type": "number",
+                                "description": "Classification used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#playable-characters",
+                                "minimum": 0,
+                                "maximum": 6
+                            },
+                            "hands":
+                            {
+                                "type": "number",
+                                "description": "View model hands used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#player-view-hands",
+                                "minimum": 0,
+                                "maximum": 9
+                            },
+                            "voice":
+                            {
+                                "type": "string",
+                                "description": "Name of a voice_profiles entry used by this character."
+                            }
+                        }
                     }
                 }
             }
@@ -308,32 +366,38 @@ final class ASPlayerCharactersConfig : IConfigurable
     {
         uint registered = 0;
 
+        if( config is null )
+            return registered;
+
         uint length = config.Length();
 
         for( uint ui = 0; ui < length; ui++ )
         {
             auto@ character_data = config[ui];
 
-            meta_api::json::v2::json@ jName = character_data[0];
             meta_api::json::v2::json@ jClassify = character_data[ "classify" ];
             meta_api::json::v2::json@ jHands = character_data[ "hands" ];
 
             int iClassify;
             if( !jClassify.is_number_unsigned() || !jClassify.Get( iClassify ) || Math.clamp( Classification::Unset + 1, Classification::__Size__ - 1, iClassify ) != iClassify )
             {
-                g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 second argument is not valid number!", ui ) );
+                if( g_Logger.warning.active )
+                    g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 classification is not a valid number!", ui ) );
                 continue;
             }
 
             int iHands;
             if( !jHands.is_number_unsigned() || !jHands.Get( iHands ) || Math.clamp( Hands::Unset + 1, Hands::__Size__ - 1, iHands ) != iHands )
             {
-                g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 second argument is not valid number!", ui ) );
+                if( g_Logger.warning.active )
+                    g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 hands is not a valid number!", ui ) );
                 continue;
             }
 
             registered++;
-            this.__RegisterCharacter__( character_data.Name, Classification( iClassify ), Hands( iHands ) );
+            string voiceProfile;
+            voiceProfile = character_data.ValueOrDefault( "voice", voiceProfile, false );
+            this.__RegisterCharacter__( character_data.Name, Classification( iClassify ), Hands( iHands ), voiceProfile );
         }
 
         return registered;
@@ -341,45 +405,8 @@ final class ASPlayerCharactersConfig : IConfigurable
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        if( this.RegisterCharacters( config ) == 0 )
-        {
-            config.Load( """{
-                "bts_barney":        { "classify": 0, "hands": 0 },
-                "bts_barney2":       { "classify": 0, "hands": 0 },
-                "bts_barney3":       { "classify": 0, "hands": 0 },
-                "bts_cleansuit":      { "classify": 5, "hands": 5 },
-                "bts_construction": { "classify": 2, "hands": 2 },
-                "bts_construction2":{ "classify": 2, "hands": 8 },
-                "bts_construction3":{ "classify": 2, "hands": 2 },
-                "bts_helmet":          { "classify": 4, "hands": 4 },
-                "bts_op":              { "classify": 6, "hands": 6 },
-                "bts_op2":             { "classify": 6, "hands": 6 },
-                "bts_op3":             { "classify": 6, "hands": 6 },
-                "bts_op4":             { "classify": 6, "hands": 6 },
-                "bts_op6":             { "classify": 6, "hands": 6 },
-                "bts_op_back":       { "classify": 6, "hands": 6 },
-                "bts_op_band":       { "classify": 6, "hands": 6 },
-                "bts_op_demo":       { "classify": 6, "hands": 9 },
-                "bts_op_dual":        { "classify": 6, "hands": 6 },
-                "bts_op_free":       { "classify": 6, "hands": 6 },
-                "bts_op_hurt":       { "classify": 6, "hands": 6 },
-                "bts_op_medic":      { "classify": 6, "hands": 6 },
-                "bts_op_otis":        { "classify": 6, "hands": 6 },
-                "bts_op_pissed":    { "classify": 6, "hands": 6 },
-                "bts_op_signal":     { "classify": 6, "hands": 6 },
-                "bts_op_vet":        { "classify": 6, "hands": 5 },
-                "bts_otis":            { "classify": 0, "hands": 0 },
-                "bts_otis2":           { "classify": 0, "hands": 0 },
-                "bts_otis_blk":        { "classify": 0, "hands": 7 },
-                "bts_scientist":       { "classify": 1, "hands": 1 },
-                "bts_scientist2":      { "classify": 1, "hands": 1 },
-                "bts_scientist3":      { "classify": 1, "hands": 3 },
-                "bts_scientist4":      { "classify": 1, "hands": 1 },
-                "bts_scientist5":      { "classify": 1, "hands": 1 },
-                "bts_scientist6":      { "classify": 1, "hands": 1 }
-            }""" );
-            this.RegisterCharacters( config );
-        }
+        g_VoiceResponse.Register( config[ "voice_profiles" ] );
+        this.RegisterCharacters( config[ "models" ] );
 
         // Have at least one of each if undefined
         if( g_Characters[Classification::Hazard].length() <= 0 ) {
@@ -469,10 +496,17 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
     if( character is null )
         return;
 
+    SetCharacter( player, character );
+}
+
+void SetCharacter( CBasePlayer@ player, CCharacter@ character )
+{
+    if( player is null || character is null )
+        return;
+
+    dictionary@ data = player.GetUserData();
     @data[ "character" ] = character;
-
-    UpdatePlayerData( player, classify );
-
+    UpdatePlayerData( player, character.Classify );
     Hooks::PlayerSetClass( player, character );
 }
 
@@ -533,7 +567,7 @@ void UpdatePlayerData( CBasePlayer@ player )
 }
 
 #if SERVER
-RegisterCommand ASEquipmentTestCommand(
+ASCommand ASEquipmentTestCommand(
 "set",
 "[class index]",
 "Set your class to the given index, use w/o arguments to see indexes",
@@ -569,5 +603,50 @@ function( CBasePlayer@ player, array<string>@ arguments )
 
     SetClass( player, classify );
 
+}, true, "class" );
+
+ASCommand ASCharacterTestCommand(
+"character",
+"[model name]",
+"Show playable characters or select a specific character",
+function( CBasePlayer@ player, array<string>@ arguments )
+{
+    if( arguments is null || arguments.length() == 0 )
+    {
+        CCharacter@ current = GetCharacter( player );
+        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Current character: " + ( current is null ? "none" : current.Name ) + "\nPlayable characters:\n" );
+
+        for( uint classIndex = 0; classIndex < g_Characters.length(); classIndex++ )
+        {
+            array<CCharacter@>@ characters = g_Characters[classIndex];
+
+            for( uint characterIndex = 0; characterIndex < characters.length(); characterIndex++ )
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " - " + characters[characterIndex].Name + " (" + Classification::ToString( characters[characterIndex].Classify ) + ")\n" );
+        }
+        return;
+    }
+
+    string requestedName = arguments[0];
+    requestedName.ToLowercase();
+
+    for( uint classIndex = 0; classIndex < g_Characters.length(); classIndex++ )
+    {
+        array<CCharacter@>@ characters = g_Characters[classIndex];
+
+        for( uint characterIndex = 0; characterIndex < characters.length(); characterIndex++ )
+        {
+            string characterName = characters[characterIndex].Name;
+            characterName.ToLowercase();
+
+            if( characterName == requestedName )
+            {
+                SetCharacter( player, characters[characterIndex] );
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Selected character \"" + characters[characterIndex].Name + "\"\n" );
+                return;
+            }
+        }
+    }
+
+    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Unknown character \"" + arguments[0] + "\". Run bts_rc class character to list valid names.\n" );
 }, true, "class" );
 #endif

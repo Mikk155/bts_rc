@@ -41,8 +41,8 @@ namespace monster_zombie_gunner
     const int GUN_RANDOM_CHANCE = 40;     // randomly pull the gun out when spotting a player, 1-100
     const int GUN_AMMO_MAX1 = 15;         // barney
     const int GUN_AMMO_MAX2 = 17;         // blackops
-    const int GUN_DAMAGE1 = 9.0;        // barney
-    const int GUN_DAMAGE2 = 9.0;        // blackops
+    const int GUN_DAMAGE1 = 9;          // barney
+    const int GUN_DAMAGE2 = 9;          // blackops
     const float GUN_DROP_LIFETIME = 20.0; // how long the temporary model stays after being dropped
 
     const int NPC_AE_ATTACK_RIGHT = 1;
@@ -102,6 +102,8 @@ namespace monster_zombie_gunner
         private bool m_bHasGun = true;
         private int m_iAmmo;
         private int m_iShell;
+        private int m_iBarneyGunModel;
+        private int m_iBlackopsGunModel;
 
         void Spawn()
         {
@@ -149,6 +151,8 @@ namespace monster_zombie_gunner
             g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_barney3.mdl" );
             g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_blackops3.mdl" );
             m_iShell = g_Game.PrecacheModel( "models/shell.mdl" );
+            m_iBarneyGunModel = g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/w_beretta.mdl" );
+            m_iBlackopsGunModel = g_ModelFuncs.ModelIndex( "models/bts_rc/weapons/w_9mmhandgunsd.mdl" );
 
             for( uint i = 0; i < arrsSounds.length(); i++ )
                 g_SoundSystem.PrecacheSound( arrsSounds[i] );
@@ -204,7 +208,7 @@ namespace monster_zombie_gunner
         {
             int iIgnore = BaseIgnoreConditions();
 
-            if( ( self.m_Activity == ACT_MELEE_ATTACK1 ) or ( self.m_Activity == ACT_MELEE_ATTACK1 ) )
+            if( self.m_Activity == ACT_MELEE_ATTACK1 || self.m_Activity == ACT_MELEE_ATTACK2 )
             {
                 if( m_flNextFlinch >= g_Engine.time )
                     iIgnore |= ( bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE );
@@ -252,7 +256,7 @@ namespace monster_zombie_gunner
                     CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
-                        if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
+                        if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0 )
                         {
                             pHurt.pev.punchangle.z = -18;
                             pHurt.pev.punchangle.x = 5;
@@ -275,7 +279,7 @@ namespace monster_zombie_gunner
                     CBaseEntity@ pHurt = CheckTraceHullAttack( self, 70, NPC_DMG_ONE_SLASH, DMG_SLASH );
                     if( pHurt !is null )
                     {
-                        if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) == 1 )
+                        if( ( pHurt.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0 )
                         {
                             pHurt.pev.punchangle.z = 18;
                             pHurt.pev.punchangle.x = 5;
@@ -336,7 +340,8 @@ namespace monster_zombie_gunner
 
                             Vector vecShellVelocity = g_Engine.v_right * Math.RandomFloat( 40, 90 ) + g_Engine.v_up * Math.RandomFloat( 75, 200 ) + g_Engine.v_forward * Math.RandomFloat( -40, 40 );
                             g_EntityFuncs.EjectBrass( vecShootOrigin + vecShootDir * 24 + g_Engine.v_right * 8, vecShellVelocity, pev.angles.y, m_iShell, TE_BOUNCE_SHELL );
-                            self.FireBullets( 1, vecShootOrigin, vecShootDir, VECTOR_CONE_2DEGREES, 1024.0, BULLET_PLAYER_CUSTOMDAMAGE, 0, IsBarney() ? GUN_DAMAGE1 : GUN_DAMAGE2, self.pev );
+                            bullet.FireMonster( self, vecShootOrigin, vecShootDir, VECTOR_CONE_2DEGREES,
+                                1024.0f, IsBarney() ? GUN_DAMAGE1 : GUN_DAMAGE2 );
 
                             pev.effects |= EF_MUZZLEFLASH;
 
@@ -417,10 +422,7 @@ namespace monster_zombie_gunner
             if( m_bGunOut and self.m_Activity == ACT_RUN and bCheckMeleeAttack1 )
                 DropGun();
 
-            if( m_bGunOut or self.m_Activity == ACT_RANGE_ATTACK1 )
-                return false;
-
-            return bCheckMeleeAttack1;
+            return !m_bGunOut && self.m_Activity != ACT_RANGE_ATTACK1 && bCheckMeleeAttack1;
         }
 
         bool CheckRangeAttack1( float flDot, float flDist )
@@ -441,10 +443,7 @@ namespace monster_zombie_gunner
         {
             TraceResult tr;
 
-            if( pThis.IsPlayer() )
-                Math.MakeVectors( pThis.pev.angles );
-            else
-                Math.MakeAimVectors( pThis.pev.angles );
+            Math.MakeAimVectors( pThis.pev.angles );
 
             Vector vecStart = pev.origin;
             vecStart.z += pev.size.z * 0.5;
@@ -467,16 +466,10 @@ namespace monster_zombie_gunner
 
         void DropGun()
         {
-            string sGunDrop = IsBarney() ? "" : "";
             Vector vecOrigin;
             g_EngineFuncs.GetBonePosition( self.edict(), 17, vecOrigin, void ); // using the hand bone
 
-            if( !sGunDrop.IsEmpty() )
-                g_EntityFuncs.Create( sGunDrop, vecOrigin, g_vecZero, false, null );
-            else
-            {
-                string sModel = IsBarney() ? "models/bts_rc/weapons/w_beretta.mdl" : "models/bts_rc/weapons/w_9mmhandgunsd.mdl";
-                NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
+            NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
                 m1.WriteByte( TE_BREAKMODEL );
                 m1.WriteCoord( vecOrigin.x );      // position
                 m1.WriteCoord( vecOrigin.y );
@@ -488,17 +481,16 @@ namespace monster_zombie_gunner
                 m1.WriteCoord( 0.0 );
                 m1.WriteCoord( 0.0 );
                 m1.WriteByte( 0 );                 // random velocity in 10's
-                m1.WriteShort( g_Game.PrecacheModel( sModel ) );
+                m1.WriteShort( IsBarney() ? m_iBarneyGunModel : m_iBlackopsGunModel );
                 m1.WriteByte( 1 );                 // count
                 m1.WriteByte( GUN_DROP_LIFETIME ); // life in 0.1 secs
                 m1.WriteByte( 0 );
-                m1.End();
-            }
+            m1.End();
 
             m_bGunOut = m_bHasGun = false;
         }
 
-        bool IsBarney()
+        const bool IsBarney()
         {
             return pev.weapons == 0;
         }

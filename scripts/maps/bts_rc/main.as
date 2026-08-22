@@ -79,7 +79,8 @@ void MapActivate()
     gpErr = true;
 #endif
 
-    item_tracker::Reset();
+    if( g_WeaponsConfig.item_tracking )
+        item_tracker::Reset();
     uint numents = g_EngineFuncs.NumberOfEntities();
 
     for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
@@ -99,7 +100,7 @@ void MapActivate()
         EntityOverriden::Register( entityIndex, entity, ckv, monster );
 
         // item tracker data
-        if( entity.GetClassname()  == "item_inventory" )
+        if( g_WeaponsConfig.item_tracking && entity.GetClassname() == "item_inventory" )
         {
             CItemInventory@ item = cast<CItemInventory@>(entity);
 
@@ -137,8 +138,6 @@ void MapInit()
     Precache();
 
     g_MapConfig.__MapInitialize__();
-
-    g_VoiceResponse.Register();
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 

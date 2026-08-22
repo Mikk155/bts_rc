@@ -109,15 +109,11 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 1, gpWeaponSBShotgunConfig.max_clip );
-        self.m_iDefaultSecAmmo = Math.RandomLong( 1, 2 );
         BTS_FireWeapon::Spawn();
     }
 
     void Holster( int skiplocal = 0 )
     {
-        SetThink( null );
-
         m_fInReloadState = 0;
         m_flRestoreAfter = 0.0f;
         self.m_fInReload = false;
@@ -157,42 +153,16 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         if( FinishReload( true ) )
             return;
 
-        player.m_iWeaponVolume = LOUD_GUN_VOLUME;
-        player.m_iWeaponFlash = NORMAL_GUN_FLASH;
-
-        self.m_iClip -= 1;
-
-        player.pev.effects |= EF_MUZZLEFLASH;
-        pev.effects |= EF_MUZZLEFLASH;
-
-        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        Vector vecSrc = player.GetGunPosition();
-        Vector vecAiming = player.GetAutoaimVector( AUTOAIM_5DEGREES );
-
-        float x, y;
-        Vector vecDir, vecEnd;
-        TraceResult tr;
-        CBaseEntity@ pHit;
-        int pellets = 8;
-        float damage = gpWeaponSBShotgunConfig.primary_damage;
-        Vector cone = Vector( 0.08716f, 0.04362f, 0.0f ); // CONE
-
-        for( int i = 0; i < pellets; i++ )
-        {
-            g_Utility.GetCircularGaussianSpread( x, y );
-
-            vecDir = vecAiming + x * cone.x * g_Engine.v_right + y * cone.y * g_Engine.v_up;
-            vecEnd = vecSrc + vecDir * 2048.0f;
-
-            g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
-            self.FireBullets( 1, vecSrc, vecDir, g_vecZero, 2048.0f, BULLET_PLAYER_CUSTOMDAMAGE, 0, int( damage ), player.pev );
-            TraceEffects(tr);
-        }
+        bullet.Weapon( this )
+            .Shots( 8 )
+            .Range( 2048.0f )
+            .Sound( "bts_rc/weapons/sbshotgun_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), LOUD_GUN_VOLUME )
+            .Shell( -1 )
+            .Animation( WeaponSBShotgunAnim::SHOOT )
+        .Fire();
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
-        PlayAnim( WeaponSBShotgunAnim::SHOOT );
-        PlaySound( "bts_rc/weapons/sbshotgun_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ) );
         player.pev.punchangle.x = isTrainedPersonal ? -5.0f : -11.0f;
 
         Vector vecForward, vecRight, vecUp;
@@ -200,8 +170,6 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         Vector vecOrigin = player.GetGunPosition() + vecForward * 14.0f + vecRight * 6.0f - vecUp * 34.0f;
         Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
-
-        CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
@@ -215,8 +183,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
         if( self.m_iClip != 0 )
         {
-            SetThink( ThinkFunction( PumpWeapon ) );
-            pev.nextthink = g_Engine.time + 0.5f;
+            StartSchedule( g_Scheduler.SetTimeout( @this, "PumpWeapon", 0.5f ) );
         }
     }
 
@@ -265,9 +232,8 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         FinishReload( self.m_iClip == gpWeaponSBShotgunConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 );
     }
 
-    private void PumpWeapon()
+    void PumpWeapon()
     {
-        SetThink( null );
         PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
     }
 

@@ -64,6 +64,26 @@ final class ASWeaponFlashlightConfig : ASWeaponLightConfig
         return "crowbar";
     }
 
+    const string& get_primary_ammo() override
+    {
+        return Flashlight::GetAmmoName();
+    }
+
+    const string& get_primary_ammoentity() override
+    {
+        return Flashlight::GetAmmoName();
+    }
+
+    const string& get_secondary_ammo() override
+    {
+        return String::EMPTY_STRING;
+    }
+
+    const string& get_secondary_ammoentity() override
+    {
+        return String::EMPTY_STRING;
+    }
+
     const uint8 get_animation_draw() override
     {
         return WeaponFlashlightAnim::Draw;
@@ -91,7 +111,6 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
 
     void Spawn() override
     {
-        self.m_iDefaultAmmo = Math.RandomLong( 0, 2 );
         BTS_MeleeWeapon::Spawn();
     }
 

@@ -72,7 +72,7 @@ final class ASDynamicAmmoConfig : IConfigurable
         }""";
     }
 
-    private RegisterCommand@ m_command;
+    private ASCommand@ m_command;
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
