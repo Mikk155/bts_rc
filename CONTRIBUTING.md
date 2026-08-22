@@ -25,6 +25,7 @@ To ensure quality and consistency across all community contributions, please fol
    > enabled: yes, forced: no<br>
    > content: UI - yes, GAME - yes<br>
    > active: UI - yes, GAME - yes
+   
    If for some reason it refuses to load you can enable it:
    ```
    ev_enable bts
