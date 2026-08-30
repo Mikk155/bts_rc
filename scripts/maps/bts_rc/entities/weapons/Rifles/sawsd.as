@@ -173,7 +173,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
         if( g_WeaponsConfig.m249_knockback )
         {
             const float flZVel = player.pev.velocity.z;
-            Vector vecInvPushDir = g_Engine.v_forward * ( isTrainedPersonal ? 60.0f : 35.0f );
+            Vector vecInvPushDir = g_Engine.v_forward * ( isTrainedPersonal ? 10.0f : 20.0f );
             player.pev.velocity = player.pev.velocity - vecInvPushDir;
             player.pev.velocity.z = flZVel * 1.15f;
         }

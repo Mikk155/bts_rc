@@ -2,7 +2,7 @@
     "$schema": "schema.json",
     "aiming_lasers": {
         "active": true,
-        "alpha": 150,
+        "alpha": 80,
         "blue": 0,
         "green": 0,
         "interval": 0.1,
@@ -223,7 +223,7 @@
                         "barney/ba_pain1.wav",
                         "barney/ba_pain2.wav",
                         "barney/ba_pain3.wav",
-                        "barney/aghh.wav",
+                        "barney/ba_die1.wav",
                         "barney/ba_die3.wav"
                     ]
                 }
@@ -959,7 +959,7 @@
         ],
         "primary_dropammo": 17,
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.05,
+        "primary_trained_cooldown": 0.1,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -1018,7 +1018,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.142,
+        "primary_cooldown": 0.0857,
         "primary_damage": 23,
         "primary_default_ammo": [
             15,
@@ -1026,7 +1026,7 @@
         ],
         "primary_dropammo": 30,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.142,
+        "primary_trained_cooldown": 0.0857,
         "reload_anim": 6,
         "reload_empty_anim": 6,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -1053,7 +1053,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.11,
+        "primary_cooldown": 0.09,
         "primary_damage": 24,
         "primary_default_ammo": [
             9,
@@ -1061,7 +1061,7 @@
         ],
         "primary_dropammo": 20,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.11,
+        "primary_trained_cooldown": 0.09,
         "reload_anim": 6,
         "reload_empty_anim": 6,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -1087,7 +1087,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.105,
+        "primary_cooldown": 0.085,
         "primary_damage": 22,
         "primary_default_ammo": [
             9,
@@ -1095,7 +1095,7 @@
         ],
         "primary_dropammo": 30,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.105,
+        "primary_trained_cooldown": 0.085,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -1114,7 +1114,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.105,
+        "primary_cooldown": 0.085,
         "primary_damage": 22,
         "primary_default_ammo": [
             9,
@@ -1122,7 +1122,7 @@
         ],
         "primary_dropammo": 30,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.105,
+        "primary_trained_cooldown": 0.085,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -1159,15 +1159,15 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.09,
+        "primary_cooldown": 0.075,
         "primary_damage": 17,
         "primary_default_ammo": [
             5,
             30
         ],
-        "primary_dropammo": 30,
+        "primary_dropammo": 25,
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.09,
+        "primary_trained_cooldown": 0.075,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/mp5_clip.wav",
@@ -1176,7 +1176,7 @@
     },
     "weapon_bts_mp5gl": {
         "deploy_time": 0.6,
-        "max_clip": 30,
+        "max_clip": 50,
         "position": 5,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -1186,7 +1186,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.09,
+        "primary_cooldown": 0.075,
         "primary_damage": 17,
         "primary_default_ammo": [
             9,
@@ -1194,7 +1194,7 @@
         ],
         "primary_dropammo": 30,
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.09,
+        "primary_trained_cooldown": 0.075,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/mp5_clip.wav",
@@ -1305,7 +1305,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.099,
+        "primary_cooldown": 0.07,
         "primary_damage": 22,
         "primary_default_ammo": [
             19,
@@ -1313,7 +1313,7 @@
         ],
         "primary_dropammo": 50,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.099,
+        "primary_trained_cooldown": 0.07,
         "reload_anim": 2,
         "reload_empty_anim": 2,
         "reload_sound": "bts_rc/weapons/saw_reload.wav",
@@ -1333,7 +1333,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.099,
+        "primary_cooldown": 0.07,
         "primary_damage": 23,
         "primary_default_ammo": [
             19,
@@ -1341,7 +1341,7 @@
         ],
         "primary_dropammo": 50,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.099,
+        "primary_trained_cooldown": 0.07,
         "reload_anim": 2,
         "reload_empty_anim": 2,
         "reload_sound": "bts_rc/weapons/saw_reload.wav",
@@ -1484,7 +1484,7 @@
             "stand": 0.0175,
             "stand_trained": 0.015
         },
-        "primary_cooldown": 0.07,
+        "primary_cooldown": 0.070,
         "primary_damage": 16,
         "primary_default_ammo": [
             6,
@@ -1492,7 +1492,7 @@
         ],
         "primary_dropammo": 20,
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.07,
+        "primary_trained_cooldown": 0.070,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget1.wav",
@@ -1509,7 +1509,7 @@
             "stand": 0.0175,
             "stand_trained": 0.015
         },
-        "primary_cooldown": 0.07,
+        "primary_cooldown": 0.070,
         "primary_damage": 17,
         "primary_default_ammo": [
             6,
@@ -1517,7 +1517,7 @@
         ],
         "primary_dropammo": 20,
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.07,
+        "primary_trained_cooldown": 0.070,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget1.wav",
@@ -1579,7 +1579,10 @@
         "melee_weapons_push": true,
         "melee_weapons_push_force": 200,
         "melee_weapons_push_monsters": [
-            "monster_headcrab"
+            "monster_headcrab",
+			"monster_snapbug",
+			"monster_babycrab",
+			"monster_parasite"
         ],
         "sparks_splash": true
     },

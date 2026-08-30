@@ -211,7 +211,7 @@ final class ASDeathDropConfig : IConfigurable
 
         auto ckv = monster.GetCustomKeyvalues();
 
-        auto ckv_drop = ckv.GetKeyvalue( "$_deathdrop" );
+        auto ckv_drop = ckv.GetKeyvalue( "$s_deathdrop" );
 
         if( !ckv_drop.Exists() )
             return null;
