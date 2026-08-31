@@ -1018,7 +1018,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.0857,
+        "primary_cooldown": 0.09,
         "primary_damage": 23,
         "primary_default_ammo": [
             15,
@@ -1026,7 +1026,7 @@
         ],
         "primary_dropammo": 30,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.0857,
+        "primary_trained_cooldown": 0.09,
         "reload_anim": 6,
         "reload_empty_anim": 6,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
