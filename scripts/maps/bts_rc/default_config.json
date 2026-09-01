@@ -451,7 +451,14 @@
 					"Operative23",
 					"Operative24",
 					"Operative25",
-					"Operative26"
+					"Operative26",
+					"Operative27",
+					"Operative28",
+					"Operative29",
+					"Operative30",
+					"Operative31",
+					"Operative32",
+					"Operative33"
                 ],
                 "description": "%1 entered the simulation as an Operative\nLoadout %2",
                 "notice": [
@@ -1214,7 +1221,7 @@
 						"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
 						"weight": "1.0"
                     },
-					 {
+					{
                         "classname": "item_inventory",
 						"description": "This Toolbox can be used for Orange Repair Markers (30 SLOTS)",
 						"display_name": "Maintenance Toolbox",
@@ -1286,7 +1293,7 @@
                 "items": [
 					"weapon_bts_uzi",
 					"ammo_9mmclip",
-					"weapon_screwdriver"
+					"weapon_bts_screwdriver"
                 ]
             },
 			"Operative21": {
@@ -1313,7 +1320,7 @@
                 "description": "High Security Contractor",
                 "items": [
 					"weapon_bts_m4",
-					"item_bts_vest",
+					"item_bts_armorvest",
 					"ammo_556clip"
                 ]
             },
@@ -1321,7 +1328,7 @@
                 "description": "Type-2",
                 "items": [
 					"weapon_bts_eagle",
-					"item_bts_vest",
+					"item_bts_armorvest",
 					"ammo_357",
 					"ammo_357",
 					"ammo_357"
@@ -1364,11 +1371,230 @@
 			"Operative26": {
                 "description": "Coddled",
                 "items": [
-					"weapon_bts_crowbar",
+					"weapon_crowbar",
 					"item_bts_helmet",
 					"item_bts_helmet",
-					"item_bts_vest",
-					"item_bts_vest"
+					"item_bts_armorvest",
+					"item_bts_armorvest"
+                ]
+            },
+			"Operative27": {
+                "description": "Hellbounded",
+                "items": [
+					"hornet",
+					"hornet",
+					"hornet",
+					"hornet",
+					"hornet",
+					"hornet",
+					"hornet",
+					"hornet"
+                ]
+            },
+			"Operative28": {
+                "description": "Screwed",
+                "items": [
+					"weapon_bts_screwdriver"
+                ]
+            },
+			"Operative29": {
+                "description": "Hazard Course Expert",
+                "items": [
+					"weapon_bts_mp5gl",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"ammo_argrenade"
+                ]
+            },
+			"Operative30": {
+                "description": "Mild Phonophobia",
+                "items": [
+					"weapon_bts_glocksd",
+					"ammo_9mmclip",
+					"ammo_9mmclip"
+                ]
+            },
+			"Operative31": {
+                "description": "Phonophobia",
+                "items": [
+					"weapon_bts_uzisd",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"ammo_9mmclip"
+                ]
+            },
+			"Operative32": {
+                "description": "Severe Phonophobia",
+                "items": [
+					"weapon_bts_m4sd",
+					"ammo_556"
+                ]
+            },
+			"Operative33": {
+                "description": "Extreme Phonophobia",
+                "items": [
+					"weapon_bts_sawsd",
+					"ammo_556"
+                ]
+            },
+			"Operative34": {
+                "description": "Scientist Militarist",
+				"entities": [
+                    {
+                        "classname": "item_inventory",
+						"description": "Blackmesa Research Clearance Level 1",
+						"display_name": "Research Keycard lvl 1",
+						"holder_can_drop": "1",
+						"holder_timelimit_wait_until_activated": "1",
+						"item_icon": "bts_rc/inv_card_research.spr",
+						"item_name": "Blackmesa_Research_Clearance_1",
+						"model": "models/bts_rc/items/card.mdl",
+						"return_timelimit": "999",
+						"skin": "6",
+						"target_cant_collect": "GAMEMODE_FULL_TXT",
+						"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+						"weight": "1.0"
+                    }
+                ],
+                "items": [
+					"weapon_bts_glock",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"weapon_bts_screwdriver",
+					"weapon_medkit"
+                ]
+            },
+			"Operative35": {
+                "description": "Master Unlocker",
+				"entities": [
+                    {
+                        "classname": "item_inventory",
+						"description": "Blackmesa Research Clearance Level 1",
+						"display_name": "Research Keycard lvl 1",
+						"holder_can_drop": "1",
+						"holder_timelimit_wait_until_activated": "1",
+						"item_icon": "bts_rc/inv_card_research.spr",
+						"item_name": "Blackmesa_Research_Clearance_1",
+						"model": "models/bts_rc/items/card.mdl",
+						"return_timelimit": "999",
+						"skin": "6",
+						"target_cant_collect": "GAMEMODE_FULL_TXT",
+						"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+						"weight": "1.0"
+                    },
+					{
+                        "classname": "item_inventory",
+						"description": "Maintenance Keycard used for accessing maintenance areas",
+						"display_name": "Maintenance Keycard",
+						"holder_can_drop": "1",
+						"holder_timelimit_wait_until_activated": "1",
+						"item_group": "repair",
+						"item_icon": "bts_rc/inv_card_maint.spr",
+						"item_name": "Blackmesa_Maintenance_Clearance",
+						"model": "models/bts_rc/items/card.mdl",
+						"return_timelimit": "999",
+						"skin": "8",
+						"target_cant_collect": "GAMEMODE_FULL_TXT",
+						"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+						"weight": "1.0"
+                    },
+					{
+                        "classname": "item_inventory",
+						"description": "Blackmesa Security Clearance Level 1",
+						"display_name": "Security Keycard lvl 1",
+						"holder_can_drop": "1",
+						"holder_timelimit_wait_until_activated": "1",
+						"item_group": "security",
+						"item_icon": "bts_rc/inv_card_security.spr",
+						"item_name": "Blackmesa_Security_Clearance_1",
+						"model": "models/bts_rc/items/card.mdl",
+						"return_timelimit": "999",
+						"skin": "7",
+						"target_cant_collect": "GAMEMODE_FULL_TXT",
+						"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+						"weight": "1.0"
+                    }
+                ],
+                "items": [
+					"weapon_bts_flashlight"
+                ]
+            },
+			"Operative36": {
+                "description": "Wild West",
+                "items": [
+					"weapon_bts_python",
+					"ammo_357",
+					"ammo_357"
+                ]
+            },
+			"Operative37": {
+                "description": "Shephard",
+                "items": [
+					"weapon_bts_pipewrench"
+                ]
+            },
+			"Operative38": {
+                "description": "Freeman",
+                "items": [
+					"weapon_crowbar"
+                ]
+            },
+			"Operative39": {
+                "description": "Calhoun",
+                "items": [
+					"weapon_bts_glock",
+					"ammo_9mmclip",
+					"weapon_crowbar"
+                ]
+            },
+			"Operative40": {
+                "description": "British",
+                "items": [
+					"weapon_bts_knife"
+                ]
+            },
+			"Operative41": {
+                "description": "Piper",
+                "items": [
+					"weapon_bts_pipe"
+                ]
+            },
+			"Operative42": {
+                "description": "Shifter",
+                "items": [
+					"weapon_bts_spanner"
+                ]
+            },
+			"Operative43": {
+                "description": "Fire Marshal",
+                "items": [
+					"weapon_bts_axe"
+                ]
+            },
+			"Operative44": {
+                "description": "Decent",
+                "items": [
+					"weapon_bts_beretta",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"ammo_9mmclip"
+                ]
+            },
+			"Operative45": {
+                "description": "99% Gambers Quit",
+                "items": [
+					"item_bts_armorvest",
+					"item_bts_helmet",
+					"weapon_bts_beretta",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"ammo_9mmclip",
+					"weapon_bts_sbshotgun",
+					"ammo_buckshot",
+					"ammo_buckshot",
+					"weapon_bts_spanner"
                 ]
             }
         }
