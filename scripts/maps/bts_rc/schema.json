@@ -161,11 +161,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -173,11 +173,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -189,32 +189,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -329,11 +329,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -341,11 +341,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -541,11 +541,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -553,11 +553,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -581,32 +581,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -720,11 +720,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -732,11 +732,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -962,11 +962,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -974,11 +974,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -994,32 +994,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -1117,11 +1117,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -1129,11 +1129,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -1338,11 +1338,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -1350,11 +1350,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -1370,32 +1370,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -1510,11 +1510,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -1522,11 +1522,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -1752,11 +1752,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -1764,11 +1764,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -1784,32 +1784,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -1907,11 +1907,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -1919,11 +1919,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -2149,11 +2149,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -2161,11 +2161,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -2181,50 +2181,50 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
 						"description": "Accuracy-cone multiplier applied by weapons during sustained automatic fire."
 					},
-					"tertiary_trained_cooldown":
+					"tertiary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"max_clip":
+					"max_clip": 
 					{
 						"type": "integer"
 					},
-					"tertiary_distance":
+					"tertiary_distance": 
 					{
 						"type": "number"
 					},
-					"secondary_accuracy":
+					"secondary_accuracy": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -2304,11 +2304,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -2316,11 +2316,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -2541,11 +2541,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -2553,11 +2553,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -2573,32 +2573,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -2700,11 +2700,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -2712,11 +2712,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -2907,11 +2907,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -2919,11 +2919,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -2947,32 +2947,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -3090,11 +3090,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -3102,11 +3102,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -3297,11 +3297,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -3309,11 +3309,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -3337,32 +3337,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -3480,11 +3480,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -3492,11 +3492,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -3692,16 +3692,16 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							15
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -3799,16 +3799,16 @@
 						"default": 0.5,
 						"type": "number"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							2
 						],
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -3853,32 +3853,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -3961,11 +3961,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -3973,11 +3973,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -4157,16 +4157,16 @@
 						"default": 65,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							9
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -4277,11 +4277,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -4301,50 +4301,50 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
 						"description": "Accuracy-cone multiplier applied by weapons during sustained automatic fire."
 					},
-					"secondary_trained_cooldown":
+					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"tertiary_trained_cooldown":
+					"tertiary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_distance":
+					"primary_distance": 
 					{
 						"type": "number"
 					},
-					"secondary_distance":
+					"secondary_distance": 
 					{
 						"type": "number"
 					},
@@ -4413,11 +4413,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -4425,11 +4425,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -4568,16 +4568,16 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							8,
 							17
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -4690,11 +4690,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -4714,32 +4714,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -4782,11 +4782,11 @@
 					{
 						"type": "number"
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -4794,11 +4794,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -4806,7 +4806,7 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"primary_kickback":
+					"primary_kickback": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -4982,16 +4982,16 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							8,
 							17
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -5039,16 +5039,16 @@
 						"default": 0.5,
 						"type": "number"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							2
 						],
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -5093,32 +5093,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -5201,11 +5201,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -5213,11 +5213,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -5418,16 +5418,16 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							9,
 							19
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -5493,11 +5493,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -5517,32 +5517,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -5625,11 +5625,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -5637,11 +5637,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -5849,16 +5849,16 @@
 						"default": 16,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							8,
 							17
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -5878,7 +5878,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.05,
+						"default": 0.1,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -5924,11 +5924,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -5948,32 +5948,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -6060,11 +6060,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -6072,11 +6072,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -6256,16 +6256,16 @@
 						"default": 25,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							0,
 							0
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -6306,11 +6306,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -6334,38 +6334,38 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
 						"description": "Accuracy-cone multiplier applied by weapons during sustained automatic fire."
 					},
-					"secondary_trained_cooldown":
+					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -6446,11 +6446,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -6458,11 +6458,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -6591,7 +6591,7 @@
 						"default": 1,
 						"type": "number"
 					},
-					"laser_accuracy":
+					"laser_accuracy": 
 					{
 						"default": 3,
 						"title": "Laser accuracy multiplier",
@@ -6599,7 +6599,7 @@
 						"type": "number",
 						"minimum": 0.1
 					},
-					"laser_cooldown":
+					"laser_cooldown": 
 					{
 						"default": 1.5,
 						"title": "Laser cooldown multiplier",
@@ -6607,7 +6607,7 @@
 						"type": "number",
 						"minimum": 0.1
 					},
-					"laser_size":
+					"laser_size": 
 					{
 						"default": 0.5,
 						"title": "Laser sprite size multiplier",
@@ -6682,16 +6682,16 @@
 						"default": 66,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							3,
 							6
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -6724,7 +6724,7 @@
 						"default": 3,
 						"type": "integer"
 					},
-					"secondary_cooldown":
+					"secondary_cooldown": 
 					{
 						"default": 0.5,
 						"type": "number"
@@ -6747,11 +6747,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -6767,36 +6767,36 @@
 					{
 						"type": "number"
 					},
-					"tertiary_cooldown":
+					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -6883,11 +6883,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -6895,11 +6895,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -6907,7 +6907,7 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"primary_kickback":
+					"primary_kickback": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -7030,9 +7030,9 @@
 						"default": 4,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -7045,34 +7045,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -7081,7 +7081,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.09,
+						"default": 0.075,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -7089,16 +7089,16 @@
 						"default": 17,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							5,
 							30
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -7108,7 +7108,7 @@
 					},
 					"primary_dropammo": 
 					{
-						"default": 30,
+						"default": 25,
 						"type": "integer"
 					},
 					"primary_maxammo": 
@@ -7118,7 +7118,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.09,
+						"default": 0.075,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -7154,11 +7154,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -7182,32 +7182,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -7294,11 +7294,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -7306,11 +7306,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -7429,7 +7429,7 @@
 					},
 					"max_clip": 
 					{
-						"default": 30,
+						"default": 50,
 						"type": "integer"
 					},
 					"position": 
@@ -7437,9 +7437,9 @@
 						"default": 5,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -7452,60 +7452,60 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							}
 						}
 					},
-					"primary_cooldown":
+					"primary_cooldown": 
 					{
-						"default": 0.09,
+						"default": 0.075,
 						"type": "number"
 					},
-					"primary_damage":
+					"primary_damage": 
 					{
 						"default": 17,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							9,
 							30
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -7513,7 +7513,7 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"primary_dropammo":
+					"primary_dropammo": 
 					{
 						"default": 30,
 						"type": "integer"
@@ -7525,7 +7525,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.09,
+						"default": 0.075,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -7553,16 +7553,16 @@
 						"default": 110,
 						"type": "number"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							0,
 							1
 						],
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -7609,32 +7609,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -7713,11 +7713,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -7725,11 +7725,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -7913,16 +7913,16 @@
 						"default": 16,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							6,
 							20
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -7930,12 +7930,12 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"primary_dropammo":
+					"primary_dropammo": 
 					{
 						"default": 20,
 						"type": "integer"
 					},
-					"primary_maxammo":
+					"primary_maxammo": 
 					{
 						"default": 120,
 						"type": "integer"
@@ -7978,11 +7978,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -8006,32 +8006,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -8118,11 +8118,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -8130,11 +8130,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -8318,16 +8318,16 @@
 						"default": 17,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							6,
 							20
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -8383,11 +8383,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -8411,32 +8411,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -8523,11 +8523,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -8535,11 +8535,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -8666,9 +8666,9 @@
 						"default": 8,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -8681,60 +8681,60 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							}
 						}
 					},
-					"primary_cooldown":
+					"primary_cooldown": 
 					{
-						"default": 0.105,
+						"default": 0.085,
 						"type": "number"
 					},
-					"primary_damage":
+					"primary_damage": 
 					{
 						"default": 22,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							9,
 							30
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -8742,7 +8742,7 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"primary_dropammo":
+					"primary_dropammo": 
 					{
 						"default": 30,
 						"type": "integer"
@@ -8754,7 +8754,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.105,
+						"default": 0.085,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -8790,11 +8790,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -8818,32 +8818,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -8930,11 +8930,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -8942,11 +8942,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -9073,9 +9073,9 @@
 						"default": 9,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -9088,34 +9088,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -9124,7 +9124,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.105,
+						"default": 0.085,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -9132,16 +9132,16 @@
 						"default": 22,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							9,
 							30
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -9149,19 +9149,19 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"primary_dropammo":
+					"primary_dropammo": 
 					{
 						"default": 30,
 						"type": "integer"
 					},
-					"primary_maxammo":
+					"primary_maxammo": 
 					{
 						"default": 150,
 						"type": "integer"
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.105,
+						"default": 0.085,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -9197,11 +9197,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -9225,32 +9225,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -9337,11 +9337,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -9349,11 +9349,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -9465,7 +9465,7 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"default": 2.5,
 						"type": "number",
@@ -9487,9 +9487,9 @@
 						"default": 10,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -9502,34 +9502,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -9538,7 +9538,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.142,
+						"default": 0.09,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -9546,16 +9546,16 @@
 						"default": 23,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							15,
 							30
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -9575,7 +9575,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.142,
+						"default": 0.09,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -9598,16 +9598,16 @@
 						"default": 110,
 						"type": "number"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							0,
 							1
 						],
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -9647,25 +9647,25 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
@@ -9753,11 +9753,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -9765,11 +9765,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -9881,7 +9881,7 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"default": 2.5,
 						"type": "number",
@@ -9903,9 +9903,9 @@
 						"default": 11,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -9918,34 +9918,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -9954,7 +9954,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.11,
+						"default": 0.09,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -9962,16 +9962,16 @@
 						"default": 24,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							9,
 							20
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -9991,7 +9991,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.11,
+						"default": 0.09,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -10014,16 +10014,16 @@
 						"default": 110,
 						"type": "number"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							0,
 							1
 						],
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -10063,25 +10063,25 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
@@ -10169,11 +10169,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -10181,11 +10181,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -10312,9 +10312,9 @@
 						"default": 5,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.01,
 							"crouch_trained": 0.01,
@@ -10327,34 +10327,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -10371,16 +10371,16 @@
 						"default": 120,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							5,
 							5
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -10421,11 +10421,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -10449,32 +10449,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -10561,11 +10561,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -10573,11 +10573,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -10726,16 +10726,16 @@
 						"default": 16,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							2,
 							8
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -10753,9 +10753,9 @@
 						"default": 30,
 						"type": "integer"
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
-						"default":
+						"default": 
 						[
 							0.08716,
 							0.04362,
@@ -10763,7 +10763,7 @@
 						],
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -10776,9 +10776,9 @@
 						"default": 0.85,
 						"type": "number"
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
-						"default":
+						"default": 
 						[
 							0.17365,
 							0.04362,
@@ -10786,7 +10786,7 @@
 						],
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -10812,11 +10812,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -10840,32 +10840,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -11133,16 +11133,16 @@
 						"default": 13,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							6
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -11160,9 +11160,9 @@
 						"default": 30,
 						"type": "integer"
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
-						"default":
+						"default": 
 						[
 							0.08716,
 							0.04362,
@@ -11170,7 +11170,7 @@
 						],
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -11188,16 +11188,16 @@
 						"default": 0.3,
 						"type": "number"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							2
 						],
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -11237,32 +11237,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -11389,11 +11389,11 @@
 							}
 						}
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -11553,9 +11553,9 @@
 						"default": 4,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -11568,34 +11568,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -11604,7 +11604,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.099,
+						"default": 0.07,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -11612,16 +11612,16 @@
 						"default": 22,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							19,
 							100
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -11641,7 +11641,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.099,
+						"default": 0.07,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -11659,7 +11659,7 @@
 						"default": "bts_rc/weapons/saw_reload.wav",
 						"type": "string"
 					},
-					"reload_time":
+					"reload_time": 
 					{
 						"default": 3.78,
 						"type": "number"
@@ -11682,11 +11682,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -11702,40 +11702,40 @@
 					{
 						"type": "number"
 					},
-					"secondary_cooldown":
+					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
-					"tertiary_cooldown":
+					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -11822,11 +11822,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -11834,11 +11834,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -11961,9 +11961,9 @@
 						"default": 5,
 						"type": "integer"
 					},
-					"primary_accuracy":
+					"primary_accuracy": 
 					{
-						"default":
+						"default": 
 						{
 							"crouch": 0.05,
 							"crouch_trained": 0.01,
@@ -11976,34 +11976,34 @@
 						"unevaluatedProperties": false,
 						"title": "Weapon aim accuracy",
 						"description": "weapon accuracy modifiers.",
-						"properties":
+						"properties": 
 						{
-							"stand":
+							"stand": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"stand_trained":
+							"stand_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch":
+							"crouch": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"crouch_trained":
+							"crouch_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run":
+							"run": 
 							{
 								"type": "number",
 								"minimum": 0.001
 							},
-							"run_trained":
+							"run_trained": 
 							{
 								"type": "number",
 								"minimum": 0.001
@@ -12012,7 +12012,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.099,
+						"default": 0.07,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -12020,16 +12020,16 @@
 						"default": 23,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							19,
 							100
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -12049,7 +12049,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.099,
+						"default": 0.07,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -12067,7 +12067,7 @@
 						"default": "bts_rc/weapons/saw_reload.wav",
 						"type": "string"
 					},
-					"reload_time":
+					"reload_time": 
 					{
 						"default": 3.78,
 						"type": "number"
@@ -12090,11 +12090,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -12118,32 +12118,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -12230,11 +12230,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -12242,11 +12242,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -12379,16 +12379,16 @@
 						"default": 130,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							0,
 							3
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -12439,11 +12439,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -12467,32 +12467,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -12619,11 +12619,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -12631,11 +12631,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -12776,16 +12776,16 @@
 						"default": 48,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							5,
 							5
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -12826,11 +12826,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -12854,32 +12854,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -13006,11 +13006,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -13018,11 +13018,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -13166,16 +13166,16 @@
 						"default": 130,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							1
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -13183,7 +13183,7 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"primary_distance":
+					"primary_distance": 
 					{
 						"default": 500,
 						"type": "number"
@@ -13198,17 +13198,17 @@
 						"default": 10,
 						"type": "integer"
 					},
-					"secondary_cooldown":
+					"secondary_cooldown": 
 					{
 						"default": 0.8,
 						"type": "number"
 					},
-					"secondary_damage":
+					"secondary_damage": 
 					{
 						"default": 130,
 						"type": "number"
 					},
-					"secondary_distance":
+					"secondary_distance": 
 					{
 						"default": 250,
 						"type": "number"
@@ -13231,11 +13231,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -13251,50 +13251,50 @@
 					{
 						"type": "number"
 					},
-					"tertiary_cooldown":
+					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
 						"description": "Accuracy-cone multiplier applied by weapons during sustained automatic fire."
 					},
-					"primary_trained_cooldown":
+					"primary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"secondary_trained_cooldown":
+					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"tertiary_trained_cooldown":
+					"tertiary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -13403,11 +13403,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -13415,11 +13415,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -13568,16 +13568,16 @@
 						"default": 18,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							40,
 							40
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -13618,11 +13618,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -13646,32 +13646,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -13798,11 +13798,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -13810,11 +13810,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -13958,16 +13958,16 @@
 						"default": 1,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							1,
 							1
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -13975,7 +13975,7 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"primary_distance":
+					"primary_distance": 
 					{
 						"default": 750,
 						"type": "number"
@@ -13990,17 +13990,17 @@
 						"default": 5,
 						"type": "integer"
 					},
-					"secondary_cooldown":
+					"secondary_cooldown": 
 					{
 						"default": 1,
 						"type": "number"
 					},
-					"secondary_damage":
+					"secondary_damage": 
 					{
 						"default": 1,
 						"type": "number"
 					},
-					"secondary_distance":
+					"secondary_distance": 
 					{
 						"default": 375,
 						"type": "number"
@@ -14023,11 +14023,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -14043,50 +14043,50 @@
 					{
 						"type": "number"
 					},
-					"tertiary_cooldown":
+					"tertiary_cooldown": 
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
 						"description": "Accuracy-cone multiplier applied by weapons during sustained automatic fire."
 					},
-					"primary_trained_cooldown":
+					"primary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"secondary_trained_cooldown":
+					"secondary_trained_cooldown": 
 					{
 						"type": "number"
 					},
-					"tertiary_trained_cooldown":
+					"tertiary_trained_cooldown": 
 					{
 						"type": "number"
 					},
@@ -14195,11 +14195,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -14207,11 +14207,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -14355,16 +14355,16 @@
 						"default": 35,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							3,
 							3
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -14410,11 +14410,11 @@
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -14442,32 +14442,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -14598,11 +14598,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -14610,11 +14610,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -14790,11 +14790,11 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -14802,11 +14802,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -14826,32 +14826,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -14990,11 +14990,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -15002,11 +15002,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -15135,21 +15135,21 @@
 						"default": 0.5,
 						"type": "number"
 					},
-					"flashlight_ammount":
+					"flashlight_ammount": 
 					{
 						"default": 100,
 						"type": "integer",
 						"minimum": 10,
 						"description": "Quantity of ammo carry for flashlight battery clip"
 					},
-					"flashlight_drain":
+					"flashlight_drain": 
 					{
 						"default": 0.8,
 						"type": "number",
 						"minimum": 0.1,
 						"description": "flashlight drain time"
 					},
-					"flashlight_reload":
+					"flashlight_reload": 
 					{
 						"default": 2.5,
 						"type": "number",
@@ -15171,16 +15171,16 @@
 						"default": 7,
 						"type": "number"
 					},
-					"primary_default_ammo":
+					"primary_default_ammo": 
 					{
-						"default":
+						"default": 
 						[
 							0,
 							2
 						],
 						"type": "array",
 						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -15193,12 +15193,12 @@
 						"default": 32,
 						"type": "number"
 					},
-					"primary_dropammo":
+					"primary_dropammo": 
 					{
 						"default": 1,
 						"type": "integer"
 					},
-					"primary_maxammo":
+					"primary_maxammo": 
 					{
 						"default": 10,
 						"type": "integer"
@@ -15223,19 +15223,19 @@
 						"default": 4,
 						"type": "integer"
 					},
-					"secondary_maxammo":
+					"secondary_maxammo": 
 					{
 						"type": "integer"
 					},
-					"secondary_dropammo":
+					"secondary_dropammo": 
 					{
 						"type": "integer"
 					},
-					"secondary_default_ammo":
+					"secondary_default_ammo": 
 					{
 						"type": "array",
 						"description": "Minimum and maximum secondary ammo supplied when the weapon is picked up.",
-						"items":
+						"items": 
 						{
 							"type": "integer",
 							"minimum": 0
@@ -15255,32 +15255,32 @@
 					{
 						"type": "number"
 					},
-					"primary_rate_of_fire":
+					"primary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Primary attacks per minute. When set, this replaces the primary cooldown."
 					},
-					"secondary_rate_of_fire":
+					"secondary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Secondary attacks per minute. When set, this replaces the secondary cooldown."
 					},
-					"tertiary_rate_of_fire":
+					"tertiary_rate_of_fire": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"description": "Tertiary attacks per minute. When set, this replaces the tertiary cooldown."
 					},
-					"iron_sight_accuracy":
+					"iron_sight_accuracy": 
 					{
 						"type": "number",
 						"exclusiveMinimum": 0,
 						"maximum": 1,
 						"description": "Accuracy-cone multiplier while the iron-sight key is held."
 					},
-					"automatic_accuracy_multiplier":
+					"automatic_accuracy_multiplier": 
 					{
 						"type": "number",
 						"minimum": 1,
@@ -15407,11 +15407,11 @@
 							}
 						}
 					},
-					"primary_spread":
+					"primary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -15419,11 +15419,11 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"secondary_spread":
+					"secondary_spread": 
 					{
 						"type": "array",
 						"description": "Explicit X/Y/Z spread vector for the secondary attack.",
-						"items":
+						"items": 
 						{
 							"type": "number",
 							"minimum": 0
@@ -15579,19 +15579,22 @@
 						"description": "Force of push if melee_weapons_push is true",
 						"default": 200
 					},
-					"melee_weapons_push_monsters":
+					"melee_weapons_push_monsters": 
 					{
 						"type": "array",
 						"description": "Monster classnames that receive the airborne melee launch behavior.",
-						"items":
+						"items": 
 						{
 							"type": "string",
 							"minLength": 1
 						},
 						"uniqueItems": true,
-						"default":
+						"default": 
 						[
-							"monster_headcrab"
+							"monster_headcrab",
+							"monster_snapbug",
+							"monster_babycrab",
+							"monster_parasite"
 						]
 					},
 					"blood_splash": 
@@ -15619,7 +15622,7 @@
 						"description": "Quantity of ammo carry for flashlight weapons",
 						"default": 10
 					},
-					"item_tracking":
+					"item_tracking": 
 					{
 						"type": "boolean",
 						"description": "Track important inventory items and expose the inventory status display.",
@@ -15692,7 +15695,7 @@
 						},
 						"default": 
 						{
-							"BeretaFlashlight": 
+							"Security1": 
 							{
 								"description": "M9 Beretta, Flashlight",
 								"entities": 
@@ -15700,19 +15703,1021 @@
 									
 									{
 										"classname": "item_inventory",
-										"targetname": "keycard_level_2"
-									},
-									
-									{
-										"classname": "item_inventory",
-										"targetname": "security_helmet"
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
 									}
 								],
 								"items": 
 								[
 									"weapon_bts_beretta",
+									"ammo_9mmclip",
 									"item_bts_armorvest",
+									"item_bts_helmet",
 									"weapon_bts_flashlight"
+								]
+							},
+							"Security2": 
+							{
+								"description": "Desert Eagle, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_eagle",
+									"ammo_357",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security3": 
+							{
+								"description": "Glock 17, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_glock",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security4": 
+							{
+								"description": "Glock 17F, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_glock17f",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security5": 
+							{
+								"description": "Smith & Wesson 637, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security6": 
+							{
+								"description": "Mossberg 500, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_sbshotgun",
+									"ammo_buckshot",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Research1": 
+							{
+								"description": "Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research2": 
+							{
+								"description": "Broom, Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_broom",
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research3": 
+							{
+								"description": "Screwdriver, Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_screwdriver",
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research4": 
+							{
+								"description": "Crowbar, Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research5": 
+							{
+								"description": "Pipe, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_pipe",
+									"weapon_medkit"
+								]
+							},
+							"Research6": 
+							{
+								"description": "Crowbar, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_medkit"
+								]
+							},
+							"Maintenance1": 
+							{
+								"description": "Crowbar, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
+										"display_name": "Engineers Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX_SPECIAL",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "1",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "10"
+									}
+								],
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_bts_flashlight",
+									"item_bts_helmet"
+								]
+							},
+							"Maintenance2": 
+							{
+								"description": "Spanner, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
+										"display_name": "Engineers Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX_SPECIAL",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "1",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "10"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_spanner",
+									"weapon_bts_flashlight",
+									"item_bts_helmet"
+								]
+							},
+							"Maintenance3": 
+							{
+								"description": "Pipewrench, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
+										"display_name": "Engineers Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX_SPECIAL",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "1",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "10"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_pipewrench",
+									"weapon_bts_flashlight",
+									"item_bts_helmet"
+								]
+							},
+							"Maintenance4": 
+							{
+								"description": "Pipe, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
+										"display_name": "Engineers Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX_SPECIAL",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "1",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "10"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_pipe",
+									"weapon_bts_flashlight",
+									"item_bts_helmet"
+								]
+							},
+							"Maintenance5": 
+							{
+								"description": "Screwdriver, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
+										"display_name": "Engineers Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX_SPECIAL",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "1",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "10"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_screwdriver",
+									"weapon_bts_flashlight",
+									"item_bts_helmet"
+								]
+							},
+							"Maintenance6": 
+							{
+								"description": "Axe",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
+										"display_name": "Engineers Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX_SPECIAL",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "1",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "10"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_axe",
+									"item_bts_helmet"
+								]
+							},
+							"Operative1": 
+							{
+								"description": "the survival kit",
+								"items": 
+								[
+									"weapon_bts_screwdriver",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative2": 
+							{
+								"description": "the bare minimum",
+								"items": 
+								[
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative3": 
+							{
+								"description": "something decent",
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative4": 
+							{
+								"description": "pipe fitting tools",
+								"items": 
+								[
+									"weapon_bts_pipe",
+									"weapon_bts_spanner",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative5": 
+							{
+								"description": "off-duty maintenance",
+								"items": 
+								[
+									"weapon_bts_pipewrench",
+									"weapon_bts_screwdriver",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative6": 
+							{
+								"description": "off-duty security",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_knife",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative7": 
+							{
+								"description": "Lucky-12",
+								"items": 
+								[
+									"weapon_bts_shotgun",
+									"ammo_buckshot",
+									"ammo_buckshot",
+									"weapon_bts_spanner"
+								]
+							},
+							"Operative8": 
+							{
+								"description": "Nomad",
+								"items": 
+								[
+									"ammo_buckshot",
+									"ammo_buckshot",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_556clip",
+									"ammo_556clip",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_357",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative9": 
+							{
+								"description": "Personnel Firearm",
+								"items": 
+								[
+									"weapon_bts_glock18",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative10": 
+							{
+								"description": "Nyctophobia",
+								"items": 
+								[
+									"weapon_bts_glock17f",
+									"weapon_bts_sbshotgun",
+									"weapon_bts_flare",
+									"weapon_bts_flare",
+									"weapon_bts_flare",
+									"ammo_buckshot",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative11": 
+							{
+								"description": "Level V Security",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_eagle",
+									"weapon_bts_mp5",
+									"ammo_357",
+									"ammo_357",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip"
+								]
+							},
+							"Operative12": 
+							{
+								"description": "Old Times",
+								"items": 
+								[
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative13": 
+							{
+								"description": "Snookered",
+								"items": 
+								[
+									"weapon_bts_poolstick",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative14": 
+							{
+								"description": "Apprentice Engineer",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "This Toolbox can be used for Orange Repair Markers (30 SLOTS)",
+										"display_name": "Maintenance Toolbox",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "TOOLBOX",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "GM_TOOLBOX",
+										"model": "models/bts_rc/items/tool_box.mdl",
+										"return_timelimit": "999",
+										"skin": "0",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "30"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_pipewrench",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative15": 
+							{
+								"description": "Questionable Ethics",
+								"items": 
+								[
+									"weapon_bts_crossbow",
+									"ammo_crossbow",
+									"ammo_crossbow",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative16": 
+							{
+								"description": "Piece please",
+								"items": 
+								[
+									"weapon_bts_beretta",
+									"weapon_bts_glock",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"weapon_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637"
+								]
+							},
+							"Operative17": 
+							{
+								"description": "First Aider",
+								"items": 
+								[
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Operative18": 
+							{
+								"description": "Construction Worker",
+								"items": 
+								[
+									"weapon_bts_sledgehammer"
+								]
+							},
+							"Operative19": 
+							{
+								"description": "Department of sanitation",
+								"items": 
+								[
+									"weapon_bts_flamethrower",
+									"ammo_bts_flamethrower",
+									"ammo_bts_flamethrower",
+									"ammo_bts_flamethrower",
+									"ammo_bts_flamethrower"
+								]
+							},
+							"Operative20": 
+							{
+								"description": "Terminal Operator",
+								"items": 
+								[
+									"weapon_bts_uzi",
+									"ammo_9mmclip",
+									"weapon_screwdriver"
+								]
+							},
+							"Operative21": 
+							{
+								"description": "Signal",
+								"items": 
+								[
+									"weapon_bts_flaregun",
+									"weapon_bts_flare",
+									"weapon_bts_flare",
+									"weapon_bts_flare",
+									"ammo_bts_flaregun",
+									"ammo_bts_flaregun",
+									"ammo_bts_flaregun",
+									"ammo_bts_flaregun",
+									"weapon_crowbar"
+								]
+							},
+							"Operative22": 
+							{
+								"description": "Janitor",
+								"items": 
+								[
+									"weapon_bts_broom"
+								]
+							},
+							"Operative23": 
+							{
+								"description": "High Security Contractor",
+								"items": 
+								[
+									"weapon_bts_m4",
+									"item_bts_vest",
+									"ammo_556clip",
+									"ammo_556clip"
+								]
+							},
+							"Operative24": 
+							{
+								"description": "Locksmith",
+								"items": 
+								[
+									"weapon_bts_flashlight",
+									"weapon_bts_handgrenade",
+									"weapon_bts_handgrenade"
+								]
+							},
+							"Operative25": 
+							{
+								"description": "A-106",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Dormatories keycard for room A-106",
+										"display_name": "A-106",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_name": "DORMS_CARD_106",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "11",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_ITEM_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative26": 
+							{
+								"description": "Coddled",
+								"items": 
+								[
+									"weapon_bts_crowbar",
+									"item_bts_helmet",
+									"item_bts_helmet",
+									"item_bts_vest",
+									"item_bts_vest"
 								]
 							}
 						}
@@ -15787,19 +16792,24 @@
 							{
 								"sets": 
 								[
-									"BeretaFlashlight"
+									"Security1",
+									"Security2",
+									"Security3",
+									"Security4",
+									"Security5",
+									"Security6"
 								],
 								"description": "%1 entered the simulation as security guard\nEquiped with %2",
 								"notice": 
 								[
-									0,
-									0,
+									1,
+									1,
 									255
 								],
 								"fade": 
 								[
-									100,
-									100,
+									1,
+									1,
 									255
 								],
 								"trigger": "FireThisentity",
@@ -15809,12 +16819,110 @@
 							},
 							
 							{
+								"sets": 
+								[
+									"Research1",
+									"Research2",
+									"Research3",
+									"Research4",
+									"Research5",
+									"Research6"
+								],
+								"description": "%1 entered the simulation as science team member\nEquiped with %2",
+								"notice": 
+								[
+									1,
+									255,
+									1
+								],
+								"fade": 
+								[
+									1,
+									255,
+									1
+								],
+								"trigger": "FireThisentity",
+								"sets_enforce": 
+								[
+								]
 							},
 							
 							{
+								"sets": 
+								[
+									"Maintenance1",
+									"Maintenance2",
+									"Maintenance3",
+									"Maintenance4",
+									"Maintenance5",
+									"Maintenance6"
+								],
+								"description": "%1 entered the simulation as maintenance engineer\nEquiped with %2",
+								"notice": 
+								[
+									255,
+									255,
+									1
+								],
+								"fade": 
+								[
+									255,
+									255,
+									1
+								],
+								"trigger": "FireThisentity",
+								"sets_enforce": 
+								[
+								]
 							},
 							
 							{
+								"sets": 
+								[
+									"Operative1",
+									"Operative2",
+									"Operative3",
+									"Operative4",
+									"Operative5",
+									"Operative6",
+									"Operative7",
+									"Operative8",
+									"Operative9",
+									"Operative10",
+									"Operative11",
+									"Operative12",
+									"Operative13",
+									"Operative14",
+									"Operative15",
+									"Operative16",
+									"Operative17",
+									"Operative18",
+									"Operative19",
+									"Operative20",
+									"Operative21",
+									"Operative22",
+									"Operative23",
+									"Operative24",
+									"Operative25",
+									"Operative26"
+								],
+								"description": "%1 entered the simulation as an Operative\nLoadout %2",
+								"notice": 
+								[
+									255,
+									1,
+									1
+								],
+								"fade": 
+								[
+									255,
+									1,
+									1
+								],
+								"trigger": "FireThisentity",
+								"sets_enforce": 
+								[
+								]
 							},
 							
 							{
@@ -16107,19 +17215,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_bts_sbshotgun",
-							"ammo_bts_sw637",
-							"bts_battery"
-						]
+						}
 					},
 					"zworker": 
 					{
@@ -16127,19 +17223,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"",
-							"ammo_bts_flarebox",
-							"ammo_bts_glock",
-							"bts_battery",
-							"item_bts_sprayaid",
-							"weapon_bts_flare"
-						]
+						}
 					},
 					"zmedic": 
 					{
@@ -16147,20 +17231,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_healthkit",
-							"grenade",
-							"item_bts_sprayaid",
-							"item_bts_sprayaid"
-						]
+						}
 					},
 					"ztorch": 
 					{
@@ -16168,17 +17239,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"grenade"
-						]
+						}
 					},
 					"zhecu": 
 					{
@@ -16186,20 +17247,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_762",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_bts_m4",
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
-							"grenade"
-						]
+						}
 					},
 					"zblop": 
 					{
@@ -16207,21 +17255,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_762",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_bts_m4",
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
-							"ammo_crossbow",
-							"grenade"
-						]
+						}
 					},
 					"gonome": 
 					{
@@ -16229,23 +17263,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
-							"ammo_crossbow",
-							"grenade",
-							"grenade",
-							"grenade",
-							"item_bts_sprayaid",
-							"item_healthkit"
-						]
+						}
 					},
 					"gonomeb": 
 					{
@@ -16253,24 +17271,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_eagle",
-							"ammo_bts_shotgun",
-							"ammo_bts_sw637",
-							"ammo_bts_sw637",
-							"ammo_bts_sw637",
-							"grenade",
-							"grenade",
-							"grenade",
-							"item_bts_sprayaid",
-							"item_healthkit"
-						]
+						}
 					},
 					"gonomew": 
 					{
@@ -16278,23 +17279,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_flarebox",
-							"ammo_bts_glock",
-							"ammo_bts_shotgun",
-							"ammo_bts_sw637",
-							"grenade",
-							"grenade",
-							"grenade",
-							"item_bts_sprayaid",
-							"item_healthkit",
-							"weapon_bts_flare"
-						]
+						}
 					},
 					"gonomeh": 
 					{
@@ -16302,26 +17287,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_762",
-							"ammo_762",
-							"ammo_bts_eagle",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_bts_glock",
-							"ammo_bts_m16_grenade",
-							"ammo_bts_m4",
-							"ammo_bts_m4",
-							"ammo_bts_shotgun",
-							"ammo_bts_shotgun",
-							"grenade",
-							"grenade"
-						]
+						}
 					},
 					"zhev": 
 					{
@@ -16329,26 +17295,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"ammo_bts_m4",
-							"ammo_bts_mp5",
-							"ammo_bts_python",
-							"ammo_bts_shotgun",
-							"ammo_bts_sw637",
-							"grenade",
-							"grenade",
-							"grenade",
-							"item_bts_hevbattery",
-							"item_bts_sprayaid"
-						]
+						}
 					},
 					"zcleansuit": 
 					{
@@ -16356,16 +17303,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"",
-							"item_bts_hevbattery",
-							"item_bts_sprayaid"
-						]
+						}
 					},
 					"Marine": 
 					{
@@ -16373,20 +17311,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_m16_grenade",
-							"ammo_bts_m4",
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
-							"grenade",
-							"grenade",
-							"item_bts_sprayaid"
-						]
+						}
 					},
 					"Medic": 
 					{
@@ -16394,18 +17319,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"grenade",
-							"item_bts_sprayaid",
-							"item_healthkit"
-						]
+						}
 					},
 					"Torch": 
 					{
@@ -16413,16 +17327,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_eagle",
-							"ammo_bts_glock",
-							"grenade"
-						]
+						}
 					},
 					"Sniper": 
 					{
@@ -16430,18 +17335,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_762",
-							"ammo_762",
-							"ammo_762",
-							"grenade",
-							"weapon_bts_sniperrifle"
-						]
+						}
 					},
 					"Blackops": 
 					{
@@ -16449,18 +17343,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_m4",
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun",
-							"ammo_crossbow",
-							"grenade"
-						]
+						}
 					},
 					"Fassn": 
 					{
@@ -16468,18 +17351,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_uzi",
-							"ammo_bts_uzi",
-							"ammo_bts_uzi",
-							"ammo_crossbow",
-							"grenade"
-						]
+						}
 					},
 					"robot": 
 					{
@@ -16487,16 +17359,7 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							"",
-							"",
-							"",
-							"ammo_bts_m4",
-							"ammo_bts_mp5",
-							"ammo_bts_shotgun"
-						]
+						}
 					},
 					"friendly": 
 					{
@@ -16504,16 +17367,12 @@
 						"items": 
 						{
 							"type": "string"
-						},
-						"default": 
-						[
-							""
-						]
+						}
 					},
 					"active": 
 					{
-						"default": true,
 						"type": "boolean",
+						"default": true,
 						"description": "Should this context be active?"
 					}
 				}
@@ -16568,7 +17427,7 @@
 						"maximum": 255,
 						"type": "integer",
 						"description": "Alpha color of effects",
-						"default": 150
+						"default": 80
 					},
 					"active": 
 					{
@@ -16835,38 +17694,38 @@
 				"unevaluatedProperties": false,
 				"title": "Characters",
 				"description": "Control player characters and their voice profiles.",
-				"properties":
+				"properties": 
 				{
-					"voice_profiles":
+					"voice_profiles": 
 					{
 						"type": "object",
 						"description": "Named voice profiles referenced by playable characters.",
-						"additionalProperties":
+						"additionalProperties": 
 						{
 							"type": "object",
 							"unevaluatedProperties": false,
-							"properties":
+							"properties": 
 							{
-								"takedamage":
+								"takedamage": 
 								{
 									"type": "object",
 									"unevaluatedProperties": false,
-									"properties":
+									"properties": 
 									{
-										"sounds":
+										"sounds": 
 										{
 											"type": "array",
-											"items":
+											"items": 
 											{
 												"type": "string"
 											}
 										},
-										"cooldown":
+										"cooldown": 
 										{
 											"type": "number",
 											"minimum": 0
 										},
-										"pitch":
+										"pitch": 
 										{
 											"type": "number",
 											"minimum": 1,
@@ -16874,26 +17733,26 @@
 										}
 									}
 								},
-								"killed":
+								"killed": 
 								{
 									"type": "object",
 									"unevaluatedProperties": false,
-									"properties":
+									"properties": 
 									{
-										"sounds":
+										"sounds": 
 										{
 											"type": "array",
-											"items":
+											"items": 
 											{
 												"type": "string"
 											}
 										},
-										"cooldown":
+										"cooldown": 
 										{
 											"type": "number",
 											"minimum": 0
 										},
-										"pitch":
+										"pitch": 
 										{
 											"type": "number",
 											"minimum": 1,
@@ -16903,37 +17762,37 @@
 								}
 							}
 						},
-						"default":
+						"default": 
 						{
-							"barney":
+							"barney": 
 							{
-								"killed":
+								"killed": 
 								{
-									"sounds":
+									"sounds": 
 									[
 										"barney/ba_die1.wav",
 										"barney/ba_die2.wav",
 										"barney/ba_die3.wav"
 									]
 								},
-								"takedamage":
+								"takedamage": 
 								{
 									"cooldown": 1,
-									"sounds":
+									"sounds": 
 									[
 										"barney/ba_pain1.wav",
 										"barney/ba_pain2.wav",
 										"barney/ba_pain3.wav",
-										"barney/aghh.wav",
+										"barney/ba_die1.wav",
 										"barney/ba_die3.wav"
 									]
 								}
 							},
-							"cleansuit":
+							"cleansuit": 
 							{
-								"killed":
+								"killed": 
 								{
-									"sounds":
+									"sounds": 
 									[
 										"bts_rc/player/cleansuit/cl_death1.wav",
 										"bts_rc/player/cleansuit/cl_death2.wav",
@@ -16941,10 +17800,10 @@
 										"bts_rc/player/cleansuit/cl_death4.wav"
 									]
 								},
-								"takedamage":
+								"takedamage": 
 								{
 									"cooldown": 1,
-									"sounds":
+									"sounds": 
 									[
 										"bts_rc/player/cleansuit/cl_pain1.wav",
 										"bts_rc/player/cleansuit/cl_pain2.wav",
@@ -16954,11 +17813,11 @@
 									]
 								}
 							},
-							"construction":
+							"construction": 
 							{
-								"killed":
+								"killed": 
 								{
-									"sounds":
+									"sounds": 
 									[
 										"bts_rc/player/construction/co_die1.wav",
 										"bts_rc/player/construction/co_die2.wav",
@@ -16966,10 +17825,10 @@
 										"bts_rc/player/construction/co_die4.wav"
 									]
 								},
-								"takedamage":
+								"takedamage": 
 								{
 									"cooldown": 1,
-									"sounds":
+									"sounds": 
 									[
 										"bts_rc/player/construction/co_pain1.wav",
 										"bts_rc/player/construction/co_pain2.wav",
@@ -16978,11 +17837,11 @@
 									]
 								}
 							},
-							"helmet":
+							"helmet": 
 							{
-								"killed":
+								"killed": 
 								{
-									"sounds":
+									"sounds": 
 									[
 										"bts_rc/player/helmet/hm_death1.wav",
 										"bts_rc/player/helmet/hm_death2.wav",
@@ -16990,10 +17849,10 @@
 										"bts_rc/player/helmet/hm_death4.wav"
 									]
 								},
-								"takedamage":
+								"takedamage": 
 								{
 									"cooldown": 1,
-									"sounds":
+									"sounds": 
 									[
 										"bts_rc/player/helmet/hm_pain1.wav",
 										"bts_rc/player/helmet/hm_pain2.wav",
@@ -17003,11 +17862,11 @@
 									]
 								}
 							},
-							"scientist":
+							"scientist": 
 							{
-								"killed":
+								"killed": 
 								{
-									"sounds":
+									"sounds": 
 									[
 										"scientist/sci_die1.wav",
 										"scientist/sci_die2.wav",
@@ -17016,10 +17875,10 @@
 										"scientist/scream23.wav"
 									]
 								},
-								"takedamage":
+								"takedamage": 
 								{
 									"cooldown": 1,
-									"sounds":
+									"sounds": 
 									[
 										"scientist/sci_pain1.wav",
 										"scientist/sci_pain2.wav",
@@ -17038,233 +17897,233 @@
 							}
 						}
 					},
-					"models":
+					"models": 
 					{
 						"type": "object",
 						"description": "Playable character models.",
-						"additionalProperties":
+						"additionalProperties": 
 						{
 							"type": "object",
 							"unevaluatedProperties": false,
 							"description": "Playable character definition",
-							"properties":
+							"properties": 
 							{
-								"classify":
+								"classify": 
 								{
 									"type": "number",
 									"description": "Classification used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#playable-characters",
 									"minimum": 0,
 									"maximum": 6
 								},
-								"hands":
+								"hands": 
 								{
 									"type": "number",
 									"description": "View model hands used for the character, See: https://github.com/Mikk155/bts_rc/wiki/characters#player-view-hands",
 									"minimum": 0,
 									"maximum": 9
 								},
-								"voice":
+								"voice": 
 								{
 									"type": "string",
 									"description": "Name of a voice_profiles entry used by this character."
 								}
 							}
 						},
-						"default":
+						"default": 
 						{
-							"bts_barney":
+							"bts_barney": 
 							{
 								"classify": 0,
 								"hands": 0,
 								"voice": "barney"
 							},
-							"bts_barney2":
+							"bts_barney2": 
 							{
 								"classify": 0,
 								"hands": 0,
 								"voice": "barney"
 							},
-							"bts_barney3":
+							"bts_barney3": 
 							{
 								"classify": 0,
 								"hands": 0,
 								"voice": "barney"
 							},
-							"bts_cleansuit":
+							"bts_cleansuit": 
 							{
 								"classify": 5,
 								"hands": 5,
 								"voice": "cleansuit"
 							},
-							"bts_construction":
+							"bts_construction": 
 							{
 								"classify": 2,
 								"hands": 2,
 								"voice": "construction"
 							},
-							"bts_construction2":
+							"bts_construction2": 
 							{
 								"classify": 2,
 								"hands": 8,
 								"voice": "construction"
 							},
-							"bts_construction3":
+							"bts_construction3": 
 							{
 								"classify": 2,
 								"hands": 2,
 								"voice": "construction"
 							},
-							"bts_helmet":
+							"bts_helmet": 
 							{
 								"classify": 4,
 								"hands": 4,
 								"voice": "helmet"
 							},
-							"bts_op":
+							"bts_op": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op2":
+							"bts_op2": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op3":
+							"bts_op3": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op4":
+							"bts_op4": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op6":
+							"bts_op6": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_back":
+							"bts_op_back": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_band":
+							"bts_op_band": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_demo":
+							"bts_op_demo": 
 							{
 								"classify": 6,
 								"hands": 9,
 								"voice": "barney"
 							},
-							"bts_op_dual":
+							"bts_op_dual": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_free":
+							"bts_op_free": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_hurt":
+							"bts_op_hurt": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_medic":
+							"bts_op_medic": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_otis":
+							"bts_op_otis": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_pissed":
+							"bts_op_pissed": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_signal":
+							"bts_op_signal": 
 							{
 								"classify": 6,
 								"hands": 6,
 								"voice": "barney"
 							},
-							"bts_op_vet":
+							"bts_op_vet": 
 							{
 								"classify": 6,
 								"hands": 5,
 								"voice": "barney"
 							},
-							"bts_otis":
+							"bts_otis": 
 							{
 								"classify": 0,
 								"hands": 0,
 								"voice": "barney"
 							},
-							"bts_otis2":
+							"bts_otis2": 
 							{
 								"classify": 0,
 								"hands": 0,
 								"voice": "barney"
 							},
-							"bts_otis_blk":
+							"bts_otis_blk": 
 							{
 								"classify": 0,
 								"hands": 7,
 								"voice": "barney"
 							},
-							"bts_scientist":
+							"bts_scientist": 
 							{
 								"classify": 1,
 								"hands": 1,
 								"voice": "scientist"
 							},
-							"bts_scientist2":
+							"bts_scientist2": 
 							{
 								"classify": 1,
 								"hands": 1,
 								"voice": "scientist"
 							},
-							"bts_scientist3":
+							"bts_scientist3": 
 							{
 								"classify": 1,
 								"hands": 3,
 								"voice": "scientist"
 							},
-							"bts_scientist4":
+							"bts_scientist4": 
 							{
 								"classify": 1,
 								"hands": 1,
 								"voice": "scientist"
 							},
-							"bts_scientist5":
+							"bts_scientist5": 
 							{
 								"classify": 1,
 								"hands": 1,
 								"voice": "scientist"
 							},
-							"bts_scientist6":
+							"bts_scientist6": 
 							{
 								"classify": 1,
 								"hands": 1,
