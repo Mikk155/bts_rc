@@ -35,111 +35,27 @@ final class ASDeathDropConfig : IConfigurable
             ],
             "properties":
             {
-                "zscientist":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zsecurity":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zworker":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zmedic":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "ztorch":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zhecu":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zblop":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "gonome":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "gonomeb":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "gonomew":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "gonomeh":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zhev":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "zcleansuit":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "Marine":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "Medic":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "Torch":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "Sniper":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "Blackops":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "Fassn":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "robot":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                },
-                "friendly":
-                {
-                    "type": "array",
-                    "items": { "type": "string" }
-                }
+                "zscientist": { "type": "array", "items": { "type": "string" } },
+                "zsecurity": { "type": "array", "items": { "type": "string" } },
+                "zworker": { "type": "array", "items": { "type": "string" } },
+                "zmedic": { "type": "array", "items": { "type": "string" } },
+                "ztorch": { "type": "array", "items": { "type": "string" } },
+                "zhecu": { "type": "array", "items": { "type": "string" } },
+                "zblop": { "type": "array", "items": { "type": "string" } },
+                "gonome": { "type": "array", "items": { "type": "string" } },
+                "gonomeb": { "type": "array", "items": { "type": "string" } },
+                "gonomew": { "type": "array", "items": { "type": "string" } },
+                "gonomeh": { "type": "array", "items": { "type": "string" } },
+                "zhev": { "type": "array", "items": { "type": "string" } },
+                "zcleansuit": { "type": "array", "items": { "type": "string" } },
+                "Marine": { "type": "array", "items": { "type": "string" } },
+                "Medic": { "type": "array", "items": { "type": "string" } },
+                "Torch": { "type": "array", "items": { "type": "string" } },
+                "Sniper": { "type": "array", "items": { "type": "string" } },
+                "Blackops": { "type": "array", "items": { "type": "string" } },
+                "Fassn": { "type": "array", "items": { "type": "string" } },
+                "robot": { "type": "array", "items": { "type": "string" } },
+                "friendly": { "type": "array", "items": { "type": "string" } }
             }
         }""";
     }
