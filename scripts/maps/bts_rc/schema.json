@@ -18392,6 +18392,18 @@
 								"hands": 2,
 								"voice": "construction"
 							},
+							"bts_contruction4": 
+							{
+								"classify": 2,
+								"hands": 8,
+								"voice": "construction"
+							},
+							"bts_gus": 
+							{
+								"classify": 2,
+								"hands": 8,
+								"voice": "construction"
+							},
 							"bts_helmet": 
 							{
 								"classify": 3,
@@ -18440,6 +18452,18 @@
 								"hands": 6,
 								"voice": "barney"
 							},
+							"bts_op_blop": 
+							{
+								"classify": 5,
+								"hands": 9,
+								"voice": "soldier"
+							},
+							"bts_op_chud": 
+							{
+								"classify": 5,
+								"hands": 6,
+								"voice": "scientist"
+							},
 							"bts_op_demo": 
 							{
 								"classify": 5,
@@ -18452,11 +18476,29 @@
 								"hands": 6,
 								"voice": "barney"
 							},
+							"bts_op_fat": 
+							{
+								"classify": 5,
+								"hands": 6,
+								"voice": "barney"
+							},
 							"bts_op_free": 
 							{
 								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
+							},
+							"bts_op_gus": 
+							{
+								"classify": 5,
+								"hands": 6,
+								"voice": "construction"
+							},
+							"bts_op_hgrunt": 
+							{
+								"classify": 5,
+								"hands": 9,
+								"voice": "soldier"
 							},
 							"bts_op_hurt": 
 							{
@@ -18476,11 +18518,23 @@
 								"hands": 6,
 								"voice": "barney"
 							},
+							"bts_op_otis2": 
+							{
+								"classify": 5,
+								"hands": 6,
+								"voice": "barney"
+							},
 							"bts_op_pissed": 
 							{
 								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
+							},
+							"bts_op_sigma": 
+							{
+								"classify": 5,
+								"hands": 6,
+								"voice": "construction"
 							},
 							"bts_op_signal": 
 							{

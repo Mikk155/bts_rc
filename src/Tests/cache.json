@@ -1,11 +1,11 @@
 {
     "modified": {
         "svencoop_event_bts/docs/assets/credits.json": "2026-08-14 21:31:55",
-        "svencoop_event_bts/scripts/maps/bts_rc/util/utils.as": "2026-08-18 21:20:26",
+        "svencoop_event_bts/scripts/maps/bts_rc/util/utils.as": "2026-09-02 16:42:18",
         "svencoop_event_bts/scripts/maps/bts_rc/entities/weapons/default_config.json": "2026-07-26 18:22:23",
-        "svencoop_event_bts/src/precaches.json": "2026-08-14 21:32:00",
-        "svencoop_event_bts/TODO.md": "2026-08-18 21:20:26",
-        "svencoop_event_bts/scripts/maps/bts_rc/default_config.json": "2026-08-18 21:20:26",
+        "svencoop_event_bts/src/precaches.json": "2026-09-03 17:59:45",
+        "svencoop_event_bts/TODO.md": "2026-09-03 17:59:43",
+        "svencoop_event_bts/scripts/maps/bts_rc/default_config.json": "2026-09-03 17:59:39",
         "bts_rc2/TODO.md": "2026-08-22 18:43:44",
         "bts_rc2/src/precaches.json": "2026-08-21 16:09:37",
         "bts_rc2/docs/assets/credits.json": "2026-08-21 14:50:55",

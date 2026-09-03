@@ -23,6 +23,8 @@ void Precache()
     g_Game.PrecacheModel( "models/bshift/barney_vest.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/furniture/lambda.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/furniture/w_flashlightbattery.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/items/card.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/items/tool_box.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/items/w_antidote.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/items/w_medkits.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/monsters/snapbug.mdl" );
@@ -145,7 +147,10 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/flare_selection.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/fthrow.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
+    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_research.spr" );
+    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_research.spr" );
+    g_Game.PrecacheModel( "sprites/bts_rc/inv_card_security.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_security.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/m79_crosshair.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/muzzleflash12.spr" );
