@@ -24,18 +24,12 @@ enum Classification
 {
     // Player not currently set to any class
     Unset = -1,
-    // Security officer
-    Security,
-    // Science team
+    Security = 0,
     Scientist,
-    // Maintenance
     Maintenance,
-    // HEV suit
-    HEV = 3,
-    // Hazard suit
-    Hazard = 4,
-    // Operative security officer
-    Operative = 5,
+    HEV,
+    Hazard,
+    Operative,
     // Just a end of enum for size reference.
     __Size__
 };
