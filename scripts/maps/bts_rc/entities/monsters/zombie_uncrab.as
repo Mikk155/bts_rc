@@ -17,8 +17,6 @@
 
 /*
 *   Author: Mikk
-*   Original Code: Gaftherman
-*   Original Idea: EdgarBarney (Trinity Rendering)
 */
 
 final class ASZombieUncrabConfig : IConfigurable
