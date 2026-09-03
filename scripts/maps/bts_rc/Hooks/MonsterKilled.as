@@ -28,7 +28,7 @@ namespace Hooks
 
         if( gpDeathDrop !is null )
             gpDeathDrop.Create( monster );
-    
+
         if( gpBloodPuddle !is null )
             gpBloodPuddle.Create( monster, gib );
 
