@@ -15695,203 +15695,7 @@
 						},
 						"default": 
 						{
-							"Security1": 
-							{
-								"description": "M9 Beretta, Flashlight",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_beretta",
-									"ammo_9mmclip",
-									"item_bts_armorvest",
-									"item_bts_helmet",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Security2": 
-							{
-								"description": "Desert Eagle, Flashlight",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_eagle",
-									"ammo_357",
-									"item_bts_armorvest",
-									"item_bts_helmet",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Security3": 
-							{
-								"description": "Glock 17, Flashlight",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_glock",
-									"ammo_9mmclip",
-									"ammo_9mmclip",
-									"item_bts_armorvest",
-									"item_bts_helmet",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Security4": 
-							{
-								"description": "Glock 17F, Flashlight",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_glock17f",
-									"ammo_9mmclip",
-									"ammo_9mmclip",
-									"item_bts_armorvest",
-									"item_bts_helmet",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Security5": 
-							{
-								"description": "Smith & Wesson 637, Flashlight",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_sw637",
-									"ammo_bts_sw637",
-									"ammo_bts_sw637",
-									"ammo_bts_sw637",
-									"item_bts_armorvest",
-									"item_bts_helmet",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Security6": 
-							{
-								"description": "Mossberg 500, Flashlight",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_sbshotgun",
-									"ammo_buckshot",
-									"item_bts_armorvest",
-									"item_bts_helmet",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Research1": 
+							"Cleansuit": 
 							{
 								"description": "Flashlight, Defibrillator",
 								"entities": 
@@ -15911,6 +15715,18 @@
 										"target_cant_collect": "GAMEMODE_FULL_TXT",
 										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
 										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "Suit used for protection while going into highly toxic locations.",
+										"display_name": "Blackmesa Cleansuit",
+										"holder_can_drop": "0",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_name": "CLEAN_ID",
+										"item_group": "IMMUNE",
+										"return_timelimit": "0",
+										"weight": "1.0"
 									}
 								],
 								"items": 
@@ -15919,9 +15735,9 @@
 									"weapon_medkit"
 								]
 							},
-							"Research2": 
+							"HEV": 
 							{
-								"description": "Broom, Flashlight, Defibrillator",
+								"description": "Crowbar",
 								"entities": 
 								[
 									
@@ -15939,120 +15755,17 @@
 										"target_cant_collect": "GAMEMODE_FULL_TXT",
 										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
 										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_broom",
-									"weapon_bts_flashlight",
-									"weapon_medkit"
-								]
-							},
-							"Research3": 
-							{
-								"description": "Screwdriver, Flashlight, Defibrillator",
-								"entities": 
-								[
+									},
 									
 									{
 										"classname": "item_inventory",
-										"description": "Blackmesa Research Clearance Level 1",
-										"display_name": "Research Keycard lvl 1",
-										"holder_can_drop": "1",
+										"description": "HEV SUPPLY FOR: SUIT ARMOR",
+										"display_name": "MK 5 Hazardous Environmental Suit - Experimental",
+										"holder_can_drop": "0",
 										"holder_timelimit_wait_until_activated": "1",
-										"item_icon": "bts_rc/inv_card_research.spr",
-										"item_name": "Blackmesa_Research_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "6",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_screwdriver",
-									"weapon_bts_flashlight",
-									"weapon_medkit"
-								]
-							},
-							"Research4": 
-							{
-								"description": "Crowbar, Flashlight, Defibrillator",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Research Clearance Level 1",
-										"display_name": "Research Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_icon": "bts_rc/inv_card_research.spr",
-										"item_name": "Blackmesa_Research_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "6",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_crowbar",
-									"weapon_bts_flashlight",
-									"weapon_medkit"
-								]
-							},
-							"Research5": 
-							{
-								"description": "Pipe, Defibrillator",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Research Clearance Level 1",
-										"display_name": "Research Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_icon": "bts_rc/inv_card_research.spr",
-										"item_name": "Blackmesa_Research_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "6",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_pipe",
-									"weapon_medkit"
-								]
-							},
-							"Research6": 
-							{
-								"description": "Crowbar, Defibrillator",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Research Clearance Level 1",
-										"display_name": "Research Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_icon": "bts_rc/inv_card_research.spr",
-										"item_name": "Blackmesa_Research_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "6",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"item_name": "HEV_ITEM_ID",
+										"item_group": "IMMUNE",
+										"return_timelimit": "0",
 										"weight": "1.0"
 									}
 								],
@@ -16352,112 +16065,6 @@
 									"weapon_bts_flashlight"
 								]
 							},
-							"Operative2": 
-							{
-								"description": "the bare minimum",
-								"items": 
-								[
-									"weapon_bts_flashlight"
-								]
-							},
-							"Operative3": 
-							{
-								"description": "something decent",
-								"items": 
-								[
-									"weapon_crowbar",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Operative4": 
-							{
-								"description": "pipe fitting tools",
-								"items": 
-								[
-									"weapon_bts_pipe",
-									"weapon_bts_spanner",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Operative5": 
-							{
-								"description": "off-duty maintenance",
-								"items": 
-								[
-									"weapon_bts_pipewrench",
-									"weapon_bts_screwdriver",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Operative6": 
-							{
-								"description": "off-duty security",
-								"entities": 
-								[
-									
-									{
-										"classname": "item_inventory",
-										"description": "Blackmesa Security Clearance Level 1",
-										"display_name": "Security Keycard lvl 1",
-										"holder_can_drop": "1",
-										"holder_timelimit_wait_until_activated": "1",
-										"item_group": "security",
-										"item_icon": "bts_rc/inv_card_security.spr",
-										"item_name": "Blackmesa_Security_Clearance_1",
-										"model": "models/bts_rc/items/card.mdl",
-										"return_timelimit": "999",
-										"skin": "7",
-										"target_cant_collect": "GAMEMODE_FULL_TXT",
-										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
-										"weight": "1.0"
-									}
-								],
-								"items": 
-								[
-									"weapon_bts_knife",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Operative7": 
-							{
-								"description": "Lucky-12",
-								"items": 
-								[
-									"weapon_bts_shotgun",
-									"ammo_buckshot",
-									"ammo_buckshot",
-									"weapon_bts_spanner"
-								]
-							},
-							"Operative8": 
-							{
-								"description": "Nomad",
-								"items": 
-								[
-									"ammo_buckshot",
-									"ammo_buckshot",
-									"ammo_9mmclip",
-									"ammo_9mmclip",
-									"ammo_556clip",
-									"ammo_556clip",
-									"ammo_bts_sw637",
-									"ammo_bts_sw637",
-									"ammo_357",
-									"weapon_bts_flashlight"
-								]
-							},
-							"Operative9": 
-							{
-								"description": "Personnel Firearm",
-								"items": 
-								[
-									"weapon_bts_glock18",
-									"ammo_9mmclip",
-									"ammo_9mmclip",
-									"ammo_9mmclip",
-									"weapon_bts_flashlight"
-								]
-							},
 							"Operative10": 
 							{
 								"description": "Nyctophobia",
@@ -16627,6 +16234,14 @@
 									"ammo_bts_flamethrower"
 								]
 							},
+							"Operative2": 
+							{
+								"description": "the bare minimum",
+								"items": 
+								[
+									"weapon_bts_flashlight"
+								]
+							},
 							"Operative20": 
 							{
 								"description": "Terminal Operator",
@@ -16634,7 +16249,7 @@
 								[
 									"weapon_bts_uzi",
 									"ammo_9mmclip",
-									"weapon_screwdriver"
+									"weapon_bts_screwdriver"
 								]
 							},
 							"Operative21": 
@@ -16667,8 +16282,7 @@
 								"items": 
 								[
 									"weapon_bts_m4",
-									"item_bts_vest",
-									"ammo_556clip",
+									"item_bts_armorvest",
 									"ammo_556clip"
 								]
 							},
@@ -16713,11 +16327,739 @@
 								"description": "Coddled",
 								"items": 
 								[
-									"weapon_bts_crowbar",
+									"weapon_crowbar",
 									"item_bts_helmet",
 									"item_bts_helmet",
-									"item_bts_vest",
-									"item_bts_vest"
+									"item_bts_armorvest",
+									"item_bts_armorvest"
+								]
+							},
+							"Operative27": 
+							{
+								"description": "Hellbounded",
+								"items": 
+								[
+									"hornet",
+									"hornet",
+									"hornet",
+									"hornet",
+									"hornet",
+									"hornet",
+									"hornet",
+									"hornet"
+								]
+							},
+							"Operative28": 
+							{
+								"description": "Screwed",
+								"items": 
+								[
+									"weapon_bts_screwdriver"
+								]
+							},
+							"Operative29": 
+							{
+								"description": "Hazard Course Expert",
+								"items": 
+								[
+									"weapon_bts_mp5gl",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_argrenade"
+								]
+							},
+							"Operative3": 
+							{
+								"description": "something decent",
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative30": 
+							{
+								"description": "Mild Phonophobia",
+								"items": 
+								[
+									"weapon_bts_glocksd",
+									"ammo_9mmclip",
+									"ammo_9mmclip"
+								]
+							},
+							"Operative31": 
+							{
+								"description": "Phonophobia",
+								"items": 
+								[
+									"weapon_bts_uzisd",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip"
+								]
+							},
+							"Operative32": 
+							{
+								"description": "Severe Phonophobia",
+								"items": 
+								[
+									"weapon_bts_m4sd",
+									"ammo_556"
+								]
+							},
+							"Operative33": 
+							{
+								"description": "Extreme Phonophobia",
+								"items": 
+								[
+									"weapon_bts_sawsd",
+									"ammo_556"
+								]
+							},
+							"Operative34": 
+							{
+								"description": "Scientist Militarist",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_glock",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"weapon_bts_screwdriver",
+									"weapon_medkit"
+								]
+							},
+							"Operative35": 
+							{
+								"description": "Master Unlocker",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "Maintenance Keycard used for accessing maintenance areas",
+										"display_name": "Maintenance Keycard",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "repair",
+										"item_icon": "bts_rc/inv_card_maint.spr",
+										"item_name": "Blackmesa_Maintenance_Clearance",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "8",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D4_MAINTENANCE_TXT",
+										"weight": "1.0"
+									},
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative36": 
+							{
+								"description": "Wild West",
+								"items": 
+								[
+									"weapon_bts_python",
+									"ammo_357",
+									"ammo_357"
+								]
+							},
+							"Operative37": 
+							{
+								"description": "Shephard",
+								"items": 
+								[
+									"weapon_bts_pipewrench"
+								]
+							},
+							"Operative38": 
+							{
+								"description": "Freeman",
+								"items": 
+								[
+									"weapon_crowbar"
+								]
+							},
+							"Operative39": 
+							{
+								"description": "Calhoun",
+								"items": 
+								[
+									"weapon_bts_glock",
+									"ammo_9mmclip",
+									"weapon_crowbar"
+								]
+							},
+							"Operative4": 
+							{
+								"description": "pipe fitting tools",
+								"items": 
+								[
+									"weapon_bts_pipe",
+									"weapon_bts_spanner",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative40": 
+							{
+								"description": "British",
+								"items": 
+								[
+									"weapon_bts_knife"
+								]
+							},
+							"Operative41": 
+							{
+								"description": "Piper",
+								"items": 
+								[
+									"weapon_bts_pipe"
+								]
+							},
+							"Operative42": 
+							{
+								"description": "Shifter",
+								"items": 
+								[
+									"weapon_bts_spanner"
+								]
+							},
+							"Operative43": 
+							{
+								"description": "Fire Marshal",
+								"items": 
+								[
+									"weapon_bts_axe"
+								]
+							},
+							"Operative44": 
+							{
+								"description": "Decent",
+								"items": 
+								[
+									"weapon_bts_beretta",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip"
+								]
+							},
+							"Operative45": 
+							{
+								"description": "99% Gambers Quit",
+								"items": 
+								[
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_beretta",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"weapon_bts_sbshotgun",
+									"ammo_buckshot",
+									"ammo_buckshot",
+									"weapon_bts_spanner"
+								]
+							},
+							"Operative5": 
+							{
+								"description": "off-duty maintenance",
+								"items": 
+								[
+									"weapon_bts_pipewrench",
+									"weapon_bts_screwdriver",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative6": 
+							{
+								"description": "off-duty security",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_knife",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative7": 
+							{
+								"description": "Lucky-12",
+								"items": 
+								[
+									"weapon_bts_shotgun",
+									"ammo_buckshot",
+									"ammo_buckshot",
+									"weapon_bts_spanner"
+								]
+							},
+							"Operative8": 
+							{
+								"description": "Nomad",
+								"items": 
+								[
+									"ammo_buckshot",
+									"ammo_buckshot",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_556clip",
+									"ammo_556clip",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_357",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Operative9": 
+							{
+								"description": "Personnel Firearm",
+								"items": 
+								[
+									"weapon_bts_glock18",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Research1": 
+							{
+								"description": "Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research2": 
+							{
+								"description": "Broom, Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_broom",
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research3": 
+							{
+								"description": "Screwdriver, Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_screwdriver",
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research4": 
+							{
+								"description": "Crowbar, Flashlight, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_bts_flashlight",
+									"weapon_medkit"
+								]
+							},
+							"Research5": 
+							{
+								"description": "Pipe, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_pipe",
+									"weapon_medkit"
+								]
+							},
+							"Research6": 
+							{
+								"description": "Crowbar, Defibrillator",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Research Clearance Level 1",
+										"display_name": "Research Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_icon": "bts_rc/inv_card_research.spr",
+										"item_name": "Blackmesa_Research_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "6",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1B_RESEARCH_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_crowbar",
+									"weapon_medkit"
+								]
+							},
+							"Security1": 
+							{
+								"description": "M9 Beretta, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_beretta",
+									"ammo_9mmclip",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security2": 
+							{
+								"description": "Desert Eagle, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_eagle",
+									"ammo_357",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security3": 
+							{
+								"description": "Glock 17, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_glock",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security4": 
+							{
+								"description": "Glock 17F, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_glock17f",
+									"ammo_9mmclip",
+									"ammo_9mmclip",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security5": 
+							{
+								"description": "Smith & Wesson 637, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637",
+									"ammo_bts_sw637",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
+								]
+							},
+							"Security6": 
+							{
+								"description": "Mossberg 500, Flashlight",
+								"entities": 
+								[
+									
+									{
+										"classname": "item_inventory",
+										"description": "Blackmesa Security Clearance Level 1",
+										"display_name": "Security Keycard lvl 1",
+										"holder_can_drop": "1",
+										"holder_timelimit_wait_until_activated": "1",
+										"item_group": "security",
+										"item_icon": "bts_rc/inv_card_security.spr",
+										"item_name": "Blackmesa_Security_Clearance_1",
+										"model": "models/bts_rc/items/card.mdl",
+										"return_timelimit": "999",
+										"skin": "7",
+										"target_cant_collect": "GAMEMODE_FULL_TXT",
+										"target_on_collect": "GAMEMODE_D1_SECURITY_TXT",
+										"weight": "1.0"
+									}
+								],
+								"items": 
+								[
+									"weapon_bts_sbshotgun",
+									"ammo_buckshot",
+									"item_bts_armorvest",
+									"item_bts_helmet",
+									"weapon_bts_flashlight"
 								]
 							}
 						}
@@ -16879,6 +17221,54 @@
 							{
 								"sets": 
 								[
+									"HEV"
+								],
+								"description": "%1 entered the simulation as an Level 3 Research Associate\nLoadout %2",
+								"notice": 
+								[
+									255,
+									165,
+									1
+								],
+								"fade": 
+								[
+									255,
+									165,
+									1
+								],
+								"trigger": "FireThisentity",
+								"sets_enforce": 
+								[
+								]
+							},
+							
+							{
+								"sets": 
+								[
+									"Cleansuit"
+								],
+								"description": "%1 entered the simulation as a Hazmat technician\nLoadout %2",
+								"notice": 
+								[
+									255,
+									255,
+									255
+								],
+								"fade": 
+								[
+									255,
+									255,
+									255
+								],
+								"trigger": "FireThisentity",
+								"sets_enforce": 
+								[
+								]
+							},
+							
+							{
+								"sets": 
+								[
 									"Operative1",
 									"Operative2",
 									"Operative3",
@@ -16904,7 +17294,14 @@
 									"Operative23",
 									"Operative24",
 									"Operative25",
-									"Operative26"
+									"Operative26",
+									"Operative27",
+									"Operative28",
+									"Operative29",
+									"Operative30",
+									"Operative31",
+									"Operative32",
+									"Operative33"
 								],
 								"description": "%1 entered the simulation as an Operative\nLoadout %2",
 								"notice": 
@@ -16923,12 +17320,6 @@
 								"sets_enforce": 
 								[
 								]
-							},
-							
-							{
-							},
-							
-							{
 							}
 						]
 					},
@@ -17894,6 +18285,34 @@
 										"scientist/sci_fear15.wav"
 									]
 								}
+							},
+							"soldier": 
+							{
+								"killed": 
+								{
+									"sounds": 
+									[
+										"fgrunt/death1.wav",
+										"fgrunt/death2.wav",
+										"fgrunt/death3.wav",
+										"fgrunt/death4.wav",
+										"fgrunt/death5.wav",
+										"fgrunt/death6.wav"
+									]
+								},
+								"takedamage": 
+								{
+									"cooldown": 1,
+									"sounds": 
+									[
+										"fgrunt/pain1.wav",
+										"fgrunt/pain2.wav",
+										"fgrunt/pain3.wav",
+										"fgrunt/pain4.wav",
+										"fgrunt/pain5.wav",
+										"fgrunt/pain6.wav"
+									]
+								}
 							}
 						}
 					},
@@ -17951,7 +18370,7 @@
 							},
 							"bts_cleansuit": 
 							{
-								"classify": 5,
+								"classify": 4,
 								"hands": 5,
 								"voice": "cleansuit"
 							},
@@ -17975,105 +18394,105 @@
 							},
 							"bts_helmet": 
 							{
-								"classify": 4,
+								"classify": 3,
 								"hands": 4,
 								"voice": "helmet"
 							},
 							"bts_op": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op2": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op3": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op4": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op6": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_back": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_band": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_demo": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 9,
-								"voice": "barney"
+								"voice": "soldier"
 							},
 							"bts_op_dual": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_free": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_hurt": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_medic": 
 							{
-								"classify": 6,
-								"hands": 6,
-								"voice": "barney"
+								"classify": 5,
+								"hands": 9,
+								"voice": "soldier"
 							},
 							"bts_op_otis": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_pissed": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_signal": 
 							{
-								"classify": 6,
+								"classify": 5,
 								"hands": 6,
 								"voice": "barney"
 							},
 							"bts_op_vet": 
 							{
-								"classify": 6,
-								"hands": 5,
-								"voice": "barney"
+								"classify": 5,
+								"hands": 9,
+								"voice": "soldier"
 							},
 							"bts_otis": 
 							{
