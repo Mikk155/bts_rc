@@ -35,6 +35,11 @@ final class ASDeathDropConfig : IConfigurable
             ],
             "properties":
             {
+                "zscientist":
+                {
+                    "type": "array",
+                    "items": { "type": "string" }
+                },
                 "zsecurity":
                 {
                     "type": "array",
