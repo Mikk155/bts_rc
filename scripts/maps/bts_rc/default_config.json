@@ -446,7 +446,7 @@
             "ammo_bts_glock",
             "grenade"
         ],
-        "active": false,
+        "active": true,
         "friendly": [
             ""
         ],

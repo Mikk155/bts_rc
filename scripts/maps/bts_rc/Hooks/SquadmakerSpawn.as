@@ -26,11 +26,12 @@ namespace Hooks
 
         // Get squadmaker custom keyvalues and pass them to childs
         {
-            auto ckv_ent = entity.GetCustomKeyvalues();
+            edict_t@ childEdict = entity.edict();
 
             CustomKeyvalue deathdrop = ckv.GetKeyvalue( "$s_deathdrop" );
+
             if( deathdrop.Exists() )
-                ckv_ent.SetKeyvalue( "$s_deathdrop", deathdrop.GetString() );
+                g_EntityFuncs.DispatchKeyValue( childEdict, "$s_deathdrop", deathdrop.GetString() );
         }
 
         string classname = entity.GetClassname();

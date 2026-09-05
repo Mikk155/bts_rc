@@ -130,8 +130,6 @@ final class ASDeathDropConfig : IConfigurable
         if( monster is null || !FreeEdicts( 1 ) )
             return null;
 
-        if( g_CustomEntityFuncs.IsCustomEntity( monster.GetClassname() ) )
-            return null;
 
         auto ckv = monster.GetCustomKeyvalues();
 
