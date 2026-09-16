@@ -17,8 +17,6 @@
 
 namespace Hooks
 {
-    dictionary __JoinedPlayers__;
-
     // Called when a player changes class
     void PlayerSetClass( CBasePlayer@ player, CCharacter@ character )
     {
@@ -49,15 +47,9 @@ namespace Hooks
                     }
                 }
             }
-        }
-        else if( !__JoinedPlayers__.exists( g_EngineFuncs.GetPlayerAuthId( player.edict() ) ) )
-        {
-            g_PlayerFuncs.RespawnPlayer( player, false, true );
-        }
 
-        __JoinedPlayers__[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] = true;
-
-        ASEquipmentCharacter@ equipmentCharacter = gpEquipment.Characters[ character.Classify ];
-        equipmentCharacter.Equip( player );
+            ASEquipmentCharacter@ equipmentCharacter = gpEquipment.Characters[ character.Classify ];
+            equipmentCharacter.Equip( player );
+        }
     }
 }
