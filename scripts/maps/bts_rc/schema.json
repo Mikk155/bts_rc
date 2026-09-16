@@ -18027,7 +18027,7 @@
 					},
 					"active": 
 					{
-						"default": false,
+						"default": true,
 						"type": "boolean",
 						"description": "Should this context be active?"
 					}

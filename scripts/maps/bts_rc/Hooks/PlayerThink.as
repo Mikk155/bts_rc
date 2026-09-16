@@ -47,14 +47,15 @@ namespace Hooks
                     }
                 }
             }
-
-            if( character is null )
-            {
-                SetClass( player, Classification::Scientist );
-                @character = GetCharacter(player);
-            }
         }
 #endif
+
+        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
+        if( !data.exists( "connected" ) && player.pev.button != 0 )
+        {
+            data[ "connected" ] = true;
+            PlayerInitialized( player, data );
+        }
 
         if( character is null )
         {
@@ -68,51 +69,10 @@ namespace Hooks
             // Let late joined players join a role
             if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
             {
-                string name;
-                int current = int( data[ "pm_select" ] );
-                data[ "pm_select" ] = current = Math.clamp( 0, 3, current );
-
-                data[ "pm_selectcd" ] = g_Engine.time + 0.5f;
-
-                switch( current )
-                {
-                    case 1: name = "Security"; break;
-                    case 2: name = "Maintenance"; break;
-                    case 3: name = "Operator"; break;
-                    case 0: name = "Scientist"; break;
-                }
-
-                string buffer;
-                snprintf( buffer, "<- +moveleft | +moveright ->\n+use select %1\n", name );
-                g_PlayerFuncs.PrintKeyBindingString( player, buffer );
-
-                if( ( player.pev.button & IN_MOVELEFT ) != 0 )
-                {
-                    data[ "pm_select" ] = current-1;
-                }
-                else if( ( player.pev.button & IN_MOVERIGHT ) != 0 )
-                {
-                    data[ "pm_select" ] = current+1;
-                }
-                else if( ( player.pev.button & IN_USE ) != 0 )
-                {
-                    switch( current )
-                    {
-                        case 1: SetClass( player, Classification::Security ); break;
-                        case 2: SetClass( player, Classification::Maintenance ); break;
-                        case 3: SetClass( player, Classification::Operative ); break;
-                        case 0: SetClass( player, Classification::Scientist ); break;
-                    }
-                }
+                data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
+                g_ClassSelectionMenu.Open( player );
             }
             return HOOK_CONTINUE;
-        }
-
-        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
-        if( !data.exists( "connected" ) && player.pev.button != 0 )
-        {
-            data[ "connected" ] = true;
-            PlayerInitialized( player, data );
         }
 
         if( !player.IsAlive() )
@@ -142,7 +102,7 @@ namespace Hooks
                     {
                         if( weapon.m_iPrimaryAmmoType > 0 )
                             player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
-                        
+
                         weapon.m_iClip = weapon.iMaxClip();
 
                         if( weapon.m_iSecondaryAmmoType > 0 )

@@ -58,6 +58,28 @@ namespace Classification
         }
     }
 
+    const string& ToStringMenu( Classification classification )
+    {
+        switch( classification )
+        {
+            case Classification::Security:
+                return "<c>Security";
+            case Classification::Scientist:
+                return "<w>Scientist";
+            case Classification::Maintenance:
+                return "<y>Maintenance";
+            case Classification::HEV:
+                return "<o>HEV";
+            case Classification::Hazard:
+                return "<w>Hazard";
+            case Classification::Operative:
+                return "<d>Operative";
+            case Classification::Unset:
+            default:
+                return String::EMPTY_STRING;
+        }
+    }
+
     const string ToString( CBasePlayer@ player )
     {
         return ToString( util::GetClass(player) );
@@ -421,6 +443,29 @@ final class ASPlayerCharactersConfig : IConfigurable
         if( g_Characters[Classification::Operative].length() <= 0 ) {
             this.__RegisterCharacter__("bts_op", Classification::Operative, Hands::Gray );
         }
+
+        g_ClassSelectionMenu.Text
+            .ColorCyan()
+            .Write( "Select a classification" )
+            .ColorGreen();
+
+        g_ClassSelectionMenu.AddOptions( Classification::__Size__ );
+        array<TextMenu::v1::MenuOption@>@ options = g_ClassSelectionMenu.Options;
+
+        for( uint ui = 0; ui < Classification::__Size__; ui++ )
+        {
+            TextMenu::v1::MenuOption@ option = options[ui];
+
+            option.SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option ) {
+                SetClass( player, Classification( option.Id ) );
+            } ) );
+
+            option.Text
+                .Write( Classification::ToStringMenu( Classification(ui) ) )
+                .ColorGreen();
+        }
+
+        options[ options.length() - 1 ].Text.ColorRed();
 
         return true;
     }

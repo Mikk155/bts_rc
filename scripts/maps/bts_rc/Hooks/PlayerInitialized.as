@@ -21,7 +21,10 @@ namespace Hooks
     void PlayerInitialized( CBasePlayer@ player, dictionary@ data )
     {
         if( !g_IsMainMap )
+        {
+            SetClass( player, Classification::Scientist );
             return;
+        }
 
         if( gpGameVersion == 526 )
         {

@@ -24,6 +24,9 @@
 #include "Precache"
 
 #include "../../../mikk155/SemanticVersion"
+#include "../../../mikk155/TextMenu/v1"
+
+TextMenu::v1::Menu g_ClassSelectionMenu;
 
 const SemanticVersion@ g_ScriptsVersion = SemVer( 4, 6, 0 );
 
