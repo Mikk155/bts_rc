@@ -54,7 +54,7 @@ final class ASWeaponFlareConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponFlareAnim::DRAW;
+        return WeaponFlareAnim::Draw;
     }
 
     const uint8 get_hands_group() override
@@ -77,11 +77,13 @@ ASWeaponFlareConfig gpWeaponFlareConfig;
 
 enum WeaponFlareAnim
 {
-    IDLE = 0,
-    PULLPIN,
-    THROW,
-    DRAW,
-    TOSS
+    Idle = 0,
+    PullPin,
+    Throw,
+    Draw,
+    Toss,
+    PullHold,
+    Hold
 };
 
 final class ASFlare : ScriptBaseEntity
@@ -318,7 +320,9 @@ namespace FLARE
     ASFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
     {
         CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
+
         ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
+
         if( pFlare is null )
             return null;
 
@@ -347,7 +351,9 @@ namespace FLARE
     ASFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
     {
         CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
+
         ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
+
         if( pFlare is null )
             return null;
 
@@ -387,6 +393,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
     private int throw = 0;
     private float m_fAttackStart = 0.0f;
+    private ASFlare@ m_FlareOnHold;
     private bool m_bInAttack = false;
     private bool m_bThrown = false;
     private int m_iAmmoSave = 0;
@@ -435,6 +442,18 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
         return self;
     }
 
+    void DropHoldingFlare()
+    {
+        if( this.m_FlareOnHold !is null )
+        {
+            this.owner.m_rgAmmo( self.m_iPrimaryAmmoType, this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
+            this.m_FlareOnHold.self.pev.effects &= ~EF_NODRAW;
+            this.m_FlareOnHold.self.pev.velocity.z = -90;
+            this.m_FlareOnHold.self.pev.movetype = MOVETYPE_TOSS;
+            @this.m_FlareOnHold = null;
+        }
+    }
+
     void Holster( int skiplocal = 0 )
     {
         m_bThrown = false;
@@ -453,41 +472,49 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
             g_Scheduler.SetTimeout( "DestroyThrowableWeapon", 0.1f, EHandle( self ) );
         }
 
+        this.DropHoldingFlare();
+
         BaseClass.Holster( skiplocal );
     }
 
-    void PrimaryAttack() override
+    void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        this.DropHoldingFlare();
+
         if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
         if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
             return;
 
-        self.m_flNextPrimaryAttack = g_Engine.time + ( 25.0f / 30.0f );
-        PlayAnim( WeaponFlareAnim::PULLPIN );
-        throw = 0;
+        self.m_flNextPrimaryAttack = self.m_flNextTertiaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( 25.0f / 30.0f );
 
-        m_bInAttack = true;
-        m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
-
-        self.m_flTimeWeaponIdle = g_Engine.time + ( 25.0f / 30.0f ) + ( 23.0f / 30.0f );
-    }
-
-    void SecondaryAttack() override
-    {
-        if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
-            return;
-
-        self.m_flNextSecondaryAttack = g_Engine.time + ( 25.0f / 30.0f );
-        PlayAnim( WeaponFlareAnim::PULLPIN );
-        throw = 1;
-
-        m_bInAttack = true;
-        m_fAttackStart = g_Engine.time + ( 25.0f / 25.0f );
+        switch( type )
+        {
+            case AttackType::Primary:
+            {
+                throw = 0;
+                m_bInAttack = true;
+                m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
+                PlayAnim( WeaponFlareAnim::PullPin, false );
+                break;
+            }
+            case AttackType::Secondary:
+            {
+                throw = 1;
+                m_bInAttack = true;
+                m_fAttackStart = g_Engine.time + ( 25.0f / 25.0f );
+                PlayAnim( WeaponFlareAnim::PullPin, false );
+                break;
+            }
+            case AttackType::Tertiary:
+            {
+                PlayAnim( WeaponFlareAnim::PullHold, false );
+                @this.m_FlareOnHold = FLARE::Toss( this.owner.pev, g_vecZero, g_vecZero, 0, 180.0f, 1.5f );
+                this.m_FlareOnHold.self.pev.nextthink = self.m_flNextTertiaryAttack;
+                break;
+            }
+        }
 
         self.m_flTimeWeaponIdle = g_Engine.time + ( 25.0f / 30.0f ) + ( 23.0f / 30.0f );
     }
@@ -502,6 +529,17 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
     void ItemPreFrame()
     {
+        BaseClass.ItemPreFrame();
+
+        if( this.m_FlareOnHold !is null )
+        {
+            Vector origin;
+            g_EngineFuncs.GetAttachment( this.owner.edict(), 1, origin, void );
+            g_EntityFuncs.SetOrigin( this.m_FlareOnHold.self, origin );
+            this.m_FlareOnHold.self.pev.effects |= EF_NODRAW;
+            return;
+        }
+
         if( m_fAttackStart == 0.0f && m_bThrown == true && m_bInAttack == false && self.m_flTimeWeaponIdle - 0.1f < g_Engine.time )
         {
             if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) == 0 )
@@ -522,20 +560,26 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f );
         if( throw == 0 )
-            PlayAnim( WeaponFlareAnim::THROW );
+            PlayAnim( WeaponFlareAnim::Throw );
         else if( throw == 1 )
-            PlayAnim( WeaponFlareAnim::TOSS );
+            PlayAnim( WeaponFlareAnim::Toss );
         m_bThrown = true;
         m_bInAttack = false;
 
         StartSchedule( g_Scheduler.SetTimeout( @this, "LaunchThink", 0.2f ) );
-
-        BaseClass.ItemPreFrame();
     }
 
     float Idle() override
     {
-        PlayAnim( WeaponFlareAnim::IDLE );
+        if( this.m_FlareOnHold !is null )
+        {
+           PlayAnim( WeaponFlareAnim::Hold, false );
+        }
+        else
+        {
+            PlayAnim( WeaponFlareAnim::Idle, false );
+        }
+
         return Math.RandomFloat( 5.0f, 7.0f );
     }
 
