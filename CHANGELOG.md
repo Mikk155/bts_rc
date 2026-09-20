@@ -1,4 +1,8 @@
 # 20/9/2026
+- Sniper rifle now has night vision when zoom in.
+- Added yellow coloring to some system chat messages.
+- Fixed a issue where multiple players standing in a checkpoint makes only one player able to activate it.
+- Replaced laser spot sprite from weapons to a more detailed sprite.
 - Added new scope model and animations to sniper riffle and crossbow.
 - Added a option to not enforce player models.
 - Added custom display information. Enemy information can only be seen by HEV characters.

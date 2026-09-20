@@ -32,6 +32,11 @@ namespace Hooks
 
             if( deathdrop.Exists() )
                 g_EntityFuncs.DispatchKeyValue( childEdict, "$s_deathdrop", deathdrop.GetString() );
+
+            CustomKeyvalue flashbang = ckv.GetKeyvalue( "$i_use_flashbang" );
+
+            if( flashbang.Exists() )
+                g_EntityFuncs.DispatchKeyValue( childEdict, "$i_use_flashbang", flashbang.GetInteger() );
         }
 
         string classname = entity.GetClassname();

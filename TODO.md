@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/78.70370370370371?barColor=63da0b)
+> ![](https://geps.dev/progress/78.37837837837837?barColor=64da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -40,7 +40,6 @@ This file contains the list of to-do in the project.
 - [ ] remove whatever was left in scriprs/maps/bts_weapons
 - [ ] remove various custom ammo that are otherwise duplicates
 - [ ] remove custom ammo types i.e flamethrower could use gauss ammo name
-- [x] update laser spot sprites.
 - [ ] add missing things to FGD
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
@@ -54,9 +53,8 @@ This file contains the list of to-do in the project.
         {
             if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
                 return false;
-    ```
+    ``` OR refactore the method.
 - [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
-- [x] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
 - [ ] Add crossbow sprite when zoom in to sprite txt file.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
 
@@ -65,6 +63,8 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] update laser spot sprites.
+- [x] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
 - [x] **Sniper Rifle**: Upload and update the scoped view model used while zooming (`models/v_m40a1.mdl`).
 - [x] implement ChatRoles plugin for bts clases ([Scientist] <netname>)
 - [x] use CTextMenu for observer class selection.
