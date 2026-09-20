@@ -66,7 +66,7 @@ class TodolistCheck( PyBuilder ):
                     contentLines.insert( index, completedLine );
                 break;
 
-            if( line.startswith( "- [x]" ) or ( lastCompleted and line.startswith( "    > " ) ) ):
+            if( line.startswith( "- [x]" ) or ( lastCompleted and ( line.startswith( "    " ) or line.startswith( "\t" ) ) ) ):
                 contentLines[index] = None;
                 lastCompleted = True;
                 completedMove.append( line );
