@@ -48,12 +48,13 @@ namespace Hooks
             if( aiment.IsMonster() && ( @monster = cast<CBaseMonster@>( aiment ) ) !is null )
             {
                 bool isPlayer = monster.IsPlayer();
+                bool canSeeMonster = ( ( character !is null && character.IsHEV ) || monster.IRelationship( player ) == R_AL );
 
                 string displayData;
 
                 if( isPlayer )
                 {
-                    auto targetCharacter = GetCharacter(player);
+                    auto targetCharacter = GetCharacter(monster);
 
                     if( targetCharacter !is null )
                     {
@@ -64,7 +65,7 @@ namespace Hooks
 
                     displayData.opAddAssign( monster.pev.netname );
                 }
-                else
+                else if( canSeeMonster )
                 {
                     string monsterName = monster.m_FormattedName;
 
@@ -79,36 +80,36 @@ namespace Hooks
                     displayData.opAddAssign( monsterName );
                 }
 
-                displayData.opAddAssign( '\nHealth: ' );
-
-                displayData.opAddAssign( Math.max( 0, int(monster.pev.health) ) );
-                displayData.opAddAssign( '/' );
-                displayData.opAddAssign( int(monster.pev.max_health) );
-
-                if( isPlayer )
+                if( isPlayer || canSeeMonster )
                 {
-                    displayData.opAddAssign( '\nArmor: ' );
-                    displayData.opAddAssign( int(monster.pev.armorvalue) );
+                    displayData.opAddAssign( '\nHealth: ' );
+
+                    displayData.opAddAssign( Math.max( 0, int(monster.pev.health) ) );
                     displayData.opAddAssign( '/' );
-                    displayData.opAddAssign( int(monster.pev.armortype) );
-                }
+                    displayData.opAddAssign( int(monster.pev.max_health) );
 
-                if( isPlayer )
-                {
-                    g_DisplayDataParams.r1 = g_DisplayDataParams.b1 = 0;
-                    g_DisplayDataParams.g1 = 255;
+                    if( isPlayer )
+                    {
+                        displayData.opAddAssign( '\nArmor: ' );
+                        displayData.opAddAssign( int(monster.pev.armorvalue) );
+                        displayData.opAddAssign( '/' );
+                        displayData.opAddAssign( int(monster.pev.armortype) );
+
+                        g_DisplayDataParams.r1 = g_DisplayDataParams.b1 = 0;
+                        g_DisplayDataParams.g1 = 255;
+                    }
+                    else if( monster.IRelationship( player ) == R_AL )
+                    {
+                        g_DisplayDataParams.r1 = 0;
+                        g_DisplayDataParams.g1 = g_DisplayDataParams.b1 = 255;
+                    }
+                    else
+                    {
+                        g_DisplayDataParams.g1 = g_DisplayDataParams.b1 = 0;
+                        g_DisplayDataParams.r1 = 255;
+                    }
+                    g_PlayerFuncs.HudMessage( player, g_DisplayDataParams, displayData );
                 }
-                else if( monster.IRelationship( player ) == R_AL )
-                {
-                    g_DisplayDataParams.r1 = 0;
-                    g_DisplayDataParams.g1 = g_DisplayDataParams.b1 = 255;
-                }
-                else
-                {
-                    g_DisplayDataParams.g1 = g_DisplayDataParams.b1 = 0;
-                    g_DisplayDataParams.r1 = 255;
-                }
-                g_PlayerFuncs.HudMessage( player, g_DisplayDataParams, displayData );
             }
         }
 
