@@ -25,6 +25,7 @@
 
 #include "../../../mikk155/SemanticVersion"
 #include "../../../mikk155/TextMenu/v1"
+#include "../../../mikk155/Player/ChatColor"
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 

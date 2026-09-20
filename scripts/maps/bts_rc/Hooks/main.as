@@ -22,6 +22,7 @@
 #include "PlayerInitialized"
 #include "PlayerKilled"
 #include "PlayerRevive"
+#include "PlayerSay"
 #include "PlayerSetClass"
 #include "PlayerSpawn"
 #include "PlayerTakeDamage"
@@ -42,6 +43,7 @@ namespace Hooks
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PlayerKilled );
         g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @PlayerRevive );
+        g_Hooks.RegisterHook( Hooks::Player::ClientSay, @PlayerSay );
         g_Hooks.RegisterHook( Hooks::Player::PlayerSpawn, @PlayerSpawn );
         g_Hooks.RegisterHook( Hooks::Player::PlayerTakeDamage, @PlayerTakeDamage );
         g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerThink );
