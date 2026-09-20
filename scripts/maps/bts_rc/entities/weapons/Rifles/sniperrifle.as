@@ -236,17 +236,20 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
     {
         PlaySound( "weapons/sniper_zoom.wav", 1.0f );
 
-        if( this.owner.m_iFOV == 0 )
+        auto owner = this.owner;
+
+        if( owner.m_iFOV == 0 )
         {
-            this.owner.m_iFOV = 18;
-            this.owner.m_szAnimExtension = "bowscope";
-            this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.zoom_view_model;
+            owner.m_iFOV = 18;
+            owner.m_szAnimExtension = "bowscope";
+            owner.pev.viewmodel = gpWeaponSniperRifleConfig.zoom_view_model;
         }
         else
         {
-            this.owner.m_iFOV = 0;
-            this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.animation_extension;
-            this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.view_model;
+            owner.m_iFOV = 0;
+            owner.pev.viewmodel = gpWeaponSniperRifleConfig.animation_extension;
+            owner.pev.viewmodel = gpWeaponSniperRifleConfig.view_model;
+            g_PlayerFuncs.ScreenFade( owner, g_vecZero, 1.0f, 0.1f, 255.0f, FFADE_IN );
         }
     }
 
