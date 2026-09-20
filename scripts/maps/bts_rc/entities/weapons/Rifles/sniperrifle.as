@@ -59,7 +59,7 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponSniperRifleAnim::DRAW;
+        return WeaponSniperRifleAnim::Draw;
     }
 
     void Precache() override
@@ -75,15 +75,15 @@ ASWeaponSniperRifleConfig gpWeaponSniperRifleConfig;
 
 enum WeaponSniperRifleAnim
 {
-    DRAW = 0,
-    SLOWIDLE,
-    FIRE,
-    FIRELASTROUND,
-    RELOAD1,
-    RELOAD2,
-    RELOAD3,
-    SLOWIDLE2,
-    HOLSTER
+    Draw = 0,
+    SlowIdle,
+    Fire,
+    FireLastRound,
+    Reload1,
+    Reload2,
+    Reload3,
+    SlowIdle2,
+    Holster
 };
 
 class weapon_bts_sniperrifle : BTS_FireWeapon
@@ -95,11 +95,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
     private float m_flReloadStart = 0;
     private bool m_bReloading = false;
-
-    void Spawn() override
-    {
-        BTS_FireWeapon::Spawn();
-    }
 
     void Holster( int skiplocal = 0 )
     {
@@ -129,7 +124,7 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
         }
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-        uint8 anim = ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FIRELASTROUND : WeaponSniperRifleAnim::FIRE;
+        uint8 anim = ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FireLastRound : WeaponSniperRifleAnim::Fire;
 
         DisableZoom();
 
@@ -145,6 +140,59 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }
 
+    void ItemPostFrame()
+    {
+        BaseClass.ItemPostFrame();
+
+        auto owner = this.owner;
+
+        if( owner.m_iFOV == 0 )
+            return;
+
+        Vector vecSrc = owner.GetGunPosition();
+
+        Math.MakeVectors( owner.pev.v_angle + owner.pev.punchangle );
+
+        TraceResult tr;
+
+        Vector vecEnd = vecSrc + g_Engine.v_forward * 2048;
+        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, owner.edict(), tr );
+
+        int[] color = { 255, 60, 60 };
+
+        g_PlayerFuncs.ScreenFade( owner, Vector( color[0], color[1], color[2] ), 0.5f, 0.0f, 255.0f, FFADE_MODULATE | FFADE_IN );
+
+        {
+            NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, owner.edict() );
+                m.WriteByte( TE_DLIGHT );
+                m.WriteCoord( tr.vecEndPos.x );
+                m.WriteCoord( tr.vecEndPos.y );
+                m.WriteCoord( tr.vecEndPos.z );
+                m.WriteByte( 128 );   // radius
+                m.WriteByte( color[0] );
+                m.WriteByte( color[1] );
+                m.WriteByte( color[2] );
+                m.WriteByte( 2 );
+                m.WriteByte( 1 );
+            m.End();
+        }
+
+        {
+            NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, owner.edict() );
+                m.WriteByte( TE_DLIGHT );
+                m.WriteCoord( owner.pev.origin.x );
+                m.WriteCoord( owner.pev.origin.y );
+                m.WriteCoord( owner.pev.origin.z );
+                m.WriteByte( 64 );   // radius
+                m.WriteByte( color[0] );
+                m.WriteByte( color[1] );
+                m.WriteByte( color[2] );
+                m.WriteByte( 2 );
+                m.WriteByte( 1 );
+            m.End();
+        }
+    }
+
     void Reload()
     {
         if( self.m_iClip == gpWeaponSniperRifleConfig.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
@@ -156,12 +204,12 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
         if( self.m_iClip > 0 )
         {
-            if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::RELOAD3, 2.324f, this.body ) )
+            if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::Reload3, 2.324f, this.body ) )
             {
                 self.m_flNextPrimaryAttack = g_Engine.time + 2.324f;
             }
         }
-        else if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::RELOAD1, 2.324f, this.body ) )
+        else if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::Reload1, 2.324f, this.body ) )
         {
             self.m_flNextPrimaryAttack = g_Engine.time + 4.102f;
             m_flReloadStart = g_Engine.time;
@@ -204,21 +252,24 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
     float Idle() override
     {
+        if( this.owner.m_iFOV != 0 )
+            return 0.1f;
+
         self.ResetEmptySound();
 
         if( m_bReloading && g_Engine.time >= m_flReloadStart + 2.324f )
         {
-            PlayAnim( WeaponSniperRifleAnim::RELOAD2 );
+            PlayAnim( WeaponSniperRifleAnim::Reload2 );
             m_bReloading = false;
         }
 
         if( self.m_iClip > 0 )
         {
-            PlayAnim( WeaponSniperRifleAnim::SLOWIDLE );
+            PlayAnim( WeaponSniperRifleAnim::SlowIdle );
         }
         else
         {
-            PlayAnim( WeaponSniperRifleAnim::SLOWIDLE2 );
+            PlayAnim( WeaponSniperRifleAnim::SlowIdle2 );
         }
 
         return 4.348f;
