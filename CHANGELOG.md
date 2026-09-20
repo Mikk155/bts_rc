@@ -1,3 +1,12 @@
+# 20/9/2026
+- Added new scope model and animations to sniper riffle and crossbow.
+- Added a option to not enforce player models.
+- Added custom display information. Enemy information can only be seen by HEV characters.
+- Added chat roles i.e "[Scientist] mikk: hellog"
+- Added tertriary attack to flare weapon for holding it on hand alo Cry of fear.
+- Added a proper menu for newly join players to select a classification.
+- Added a new equipment system using JSON for ease of use/balance.
+
 # 21/8/2026
 ## Scripts
 - Unified firearm hitscan behavior under `ASBullet`, including HEV ammo warnings, JSON-controlled accuracy, spread, range, rate of fire, spawn ammo, iron-sight accuracy, and empty-fire cooldowns.
@@ -298,7 +307,7 @@
 - Optimized multiple structures
 
 # 17/4/2026
-- Set up this website.
+- Set up github website.
 
 # 16/4/2026
 - Reworked melee weapons
