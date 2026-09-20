@@ -1,11 +1,12 @@
 name: Release
 
 on:
-  workflow_dispatch:
+# Workflow dispatch
+#  workflow_dispatch:
 # Push dispatch
-#  push:
-#    branches:
-#      - main
+ push:
+   branches:
+     - main
 # Release dispatch
 #  release:
 #    types: [ published ]
@@ -49,7 +50,7 @@ jobs:
           body_path: "${{ github.workspace }}/CHANGELOG.md" # Push dispatch
           tag_name: ${{ steps.builder.outputs.version }} # Push dispatch
           previous_tag: "${{ steps.builder.outputs.previous_version }}" # Push dispatch
-          body: "> # ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g)." # Release dispatch
+#          body: "> # ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g)." # Release dispatch | Workflow dispatch
           append_body: true
 #          tag_name: ${{ github.event.release.tag_name }} # Release dispatch
         env:
