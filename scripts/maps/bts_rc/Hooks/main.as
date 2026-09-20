@@ -35,6 +35,8 @@ namespace Hooks
 {
     void Register()
     {
+        DisplayDataInit();
+
         g_Hooks.RegisterHook( Hooks::Monster::MonsterKilled, @MonsterKilled );
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @MonsterTakeDamage );
 

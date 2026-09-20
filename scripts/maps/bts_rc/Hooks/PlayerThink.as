@@ -17,6 +17,19 @@
 
 namespace Hooks
 {
+    HUDTextParams g_DisplayDataParams;
+
+    void DisplayDataInit()
+    {
+        g_EngineFuncs.CVarSetFloat( "mp_allowplayerinfo", 0 );
+        g_EngineFuncs.CVarSetFloat( "mp_allowmonsterinfo", 0 );
+
+        g_DisplayDataParams.fxTime = g_DisplayDataParams.fadeinTime = g_DisplayDataParams.fadeoutTime = 0.0f;
+        g_DisplayDataParams.holdTime = 0.5f;
+        g_DisplayDataParams.x = 0.0f;
+        g_DisplayDataParams.y = -1;
+    }
+
     HookReturnCode PlayerThink( CBasePlayer@ player )
     {
         if( player is null || !player.IsConnected() )
@@ -25,6 +38,79 @@ namespace Hooks
         dictionary@ data = player.GetUserData();
 
         auto character = GetCharacter(player);
+
+        auto aiment = g_Utility.FindEntityForward( player );
+
+        if( aiment !is null )
+        {
+            CBaseMonster@ monster;
+
+            if( aiment.IsMonster() && ( @monster = cast<CBaseMonster@>( aiment ) ) !is null )
+            {
+                bool isPlayer = monster.IsPlayer();
+
+                string displayData;
+
+                if( isPlayer )
+                {
+                    auto targetCharacter = GetCharacter(player);
+
+                    if( targetCharacter !is null )
+                    {
+                        displayData.opAddAssign( "[" );
+                        displayData.opAddAssign( Classification::ToString( targetCharacter.Classify ) );
+                        displayData.opAddAssign( "] " );
+                    }
+
+                    displayData.opAddAssign( monster.pev.netname );
+                }
+                else
+                {
+                    string monsterName = monster.m_FormattedName;
+
+                    if( monsterName.IsEmpty() )
+                    {
+                        monsterName = monster.GetClassname();
+                        monsterName = monsterName.Replace( "monster_", '' );
+                        monsterName = monsterName.Replace( '_', ' ' );
+                        monsterName = string( monsterName[0] ).ToUppercase() + monsterName.SubString( 1 );
+                    }
+
+                    displayData.opAddAssign( monsterName );
+                }
+
+                displayData.opAddAssign( '\nHealth: ' );
+
+                displayData.opAddAssign( Math.max( 0, int(monster.pev.health) ) );
+                displayData.opAddAssign( '/' );
+                displayData.opAddAssign( int(monster.pev.max_health) );
+
+                if( isPlayer )
+                {
+                    displayData.opAddAssign( '\nArmor: ' );
+                    displayData.opAddAssign( int(monster.pev.armorvalue) );
+                    displayData.opAddAssign( '/' );
+                    displayData.opAddAssign( int(monster.pev.armortype) );
+                }
+
+                if( isPlayer )
+                {
+                    g_DisplayDataParams.r1 = g_DisplayDataParams.b1 = 0;
+                    g_DisplayDataParams.g1 = 255;
+                }
+                else if( monster.IRelationship( player ) == R_AL )
+                {
+                    g_DisplayDataParams.r1 = 0;
+                    g_DisplayDataParams.g1 = g_DisplayDataParams.b1 = 255;
+                }
+                else
+                {
+                    g_DisplayDataParams.g1 = g_DisplayDataParams.b1 = 0;
+                    g_DisplayDataParams.r1 = 255;
+                }
+                g_PlayerFuncs.HudMessage( player, g_DisplayDataParams, displayData );
+            }
+        }
 
 #if SERVER
         if( !g_IsMainMap )
