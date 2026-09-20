@@ -22,6 +22,11 @@ final class ASWeaponPythonConfig : ASWeaponLaserConfig
         return "weapon_bts_python";
     }
 
+    const string& get_laserdot() const override
+    {
+        return "sprites/mikk155/particles/laserdot.spr";
+    }
+
     const string& get_player_model() override
     {
         return "models/bts_rc/weapons/p_357.mdl";
@@ -166,5 +171,5 @@ class weapon_bts_python : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    
+
 }

@@ -22,6 +22,11 @@ final class ASWeaponGlockSDConfig : ASWeaponLaserConfig
         return "weapon_bts_glocksd";
     }
 
+    const string& get_laserdot() const override
+    {
+        return "sprites/mikk155/particles/laserdot.spr";
+    }
+
     const string& get_player_model() override
     {
         return "models/bts_rc/weapons/p_9mmhandgunsd.mdl";

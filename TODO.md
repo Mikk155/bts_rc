@@ -40,7 +40,7 @@ This file contains the list of to-do in the project.
 - [ ] remove whatever was left in scriprs/maps/bts_weapons
 - [ ] remove various custom ammo that are otherwise duplicates
 - [ ] remove custom ammo types i.e flamethrower could use gauss ammo name
-- [ ] update laser spot sprites.
+- [x] update laser spot sprites.
 - [ ] add missing things to FGD
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
@@ -56,6 +56,8 @@ This file contains the list of to-do in the project.
                 return false;
     ```
 - [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
+- [ ] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
+- [ ] Add crossbow sprite when zoom in to sprite txt file.
 
 ---
 

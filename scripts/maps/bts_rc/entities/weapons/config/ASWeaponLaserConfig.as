@@ -60,8 +60,6 @@ namespace LaserSpot
         {
             @laserEntity = g_EntityFuncs.CreateEntity( "info_target", null, false );
 
-            g_EntityFuncs.SetModel( laserEntity, "sprites/laserdot.spr" );
-
             laserEntity.pev.movetype = MOVETYPE_NONE;
             laserEntity.pev.solid = SOLID_NOT;
             laserEntity.pev.rendermode = kRenderGlow;
@@ -88,6 +86,12 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
     const string& get_player_model_laser()
     {
         return this.get_player_model();
+    }
+
+    // laser dot sprite used
+    const string& get_laserdot() const
+    {
+        return "sprites/laserdot.spr";
     }
 
     // Animation used when LaserToggle is called
@@ -197,6 +201,9 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         if( laser is null )
             return;
 
+        if( laser.pev.model != this.laserdot )
+            g_EntityFuncs.SetModel( laser, this.laserdot );
+
         if( weapon.pev.iuser1 == 1 )
         {
             if( weapon.m_fInReload )
@@ -263,7 +270,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
     void Precache() override
     {
         g_Game.PrecacheModel( this.player_model_laser );
-        g_Game.PrecacheModel( "sprites/laserdot.spr" );
+        g_Game.PrecacheModel( this.laserdot );
 
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_sight.wav" );
         g_SoundSystem.PrecacheSound( "weapons/desert_eagle_sight2.wav" );
