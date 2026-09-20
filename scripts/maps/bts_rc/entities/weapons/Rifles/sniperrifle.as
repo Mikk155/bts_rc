@@ -39,7 +39,7 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
 
     const string& get_zoom_view_model()
     {
-        return "models/v_m40a1.mdl";
+        return "models/mikk155/misc/v_scope_ch1.mdl";
     }
 
     const string& get_animation_extension() override
@@ -104,10 +104,7 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
     void Holster( int skiplocal = 0 )
     {
         self.m_fInReload = false;
-        if( this.owner.m_iFOV != 0 )
-        {
-            ToggleZoom();
-        }
+        DisableZoom();
         BaseClass.Holster( skiplocal );
     }
 
@@ -119,7 +116,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
                 return;
             case AttackType::Secondary:
             {
-                PlaySound( "weapons/sniper_zoom.wav", 1.0f );
                 ToggleZoom();
                 self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
                 return;
@@ -134,6 +130,8 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
         uint8 anim = ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FIRELASTROUND : WeaponSniperRifleAnim::FIRE;
+
+        DisableZoom();
 
         bullet.Weapon( this )
             .Sound( "ambience/rifle2.wav", Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), QUIET_GUN_VOLUME )
@@ -154,10 +152,7 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
             return;
         }
 
-        if( this.owner.m_iFOV != 0 )
-        {
-            ToggleZoom();
-        }
+        DisableZoom();
 
         if( self.m_iClip > 0 )
         {
@@ -181,16 +176,28 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
         BaseClass.Reload();
     }
 
+    void DisableZoom()
+    {
+        if( this.owner.m_iFOV != 0 )
+        {
+            ToggleZoom();
+        }
+    }
+
     void ToggleZoom()
     {
+        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
+
         if( this.owner.m_iFOV == 0 )
         {
             this.owner.m_iFOV = 18;
+            this.owner.m_szAnimExtension = "bowscope";
             this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.zoom_view_model;
         }
         else
         {
             this.owner.m_iFOV = 0;
+            this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.animation_extension;
             this.owner.pev.viewmodel = gpWeaponSniperRifleConfig.view_model;
         }
     }
