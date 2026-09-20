@@ -214,7 +214,11 @@ namespace Hooks
 
         MedkitAmmo::Think( player );
 
-        player.SetOverriddenPlayerModel(character.Name);
+        if( gpCharactersConfig.ForcePlayerModels )
+            player.SetOverriddenPlayerModel(character.Name);
+        else
+            player.ResetOverriddenPlayerModel( true, false );
+
 
         if( player.m_hActiveItem.IsValid() )
         {

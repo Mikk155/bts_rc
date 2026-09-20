@@ -41,6 +41,7 @@
         "persistent": true
     },
     "characters": {
+        "forcepmodels": true,
         "models": {
             "bts_barney": {
                 "classify": 0,

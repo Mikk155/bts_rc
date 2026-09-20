@@ -228,6 +228,14 @@ array<uint> g_LastSelectedCharacter(Classification::__Size__);
 final class ASPlayerCharactersConfig : IConfigurable
 {
     private
+        bool m_forcepmodels;
+
+    const bool get_ForcePlayerModels() const
+    {
+        return this.m_forcepmodels;
+    }
+
+    private
         void __RegisterCharacter__( string character_name, Classification character_classify, Hands character_hands, const string&in voice_profile = String::EMPTY_STRING )
         {
             array<CCharacter@>@ list = g_Characters[character_classify];
@@ -284,6 +292,11 @@ final class ASPlayerCharactersConfig : IConfigurable
             "description": "Control player characters and their voice profiles.",
             "properties":
             {
+                "forcepmodels":
+                {
+                    "type": "boolean",
+                    "description": "Whatever player models are enforced."
+                },
                 "voice_profiles":
                 {
                     "type": "object",
@@ -399,6 +412,8 @@ final class ASPlayerCharactersConfig : IConfigurable
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
+        this.m_forcepmodels = config.ValueOrDefault( "forcepmodels", true );
+
         g_VoiceResponse.Register( config[ "voice_profiles" ] );
         this.RegisterCharacters( config[ "models" ] );
 
@@ -525,6 +540,7 @@ void SetCharacter( CBasePlayer@ player, CCharacter@ character )
 
     dictionary@ data = player.GetUserData();
     @data[ "character" ] = character;
+    player.SetOverriddenPlayerModel(character.Name);
     UpdatePlayerData( player, character.Classify );
     Hooks::PlayerSetClass( player, character );
 }

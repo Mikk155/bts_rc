@@ -18352,6 +18352,12 @@
 				"description": "Control player characters and their voice profiles.",
 				"properties": 
 				{
+					"forcepmodels": 
+					{
+						"type": "boolean",
+						"description": "Whatever player models are enforced.",
+						"default": true
+					},
 					"voice_profiles": 
 					{
 						"type": "object",
