@@ -37,6 +37,11 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         return "models/bts_rc/weapons/v_crossbow.mdl";
     }
 
+    const string& get_zoom_view_model()
+    {
+        return "models/mikk155/misc/v_scope_noch.mdl";
+    }
+
     const string& get_animation_extension() override
     {
         return "bow";
@@ -77,6 +82,8 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_draw2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
 
+        g_Game.PrecacheModel( this.zoom_view_model );
+
         ASWeaponConfig::Precache();
     }
 
@@ -106,11 +113,7 @@ enum WeaponXBowAnim
     Draw1,
     Draw2,
     Holster1,
-    Holster2,
-    ScopeIdle,
-    ScopeFire,
-    ScopeIn,
-    ScopeOut
+    Holster2
 };
 
 const int BOLT_AIR_VELOCITY = 2000;
@@ -283,23 +286,19 @@ class weapon_bts_xbow : BTS_FireWeapon
         player.m_iWeaponVolume = QUIET_GUN_VOLUME;
         self.m_iClip--;
 
-        WeaponXBowAnim anim = Fire1;
+        ZoomDisable();
 
         if( self.m_iClip > 0 )
         {
+            PlayAnim( WeaponXBowAnim::Fire1 );
             PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.0, 93 + Math.RandomLong( 0, 15 ) );
             g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_BODY, "bts_rc/weapons/xbow_magin.wav", 0.25, ATTN_NORM, 0, 93 + Math.RandomLong( 0, 15 ) );
         }
         else
         {
-            anim = WeaponXBowAnim::Fire3;
+            PlayAnim( WeaponXBowAnim::Fire3 );
             PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.1, 93 + Math.RandomLong( 0, 15 ) );
         }
-
-        if( this.owner.m_iFOV != 0 )
-            anim = WeaponXBowAnim::ScopeFire;
-
-        PlayAnim( anim );
 
         Vector anglesAim = player.pev.v_angle + player.pev.punchangle;
         g_EngineFuncs.MakeVectors( anglesAim );
@@ -347,31 +346,35 @@ class weapon_bts_xbow : BTS_FireWeapon
 
     void ZoomDisable()
     {
-        if( this.owner.m_iFOV != 0 )
+        auto owner = this.owner;
+
+        if( owner.m_iFOV != 0 )
         {
-            this.owner.m_iFOV = 0;
-            this.owner.m_szAnimExtension = "bow";
+            owner.m_iFOV = 0;
+            owner.m_szAnimExtension = "bow";
             PlaySound( "weapons/sniper_zoom.wav", 1.0f );
+            owner.pev.viewmodel = gpWeaponXBowConfig.view_model;
         }
     }
 
     void ZoomIn()
     {
-        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-        this.owner.m_szAnimExtension = "bowscope";
+        auto owner = this.owner;
 
-        if( this.owner.m_iFOV == 0 )
+        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
+        owner.m_szAnimExtension = "bowscope";
+        owner.pev.viewmodel = gpWeaponXBowConfig.zoom_view_model;
+
+        if( owner.m_iFOV == 0 )
         {
-            this.owner.m_iFOV = 60;
-            PlayAnim( WeaponXBowAnim::ScopeIn );
+            owner.m_iFOV = 60;
             return;
         }
 
-        this.owner.m_iFOV -= 15;
+        owner.m_iFOV -= 15;
 
-        if( this.owner.m_iFOV <= 0 )
+        if( owner.m_iFOV <= 0 )
         {
-            PlayAnim( WeaponXBowAnim::ScopeOut );
             ZoomDisable();
         }
     }
@@ -397,12 +400,6 @@ class weapon_bts_xbow : BTS_FireWeapon
     float Idle() override
     {
         self.ResetEmptySound();
-
-        if( this.owner.m_iFOV != 0 )
-        {
-            PlayAnim( WeaponXBowAnim::ScopeIdle );
-            return 3.0f;
-        }
 
         float flRand = Math.RandomFloat( 0, 1 );
 
