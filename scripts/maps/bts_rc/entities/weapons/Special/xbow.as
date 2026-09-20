@@ -37,6 +37,11 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         return "models/bts_rc/weapons/v_crossbow.mdl";
     }
 
+    const string& get_zoom_view_model()
+    {
+        return "models/mikk155/misc/v_scope_noch.mdl";
+    }
+
     const string& get_animation_extension() override
     {
         return "bow";
@@ -76,6 +81,8 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magready.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_draw2.wav" );
         g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
+
+        g_Game.PrecacheModel( this.zoom_view_model );
 
         ASWeaponConfig::Precache();
     }
@@ -244,10 +251,7 @@ class weapon_bts_xbow : BTS_FireWeapon
     {
         self.m_fInReload = false;
 
-        if( self.m_fInZoom )
-        {
-            SecondaryAttack();
-        }
+        DisableZoom();
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.5;
         if( self.m_iClip > 0 )
@@ -266,7 +270,9 @@ class weapon_bts_xbow : BTS_FireWeapon
                 return;
             case AttackType::Secondary:
             {
-                SecondaryAttack();
+                ToggleZoom();
+                self.pev.nextthink = g_Engine.time + 0.1;
+                self.m_flNextSecondaryAttack = g_Engine.time + 0.5;
                 return;
             }
         }
@@ -327,8 +333,7 @@ class weapon_bts_xbow : BTS_FireWeapon
 
         player.pev.punchangle.x = -3.0f;
 
-        if( self.m_fInZoom )
-            SecondaryAttack();
+        DisableZoom();
 
         self.m_flNextPrimaryAttack = g_Engine.time + 1.8;
         self.m_flNextSecondaryAttack = g_Engine.time + 1.8;
@@ -339,26 +344,30 @@ class weapon_bts_xbow : BTS_FireWeapon
             self.m_flTimeWeaponIdle = g_Engine.time + 0.75;
     }
 
-    void SecondaryAttack()
+    void DisableZoom()
     {
-        g_SoundSystem.EmitSoundDyn( this.owner.edict(), CHAN_ITEM, "weapons/sniper_zoom.wav", 30, ATTN_NORM, 0, 125 );
-        if( this.owner.pev.fov != 0 )
+        if( this.owner.m_iFOV != 0 )
         {
-            this.owner.pev.fov = this.owner.m_iFOV = 0;
-            this.owner.pev.viewmodel = gpWeaponXBowConfig.view_model;
-            this.owner.m_szAnimExtension = "bow";
-            self.m_fInZoom = false;
+            ToggleZoom();
         }
-        else if( this.owner.pev.fov != 20 )
-        {
-            this.owner.pev.fov = this.owner.m_iFOV = 20;
-            this.owner.pev.viewmodel = String::EMPTY_STRING;
-            this.owner.m_szAnimExtension = "bowscope";
-            self.m_fInZoom = true;
-        }
+    }
 
-        self.pev.nextthink = g_Engine.time + 0.1;
-        self.m_flNextSecondaryAttack = g_Engine.time + 0.5;
+    void ToggleZoom()
+    {
+        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
+
+        if( this.owner.m_iFOV == 0 )
+        {
+            this.owner.m_iFOV = 20;
+            this.owner.m_szAnimExtension = "bowscope";
+            this.owner.pev.viewmodel = gpWeaponXBowConfig.zoom_view_model;
+        }
+        else
+        {
+            this.owner.m_iFOV = 0;
+            this.owner.m_szAnimExtension = "bow";
+            this.owner.pev.viewmodel = gpWeaponXBowConfig.view_model;
+        }
     }
 
     void Reload()
@@ -369,10 +378,7 @@ class weapon_bts_xbow : BTS_FireWeapon
         if( self.m_iClip == gpWeaponXBowConfig.max_clip )
             return;
 
-        if( this.owner.pev.fov != 0 )
-        {
-            SecondaryAttack();
-        }
+        DisableZoom();
 
         if( self.DefaultReload( gpWeaponXBowConfig.max_clip, WeaponXBowAnim::CROSSBOW_RELOAD, 4.5, this.body ) )
         {
