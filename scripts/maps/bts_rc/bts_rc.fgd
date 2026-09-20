@@ -45,25 +45,6 @@
     light_origin(string) : "ZHLT Light Origin Target"
 ]
 
-@PointClass base(Mandatory) studio( "models/mikk/misc/devcommentary.mdl" ) = env_commentary : "Developer commentary"
-[
-    spawnflags(Flags) =
-    [
-        1 : "No sound" : 0
-    ]
-    message(string) : "Commentary filename"
-    target(target_destination) : "Target when start using"
-    noise(target_destination) : "Target after duration ends"
-    netname(string) : "Title for the motd popup"
-    frags(choices) : "Display MOTD" : 0 =
-    [
-        0: "Yes"
-        1: "No"
-    ]
-    health(float) : "Duration to block the player"
-    noise1(target_destination) : "Target on removal (Clean up)"
-]
-
 @SolidClass base(Mandatory, ZHLT) = func_bts_recharger: "Wall hev armor recharger" [ ]
 
 @BaseClass = BTS_Item

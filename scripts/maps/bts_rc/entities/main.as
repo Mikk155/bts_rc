@@ -33,7 +33,6 @@
 #if SERVER
 #include "entitymaker"
 #endif
-#include "env_commentary"
 #include "func_bts_recharger"
 #if SERVER
 #include "func_section"
