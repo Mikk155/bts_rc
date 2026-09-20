@@ -1,9 +1,4 @@
-sync:.megaignore
-
-# MEGA backups
 -d:Rubbish*
-
-# Github
 -d:.git*
 -d:.github*
 -d:.vscode*
@@ -13,16 +8,16 @@ sync:.megaignore
 -d:scripts*
 -d:src*
 -d:wiki*
--f:.clang-format
--f:.editorconfig
--f:.gitattributes
--f:.gitignore
--f:as.predefined
--f:AUTHORS.md
--f:CHANGELOG.md
--f:CONTRIBUTING.md
--f:event_info.txt
--f:LICENSE.txt
--f:mapcycle.txt
--f:README.md
--f:TODO.md
+-f:.clang-format*
+-f:*.editorconfig
+-f:.gitattributes*
+-f:.gitignore*
+-f:as.predefined*
+-f:AUTHORS.md*
+-f:CHANGELOG.md*
+-f:CONTRIBUTING.md*
+-f:event_info.txt*
+-f:LICENSE.txt*
+-f:mapcycle.txt*
+-f:README.md*
+-f:TODO.md*
