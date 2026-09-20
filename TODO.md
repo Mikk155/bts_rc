@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/96.34146341463415?barColor=1ada0b)
+> ![](https://geps.dev/progress/78.70370370370371?barColor=63da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -28,14 +28,46 @@ This file contains the list of to-do in the project.
 
 # Pending
 
-- [ ] **Sniper Rifle**: Upload and update the scoped view model used while zooming (`models/v_m40a1.mdl`).
 - [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
+- [ ] Pulish black ops flashbangs which at the moment is a rare throw.
+- [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
+- [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
+- [ ] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
+- [ ] have release workflows/python to zip scripts with mega assets.
+- [ ] add laser to default revolver (it was discussed before i think gamit was working on it)
+- [ ] add a throwable interface/mixin to some melees that raptor asked i forgot which ones.
+- [ ] remove the additional hooks in medkit/crowbar and use config class
+- [ ] remove whatever was left in scriprs/maps/bts_weapons
+- [ ] remove various custom ammo that are otherwise duplicates
+- [ ] remove custom ammo types i.e flamethrower could use gauss ammo name
+- [ ] update laser spot sprites.
+- [ ] add missing things to FGD
+- [ ] Remove custom weapon hand grenades, override vanilla grenades.
+- [ ] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
+- [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
+- [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
+- [ ] weapon flashlight not turn off when ammo run out (new bereta)
+- [ ] crowbar hands are white on black otis.
+- [ ] Pass squadmaker entity if valid to EntityOverriden::AddEntity to pass squadmaker custom keyvalues such as:
+    ```C++
+        bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+        {
+            if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
+                return false;
+    ```
+- [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
 
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] **Sniper Rifle**: Upload and update the scoped view model used while zooming (`models/v_m40a1.mdl`).
+- [x] implement ChatRoles plugin for bts clases ([Scientist] <netname>)
+- [x] use CTextMenu for observer class selection.
+- [x] add the scope sniper/crossbow models that are left.
+- [x] checkpoint ignore non classified players (they should first select class in observer menu)
+- [x] have the flare holding animation as player light source (need model anim)
 - [x] move to src/precaches.json models in the map that has the targetname "PRECACHE" and notify raptor.
 - [x] Reimplement the whole hev fvox updates for hev characters (Update ASBullet::DeduceAmmo).
 - [x] Add "active" checks to all loggers that may not have it.
