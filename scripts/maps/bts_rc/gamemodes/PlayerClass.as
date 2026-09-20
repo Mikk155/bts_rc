@@ -36,7 +36,7 @@ enum Classification
 
 namespace Classification
 {
-    const string& ToString( Classification classification )
+    const string& ToString( const Classification classification )
     {
         switch( classification )
         {
@@ -59,6 +59,11 @@ namespace Classification
     }
 
     const string ToString( CBasePlayer@ player )
+    {
+        return ToString( util::GetClass(player) );
+    }
+
+    const string ToString( CBaseEntity@ player )
     {
         return ToString( util::GetClass(player) );
     }

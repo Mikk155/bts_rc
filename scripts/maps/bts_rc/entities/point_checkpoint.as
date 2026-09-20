@@ -57,13 +57,13 @@ final class point_checkpoint : ScriptBaseAnimating
         {
             g_PlayerFuncs.PrintKeyBindingString( player, "Press the USE key +use to activate\n" );
 
-            if( ( pOther.pev.button & IN_USE ) != 0 )
+            if( ( player.pev.button & IN_USE ) != 0 )
             {
                 self.pev.solid = SOLID_NOT;
 
                 string message;
-                snprintf( message, "Player %1 reached a checkpoint.\n", string( pOther.pev.netname ) );
-                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, message );
+                snprintf( message, "%1 %2: Reached a checkpoint.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ) );
+                ChatColor::Say( player, ChatColor::Color::Yellow, message );
 
                 g_SoundSystem.EmitSound( self.edict(), CHAN_STATIC, "bts_rc/music/bts_rc_checkpoint.ogg", 1.0f, ATTN_NONE );
 
@@ -72,7 +72,7 @@ final class point_checkpoint : ScriptBaseAnimating
 
                 this.m_state++;
 
-                g_EntityFuncs.FireTargets( string( self.pev.target ), self, pOther, USE_TOGGLE );
+                g_EntityFuncs.FireTargets( string( self.pev.target ), player, self, USE_TOGGLE );
                 break;
             }
         }

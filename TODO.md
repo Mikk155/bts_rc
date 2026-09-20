@@ -56,8 +56,9 @@ This file contains the list of to-do in the project.
                 return false;
     ```
 - [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
-- [ ] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
+- [x] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
 - [ ] Add crossbow sprite when zoom in to sprite txt file.
+- [ ] Use item display name instead of item name for item_tracker collection chat message.
 
 ---
 

@@ -219,7 +219,10 @@ namespace item_tracker
             if( storedItems.find( name ) >= 0 )
                 continue;
 
-            g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, string( player.pev.netname ) + " collected " + name + "\n" );
+            string message;
+            snprintf( message, "%1 %2: collected %3.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ), name );
+            ChatColor::Say( player, ChatColor::Color::Yellow, message );
+
             storedItems.insertLast( name );
             changed = true;
         }

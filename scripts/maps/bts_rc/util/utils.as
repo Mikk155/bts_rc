@@ -126,7 +126,7 @@ bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
             __LastMultiTouchIndex__++;
             auto entity = g_PlayerFuncs.FindPlayerByIndex(__LastMultiTouchIndex__);
 
-            if( entity !is null && entity.IsConnected() && entity.Intersects( other ) )
+            if( entity !is null && entity.IsConnected() && other.Intersects( entity ) )
             {
                 @player = entity;
                 return true;
