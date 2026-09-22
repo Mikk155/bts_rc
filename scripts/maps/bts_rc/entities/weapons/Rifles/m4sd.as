@@ -179,20 +179,11 @@ class weapon_bts_m4sd : BTS_FireWeapon
             tracer.End();
         }
 
-        if( isTrainedPersonal )
-        {
-            player.pev.punchangle.x = -2.75f;
-        }
-        else
-        {
-            player.pev.punchangle.x = player.IsMoving() ? float( Math.RandomLong( -6, 3 ) ) : float( Math.RandomLong( -3, 2 ) );
-        }
-
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4SD_SEMI ? 0.124f : 0.105f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    
+
 
     float Idle() override
     {

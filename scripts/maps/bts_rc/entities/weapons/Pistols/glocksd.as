@@ -170,8 +170,6 @@ class weapon_bts_glocksd : BTS_FireWeapon
                     .Animation( anim )
                 .Fire();
 
-                player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
-
                 gpWeaponGlockSDConfig.SetCooldown( isTrainedPersonal, type, self, this.owner );
 
                 self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );

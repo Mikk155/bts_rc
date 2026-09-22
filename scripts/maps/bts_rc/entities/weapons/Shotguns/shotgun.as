@@ -137,12 +137,11 @@ class weapon_bts_shotgun : BTS_FireWeapon
                 .Range( 2048.0f )
                 .Sound( "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), 85 + Math.RandomLong( 0, 31 ), LOUD_GUN_VOLUME )
                 .Shell( -1 )
+                .Type( AttackType::Secondary )
                 .Animation( WeaponShotgunAnim::SHOOT2 )
             .Fire();
 
             bool isTrainedPersonal = util::IsTrainedPersonal( player );
-
-            player.pev.punchangle.x = isTrainedPersonal ? -10.0f : -24.0f;
 
             Vector vecForward, vecRight, vecUp;
             g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
@@ -190,12 +189,11 @@ class weapon_bts_shotgun : BTS_FireWeapon
             .Range( 2048.0f )
             .Sound( "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 31 ), LOUD_GUN_VOLUME )
             .Shell( -1 )
+            .Type( AttackType::Secondary )
             .Animation( WeaponShotgunAnim::SHOOT )
         .Fire();
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
-
-        player.pev.punchangle.x = isTrainedPersonal ? -5.0f : -11.0f;
 
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );

@@ -134,8 +134,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
             .Animation( anim )
         .Fire();
 
-        player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -18.0f;
-
         self.m_flNextPrimaryAttack = g_Engine.time + 2.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }

@@ -147,8 +147,6 @@ class weapon_bts_glock : BTS_FireWeapon
             .Animation( anim )
         .Fire();
 
-        player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -2.65f;
-
         if( type == AttackType::Secondary )
         {
             SetCooldown( isTrainedPersonal, AttackType::Secondary );

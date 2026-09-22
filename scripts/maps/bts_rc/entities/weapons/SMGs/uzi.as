@@ -118,30 +118,6 @@ class weapon_bts_uzi : BTS_FireWeapon
             .Animation( WeaponUziAnim::Shoot )
         .Fire();
 
-        if( isTrainedPersonal )
-        {
-            player.pev.punchangle.x = -2.25f;
-        }
-        else
-        {
-            if( !player.pev.FlagBitSet( FL_ONGROUND ) )
-            {
-                player.pev.punchangle.x = float( Math.RandomLong( -5, 3 ) );
-            }
-            else if( player.pev.velocity.Length2D() > 0 )
-            {
-                player.pev.punchangle.x = float( Math.RandomLong( -4, 3 ) );
-            }
-            else if( player.pev.FlagBitSet( FL_DUCKING ) )
-            {
-                player.pev.punchangle.x = float( Math.RandomLong( -3, 2 ) );
-            }
-            else
-            {
-                player.pev.punchangle.x = float( Math.RandomLong( -3, 3 ) );
-            }
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.07f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }

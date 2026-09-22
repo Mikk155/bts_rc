@@ -238,15 +238,6 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
             tracer.End();
         }
 
-        if( isTrainedPersonal )
-        {
-            player.pev.punchangle.x = -3.0f;
-        }
-        else
-        {
-            player.pev.punchangle.x = player.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -8, 3 ) );
-        }
-
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
@@ -276,7 +267,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         BaseClass.ItemPostFrame();
     }
 
-    
+
 
     float Idle() override
     {

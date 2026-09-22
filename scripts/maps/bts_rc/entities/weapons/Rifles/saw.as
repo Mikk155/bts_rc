@@ -161,8 +161,6 @@ class weapon_bts_saw : BTS_FireWeapon
         .Fire();
 
         RecalculateBody( self.m_iClip );
-        player.pev.punchangle.x = isTrainedPersonal ? Math.RandomFloat( -2.0f, 2.0f ) : Math.RandomFloat( -10.0f, 2.0f );
-        player.pev.punchangle.y = isTrainedPersonal ? Math.RandomFloat( -1.0f, 1.0f ) : Math.RandomFloat( -2.0f, 1.0f );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;

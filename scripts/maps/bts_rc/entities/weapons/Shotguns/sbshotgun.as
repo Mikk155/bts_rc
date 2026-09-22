@@ -163,8 +163,6 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
-        player.pev.punchangle.x = isTrainedPersonal ? -5.0f : -11.0f;
-
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
         Vector vecOrigin = player.GetGunPosition() + vecForward * 14.0f + vecRight * 6.0f - vecUp * 34.0f;

@@ -158,20 +158,10 @@ class weapon_bts_glock18 : BTS_FireWeapon
             .Sound( "bts_rc/weapons/glock18_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ) )
             .Shell( models::shell )
             .Animation( anim )
+            .Type( ( m_iFireMode == Glock18Mode::SemiAuto ? AttackType::Primary : AttackType::Secondary ) )
         .Fire();
-
-        if( m_iFireMode == Glock18Mode::SemiAuto )
-        {
-            player.pev.punchangle.x = isTrainedPersonal ? -2.0f : -4.0f;
-        }
-        else
-        {
-            player.pev.punchangle.x = isTrainedPersonal ? -2.0f : float( Math.RandomLong( -6, 3 ) );
-        }
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == Glock18Mode::SemiAuto ) ? 0.3f : 0.0625f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
-
-    
 }

@@ -42,6 +42,11 @@ final class ASWeaponPythonConfig : ASWeaponLaserConfig
         return "models/bts_rc/weapons/v_357.mdl";
     }
 
+    const string& get_player_model_laser() override
+    {
+        return "models/bts_rc/weapons/p_357_laser.mdl";
+    }
+
     const string& get_animation_extension() override
     {
         return "python";
@@ -64,7 +69,7 @@ final class ASWeaponPythonConfig : ASWeaponLaserConfig
 
     const uint8 get_hands_group() override
     {
-        return 3;
+        return 1;
     }
 
     uint get_laser_animation() override
@@ -164,8 +169,6 @@ class weapon_bts_python : BTS_FireWeapon
             .Flash( BRIGHT_GUN_FLASH )
             .Animation( WeaponPythonAnim::Shoot )
         .Fire();
-
-        player.pev.punchangle.x = isTrainedPersonal ? -10.0f : -16.0f;
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );

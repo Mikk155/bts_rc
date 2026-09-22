@@ -229,15 +229,6 @@ class weapon_bts_mp5 : BTS_FireWeapon
             tracer.End();
         }
 
-        if( isTrainedPersonal )
-        {
-            this.owner.pev.punchangle.x = -2.0f;
-        }
-        else
-        {
-            this.owner.pev.punchangle.x = this.owner.pev.FlagBitSet( FL_DUCKING ) ? float( Math.RandomLong( -3, 2 ) ) : float( Math.RandomLong( -5, 3 ) );
-        }
-
         self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
         if( m_iFireMode == MP5_BURST )
         {
@@ -247,7 +238,7 @@ class weapon_bts_mp5 : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 
-    
+
 
     float Idle() override
     {

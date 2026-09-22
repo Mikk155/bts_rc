@@ -203,7 +203,6 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
         UpdateViewBodygroups();
 
-        player.pev.punchangle.x = isTrainedPersonal ? -3.0f : -7.0f;
         self.m_flNextPrimaryAttack = g_Engine.time + 0.25f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }
