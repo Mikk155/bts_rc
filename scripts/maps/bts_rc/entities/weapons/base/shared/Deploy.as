@@ -31,6 +31,8 @@ namespace weapons
 
         SetCooldown( weapon, player, config.deploy_time );
 
+        player.SetAnimation( PLAYER_ANIM::PLAYER_DEPLOY );
+
         return true;
     }
 }
