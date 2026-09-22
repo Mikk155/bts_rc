@@ -159,6 +159,7 @@ class weapon_bts_glock18 : BTS_FireWeapon
             .Shell( models::shell )
             .Animation( anim )
             .Type( ( m_iFireMode == Glock18Mode::SemiAuto ? AttackType::Primary : AttackType::Secondary ) )
+            .AmmoFrom( AttackType::Primary )
         .Fire();
 
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == Glock18Mode::SemiAuto ) ? 0.3f : 0.0625f );

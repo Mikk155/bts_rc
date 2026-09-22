@@ -138,6 +138,7 @@ class weapon_bts_shotgun : BTS_FireWeapon
                 .Sound( "bts_rc/weapons/spas12_dbarrel1.wav", Math.RandomFloat( 0.98f, 1.0f ), 85 + Math.RandomLong( 0, 31 ), LOUD_GUN_VOLUME )
                 .Shell( -1 )
                 .Type( AttackType::Secondary )
+                .AmmoFrom( AttackType::Primary )
                 .Animation( WeaponShotgunAnim::SHOOT2 )
             .Fire();
 
@@ -189,7 +190,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             .Range( 2048.0f )
             .Sound( "hlclassic/weapons/sbarrel1.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 31 ), LOUD_GUN_VOLUME )
             .Shell( -1 )
-            .Type( AttackType::Secondary )
             .Animation( WeaponShotgunAnim::SHOOT )
         .Fire();
 

@@ -63,6 +63,7 @@ final class ASBullet
     private CBasePlayerWeapon@ m_WeaponEntity;
     private ASWeaponConfig@ m_Config;
     private AttackType m_AttackType;
+    private int m_AmmoFrom;
     private uint m_WeaponAnim;
     private PLAYER_ANIM m_PlayerAnim;
     private int m_PlayerAnimMode;
@@ -241,6 +242,12 @@ final class ASBullet
         return this;
     }
 
+    ASBullet@ AmmoFrom( int ammoFrom = -1 )
+    {
+        this.m_AmmoFrom = ammoFrom;
+        return this;
+    }
+
     ASBullet@ Clear()
     {
         return this
@@ -258,13 +265,16 @@ final class ASBullet
             .Damage()
             .Range()
             .Tracer()
+            .AmmoFrom()
             .Spread();
     }
 
     // Return ammo count for the current type
     int get_CurrentAmmo() property
     {
-        switch( this.m_AttackType )
+        int ammoFrom = ( m_AmmoFrom == -1 ? this.m_AttackType : this.m_AmmoFrom );
+
+        switch( ammoFrom )
         {
             case AttackType::Primary:
             {
@@ -283,7 +293,9 @@ final class ASBullet
 
     int get_ReserveAmmo() property
     {
-        switch( this.m_AttackType )
+        int ammoFrom = ( m_AmmoFrom == -1 ? this.m_AttackType : this.m_AmmoFrom );
+
+        switch( ammoFrom )
         {
             case AttackType::Primary:
             {
@@ -379,7 +391,9 @@ final class ASBullet
 
         int ammo = CurrentAmmo - int( value );
 
-        switch( this.m_AttackType )
+        int ammoFrom = ( m_AmmoFrom == -1 ? this.m_AttackType : this.m_AmmoFrom );
+
+        switch( ammoFrom )
         {
             case AttackType::Primary:
             {
