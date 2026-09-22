@@ -432,5 +432,4 @@ namespace monster_zombie_grenadier
     {
         CustomEntity( "monster_zombie_grenadier", true, "monster_zombie_grenadier::monster_zombie_grenadier" );
     }
-
 } // end of namespace monster_zombie_grenadier

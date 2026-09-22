@@ -54,7 +54,7 @@ final class ASWeaponFlareGunConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponFlareGunAnim::DRAW;
+        return WeaponFlareGunAnim::Draw;
     }
 }
 
@@ -62,14 +62,14 @@ ASWeaponFlareGunConfig gpWeaponFlareGunConfig;
 
 enum WeaponFlareGunAnim
 {
-    IDLE1 = 0,
-    FIDGET,
-    SHOOT,
-    RELOAD,
-    HOLSTER,
-    DRAW,
-    IDLE2,
-    IDLE3
+    Idle1 = 0,
+    Fidget,
+    Shoot,
+    Reload,
+    Holster,
+    Draw,
+    Idle2,
+    Idle3
 };
 
 class weapon_bts_flaregun : BTS_FireWeapon
@@ -122,7 +122,7 @@ class weapon_bts_flaregun : BTS_FireWeapon
             flare.pev.scale = 1.0f;
         }
 
-        PlayAnim( WeaponFlareGunAnim::SHOOT, PLAYER_ANIM::PLAYER_ATTACK1 );
+        PlayAnim( WeaponFlareGunAnim::Shoot, PLAYER_ANIM::PLAYER_ATTACK1 );
         PlaySound( "bts_rc/weapons/flaregun_shot1.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 15 ), CHAN_WEAPON );
 
         player.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );
@@ -133,8 +133,6 @@ class weapon_bts_flaregun : BTS_FireWeapon
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 
-
-
     float Idle() override
     {
         self.ResetEmptySound();
@@ -143,24 +141,23 @@ class weapon_bts_flaregun : BTS_FireWeapon
         float flRand = Math.RandomFloat( 0.0f, 1.0f );
         if( flRand <= 0.5f )
         {
-            PlayAnim( WeaponFlareGunAnim::IDLE1 );
+            PlayAnim( WeaponFlareGunAnim::Idle1 );
             return 2.33f;
         }
         else if( flRand <= 0.7f )
         {
-            PlayAnim( WeaponFlareGunAnim::IDLE2 );
+            PlayAnim( WeaponFlareGunAnim::Idle2 );
             return 2.0f;
         }
         else if( flRand <= 0.9f )
         {
-            PlayAnim( WeaponFlareGunAnim::IDLE3 );
+            PlayAnim( WeaponFlareGunAnim::Idle3 );
             return 2.93f;
         }
         else
         {
-            PlayAnim( WeaponFlareGunAnim::FIDGET );
+            PlayAnim( WeaponFlareGunAnim::Fidget );
             return 5.66f;
         }
     }
-
 }

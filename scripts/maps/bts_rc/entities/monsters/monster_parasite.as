@@ -197,8 +197,8 @@ final class monster_parasite : bts_rc_base_monster
     }
 
     //=========================================================
-    // Center - returns the real center of the headcrab.  The 
-    // bounding box is much larger than the actual creature so 
+    // Center - returns the real center of the headcrab.  The
+    // bounding box is much larger than the actual creature so
     // this is needed for targeting
     //=========================================================
     Vector Center()
@@ -206,8 +206,8 @@ final class monster_parasite : bts_rc_base_monster
         return pev.origin + Vector( 0, 0, 6 );
     }
 
-    Vector BodyTarget( const Vector& in posSrc ) 
-    { 
+    Vector BodyTarget( const Vector& in posSrc )
+    {
         return Center();
     }
 
@@ -299,7 +299,7 @@ final class monster_parasite : bts_rc_base_monster
 
                     // Don't jump too far/fast
                     float distance = vecJumpDir.Length();
-                    
+
                     if( distance > 650 )
                         vecJumpDir = vecJumpDir * ( 650.0 / distance );
                 }
@@ -367,7 +367,7 @@ ScriptSchedule slHCRangeAttack1
     0,
     "HCRangeAttack1"
 );
-    
+
 ScriptSchedule slHCRangeAttack1Fast
 (
     bits_COND_ENEMY_OCCLUDED |
@@ -384,7 +384,7 @@ void InitSchedules()
     slHCRangeAttack1.AddTask( ScriptTask(TASK_SET_ACTIVITY, float(ACT_IDLE)) );
     slHCRangeAttack1.AddTask( ScriptTask(TASK_FACE_IDEAL) );
     slHCRangeAttack1.AddTask( ScriptTask(TASK_WAIT_RANDOM, 0.5) );
-    
+
     slHCRangeAttack1Fast.AddTask( ScriptTask(TASK_STOP_MOVING) );
     slHCRangeAttack1Fast.AddTask( ScriptTask(TASK_FACE_IDEAL) );
     slHCRangeAttack1Fast.AddTask( ScriptTask(TASK_RANGE_ATTACK1) );
@@ -401,5 +401,4 @@ void Register()
 
     CustomEntity( "monster_parasite", true, "monster_parasite::monster_parasite" );
 }
-
 } //namespace monster_parasite END

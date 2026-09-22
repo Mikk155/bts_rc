@@ -54,7 +54,7 @@ final class ASWeaponHandGrenadeConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponHandGrenadeAnim::DRAW;
+        return WeaponHandGrenadeAnim::Draw;
     }
 }
 
@@ -62,14 +62,14 @@ ASWeaponHandGrenadeConfig gpWeaponHandGrenadeConfig;
 
 enum WeaponHandGrenadeAnim
 {
-    IDLE = 0,
-    FIDGET,
-    PULLPIN,
-    THROW1,
-    THROW2,
-    THROW3,
-    HOLSTER,
-    DRAW
+    Idle = 0,
+    Fidget,
+    PullPin,
+    Throw1,
+    Throw2,
+    Throw3,
+    Holster,
+    Draw
 };
 
 class weapon_bts_handgrenade : BTS_Weapon, IThrowable
@@ -191,7 +191,7 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
             return;
 
         self.m_flNextPrimaryAttack = g_Engine.time + ( 24.0f / 30.0f );
-        PlayAnim( WeaponHandGrenadeAnim::PULLPIN );
+        PlayAnim( WeaponHandGrenadeAnim::PullPin );
         m_bRoll = rolling;
 
         m_bInAttack = true;
@@ -236,9 +236,9 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 9.0f / 30.0f );
 
         if( m_bRoll )
-            PlayAnim( WeaponHandGrenadeAnim::THROW1, PLAYER_ANIM::PLAYER_ATTACK1 );
+            PlayAnim( WeaponHandGrenadeAnim::Throw1, PLAYER_ANIM::PLAYER_ATTACK1 );
         else
-            PlayAnim( WeaponHandGrenadeAnim::THROW1, PLAYER_ANIM::PLAYER_ATTACK1 );
+            PlayAnim( WeaponHandGrenadeAnim::Throw1, PLAYER_ANIM::PLAYER_ATTACK1 );
 
         m_bThrown = true;
         m_bInAttack = false;
@@ -254,12 +254,12 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         float flRand = Math.RandomFloat( 0.0f, 1.0f );
         if( flRand <= 0.75f )
         {
-            PlayAnim( WeaponHandGrenadeAnim::IDLE );
+            PlayAnim( WeaponHandGrenadeAnim::Idle );
             return Math.RandomFloat( 10.0f, 15.0f );
         }
         else
         {
-            PlayAnim( WeaponHandGrenadeAnim::FIDGET );
+            PlayAnim( WeaponHandGrenadeAnim::Fidget );
             return 2.33f;
         }
     }

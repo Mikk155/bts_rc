@@ -34,7 +34,7 @@ This file contains the list of to-do in the project.
 - [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
 - [ ] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
 - [ ] have release workflows/python to zip scripts with mega assets.
-- [ ] add laser to default revolver (it was discussed before i think gamit was working on it)
+- [x] add laser to default revolver (it was discussed before i think gamit was working on it)
 - [ ] add a throwable interface/mixin to some melees that raptor asked i forgot which ones.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] remove whatever was left in scriprs/maps/bts_weapons

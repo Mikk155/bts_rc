@@ -59,17 +59,17 @@ final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponSBShotgunAnim::DRAW;
+        return WeaponSBShotgunAnim::Draw;
     }
 
     const int get_animation_holster() override
     {
-        return WeaponSBShotgunAnim::HOLSTER;
+        return WeaponSBShotgunAnim::Holster;
     }
 
     const uint8 get_animation_toggle() override
     {
-        return WeaponSBShotgunAnim::FLASH;
+        return WeaponSBShotgunAnim::Flash;
     }
 
     const uint8 get_hands_group() override
@@ -82,18 +82,18 @@ ASWeaponSBShotgunConfig gpWeaponSBShotgunConfig;
 
 enum WeaponSBShotgunAnim
 {
-    IDLE = 0,
-    SHOOT,
-    SHOOT2,
-    RELOAD,
-    PUMP,
-    START_RELOAD,
-    DRAW,
-    HOLSTER,
-    IDLE4,
-    IDLE_DEEP,
-    IDLE_STEAMFACEPALM,
-    FLASH
+    Idle = 0,
+    Shoot1,
+    Shoot2,
+    Reload,
+    Pump,
+    StartReload,
+    Draw,
+    Holster,
+    Idle2,
+    IdleDeep,
+    IdleSteamFacePalm,
+    Flash
 };
 
 class weapon_bts_sbshotgun : BTS_FireWeapon
@@ -158,7 +158,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
             .Range( 2048.0f )
             .Sound( "bts_rc/weapons/sbshotgun_fire1.wav", Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), LOUD_GUN_VOLUME )
             .Shell( -1 )
-            .Animation( WeaponSBShotgunAnim::SHOOT )
+            .Animation( WeaponSBShotgunAnim::Shoot1 )
         .Fire();
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
@@ -199,13 +199,13 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         switch( m_fInReloadState )
         {
             case 0:
-                PlayAnim( WeaponSBShotgunAnim::START_RELOAD, PLAYER_ANIM::PLAYER_RELOAD );
+                PlayAnim( WeaponSBShotgunAnim::StartReload, PLAYER_ANIM::PLAYER_RELOAD );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 1.0f;
                 m_flTimeWeaponReload = g_Engine.time + 0.6f;
                 m_fInReloadState = 1;
                 break;
             case 1:
-                PlayAnim( WeaponSBShotgunAnim::RELOAD, PLAYER_ANIM::PLAYER_RELOAD );
+                PlayAnim( WeaponSBShotgunAnim::Reload, PLAYER_ANIM::PLAYER_RELOAD );
                 if( Math.RandomLong( 0, 1 ) == 0 )
                     PlaySound( "bts_rc/weapons/reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ) );
                 else
@@ -248,7 +248,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
-                    PlayAnim( WeaponSBShotgunAnim::PUMP, PLAYER_ANIM::PLAYER_RELOAD );
+                    PlayAnim( WeaponSBShotgunAnim::Pump, PLAYER_ANIM::PLAYER_RELOAD );
                     PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f;
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
@@ -271,14 +271,14 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         switch( Math.RandomLong( 0, 2 ) )
         {
             case 0:
-                PlayAnim( WeaponSBShotgunAnim::IDLE_DEEP );
+                PlayAnim( WeaponSBShotgunAnim::IdleDeep );
                 return 5.0f;
             case 1:
-                PlayAnim( WeaponSBShotgunAnim::IDLE );
+                PlayAnim( WeaponSBShotgunAnim::Idle );
                 return 2.22f;
             case 2:
             default:
-                PlayAnim( WeaponSBShotgunAnim::IDLE4 );
+                PlayAnim( WeaponSBShotgunAnim::Idle2 );
                 return 2.22f;
         }
     }

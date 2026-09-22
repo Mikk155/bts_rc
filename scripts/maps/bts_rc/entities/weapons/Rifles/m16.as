@@ -64,7 +64,7 @@ final class ASWeaponM16Config : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM16Anim::DRAW;
+        return WeaponM16Anim::Draw;
     }
 
     void Precache() override
@@ -85,15 +85,15 @@ ASWeaponM16Config gpWeaponM16Config;
 
 enum WeaponM16Anim
 {
-    DRAW = 0,
-    HOLSTER,
-    IDLE,
-    FIDGET,
-    SHOOT1,
-    SHOOT2,
-    RELOAD,
-    LAUNCH,
-    RELOAD2
+    Draw = 0,
+    Holster,
+    Idle,
+    Fidget,
+    Shoot1,
+    Shoot2,
+    Reload,
+    Launch,
+    Reload2
 };
 
 abstract class weapon_bts_m16_base : BTS_FireWeapon
@@ -140,7 +140,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
-            PlayAnim( WeaponM16Anim::LAUNCH, PLAYER_ANIM::PLAYER_ATTACK1 );
+            PlayAnim( WeaponM16Anim::Launch, PLAYER_ANIM::PLAYER_ATTACK1 );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -196,7 +196,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
             cone *= this.config.automatic_accuracy_multiplier;
         m_flLastPrimaryShot = g_Engine.time;
 
-        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::SHOOT1 : WeaponM16Anim::SHOOT2;
+        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::Shoot1 : WeaponM16Anim::Shoot2;
 
         bullet.Weapon( this )
             .Accuracy( cone )
@@ -243,7 +243,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
     private void LoadGrenade()
     {
-        PlayAnim( WeaponM16Anim::RELOAD2, PLAYER_ANIM::PLAYER_RELOAD );
+        PlayAnim( WeaponM16Anim::Reload2, PLAYER_ANIM::PLAYER_RELOAD );
         m_bGrenadeFire = false;
         m_flGrenadeLaunchTime = 0;
         PlaySound( "weapons/gl_reload.wav", 1.0f );
@@ -267,8 +267,6 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         BaseClass.ItemPostFrame();
     }
 
-
-
     float Idle() override
     {
         self.ResetEmptySound();
@@ -276,12 +274,12 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
         if( flNextIdle <= 0.66f )
         {
-            PlayAnim( WeaponM16Anim::IDLE );
+            PlayAnim( WeaponM16Anim::Idle );
             return 50.0f / 15.0f;
         }
         else
         {
-            PlayAnim( WeaponM16Anim::FIDGET );
+            PlayAnim( WeaponM16Anim::Fidget );
             return 86.0f / 30.0f;
         }
     }

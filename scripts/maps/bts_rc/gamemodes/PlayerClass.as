@@ -492,7 +492,6 @@ CCharacter@ SetRandomCharacter( CBasePlayer@ player, const Classification&in cla
     return list[last];
 }
 
-
 /// Get the player class
 CCharacter@ GetCharacter( CBasePlayer@ player )
 {
@@ -625,7 +624,6 @@ function( CBasePlayer@ player, array<string>@ arguments )
         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, " " + int(Classification::Operative) + " | \"" + Classification::ToString(Classification::Operative) + "\"\n" );
         return;
     }
-
 
     string arg = arguments[0];
     Classification classify;

@@ -54,7 +54,7 @@ final class ASWeaponSawConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponSawAnim::DRAW;
+        return WeaponSawAnim::Draw;
     }
 
     void Precache() override
@@ -68,15 +68,15 @@ ASWeaponSawConfig gpWeaponSawConfig;
 
 enum WeaponSawAnim
 {
-    SLOWIDLE = 0,
-    IDLE2,
-    RELOAD_START,
-    RELOAD_END,
-    HOLSTER,
-    DRAW,
-    SHOOT1,
-    SHOOT2,
-    SHOOT3
+    SlowIdle = 0,
+    Idle,
+    ReloadStart,
+    ReloadEnd,
+    Holster,
+    Draw,
+    Shoot1,
+    Shoot2,
+    Shoot3
 };
 
 class weapon_bts_saw : BTS_FireWeapon
@@ -108,7 +108,7 @@ class weapon_bts_saw : BTS_FireWeapon
         if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 || self.m_flNextPrimaryAttack > g_Engine.time )
             return;
 
-        self.DefaultReload( config.max_clip, WeaponSawAnim::RELOAD_START, config.reload_time, this.body );
+        self.DefaultReload( config.max_clip, WeaponSawAnim::ReloadStart, config.reload_time, this.body );
 
         if( !self.m_fInReload )
             return;
@@ -157,7 +157,7 @@ class weapon_bts_saw : BTS_FireWeapon
             .Sound( "bts_rc/weapons/gun_fire4.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) )
             .Shell( m_bAlternatingEject ? m_iLink : models::saw_shell )
             .Tracer( ( m_iTracerCount++ % 2 ) == 0 )
-            .Animation( Math.RandomLong( WeaponSawAnim::SHOOT1, WeaponSawAnim::SHOOT3 ) )
+            .Animation( Math.RandomLong( WeaponSawAnim::Shoot1, WeaponSawAnim::Shoot3 ) )
         .Fire();
 
         RecalculateBody( self.m_iClip );
@@ -192,7 +192,7 @@ class weapon_bts_saw : BTS_FireWeapon
 
     void FinishAnim()
     {
-        PlayAnim( WeaponSawAnim::RELOAD_END, PLAYER_ANIM::PLAYER_RELOAD );
+        PlayAnim( WeaponSawAnim::ReloadEnd, PLAYER_ANIM::PLAYER_RELOAD );
         PlaySound( "bts_rc/weapons/saw_reload2.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
     }
 
@@ -203,12 +203,12 @@ class weapon_bts_saw : BTS_FireWeapon
         const float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
         if( flNextIdle <= 0.95f )
         {
-            PlayAnim( WeaponSawAnim::SLOWIDLE );
+            PlayAnim( WeaponSawAnim::SlowIdle );
             return 5.0f;
         }
         else
         {
-            PlayAnim( WeaponSawAnim::IDLE2 );
+            PlayAnim( WeaponSawAnim::Idle );
             return 6.16f;
         }
     }

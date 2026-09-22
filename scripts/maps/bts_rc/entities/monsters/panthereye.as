@@ -923,7 +923,6 @@ class monster_panthereye : ScriptBaseMonsterEntity
 screen shake / fade while pinned
 forced view angle (player can’t look around)
 
-
 g_PlayerFuncs.ScreenShake(player.pev.origin, 4.0f, 2.0f, 0.1f, 200.0f);
 
 g_SoundSystem.EmitSoundDyn(player.edict(), CHAN_BODY, "player/pain2.wav", 1.0, ATTN_NORM, 0, PITCH_NORM);

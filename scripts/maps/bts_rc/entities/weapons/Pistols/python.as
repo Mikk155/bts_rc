@@ -173,6 +173,4 @@ class weapon_bts_python : BTS_FireWeapon
         self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
-
-
 }

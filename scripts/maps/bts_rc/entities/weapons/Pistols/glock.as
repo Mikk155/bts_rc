@@ -158,5 +158,4 @@ class weapon_bts_glock : BTS_FireWeapon
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         }
     }
-
 }

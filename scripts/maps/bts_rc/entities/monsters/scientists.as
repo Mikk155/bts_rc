@@ -145,5 +145,4 @@ HookReturnCode PlayerPreThink( CBasePlayer@ player, uint& out uiFlags )
     custom.SetKeyvalue( KVN_PLAYERTHINK, g_Engine.time + THINKRATE_PLAYER );
     return HOOK_CONTINUE;
 }
-
 } // namespace btscm END

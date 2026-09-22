@@ -159,6 +159,4 @@ class weapon_bts_glock17f : BTS_FireWeapon
         self.m_flNextPrimaryAttack = g_Engine.time + ( isTrainedPersonal ? 0.05f : 0.10f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
-
-
 }

@@ -54,7 +54,7 @@ final class ASWeaponM4SDConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM4SDAnim::DRAW;
+        return WeaponM4SDAnim::Draw;
     }
 }
 
@@ -62,20 +62,20 @@ ASWeaponM4SDConfig gpWeaponM4SDConfig;
 
 enum WeaponM4SDAnim
 {
-    LONGIDLE = 0,
-    IDLE1 = 1,
-    FIREMODE = 2,
-    RELOAD = 3,
-    DRAW = 4,
-    SHOOT1 = 5,
-    SHOOT2 = 6,
-    SHOOT3 = 7
+    LongIdle = 0,
+    Idle1 = 1,
+    FireMode = 2,
+    Reload = 3,
+    Draw = 4,
+    Shoot1 = 5,
+    Shoot2 = 6,
+    Shoot3 = 7
 };
 
 enum M4SDMode
 {
-    M4SD_SEMI = 0,
-    M4SD_FULL_AUTO
+    Semi = 0,
+    Full
 };
 
 class weapon_bts_m4sd : BTS_FireWeapon
@@ -86,7 +86,7 @@ class weapon_bts_m4sd : BTS_FireWeapon
     }
 
     private int m_iTracerCount = 0;
-    private int m_iFireMode = M4SD_SEMI;
+    private int m_iFireMode = M4SDMode::Semi;
 
     void Spawn() override
     {
@@ -97,19 +97,19 @@ class weapon_bts_m4sd : BTS_FireWeapon
     {
         if( type == AttackType::Secondary )
         {
-            if( m_iFireMode == M4SD_SEMI )
+            if( m_iFireMode == M4SDMode::Semi )
             {
-                m_iFireMode = M4SD_FULL_AUTO;
+                m_iFireMode = M4SDMode::Full;
                 g_EngineFuncs.ClientPrintf( player, print_center, " Full-Auto\n" );
                 PlaySound( "bts_rc/weapons/grenade_pinpull.wav", 0.8f, 100 );
             }
             else
             {
-                m_iFireMode = M4SD_SEMI;
+                m_iFireMode = M4SDMode::Semi;
                 g_EngineFuncs.ClientPrintf( player, print_center, " Semi\n" );
                 PlaySound( "bts_rc/weapons/grenade_pinpull.wav", 0.8f, 115 );
             }
-            PlayAnim( WeaponM4SDAnim::FIREMODE );
+            PlayAnim( WeaponM4SDAnim::FireMode );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;
@@ -127,7 +127,7 @@ class weapon_bts_m4sd : BTS_FireWeapon
             return;
         }
 
-        if( m_iFireMode == M4SD_SEMI )
+        if( m_iFireMode == M4SDMode::Semi )
         {
             if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
                 return;
@@ -135,7 +135,7 @@ class weapon_bts_m4sd : BTS_FireWeapon
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
         float cone = weapons::Accuracy( player, this.config.primary_accuracy, isTrainedPersonal );
-        if( m_iFireMode == M4SD_SEMI )
+        if( m_iFireMode == M4SDMode::Semi )
         {
             cone *= 0.8f;
         }
@@ -143,9 +143,9 @@ class weapon_bts_m4sd : BTS_FireWeapon
         uint8 anim;
         switch( Math.RandomLong( 0, 2 ) )
         {
-            case 0: anim = WeaponM4SDAnim::SHOOT1; break;
-            case 1: anim = WeaponM4SDAnim::SHOOT2; break;
-            default: anim = WeaponM4SDAnim::SHOOT3; break;
+            case 0: anim = WeaponM4SDAnim::Shoot1; break;
+            case 1: anim = WeaponM4SDAnim::Shoot2; break;
+            default: anim = WeaponM4SDAnim::Shoot3; break;
         }
 
         bullet.Weapon( this )
@@ -179,11 +179,9 @@ class weapon_bts_m4sd : BTS_FireWeapon
             tracer.End();
         }
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4SD_SEMI ? 0.124f : 0.105f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4SDMode::Semi ? 0.124f : 0.105f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
-
-
 
     float Idle() override
     {
@@ -192,11 +190,11 @@ class weapon_bts_m4sd : BTS_FireWeapon
         switch( Math.RandomLong( 0, 1 ) )
         {
             case 0:
-                PlayAnim( WeaponM4SDAnim::LONGIDLE );
+                PlayAnim( WeaponM4SDAnim::LongIdle );
                 break;
             case 1:
             default:
-                PlayAnim( WeaponM4SDAnim::IDLE1 );
+                PlayAnim( WeaponM4SDAnim::Idle1 );
                 break;
         }
 

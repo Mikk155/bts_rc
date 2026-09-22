@@ -56,7 +56,7 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponFlamethrowerAnim::FLTHRW_DRAW;
+        return WeaponFlamethrowerAnim::Draw;
     }
 
     void Precache() override
@@ -84,17 +84,17 @@ ASWeaponFlamethrowerConfig gpWeaponFlamethrowerConfig;
 
 enum WeaponFlamethrowerAnim
 {
-    FLTHRW_IDLE1 = 0,
-    FLTHRW_FIDGET1,
-    FLTHRW_ALTFIREON,
-    FLTHRW_ALTFIRECYCLE,
-    FLTHRW_ALTFIREOFF,
-    FLTHRW_FIRE1,
-    FLTHRW_FIRE2,
-    FLTHRW_FIRE3,
-    FLTHRW_FIRE4,
-    FLTHRW_DRAW,
-    FLTHRW_HOLSTER
+    Idle1 = 0,
+    Fidget,
+    FireOn,
+    FireCycle,
+    FireOff,
+    Fire1,
+    Fire2,
+    Fire3,
+    Fire4,
+    Draw,
+    Holster
 };
 
 const float FLAME_SPEED = 800.0f;
@@ -293,7 +293,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         pev.scale = 1.5;
     }
 
-
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
         switch( type )
@@ -325,7 +324,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
         player.m_iWeaponVolume = LOUD_GUN_VOLUME;
 
-        PlayAnim( WeaponFlamethrowerAnim::FLTHRW_FIRE1 + RandomUint(3), PLAYER_ANIM::PLAYER_ATTACK1 );
+        PlayAnim( WeaponFlamethrowerAnim::Fire1 + RandomUint(3), PLAYER_ANIM::PLAYER_ATTACK1 );
 
         bool is_trained_personal = util::IsTrainedPersonal( player );
 
@@ -356,12 +355,12 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         float flRand = Math.RandomFloat( 0.0f, 1.0f );
         if( flRand <= 0.5f )
         {
-            PlayAnim( WeaponFlamethrowerAnim::FLTHRW_IDLE1 );
+            PlayAnim( WeaponFlamethrowerAnim::Idle1 );
             return 4.2f;
         }
         else
         {
-            PlayAnim( WeaponFlamethrowerAnim::FLTHRW_FIDGET1 );
+            PlayAnim( WeaponFlamethrowerAnim::Fidget );
             return 3.6f;
         }
     }

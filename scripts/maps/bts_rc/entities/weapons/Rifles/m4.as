@@ -54,7 +54,7 @@ final class ASWeaponM4Config : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM4Anim::DRAW;
+        return WeaponM4Anim::Draw;
     }
 }
 
@@ -62,20 +62,20 @@ ASWeaponM4Config gpWeaponM4Config;
 
 enum WeaponM4Anim
 {
-    LONGIDLE = 0,
-    IDLE1 = 1,
-    FIREMODE = 2,
-    RELOAD = 3,
-    DRAW = 4,
-    SHOOT1 = 5,
-    SHOOT2 = 6,
-    SHOOT3 = 7
+    LongIdle = 0,
+    Idle1 = 1,
+    FireMode = 2,
+    Reload = 3,
+    Draw = 4,
+    Shoot1 = 5,
+    Shoot2 = 6,
+    Shoot3 = 7
 };
 
 enum M4Mode
 {
-    M4_SEMI = 0,
-    M4_FULL_AUTO
+    Semi = 0,
+    Full
 };
 
 class weapon_bts_m4 : BTS_FireWeapon
@@ -86,7 +86,7 @@ class weapon_bts_m4 : BTS_FireWeapon
     }
 
     private int m_iTracerCount = 0;
-    private int m_iFireMode = M4_SEMI;
+    private int m_iFireMode = M4Mode::Semi;
 
     void Spawn() override
     {
@@ -97,19 +97,19 @@ class weapon_bts_m4 : BTS_FireWeapon
     {
         if( type == AttackType::Secondary )
         {
-            if( m_iFireMode == M4_SEMI )
+            if( m_iFireMode == M4Mode::Semi )
             {
-                m_iFireMode = M4_FULL_AUTO;
+                m_iFireMode = M4Mode::Full;
                 g_EngineFuncs.ClientPrintf( player, print_center, " Full-Auto\n" );
                 PlaySound( "bts_rc/weapons/grenade_pinpull.wav", 0.8f, 100 );
             }
             else
             {
-                m_iFireMode = M4_SEMI;
+                m_iFireMode = M4Mode::Semi;
                 g_EngineFuncs.ClientPrintf( player, print_center, " Semi\n" );
                 PlaySound( "bts_rc/weapons/grenade_pinpull.wav", 0.8f, 115 );
             }
-            PlayAnim( WeaponM4Anim::FIREMODE );
+            PlayAnim( WeaponM4Anim::FireMode );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;
@@ -127,7 +127,7 @@ class weapon_bts_m4 : BTS_FireWeapon
             return;
         }
 
-        if( m_iFireMode == M4_SEMI )
+        if( m_iFireMode == M4Mode::Semi )
         {
             if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
                 return;
@@ -135,7 +135,7 @@ class weapon_bts_m4 : BTS_FireWeapon
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
         float cone = weapons::Accuracy( player, this.config.primary_accuracy, isTrainedPersonal );
-        if( m_iFireMode == M4_SEMI )
+        if( m_iFireMode == M4Mode::Semi )
         {
             cone *= 0.8f;
         }
@@ -143,9 +143,9 @@ class weapon_bts_m4 : BTS_FireWeapon
         uint8 anim;
         switch( Math.RandomLong( 0, 2 ) )
         {
-            case 0: anim = WeaponM4Anim::SHOOT1; break;
-            case 1: anim = WeaponM4Anim::SHOOT2; break;
-            default: anim = WeaponM4Anim::SHOOT3; break;
+            case 0: anim = WeaponM4Anim::Shoot1; break;
+            case 1: anim = WeaponM4Anim::Shoot2; break;
+            default: anim = WeaponM4Anim::Shoot3; break;
         }
 
         bullet.Weapon( this )
@@ -178,11 +178,9 @@ class weapon_bts_m4 : BTS_FireWeapon
             tracer.End();
         }
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4_SEMI ? 0.124f : 0.105f );
+        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( m_iFireMode != M4Mode::Semi ? 0.124f : 0.105f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
-
-
 
     float Idle() override
     {
@@ -191,11 +189,11 @@ class weapon_bts_m4 : BTS_FireWeapon
         switch( Math.RandomLong( 0, 1 ) )
         {
             case 0:
-                PlayAnim( WeaponM4Anim::LONGIDLE );
+                PlayAnim( WeaponM4Anim::LongIdle );
                 break;
             case 1:
             default:
-                PlayAnim( WeaponM4Anim::IDLE1 );
+                PlayAnim( WeaponM4Anim::Idle1 );
                 break;
         }
 

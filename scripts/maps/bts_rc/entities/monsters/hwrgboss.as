@@ -566,5 +566,4 @@ namespace btscm
         // handles different hitgroups (head, shield), ricochets, and damage reduction for various damage types, probably needs tweaking :eheh:
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @HWRGTakeDamage );
     }
-
 } // namespace btscm END

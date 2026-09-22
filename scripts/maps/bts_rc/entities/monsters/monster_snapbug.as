@@ -502,5 +502,4 @@ namespace monster_snapbug
         CustomEntity( "monster_snapbug", true, "monster_snapbug::monster_snapbug" );
         CustomEntity( "snapbug", true, "monster_snapbug::snapbug" );
     }
-
 } // namespace monster_snapbug END

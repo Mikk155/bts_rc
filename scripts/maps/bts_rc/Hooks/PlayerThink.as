@@ -219,7 +219,6 @@ namespace Hooks
         else
             player.ResetOverriddenPlayerModel( true, false );
 
-
         if( player.m_hActiveItem.IsValid() )
         {
             auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );

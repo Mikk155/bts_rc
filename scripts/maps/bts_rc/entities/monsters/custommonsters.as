@@ -98,7 +98,7 @@ void RemoveSnapbug( CBasePlayer@ pPlayer, float flDamage = 0.0 )
 void SpawnExplosion( Vector center, float randomRange, float time, int magnitude )
 {
     center.x += Math.RandomFloat( -randomRange, randomRange );
-    center.y += Math.RandomFloat( -randomRange, randomRange ); 
+    center.y += Math.RandomFloat( -randomRange, randomRange );
 
     CBaseEntity@ pExplosion = g_EntityFuncs.Create( "env_explosion", center, g_vecZero, false );
     pExplosion.KeyValue( "iMagnitude", string(magnitude) );
@@ -116,7 +116,7 @@ void SpawnExplosion( Vector center, float randomRange, float time, int magnitude
 {
     if( pAttacker.pev.FlagBitSet(FL_CLIENT) )
     {
-        Math.MakeVectors( pAttacker.pev.v_angle + pAttacker.pev.punchangle ); 
+        Math.MakeVectors( pAttacker.pev.v_angle + pAttacker.pev.punchangle );
         Vector vecSrc = pAttacker.pev.origin + pAttacker.pev.view_ofs;
         Vector vecAiming = g_Engine.v_forward;
         Vector vecEnd = vecSrc + vecAiming * 8192;
@@ -141,7 +141,6 @@ bool RandomChance( int iPercentage )
     return Math.RandomLong( 1, 100 ) <= iPercentage;
 }
 } //namespace btscm END
-
 
 class bts_rc_base_monster : ScriptBaseMonsterEntity
 {

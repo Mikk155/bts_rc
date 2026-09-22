@@ -642,5 +642,4 @@ void Register()
     CustomEntity( "zombie_parasite_cloud", true, "monster_zombie_parasite::CParasiteZombieCloud" );
     CustomEntity( "monster_zombie_parasite", true, "monster_zombie_parasite::monster_zombie_parasite" );
 }
-
 } //end of namespace monster_zombie_parasite

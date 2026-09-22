@@ -54,7 +54,7 @@ final class ASWeaponSawSDConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponSawSDAnim::DRAW;
+        return WeaponSawSDAnim::Draw;
     }
 
     void Precache() override
@@ -69,15 +69,15 @@ ASWeaponSawSDConfig gpWeaponSawSDConfig;
 
 enum WeaponSawSDAnim
 {
-    SLOWIDLE = 0,
-    IDLE2,
-    RELOAD_START,
-    RELOAD_END,
-    HOLSTER,
-    DRAW,
-    SHOOT1,
-    SHOOT2,
-    SHOOT3
+    SlowIdle = 0,
+    Idle,
+    ReloadStart,
+    ReloadEnd,
+    Holster,
+    Draw,
+    Shoot1,
+    Shoot2,
+    Shoot3
 };
 
 class weapon_bts_sawsd : BTS_FireWeapon
@@ -109,7 +109,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
         if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 || self.m_flNextPrimaryAttack > g_Engine.time )
             return;
 
-        self.DefaultReload( config.max_clip, WeaponSawSDAnim::RELOAD_START, config.reload_time, this.body );
+        self.DefaultReload( config.max_clip, WeaponSawSDAnim::ReloadStart, config.reload_time, this.body );
 
         if( !self.m_fInReload )
             return;
@@ -159,7 +159,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
             .Shell( m_bAlternatingEject ? m_iLink : models::saw_shell )
             .Flash( 0, false )
             .Tracer( ( m_iTracerCount++ % 2 ) == 0 )
-            .Animation( Math.RandomLong( WeaponSawSDAnim::SHOOT1, WeaponSawSDAnim::SHOOT3 ) )
+            .Animation( Math.RandomLong( WeaponSawSDAnim::Shoot1, WeaponSawSDAnim::Shoot3 ) )
         .Fire();
 
         RecalculateBody( self.m_iClip );
@@ -176,8 +176,6 @@ class weapon_bts_sawsd : BTS_FireWeapon
             player.pev.velocity.z = flZVel * 1.15f;
         }
     }
-
-
 
     private void RecalculateBody( int iClip )
     {
@@ -197,7 +195,7 @@ class weapon_bts_sawsd : BTS_FireWeapon
 
     void FinishAnim()
     {
-        PlayAnim( WeaponSawSDAnim::RELOAD_END, PLAYER_ANIM::PLAYER_RELOAD );
+        PlayAnim( WeaponSawSDAnim::ReloadEnd, PLAYER_ANIM::PLAYER_RELOAD );
         PlaySound( "bts_rc/weapons/saw_reload2.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
     }
 
@@ -208,12 +206,12 @@ class weapon_bts_sawsd : BTS_FireWeapon
         const float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
         if( flNextIdle <= 0.95f )
         {
-            PlayAnim( WeaponSawSDAnim::SLOWIDLE );
+            PlayAnim( WeaponSawSDAnim::SlowIdle );
             return 5.0f;
         }
         else
         {
-            PlayAnim( WeaponSawSDAnim::IDLE2 );
+            PlayAnim( WeaponSawSDAnim::Idle );
             return 6.16f;
         }
     }
