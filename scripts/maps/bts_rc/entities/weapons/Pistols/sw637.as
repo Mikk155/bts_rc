@@ -155,7 +155,7 @@ class weapon_bts_sw637 : BTS_FireWeapon
         {
             self.m_iClip++;
             this.owner.m_rgAmmo( self.m_iPrimaryAmmoType, this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
-            PlayAnim( WeaponSW637Anim::ReloadPart );
+            PlayAnim( WeaponSW637Anim::ReloadPart, PLAYER_ANIM::PLAYER_RELOAD );
             UpdateViewBodygroups();
             m_flNextInsert = g_Engine.time + 0.5f;
             return 0.5f;
@@ -163,7 +163,7 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
         // Finished reloading
         this.bodygroup( 2, self.m_iClip - 1 );
-        PlayAnim( WeaponSW637Anim::ReloadFinish );
+        PlayAnim( WeaponSW637Anim::ReloadFinish, PLAYER_ANIM::PLAYER_RELOAD );
         m_fReloading = false;
         return 1.5f;
     }
@@ -231,7 +231,7 @@ class weapon_bts_sw637 : BTS_FireWeapon
         this.bodygroup( 2, 4 );
 
         m_fReloading = true;
-        PlayAnim( WeaponSW637Anim::ReloadStart );
+        PlayAnim( WeaponSW637Anim::ReloadStart, PLAYER_ANIM::PLAYER_RELOAD );
         UpdateViewBodygroups();
 
         m_flNextInsert = g_Engine.time + 1.2f;

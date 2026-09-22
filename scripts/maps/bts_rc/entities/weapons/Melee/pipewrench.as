@@ -113,9 +113,9 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
 
                     switch( RandomUint(2) )
                     {
-                        case 0: this.PlayAnim( WeaponPipeWrenchAnim::Attack1Miss ); break;
-                        case 1: this.PlayAnim( WeaponPipeWrenchAnim::Attack2Miss ); break;
-                        case 2: this.PlayAnim( WeaponPipeWrenchAnim::Attack3Miss ); break;
+                        case 0: this.PlayAnim( WeaponPipeWrenchAnim::Attack1Miss, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 1: this.PlayAnim( WeaponPipeWrenchAnim::Attack2Miss, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 2: this.PlayAnim( WeaponPipeWrenchAnim::Attack3Miss, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                     }
                 }
                 else
@@ -140,9 +140,9 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
 
                     switch( RandomUint(2) )
                     {
-                        case 0: this.PlayAnim( WeaponPipeWrenchAnim::Attack1Hit ); break;
-                        case 1: this.PlayAnim( WeaponPipeWrenchAnim::Attack2Hit ); break;
-                        case 2: this.PlayAnim( WeaponPipeWrenchAnim::Attack3Hit ); break;
+                        case 0: this.PlayAnim( WeaponPipeWrenchAnim::Attack1Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 1: this.PlayAnim( WeaponPipeWrenchAnim::Attack2Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 2: this.PlayAnim( WeaponPipeWrenchAnim::Attack3Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                     }
                 }
                 break;
@@ -152,12 +152,12 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
                 // We just started charging
                 if( m_WhackState == WhackState::Holding )
                 {
-                    this.PlayAnim( WeaponPipeWrenchAnim::AttackBigWind );
+                    this.PlayAnim( WeaponPipeWrenchAnim::AttackBigWind, PLAYER_ANIM::PLAYER_ATTACK1 );
                     return;
                 }
 
                 miss = this.Hit( tr, AttackType::Secondary, hit );
-                this.PlayAnim( ( miss ? WeaponPipeWrenchAnim::AttackBigMiss : WeaponPipeWrenchAnim::AttackBigHit ) );
+                this.PlayAnim( ( miss ? WeaponPipeWrenchAnim::AttackBigMiss : WeaponPipeWrenchAnim::AttackBigHit ), PLAYER_ANIM::PLAYER_ATTACK1 );
 
                 Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
                 player.pev.punchangle.x = -2.0f;
@@ -201,12 +201,12 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
     {
         switch( RandomUint(2) )
         {
-            case 0: this.PlayAnim( WeaponPipeWrenchAnim::Idle1, false ); return 2.69f;
-            case 1: this.PlayAnim( WeaponPipeWrenchAnim::Idle2, false ); return 5.33f;
+            case 0: this.PlayAnim( WeaponPipeWrenchAnim::Idle1 ); return 2.69f;
+            case 1: this.PlayAnim( WeaponPipeWrenchAnim::Idle2 ); return 5.33f;
             case 2: default: break;
         }
 
-        this.PlayAnim( WeaponPipeWrenchAnim::Idle3, false );
+        this.PlayAnim( WeaponPipeWrenchAnim::Idle3 );
         return 5.33f;
     }
 }

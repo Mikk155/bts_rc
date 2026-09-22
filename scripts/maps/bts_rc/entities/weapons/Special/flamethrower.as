@@ -325,7 +325,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
         player.m_iWeaponVolume = LOUD_GUN_VOLUME;
 
-        PlayAnim( WeaponFlamethrowerAnim::FLTHRW_FIRE1 + RandomUint(3) );
+        PlayAnim( WeaponFlamethrowerAnim::FLTHRW_FIRE1 + RandomUint(3), PLAYER_ANIM::PLAYER_ATTACK1 );
 
         bool is_trained_personal = util::IsTrainedPersonal( player );
 

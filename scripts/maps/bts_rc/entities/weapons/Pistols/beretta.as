@@ -110,17 +110,17 @@ class weapon_bts_beretta : BTS_FireWeapon
         {
             case 0:
             {
-                PlayAnim( WeaponBerettaAnim::Idle1 );
+                PlayAnim( WeaponBerettaAnim::Idle1, PLAYER_ANIM::PLAYER_ATTACK1 );
                 break;
             }
             case 1:
             {
-                PlayAnim( WeaponBerettaAnim::Idle2 );
+                PlayAnim( WeaponBerettaAnim::Idle2, PLAYER_ANIM::PLAYER_ATTACK1 );
                 break;
             }
             case 2:
             {
-                PlayAnim( WeaponBerettaAnim::Idle3 );
+                PlayAnim( WeaponBerettaAnim::Idle3, PLAYER_ANIM::PLAYER_ATTACK1 );
                 break;
             }
         }

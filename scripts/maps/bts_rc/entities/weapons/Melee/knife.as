@@ -97,11 +97,11 @@ final class weapon_bts_knife : BTS_MeleeCharge
     {
         switch( RandomUint(2) )
         {
-            case 0: this.PlayAnim( WeaponKnifeAnim::Idle1, false ); return 2.69f;
-            case 1: this.PlayAnim( WeaponKnifeAnim::Idle2, false ); return 5.33f;
+            case 0: this.PlayAnim( WeaponKnifeAnim::Idle1 ); return 2.69f;
+            case 1: this.PlayAnim( WeaponKnifeAnim::Idle2 ); return 5.33f;
         }
 
-        this.PlayAnim( WeaponKnifeAnim::Idle3, false );
+        this.PlayAnim( WeaponKnifeAnim::Idle3 );
         return 5.33f;
     }
 
@@ -123,18 +123,18 @@ final class weapon_bts_knife : BTS_MeleeCharge
                 {
                     switch( RandomUint(2) )
                     {
-                        case 0: this.PlayAnim( WeaponKnifeAnim::Attack1Miss ); break;
-                        case 1: this.PlayAnim( WeaponKnifeAnim::Attack2Miss ); break;
-                        case 2: this.PlayAnim( WeaponKnifeAnim::Attack3Miss ); break;
+                        case 0: this.PlayAnim( WeaponKnifeAnim::Attack1Miss, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 1: this.PlayAnim( WeaponKnifeAnim::Attack2Miss, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 2: this.PlayAnim( WeaponKnifeAnim::Attack3Miss, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                     }
                 }
                 else
                 {
                     switch( RandomUint(2) )
                     {
-                        case 0: this.PlayAnim( WeaponKnifeAnim::Attack1Hit ); break;
-                        case 1: this.PlayAnim( WeaponKnifeAnim::Attack2Hit ); break;
-                        case 2: this.PlayAnim( WeaponKnifeAnim::Attack3Hit ); break;
+                        case 0: this.PlayAnim( WeaponKnifeAnim::Attack1Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 1: this.PlayAnim( WeaponKnifeAnim::Attack2Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 2: this.PlayAnim( WeaponKnifeAnim::Attack3Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                     }
                 }
                 break;
@@ -145,10 +145,11 @@ final class weapon_bts_knife : BTS_MeleeCharge
                 if( m_WhackState == WhackState::Holding )
                 {
                     this.PlayAnim( WeaponKnifeAnim::Charge );
+                    // -TODO should maybe do the thing pipe wrench does when holding?
                     return;
                 }
                 miss = this.Hit( tr, AttackType::Secondary, hit );
-                this.PlayAnim( WeaponKnifeAnim::Stab );
+                this.PlayAnim( WeaponKnifeAnim::Stab, PLAYER_ANIM::PLAYER_ATTACK1 );
                 break;
             }
             case AttackType::Tertiary:

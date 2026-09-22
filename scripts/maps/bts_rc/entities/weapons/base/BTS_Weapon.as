@@ -183,13 +183,13 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return this.config.WeaponBody( group, ibody, this.owner, self, GetCharacter( this.owner ) );
     }
 
-    // Play the given animation for this weapon. if player_attack_animation is true (by default) it makes the player animation to PLAYER_ATTACK1
-    void PlayAnim( uint8 animation, bool player_attack_animation = true )
+    // Play the given animation for this weapon. if player_anim is other than PLAYER_DIE it is set.
+    void PlayAnim( uint8 animation, PLAYER_ANIM player_anim = PLAYER_ANIM::PLAYER_DIE )
     {
         self.SendWeaponAnim( animation, 0, this.body );
 
-        if( player_attack_animation )
-            this.owner.SetAnimation( PLAYER_ANIM::PLAYER_ATTACK1 );
+        if( player_anim != PLAYER_ANIM::PLAYER_DIE )
+            this.owner.SetAnimation( player_anim );
     }
 
     // Force a sequence type animation on the player

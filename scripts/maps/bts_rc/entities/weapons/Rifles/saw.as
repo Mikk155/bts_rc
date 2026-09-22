@@ -192,7 +192,7 @@ class weapon_bts_saw : BTS_FireWeapon
 
     void FinishAnim()
     {
-        PlayAnim( WeaponSawAnim::RELOAD_END );
+        PlayAnim( WeaponSawAnim::RELOAD_END, PLAYER_ANIM::PLAYER_RELOAD );
         PlaySound( "bts_rc/weapons/saw_reload2.wav", VOL_NORM, 94 + Math.RandomLong( 0, 15 ) );
     }
 

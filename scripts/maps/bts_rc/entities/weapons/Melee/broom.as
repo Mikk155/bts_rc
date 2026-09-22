@@ -111,17 +111,17 @@ class weapon_bts_broom : BTS_MeleeWeapon
             {
                 case 0:
                 {
-                    PlayAnim( WeaponBroomAnim::Attack1Miss );
+                    PlayAnim( WeaponBroomAnim::Attack1Miss, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
                 case 1:
                 {
-                    PlayAnim( WeaponBroomAnim::Attack2Miss );
+                    PlayAnim( WeaponBroomAnim::Attack2Miss, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
                 case 2:
                 {
-                    PlayAnim( WeaponBroomAnim::Attack3Miss );
+                    PlayAnim( WeaponBroomAnim::Attack3Miss, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
             }
@@ -134,12 +134,12 @@ class weapon_bts_broom : BTS_MeleeWeapon
             {
                 case 0:
                 {
-                    PlayAnim( WeaponBroomAnim::Attack1Hit );
+                    PlayAnim( WeaponBroomAnim::Attack1Hit, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
                 case 1:
                 {
-                    PlayAnim( WeaponBroomAnim::Attack2Hit );
+                    PlayAnim( WeaponBroomAnim::Attack2Hit, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
             }

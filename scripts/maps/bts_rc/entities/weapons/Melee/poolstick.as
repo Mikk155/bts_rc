@@ -89,11 +89,11 @@ final class weapon_bts_poolstick : BTS_MeleeWeapon
 
         if( flRand <= 0.99 )
         {
-            PlayAnim( WeaponPoolstickAnim::Idle1, false );
+            PlayAnim( WeaponPoolstickAnim::Idle1 );
             return g_PlayerFuncs.SharedRandomFloat( player.random_seed, 10, 15 );
         }
 
-        PlayAnim( WeaponPoolstickAnim::Idle2, false );
+        PlayAnim( WeaponPoolstickAnim::Idle2 );
         return 5.0f;
     }
 
@@ -118,21 +118,21 @@ final class weapon_bts_poolstick : BTS_MeleeWeapon
         {
             case AttackType::Secondary:
             {
-                PlayAnim( WeaponPoolstickAnim::Attack3 );
+                PlayAnim( WeaponPoolstickAnim::Attack3, PLAYER_ANIM::PLAYER_ATTACK1 );
                 break;
             }
             case AttackType::Primary:
             {
                 if( miss )
                 {
-                    PlayAnim( WeaponPoolstickAnim::Attack2Miss );
+                    PlayAnim( WeaponPoolstickAnim::Attack2Miss, PLAYER_ANIM::PLAYER_ATTACK1 );
                 }
                 else
                 {
                     switch( RandomUint(1) )
                     {
-                        case 0: PlayAnim( WeaponPoolstickAnim::Attack1Hit ); break;
-                        case 1: PlayAnim( WeaponPoolstickAnim::Attack2Hit ); break;
+                        case 0: PlayAnim( WeaponPoolstickAnim::Attack1Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                        case 1: PlayAnim( WeaponPoolstickAnim::Attack2Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                     }
                 }
                 break;

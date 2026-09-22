@@ -122,9 +122,9 @@ final class weapon_bts_axe : BTS_MeleeWeapon
             {
                 switch( RandomUint(2) )
                 {
-                    case 0: PlayAnim( ( miss ? WeaponAxeAnim::Attack1Miss : WeaponAxeAnim::Attack1Hit ) ); break;
-                    case 1: PlayAnim( ( miss ? WeaponAxeAnim::Attack2Miss : WeaponAxeAnim::Attack2Hit ) ); break;
-                    case 2: PlayAnim( ( miss ? WeaponAxeAnim::Attack3Miss : WeaponAxeAnim::Attack3Hit ) ); break;
+                    case 0: PlayAnim( ( miss ? WeaponAxeAnim::Attack1Miss : WeaponAxeAnim::Attack1Hit ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                    case 1: PlayAnim( ( miss ? WeaponAxeAnim::Attack2Miss : WeaponAxeAnim::Attack2Hit ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                    case 2: PlayAnim( ( miss ? WeaponAxeAnim::Attack3Miss : WeaponAxeAnim::Attack3Hit ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                 }
                 break;
             }
@@ -132,9 +132,9 @@ final class weapon_bts_axe : BTS_MeleeWeapon
             {
                 switch( RandomUint(2) )
                 {
-                    case 0: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ) ); break;
-                    case 1: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMissAlt : WeaponAxeAnim::ShoveAlt ) ); break;
-                    case 2: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ) ); break;
+                    case 0: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                    case 1: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMissAlt : WeaponAxeAnim::ShoveAlt ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+                    case 2: PlayAnim( ( miss ? WeaponAxeAnim::ShoveMiss : WeaponAxeAnim::Shove ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
                 }
                 break;
             }

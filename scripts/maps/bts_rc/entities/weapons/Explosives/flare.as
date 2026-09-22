@@ -496,7 +496,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
                 throw = 0;
                 m_bInAttack = true;
                 m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
-                PlayAnim( WeaponFlareAnim::PullPin, false );
+                PlayAnim( WeaponFlareAnim::PullPin );
                 break;
             }
             case AttackType::Secondary:
@@ -504,12 +504,12 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
                 throw = 1;
                 m_bInAttack = true;
                 m_fAttackStart = g_Engine.time + ( 25.0f / 25.0f );
-                PlayAnim( WeaponFlareAnim::PullPin, false );
+                PlayAnim( WeaponFlareAnim::PullPin );
                 break;
             }
             case AttackType::Tertiary:
             {
-                PlayAnim( WeaponFlareAnim::PullHold, false );
+                PlayAnim( WeaponFlareAnim::PullHold );
                 @this.m_FlareOnHold = FLARE::Toss( this.owner.pev, g_vecZero, g_vecZero, 0, 180.0f, 1.5f );
                 this.m_FlareOnHold.self.pev.nextthink = self.m_flNextTertiaryAttack;
                 break;
@@ -560,9 +560,9 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f );
         if( throw == 0 )
-            PlayAnim( WeaponFlareAnim::Throw );
+            PlayAnim( WeaponFlareAnim::Throw, PLAYER_ANIM::PLAYER_ATTACK1 );
         else if( throw == 1 )
-            PlayAnim( WeaponFlareAnim::Toss );
+            PlayAnim( WeaponFlareAnim::Toss, PLAYER_ANIM::PLAYER_ATTACK1 );
         m_bThrown = true;
         m_bInAttack = false;
 
@@ -573,11 +573,11 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
     {
         if( this.m_FlareOnHold !is null )
         {
-           PlayAnim( WeaponFlareAnim::Hold, false );
+           PlayAnim( WeaponFlareAnim::Hold );
         }
         else
         {
-            PlayAnim( WeaponFlareAnim::Idle, false );
+            PlayAnim( WeaponFlareAnim::Idle );
         }
 
         return Math.RandomFloat( 5.0f, 7.0f );

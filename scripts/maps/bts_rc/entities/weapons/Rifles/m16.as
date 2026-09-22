@@ -140,7 +140,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
-            PlayAnim( WeaponM16Anim::LAUNCH );
+            PlayAnim( WeaponM16Anim::LAUNCH, PLAYER_ANIM::PLAYER_ATTACK1 );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -243,7 +243,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
     private void LoadGrenade()
     {
-        PlayAnim( WeaponM16Anim::RELOAD2 );
+        PlayAnim( WeaponM16Anim::RELOAD2, PLAYER_ANIM::PLAYER_RELOAD );
         m_bGrenadeFire = false;
         m_flGrenadeLaunchTime = 0;
         PlaySound( "weapons/gl_reload.wav", 1.0f );

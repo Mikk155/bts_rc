@@ -122,7 +122,7 @@ class weapon_bts_flaregun : BTS_FireWeapon
             flare.pev.scale = 1.0f;
         }
 
-        PlayAnim( WeaponFlareGunAnim::SHOOT );
+        PlayAnim( WeaponFlareGunAnim::SHOOT, PLAYER_ANIM::PLAYER_ATTACK1 );
         PlaySound( "bts_rc/weapons/flaregun_shot1.wav", Math.RandomFloat( 0.95f, 1.0f ), 93 + Math.RandomLong( 0, 15 ), CHAN_WEAPON );
 
         player.pev.punchangle.x = Math.RandomFloat( -2.0f, -3.0f );

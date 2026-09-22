@@ -152,7 +152,7 @@ class weapon_bts_mp5 : BTS_FireWeapon
                 g_EngineFuncs.ClientPrintf( player, print_center, " Burst\n" );
                 PlaySound( "bts_rc/weapons/mp5_slap.wav", 0.8f, 115 );
             }
-            PlayAnim( WeaponMP5Anim::Launch );
+            PlayAnim( WeaponMP5Anim::Launch, PLAYER_ANIM::PLAYER_ATTACK1 );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
             self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;

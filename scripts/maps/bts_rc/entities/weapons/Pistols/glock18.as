@@ -126,7 +126,7 @@ class weapon_bts_glock18 : BTS_FireWeapon
             g_EngineFuncs.ClientPrintf( this.owner, print_center, " Semi-Auto\n" );
             PlaySound( "hlclassic/weapons/reload2.wav", 0.8f, 98 );
         }
-        PlayAnim( WeaponGlock18Anim::AddSilencer );
+        PlayAnim( WeaponGlock18Anim::AddSilencer, PLAYER_ANIM::PLAYER_RELOAD );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
         self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
     }

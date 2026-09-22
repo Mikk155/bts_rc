@@ -103,9 +103,9 @@ final class weapon_bts_screwdriver : BTS_MeleeWeapon
 
         switch( RandomUint(2) )
         {
-            case 0: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack1Miss : WeaponScrewDriverAnim::Attack1Hit ) ); break;
-            case 1: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack2Miss : WeaponScrewDriverAnim::Attack2Hit ) ); break;
-            case 2: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack3Miss : WeaponScrewDriverAnim::Attack3Hit ) ); break;
+            case 0: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack1Miss : WeaponScrewDriverAnim::Attack1Hit ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+            case 1: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack2Miss : WeaponScrewDriverAnim::Attack2Hit ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+            case 2: PlayAnim( ( miss ? WeaponScrewDriverAnim::Attack3Miss : WeaponScrewDriverAnim::Attack3Hit ), PLAYER_ANIM::PLAYER_ATTACK1 ); break;
         }
 
         if( miss )

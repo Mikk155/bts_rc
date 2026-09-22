@@ -236,9 +236,9 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 9.0f / 30.0f );
 
         if( m_bRoll )
-            PlayAnim( WeaponHandGrenadeAnim::THROW1 );
+            PlayAnim( WeaponHandGrenadeAnim::THROW1, PLAYER_ANIM::PLAYER_ATTACK1 );
         else
-            PlayAnim( WeaponHandGrenadeAnim::THROW1 );
+            PlayAnim( WeaponHandGrenadeAnim::THROW1, PLAYER_ANIM::PLAYER_ATTACK1 );
 
         m_bThrown = true;
         m_bInAttack = false;

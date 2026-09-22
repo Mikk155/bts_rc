@@ -290,13 +290,13 @@ class weapon_bts_xbow : BTS_FireWeapon
 
         if( self.m_iClip > 0 )
         {
-            PlayAnim( WeaponXBowAnim::Fire1 );
+            PlayAnim( WeaponXBowAnim::Fire1, PLAYER_ANIM::PLAYER_ATTACK1 );
             PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.0, 93 + Math.RandomLong( 0, 15 ) );
             g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_BODY, "bts_rc/weapons/xbow_magin.wav", 0.25, ATTN_NORM, 0, 93 + Math.RandomLong( 0, 15 ) );
         }
         else
         {
-            PlayAnim( WeaponXBowAnim::Fire3 );
+            PlayAnim( WeaponXBowAnim::Fire3, PLAYER_ANIM::PLAYER_ATTACK1 );
             PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.1, 93 + Math.RandomLong( 0, 15 ) );
         }
 

@@ -260,7 +260,7 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
         if( m_bReloading && g_Engine.time >= m_flReloadStart + 2.324f )
         {
-            PlayAnim( WeaponSniperRifleAnim::Reload2 );
+            PlayAnim( WeaponSniperRifleAnim::Reload2, PLAYER_ANIM::PLAYER_RELOAD );
             m_bReloading = false;
         }
 

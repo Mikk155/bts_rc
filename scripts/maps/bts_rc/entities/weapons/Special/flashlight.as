@@ -142,9 +142,9 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
 
         switch( ( m_iSwing++ ) % 3 )
         {
-            case 0: PlayAnim( miss ? WeaponFlashlightAnim::Attack1Miss : WeaponFlashlightAnim::Attack1Hit ); break;
-            case 1: PlayAnim( miss ? WeaponFlashlightAnim::Attack2Miss : WeaponFlashlightAnim::Attack2Hit ); break;
-            case 2: PlayAnim( miss ? WeaponFlashlightAnim::Attack3Miss : WeaponFlashlightAnim::Attack3Hit ); break;
+            case 0: PlayAnim( miss ? WeaponFlashlightAnim::Attack1Miss : WeaponFlashlightAnim::Attack1Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+            case 1: PlayAnim( miss ? WeaponFlashlightAnim::Attack2Miss : WeaponFlashlightAnim::Attack2Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
+            case 2: PlayAnim( miss ? WeaponFlashlightAnim::Attack3Miss : WeaponFlashlightAnim::Attack3Hit, PLAYER_ANIM::PLAYER_ATTACK1 ); break;
         }
 
         if( miss )

@@ -106,12 +106,12 @@ class weapon_bts_spanner : BTS_MeleeWeapon
             {
                 case 0:
                 {
-                    PlayAnim( WeaponSpannerAnim::Attack1 );
+                    PlayAnim( WeaponSpannerAnim::Attack1, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
                 case 1:
                 {
-                    PlayAnim( WeaponSpannerAnim::Attack2 );
+                    PlayAnim( WeaponSpannerAnim::Attack2, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
             }
@@ -124,12 +124,12 @@ class weapon_bts_spanner : BTS_MeleeWeapon
             {
                 case 0:
                 {
-                    PlayAnim( WeaponSpannerAnim::Attack1 );
+                    PlayAnim( WeaponSpannerAnim::Attack1, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
                 case 1:
                 {
-                    PlayAnim( WeaponSpannerAnim::Attack2 );
+                    PlayAnim( WeaponSpannerAnim::Attack2, PLAYER_ANIM::PLAYER_ATTACK1 );
                     break;
                 }
             }

@@ -199,13 +199,13 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         switch( m_fInReloadState )
         {
             case 0:
-                PlayAnim( WeaponSBShotgunAnim::START_RELOAD );
+                PlayAnim( WeaponSBShotgunAnim::START_RELOAD, PLAYER_ANIM::PLAYER_RELOAD );
                 self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 1.0f;
                 m_flTimeWeaponReload = g_Engine.time + 0.6f;
                 m_fInReloadState = 1;
                 break;
             case 1:
-                PlayAnim( WeaponSBShotgunAnim::RELOAD );
+                PlayAnim( WeaponSBShotgunAnim::RELOAD, PLAYER_ANIM::PLAYER_RELOAD );
                 if( Math.RandomLong( 0, 1 ) == 0 )
                     PlaySound( "bts_rc/weapons/reload1.wav", 1.0f, 85 + Math.RandomLong( 0, 31 ) );
                 else
@@ -248,7 +248,7 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
                     m_fInReloadState = 0;
                     self.m_fInReload = false;
-                    PlayAnim( WeaponSBShotgunAnim::PUMP );
+                    PlayAnim( WeaponSBShotgunAnim::PUMP, PLAYER_ANIM::PLAYER_RELOAD );
                     PlaySound( "bts_rc/weapons/sbscock1.wav", 1.0f, 95 + Math.RandomLong( 0, 31 ) );
                     self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f;
                     self.m_flTimeWeaponIdle = g_Engine.time + 1.5f;
