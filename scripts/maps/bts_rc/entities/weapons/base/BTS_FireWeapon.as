@@ -77,6 +77,7 @@ abstract class BTS_FireWeapon : BTS_Weapon
         }
 
         float flNextAttack = self.m_flNextPrimaryAttack - 0.3f;
+
         if( flNextAttack > g_Engine.time )
         {
             return;
@@ -85,12 +86,16 @@ abstract class BTS_FireWeapon : BTS_Weapon
         Flashlight::TurnOff( this.owner, self, config );
 
         int anim = ( self.m_iClip != 0 ) ? config.reload_anim : config.reload_empty_anim;
+
         self.DefaultReload( config.max_clip, anim, config.reload_time, this.body );
+
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
+
         if( !config.reload_sound.IsEmpty() )
         {
             PlaySound( this.config.reload_sound, 0.2f );
         }
+
         BaseClass.Reload();
     }
 }

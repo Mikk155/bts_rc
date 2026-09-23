@@ -133,10 +133,13 @@ class weapon_bts_glock17f : BTS_FireWeapon
                 return;
         }
 
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
             return;
         }
 
@@ -146,7 +149,6 @@ class weapon_bts_glock17f : BTS_FireWeapon
             return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         uint8 anim = self.m_iClip > 1 ? WeaponGlock17fAnim::Shoot : WeaponGlock17fAnim::ShootEmpty;
 
         bullet.Weapon( this )
@@ -155,8 +157,6 @@ class weapon_bts_glock17f : BTS_FireWeapon
             .Animation( anim )
         .Fire();
 
-        self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.3f;
-        self.m_flNextPrimaryAttack = g_Engine.time + ( isTrainedPersonal ? 0.05f : 0.10f );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 }

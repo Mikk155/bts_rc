@@ -95,6 +95,10 @@ class weapon_bts_m4sd : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( type == AttackType::Secondary )
         {
             if( m_iFireMode == M4SDMode::Semi )
@@ -111,7 +115,6 @@ class weapon_bts_m4sd : BTS_FireWeapon
             }
             PlayAnim( WeaponM4SDAnim::FireMode );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
             return;
         }
 
@@ -123,7 +126,6 @@ class weapon_bts_m4sd : BTS_FireWeapon
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.10f;
             return;
         }
 
@@ -133,7 +135,6 @@ class weapon_bts_m4sd : BTS_FireWeapon
                 return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         float cone = weapons::Accuracy( player, this.config.primary_accuracy, isTrainedPersonal );
         if( m_iFireMode == M4SDMode::Semi )
         {

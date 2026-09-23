@@ -138,29 +138,32 @@ class weapon_bts_python : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
-        if( type == AttackType::Secondary )
-        {
-            gpWeaponPythonConfig.LaserToggle( util::IsTrainedPersonal( player ), type, self, player );
+        if( self.m_fInReload )
             return;
-        }
+
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
 
         switch( type )
         {
-            case AttackType::Tertiary:
+            case AttackType::Secondary:
+            {
+                gpWeaponPythonConfig.LaserToggle( util::IsTrainedPersonal( player ), type, self, player );
                 return;
+            }
+            case AttackType::Tertiary:
+            {
+                return;
+            }
         }
-
-        if( self.m_fInReload )
-            return;
 
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.15f;
             return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "hlclassic/weapons/357_shot1.wav" : "hlclassic/weapons/357_shot2.wav";
 
         bullet.Weapon( this )
@@ -170,7 +173,6 @@ class weapon_bts_python : BTS_FireWeapon
             .Animation( WeaponPythonAnim::Shoot )
         .Fire();
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 }

@@ -170,6 +170,11 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
+        {
+            return;
+        }
+
         switch( type )
         {
             case AttackType::Tertiary:
@@ -177,21 +182,18 @@ class weapon_bts_sw637 : BTS_FireWeapon
                 return;
         }
 
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.15f;
-            return;
-        }
-
-        if( ( player.m_afButtonPressed & IN_ATTACK ) == 0 )
-        {
             return;
         }
 
         m_fReloading = false;
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         string szSound = ( Math.RandomLong( 0, 1 ) == 0 ) ? "bts_rc/weapons/38_shot1.wav" : "bts_rc/weapons/38_shot2.wav";
 
         bullet.Weapon( this )
@@ -203,7 +205,6 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
         UpdateViewBodygroups();
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 0.25f;
         self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
     }
 
@@ -235,7 +236,9 @@ class weapon_bts_sw637 : BTS_FireWeapon
         UpdateViewBodygroups();
 
         m_flNextInsert = g_Engine.time + 1.2f;
-        self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
+
+        weapons::SetCooldown( self, this.owner, 1.0f );
+
         self.m_flTimeWeaponIdle = m_flNextInsert;
     }
 }

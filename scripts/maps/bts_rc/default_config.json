@@ -2301,7 +2301,7 @@
             "stand": 6.0,
             "stand_trained": 4.0
         },
-        "primary_cooldown": 0.0625,
+        "primary_cooldown": 0.3,
         "primary_damage": 15,
         "primary_default_ammo": [
             9,

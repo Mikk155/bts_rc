@@ -30,8 +30,11 @@ This file contains the list of to-do in the project.
 
 - [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 - [ ] Pulish black ops flashbangs which at the moment is a rare throw.
+- [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
 - [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
+- [ ] Remove trace effects from m16 and the likes if ASBullet already covers them.
+- [ ] Use weapons::SetCooldown where single cooldown variables are updated with hardcoded numbers so the three attack type cooldows are set.
 - [ ] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
 - [ ] have release workflows/python to zip scripts with mega assets.
 - [x] add laser to default revolver (it was discussed before i think gamit was working on it)

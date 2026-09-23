@@ -175,11 +175,13 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
     void PrimaryAttack() override
     {
         StartThrow( false );
+        this.SetCooldown( util::IsTrainedPersonal( this.owner ), AttackType::Primary );
     }
 
     void SecondaryAttack() override
     {
         StartThrow( true );
+        this.SetCooldown( util::IsTrainedPersonal( this.owner ), AttackType::Secondary );
     }
 
     private void StartThrow( bool rolling )
@@ -190,8 +192,8 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
             return;
 
-        self.m_flNextPrimaryAttack = g_Engine.time + ( 24.0f / 30.0f );
         PlayAnim( WeaponHandGrenadeAnim::PullPin );
+
         m_bRoll = rolling;
 
         m_bInAttack = true;
@@ -233,7 +235,7 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         if( !m_bInAttack || CheckButton() || g_Engine.time < m_fAttackStart )
             return;
 
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 9.0f / 30.0f );
+        self.m_flTimeWeaponIdle = weapons::SetCooldown( self, this.owner, ( 9.0f / 30.0f ) );
 
         if( m_bRoll )
             PlayAnim( WeaponHandGrenadeAnim::Throw1, PLAYER_ANIM::PLAYER_ATTACK1 );

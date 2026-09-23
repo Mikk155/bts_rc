@@ -264,6 +264,7 @@ class weapon_bts_xbow : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        this.SetCooldown( util::IsTrainedPersonal( player ), type );
         switch( type )
         {
             case AttackType::Tertiary:
@@ -334,9 +335,6 @@ class weapon_bts_xbow : BTS_FireWeapon
         pBolt.pev.avelocity.z = 10;
 
         player.pev.punchangle.x = -3.0f;
-
-        self.m_flNextPrimaryAttack = g_Engine.time + 1.8;
-        self.m_flNextSecondaryAttack = g_Engine.time + 1.8;
 
         if( self.m_iClip != 0 )
             self.m_flTimeWeaponIdle = g_Engine.time + 5.0;

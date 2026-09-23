@@ -487,7 +487,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
         if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
             return;
 
-        self.m_flNextPrimaryAttack = self.m_flNextTertiaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( 25.0f / 30.0f );
+        this.SetCooldown( util::IsTrainedPersonal( this.owner ), type );
 
         switch( type )
         {
@@ -558,7 +558,8 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
         if( !m_bInAttack || CheckButton() || g_Engine.time < m_fAttackStart )
             return;
 
-        self.m_flNextPrimaryAttack = self.m_flTimeWeaponIdle = g_Engine.time + ( 22.0f / 30.0f );
+        self.m_flTimeWeaponIdle = weapons::SetCooldown( self, this.owner, ( 22.0f / 30.0f ) );
+
         if( throw == 0 )
             PlayAnim( WeaponFlareAnim::Throw, PLAYER_ANIM::PLAYER_ATTACK1 );
         else if( throw == 1 )

@@ -122,12 +122,15 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( type == AttackType::Secondary )
         {
             if( player.pev.waterlevel == WATERLEVEL_HEAD || player.m_rgAmmo( self.m_iSecondaryAmmoType ) <= 0 )
             {
                 this.PlayEmptySound( AttackType::Secondary );
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.15f;
                 return;
             }
 
@@ -163,12 +166,10 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
             {
                 m_bGrenadeFire = true;
                 m_flGrenadeLaunchTime = g_Engine.time;
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 2.79f;
             }
             else
             {
                 m_bGrenadeFire = false;
-                self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 1.01f;
                 self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
             }
 
@@ -185,11 +186,9 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.10f;
             return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         float cone = weapons::Accuracy( player, this.config.primary_accuracy, isTrainedPersonal );
 
         if( g_Engine.time - m_flLastPrimaryShot < 0.25f )

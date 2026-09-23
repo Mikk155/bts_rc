@@ -149,6 +149,8 @@ class weapon_bts_mp5gl : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( this.owner );
+        this.SetCooldown( isTrainedPersonal, type );
         if( type == AttackType::Tertiary )
         {
             if( m_iFireMode == MP5GLMode::Burst )

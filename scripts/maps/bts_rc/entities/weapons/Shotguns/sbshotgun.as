@@ -130,10 +130,13 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.12f;
             return;
         }
 
@@ -146,7 +149,6 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
         {
             self.Reload();
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
             return;
         }
 
@@ -161,15 +163,12 @@ class weapon_bts_sbshotgun : BTS_FireWeapon
             .Animation( WeaponSBShotgunAnim::Shoot1 )
         .Fire();
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
-
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
         Vector vecOrigin = player.GetGunPosition() + vecForward * 14.0f + vecRight * 6.0f - vecUp * 34.0f;
         Vector vecVelocity = player.pev.velocity + vecForward * 25.0f + vecRight * Math.RandomFloat( 50.0f, 70.0f ) + vecUp * Math.RandomFloat( 100.0f, 150.0f );
         g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + 0.85f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
 
         if( !isTrainedPersonal )

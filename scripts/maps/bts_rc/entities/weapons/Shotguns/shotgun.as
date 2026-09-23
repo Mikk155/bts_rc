@@ -110,10 +110,13 @@ class weapon_bts_shotgun : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.15f;
             return;
         }
 
@@ -123,7 +126,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             {
                 self.Reload();
                 this.PlayEmptySound( AttackType::Secondary );
-                self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
                 return;
             }
 
@@ -142,8 +144,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
                 .Animation( WeaponShotgunAnim::Shoot2 )
             .Fire();
 
-            bool isTrainedPersonal = util::IsTrainedPersonal( player );
-
             Vector vecForward, vecRight, vecUp;
             g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
             Vector vecOrigin = player.GetGunPosition() + vecForward * 14.0f + vecRight * 6.0f - vecUp * 34.0f;
@@ -152,7 +152,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity1, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
             g_EntityFuncs.EjectBrass( vecOrigin, vecVelocity2, player.pev.v_angle.y, models::shotgunshell, TE_BOUNCE_SHOTSHELL );
 
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 1.5f;
             self.m_flTimeWeaponIdle = g_Engine.time + 6.0f;
 
             if( !isTrainedPersonal )
@@ -178,7 +177,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
         {
             self.Reload();
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
             return;
         }
 
@@ -193,8 +191,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             .Animation( WeaponShotgunAnim::Shoot1 )
         .Fire();
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
-
         Vector vecForward, vecRight, vecUp;
         g_EngineFuncs.AngleVectors( player.pev.v_angle, vecForward, vecRight, vecUp );
         Vector vecOrigin = player.GetGunPosition() + vecForward * 14.0f + vecRight * 6.0f - vecUp * 34.0f;
@@ -208,7 +204,6 @@ class weapon_bts_shotgun : BTS_FireWeapon
             player.pev.velocity.z = flZVel;
         }
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.85f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
 
         if( self.m_iClip != 0 )

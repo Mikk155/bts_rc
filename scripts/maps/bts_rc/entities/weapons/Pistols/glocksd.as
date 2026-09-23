@@ -144,6 +144,8 @@ class weapon_bts_glocksd : BTS_FireWeapon
     {
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
+        this.SetCooldown( isTrainedPersonal, type );
+
         switch( type )
         {
             case AttackType::Secondary:
@@ -156,7 +158,6 @@ class weapon_bts_glocksd : BTS_FireWeapon
                 if( self.m_iClip <= 0 )
                 {
                     this.PlayEmptySound();
-                    self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
                     return;
                 }
 
@@ -169,8 +170,6 @@ class weapon_bts_glocksd : BTS_FireWeapon
                     .Flash( 0, false )
                     .Animation( anim )
                 .Fire();
-
-                gpWeaponGlockSDConfig.SetCooldown( isTrainedPersonal, type, self, this.owner );
 
                 self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
 

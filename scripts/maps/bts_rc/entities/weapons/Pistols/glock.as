@@ -125,14 +125,15 @@ class weapon_bts_glock : BTS_FireWeapon
             }
         }
 
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( isTrainedPersonal, type );
+
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.2f;
             return;
         }
-
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
         // Glock shoots on primary AND secondary attack (secondary is faster but less accurate)
         float cone = weapons::Accuracy( player, ( type == AttackType::Primary ) ?
@@ -147,14 +148,8 @@ class weapon_bts_glock : BTS_FireWeapon
             .Animation( anim )
         .Fire();
 
-        if( type == AttackType::Secondary )
+        if( type != AttackType::Secondary )
         {
-            SetCooldown( isTrainedPersonal, AttackType::Secondary );
-        }
-        else
-        {
-            self.m_flNextSecondaryAttack = self.m_flNextTertiaryAttack = g_Engine.time + gpWeaponGlockConfig.secondary_cooldown;
-            self.m_flNextPrimaryAttack = g_Engine.time + gpWeaponGlockConfig.GetCooldown( isTrainedPersonal, AttackType::Primary );
             self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
         }
     }

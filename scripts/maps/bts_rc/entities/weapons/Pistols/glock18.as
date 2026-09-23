@@ -128,30 +128,30 @@ class weapon_bts_glock18 : BTS_FireWeapon
         }
         PlayAnim( WeaponGlock18Anim::AddSilencer, PLAYER_ANIM::PLAYER_RELOAD );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 5.0f, 10.0f );
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
+        weapons::SetCooldown( self, this.owner, 0.5f );
     }
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        if( type == AttackType::Tertiary )
+            return;
+
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+
+        this.SetCooldown( util::IsTrainedPersonal( this.owner ), type );
+
         if( type == AttackType::Secondary )
         {
             ToggleFireMode();
             return;
         }
 
-        if( type != AttackType::Primary )
-        {
-            return;
-        }
-
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
             return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         uint8 anim = self.m_iClip > 1 ? WeaponGlock18Anim::Shoot : WeaponGlock18Anim::ShootEmpty;
 
         bullet.Weapon( this )
@@ -162,7 +162,7 @@ class weapon_bts_glock18 : BTS_FireWeapon
             .AmmoFrom( AttackType::Primary )
         .Fire();
 
-        self.m_flNextPrimaryAttack = self.m_flNextSecondaryAttack = g_Engine.time + ( ( m_iFireMode == Glock18Mode::SemiAuto ) ? 0.3f : 0.0625f );
+        weapons::SetCooldown( self, player, ( m_iFireMode == Glock18Mode::SemiAuto ? 0.3f : 0.0625f ) );
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 }

@@ -137,6 +137,9 @@ class weapon_bts_sawsd : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        this.SetCooldown( isTrainedPersonal, type );
+
         switch( type )
         {
             case AttackType::Tertiary:
@@ -147,13 +150,11 @@ class weapon_bts_sawsd : BTS_FireWeapon
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.09f;
             return;
         }
 
         m_bAlternatingEject = !m_bAlternatingEject;
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         bullet.Weapon( this )
             .Sound( "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), QUIET_GUN_VOLUME )
             .Shell( m_bAlternatingEject ? m_iLink : models::saw_shell )
@@ -165,7 +166,6 @@ class weapon_bts_sawsd : BTS_FireWeapon
         RecalculateBody( self.m_iClip );
         g_SoundSystem.EmitSoundDyn( player.edict(), CHAN_ITEM, "bts_rc/weapons/gun_fire4.wav", 0.5f, ATTN_NORM, 0, 94 + Math.RandomLong( 0, 15 ) );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 0.099f;
         self.m_flTimeWeaponIdle = g_Engine.time + 0.2f;
 
         if( g_WeaponsConfig.m249_knockback )

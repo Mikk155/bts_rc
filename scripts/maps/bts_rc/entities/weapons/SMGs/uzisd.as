@@ -106,6 +106,9 @@ class weapon_bts_uzisd : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal( player );
+        this.SetCooldown( isTrainedPersonal, type );
+
         switch( type )
         {
             case AttackType::Tertiary:
@@ -118,11 +121,9 @@ class weapon_bts_uzisd : BTS_FireWeapon
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.2f;
             return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         // In Uzi SD we play weapons/pl_gun2.wav at full volume, and bts_rc/weapons/uzi_fire1.wav at 0.3f volume!
         bullet.Weapon( this )
             .Sound( "weapons/pl_gun2.wav", Math.RandomFloat( 0.92f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), QUIET_GUN_VOLUME )
@@ -132,7 +133,6 @@ class weapon_bts_uzisd : BTS_FireWeapon
         .Fire();
         PlaySound( "bts_rc/weapons/uzi_fire1.wav", 0.3f, 98 + Math.RandomLong( 0, 3 ) );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 0.07f;
         self.m_flTimeWeaponIdle = g_Engine.time + Math.RandomFloat( 10.0f, 15.0f );
     }
 

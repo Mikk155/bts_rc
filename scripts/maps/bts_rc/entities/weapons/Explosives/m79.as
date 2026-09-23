@@ -304,10 +304,11 @@ class weapon_bts_m79 : BTS_FireWeapon
                 return;
         }
 
+        this.SetCooldown( util::IsTrainedPersonal( this.owner ), type );
+
         if( player.pev.waterlevel == WATERLEVEL_HEAD || self.m_iClip <= 0 )
         {
             self.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
             return;
         }
 
@@ -335,7 +336,6 @@ class weapon_bts_m79 : BTS_FireWeapon
 
         CheckDepletedAmmo( self.m_iPrimaryAmmoType );
 
-        self.m_flNextPrimaryAttack = g_Engine.time + 1.0f;
         self.m_flTimeWeaponIdle = g_Engine.time + 5.0f;
     }
 

@@ -295,6 +295,9 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
+        bool is_trained_personal = util::IsTrainedPersonal( player );
+        this.SetCooldown( is_trained_personal, type );
+
         switch( type )
         {
             case AttackType::Tertiary:
@@ -305,7 +308,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         if( player.pev.waterlevel == 3 )
         {
             self.PlayEmptySound();
-            self.m_flNextSecondaryAttack = self.m_flNextPrimaryAttack = g_Engine.time + 0.15;
             return;
         }
 
@@ -313,7 +315,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         if( ammo1 <= 0 )
         {
             self.PlayEmptySound();
-            self.m_flNextPrimaryAttack = g_Engine.time + 0.75f;
             return;
         }
 
@@ -325,8 +326,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         player.m_iWeaponVolume = LOUD_GUN_VOLUME;
 
         PlayAnim( WeaponFlamethrowerAnim::Fire1 + RandomUint(3), PLAYER_ANIM::PLAYER_ATTACK1 );
-
-        bool is_trained_personal = util::IsTrainedPersonal( player );
 
         player.pev.punchangle.x -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
         player.pev.punchangle.y -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
@@ -344,7 +343,6 @@ class weapon_bts_flamethrower : BTS_FireWeapon
             preFlame.pev.avelocity.z = 10;
         }
 
-        self.m_flNextPrimaryAttack = g_Engine.time + gpWeaponFlamethrowerConfig.GetCooldown( is_trained_personal, AttackType::Primary );
         self.m_flTimeWeaponIdle = g_Engine.time + 0.5;
     }
 
