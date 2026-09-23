@@ -47,9 +47,6 @@ namespace Hooks
                     }
                 }
             }
-
-            ASEquipmentCharacter@ equipmentCharacter = gpEquipment.Characters[ character.Classify ];
-            equipmentCharacter.Equip( player );
         }
     }
 }

@@ -522,10 +522,21 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
     if( data is null )
         return;
 
+    data.delete( "character" );
+    data.delete( "pm_equiped" );
+
+    switch( util::GetClass( player ) )
+    {
+        case Classification::Security:
+        case Classification::Operative:
+            break;
+        default:
+            data.delete( "security" );
+    }
+
     if( classify <= Classification::Unset || classify >= Classification::__Size__ )
     {
-        data.delete( "character" );
-        data.delete( "security" );
+        player.RemoveAllItems( false, false );
         return;
     }
 
@@ -639,8 +650,9 @@ function( CBasePlayer@ player, array<string>@ arguments )
 
     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Set Classification \"" + Classification::ToString(classify) + " (" + int(classify) + ")\n" );
 
+    dictionary@ data = player.GetUserData();
+    data.delete( "pm_equiped" );
     SetClass( player, classify );
-
 }, true, "class" );
 
 ASCommand ASCharacterTestCommand(

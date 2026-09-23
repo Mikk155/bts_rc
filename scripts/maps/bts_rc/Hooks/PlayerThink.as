@@ -159,11 +159,21 @@ namespace Hooks
                 data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
                 g_ClassSelectionMenu.Open( player );
             }
+
+            player.pev.nextthink = g_Engine.time + 0.1f;
             return HOOK_CONTINUE;
         }
 
         if( !player.IsAlive() )
             return HOOK_CONTINUE;
+
+        if( !data.exists( "pm_equiped" ) )
+        {
+            player.RemoveAllItems( false, false );
+            ASEquipmentCharacter@ equipmentCharacter = gpEquipment.Characters[ character.Classify ];
+            equipmentCharacter.Equip( player );
+            data[ "pm_equiped" ] = true;
+        }
 
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
