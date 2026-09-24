@@ -151,6 +151,8 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
     "subsequent_hits_deduction":
     {
         "type": "number",
+        "maximum": 1.0,
+        "minimum": 0.1,
         "description": "Damage multiplier applied to consecutive hits."
     },
     "primary_miss_cooldown":
@@ -557,9 +559,7 @@ abstract class ASWeaponConfig : IConfigurable
         this.secondary_distance = config.ValueOrDefault( "secondary_distance", this.secondary_distance, false, false );
         this.tertiary_distance = config.ValueOrDefault( "tertiary_distance", this.tertiary_distance, false, false );
 
-        // -TODO Should maybe schema this and some more other variables.
         this.subsequent_hits_deduction = config.ValueOrDefault( "subsequent_hits_deduction", this.subsequent_hits_deduction, false, false );
-        this.subsequent_hits_deduction = Math.min( 1.0, Math.max( 0.1, this.subsequent_hits_deduction ) );
 
         this.primary_miss_cooldown = config.ValueOrDefault( "primary_miss_cooldown", this.primary_cooldown, false, false );
         this.primary_miss_trained_cooldown = config.ValueOrDefault( "primary_miss_trained_cooldown", this.primary_miss_cooldown, false, false );

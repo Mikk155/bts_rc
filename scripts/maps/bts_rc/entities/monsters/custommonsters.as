@@ -208,12 +208,3 @@ class bts_rc_base_monster : ScriptBaseMonsterEntity
         return vecVelocity;
     }
 }
-
-/* FIXME
-*/
-
-/* TODO
-    Use a map entity to "think" for the monsters instead of using the scheduler ??
-
-    Use RadiusDamage etc for explosions, instead of env_explosion ??
-*/
