@@ -29,7 +29,7 @@
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 
-const SemanticVersion@ g_ScriptsVersion = SemVer( 4, 7, 0 );
+const SemanticVersion@ g_ScriptsVersion = SemVer( 4, 7, 1 );
 
 // Whatever the current map is bts_rc
 const bool g_IsMainMap = ( string( g_Engine.mapname ) == "bts_rc" );

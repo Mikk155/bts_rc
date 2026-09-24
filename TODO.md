@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/78.37837837837837?barColor=64da0b)
+> ![](https://geps.dev/progress/77.19298245614034?barColor=69da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -37,7 +37,6 @@ This file contains the list of to-do in the project.
 - [ ] Use weapons::SetCooldown where single cooldown variables are updated with hardcoded numbers so the three attack type cooldows are set.
 - [ ] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
 - [ ] have release workflows/python to zip scripts with mega assets.
-- [x] add laser to default revolver (it was discussed before i think gamit was working on it)
 - [ ] add a throwable interface/mixin to some melees that raptor asked i forgot which ones.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] remove whatever was left in scriprs/maps/bts_weapons
@@ -66,6 +65,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] add laser to default revolver (it was discussed before i think gamit was working on it)
 - [x] update laser spot sprites.
 - [x] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
 - [x] **Sniper Rifle**: Upload and update the scoped view model used while zooming (`models/v_m40a1.mdl`).

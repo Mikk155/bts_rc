@@ -247,6 +247,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"secondary_accuracy": 
@@ -518,6 +520,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"weight": 
@@ -939,6 +943,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"weight": 
@@ -1424,6 +1430,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"secondary_miss_trained_cooldown": 
@@ -1729,6 +1737,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"weight": 
@@ -2126,6 +2136,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"weight": 
@@ -2523,6 +2535,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_maxammo": 
@@ -2889,6 +2903,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_maxammo": 
@@ -3279,6 +3295,8 @@
 					{
 						"default": 0.5,
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_maxammo": 
@@ -3903,6 +3921,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -4355,6 +4375,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -4526,6 +4548,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 2.65,
+							"stand_trained": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -4764,6 +4836,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -4805,51 +4879,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -4940,6 +4969,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 2.65,
+							"stand_trained": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -5143,6 +5222,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -5224,51 +5305,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -5408,9 +5444,109 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 4,
+							"stand_trained": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 6,
+							"stand_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"primary_cooldown": 
 					{
-						"default": 0.0625,
+						"default": 0.3,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -5567,6 +5703,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -5649,96 +5787,6 @@
 						"minItems": 3,
 						"maxItems": 3
 					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
-					},
-					"secondary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon kickback",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
-					},
 					"reload_time": 
 					{
 						"type": "number"
@@ -5807,6 +5855,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 2.65,
+							"stand_trained": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -6002,6 +6100,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -6083,51 +6183,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -6214,6 +6269,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 7,
+							"stand_trained": 3
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -6388,6 +6493,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -6469,51 +6576,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -6640,6 +6702,56 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 16,
+							"stand_trained": 10
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -6825,6 +6937,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -6906,51 +7020,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -7047,6 +7116,57 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 5,
+							"stand_trained": 2,
+							"crouch": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -7236,6 +7356,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -7317,51 +7439,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -7454,6 +7531,57 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 5,
+							"stand_trained": 2,
+							"crouch": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -7655,6 +7783,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -7736,51 +7866,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -7871,6 +7956,58 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 4,
+							"stand_trained": 3.25,
+							"crouch": 3,
+							"crouch_trained": 2
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -8060,6 +8197,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -8141,51 +8280,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -8465,6 +8559,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -8715,6 +8811,58 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 3.5,
+							"stand_trained": 2.75,
+							"run": 6,
+							"run_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"primary_cooldown": 
 					{
 						"default": 0.085,
@@ -8872,6 +9020,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -8953,51 +9103,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -9122,6 +9227,58 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 3.5,
+							"stand_trained": 2.75,
+							"run": 6,
+							"run_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"primary_cooldown": 
 					{
 						"default": 0.085,
@@ -9279,6 +9436,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -9360,51 +9519,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -9504,6 +9618,58 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 3.5,
+							"stand_trained": 2.75,
+							"run": 6,
+							"run_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -9695,6 +9861,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -9776,51 +9944,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -10111,6 +10234,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -10361,6 +10486,60 @@
 							}
 						}
 					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 15,
+							"stand_trained": 10,
+							"run": 20,
+							"run_trained": 15,
+							"crouch": 10,
+							"crouch_trained": 8
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
 					"primary_cooldown": 
 					{
 						"default": 2,
@@ -10503,6 +10682,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -10584,51 +10765,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -10742,6 +10878,106 @@
 						},
 						"minItems": 2,
 						"maxItems": 2
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 11,
+							"stand_trained": 5
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"secondary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 24,
+							"stand_trained": 10
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon kickback",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_dropammo": 
 					{
@@ -10894,6 +11130,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -10960,96 +11198,6 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
-					},
-					"secondary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon kickback",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
 							"stand": 
 							{
 								"type": "number",
@@ -11149,6 +11297,56 @@
 						},
 						"minItems": 2,
 						"maxItems": 2
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 11,
+							"stand_trained": 5
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
 					},
 					"primary_dropammo": 
 					{
@@ -11291,6 +11489,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -11400,51 +11600,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -11570,6 +11725,58 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 3.5,
+							"stand_trained": 2.75,
+							"run": 6,
+							"run_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -11764,6 +11971,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -11845,51 +12054,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -11978,6 +12142,58 @@
 						"description": "weapon accuracy modifiers.",
 						"properties": 
 						{
+							"stand": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"stand_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"crouch_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							},
+							"run_trained": 
+							{
+								"type": "number",
+								"minimum": 0.001
+							}
+						}
+					},
+					"primary_kickback": 
+					{
+						"default": 
+						{
+							"stand": 3.5,
+							"stand_trained": 2.75,
+							"run": 6,
+							"run_trained": 4
+						},
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Weapon accuracy",
+						"description": "weapon kickback modifiers.",
+						"properties": 
+						{
+							"force": 
+							{
+								"type": "boolean",
+								"description": "if true the values are set, if false the values are added and accumulated."
+							},
 							"stand": 
 							{
 								"type": "number",
@@ -12172,6 +12388,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -12253,51 +12471,6 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
-					},
-					"primary_kickback": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Weapon accuracy",
-						"description": "weapon kickback modifiers.",
-						"properties": 
-						{
-							"force": 
-							{
-								"type": "boolean",
-								"description": "if true the values are set, if false the values are added and accumulated."
-							},
-							"stand": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"stand_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"crouch_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							},
-							"run_trained": 
-							{
-								"type": "number",
-								"minimum": 0.001
-							}
-						}
 					},
 					"secondary_kickback": 
 					{
@@ -12521,6 +12694,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -12908,6 +13083,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -13305,6 +13482,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -13700,6 +13879,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -14097,6 +14278,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -14500,6 +14683,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -14892,6 +15077,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_cooldown": 
@@ -15313,6 +15500,8 @@
 					"subsequent_hits_deduction": 
 					{
 						"type": "number",
+						"maximum": 1,
+						"minimum": 0.1,
 						"description": "Damage multiplier applied to consecutive hits."
 					},
 					"primary_miss_trained_cooldown": 

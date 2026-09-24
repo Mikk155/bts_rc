@@ -2218,10 +2218,6 @@
             "stand": 0.03,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 2.65,
-            "stand_trained": 2.0
-        },
         "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_default_ammo": [
@@ -2229,6 +2225,10 @@
             17
         ],
         "primary_dropammo": 17,
+        "primary_kickback": {
+            "stand": 2.65,
+            "stand_trained": 2.0
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.05,
         "reload_anim": 6,
@@ -2255,10 +2255,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 2.65,
-            "stand_trained": 2.0
-        },
         "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_default_ammo": [
@@ -2266,6 +2262,10 @@
             17
         ],
         "primary_dropammo": 17,
+        "primary_kickback": {
+            "stand": 2.65,
+            "stand_trained": 2.0
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.05,
         "reload_anim": 6,
@@ -2293,14 +2293,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 4.0,
-            "stand_trained": 2.0
-        },
-        "secondary_kickback": {
-            "stand": 6.0,
-            "stand_trained": 4.0
-        },
         "primary_cooldown": 0.3,
         "primary_damage": 15,
         "primary_default_ammo": [
@@ -2308,12 +2300,20 @@
             19
         ],
         "primary_dropammo": 19,
+        "primary_kickback": {
+            "stand": 4.0,
+            "stand_trained": 2.0
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.0625,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
         "secondary_cooldown": 0.5,
+        "secondary_kickback": {
+            "stand": 6.0,
+            "stand_trained": 4.0
+        },
         "secondary_trained_cooldown": 0.5,
         "slot": 1,
         "weight": 10
@@ -2331,10 +2331,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 2.65,
-            "stand_trained": 2.0
-        },
         "primary_cooldown": 0.1,
         "primary_damage": 16,
         "primary_default_ammo": [
@@ -2342,6 +2338,10 @@
             17
         ],
         "primary_dropammo": 17,
+        "primary_kickback": {
+            "stand": 2.65,
+            "stand_trained": 2.0
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.1,
         "reload_anim": 6,
@@ -2402,12 +2402,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 3.5,
-            "stand_trained": 2.75,
-            "run": 6.0,
-            "run_trained": 4.0
-        },
         "primary_cooldown": 0.09,
         "primary_damage": 23,
         "primary_default_ammo": [
@@ -2415,6 +2409,12 @@
             30
         ],
         "primary_dropammo": 30,
+        "primary_kickback": {
+            "run": 6.0,
+            "run_trained": 4.0,
+            "stand": 3.5,
+            "stand_trained": 2.75
+        },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.09,
         "reload_anim": 6,
@@ -2477,12 +2477,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 3.5,
-            "stand_trained": 2.75,
-            "run": 6.0,
-            "run_trained": 4.0
-        },
         "primary_cooldown": 0.085,
         "primary_damage": 22,
         "primary_default_ammo": [
@@ -2490,6 +2484,12 @@
             30
         ],
         "primary_dropammo": 30,
+        "primary_kickback": {
+            "run": 6.0,
+            "run_trained": 4.0,
+            "stand": 3.5,
+            "stand_trained": 2.75
+        },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.085,
         "reload_anim": 3,
@@ -2510,12 +2510,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 3.5,
-            "stand_trained": 2.75,
-            "run": 6.0,
-            "run_trained": 4.0
-        },
         "primary_cooldown": 0.085,
         "primary_damage": 22,
         "primary_default_ammo": [
@@ -2523,6 +2517,12 @@
             30
         ],
         "primary_dropammo": 30,
+        "primary_kickback": {
+            "run": 6.0,
+            "run_trained": 4.0,
+            "stand": 3.5,
+            "stand_trained": 2.75
+        },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.085,
         "reload_anim": 3,
@@ -2561,11 +2561,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 5.0,
-            "stand_trained": 2.0,
-            "crouch": 2
-        },
         "primary_cooldown": 0.075,
         "primary_damage": 17,
         "primary_default_ammo": [
@@ -2573,6 +2568,11 @@
             30
         ],
         "primary_dropammo": 25,
+        "primary_kickback": {
+            "crouch": 2,
+            "stand": 5.0,
+            "stand_trained": 2.0
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.075,
         "reload_anim": 3,
@@ -2593,11 +2593,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 5.0,
-            "stand_trained": 2.0,
-            "crouch": 2
-        },
         "primary_cooldown": 0.075,
         "primary_damage": 17,
         "primary_default_ammo": [
@@ -2605,6 +2600,11 @@
             30
         ],
         "primary_dropammo": 30,
+        "primary_kickback": {
+            "crouch": 2,
+            "stand": 5.0,
+            "stand_trained": 2.0
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.075,
         "reload_anim": 3,
@@ -2690,10 +2690,6 @@
             "stand": 0.1,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 16.0,
-            "stand_trained": 10.0
-        },
         "primary_cooldown": 0.75,
         "primary_damage": 66,
         "primary_default_ammo": [
@@ -2701,6 +2697,10 @@
             6
         ],
         "primary_dropammo": 6,
+        "primary_kickback": {
+            "stand": 16.0,
+            "stand_trained": 10.0
+        },
         "primary_maxammo": 18,
         "primary_trained_cooldown": 0.75,
         "reload_anim": 3,
@@ -2721,12 +2721,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 3.5,
-            "stand_trained": 2.75,
-            "run": 6.0,
-            "run_trained": 4.0
-        },
         "primary_cooldown": 0.07,
         "primary_damage": 22,
         "primary_default_ammo": [
@@ -2734,6 +2728,12 @@
             100
         ],
         "primary_dropammo": 50,
+        "primary_kickback": {
+            "run": 6.0,
+            "run_trained": 4.0,
+            "stand": 3.5,
+            "stand_trained": 2.75
+        },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.07,
         "reload_anim": 2,
@@ -2755,12 +2755,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 3.5,
-            "stand_trained": 2.75,
-            "run": 6.0,
-            "run_trained": 4.0
-        },
         "primary_cooldown": 0.07,
         "primary_damage": 23,
         "primary_default_ammo": [
@@ -2768,6 +2762,12 @@
             100
         ],
         "primary_dropammo": 50,
+        "primary_kickback": {
+            "run": 6.0,
+            "run_trained": 4.0,
+            "stand": 3.5,
+            "stand_trained": 2.75
+        },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.07,
         "reload_anim": 2,
@@ -2787,11 +2787,11 @@
             1,
             6
         ],
+        "primary_dropammo": 3,
         "primary_kickback": {
             "stand": 11.0,
             "stand_trained": 5.0
         },
-        "primary_dropammo": 3,
         "primary_maxammo": 30,
         "primary_spread": [
             0.08716,
@@ -2832,15 +2832,11 @@
             2,
             8
         ],
+        "primary_dropammo": 3,
         "primary_kickback": {
             "stand": 11.0,
             "stand_trained": 5.0
         },
-        "secondary_kickback": {
-            "stand": 24.0,
-            "stand_trained": 10.0
-        },
-        "primary_dropammo": 3,
         "primary_maxammo": 30,
         "primary_spread": [
             0.08716,
@@ -2848,6 +2844,10 @@
             0.0
         ],
         "primary_trained_cooldown": 0.85,
+        "secondary_kickback": {
+            "stand": 24.0,
+            "stand_trained": 10.0
+        },
         "secondary_spread": [
             0.17365,
             0.04362,
@@ -2868,14 +2868,6 @@
             "stand": 0.01,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 15.0,
-            "stand_trained": 10.0,
-            "run": 20.0,
-            "run_trained": 15.0,
-            "crouch": 10.0,
-            "crouch_trained": 8.0
-        },
         "primary_cooldown": 2.0,
         "primary_damage": 120,
         "primary_default_ammo": [
@@ -2883,6 +2875,14 @@
             5
         ],
         "primary_dropammo": 5,
+        "primary_kickback": {
+            "crouch": 10.0,
+            "crouch_trained": 8.0,
+            "run": 20.0,
+            "run_trained": 15.0,
+            "stand": 15.0,
+            "stand_trained": 10.0
+        },
         "primary_maxammo": 10,
         "primary_trained_cooldown": 2.0,
         "slot": 5,
@@ -2910,10 +2910,6 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_kickback": {
-            "stand": 7.0,
-            "stand_trained": 3.0
-        },
         "primary_cooldown": 0.25,
         "primary_damage": 25,
         "primary_default_ammo": [
@@ -2921,6 +2917,10 @@
             0
         ],
         "primary_dropammo": 5,
+        "primary_kickback": {
+            "stand": 7.0,
+            "stand_trained": 3.0
+        },
         "primary_maxammo": 60,
         "primary_trained_cooldown": 0.25,
         "slot": 1,
@@ -2936,12 +2936,6 @@
             "stand": 0.0175,
             "stand_trained": 0.015
         },
-        "primary_kickback": {
-            "stand": 4.0,
-            "stand_trained": 3.25,
-            "crouch": 3,
-            "crouch_trained": 2.0
-        },
         "primary_cooldown": 0.07,
         "primary_damage": 16,
         "primary_default_ammo": [
@@ -2949,6 +2943,12 @@
             20
         ],
         "primary_dropammo": 20,
+        "primary_kickback": {
+            "crouch": 3,
+            "crouch_trained": 2.0,
+            "stand": 4.0,
+            "stand_trained": 3.25
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.07,
         "reload_anim": 3,
