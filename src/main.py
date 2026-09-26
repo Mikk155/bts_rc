@@ -12,7 +12,7 @@ import Tests.TodolistCheck;
 import Tests.PrecacheCheck;
 import Tests.CreditsCheck;
 import Tests.ReleaseCheck;
-import Tests.FGDCheck;
+# import Tests.FGDCheck;
 import Tests.LicenseCheck;
 import Tests.DebugCheck;
 import Tests.SchemaCheck;

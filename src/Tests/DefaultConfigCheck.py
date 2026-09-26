@@ -8,6 +8,7 @@
 
 import os;
 import json;
+import jsonschema;
 
 from Tests.PyBuilder import PyBuilder
 
@@ -34,6 +35,13 @@ class DefaultConfigCheck( PyBuilder ):
 
         except json.JSONDecodeError as e:
             self.Log( "{} > invalid JSON: scripts/maps/bts_rc/default_config.json at line {}:{}", e.msg, e.lineno, e.colno );
+            return False;
+
+        try:
+            with open( os.path.join( os.path.dirname( self.m_DefaultConfig ), "schema.json" ), "r" ) as fStream:
+                jsonschema.validate( instance=parsed, schema=json.load( fStream ) );
+        except jsonschema.ValidationError as e:
+            self.Log( "invalid JSON: scripts/maps/bts_rc/default_config.json at {}\n{}", e.json_path, e.message );
             return False;
 
         for script in self.Scripts:
