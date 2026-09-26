@@ -24,10 +24,6 @@
 
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
-#if SERVER
-bool gpErr = true;
-#endif
-
 #if METAMOD_PLUGIN_ASCURL
 #include "util/UpdateChecker"
 #endif
@@ -35,14 +31,11 @@ bool gpErr = true;
 /// Called by the map through trigger_script the moment that the map gameplay has started
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
+    if( gCheckModuleError(true) )
+        return;
+
 #if METAMOD_PLUGIN_ASCURL
     UpdateChecker(); // Notice of new github releases if we're running a old version.
-#endif
-
-#if SERVER
-    if( gpErr )
-        return;
-    gpErr = true;
 #endif
 
     gpGameStarted = true;
@@ -50,21 +43,20 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
     Hooks::Register();
 
-    if( !g_IsMainMap )
-        return;
-
-    randomizer::Initialize();
+    if( g_IsMainMap )
+    {
+        randomizer::Initialize();
+    }
 
     activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
+
+    gCheckModuleError(false);
 }
 
 void MapActivate()
 {
-#if SERVER
-    if( gpErr )
+    if( gCheckModuleError(true) )
         return;
-    gpErr = true;
-#endif
 
     if( g_WeaponsConfig.item_tracking )
         item_tracker::Reset();
@@ -104,15 +96,14 @@ void MapActivate()
 
     meta_api::NoticeInstallation();
 
-#if SERVER
-    gpErr = false;
-    if( !g_IsMainMap ) // Automatic call outside of bts_rc
-        MapBegin(null, null, USE_TOGGLE, 0 );
-#endif
+    gCheckModuleError(false);
 }
 
 void MapInit()
 {
+    if( gCheckModuleError(true) )
+        return;
+
     Server::chrono@ chrono = null;
 
     if( g_Logger.info.active )
@@ -135,26 +126,13 @@ void MapInit()
     }
 
 #if SERVER
-    gpErr = false;
-
-    if( g_IsMainMap )
-        return;
-
-    CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
-    CustomEntity( "func_section", true, "test_chamber::func_section" );
-    CustomEntity( "entitymaker", true, "test_chamber::entitymaker" );
+    if( !g_IsMainMap )
+    {
+        CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
+        CustomEntity( "info_section", true, "test_chamber::info_section" );
+        CustomEntity( "entitymaker", true, "test_chamber::entitymaker" );
+    }
 #endif
-}
 
-void MapStart()
-{
-#if SERVER
-    if( g_IsMainMap )
-        return;
-
-    g_StartInventory.Remove( "weapon_medkit" );
-    g_EngineFuncs.CVarSetFloat( "mp_timelimit", 0 );
-    g_EngineFuncs.CVarSetFloat( "mp_timelimit_empty", 0 );
-    g_EngineFuncs.CVarSetFloat( "mp_respawndelay", 0 );
-#endif
+    gCheckModuleError(false);
 }

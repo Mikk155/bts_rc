@@ -36,15 +36,19 @@ namespace test_chamber
                 if( key == "+classname" )
                 {
                     this.m_ClassName = value;
+                    return true;
                 }
                 else if( key == "+targetname" )
                 {
                     this.m_KeyValues[ "targetname" ] = value;
+                    return true;
                 }
                 else if( key == "+target" )
                 {
                     this.m_Target = value;
+                    return true;
                 }
+                return false;
             }
 
             this.m_KeyValues[ key ] = value;

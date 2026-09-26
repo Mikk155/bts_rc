@@ -4580,6 +4580,38 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							8,
+							17
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -4629,38 +4661,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.1,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 15,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							8,
-							17
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 17,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -5001,6 +5001,38 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							8,
+							17
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -5050,38 +5082,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.1,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 15,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							8,
-							17
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 17,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -5444,6 +5444,38 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.3,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 15,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							9,
+							19
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 19,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -5494,6 +5526,36 @@
 							}
 						}
 					},
+					"primary_maxammo": 
+					{
+						"default": 120,
+						"type": "integer"
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.0625,
+						"type": "number"
+					},
+					"reload_anim": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
+					"reload_empty_anim": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"reload_sound": 
+					{
+						"default": "bts_rc/weapons/9mm_clip.wav",
+						"type": "string"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"secondary_kickback": 
 					{
 						"default": 
@@ -5543,68 +5605,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.3,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 15,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							19
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 19,
-						"type": "integer"
-					},
-					"primary_maxammo": 
-					{
-						"default": 120,
-						"type": "integer"
-					},
-					"primary_trained_cooldown": 
-					{
-						"default": 0.0625,
-						"type": "number"
-					},
-					"reload_anim": 
-					{
-						"default": 6,
-						"type": "integer"
-					},
-					"reload_empty_anim": 
-					{
-						"default": 5,
-						"type": "integer"
-					},
-					"reload_sound": 
-					{
-						"default": "bts_rc/weapons/9mm_clip.wav",
-						"type": "string"
-					},
-					"secondary_cooldown": 
-					{
-						"default": 0.5,
-						"type": "number"
 					},
 					"secondary_trained_cooldown": 
 					{
@@ -5887,6 +5887,38 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.1,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 16,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							8,
+							17
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 17,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -5936,38 +5968,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.1,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 16,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							8,
-							17
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 17,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -6301,6 +6301,38 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.25,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 25,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							0,
+							0
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -6350,38 +6382,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.25,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 25,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							0,
-							0
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 5,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -6734,6 +6734,38 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.75,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 66,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							3,
+							6
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 6,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -6783,38 +6815,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.75,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 66,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							3,
-							6
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 6,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -7148,13 +7148,45 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.075,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 17,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							5,
+							30
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 25,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
+							"crouch": 2,
 							"stand": 5,
-							"stand_trained": 2,
-							"crouch": 2
+							"stand_trained": 2
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -7198,38 +7230,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.075,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 17,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							5,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 25,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -7563,13 +7563,45 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.075,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 17,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							9,
+							30
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
+							"crouch": 2,
 							"stand": 5,
-							"stand_trained": 2,
-							"crouch": 2
+							"stand_trained": 2
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -7613,38 +7645,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.075,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 17,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 30,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -7988,14 +7988,46 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 16,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							6,
+							20
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 20,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 4,
-							"stand_trained": 3.25,
 							"crouch": 3,
-							"crouch_trained": 2
+							"crouch_trained": 2,
+							"stand": 4,
+							"stand_trained": 3.25
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -8039,38 +8071,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.07,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 16,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							6,
-							20
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 20,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -8811,14 +8811,46 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.085,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 22,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							9,
+							30
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 3.5,
-							"stand_trained": 2.75,
 							"run": 6,
-							"run_trained": 4
+							"run_trained": 4,
+							"stand": 3.5,
+							"stand_trained": 2.75
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -8862,38 +8894,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.085,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 22,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 30,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -9227,14 +9227,46 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.085,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 22,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							9,
+							30
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 3.5,
-							"stand_trained": 2.75,
 							"run": 6,
-							"run_trained": 4
+							"run_trained": 4,
+							"stand": 3.5,
+							"stand_trained": 2.75
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -9278,38 +9310,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.085,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 22,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 30,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -9650,14 +9650,46 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.09,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 23,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							15,
+							30
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 3.5,
-							"stand_trained": 2.75,
 							"run": 6,
-							"run_trained": 4
+							"run_trained": 4,
+							"stand": 3.5,
+							"stand_trained": 2.75
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -9701,38 +9733,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.09,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 23,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							15,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 30,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -10486,16 +10486,48 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 2,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 120,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							5,
+							5
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 15,
-							"stand_trained": 10,
+							"crouch": 10,
+							"crouch_trained": 8,
 							"run": 20,
 							"run_trained": 15,
-							"crouch": 10,
-							"crouch_trained": 8
+							"stand": 15,
+							"stand_trained": 10
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -10539,38 +10571,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 2,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 120,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							5,
-							5
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 5,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -10879,6 +10879,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
+					"primary_dropammo": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -10929,6 +10934,34 @@
 							}
 						}
 					},
+					"primary_maxammo": 
+					{
+						"default": 30,
+						"type": "integer"
+					},
+					"primary_spread": 
+					{
+						"default": 
+						[
+							0.08716,
+							0.04362,
+							0
+						],
+						"type": "array",
+						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
+						"items": 
+						{
+							"type": "number",
+							"minimum": 0
+						},
+						"minItems": 3,
+						"maxItems": 3
+					},
+					"primary_trained_cooldown": 
+					{
+						"default": 0.85,
+						"type": "number"
+					},
 					"secondary_kickback": 
 					{
 						"default": 
@@ -10978,39 +11011,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_dropammo": 
-					{
-						"default": 3,
-						"type": "integer"
-					},
-					"primary_maxammo": 
-					{
-						"default": 30,
-						"type": "integer"
-					},
-					"primary_spread": 
-					{
-						"default": 
-						[
-							0.08716,
-							0.04362,
-							0
-						],
-						"type": "array",
-						"description": "Explicit X/Y/Z spread vector for weapons such as shotguns.",
-						"items": 
-						{
-							"type": "number",
-							"minimum": 0
-						},
-						"minItems": 3,
-						"maxItems": 3
-					},
-					"primary_trained_cooldown": 
-					{
-						"default": 0.85,
-						"type": "number"
 					},
 					"secondary_spread": 
 					{
@@ -11298,6 +11298,11 @@
 						"minItems": 2,
 						"maxItems": 2
 					},
+					"primary_dropammo": 
+					{
+						"default": 3,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
@@ -11347,11 +11352,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_dropammo": 
-					{
-						"default": 3,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -11757,14 +11757,46 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 22,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							19,
+							100
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 50,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 3.5,
-							"stand_trained": 2.75,
 							"run": 6,
-							"run_trained": 4
+							"run_trained": 4,
+							"stand": 3.5,
+							"stand_trained": 2.75
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -11808,38 +11840,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.07,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 22,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							19,
-							100
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 50,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{
@@ -12174,14 +12174,46 @@
 							}
 						}
 					},
+					"primary_cooldown": 
+					{
+						"default": 0.07,
+						"type": "number"
+					},
+					"primary_damage": 
+					{
+						"default": 23,
+						"type": "number"
+					},
+					"primary_default_ammo": 
+					{
+						"default": 
+						[
+							19,
+							100
+						],
+						"type": "array",
+						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0
+						},
+						"minItems": 2,
+						"maxItems": 2
+					},
+					"primary_dropammo": 
+					{
+						"default": 50,
+						"type": "integer"
+					},
 					"primary_kickback": 
 					{
 						"default": 
 						{
-							"stand": 3.5,
-							"stand_trained": 2.75,
 							"run": 6,
-							"run_trained": 4
+							"run_trained": 4,
+							"stand": 3.5,
+							"stand_trained": 2.75
 						},
 						"type": "object",
 						"unevaluatedProperties": false,
@@ -12225,38 +12257,6 @@
 								"minimum": 0.001
 							}
 						}
-					},
-					"primary_cooldown": 
-					{
-						"default": 0.07,
-						"type": "number"
-					},
-					"primary_damage": 
-					{
-						"default": 23,
-						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							19,
-							100
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
-					"primary_dropammo": 
-					{
-						"default": 50,
-						"type": "integer"
 					},
 					"primary_maxammo": 
 					{

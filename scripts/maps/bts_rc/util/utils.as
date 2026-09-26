@@ -152,3 +152,17 @@ void SetDebugName( CBaseEntity@ target, const string&in name )
     }
 }
 #endif
+
+bool __gmodule_error__ = false;
+
+// Stop module since the game doesn't care if MapInit had a exception and will call apActivate/MapStart regardless.
+bool gCheckModuleError( bool setTo )
+{
+    if( setTo ) {
+        bool hadError = __gmodule_error__;
+        __gmodule_error__ = setTo;
+        return hadError;
+    }
+    __gmodule_error__ = setTo;
+    return false;
+}

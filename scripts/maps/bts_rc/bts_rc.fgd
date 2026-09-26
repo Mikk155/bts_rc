@@ -98,7 +98,19 @@
     message(string) : "Message to display"
 ]
 
-@SolidClass base(Mandatory, ZHLT) = func_section: "Section teleporter"
+@SolidClass base(Mandatory, ZHLT) = info_section: "Section teleporter"
 [
     message(string) : "Section title"
+    netname(choices) : "Color" : "<w>" =
+    [
+        "<w>" : "white"
+        "<d>" : "gray"
+        "<y>" : "yellow"
+        "<r>" : "red"
+        "<m>" : "magenta"
+        "<g>" : "green"
+        "<o>" : "orange"
+        "<c>" : "cyan"
+    ]
+    target(target_destination) : "Target on selected"
 ]

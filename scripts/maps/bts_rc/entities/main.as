@@ -35,7 +35,7 @@
 #endif
 #include "func_bts_recharger"
 #if SERVER
-#include "func_section"
+#include "info_section"
 #endif
 #include "point_checkpoint"
 #if SERVER

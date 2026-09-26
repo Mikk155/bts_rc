@@ -134,6 +134,11 @@ namespace Hooks
                     }
                 }
             }
+
+            if( ( player.pev.button & IN_SCORE ) != 0 )
+            {
+                test_chamber::g_Sections.Open( player );
+            }
         }
 #endif
 
