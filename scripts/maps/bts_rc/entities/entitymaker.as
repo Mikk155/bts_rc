@@ -24,6 +24,15 @@ namespace test_chamber
             string m_ClassName;
 
         private
+            EHandle m_hChild;
+
+        private
+            bool m_IsThink;
+
+        private
+            bool m_IsOn;
+
+        private
             string m_Target;
 
         private
@@ -41,6 +50,20 @@ namespace test_chamber
                 else if( key == "+targetname" )
                 {
                     this.m_KeyValues[ "targetname" ] = value;
+                    return true;
+                }
+                return false;
+            }
+            else if( key[0] == '-' )
+            {
+                if( key == "+mode" )
+                {
+                    this.m_IsThink = ( atoi( value ) == 1 );
+                    return true;
+                }
+                else if( key == "+starton" )
+                {
+                    this.m_IsOn = ( atoi( value ) == 1 );
                     return true;
                 }
                 else if( key == "+target" )
@@ -78,13 +101,48 @@ namespace test_chamber
 
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
             g_EntityFuncs.Remove( ( child is null ? self : child ) );
+
+            if( this.m_IsOn )
+            {
+                Use( null, null, USE_TOGGLE, 0 );
+            }
+        }
+
+        void SpawnChild()
+        {
+            if( this.m_hChild.IsValid() && this.m_hChild.GetEntity() !is null && this.m_hChild.GetEntity().IsAlive() )
+                return;
+
+            CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
+            Hooks::SquadmakerSpawn( self, child );
+            this.m_hChild = EHandle( child );
+
+            g_EntityFuncs.FireTargets( this.m_Target, child, self, USE_TOGGLE, 0.0f );
+        }
+
+        void Think()
+        {
+            self.pev.nextthink = g_Engine.time + 0.1f;
+            SpawnChild();
         }
 
         void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
         {
-            CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
-            Hooks::SquadmakerSpawn( self, child );
-            g_EntityFuncs.FireTargets( this.m_Target, child, self, USE_TOGGLE, 0.0f );
+            if( this.m_IsThink )
+            {
+                if( self.pev.nextthink >= g_Engine.time )
+                {
+                    self.pev.nextthink = 0;
+                }
+                else
+                {
+                    self.pev.nextthink = g_Engine.time;
+                }
+            }
+            else
+            {
+                SpawnChild();
+            }
         }
     }
 }

@@ -81,16 +81,92 @@
     ]
 ]
 
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_axe.mdl" ) = weapon_bts_axe : "Weapon" : "Weapon entity" [ ]
-@PointClass base(BTS_Item, Mandatory) studio( "models/opfor/w_knife.mdl" ) = weapon_bts_knife : "Weapon" : "Weapon entity" [ ]
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_pipe.mdl" ) = weapon_bts_pipe : "Weapon" : "Weapon entity" [ ]
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_poolstick.mdl" ) = weapon_bts_poolstick : "Weapon" : "Weapon entity" [ ]
-@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_screwdriver.mdl" ) = weapon_bts_screwdriver : "Weapon" : "Weapon entity" [ ]
-
 @PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_9mmclip.mdl" ) = ammo_bts_beretta : "Ammo" : "Ammo entity" [ ]
-
 @PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/furniture/w_flashlightbattery.mdl" ) = bts_battery : "Battery" : "Battery entity" [ ]
-
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_screwdriver.mdl" ) = weapon_bts_screwdriver : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_poolstick.mdl" ) = weapon_bts_poolstick : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_pipe_wrench.mdl" ) = weapon_bts_pipewrench : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_pipe.mdl" ) = weapon_bts_pipe : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/opfor/w_knife.mdl" ) = weapon_bts_knife : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_axe.mdl" ) = weapon_bts_axe : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_broom.mdl" ) = weapon_bts_broom : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_spanner.mdl" ) = weapon_bts_spanner : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_beretta.mdl" ) = weapon_bts_beretta : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_desert_eagle.mdl" ) = weapon_bts_eagle : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_9mmhandgun.mdl" ) = weapon_bts_glock : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_glock17f.mdl" ) = weapon_bts_glock17f : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_glock18.mdl" ) = weapon_bts_glock18 : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_9mmhandgunsd.mdl" ) = weapon_bts_glocksd : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_sw637.mdl" ) = weapon_bts_sw637 : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_357.mdl" ) = weapon_bts_python : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_9mmar.mdl" ) = weapon_bts_mp5 : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_9mmargl.mdl" ) = weapon_bts_mp5gl : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_uzi.mdl" ) = weapon_bts_uzi : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_uzisd.mdl" ) = weapon_bts_uzisd : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_m4.mdl" ) = weapon_bts_m4 : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_m4sd.mdl" ) = weapon_bts_m4sd : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_m16.mdl" ) = weapon_bts_m16 : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_m16sd.mdl" ) = weapon_bts_m16sd : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_m40a1.mdl" ) = weapon_bts_sniperrifle : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_shotgun.mdl" ) = weapon_bts_shotgun : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_sbshotgun.mdl" ) = weapon_bts_sbshotgun : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_saw.mdl" ) = weapon_bts_saw : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_sawsd.mdl" ) = weapon_bts_sawsd : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_m79.mdl" ) = weapon_bts_m79 : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_crossbow.mdl" ) = weapon_bts_xbow : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/hlclassic/w_grenade.mdl" ) = weapon_bts_handgrenade : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_flame.mdl" ) = weapon_bts_flamethrower : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_flare.mdl" ) = weapon_bts_flare : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_flaregun.mdl" ) = weapon_bts_flaregun : "" : "" [ ]
+@PointClass base(BTS_Item, Mandatory) studio( "models/bts_rc/weapons/w_flashlight.mdl" ) = weapon_bts_flashlight : "" : "" [ ]
+@PointClass base(Mandatory) = point_checkpoint : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_npc : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_item : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_hull : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_boss : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_wave : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_headcrab : "" : "" [ ]
+@PointClass base(Mandatory) = randomizer_hullwave : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_eagle : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_sw637 : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_sw637lmao : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_357 : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_mp5 : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_mp5gl : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_mp5gl_grenade : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_uzi : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_uzisd : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m4 : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m4sd : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m16 : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m16_grenade : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m16sd : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m16sd_grenade : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_762 : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_shotgun : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_sbshotgun : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_saw : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_sawsd : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_m79 : "" : "" [ ]
+@PointClass base(Mandatory) = electro_bolt : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_xbow : "" : "" [ ]
+@PointClass base(Mandatory) = flame_proj : "" : "" [ ]
+@PointClass base(Mandatory) = bts_burning_monster : "" : "" [ ]
+@PointClass base(Mandatory) = ammo_bts_flamethrower : "" : "" [ ]
+@PointClass base(Mandatory) = flare : "" : "" [ ]
+@PointClass base(Mandatory) = env_bloodpuddle : "" : ""
+@PointClass base(Mandatory) = monster_panthereye : "" : ""
+@PointClass base(Mandatory) = monster_zombie_grenadier : "" : ""
+@PointClass base(Mandatory) = monster_snapbug : "" : "" [ ]
+@PointClass base(Mandatory) = snapbug : "" : "" [ ]
+@PointClass base(Mandatory) = monster_zombie_gunner : "" : "" [ ]
+@PointClass base(Mandatory) = zombie_parasite_cloud : "" : "" [ ]
+@PointClass base(Mandatory) = monster_zombie_parasite : "" : "" [ ]
+@PointClass base(Mandatory) = monster_parasite : "" : "" [ ]
 
 // Next entities only takes places outside of bts_rc map (bts_rc_test_chamber)
 @SolidClass base(Mandatory, ZHLT) = trigger_logger: "Fast message displayer"
@@ -98,7 +174,7 @@
     message(string) : "Message to display"
 ]
 
-@SolidClass base(Mandatory, ZHLT) = info_section: "Section teleporter"
+@PointClass base(Mandatory) = info_section : "Section teleporter"
 [
     message(string) : "Section title"
     netname(choices) : "Color" : "<w>" =
@@ -113,4 +189,22 @@
         "<c>" : "cyan"
     ]
     target(target_destination) : "Target on selected"
+]
+
+@PointClass base(Mandatory) = entitymaker : "Squadmaker sucks ass lol"
+[
+    +classname(string) : "Child classname"
+    +targetname(string) : "Child targetname"
+    target(string) : "Child target"
+    -target(string) : "Fire after spawn"
+    -mode(choices) : "Mode" : "0" =
+    [
+        0 : "Trigger"
+        1 : "Think"
+    ]
+    -starton(choices) : "Start on" : "0" =
+    [
+        0 : "No"
+        1 : "Yes"
+    ]
 ]

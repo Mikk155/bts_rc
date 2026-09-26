@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/77.19298245614034?barColor=69da0b)
+> ![](https://geps.dev/progress/78.0701754385965?barColor=66da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -42,7 +42,6 @@ This file contains the list of to-do in the project.
 - [ ] remove whatever was left in scriprs/maps/bts_weapons
 - [ ] remove various custom ammo that are otherwise duplicates
 - [ ] remove custom ammo types i.e flamethrower could use gauss ammo name
-- [ ] add missing things to FGD
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
@@ -65,6 +64,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] add missing things to FGD
 - [x] add laser to default revolver (it was discussed before i think gamit was working on it)
 - [x] update laser spot sprites.
 - [x] Add ChatColor to system messages (Taken checkpoint, collected item, joined simulation, etc)
