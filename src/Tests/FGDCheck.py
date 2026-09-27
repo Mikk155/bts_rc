@@ -8,9 +8,9 @@
 import os;
 from valvefgd import FgdParse;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class FGDCheck( PyBuilder ):
+class FGDCheck( PyTest ):
 
     def Build(self) -> bool:
         fgd = FgdParse( os.path.join( self.Workspace, "scripts", "maps", "bts_rc", "bts_rc.fgd" ) );

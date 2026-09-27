@@ -10,9 +10,9 @@ import re;
 import requests;
 from pathlib import Path;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class DependancyCheck( PyBuilder ):
+class DependancyCheck( PyTest ):
 
     m_IncludeRegex: re.Pattern[str] = re.compile( r'#include\s*"([^"]+)"' );
 
@@ -65,7 +65,7 @@ class DependancyCheck( PyBuilder ):
 
             upToDate = False;
 
-            if self.Type == PyBuilder.BuildType.Local and os.path.exists( destinationPath ):
+            if self.Type == PyTest.BuildType.Local and os.path.exists( destinationPath ):
                 with open( destinationPath, "r", encoding="utf-8") as f:
                     if f.read() == content:
                         # self.Log( f"Skip up-to-date scripts\\mikk155\\{dependencyPath}.as" );

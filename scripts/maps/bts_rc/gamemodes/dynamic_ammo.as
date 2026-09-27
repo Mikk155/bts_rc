@@ -39,7 +39,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 "type": "array",
                 "minItems": 2,
                 "maxItems": 2,
-                "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
+                "description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
                 "items":
                 {
                     "minimum": 1,
@@ -101,7 +101,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 function( CBasePlayer@ player, array<string>@ arguments )
                 {
                     int maxClients = g_Engine.maxClients;
-                    int realPlayers = g_PlayerFuncs.GetNumPlayers;
+                    int realPlayers = g_PlayerFuncs.GetNumPlayers();
                     int simPlayers = realPlayers;
 
                     if( arguments !is null && arguments.length() > 0 )

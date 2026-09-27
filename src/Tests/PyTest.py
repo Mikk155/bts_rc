@@ -10,10 +10,10 @@ from enum import IntEnum, auto;
 global gpCache;
 gpCache: dict = None;
 global gpAngelScriptFiles;
-gpAngelScriptFiles: list['PyBuilder.AScript'] = None;
+gpAngelScriptFiles: list['PyTest.AScript'] = None;
 
-class PyBuilder:
-    """Inherit from PyBuilder and instantiate your class then Build will be called"""
+class PyTest:
+    """Inherit from PyTest and instantiate your class then Build will be called"""
 
     m_Author = "Mikk155";
     m_Repository = "bts_rc";
@@ -25,6 +25,14 @@ class PyBuilder:
         '''Github release. self.Tag is valid'''
         Check = auto();
         '''Github check'''
+
+    def Require(self) -> list[str]:
+        '''
+            Return a list of module names required to run this test.
+            If any of the modules in this list hasn't been a suscess this module's test will fail without calling Build.
+            Return a empty list to represent "All" modules dependant.
+        '''
+        return None;
 
     @staticmethod
     def GetTag() -> str | None:
@@ -39,7 +47,7 @@ class PyBuilder:
         '''Get a cache file'''
         import os;
         import json;
-        cachePath: str = os.path.join( PyBuilder.GetWorkspace(), "src", "Tests", "cache.json" );
+        cachePath: str = os.path.join( PyTest.GetWorkspace(), "src", "Tests", "cache.json" );
 
         global gpCache;
         if gpCache is not None:
@@ -57,29 +65,29 @@ class PyBuilder:
     def __SaveCache__() -> dict:
         import os;
         import json;
-        with open( os.path.join( PyBuilder.GetWorkspace(), "src", "Tests", "cache.json" ), "w" ) as fStream:
-            content = json.dumps( PyBuilder.GetCache(), indent = 4 );
+        with open( os.path.join( PyTest.GetWorkspace(), "src", "Tests", "cache.json" ), "w" ) as fStream:
+            content = json.dumps( PyTest.GetCache(), indent = 4 );
             fStream.write( content );
 
     @property
     def Tag(self) -> str | None:
         '''If the Type is Release. this is the tag name that triggered the script in Github otherwise None'''
-        return PyBuilder.GetTag();
+        return PyTest.GetTag();
 
     @staticmethod
     def GetType() -> BuildType:
         '''Return the build type'''
         import sys;
         if "+release" in sys.argv:
-            return PyBuilder.BuildType.Release;
+            return PyTest.BuildType.Release;
         if "--check" in sys.argv:
-            return PyBuilder.BuildType.Check;
-        return PyBuilder.BuildType.Local;
+            return PyTest.BuildType.Check;
+        return PyTest.BuildType.Local;
 
     @property
     def Type(self) -> BuildType:
         '''Return the build type'''
-        return PyBuilder.GetType();
+        return PyTest.GetType();
 
     @staticmethod
     def GetWorkspace() -> str:
@@ -90,7 +98,7 @@ class PyBuilder:
     @property
     def Workspace(self) -> str:
         """Return the absolute path to the current workspace repository"""
-        return PyBuilder.GetWorkspace();
+        return PyTest.GetWorkspace();
 
     def __init__(self) -> None:
         from __main__ import gpBuilders;
@@ -105,7 +113,7 @@ class PyBuilder:
     def FileModified( self, path: str ) -> bool:
         '''Return whatever the given file has been modified'''
 
-        cache = PyBuilder.GetCache();
+        cache = PyTest.GetCache();
         files: dict = cache.get( "modified", {} )
 
         from datetime import datetime, timedelta;
@@ -165,13 +173,13 @@ class PyBuilder:
         import os;
         import pathlib;
 
-        workspace = PyBuilder.GetWorkspace();
+        workspace = PyTest.GetWorkspace();
 
         for path in pathlib.Path( os.path.join( workspace, "scripts", "maps", "bts_rc" ) ).rglob( "*.as" ):
 
             if path.is_file():
 
-                ascript = PyBuilder.AScript();
+                ascript = PyTest.AScript();
                 ascript.AbsolutePath = path.absolute();
                 ascript.Name = path.name[ : len( path.name ) - 3 ];
                 ascript.Path = path.relative_to( workspace );
@@ -187,12 +195,12 @@ class PyBuilder:
     @property
     def Scripts(self) -> list[AScript]:
         '''Return a list containing all the angel script files on this project'''
-        return PyBuilder.GetScripts();
+        return PyTest.GetScripts();
 
     @staticmethod
     def WriteAllScripts() -> int:
 
-        for script in PyBuilder.GetScripts():
+        for script in PyTest.GetScripts():
 
             content: str = None;
             with open( script.AbsolutePath, "r", encoding="utf-8" ) as fStream:

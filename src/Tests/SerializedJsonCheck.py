@@ -8,9 +8,9 @@
 import re;
 import json;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class SerializedJsonCheck( PyBuilder ):
+class SerializedJsonCheck( PyTest ):
 
     def Build(self) -> bool:
 
@@ -58,7 +58,7 @@ class SerializedJsonCheck( PyBuilder ):
                     invalidSchemas += 1;
                     continue;
 
-                if self.Type == PyBuilder.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
+                if self.Type == PyTest.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
                     compact: str = json.dumps( parsed, separators=( ",", ":" ) );
                     start = match.start(1) + delta;
                     end   = match.end(1) + delta;
@@ -74,7 +74,7 @@ class SerializedJsonCheck( PyBuilder ):
                 invalidSchemasTotal += invalidSchemas;
                 invalidFiles += 1;
 
-        if self.Type == PyBuilder.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
+        if self.Type == PyTest.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
             self.Log( "Removed {} characters from schemas. Total: {} -> {} {}% percent optimized.",
                 ( totalCharacters - newTotalCharacters ),
                 totalCharacters,

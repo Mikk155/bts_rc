@@ -7,12 +7,12 @@
 
 import os;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class Cleanup( PyBuilder ):
+class Cleanup( PyTest ):
 
     def ShouldBuild(self) -> bool:
-        return ( self.Type == PyBuilder.BuildType.Local );
+        return ( self.Type == PyTest.BuildType.Local );
 
     def Build(self) -> bool:
 

@@ -7,9 +7,9 @@
 
 import os;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class LicenseCheck( PyBuilder ):
+class LicenseCheck( PyTest ):
 
     def Build(self) -> bool:
 
@@ -33,7 +33,7 @@ class LicenseCheck( PyBuilder ):
 
             if not licenseHeader in script.Content:
 
-                if self.Type == PyBuilder.BuildType.Check:
+                if self.Type == PyTest.BuildType.Check:
                     self.Log( "AngelScript files without license headers! Execute src/main.py to format files." );
                     return False;
 

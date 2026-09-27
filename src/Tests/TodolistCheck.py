@@ -8,14 +8,14 @@
 import os;
 import colorsys;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class TodolistCheck( PyBuilder ):
+class TodolistCheck( PyTest ):
 
-    m_TODOPath: str = os.path.join( PyBuilder.GetWorkspace(), "TODO.md" );
+    m_TODOPath: str = os.path.join( PyTest.GetWorkspace(), "TODO.md" );
 
     def ShouldBuild(self) -> bool:
-        return ( self.Type == PyBuilder.BuildType.Local and self.FileModified( self.m_TODOPath ) );
+        return ( self.Type == PyTest.BuildType.Local and self.FileModified( self.m_TODOPath ) );
 
     def Build(self) -> bool:
 

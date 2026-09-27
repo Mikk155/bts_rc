@@ -5,11 +5,11 @@
 # ===================================================================
 # ===================================================================
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class DebugCheck( PyBuilder ):
+class DebugCheck( PyTest ):
 
-    def toggle_debug( self, processFrom: str, processTo: str ) -> tuple[int, int]:
+    def toggle_debug( self, processFrom: str, processTo: str, silent: bool = True ) -> tuple[int, int]:
 
         files: int = 0;
         totalMatches: int = 0;
@@ -22,7 +22,8 @@ class DebugCheck( PyBuilder ):
                 script.Content = script.Content.replace( processFrom, processTo, 1 );
 
             if currentMatches > 0:
-                self.Log( f"Updated {currentMatches} pre processor{ 's' if currentMatches > 1 else '' } on file {script.Path}" );
+                if not silent:
+                    self.Log( f"Updated {currentMatches} pre processor{ 's' if currentMatches > 1 else '' } on file {script.Path}" );
                 totalMatches += currentMatches;
                 files += 1;
 
@@ -34,20 +35,20 @@ class DebugCheck( PyBuilder ):
 
         match self.Type:
 
-            case PyBuilder.BuildType.Release:
+            case PyTest.BuildType.Release:
                 matches = self.toggle_debug( "SERVER", "DEBUG" );
 
                 if matches[0] != 0:
                     self.Log( "Updated {} pre-processors in {} files.", matches[1], matches[0] );
                     return True;
 
-            case PyBuilder.BuildType.Check:
+            case PyTest.BuildType.Check:
                 matches = self.toggle_debug( "DEBUG", "SERVER" );
 
                 if matches[0] != 0:
                     self.Log( "{} Un processed pre-processors on {} files. run src/main.py to replace DEBUG pre processors to SERVER!", matches[1], matches[0] );
 
-            case PyBuilder.BuildType.Local:
+            case PyTest.BuildType.Local:
                 matches = self.toggle_debug( "DEBUG", "SERVER" );
 
                 if matches[0] != 0:

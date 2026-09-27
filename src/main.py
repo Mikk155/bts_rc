@@ -1,10 +1,10 @@
 import os;
 import sys;
 
-gpBuilders: list['PyBuilder'] = [];
+gpBuilders: list['PyTest'] = [];
 gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
 # Include checks here
 import Tests.TestChamberUpdate;
@@ -28,7 +28,7 @@ def Exit( code_error: int = 0 ):
 
     print( f"return core: {code_error}" );
 
-    if sys.platform == "win32" and PyBuilder.GetType() == PyBuilder.BuildType.Local and "PROMPT" not in os.environ:
+    if sys.platform == "win32" and PyTest.GetType() == PyTest.BuildType.Local and "PROMPT" not in os.environ:
         input( "Press enter to continue." );
 
     sys.exit( code_error );
@@ -38,20 +38,43 @@ def Main() -> tuple[int, int]:
     passes = 0;
     fails = 0;
 
+    builderCompletion: list[str] = [];
+
     for builder in gpBuilders:
 
         try:
 
-            if builder.ShouldBuild() is True:
+            if builder.ShouldBuild() is False:
+                builder.Log( "Build skipped." );
+                builderCompletion.append( builder.Name );
+                continue;
 
-                ok: bool = builder.Build();
+            ok: bool = True;
 
-                if ok is False:
-                    builder.Log( "Build failed." );
-                    fails += 1;
-                    continue;
+            requirements: list[str] = builder.Require();
+
+            if requirements is not None:
+
+                if len(requirements) == 0:
+                    for b in gpBuilders:
+                        if b.Name == builder.Name:
+                            break;
+                        requirements.append( b.Name );
+
+                for require in requirements:
+                    if not require in builderCompletion:
+                        ok = False;
+
+            if ok is True:
+                ok = builder.Build();
+
+            if ok is False:
+                builder.Log( "Build failed." );
+                fails += 1;
+                continue;
 
             passes += 1;
+            builderCompletion.append( builder.Name );
             builder.Log( "Build success." );
 
         except:
@@ -64,12 +87,12 @@ def Main() -> tuple[int, int]:
 
 if __name__ == "__main__":
 
-    buildType: PyBuilder.BuildType = PyBuilder.GetType();
+    buildType: PyTest.BuildType = PyTest.GetType();
 
     match buildType:
 
-        case PyBuilder.BuildType.Release:
-            print( f"Formating map scripts for bts_rc as version {PyBuilder.GetTag()}" );
+        case PyTest.BuildType.Release:
+            print( f"Formating map scripts for bts_rc as version {PyTest.GetTag()}" );
 
         case _:
             pass;
@@ -77,7 +100,7 @@ if __name__ == "__main__":
     ( fails, passes ) = Main();
 
     if fails == 0:
-        PyBuilder.WriteAllScripts();
+        PyTest.WriteAllScripts();
         print( f"{passes} checks passed." );
     else:
         print( f"{fails} of {fails + passes} checks failed." );
@@ -85,14 +108,14 @@ if __name__ == "__main__":
 
     match buildType:
 
-        case PyBuilder.BuildType.Local:
-            PyBuilder.__SaveCache__();
+        case PyTest.BuildType.Local:
+            PyTest.__SaveCache__();
 #            input( "Press enter to continue" );
 
-        case PyBuilder.BuildType.Release:
+        case PyTest.BuildType.Release:
             print( "Downloading map assets..." );
 
-        case PyBuilder.BuildType.Check:
+        case PyTest.BuildType.Check:
             pass;
         case _:
             pass;

@@ -8,14 +8,14 @@
 import os;
 import shutil;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class TestChamberUpdate( PyBuilder ):
+class TestChamberUpdate( PyTest ):
 
-    m_BSPFile: str = os.path.join( os.path.dirname( PyBuilder.GetWorkspace() ), "svencoop", "maps", "bts_rc_test_chamber.bsp" );
+    m_BSPFile: str = os.path.join( os.path.dirname( PyTest.GetWorkspace() ), "svencoop", "maps", "bts_rc_test_chamber.bsp" );
 
     def ShouldBuild(self) -> bool:
-        return ( self.Type == PyBuilder.BuildType.Local and os.path.exists( self.m_BSPFile ) );
+        return ( self.Type == PyTest.BuildType.Local and os.path.exists( self.m_BSPFile ) );
 
     def Build(self) -> bool:
 

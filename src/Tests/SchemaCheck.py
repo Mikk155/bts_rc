@@ -8,9 +8,9 @@
 import re;
 import json;
 
-from Tests.PyBuilder import PyBuilder
+from Tests.PyTest import PyTest
 
-class SchemaCheck( PyBuilder ):
+class SchemaCheck( PyTest ):
 
     def Build(self) -> bool:
 

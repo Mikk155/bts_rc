@@ -9,13 +9,13 @@ import os;
 import shutil;
 from pathlib import Path;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class SchemaUpdateCheck( PyBuilder ):
+class SchemaUpdateCheck( PyTest ):
 
     def Build(self) -> bool:
 
-        if self.Type != PyBuilder.BuildType.Local:
+        if self.Type != PyTest.BuildType.Local:
             return True;
 
         path: Path = Path( self.Workspace );

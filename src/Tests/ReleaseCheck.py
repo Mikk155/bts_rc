@@ -12,9 +12,9 @@ import sys;
 import requests;
 from datetime import datetime;
 
-from Tests.PyBuilder import PyBuilder
+from Tests.PyTest import PyTest
 
-class ReleaseCheck( PyBuilder ):
+class ReleaseCheck( PyTest ):
 
     m_ProjectVersion: str = None;
     m_GithubData: dict = {
@@ -49,10 +49,10 @@ class ReleaseCheck( PyBuilder ):
 
         return False;
 
-    m_UtilsPath: str = os.path.join( PyBuilder.GetWorkspace(), "scripts", "maps", "bts_rc", "util", "utils.as" );
+    m_UtilsPath: str = os.path.join( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "util", "utils.as" );
 
     def ShouldBuild(self) -> bool:
-        return ( self.Type != PyBuilder.BuildType.Local or self.FileModified( self.m_UtilsPath ) );
+        return ( self.Type != PyTest.BuildType.Local or self.FileModified( self.m_UtilsPath ) );
 
     def Build(self) -> bool:
 
@@ -65,14 +65,14 @@ class ReleaseCheck( PyBuilder ):
         releaseData: dict = response.json();
 
         # Get the provided tag
-        if self.Type == PyBuilder.BuildType.Release:
+        if self.Type == PyTest.BuildType.Release:
 
             self.m_GithubData[ "abort" ] = False;
 
         # HACK if we want to make actions trigger from releases rather than pushes this doesn't break compatibility.
         elif "--release" in sys.argv:
 
-            # Make PyBuilder.GetType return Release
+            # Make PyTest.GetType return Release
             sys.argv[ sys.argv.index( "--release" ) ] = "+release";
             lastTag: str = releaseData[ "tag_name" ];
             lastReleaseDate: str = releaseData[ "published_at" ];
@@ -87,7 +87,7 @@ class ReleaseCheck( PyBuilder ):
                     break;
 
             self.m_ProjectVersion = ".".join( regexSemVer.groups() );
-            sys.argv.append( self.m_ProjectVersion ); # Set last release tag for PyBuilder.GetTag
+            sys.argv.append( self.m_ProjectVersion ); # Set last release tag for PyTest.GetTag
 
             if lastTag == self.m_ProjectVersion:
 
@@ -146,7 +146,7 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
         self.m_GithubData[ "version" ] = self.Tag;
         self.m_GithubData[ "previous_version" ] = releaseData[ "tag_name" ];
 
-        if self.Type == PyBuilder.BuildType.Release:
+        if self.Type == PyTest.BuildType.Release:
             with open( os.environ[ 'GITHUB_OUTPUT' ], 'a' ) as fStream:
                 for key, value in self.m_GithubData.items():
                     print( f"{key}={value}", file=fStream );

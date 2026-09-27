@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/77.39130434782608?barColor=68da0b)
+> ![](https://geps.dev/progress/78.33333333333333?barColor=64da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -30,7 +30,6 @@ This file contains the list of to-do in the project.
 - [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped.
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Implement dynamic ammo system in PlayerCollect hook.
-- [x] dynamic ammo should use a classname-based find rather than internal ammo name.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
 - [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
@@ -44,11 +43,7 @@ This file contains the list of to-do in the project.
 - [ ] have release workflows/python to zip scripts with mega assets.
 - [ ] add a throwable interface/mixin to some melees that raptor asked i forgot which ones.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
-- [x] remove whatever was left in scriprs/maps/bts_weapons
-- [x] remove various custom ammo that are otherwise duplicates
-- [x] remove custom ammo types i.e flamethrower could use gauss ammo name
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
-- [x] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
 - [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
@@ -69,6 +64,11 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] dynamic ammo should use a classname-based find rather than internal ammo name.
+- [x] remove whatever was left in scriprs/maps/bts_weapons
+- [x] remove various custom ammo that are otherwise duplicates
+- [x] remove custom ammo types i.e flamethrower could use gauss ammo name
+- [x] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
 - [x] add missing things to FGD
 - [x] add laser to default revolver (it was discussed before i think gamit was working on it)
 - [x] update laser spot sprites.

@@ -9,11 +9,11 @@ import os;
 import re;
 import json;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class PrecacheCheck( PyBuilder ):
+class PrecacheCheck( PyTest ):
 
-    m_PrecachesPath: str = os.path.join( PyBuilder.GetWorkspace(), "src", "precaches.json" );
+    m_PrecachesPath: str = os.path.join( PyTest.GetWorkspace(), "src", "precaches.json" );
 
     def Build(self) -> bool:
 
@@ -67,10 +67,10 @@ class PrecacheCheck( PyBuilder ):
 
             self.Log( f"Found {results} duplicated precaches that are declared in src/precaches.json" );
 
-            if( self.Type != PyBuilder.BuildType.Local ):
+            if( self.Type != PyTest.BuildType.Local ):
                 return False;
 
-        if ( self.Type == PyBuilder.BuildType.Local and self.FileModified( self.m_PrecachesPath ) ):
+        if ( self.Type == PyTest.BuildType.Local and self.FileModified( self.m_PrecachesPath ) ):
 
             PrecacheModel.sort();
             PrecacheSound.sort();

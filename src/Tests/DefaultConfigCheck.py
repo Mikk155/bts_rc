@@ -10,14 +10,14 @@ import os;
 import json;
 import jsonschema;
 
-from Tests.PyBuilder import PyBuilder
+from Tests.PyTest import PyTest
 
-class DefaultConfigCheck( PyBuilder ):
+class DefaultConfigCheck( PyTest ):
 
-    m_DefaultConfig: str = os.path.join( PyBuilder.GetWorkspace(), "scripts", "maps", "bts_rc", "default_config.json" );
+    m_DefaultConfig: str = os.path.join( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "default_config.json" );
 
     def ShouldBuild(self) -> bool:
-        return ( self.Type != PyBuilder.BuildType.Local or self.FileModified( self.m_DefaultConfig ) );
+        return ( self.Type != PyTest.BuildType.Local or self.FileModified( self.m_DefaultConfig ) );
 
     def Build(self) -> bool:
 
@@ -49,11 +49,11 @@ class DefaultConfigCheck( PyBuilder ):
             if not ( "const string __GetDefaultConfig__()" in script.Content ):
                 continue;
 
-            if self.Type == PyBuilder.BuildType.Release:
+            if self.Type == PyTest.BuildType.Release:
 
                 script.Content = script.Content.replace( "scripts/maps/bts_rc/default_config.json", json.dumps( parsed, separators=( ",", ":" ) ) );
 
-            elif self.Type == PyBuilder.BuildType.Local:
+            elif self.Type == PyTest.BuildType.Local:
 
                 def sortRecursive( obj: dict | list ) -> dict | list:
                     if isinstance( obj, dict ):

@@ -3,7 +3,7 @@ import json;
 import pathlib;
 from main import *
 
-class PyDocumentation( PyBuilder ):
+class PyDocumentation( PyTest ):
 
     def Build(self) -> bool:
 

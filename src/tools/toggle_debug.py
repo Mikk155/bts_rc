@@ -13,7 +13,7 @@ gpBuilders = []
 
 sys.path.append( os.path.join( gpWorkspace, "src" ) );
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
 action: int = None;
 
@@ -44,6 +44,6 @@ print( f"Toggle all pre processors {processFrom} -> {processTo}" );
 
 import Tests.DebugCheck;
 Tests.DebugCheck.DebugCheck().toggle_debug( processFrom, processTo );
-PyBuilder.WriteAllScripts();
+PyTest.WriteAllScripts();
 
 input( "All done!" );

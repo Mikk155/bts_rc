@@ -8,11 +8,11 @@
 import os;
 import json;
 
-from Tests.PyBuilder import PyBuilder;
+from Tests.PyTest import PyTest;
 
-class CreditsCheck( PyBuilder ):
+class CreditsCheck( PyTest ):
 
-    m_CreditsPath: str = os.path.join( PyBuilder.GetWorkspace(), "docs", "assets", "credits.json" );
+    m_CreditsPath: str = os.path.join( PyTest.GetWorkspace(), "docs", "assets", "credits.json" );
 
     def ShouldBuild(self) -> bool:
         return self.FileModified( self.m_CreditsPath );
