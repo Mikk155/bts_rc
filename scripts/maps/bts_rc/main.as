@@ -50,6 +50,11 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
     activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
 
+    auto ckv = activator.GetCustomKeyvalues();
+
+    Difficulty::__HellBound__ = ( ckv.GetKeyvalue( "$i_hellbound" ).GetInteger() == 1 );
+    Difficulty::__Difficulty__ = Difficulty( ckv.GetKeyvalue( "$i_difficulty" ).GetInteger() );
+
     gCheckModuleError(false);
 }
 

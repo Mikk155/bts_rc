@@ -99,7 +99,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flame.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flare.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun_clip.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flashlight.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_glock17f.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_glock18.mdl" );

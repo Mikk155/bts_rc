@@ -16,6 +16,7 @@
 **/
 
 #include "MapConfig"
+#include "Difficulty"
 #include "CommandContext"
 #include "EntityOverriden"
 #include "json"
