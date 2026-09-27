@@ -88,23 +88,20 @@ final class ASDynamicAmmoConfig : IConfigurable
         {
             string ammoType = ammoTypes[ui];
 
-            array<int>@ range;
+            btson@ range = config[ ammoType ];
 
-            if( fmt::ToArray( config[ ammoType ], range, true, false ) )
+            array<float> arr = { range[0], range[1] };
+
+            if( arr[0] > arr[1] )
             {
-                m_AmmoRanges[ ammoType ] = range;
-
-                if( range[0] > range[1] )
-                {
-                    g_Logger.error.print( "Dynamic ammo \"%1\" has inverted values! first number should be lesser than the second!" );
-                    int temp = range[0];
-                    range[0] = range[1];
-                    range[1] = temp;
-                }
-
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( snprintf( glog, "Dynamic ammo \"%1\": min=%2 max=%3", ammoType, range[0], range[1] ) );
+                g_Logger.error.print( "Inverted min/max values at \"{}\" for {}", { ammoType, this.GetName() } );
+                arr[3];
             }
+
+            @m_AmmoRanges[ ammoType ] = arr;
+
+            if( g_Logger.debug.active )
+                g_Logger.debug.print( snprintf( glog, "Dynamic ammo \"%1\": min=%2 max=%3", ammoType, arr[0], arr[1] ) );
         }
 
         if( g_Logger.info.active )

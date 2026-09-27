@@ -63,7 +63,7 @@ final class CVoice
         const string sound = this.voices[Math.RandomLong( 0, this.voices.length() - 1 )];
 
         int finalPitch = int( this.pitch );
-        
+
         if( pitchOverride > 0 )
         {
             finalPitch = pitchOverride;
@@ -150,12 +150,12 @@ final class CVoiceResponse
         voice.cooldown = config.ValueOrDefault( "cooldown", voice.cooldown, false, false );
         voice.pitch = config.ValueOrDefault( "pitch", voice.pitch, false, false );
 
-        array<string>@ sounds;
-        if( fmt::ToArray( config[ "sounds" ], sounds, true, false ) )
+        btson@ sounds = config[ "sounds" ];
+        uint length = sounds.Length();
+
+        for( uint ui = 0; ui < length; ui++ )
         {
-            uint length = sounds.length();
-            for( uint ui = 0; ui < length; ui++ )
-                voice.push_back( sounds[ui] );
+            voice.push_back( string( sounds[ui] ) );
         }
     }
 

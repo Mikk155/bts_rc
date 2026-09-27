@@ -75,28 +75,20 @@ final class ASDeathDropConfig : IConfigurable
             if( listName == "active" )
                 continue;
 
-            array<string>@ itemNames;
+            array<string>@ arr;
             auto@ listObject = config[ listName ];
+            uint listLength = listObject.Length();
 
-            if( fmt::ToArray( listObject, itemNames ) )
-            {
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( snprintf( glog, "Adding %1 drops for \"%2\"", itemNames.length(), listName ) );
-                @m_Monsters[ listName ] = itemNames;
-            }
-            else
-            {
-                g_Logger.error.print( snprintf( glog, "json deathdrop->%1 is not a valid array!", listName ) );
-                continue;
-            }
+            if( g_Logger.debug.active )
+                g_Logger.debug.print( snprintf( glog, "Adding %1 drops for \"%2\"", listLength, listName ) );
 
-            // Precache
-            if( g_MapConfig.MapLoading )
+            for( uint uie = 0; uie < listLength; uie++ )
             {
-                for( uint uie = 0; uie < itemNames.length(); uie++ )
+                string itemName = string( listObject[ uie ] );
+
+                // Precache
+                if( g_MapConfig.MapLoading )
                 {
-                    string itemName = itemNames[uie];
-
                     if( !itemName.IsEmpty() && itemName != "grenade" )
                     {
                         CBaseEntity@ ent = g_EntityFuncs.CreateEntity( itemName, null, false );
@@ -108,15 +100,19 @@ final class ASDeathDropConfig : IConfigurable
                         g_EntityFuncs.Remove( ent );
                     }
                 }
+
+                arr.insertLast( itemName );
             }
+
+            @m_Monsters[ listName ] = arr;
 
             // Just debug
             if( g_Logger.trace.active )
             {
                 dictionary count;
-                for( uint uilog = 0; uilog < itemNames.length(); uilog++ )
+                for( uint uilog = 0; uilog < arr.length(); uilog++ )
                 {
-                    string name = string( itemNames[uilog] );
+                    string name = string( arr[uilog] );
                     count[ name ] = int( count[ name ] ) + 1;
                 }
 
@@ -124,7 +120,7 @@ final class ASDeathDropConfig : IConfigurable
                 for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
                 {
                     string name = dropsCountKeys[uilog];
-                    g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / itemNames.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
+                    g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / arr.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
                 }
             }
         }

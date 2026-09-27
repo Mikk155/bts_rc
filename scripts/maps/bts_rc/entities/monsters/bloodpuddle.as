@@ -23,7 +23,7 @@
 
 final class ASBloodPuddleConfig : IConfigurable
 {
-    array<float> m_DefaultSize;
+    float[] m_DefaultSize = { 1.5f, 2.5f };
     dictionary m_CustomSizes;
     bool m_persistent;
 
@@ -100,24 +100,17 @@ final class ASBloodPuddleConfig : IConfigurable
 
         this.m_persistent = bool( config[ "persistent" ] );
 
-        array<float>@ arr;
-
-        if( !fmt::ToArray( config[ "default_size" ], arr, false ) )
+        btson@ defaultSize = config.ValueOrDefault( "default_size" );
+        this.m_DefaultSize[0] = defaultSize.ValueOrDefault(0, this.m_DefaultSize[0], false, true );
+        this.m_DefaultSize[1] = defaultSize.ValueOrDefault(1, this.m_DefaultSize[1], false, true );
+        if( this.m_DefaultSize[0] > this.m_DefaultSize[1] )
         {
-            @arr = { 1.5f, 2.5f };
-        }
-        else if( arr[0] > arr[1] )
-        {
-            g_Logger.error.print( "Blood puddle default size for \"default_size\" has inverted values! first number should be lesser than the second!" );
-            float temp = arr[0];
-            arr[0] = arr[1];
-            arr[1] = temp;
+            g_Logger.error.print( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
+            this.m_DefaultSize[3];
         }
 
         if( g_Logger.info.active )
-            g_Logger.info.print( "Set blood puddle default size to min: {} max: {}", { arr[0], arr[1] } );
-
-        this.m_DefaultSize = arr;
+            g_Logger.info.print( "Set blood puddle default size to min: {} max: {}", { this.m_DefaultSize[0], this.m_DefaultSize[1] } );
 
         btson@ custom_size = config[ "custom_size" ];
 
@@ -131,18 +124,14 @@ final class ASBloodPuddleConfig : IConfigurable
         {
             string name = monsterNames[ui];
 
-            if( !fmt::ToArray( custom_size[ name ], arr, false ) )
-            {
-                g_Logger.error.print( "Blood puddle custom size for {} is an invalid array of two values!", { name } );
-                continue;
-            }
+            btson@ customSize = config.ValueOrDefault( "default_size" );
+
+            array<float> arr = { customSize[0], customSize[1] };
 
             if( arr[0] > arr[1] )
             {
-                g_Logger.error.print( "Blood puddle custom size for {} has inverted values! first number should be lesser than the second!", { name } );
-                float temp = arr[0];
-                arr[0] = arr[1];
-                arr[1] = temp;
+                g_Logger.error.print( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
+                arr[3];
             }
 
             @this.m_CustomSizes[ name ] = arr;

@@ -103,7 +103,7 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool m249_knockback;
     int flashlight_maxcarry;
     bool item_tracking;
-    array<string> melee_weapons_push_monsters;
+    string[] melee_weapons_push_monsters;
 
     const string& GetName() const override
     {
@@ -224,7 +224,15 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
         this.item_tracking = bool( config[ "item_tracking" ] );
         this.melee_weapons_push_monsters.resize( 0 );
-        fmt::ToArray( config[ "melee_weapons_push_monsters" ], this.melee_weapons_push_monsters );
+
+        btson@ monstersPush = config[ "melee_weapons_push_monsters" ];
+
+        uint length = monstersPush.Length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            melee_weapons_push_monsters.insertLast( string( monstersPush[ui] ) );
+        }
 
         // ItemMapping stuff
         if( g_MapConfig.MapLoading )

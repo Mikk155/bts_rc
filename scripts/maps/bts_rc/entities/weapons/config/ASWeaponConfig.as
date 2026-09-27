@@ -319,8 +319,8 @@ abstract class ASWeaponConfig : IConfigurable
     int secondary_maxammo = WEAPON_NOCLIP;
     // Weapon secondary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int secondary_dropammo = WEAPON_NOCLIP;
-    // Min/max ammo supplied by each spawned weapon. Negative values leave the engine default unchanged.
-    array<int> primary_default_ammo = { -1, -1 };
+    // Mmin/max ammo supplied by each spawned weapon. Negative values leave the engine default unchanged.
+    int[] primary_default_ammo = { -1, -1 };
     array<int> secondary_default_ammo = { -1, -1 };
     // Accuracy for secondary attacks
     float[] secondary_accuracy(6);
@@ -490,28 +490,22 @@ abstract class ASWeaponConfig : IConfigurable
         this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
         this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
 
-        array<int>@ ammoRange;
-        if( fmt::ToArray( config[ "primary_default_ammo" ], ammoRange, true, false ) )
+        btson@ primaryDefaultAmmo = config.ValueOrDefault( "primary_default_ammo" );
+        primary_default_ammo[0] = primaryDefaultAmmo.ValueOrDefault(0, primary_default_ammo[0], false, true );
+        primary_default_ammo[1] = primaryDefaultAmmo.ValueOrDefault(1, primary_default_ammo[1], false, true );
+        if( primary_default_ammo[0] > primary_default_ammo[1] )
         {
-            if( ammoRange[0] > ammoRange[1] )
-            {
-                int minimum = ammoRange[1];
-                ammoRange[1] = ammoRange[0];
-                ammoRange[0] = minimum;
-            }
-            this.primary_default_ammo = ammoRange;
+            g_Logger.error.print( "Inverted min/max values at \"primary_default_ammo\" for {}", { this.GetName() } );
+            primary_default_ammo[3];
         }
 
-        @ammoRange = null;
-        if( fmt::ToArray( config[ "secondary_default_ammo" ], ammoRange, true, false ) )
+        btson@ secondaryDefaultAmmo = config.ValueOrDefault( "secondary_default_ammo" );
+        secondary_default_ammo[0] = secondaryDefaultAmmo.ValueOrDefault(0, secondary_default_ammo[0], false, true );
+        secondary_default_ammo[1] = secondaryDefaultAmmo.ValueOrDefault(1, secondary_default_ammo[1], false, true );
+        if( secondary_default_ammo[0] > secondary_default_ammo[1] )
         {
-            if( ammoRange[0] > ammoRange[1] )
-            {
-                int minimum = ammoRange[1];
-                ammoRange[1] = ammoRange[0];
-                ammoRange[0] = minimum;
-            }
-            this.secondary_default_ammo = ammoRange;
+            g_Logger.error.print( "Inverted min/max values at \"secondary_default_ammo\" for {}", { this.GetName() } );
+            secondary_default_ammo[3];
         }
 
         this.primary_damage = config.ValueOrDefault( "primary_damage", this.primary_damage, false, false );
@@ -584,13 +578,11 @@ abstract class ASWeaponConfig : IConfigurable
             this.secondary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.secondary_accuracy[4], false, false );
         }
 
-        array<float>@ spread;
-        if( fmt::ToArray( config[ "primary_spread" ], spread, true, false ) )
-            this.primary_spread = Vector( spread[0], spread[1], spread[2] );
+        btson@ spread = config.ValueOrDefault( "primary_spread" );
+        this.primary_spread = Vector( spread.ValueOrDefault( "0", primary_spread[0], false, false ), spread.ValueOrDefault( "1", primary_spread[1], false, false ), spread.ValueOrDefault( "2", primary_spread[2], false, false ) );
 
-        @spread = null;
-        if( fmt::ToArray( config[ "secondary_spread" ], spread, true, false ) )
-            this.secondary_spread = Vector( spread[0], spread[1], spread[2] );
+        @spread = config.ValueOrDefault( "secondary_spread" );
+        this.secondary_spread = Vector( spread.ValueOrDefault( "0", secondary_spread[0], false, false ), spread.ValueOrDefault( "1", secondary_spread[1], false, false ), spread.ValueOrDefault( "2", secondary_spread[2], false, false ) );
 
         btson@ kickback = config[ "primary_kickback" ];
 
