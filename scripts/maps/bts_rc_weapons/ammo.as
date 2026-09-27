@@ -61,54 +61,6 @@ class ammo_bts_glocksd : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
-    }
-}
-
-class ammo_bts_m16sd_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
-    }
-}
-
-class ammo_bts_m79 : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
-    }
-}
-
-class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, pev.SpawnFlagBitSet( SF_CREATEDWEAPON ) ? 1 : 2, "ARgrenades", 10, "bts_rc/weapons/m79_close.wav" );
-    }
-}
-
 /*
 class ammo_bts_sw637 : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {

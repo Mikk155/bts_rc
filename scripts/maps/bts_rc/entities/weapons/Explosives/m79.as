@@ -49,7 +49,7 @@ final class ASWeaponM79Config : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_m79";
+        return "ammo_ARgrenades";
     }
 
     const uint8 get_animation_draw() override

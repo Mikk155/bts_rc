@@ -411,7 +411,7 @@
             "",
             "",
             "",
-            "ammo_bts_m16_grenade",
+            "ammo_ARgrenades",
             "ammo_556clip",
             "ammo_9mmAR",
             "ammo_buckshot",
@@ -492,7 +492,7 @@
             "ammo_357",
             "ammo_9mmclip",
             "ammo_9mmclip",
-            "ammo_bts_m16_grenade",
+            "ammo_ARgrenades",
             "ammo_556clip",
             "ammo_556clip",
             "ammo_buckshot",
@@ -648,7 +648,7 @@
         ],
         "ammo_ARgrenades": [
             1,
-            2
+            5
         ],
         "active": true,
         "bts_battery": [

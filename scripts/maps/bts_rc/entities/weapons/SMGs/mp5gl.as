@@ -59,7 +59,7 @@ final class ASWeaponMP5GLConfig : ASWeaponConfig
 
     const string& get_secondary_ammoentity() override
     {
-        return "ammo_bts_mp5gl_grenade";
+        return "ammo_ARgrenades";
     }
 
     const uint8 get_animation_draw() override
