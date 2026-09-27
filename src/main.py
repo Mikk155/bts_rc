@@ -22,6 +22,7 @@ import Tests.DedicatedServer;
 import Tests.SchemaUpdateCheck;
 import Tests.DefaultConfigCheck;
 import Tests.Cleanup;
+import Tests.DedicatedServerRelease;
 
 def Exit( code_error: int = 0 ):
 
