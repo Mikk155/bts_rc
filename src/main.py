@@ -21,6 +21,7 @@ import Tests.DependancyCheck;
 import Tests.DedicatedServer;
 import Tests.SchemaUpdateCheck;
 import Tests.DefaultConfigCheck;
+import Tests.Cleanup;
 
 def Exit( code_error: int = 0 ):
 
