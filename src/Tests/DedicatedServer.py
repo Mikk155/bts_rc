@@ -19,7 +19,8 @@ class DedicatedServer( PyBuilder ):
     def ShouldBuild(self) -> bool:
         return ( self.Type == PyBuilder.BuildType.Local \
             # -TODO idk linux for any contributor?
-            and os.path.exists( self.m_DedicatedServer ) );
+            and os.path.exists( self.m_DedicatedServer )
+            and not "-nods" in sys.argv );
 
     def Build(self) -> bool:
 
