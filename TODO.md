@@ -27,6 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
+- [ ] Implement dynamic ammo system in PlayerCollect hook and use a classname-based find rather than internal ammo name.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
 - [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
@@ -42,9 +43,9 @@ This file contains the list of to-do in the project.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] remove whatever was left in scriprs/maps/bts_weapons
 - [ ] remove various custom ammo that are otherwise duplicates
-- [ ] remove custom ammo types i.e flamethrower could use gauss ammo name
+- [x] remove custom ammo types i.e flamethrower could use gauss ammo name
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
-- [ ] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
+- [x] Add a deathdrop test iterating through everything and spawning them all to validate over bad ent classnames.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
 - [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when ammo run out (new bereta)

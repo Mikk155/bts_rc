@@ -44,6 +44,10 @@ final class ASDynamicAmmoConfig : IConfigurable
                 {
                     "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
                 },
+                "uranium":
+                {
+                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
+                },
                 "556":
                 {
                     "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }

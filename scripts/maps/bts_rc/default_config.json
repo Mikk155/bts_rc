@@ -626,6 +626,10 @@
         ]
     },
     "dynamic_ammo": {
+        "uranium": [
+            20,
+            60
+        ],
         "357": [
             1,
             6
@@ -1285,10 +1289,10 @@
                 "description": "Department of sanitation",
                 "items": [
                     "weapon_bts_flamethrower",
-                    "ammo_bts_flamethrower",
-                    "ammo_bts_flamethrower",
-                    "ammo_bts_flamethrower",
-                    "ammo_bts_flamethrower"
+                    "ammo_gaussclip",
+                    "ammo_gaussclip",
+                    "ammo_gaussclip",
+                    "ammo_gaussclip"
                 ]
             },
             "Operative2": {
