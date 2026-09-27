@@ -189,18 +189,6 @@ class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_python : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( ( "ammo_bts_357cyl" == pev.classname ? "models/bts_rc/weapons/w_357ammo.mdl" : "models/hlclassic/w_357ammobox.mdl" ) );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 3, "357", 18, "hlclassic/weapons/357_reload1.wav" );
-    }
-}
-
 class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()
