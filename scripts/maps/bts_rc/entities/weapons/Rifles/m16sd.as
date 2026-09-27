@@ -49,7 +49,7 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_m16sd";
+        return "ammo_556clip";
     }
 
     const string& get_secondary_ammo() override

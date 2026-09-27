@@ -61,31 +61,6 @@ class ammo_bts_glocksd : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_m16sd : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_556nato.mdl" );
-        pev.scale = 0.9;
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 20, "556", 150, "hlclassic/weapons/reload2.wav" );
-    }
-}
-
-class ammo_bts_m16 : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_9mmarclip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 30, "556", 150, "hlclassic/weapons/reload2.wav" );
-    }
-}
-
 class ammo_bts_m16_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()

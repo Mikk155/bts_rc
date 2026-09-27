@@ -15,8 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#include "ammo_bts_beretta"
-
 class BTS_Ammo : BTS_Item
 {
     bool PickupObject( CBaseEntity@ player, const int give, const string&in ammoName, const int max )
