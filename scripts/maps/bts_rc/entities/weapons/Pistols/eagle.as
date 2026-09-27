@@ -64,7 +64,7 @@ final class ASWeaponEagleConfig : ASWeaponLaserConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_eagle";
+        return "ammo_357";
     }
 
     const uint8 get_animation_draw() override

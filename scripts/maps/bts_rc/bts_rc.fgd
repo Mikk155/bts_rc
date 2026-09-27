@@ -127,7 +127,6 @@
 @PointClass base(Mandatory) = randomizer_wave : "" : "" [ ]
 @PointClass base(Mandatory) = randomizer_headcrab : "" : "" [ ]
 @PointClass base(Mandatory) = randomizer_hullwave : "" : "" [ ]
-@PointClass base(Mandatory) = ammo_bts_eagle : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_9mmclip : "" : "" [ ]

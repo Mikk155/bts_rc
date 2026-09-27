@@ -24,18 +24,6 @@ mixin class bts_ammo_base
     }
 };
 
-class ammo_bts_eagle : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_357ammobox.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 3, "357", 18, "hlclassic/weapons/357_reload1.wav" );
-    }
-}
-
 class ammo_bts_glock17f : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()
