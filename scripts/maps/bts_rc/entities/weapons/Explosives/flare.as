@@ -97,6 +97,7 @@ final class ASFlare : ScriptBaseEntity
 
     void Spawn()
     {
+        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/flare.mdl" );
         g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
 
         pev.solid = SOLID_BBOX;
@@ -328,7 +329,6 @@ namespace FLARE
 
         g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
         g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
-        g_EntityFuncs.SetModel( pFlare.self, "models/bts_rc/weapons/flare.mdl" );
         g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
 
         pFlare.pev.dmg = flDmg;
@@ -359,7 +359,6 @@ namespace FLARE
 
         g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
         g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
-        g_EntityFuncs.SetModel( pFlare.self, "models/bts_rc/weapons/w_flaregun_clip.mdl" );
         g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
 
         pFlare.FlareTrail();
