@@ -49,7 +49,7 @@ final class ASWeaponUziConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_uzi";
+        return "ammo_uziclip";
     }
 
     const uint8 get_animation_draw() override

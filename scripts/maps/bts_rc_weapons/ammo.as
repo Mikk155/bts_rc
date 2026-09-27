@@ -181,32 +181,6 @@ class ammo_bts_fuel : ScriptBasePlayerAmmoEntity, bts_ammo_base
 }
 */
 
-class ammo_bts_uzi : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_uzi_clip.mdl" );
-    }
-
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 20, "9mm", 120, "hlclassic/weapons/reload2.wav" );
-    }
-}
-
-class ammo_bts_uzisd : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_uzi_clip.mdl" );
-    }
-
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 20, "9mm", 120, "hlclassic/weapons/reload2.wav" );
-    }
-}
-
 /*
 class ammo_bts_sw637 : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
