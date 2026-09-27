@@ -49,7 +49,7 @@ final class ASWeaponSawSDConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_sawsd";
+        return "ammo_556";
     }
 
     const uint8 get_animation_draw() override

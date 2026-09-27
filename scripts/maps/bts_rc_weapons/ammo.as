@@ -109,28 +109,6 @@ class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/w_saw_clip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 50, "556", 150, "bts_rc/weapons/saw_reload2.wav" );
-    }
-} class ammo_bts_sawsd : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/w_saw_clip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 50, "556", 150, "bts_rc/weapons/saw_reload2.wav" );
-    }
-}
-
 /*
 class ammo_bts_sw637 : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
