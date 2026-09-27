@@ -20,8 +20,6 @@
 #include "gamemodes/main"
 #include "Hooks/main"
 
-#include "../bts_rc_weapons/main"
-
 Server::chrono@ MapLoadedChrono = Server::chrono();
 
 #if METAMOD_PLUGIN_ASCURL
