@@ -155,19 +155,6 @@ class ammo_bts_saw : ScriptBasePlayerAmmoEntity, bts_ammo_base
         return AddAmmo( other, 50, "556", 150, "bts_rc/weapons/saw_reload2.wav" );
     }
 }
-/*
-class ammo_bts_fuel : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn("models/w_weaponbox.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo(other, ( "ammo_bts_fuel" == pev.classname ? Math.RandomLong( 20, 80 ) : 40 ), "fuel", 120 );
-    }
-}
-*/
 
 /*
 class ammo_bts_sw637 : ScriptBasePlayerAmmoEntity, bts_ammo_base

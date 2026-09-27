@@ -46,12 +46,12 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 
     const string& get_primary_ammo() override
     {
-        return "fuel";
+        return "uranium";
     }
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_flamethrower";
+        return "ammo_gaussclip";
     }
 
     const uint8 get_animation_draw() override
@@ -361,25 +361,5 @@ class weapon_bts_flamethrower : BTS_FireWeapon
             PlayAnim( WeaponFlamethrowerAnim::Fidget );
             return 3.6f;
         }
-    }
-}
-
-class ammo_bts_flamethrower : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/hunger/w_gas.mdl" );
-        pev.scale = 1.0;
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( 40, "fuel", gpWeaponFlamethrowerConfig.primary_maxammo ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/weapons/g_bounce3.wav", 1, ATTN_NORM );
-            return true;
-        }
-        return false;
     }
 }

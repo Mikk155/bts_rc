@@ -147,7 +147,6 @@
 @PointClass base(Mandatory) = ammo_bts_xbow : "" : "" [ ]
 @PointClass base(Mandatory) = flame_proj : "" : "" [ ]
 @PointClass base(Mandatory) = bts_burning_monster : "" : "" [ ]
-@PointClass base(Mandatory) = ammo_bts_flamethrower : "" : "" [ ]
 @PointClass base(Mandatory) = flare : "" : "" [ ]
 @PointClass base(Mandatory) = env_bloodpuddle : "" : ""
 @PointClass base(Mandatory) = monster_panthereye : "" : ""
