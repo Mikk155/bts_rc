@@ -134,30 +134,6 @@ class ammo_bts_m79 : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_mp5 : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/hlclassic/w_9mmarclip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 30, "9mm", 120, "bts_rc/weapons/mp5_clip.wav" );
-    }
-}
-
-class ammo_bts_mp5gl : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/hlclassic/w_9mmarclip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 30, "9mm", 120, "bts_rc/weapons/mp5_clip.wav" );
-    }
-}
-
 class ammo_bts_mp5gl_grenade : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()

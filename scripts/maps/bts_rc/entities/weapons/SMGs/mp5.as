@@ -49,7 +49,7 @@ final class ASWeaponMP5Config : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_mp5";
+        return "ammo_9mmAR";
     }
 
     const uint8 get_animation_draw() override
