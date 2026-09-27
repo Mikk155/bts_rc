@@ -626,27 +626,23 @@
         ]
     },
     "dynamic_ammo": {
-        "uranium": [
+        "ammo_gaussclip": [
             20,
             60
         ],
-        "357": [
+        "ammo_357": [
             1,
             6
         ],
-        "38": [
-            3,
-            6
-        ],
-        "556": [
+        "ammo_556clip": [
             6,
             30
         ],
-        "9mm": [
+        "ammo_9mmclip": [
             8,
             17
         ],
-        "ARgrenades": [
+        "ammo_ARgrenades": [
             1,
             2
         ],
@@ -655,11 +651,11 @@
             1,
             5
         ],
-        "bts_flare": [
+        "weapon_bts_flare": [
             1,
             3
         ],
-        "buckshot": [
+        "ammo_buckshot": [
             3,
             8
         ]

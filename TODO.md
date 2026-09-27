@@ -27,6 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
+- [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped.
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Implement dynamic ammo system in PlayerCollect hook and use a classname-based find rather than internal ammo name.
 - [ ] Purge all sequence and texture model extensions with modelguy

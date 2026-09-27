@@ -34,44 +34,22 @@ final class ASDynamicAmmoConfig : IConfigurable
             [
                 "IConfigurable"
             ],
-            "properties":
+            "additionalProperties":
             {
-                "9mm":
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
+                "items":
                 {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
+                    "minimum": 1,
+                    "type": "integer"
                 },
-                "357":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "uranium":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "556":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "buckshot":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "ARgrenades":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "38":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "bts_flare":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo.", "items": { "type": "integer", "minimum": 1 }
-                },
-                "bts_battery":
-                {
-                    "type": "array", "minItems": 2, "maxItems": 2, "description": "List of [min, max] where min is given at full server and max is given solo", "items": { "type": "integer", "minimum": 1 }
-                }
+                "prefixItems":
+                [
+                    { "description": "Ammo given when only one player connected." },
+                    { "description": "Ammo given when max server capacity of players connected" }
+                ]
             }
         }""";
     }

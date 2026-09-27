@@ -19,7 +19,7 @@ class BTS_Ammo : BTS_Item
 {
     bool PickupObject( CBaseEntity@ player, const int give, const string&in ammoName, const int max )
     {
-        int finalGive = GetDynamicAmmoGive( ammoName, give );
+        int finalGive = GetDynamicAmmoGive( pev.classname, give );
 
         if( IsValid( player ) && player.GiveAmmo( finalGive, ammoName, max ) != -1 )
         {
