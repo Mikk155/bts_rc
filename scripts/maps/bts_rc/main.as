@@ -15,6 +15,8 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+#include "core/BTSRegistry"
+
 #include "util/utils"
 #include "entities/main"
 #include "gamemodes/main"
@@ -126,6 +128,23 @@ void MapInit()
     {
         chrono.Stop();
         g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
+    }
+
+    const array<string>@ contextNames = gp_Registry.getKeys();
+    const uint length = contextNames.length();
+
+    for( uint ui = 0; ui < length; ui++ )
+    {
+        string contextName = contextNames[ui];
+        BTSRegistry@ ctx = cast<BTSRegistry@>( gp_Registry[contextName] );
+
+        if( gp_Registry.get( contextName, @ctx ) && ctx !is null )
+        {
+            if( g_Logger.trace.active )
+            {
+                g_Logger.trace.print( "Calling \"{}::MapInit()\" ({})", { ctx.GetName(), contextName } );
+            }
+        }
     }
 
 #if SERVER
