@@ -31,18 +31,6 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-class ammo_bts_glock : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/hlclassic/w_9mmclip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 17, "9mm", 120 );
-    }
-}
-
 class ammo_bts_glock17f : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()
