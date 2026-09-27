@@ -147,8 +147,6 @@
 @PointClass base(Mandatory) = ammo_bts_m16sd : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_bts_m16sd_grenade : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_762 : "" : "" [ ]
-@PointClass base(Mandatory) = ammo_bts_shotgun : "" : "" [ ]
-@PointClass base(Mandatory) = ammo_bts_sbshotgun : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_bts_saw : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_bts_sawsd : "" : "" [ ]
 @PointClass base(Mandatory) = ammo_bts_m79 : "" : "" [ ]

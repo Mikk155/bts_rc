@@ -229,31 +229,6 @@ class ammo_bts_fuel : ScriptBasePlayerAmmoEntity, bts_ammo_base
 }
 */
 
-class ammo_bts_sbshotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/hlclassic/w_shotshell.mdl" );
-        pev.scale = 0.9;
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 3, "buckshot", 30, "hlclassic/weapons/reload1.wav" );
-    }
-}
-
-class ammo_bts_shotgun : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( ( "ammo_bts_shotshell" == pev.classname ? "models/w_shotshell.mdl" : "models/hlclassic/w_shotshell.mdl" ) );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, 3, "buckshot", 30, "hlclassic/weapons/reload1.wav" );
-    }
-}
-
 class ammo_bts_uzi : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()

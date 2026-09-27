@@ -54,7 +54,7 @@ final class ASWeaponSBShotgunConfig : ASWeaponLightConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_sbshotgun";
+        return "ammo_buckshot";
     }
 
     const uint8 get_animation_draw() override
