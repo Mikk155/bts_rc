@@ -2014,10 +2014,10 @@
         "battery_lighting": true
     },
     "logger": {
-        "debug": false,
-        "file": false,
-        "info": false,
-        "trace": false,
+        "debug": true,
+        "file": true,
+        "info": true,
+        "trace": true,
         "warning": true
     },
     "monster_panthereye": {
