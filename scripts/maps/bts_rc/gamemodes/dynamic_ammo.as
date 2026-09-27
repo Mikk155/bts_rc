@@ -123,7 +123,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 function( CBasePlayer@ player, array<string>@ arguments )
                 {
                     int maxClients = g_Engine.maxClients;
-                    int realPlayers = gpDynamicAmmo.CountConnectedPlayers();
+                    int realPlayers = g_PlayerFuncs.GetNumPlayers;
                     int simPlayers = realPlayers;
 
                     if( arguments !is null && arguments.length() > 0 )
@@ -174,24 +174,6 @@ final class ASDynamicAmmoConfig : IConfigurable
     }
 
     /**
-    *   @brief Count the number of connected players
-    **/
-    int CountConnectedPlayers()
-    {
-        int count = 0;
-
-        for( int i = 1; i <= g_Engine.maxClients; i++ )
-        {
-            CBasePlayer@ player = g_PlayerFuncs.FindPlayerByIndex( i );
-
-            if( player !is null && player.IsConnected() )
-                ++count;
-        }
-
-        return count < 1 ? 1 : count;
-    }
-
-    /**
     *   @brief Get the scaled ammo give amount for the given ammo type.
     *   @param ammoType The ammo type name (e.g. "9mm", "357", "buckshot")
     *   @param defaultGive The default give amount if no config exists for this type
@@ -208,7 +190,7 @@ final class ASDynamicAmmoConfig : IConfigurable
         int maxGive = range[1]; // ammo at solo
 
         int maxClients = g_Engine.maxClients;
-        int players = CountConnectedPlayers();
+        int players = g_PlayerFuncs.GetNumPlayers();
 
         if( maxClients <= 1 )
             return maxGive;
