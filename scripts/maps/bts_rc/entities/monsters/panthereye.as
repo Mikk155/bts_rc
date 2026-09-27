@@ -145,7 +145,7 @@ final class ASPanthereyeConfig : IConfigurable
     int StruggleGrin;
     int StealthVisibility;
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.Health = int( config[ "health" ] );
         this.MaxLeapZ = float( config[ "max_leap_z" ] );

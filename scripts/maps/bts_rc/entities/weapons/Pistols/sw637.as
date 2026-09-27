@@ -62,7 +62,7 @@ final class ASWeaponSW637Config : ASWeaponConfig
         return 1;
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    bool Register( btson@ json ) override
     {
         if( g_MapConfig.MapLoading )
         {

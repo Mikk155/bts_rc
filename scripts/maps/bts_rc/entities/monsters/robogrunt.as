@@ -47,7 +47,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     // robots will explode shortly after death, can be set to 0
     protected int m_iDmgExplode = 125;
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.m_iSmokeSprite = g_Game.PrecacheModel( "sprites/steam1.spr" );
         this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
@@ -420,7 +420,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
         return "robo_grunt_boss";
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    bool Register( btson@ json ) override
     {
 #if SERVER
         if( g_MapConfig.MapLoading )

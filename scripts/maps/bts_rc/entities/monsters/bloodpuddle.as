@@ -85,7 +85,7 @@ final class ASBloodPuddleConfig : IConfigurable
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;
@@ -102,7 +102,7 @@ final class ASBloodPuddleConfig : IConfigurable
 
         array<float>@ arr;
 
-        if( !meta_api::json::v2::fmt::ToArray( config[ "default_size" ], arr, false ) )
+        if( !fmt::ToArray( config[ "default_size" ], arr, false ) )
         {
             @arr = { 1.5f, 2.5f };
         }
@@ -119,7 +119,7 @@ final class ASBloodPuddleConfig : IConfigurable
 
         this.m_DefaultSize = arr;
 
-        meta_api::json::v2::json@ custom_size = config[ "custom_size" ];
+        btson@ custom_size = config[ "custom_size" ];
 
         if( custom_size is null )
             return true;
@@ -131,7 +131,7 @@ final class ASBloodPuddleConfig : IConfigurable
         {
             string name = monsterNames[ui];
 
-            if( !meta_api::json::v2::fmt::ToArray( custom_size[ name ], arr, false ) )
+            if( !fmt::ToArray( custom_size[ name ], arr, false ) )
             {
                 g_Logger.error.print( "Blood puddle custom size for {} is an invalid array of two values!", { name } );
                 continue;

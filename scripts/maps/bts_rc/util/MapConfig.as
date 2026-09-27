@@ -80,12 +80,6 @@ void RegisterContexts()
     g_MapConfig.Register( gpPanthereyeConfig ); // Always active
 }
 
-#include "../../../mikk155/meta_api"
-#include "../../../mikk155/meta_api/json/v2"
-#include "../../../mikk155/meta_api/json/v2/schema"
-#include "../../../mikk155/meta_api/json/v2/fmt/ToArray"
-#include "../../../mikk155/Server/chrono"
-
 // Inherit from this interface to configure contexts from one key at the root json
 // Register your contexts at ASMapConfig::Registry()
 // Do NOT hold references to your object if Register can return false.
@@ -103,23 +97,23 @@ interface IConfigurable
     // Called at MapInit with the json object at the root containing GetName() as key.
     // Return false to remove reference to the context.
     // In this method you can reference "this" to any variable handle.
-    bool Register( meta_api::json::v2::json@ config );
+    bool Register( btson@ config );
 }
 
 final class ASMapConfig
 {
     private
-        meta_api::json::v2::json@ m_json;
+        btson@ m_json;
 
     private
-        meta_api::json::v2::json@ m_defaults;
+        btson@ m_defaults;
 
     private
-        meta_api::json::v2::json@ m_GlobalSchema = meta_api::json::v2::json();
+        btson@ m_GlobalSchema = btson();
     private
-        meta_api::json::v2::json@ m_GlobalSchemaDefinitions = meta_api::json::v2::json();
+        btson@ m_GlobalSchemaDefinitions = btson();
     private
-        meta_api::json::v2::json@ m_GlobalSchemaProperties = meta_api::json::v2::json();
+        btson@ m_GlobalSchemaProperties = btson();
 
     private
         bool m_MapInit = true;
@@ -155,7 +149,7 @@ final class ASMapConfig
         Server::chrono@ m_chrono;
 
     // Get a handle to the map configuration. this is null after MapInit
-    const meta_api::json::v2::json@ get_json()
+    const btson@ get_json()
     {
         return this.m_json;
     }
@@ -170,10 +164,10 @@ final class ASMapConfig
             return false;
         }
 
-        meta_api::json::v2::json@ definition;
+        btson@ definition;
         meta_api::json::Error err;
 
-        if( meta_api::json::v2::Deserialize( value, definition, err ) && definition !is null )
+        if( Deserialize( value, definition, err ) && definition !is null )
         {
             this.m_GlobalSchemaDefinitions.Set( name, definition );
             return true;
@@ -204,16 +198,16 @@ final class ASMapConfig
             @m_chrono = Server::chrono();
         }
 
-        if( !meta_api::json::v2::Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
+        if( !Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
         {
             g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultConfig__()\"" );
             array<int> arr(0);
             arr[1]; // When SetException x[
         }
 
-        if( !meta_api::json::v2::Deserialize( "store/bts_rc.json", this.m_json, err ) )
+        if( !Deserialize( "store/bts_rc.json", this.m_json, err ) )
         {
-            @this.m_json = meta_api::json::v2::json();
+            @this.m_json = btson();
         }
 
         string buffer = "Error parsing \"scripts/maps/store/bts_rc.json\"\n";
@@ -309,12 +303,12 @@ final class ASMapConfig
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             m_GlobalSchema.Set( "type", "object" );
             m_GlobalSchema.Set( "unevaluatedProperties", false );
-                auto@ properties = meta_api::json::v2::json();
-                    auto@ schemaProperty = meta_api::json::v2::json();
+                btson@ properties = btson();
+                    auto@ schemaProperty = btson();
                         schemaProperty.Set( "type", "string" );
                         schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
                     this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
-                    auto@ allowReloadPoperty = meta_api::json::v2::json();
+                    auto@ allowReloadPoperty = btson();
                         allowReloadPoperty.Set( "type", "boolean" );
                         allowReloadPoperty.Set( "description", "When true the map scripts will keep json schemas in memory and register a command to reload json files run time." );
                     this.m_GlobalSchemaProperties.Set( "allow_reload", allowReloadPoperty );
@@ -334,7 +328,7 @@ final class ASMapConfig
                 continue;
             }
 
-            meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
+            btson@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
             if( g_Logger.info.active )
             {
@@ -344,7 +338,7 @@ final class ASMapConfig
                     g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
             }
 
-            meta_api::json::v2::json@ schema;
+            btson@ schema;
 
             meta_api::json::Error err;
 
@@ -360,7 +354,7 @@ final class ASMapConfig
             }
             else
 #endif
-            if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
+            if( Deserialize( schemaString, schema, err ) && schema !is null )
             {
                 auto@ defaultConfigurations = m_defaults[ context.GetName() ];
 
@@ -447,7 +441,7 @@ final class ASMapConfig
             }
         }
 
-        if( !meta_api::json::v2::schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
+        if( !schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
         {
             if( g_Logger.warning.active )
                 g_Logger.warning.print( "Error validating some values for json. Using default values..." );
@@ -529,11 +523,11 @@ final class ASMapConfig
             meta_api::json::parser::Indentation schemaIndentation = meta_api::json::parser::Indentation::OneTabSpace;
 
             // Write out schemas
-            meta_api::json::v2::Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaIndentation, schemaStyle );
+            Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaIndentation, schemaStyle );
 
             // Write out default values for reference
             this.m_defaults.Set( "$schema", "bts_rc_schema.json" );
-            meta_api::json::v2::Serialize( this.m_defaults, "store/bts_rc_defaults.json", schemaIndentation, schemaStyle );
+            Serialize( this.m_defaults, "store/bts_rc_defaults.json", schemaIndentation, schemaStyle );
 
             if( g_Logger.info.active )
             {

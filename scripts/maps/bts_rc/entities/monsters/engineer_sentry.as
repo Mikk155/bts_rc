@@ -100,7 +100,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
     private uint m_uiRandomChance;
     private int m_iGateAnimation = -1;
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;

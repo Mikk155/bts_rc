@@ -84,7 +84,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;

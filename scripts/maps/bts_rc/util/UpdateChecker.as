@@ -34,8 +34,8 @@ void UpdateChecker()
 
         if( response_code >= 200 )
         {
-            meta_api::json::v2::json@ response;
-            if( meta_api::json::v2::Deserialize( response_json, response ) )
+            btson@ response;
+            if( Deserialize( response_json, response ) )
             {
                 string tagName;
 

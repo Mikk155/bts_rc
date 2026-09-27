@@ -450,7 +450,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.flashlight_drain = config.ValueOrDefault( "flashlight_drain", this.flashlight_drain );
         this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );

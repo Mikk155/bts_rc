@@ -87,7 +87,7 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    bool Register( btson@ json ) override
     {
         if( g_MapConfig.MapLoading )
         {

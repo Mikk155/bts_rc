@@ -134,7 +134,7 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
         weapon.TertiaryAttack();
     }
 
-    bool Register( meta_api::json::v2::json@ json ) override
+    bool Register( btson@ json ) override
     {
         ASWeaponConfig::Register( json );
 

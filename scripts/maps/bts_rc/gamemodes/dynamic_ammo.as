@@ -74,7 +74,7 @@ final class ASDynamicAmmoConfig : IConfigurable
 
     private ASCommand@ m_command;
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;
@@ -90,7 +90,7 @@ final class ASDynamicAmmoConfig : IConfigurable
 
             array<int>@ range;
 
-            if( meta_api::json::v2::fmt::ToArray( config[ ammoType ], range, true, false ) )
+            if( fmt::ToArray( config[ ammoType ], range, true, false ) )
             {
                 m_AmmoRanges[ ammoType ] = range;
 

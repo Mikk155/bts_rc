@@ -134,6 +134,9 @@ HookReturnCode PlayerPreThink( CBasePlayer@ player, uint& out uiFlags )
 
     CustomKeyvalues@ custom = player.GetCustomKeyvalues();
 
+    string KVN_PLAYERTHINK;
+    float THINKRATE_PLAYER;
+
     if( custom.GetKeyvalue( KVN_PLAYERTHINK ).GetFloat() > g_Engine.time )
         return HOOK_CONTINUE;
 

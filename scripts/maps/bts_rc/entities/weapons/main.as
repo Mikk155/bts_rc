@@ -211,7 +211,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 
     array<ItemMapping@> ItemMappingList(0);
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.melee_weapons_pull = bool( config[ "melee_weapons_pull" ] );
         this.melee_weapons_pull_force = int( config[ "melee_weapons_pull_force" ] );
@@ -224,7 +224,7 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
         this.item_tracking = bool( config[ "item_tracking" ] );
         this.melee_weapons_push_monsters.resize( 0 );
-        meta_api::json::v2::fmt::ToArray( config[ "melee_weapons_push_monsters" ], this.melee_weapons_push_monsters );
+        fmt::ToArray( config[ "melee_weapons_push_monsters" ], this.melee_weapons_push_monsters );
 
         // ItemMapping stuff
         if( g_MapConfig.MapLoading )

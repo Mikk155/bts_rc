@@ -61,7 +61,7 @@ final class ASWallRechargerConfig : IConfigurable
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         if( g_MapConfig.MapLoading )
         {

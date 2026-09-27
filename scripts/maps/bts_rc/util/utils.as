@@ -18,14 +18,17 @@
 #include "MapConfig"
 #include "CommandContext"
 #include "EntityOverriden"
+#include "json"
 #include "Logger"
 #include "models"
 #include "PlayerClass"
 #include "Precache"
 
+#include "../../../mikk155/Server/chrono"
 #include "../../../mikk155/SemanticVersion"
 #include "../../../mikk155/TextMenu/v1"
 #include "../../../mikk155/Player/ChatColor"
+#include "../../../mikk155/meta_api"
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 

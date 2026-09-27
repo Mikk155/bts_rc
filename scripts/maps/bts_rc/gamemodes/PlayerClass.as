@@ -374,7 +374,7 @@ final class ASPlayerCharactersConfig : IConfigurable
         }""";
     }
 
-    uint RegisterCharacters( meta_api::json::v2::json@ config )
+    uint RegisterCharacters( btson@ config )
     {
         uint registered = 0;
 
@@ -387,8 +387,8 @@ final class ASPlayerCharactersConfig : IConfigurable
         {
             auto@ character_data = config[ui];
 
-            meta_api::json::v2::json@ jClassify = character_data[ "classify" ];
-            meta_api::json::v2::json@ jHands = character_data[ "hands" ];
+            btson@ jClassify = character_data[ "classify" ];
+            btson@ jHands = character_data[ "hands" ];
 
             int iClassify;
             if( !jClassify.is_number_unsigned() || !jClassify.Get( iClassify ) || Math.clamp( Classification::Unset + 1, Classification::__Size__ - 1, iClassify ) != iClassify )
@@ -415,7 +415,7 @@ final class ASPlayerCharactersConfig : IConfigurable
         return registered;
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.m_forcepmodels = config.ValueOrDefault( "forcepmodels", true );
 

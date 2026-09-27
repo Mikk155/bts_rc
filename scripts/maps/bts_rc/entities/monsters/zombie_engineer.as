@@ -41,7 +41,7 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
     private float m_CanisterDegrade = 0.5;
     private int m_CanisterHealth = 50;
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         m_SpriteCanisterGas = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
         return true;

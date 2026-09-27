@@ -55,7 +55,7 @@ final class ASItemsConfig : IConfigurable
         return this.m_BatteryLighting;
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.m_BatteryLighting = bool( config[ "battery_lighting" ] );
 

@@ -1,5 +1,10 @@
 mixin class bts_ammo_base
 {
+#if EDITOR_ONLY
+    BaseEntity@ BaseClass = null;
+    CBasePlayerAmmo@ self = null;
+#endif
+
     void Spawn( const string &in model )
     {
         g_EntityFuncs.SetModel( self, model );

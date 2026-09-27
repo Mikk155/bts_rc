@@ -60,7 +60,7 @@ final class ASDeathDropConfig : IConfigurable
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;
@@ -78,7 +78,7 @@ final class ASDeathDropConfig : IConfigurable
             array<string>@ itemNames;
             auto@ listObject = config[ listName ];
 
-            if( meta_api::json::v2::fmt::ToArray( listObject, itemNames ) )
+            if( fmt::ToArray( listObject, itemNames ) )
             {
                 if( g_Logger.debug.active )
                     g_Logger.debug.print( snprintf( glog, "Adding %1 drops for \"%2\"", itemNames.length(), listName ) );

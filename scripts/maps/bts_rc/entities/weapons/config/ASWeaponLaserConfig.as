@@ -278,7 +278,7 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.laser_accuracy = config.ValueOrDefault( "laser_accuracy", this.laser_accuracy );
         this.laser_cooldown = config.ValueOrDefault( "laser_cooldown", this.laser_cooldown );

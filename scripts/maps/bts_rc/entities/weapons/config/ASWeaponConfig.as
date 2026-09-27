@@ -481,7 +481,7 @@ abstract class ASWeaponConfig : IConfigurable
         }""";
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.primary_maxammo = config.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
 
@@ -491,7 +491,7 @@ abstract class ASWeaponConfig : IConfigurable
         this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
 
         array<int>@ ammoRange;
-        if( meta_api::json::v2::fmt::ToArray( config[ "primary_default_ammo" ], ammoRange, true, false ) )
+        if( fmt::ToArray( config[ "primary_default_ammo" ], ammoRange, true, false ) )
         {
             if( ammoRange[0] > ammoRange[1] )
             {
@@ -503,7 +503,7 @@ abstract class ASWeaponConfig : IConfigurable
         }
 
         @ammoRange = null;
-        if( meta_api::json::v2::fmt::ToArray( config[ "secondary_default_ammo" ], ammoRange, true, false ) )
+        if( fmt::ToArray( config[ "secondary_default_ammo" ], ammoRange, true, false ) )
         {
             if( ammoRange[0] > ammoRange[1] )
             {
@@ -560,7 +560,7 @@ abstract class ASWeaponConfig : IConfigurable
         this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_cooldown, false, false );
         this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
-        meta_api::json::v2::json@ accuracy = config[ "primary_accuracy" ];
+        btson@ accuracy = config[ "primary_accuracy" ];
 
         if( accuracy !is null )
         {
@@ -585,14 +585,14 @@ abstract class ASWeaponConfig : IConfigurable
         }
 
         array<float>@ spread;
-        if( meta_api::json::v2::fmt::ToArray( config[ "primary_spread" ], spread, true, false ) )
+        if( fmt::ToArray( config[ "primary_spread" ], spread, true, false ) )
             this.primary_spread = Vector( spread[0], spread[1], spread[2] );
 
         @spread = null;
-        if( meta_api::json::v2::fmt::ToArray( config[ "secondary_spread" ], spread, true, false ) )
+        if( fmt::ToArray( config[ "secondary_spread" ], spread, true, false ) )
             this.secondary_spread = Vector( spread[0], spread[1], spread[2] );
 
-        meta_api::json::v2::json@ kickback = config[ "primary_kickback" ];
+        btson@ kickback = config[ "primary_kickback" ];
 
         if( kickback !is null )
         {

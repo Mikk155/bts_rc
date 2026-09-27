@@ -142,7 +142,7 @@ final class CVoiceResponse
         }
     }
 
-    private void RegisterVoice( CVoice@ voice, meta_api::json::v2::json@ config )
+    private void RegisterVoice( CVoice@ voice, btson@ config )
     {
         if( voice is null || config is null )
             return;
@@ -151,7 +151,7 @@ final class CVoiceResponse
         voice.pitch = config.ValueOrDefault( "pitch", voice.pitch, false, false );
 
         array<string>@ sounds;
-        if( meta_api::json::v2::fmt::ToArray( config[ "sounds" ], sounds, true, false ) )
+        if( fmt::ToArray( config[ "sounds" ], sounds, true, false ) )
         {
             uint length = sounds.length();
             for( uint ui = 0; ui < length; ui++ )
@@ -159,7 +159,7 @@ final class CVoiceResponse
         }
     }
 
-    bool Register( meta_api::json::v2::json@ profiles )
+    bool Register( btson@ profiles )
     {
         this.voices.deleteAll();
 
@@ -169,7 +169,7 @@ final class CVoiceResponse
         uint length = profiles.Length();
         for( uint ui = 0; ui < length; ui++ )
         {
-            meta_api::json::v2::json@ profile = profiles[ui];
+            btson@ profile = profiles[ui];
             string name = profile.Name;
             CVoices@ voiceProfile = CVoices( name );
 

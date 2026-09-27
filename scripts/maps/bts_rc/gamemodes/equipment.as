@@ -30,11 +30,11 @@ final class ASEquipmentSet
     // dictionary constructor
     ASEquipmentSet() {}
 
-    ASEquipmentSet( const string&in setName, meta_api::json::v2::json@ config )
+    ASEquipmentSet( const string&in setName, btson@ config )
     {
         this.m_Description = config.ValueOrDefault( "description", String::EMPTY_STRING );
 
-        meta_api::json::v2::json@ items = config[ "items" ];
+        btson@ items = config[ "items" ];
 
         if( items !is null )
         {
@@ -42,7 +42,7 @@ final class ASEquipmentSet
 
             for( uint ui = 0; ui < itemsLength; ui++ )
             {
-                meta_api::json::v2::json@ item = items[ui];
+                btson@ item = items[ui];
 
                 if( !item.is_string() )
                     g_Logger.critical.print( "only strings allowed in items at index {} for equipment {}", { string(ui), setName } );
@@ -51,7 +51,7 @@ final class ASEquipmentSet
             }
         }
 
-        meta_api::json::v2::json@ entities = config[ "entities" ];
+        btson@ entities = config[ "entities" ];
 
         if( entities !is null )
         {
@@ -59,7 +59,7 @@ final class ASEquipmentSet
 
             for( uint ui = 0; ui < entitiesLength; ui++ )
             {
-                meta_api::json::v2::json@ entity = entities[ui];
+                btson@ entity = entities[ui];
                 const array<string>@ entityKeys = entity.Keys;
                 uint entityLength = entity.Length();
                 dictionary@ entityData = {};
@@ -68,7 +68,7 @@ final class ASEquipmentSet
                 {
                     string keyName = entityKeys[ui2];
 
-                    meta_api::json::v2::json@ entityValue = entity[keyName];
+                    btson@ entityValue = entity[keyName];
 
                     if( !entityValue.is_string() )
                         g_Logger.critical.print( "only strings allowed in entities at index {} for equipment {} at key {}", { string(ui), setName, keyName } );
@@ -140,10 +140,10 @@ final class ASEquipmentCharacter
     // dictionary constructor
     ASEquipmentCharacter() {}
 
-    ASEquipmentCharacter( const Classification&in classification, meta_api::json::v2::json@ config )
+    ASEquipmentCharacter( const Classification&in classification, btson@ config )
     {
         // Get random sets
-        meta_api::json::v2::json@ sets = config[ "sets" ];
+        btson@ sets = config[ "sets" ];
 
         if( sets !is null )
         {
@@ -175,7 +175,7 @@ final class ASEquipmentCharacter
         }
 
         // Get enforced sets
-        meta_api::json::v2::json@ sets_enforce = config[ "sets_enforce" ];
+        btson@ sets_enforce = config[ "sets_enforce" ];
 
         if( sets_enforce !is null )
         {
@@ -199,12 +199,12 @@ final class ASEquipmentCharacter
 
         if( !this.m_Description.IsEmpty() )
         {
-            meta_api::json::v2::json@ fade = config[ "fade" ];
+            btson@ fade = config[ "fade" ];
             this.m_HUDFade[0] = uint( int( fade[0] ) );
             this.m_HUDFade[1] = uint( int( fade[1] ) );
             this.m_HUDFade[2] = uint( int( fade[2] ) );
 
-            meta_api::json::v2::json@ notice = config[ "notice" ];
+            btson@ notice = config[ "notice" ];
             this.m_HUDMessage[0] = uint( int( notice[0] ) );
             this.m_HUDMessage[1] = uint( int( notice[1] ) );
             this.m_HUDMessage[2] = uint( int( notice[2] ) );
@@ -423,21 +423,21 @@ final class ASEquipmentConfig : IConfigurable
         equipmentCharacter.Equip( player );
     }
 
-    bool Register( meta_api::json::v2::json@ config ) override
+    bool Register( btson@ config ) override
     {
         this.m_AllEquipments.deleteAll();
         this.m_Characters.resize(0);
 
         // Register all sets
         {
-            meta_api::json::v2::json@ sets = config[ "sets" ];
+            btson@ sets = config[ "sets" ];
             const array<string>@ setsNames = sets.Keys;
             uint setsLength = sets.Length();
 
             for( uint ui = 0; ui < setsLength; ui++ )
             {
                 string setName = setsNames[ui];
-                meta_api::json::v2::json@ setProperties = sets[ setName ];
+                btson@ setProperties = sets[ setName ];
                 ASEquipmentSet@ kitSet = ASEquipmentSet( setName, setProperties );
                 this.m_AllEquipments[ setName ] = kitSet;
             }
@@ -445,7 +445,7 @@ final class ASEquipmentConfig : IConfigurable
 
         // Register all character sets
         {
-            meta_api::json::v2::json@ characters = config[ "characters" ];
+            btson@ characters = config[ "characters" ];
 
             this.m_Characters = {
                 @ASEquipmentCharacter( Classification::Security, characters[0] ),

@@ -1,0 +1,890 @@
+/**
+*   Copyright (c) 2026 Mikk155 and contributors of bts_rc
+*
+*   Permission is hereby granted, free of charge, to any person obtaining a copy
+*   of this software to use, copy, modify, merge, publish, distribute, sublicense,
+*   and/or sell copies of the Software under the following conditions:
+*
+*   A reference to the original project must be included in all copies or substantial
+*   portions of the Software. This must include, at minimum, a URL to:
+*   https://github.com/Mikk155/bts_rc
+*
+*   The above copyright notice and this permission notice shall be included in all
+*   copies of the Software when distributed as a whole.
+*
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+**/
+
+#include "../../../mikk155/meta_api/json"
+
+#include "schema"
+#include "ToArray"
+
+/// Json is a complete wrapper to dictionary and array the main difference is that json is ordered.
+/// If something is missing you can either pull request or just inherit from this class and make your specific changes according to your needs.
+class btson
+{
+    protected
+        meta_api::json::Type m_Type = meta_api::json::Type::Undefined;
+
+    // Current type of this object.
+    const meta_api::json::Type& get_Type() const {
+        return this.m_Type;
+    }
+
+    /// Return whatever value is a bool
+    bool is_boolean() const {
+        return ( this.Type == meta_api::json::Type::Boolean );
+    }
+    /// Return whatever value is a integer
+    bool is_number_integer() const {
+        return ( this.Type ==  meta_api::json::Type::Integer );
+    }
+    /// Return whatever value is a float with decimals
+    bool is_number_float() const {
+        return ( this.Type ==  meta_api::json::Type::Float );
+    }
+    /// Return whatever value is a string
+    bool is_string() const {
+        return ( this.Type ==  meta_api::json::Type::String );
+    }
+    /// Return whatever value is a json object
+    bool is_object() const {
+        return ( this.Type ==  meta_api::json::Type::Object );
+    }
+    /// Return whatever value is a json array
+    bool is_array() const {
+        return ( this.Type ==  meta_api::json::Type::Array );
+    }
+    /// Return whatever value is null but existent
+    bool is_null() const {
+        return ( this.Type ==  meta_api::json::Type::Null );
+    }
+    /// Return whatever value is a handle to an object
+    bool is_handle() const {
+        return ( this.Type ==  meta_api::json::Type::Handle );
+    }
+    /// Return whatever value is a json object or array structure
+    bool is_structured() const {
+        return ( this.is_object() || this.is_array() );
+    }
+    /// Return whatever value is a number either float or integer
+    bool is_number() const {
+        return ( this.is_number_integer() || this.is_number_float() );
+    }
+    /// Return whatever value is a non-negative integer
+    bool is_number_unsigned() const {
+        return ( this.is_number_integer() && int( this.m_KeyValues[ this.__Value__ ] ) >= 0 );
+    }
+
+    string m_Name;
+
+    /// Key name of this object
+    const string& get_Name() const {
+        return this.m_Name;
+    }
+
+    /// Unordered key-values
+    dictionary m_KeyValues = {};
+
+    /// Ordered key names
+    array<string> m_KeyNames = {};
+
+    /// Return all the key names of this object/array
+    const array<string>@ get_Keys() const
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Object:
+            case meta_api::json::Type::Array:
+            {
+                return @this.m_KeyNames;
+            }
+            case meta_api::json::Type::String:
+            case meta_api::json::Type::Float:
+            case meta_api::json::Type::Integer:
+            case meta_api::json::Type::Boolean:
+            case meta_api::json::Type::Null:
+            default:
+                return @null;
+        }
+    }
+
+    /// Internal name where the value is stored for non object/array types
+    const string& __Value__ { get const { return "__value__"; } }
+
+    /// Internal value
+    dictionaryValue@ get_Value()
+    {
+        if( !this.m_KeyValues.exists( this.__Value__ ) )
+        {
+            dictionaryValue val;
+            this.m_KeyValues[ this.__Value__ ] = val;
+        }
+
+        return this.m_KeyValues[ this.__Value__ ];
+    }
+
+    dictionaryValue@ get_Value() const
+    {
+        // For some reason dictionary's opIndex crash when const and value doesn't exists.
+        // This doesn't seems to happen if the object is not const.
+        if( this.m_KeyValues.exists( this.__Value__ ) )
+            return this.m_KeyValues[ this.__Value__ ];
+        dictionaryValue val;
+        return val;
+    }
+
+    void SetType( const meta_api::json::Type&in type )
+    {
+        switch( type )
+        {
+            case meta_api::json::Type::Object:
+            case meta_api::json::Type::Array:
+            {
+                this.Clear();
+                break;
+            }
+            case meta_api::json::Type::String:
+            case meta_api::json::Type::Handle:
+            case meta_api::json::Type::Float:
+            case meta_api::json::Type::Integer:
+            case meta_api::json::Type::Boolean:
+            case meta_api::json::Type::Null:
+            default:
+            {
+                dictionaryValue@ value = this.m_KeyValues[ this.__Value__ ];
+                this.Clear();
+                this.m_KeyValues[ this.__Value__ ] = value;
+                break;
+            }
+        }
+
+        this.m_Type = type;
+    }
+
+    /// Set a value of any type. "value" could be set by using Value.opAssign(T) from this object
+    void SetValue( const dictionaryValue&in value, const meta_api::json::Type&in type )
+    {
+        this.SetType(type);
+        this.m_KeyValues[ this.__Value__ ] = value;
+    }
+
+    /// ======================================
+    /// opAssign
+    /// ======================================
+    btson@ opAssign( btson@ value )
+    {
+        this.SetType( value.Type );
+
+        this.m_KeyValues = value.m_KeyValues;
+        this.m_KeyNames = value.m_KeyNames;
+
+        // No. because we're still allocated on a different owner
+        // -TODO Maybe a list of parent handles so we get a valid one starting from the last index?
+        // this.m_Name = value.m_Name;
+
+        return this;
+    }
+
+    // Creates a shallow copy
+    btson@ Copy()
+    {
+        btson@ copy = btson();
+        copy.opAssign( this );
+        return copy;
+    }
+
+    btson@ opAssign( const float value ) {
+        this.SetValue( this.Value.opAssign(value), meta_api::json::Type::Float ); return this;
+    }
+    btson@ opAssign( const int value ) {
+        this.SetValue( this.Value.opAssign(value), meta_api::json::Type::Integer ); return this;
+    }
+    btson@ opAssign( const bool value ) {
+        this.SetValue( this.Value.opAssign(value), meta_api::json::Type::Boolean ); return this;
+    }
+    btson@ opAssign( const string&in value ) {
+        this.SetValue( this.Value.opAssign(value), meta_api::json::Type::String ); return this;
+    }
+    btson@ opAssign( const meta_api::json::Null&in value ) {
+        this.SetValue( this.Value.opAssign(value), meta_api::json::Type::Null ); return this;
+    }
+
+    /// ======================================
+    /// opConv
+    /// ======================================
+    float opConv() {
+        return float( this.Value );
+    }
+    int opConv() {
+        return int( this.Value );
+    }
+    bool opConv() {
+        return bool( this.Value );
+    }
+    string opConv() {
+        return string( this.Value );
+    }
+
+    /// ======================================
+    /// Constructors
+    /// ======================================
+    btson( btson@ other )
+    {
+        this.opAssign( other );
+    }
+
+    btson()
+    {
+        this.m_Type = meta_api::json::Type::Object;
+    }
+
+    /**
+    *   @brief Deserializes str
+    *   If str ends with ".json" we will open a file. No need to specify scripts/plugins/ or scripts/maps/ it will be automatically detected.
+    *   If str is a file and is pointing to store/ and the file couldn't be opened it will be writed and return a valid handle
+    **/
+    bool Load( const string&in str )
+    {
+        return Deserialize( str, this );
+    }
+
+    bool Load( const string&in str, meta_api::json::Error&out err )
+    {
+        return Deserialize( str, this, err );
+    }
+
+    /// ======================================
+    /// Object/Array methods
+    /// ======================================
+
+    /// Clear all data. only the type remains and whatever this is an ordered object.
+    void Clear()
+    {
+        this.m_KeyValues.deleteAll();
+        this.m_KeyNames.resize(0);
+    }
+
+    /// Return whatever this objects contains the given key
+    bool Contains( const string&in keyName ) const
+    {
+        return this.m_KeyValues.exists( keyName );
+    }
+
+    /// Get the length of the object.
+    uint Length() const
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Object:
+            case meta_api::json::Type::Array:
+                return this.m_KeyNames.length();
+            case meta_api::json::Type::String:
+            case meta_api::json::Type::Handle:
+            case meta_api::json::Type::Float:
+            case meta_api::json::Type::Integer:
+            case meta_api::json::Type::Boolean:
+            case meta_api::json::Type::Null:
+            case meta_api::json::Type::Undefined:
+            default:
+                return 0;
+        }
+    }
+
+    /// Get the full count of items in this object and childs. object/arrays are ignored and we get just a count of actual values.
+    uint Count() const
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Object:
+            case meta_api::json::Type::Array:
+            {
+                uint length = this.m_KeyNames.length();
+                uint count = 0;
+
+                for( uint ui = 0; ui < length; ui++ )
+                {
+                    const btson@ value = this.opIndex(ui);
+                    count += value.Count();
+                }
+                return count;
+            }
+            case meta_api::json::Type::String:
+            case meta_api::json::Type::Handle:
+            case meta_api::json::Type::Float:
+            case meta_api::json::Type::Integer:
+            case meta_api::json::Type::Boolean:
+            case meta_api::json::Type::Null:
+            case meta_api::json::Type::Undefined:
+            default:
+                return 1;
+        }
+    }
+
+    /// Set key value pair, return the old value if it exists otherwise null
+    btson@ Set( const string&in keyName, btson@ value )
+    {
+        btson@ old = cast<btson@>( this.m_KeyValues[ keyName ] );
+
+        if( value is null )
+        {
+            g_Logger.error.print( "Couldn't set null json value for key \"{}\"", { keyName } );
+            return @old;
+        }
+
+        /// Ordering
+        int keyIndex = this.m_KeyNames.find( keyName );
+
+        if( keyIndex >= 0 )
+        {
+            this.m_KeyNames[keyIndex] = keyName;
+        }
+        else
+        {
+            this.m_KeyNames.insertLast( keyName );
+        }
+
+        @this.m_KeyValues[ keyName ] = value;
+        value.m_Name = keyName;
+
+        return @old;
+    }
+
+    /// Set key value pair, return the old value if it exists otherwise null
+    btson@ Set( const string&in keyName, const bool value )
+    {
+        return @this.Set( keyName, btson().opAssign(value) );
+    }
+    /// Set key value pair, return the old value if it exists otherwise null
+    btson@ Set( const string&in keyName, const int value )
+    {
+        return @this.Set( keyName, btson().opAssign(value) );
+    }
+    /// Set key value pair, return the old value if it exists otherwise null
+    btson@ Set( const string&in keyName, const float value )
+    {
+        return @this.Set( keyName, btson().opAssign(value) );
+    }
+    /// Set key value pair, return the old value if it exists otherwise null
+    btson@ Set( const string&in keyName, const string&in value )
+    {
+        return @this.Set( keyName, btson().opAssign(value) );
+    }
+    btson@ Set( const string&in keyName, const meta_api::json::Null&in value )
+    {
+        return @this.Set( keyName, btson().opAssign(value) );
+    }
+
+    /// Get the value&out and return whatever the value exists or not.
+    /// If strict is false floats and booleans are converted to integer and returned.
+    bool Get( const string&in keyName, btson@&out value ) const
+    {
+        return ( this.m_KeyValues.exists( keyName ) && ( @value = cast<btson@>( this.m_KeyValues[ keyName ] ) ) !is null );
+    }
+
+    /// Get the value&out and return whatever the value exists or not
+    /// If strict is false floats and integers are converted to boolean and returned.
+    bool Get( bool&out value, bool strict = true ) const
+    {
+        if( strict && this.Type != meta_api::json::Type::Boolean )
+            return false;
+
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Integer:
+                value = ( int( this.Value ) > 0 );
+                return true;
+            case meta_api::json::Type::Float:
+                value = ( int( float( this.Value ) ) > 0 );
+                return true;
+            case meta_api::json::Type::Boolean:
+                value = bool( this.Value );
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /// Get the value&out and return whatever the value exists or not
+    /// If strict is false floats and integers are converted to boolean and returned.
+    bool Get( const string&in keyName, bool&out value, bool strict = true ) const
+    {
+        btson@ obj;
+        return ( this.Get( keyName, obj ) && obj.Get( value, strict ) );
+    }
+
+    /// Get the value&out and return whatever the value exists or not.
+    /// If strict is false floats and booleans are converted to integer and returned.
+    bool Get( int&out value, bool strict = true ) const
+    {
+        if( strict && this.Type != meta_api::json::Type::Integer )
+            return false;
+
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Boolean:
+                value = ( bool( this.Value ) ? 1 : 0 );
+                return true;
+            case meta_api::json::Type::Float:
+                value = int( float( this.Value ) );
+                return true;
+            case meta_api::json::Type::Integer:
+                value = int( this.Value );
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /// Get the value&out and return whatever the value exists or not.
+    /// If strict is false floats and booleans are converted to integer and returned.
+    bool Get( const string&in keyName, int&out value, bool strict = true ) const
+    {
+        btson@ obj;
+        return ( this.Get( keyName, obj ) && obj.Get( value, strict ) );
+    }
+
+    /// Get the value&out and return whatever the value exists or not.
+    /// If strict is false integers and booleans are converted to float and returned.
+    bool Get( float&out value, bool strict = true ) const
+    {
+        if( strict && this.Type != meta_api::json::Type::Float )
+            return false;
+
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Boolean:
+                value = ( bool( this.Value ) ? 1.0f : 0.0f );
+                return true;
+            case meta_api::json::Type::Integer:
+                value = float( int( this.Value ) );
+                return true;
+            case meta_api::json::Type::Float:
+                value = float( this.Value );
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /// Get the value&out and return whatever the value exists or not.
+    /// If strict is false integers and booleans are converted to float and returned.
+    bool Get( const string&in keyName, float&out value, bool strict = true ) const
+    {
+        btson@ obj;
+        return ( this.Get( keyName, obj ) && obj.Get( value, strict ) );
+    }
+
+    /// Get the value&out and return whatever the value exists or not
+    bool Get( string&out value, bool strict = true, const string&in dummy = String::EMPTY_STRING ) const
+    {
+        if( strict && this.Type != meta_api::json::Type::String )
+            return false;
+
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+                value = string( this.Value );
+                return true;
+            case meta_api::json::Type::Integer:
+                value = string( int( this.Value ) );
+                return true;
+            case meta_api::json::Type::Float:
+                value = string( float( this.Value ) );
+                return true;
+            case meta_api::json::Type::Boolean:
+                value = string( bool( this.Value ) );
+            default:
+                return false;
+        }
+    }
+
+    /// Get the value&out and return whatever the value exists or not
+    bool Get( const string&in keyName, string&out value, bool strict = true ) const
+    {
+        btson@ obj;
+        return ( this.Get( keyName, obj ) && obj.Get( value, strict, String::EMPTY_STRING ) );
+    }
+
+    /// Get the stored value at the given key name or a default value if not exists.
+    /// If store is true the default value is stored in data if not exists
+    /// In this json case if the default value is null we will initialize a instance and return that
+    btson@ ValueOrDefault( const string&in keyName, btson@ value = null, bool store = false )
+    {
+        if( !this.Get( keyName, value ) )
+        {
+            if( value is null )
+                @value = btson();
+            if( store )
+                this.Set( keyName, value );
+        }
+        return value;
+    }
+    /// Get the stored value at the given key name or a default value if not exists.
+    /// If store is true the default value is stored in data if not exists
+    /// If strict is false integers and floats are converted to boolean and returned.
+    bool ValueOrDefault( const string&in keyName, bool value, bool store = false, bool strict = true )
+    {
+// https://github.com/anjo76/angelscript/issues/70
+#if FALSE
+        if( !this.Get( keyName, value, strict ) && store )
+            this.Set( keyName, value );
+        return value;
+#endif
+        bool temp = value;
+        if( !this.Get( keyName, temp, strict ) )
+        {
+            if( store )
+                this.Set( keyName, value );
+            return value;
+        }
+        return temp;
+    }
+    /// Get the stored value at the given key name or a default value if not exists.
+    /// If store is true the default value is stored in data if not exists
+    /// If strict is false booleans and floats are converted to integer and returned.
+    int ValueOrDefault( const string&in keyName, int value, bool store = false, bool strict = true )
+    {
+// https://github.com/anjo76/angelscript/issues/70
+#if FALSE
+        if( !this.Get( keyName, value, strict ) && store )
+            this.Set( keyName, value );
+        return value;
+#endif
+        int temp = value;
+        if( !this.Get( keyName, temp, strict ) )
+        {
+            if( store )
+                this.Set( keyName, value );
+            return value;
+        }
+        return temp;
+    }
+    /// Get the stored value at the given key name or a default value if not exists.
+    /// If store is true the default value is stored in data if not exists
+    /// If strict is false booleans and integers are converted to float and returned.
+    float ValueOrDefault( const string&in keyName, float value, bool store = false, bool strict = true )
+    {
+// https://github.com/anjo76/angelscript/issues/70
+#if FALSE
+        if( !this.Get( keyName, value, strict ) && store )
+            this.Set( keyName, value );
+        return value;
+#endif
+        float temp = value;
+        if( !this.Get( keyName, temp, strict ) )
+        {
+            if( store )
+                this.Set( keyName, value );
+            return value;
+        }
+        return temp;
+    }
+    /// Get the stored value at the given key name or a default value if not exists.
+    /// If store is true the default value is stored in data if not exists
+    /// If strict is false booleans and integers are converted to float and returned.
+    string ValueOrDefault( const string&in keyName, string&in value, bool store = false, bool strict = true )
+    {
+// https://github.com/anjo76/angelscript/issues/70
+#if FALSE
+        if( !this.Get( keyName, value, strict ) && store )
+            this.Set( keyName, value );
+        return value;
+#endif
+        string temp = value;
+        if( !this.Get( keyName, temp, strict ) )
+        {
+            if( store )
+                this.Set( keyName, value );
+            return value;
+        }
+        return temp;
+    }
+
+    // Used to sort array and ordered items
+    uint __unique_index__ = 0;
+
+    /// ======================================
+    /// Array methods
+    /// ======================================
+    /// For arrays, push value to the last index
+    btson@ Append( btson@ value )
+    {
+        if( this.Type != meta_api::json::Type::Array )
+        {
+            g_Logger.error.print( "Couldn't append to a json that is not an array!" );
+            return null;
+        }
+
+        if( value is null )
+        {
+            g_Logger.error.print( "Couldn't Append a null json value!" );
+            return null;
+        }
+
+        this.Set( string( __unique_index__++ ), value );
+        return value;
+    }
+
+    /// Get the value at the given key
+    btson@ opIndex( const string&in keyName ) const
+    {
+        btson@ value;
+        this.Get( keyName, value );
+        return value;
+    }
+
+    btson@ opIndex( uint index ) const
+    {
+        if( index >= this.m_KeyNames.length() )
+        {
+            g_Logger.error.print( "Index {} is outside json length {}", { index, this.m_KeyNames.length() } );
+            return null;
+        }
+
+        return this.opIndex( this.m_KeyNames[ index ] );
+    }
+
+    /// For arrays, push value to the last index
+    btson@ Append( const bool value ) { return this.Append( btson().opAssign(value) ); }
+    /// For arrays, push value to the last index
+    btson@ Append( const int value ) { return this.Append( btson().opAssign(value) ); }
+    /// For arrays, push value to the last index
+    btson@ Append( const float value ) { return this.Append( btson().opAssign(value) ); }
+    /// For arrays, push value to the last index
+    btson@ Append( const string&in value ) { return this.Append( btson().opAssign(value) ); }
+    /// For arrays, push value to the last index
+    btson@ Append( const meta_api::json::Null&in value ) { return this.Append( btson().opAssign(value) ); }
+
+    /// Removes the value at the given key. returns the value
+    btson@ Remove( const string&in key )
+    {
+        if( !this.is_object() )
+        {
+            g_Logger.error.print( "Can not Remove value at key {} from a json that is not an object! type: {}", { key, meta_api::json::Type::ToString( this.Type ) } );
+        }
+
+        btson@ value;
+        this.Get( key, value );
+
+        this.m_KeyValues.delete( key );
+
+        return value;
+    }
+
+    /// Removes the value at the given index. returns the value
+    btson@ Remove( uint index )
+    {
+        if( !this.is_structured() )
+        {
+            g_Logger.error.print( "Can not Remove value at index {} from a json that is not an object! type: {}", { index, meta_api::json::Type::ToString( this.Type ) } );
+        }
+
+        btson@ value;
+        if( index < this.Length() )
+        {
+            @value = this.opIndex(index);
+            this.m_KeyValues.delete( this.m_KeyNames[index] );
+        }
+
+        return value;
+    }
+
+    /// Get the value converted to string.
+    /// For objects/arrays this is a serialization with -1 indents.
+    string ToString() const
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Object:
+            case meta_api::json::Type::Array:
+            {
+                return Serialize(this);
+            }
+            case meta_api::json::Type::String:
+                return string( this.Value );
+            case meta_api::json::Type::Float:
+                return string( float( this.Value ) );
+            case meta_api::json::Type::Integer:
+                return string( int( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? "true" : "false" );
+            case meta_api::json::Type::Handle:
+                return "@";
+            case meta_api::json::Type::Null:
+            default:
+                return "null";
+        }
+    }
+}
+
+class __Deserializer__ : meta_api::json::parser::Deserializer
+{
+    const meta_api::json::Version GetVersion() const override {
+        return meta_api::json::Version::V2;
+    }
+
+    bool Parse( btson@&out obj, const meta_api::json::Type&in objectType )
+    {
+        if( obj is null )
+            @obj = btson();
+
+        obj.SetType( objectType );
+
+        if( objectType != meta_api::json::Type::Object && objectType != meta_api::json::Type::Array )
+        {
+            return false;
+        }
+
+        meta_api::json::parser::KeyValuePair@ pair;
+
+        while( this.Advance( objectType, pair ) )
+        {
+            switch( pair.type )
+            {
+                case meta_api::json::Type::Object:
+                case meta_api::json::Type::Array:
+                {
+                    btson@ objChild;
+                    if( this.Parse( objChild, pair.type ) )
+                        obj.Set( pair.key, objChild );
+                    break;
+                }
+                case meta_api::json::Type::String:
+                {
+                    obj.Set( pair.key, pair.value_string );
+                    break;
+                }
+                case meta_api::json::Type::Float:
+                {
+                    obj.Set( pair.key, pair.value_float );
+                    break;
+                }
+                case meta_api::json::Type::Integer:
+                {
+                    obj.Set( pair.key, pair.value_int );
+                    break;
+                }
+                case meta_api::json::Type::Boolean:
+                {
+                    obj.Set( pair.key, pair.value_bool );
+                    break;
+                }
+                case meta_api::json::Type::Null:
+                {
+                    obj.Set( pair.key, meta_api::json::Null::Null );
+                    break;
+                }
+            }
+
+            // Hack to Append
+            if( objectType == meta_api::json::Type::Array )
+                obj.__unique_index__++;
+        }
+        return this.Ok;
+    }
+}
+
+string Serialize( const btson@ obj, meta_api::json::parser::Serializer@ Serializer )
+{
+    const array<string>@ keys = obj.Keys;
+    uint length = keys.length();
+
+    for( uint ui = 0; ui < length; ui++ )
+    {
+        string key = keys[ui];
+
+        btson@ value = obj[ key ];
+
+        if( value is null )
+            continue;
+
+        switch( value.Type )
+        {
+            case meta_api::json::Type::String:
+            {
+                Serializer.KeyValue( key, string( value.Value ), value.Type );
+                break;
+            }
+            case meta_api::json::Type::Float:
+            {
+                Serializer.KeyValue( key, float( value.Value ), value.Type );
+                break;
+            }
+            case meta_api::json::Type::Integer:
+            {
+                Serializer.KeyValue( key, int( value.Value ), value.Type );
+                break;
+            }
+            case meta_api::json::Type::Boolean:
+            {
+                Serializer.KeyValue( key, bool( value.Value ), value.Type );
+                break;
+            }
+            case meta_api::json::Type::Object:
+            {
+                Serializer.KeyValue( key, Serialize( value, Serializer.Object( value.Type ) ), value.Type );
+                break;
+            }
+            case meta_api::json::Type::Array:
+            {
+                Serializer.KeyValue( key, Serialize( value, Serializer.Object( value.Type ) ), value.Type );
+                break;
+            }
+            case meta_api::json::Type::Handle:
+            case meta_api::json::Type::Null:
+            {
+                break;
+            }
+        }
+    }
+
+    return Serializer.Serialize();
+}
+
+/**
+*   @brief Serializes obj
+*   filename: if provided is a path to write to a file at scripts(module type)/store/(filename).json
+*   If the object failed to parse for any reason it will write "{}" to the file only if the file doesn't exists
+**/
+string Serialize(
+    const btson@ obj,
+    const string&in filename = String::EMPTY_STRING,
+    const meta_api::json::parser::Indentation&in indents = meta_api::json::parser::Indentation::AllTogether,
+    const meta_api::json::parser::Style&in style = meta_api::json::parser::Style::AllMan
+)
+{
+    return Serialize(
+        obj,
+        meta_api::json::parser::Serializer(
+            1,
+            filename,
+            obj.Type,
+            style,
+            indents,
+            meta_api::json::Version::V1
+        )
+    );
+}
+
+/**
+*   @brief Deserializes str into obj,
+*   If str ends with ".json" we will open a file. No need to specify scripts/plugins/ or scripts/maps/ it will be automatically detected.
+*   If str is a file and is pointing to store/ and the file couldn't be opened it will be writed and return a valid handle
+**/
+bool Deserialize( const string&in str, btson@&out obj )
+{
+    __Deserializer__ Deserializer();
+    Deserializer.SetSerialized(str);
+    return Deserializer.Parse( obj, Deserializer.Initialize() );
+}
+
+bool Deserialize( const string&in str, btson@&out obj, meta_api::json::Error&out err )
+{
+    __Deserializer__ Deserializer();
+    Deserializer.SetSerialized(str);
+    bool result = Deserializer.Parse( obj, Deserializer.Initialize() );
+    err = Deserializer.ErrorCode;
+    return result;
+}
