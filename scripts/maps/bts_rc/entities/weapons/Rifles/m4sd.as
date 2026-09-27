@@ -49,7 +49,7 @@ final class ASWeaponM4SDConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_m4sd";
+        return "ammo_556clip";
     }
 
     const uint8 get_animation_draw() override
