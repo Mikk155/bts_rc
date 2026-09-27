@@ -96,8 +96,17 @@ final class ASDeathDropConfig : IConfigurable
                 for( uint uie = 0; uie < itemNames.length(); uie++ )
                 {
                     string itemName = itemNames[uie];
+
                     if( !itemName.IsEmpty() && itemName != "grenade" )
-                        g_Game.PrecacheOther( itemName );
+                    {
+                        CBaseEntity@ ent = g_EntityFuncs.CreateEntity( itemName, null, false );
+
+                        if( ent is null )
+                            g_Logger.error.print( "Invalid entity named \"{}\" at death drop config!", { itemName } );
+
+                        ent.Precache();
+                        g_EntityFuncs.Remove( ent );
+                    }
                 }
             }
 
