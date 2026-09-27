@@ -668,6 +668,7 @@ class btson
         this.Get( key, value );
 
         this.m_KeyValues.delete( key );
+        this.m_KeyNames.removeAt( this.m_KeyNames.find( key ) );
 
         return value;
     }
