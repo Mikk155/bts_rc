@@ -31,20 +31,6 @@ class ammo_bts_eagle : ScriptBasePlayerAmmoEntity, bts_ammo_base
     }
 }
 
-/*
-class ammo_bts_flarebox : ScriptBasePlayerAmmoEntity, bts_ammo_base
-{
-    void Spawn()
-    {
-        Spawn( "models/bts_rc/weapons/w_flaregun_clip.mdl" );
-    }
-    bool AddAmmo( CBaseEntity@ other )
-    {
-        return AddAmmo( other, weapon_bts_flaregun::AMMO_GIVE, "bts_flare", weapon_bts_flaregun::MAX_CARRY, "bts_rc/weapons/flare_pickup.wav" );
-    }
-}
-*/
-
 class ammo_bts_glock : ScriptBasePlayerAmmoEntity, bts_ammo_base
 {
     void Spawn()

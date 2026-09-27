@@ -15,6 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+// -TODO inherit this config from default flare or opposite
 final class ASWeaponFlareGunConfig : ASWeaponConfig
 {
     const string& GetName() const override
@@ -82,6 +83,15 @@ class weapon_bts_flaregun : BTS_FireWeapon
     void Spawn() override
     {
         BTS_FireWeapon::Spawn();
+    }
+
+    bool AddAmmo( CBaseEntity@ other )
+    {
+        // -TODO Call to PickupObject when globalized
+        // Play "bts_rc/weapons/flare_pickup.wav" or remove from precaches and mega 
+        if( other !is null && other.GiveAmmo( 1, gpWeaponFlareGunConfig.primary_ammo, gpWeaponFlareGunConfig.primary_maxammo ) != -1 )
+            return true;
+        return false;
     }
 
     void Attack( CBasePlayer@ player, AttackType type ) override

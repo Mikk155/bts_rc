@@ -504,7 +504,7 @@
             "",
             "",
             "",
-            "ammo_bts_flarebox",
+            "weapon_bts_flare",
             "ammo_bts_glock",
             "ammo_bts_shotgun",
             "ammo_bts_sw637",
@@ -587,7 +587,7 @@
             "item_bts_sprayaid"
         ],
         "zscientist": [
-            "ammo_bts_flarebox",
+            "weapon_bts_flare",
             "ammo_bts_glock",
             "bts_battery",
             "item_bts_sprayaid",
@@ -618,7 +618,7 @@
             "",
             "",
             "",
-            "ammo_bts_flarebox",
+            "weapon_bts_flare",
             "ammo_bts_glock",
             "bts_battery",
             "item_bts_sprayaid",

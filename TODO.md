@@ -27,7 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-
+- [ ] Globalize PickupObject for using anywhere
 - [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 - [ ] Pulish black ops flashbangs which at the moment is a rare throw.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
