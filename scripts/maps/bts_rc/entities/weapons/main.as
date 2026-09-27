@@ -227,9 +227,9 @@ final class ASGlobalWeaponConfig : IConfigurable
 
         btson@ monstersPush = config[ "melee_weapons_push_monsters" ];
 
-        uint length = monstersPush.Length();
+        uint lengthPush = monstersPush.Length();
 
-        for( uint ui = 0; ui < length; ui++ )
+        for( uint ui = 0; ui < lengthPush; ui++ )
         {
             melee_weapons_push_monsters.insertLast( string( monstersPush[ui] ) );
         }

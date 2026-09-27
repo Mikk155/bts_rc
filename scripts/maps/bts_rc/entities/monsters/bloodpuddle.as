@@ -126,7 +126,7 @@ final class ASBloodPuddleConfig : IConfigurable
 
             btson@ customSize = config.ValueOrDefault( "default_size" );
 
-            array<float> arr = { customSize[0], customSize[1] };
+            array<float> arr = { float( customSize[0] ), float( customSize[1] ) };
 
             if( arr[0] > arr[1] )
             {

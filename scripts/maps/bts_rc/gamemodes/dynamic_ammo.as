@@ -79,6 +79,8 @@ final class ASDynamicAmmoConfig : IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
+        config.Remove( "active" );
+
         @gpDynamicAmmo = this;
 
         const auto@ ammoTypes = config.Keys;
@@ -90,7 +92,7 @@ final class ASDynamicAmmoConfig : IConfigurable
 
             btson@ range = config[ ammoType ];
 
-            array<float> arr = { range[0], range[1] };
+            array<float> arr = { int( range[0] ), int( range[1] ) };
 
             if( arr[0] > arr[1] )
             {

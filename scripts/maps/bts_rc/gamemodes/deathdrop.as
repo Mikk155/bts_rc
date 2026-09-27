@@ -75,7 +75,7 @@ final class ASDeathDropConfig : IConfigurable
             if( listName == "active" )
                 continue;
 
-            array<string>@ arr;
+            array<string> arr;
             auto@ listObject = config[ listName ];
             uint listLength = listObject.Length();
 
