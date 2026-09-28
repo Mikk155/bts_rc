@@ -167,6 +167,13 @@ namespace schema
                                     if( this.strict )
                                         return false;
                                 }
+
+                                // It's items?
+                                if( !obj.is_object() )
+                                {
+                                    if( !pair.Contains( "type" ) )
+                                        pair.Set( "type", schemaProperties[ "type" ] );
+                                }
                             }
                         }
 
