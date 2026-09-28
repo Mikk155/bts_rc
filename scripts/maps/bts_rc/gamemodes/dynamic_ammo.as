@@ -24,9 +24,9 @@ final class ASDynamicAmmoData
         return this.m_Classname;
     }
 
-    int m_Index;
+    size_t m_Index;
     // Index for CBasePlayer::m_rgAmmo
-    const int get_index() const
+    const size_t get_index() const
     {
         return this.m_Index;
     }
@@ -146,17 +146,17 @@ final class ASDynamicAmmoConfig : IConfigurable
         {
             string classname = ammoTypes[ui];
 
-            ASDynamicAmmoData ammoData;
+            ASDynamicAmmoData data;
 
             btson@ range = config[ classname ];
 
-            ammoData.m_Min = int( range[0] );
-            ammoData.m_Max = int( range[1] );
-            ammoData.m_Classname = classname;
+            data.m_Min = int( range[0] );
+            data.m_Max = int( range[1] );
+            data.m_Classname = classname;
 
-            if( ammoData.m_Min > ammoData.m_Max )
+            if( data.min > data.max )
             {
-                g_Logger.error.print( "Inverted min/max values at \"{}\" for {}", { classname, this.GetName() } );
+                g_Logger.error.print( "[{}] Inverted min/max values at \"{}\"", { this.GetName(), classname } );
                 int[]a(0);a[1];
             }
 
@@ -176,19 +176,19 @@ final class ASDynamicAmmoConfig : IConfigurable
 
                 if( old < now )
                 {
-                    ammoData.m_Index = idx;
+                    data.m_Index = idx;
                     break;
                 }
             }
 
-            @this.m_AmmoData[ classname ] = ammoData;
+            @this.m_AmmoData[ classname ] = data;
 
             if( g_Logger.debug.active )
-                g_Logger.debug.print( "Dynamic ammo \"{}\": min={} max={} index={}", { classname, ammoData.m_Min, ammoData.m_Max, ammoData.m_Index } );
+                g_Logger.debug.print( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), classname, data.min, data.max, data.index } );
         }
 
         if( g_Logger.info.active )
-            g_Logger.info.print( snprintf( glog, "Registered %1 dynamic ammo types.", this.m_AmmoData.getSize() ) );
+            g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
 
         g_PlayerFuncs.BotDisconnect( bot );
 
@@ -284,7 +284,29 @@ final class ASDynamicAmmoConfig : IConfigurable
         if( data is null )
             return true;
 
-        g_Game.AlertMessage( at_console, "Collect %1 for %2\n", data.get(forcenumplayers), data.classname );
+        int count = data.get(this.forcenumplayers);
+        int max = player.GetMaxAmmo( data.index );
+        int current = player.m_rgAmmo( data.index );
+        int add = Math.min( count, max - current );
+
+        if( add < 1 )
+            return true;
+
+        pickup.pev.flags |= FL_KILLME;
+
+        player.m_rgAmmo( data.index, current + add );
+
+        NetworkMessage message( MSG_ONE, NetworkMessages::AmmoPickup, player.edict() );
+            message.WriteByte( data.index );
+            message.WriteLong( add );
+        message.End();
+
+        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0, ATTN_NORM );
+
+        if( g_Logger.trace.active )
+            g_Logger.trace.print( "[{}] gave {} of \"{}\" (id: {}) to player \"{}\": min={} max={}", {
+                this.GetName(), count, data.classname, data.index, player.pev.netname, data.min, data.max } );
+
         return false;
     }
 }

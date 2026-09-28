@@ -251,6 +251,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "debris/beamstart7.wav" );
     g_SoundSystem.PrecacheSound( "fvox/ammo_depleted.wav" );
     g_SoundSystem.PrecacheSound( "headcrab/hc_headbite.wav" );
+    g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_reload1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
