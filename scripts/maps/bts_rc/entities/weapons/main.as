@@ -261,7 +261,7 @@ final class ASGlobalWeaponConfig : IConfigurable
             // Free object
             this.ItemMappingList.resize(0);
 
-            RegisterCommand( "infinite_ammo", "<int 0/1 (optional)>", "Toggle infinite ammunition mode",
+            RegisterCommand( "infinite", "<int 0/1 (optional)>", "Toggle infinite ammunition mode",
                 @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
                 {
                     if( arguments !is null && arguments.length() > 0 )
@@ -269,7 +269,7 @@ final class ASGlobalWeaponConfig : IConfigurable
                     else
                         g_WeaponsConfig.infinite_ammo = !g_WeaponsConfig.infinite_ammo;
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Infinite ammo has been " + ( g_WeaponsConfig.infinite_ammo ? "activated\n" : "deactivated\n" ) );
-                } ), true, "weapon" );
+                } ), true, "ammo" );
         }
 
         return true;
