@@ -95,6 +95,7 @@ ASCommand@ RegisterCommand(
 {
     ASCommand@ context = ASCommand();
     context.Command = command;
+    context.Command.Replace( ' ', '_' );
     context.Arguments = arguments;
     context.Help = help;
     @context.Lambda = lambda;
@@ -102,7 +103,7 @@ ASCommand@ RegisterCommand(
     context.Section = section;
 
     if( g_Logger.info.active )
-        g_Logger.info.print( snprintf( glog, "Registering command %1", command ) );
+        g_Logger.info.print( snprintf( glog, "Registering command %1", context.Command ) );
 
     return RegisterCommand( context );
 }
@@ -123,9 +124,9 @@ void PrintCommandHelp( CBasePlayer@ player, const string&in section = String::EM
         string buffer;
 
         if( context.Section.IsEmpty() )
-            snprintf( buffer, ".bts_rc %1 %2\n", context.Command, context.Arguments );
+            snprintf( buffer, "bts_rc %1 %2\n", context.Command, context.Arguments );
         else
-            snprintf( buffer, ".bts_rc %1 %2 %3\n", context.Section, context.Command, context.Arguments );
+            snprintf( buffer, "bts_rc %1 %2 %3\n", context.Section, context.Command, context.Arguments );
 
         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
