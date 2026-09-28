@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#include "ammo/main"
 #include "items/main"
 #include "weapons/main"
 

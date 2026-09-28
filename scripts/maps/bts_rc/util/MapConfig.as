@@ -62,11 +62,12 @@ void RegisterContexts()
 
     g_MapConfig.Register( g_WeaponsConfig ); // Always active
 
+    g_MapConfig.Register( gpDynamicAmmo ); // Always active
+
     g_MapConfig.Register( gpEquipment ); // Always active
 
     // No ordering required:
     g_MapConfig.Register( ASBloodPuddleConfig() );
-    g_MapConfig.Register( ASDynamicAmmoConfig() );
     g_MapConfig.Register( ASZombieUncrabConfig() );
     g_MapConfig.Register( ASDeathDropConfig() );
     g_MapConfig.Register( ASAimingLasersConfig() );
@@ -334,8 +335,8 @@ final class ASMapConfig
             {
                 g_Logger.info.print( "Validating context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
 
-                if( g_Logger.trace.active && config.Length() > 0 )
-                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+//                if( g_Logger.trace.active && config.Length() > 0 )
+//                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
             }
 
             btson@ schema;
@@ -464,8 +465,8 @@ final class ASMapConfig
                 {
                     g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
 
-                    if( g_Logger.trace.active && config.Length() > 0 )
-                        g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+//                    if( g_Logger.trace.active && config.Length() > 0 )
+//                        g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
                 }
                 g_Logger.info.print( "==============================================================" );
             }

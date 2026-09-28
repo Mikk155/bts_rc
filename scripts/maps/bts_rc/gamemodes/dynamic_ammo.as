@@ -15,11 +15,71 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+final class ASDynamicAmmoData
+{
+    string m_Classname;
+    // Entity classname
+    const string& get_classname() const
+    {
+        return this.m_Classname;
+    }
+
+    int m_Index;
+    // Index for CBasePlayer::m_rgAmmo
+    const int get_index() const
+    {
+        return this.m_Index;
+    }
+
+    int m_Min;
+    // minimum ammount to give ammo.
+    const int get_min() const
+    {
+        return this.m_Min;
+    }
+
+    int m_Max;
+    // maximum ammount to give ammo.
+    const int get_max() const
+    {
+        return this.m_Max;
+    }
+
+    // Get corresponding ammo
+    int get( int players = 0 ) const
+    {
+        if( !gpDynamicAmmo.Active )
+            return this.max;
+
+        players = Math.min( Math.max( players, 0 ), g_Engine.maxClients );
+
+        if( players == 0 )
+        {
+            players = g_PlayerFuncs.GetNumPlayers();
+        }
+
+        if( g_Engine.maxClients <= 1 || players == 1 )
+            return this.max;
+
+        // t = 0.0 when solo (1 player), 1.0 when full (g_Engine.maxClients players)
+        float t = float( players - 1 ) / float( g_Engine.maxClients - 1 );
+
+        // Lerp from this.max (solo) to data.min (full)
+        float result = float( this.max ) + t * float( this.min - this.max );
+
+        return Math.max( 1, int( Math.Ceil( result ) ) );
+    }
+}
+
 final class ASDynamicAmmoConfig : IConfigurable
 {
-    // Maps ammo type name -> array<int>{ min_give, max_give }
-    // min_give = ammo given at max players, max_give = ammo given solo
-    dictionary m_AmmoRanges;
+    private
+        dictionary m_AmmoData;
+
+    const dictionary@ get_AmmoData() const
+    {
+        return @this.m_AmmoData;
+    }
 
     const string& GetName() const override {
         return "dynamic_ammo";
@@ -54,146 +114,179 @@ final class ASDynamicAmmoConfig : IConfigurable
         }""";
     }
 
-    private ASCommand@ m_command;
+    private bool m_Active;
+
+    const bool get_Active() const
+    {
+        return this.m_Active;
+    }
 
     bool Register( btson@ config ) override
     {
-        if( !bool( config[ "active" ] ) )
-            return false;
+        this.m_Active = bool( config.Remove( "active" ) );
 
-        config.Remove( "active" );
-
-        @gpDynamicAmmo = this;
-
-        const auto@ ammoTypes = config.Keys;
+        const array<string>@ ammoTypes = config.Keys;
         uint size = ammoTypes.length();
+
+        string[] funnyNames = {
+            "Sniper",
+            "G-Man",
+            "Gaf the R man",
+            "Sara my beloved",
+            "Ares",
+            "Lizard",
+            "Suichan wa kyou mo kawai"
+        };
+
+        auto bot = g_PlayerFuncs.CreateBot( funnyNames[ Math.RandomLong( 0, funnyNames.length() - 1 ) ] );
+
+        bot.Revive();
 
         for( uint ui = 0; ui < size; ui++ )
         {
-            string ammoType = ammoTypes[ui];
+            string classname = ammoTypes[ui];
 
-            btson@ range = config[ ammoType ];
+            ASDynamicAmmoData ammoData;
 
-            array<float> arr = { int( range[0] ), int( range[1] ) };
+            btson@ range = config[ classname ];
 
-            if( arr[0] > arr[1] )
+            ammoData.m_Min = int( range[0] );
+            ammoData.m_Max = int( range[1] );
+            ammoData.m_Classname = classname;
+
+            if( ammoData.m_Min > ammoData.m_Max )
             {
-                g_Logger.error.print( "Inverted min/max values at \"{}\" for {}", { ammoType, this.GetName() } );
-                arr[3];
+                g_Logger.error.print( "Inverted min/max values at \"{}\" for {}", { classname, this.GetName() } );
+                int[]a(0);a[1];
             }
 
-            @m_AmmoRanges[ ammoType ] = arr;
+            int[] ammoInventory(MAX_AMMO_TYPES);
+
+            for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
+            {
+                ammoInventory[idx] = bot.m_rgAmmo(idx);
+            }
+
+            bot.GiveNamedItem( classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
+
+            for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+            {
+                int old = ammoInventory[idx];
+                int now = bot.m_rgAmmo(idx);
+
+                if( old < now )
+                {
+                    ammoData.m_Index = idx;
+                    break;
+                }
+            }
+
+            @this.m_AmmoData[ classname ] = ammoData;
 
             if( g_Logger.debug.active )
-                g_Logger.debug.print( snprintf( glog, "Dynamic ammo \"%1\": min=%2 max=%3", ammoType, arr[0], arr[1] ) );
+                g_Logger.debug.print( "Dynamic ammo \"{}\": min={} max={} index={}", { classname, ammoData.m_Min, ammoData.m_Max, ammoData.m_Index } );
         }
 
         if( g_Logger.info.active )
-            g_Logger.info.print( snprintf( glog, "Registered %1 dynamic ammo types.", m_AmmoRanges.getSize() ) );
+            g_Logger.info.print( snprintf( glog, "Registered %1 dynamic ammo types.", this.m_AmmoData.getSize() ) );
+
+        g_PlayerFuncs.BotDisconnect( bot );
 
 #if SERVER
         if( g_MapConfig.MapLoading )
         {
-            @m_command = RegisterCommand(
-                "test_ammo",
-                "[simulated_players]",
+            RegisterCommand(
+                "dynamic force",
+                "<int 0/" + g_Engine.maxClients + " (optional)>",
+                "Set force number of players for dynamic ammo, use zero to reset to actual number of players",
+                function( CBasePlayer@ player, array<string>@ arguments )
+                {
+                    gpDynamicAmmo.forcenumplayers = ( arguments is null || arguments.length() <= 0 ) ? 0 : Math.min( atoi( arguments[0] ), g_Engine.maxClients );
+
+                    if( gpDynamicAmmo.forcenumplayers <= 0 )
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Reseted number of players.\n" );
+                    else
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Set force number of players to " + gpDynamicAmmo.forcenumplayers + "\n" );
+                }, true, "ammo"
+            );
+
+            RegisterCommand(
+                "dynamic_info",
+                "<int 1/" + g_Engine.maxClients + " (optional)>",
                 "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
                 function( CBasePlayer@ player, array<string>@ arguments )
                 {
-                    int maxClients = g_Engine.maxClients;
-                    int realPlayers = g_PlayerFuncs.GetNumPlayers();
-                    int simPlayers = realPlayers;
+                    int simPlayers = gpDynamicAmmo.Players;
 
                     if( arguments !is null && arguments.length() > 0 )
                     {
                         simPlayers = atoi( arguments[0] );
                         if( simPlayers < 1 ) simPlayers = 1;
-                        if( simPlayers > maxClients ) simPlayers = maxClients;
+                        if( simPlayers > g_Engine.maxClients ) simPlayers = g_Engine.maxClients;
                     }
 
                     string buffer;
-                    snprintf( buffer, "[Dynamic Ammo] maxClients=%1 connected=%2 simulated=%3\n", maxClients, realPlayers, simPlayers );
+                    snprintf( buffer, "[Dynamic Ammo] g_Engine.maxClients=%1 connected=%2 simulated=%3\n", g_Engine.maxClients, g_PlayerFuncs.GetNumPlayers(), simPlayers );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
                     float t = 0.0f;
-                    if( maxClients > 1 )
-                        t = float( simPlayers - 1 ) / float( maxClients - 1 );
+                    if( g_Engine.maxClients > 1 )
+                        t = float( simPlayers - 1 ) / float( g_Engine.maxClients - 1 );
 
                     snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
 
-                    auto keys = gpDynamicAmmo.m_AmmoRanges.getKeys();
+                    const array<string> keys = gpDynamicAmmo.AmmoData.getKeys();
+                    const uint length = keys.length();
 
-                    for( uint i = 0; i < keys.length(); i++ )
+                    for( uint ui = 0; ui < length; ui++ )
                     {
-                        array<int>@ range;
-                        gpDynamicAmmo.m_AmmoRanges.get( keys[i], @range );
-
-                        int minGive = range[0];
-                        int maxGive = range[1];
-
-                        float result = float( maxGive ) + t * float( minGive - maxGive );
-                        int give = int( Math.Ceil( result ) );
-                        if( give < 1 ) give = 1;
-
-                        snprintf( buffer, "  %1: %2  (range: %3-%4)\n", keys[i], give, minGive, maxGive );
+                        const ASDynamicAmmoData@ data = gpDynamicAmmo.Find( keys[ui] );
+                        snprintf( buffer, "  %1: %2  (range: %3-%4)\n", data.classname, data.get(simPlayers), data.min, data.max );
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
                     }
 
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
                 },
-                false
+                false, "ammo"
             );
         }
 #endif
         return true;
     }
 
-    /**
-    *   @brief Get the scaled ammo give amount for the given ammo type.
-    *   @param ammoType The ammo type name (e.g. "9mm", "357", "buckshot")
-    *   @param defaultGive The default give amount if no config exists for this type
-    *   @return The scaled ammo amount based on connected player count
-    **/
-    int GetAmmoGive( const string&in ammoType, int defaultGive )
+    // Get the ASDynamicAmmoData instance for the given classname
+    const ASDynamicAmmoData@ Find( const string&in classname ) const
     {
-        array<int>@ range;
+        ASDynamicAmmoData@ data;
+        this.m_AmmoData.get( classname, @data );
+        return @data;
+    }
 
-        if( !m_AmmoRanges.get( ammoType, @range ) )
-            return defaultGive;
+    int forcenumplayers = 0;
 
-        int minGive = range[0]; // ammo at max players
-        int maxGive = range[1]; // ammo at solo
+    int get_Players() const
+    {
+        if( this.forcenumplayers > 0 )
+            return this.forcenumplayers;
+        return g_PlayerFuncs.GetNumPlayers();
+    }
 
-        int maxClients = g_Engine.maxClients;
-        int players = g_PlayerFuncs.GetNumPlayers();
+    bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup ) const
+    {
+        if( player is null || pickup is null )
+            return true;
 
-        if( maxClients <= 1 )
-            return maxGive;
+        const ASDynamicAmmoData@ data = this.Find( pickup.GetClassname() );
 
-        // t = 0.0 when solo (1 player), 1.0 when full (maxClients players)
-        float t = float( players - 1 ) / float( maxClients - 1 );
+        if( data is null )
+            return true;
 
-        // Lerp from maxGive (solo) to minGive (full)
-        float result = float( maxGive ) + t * float( minGive - maxGive );
-
-        int give = int( Math.Ceil( result ) );
-
-        if( give < 1 )
-            give = 1;
-
-        if( g_Logger.trace.active )
-            g_Logger.trace.print( snprintf( glog, "Dynamic ammo \"%1\": players=%2/%3 t=%4 give=%5 (default=%6)", ammoType, players, maxClients, t, give, defaultGive ) );
-
-        return give;
+        g_Game.AlertMessage( at_console, "Collect %1 for %2\n", data.get(forcenumplayers), data.classname );
+        return false;
     }
 }
 
-ASDynamicAmmoConfig@ gpDynamicAmmo = null;
-
-int GetDynamicAmmoGive( const string&in ammoType, int defaultGive )
-{
-    return gpDynamicAmmo is null ? defaultGive : gpDynamicAmmo.GetAmmoGive( ammoType, defaultGive );
-}
+ASDynamicAmmoConfig gpDynamicAmmo;
