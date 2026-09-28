@@ -26,22 +26,22 @@
 					{
 						"type": "boolean",
 						"description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.",
-						"default": false
+						"default": true
 					},
 					"trace": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"debug": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"info": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"warning": 
 					{
@@ -15833,6 +15833,116 @@
 					}
 				}
 			},
+			"dynamic_ammo": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"description": "Scales ammo pickup amounts based on connected player count.",
+				"additionalProperties": 
+				{
+					"type": "array",
+					"minItems": 2,
+					"maxItems": 2,
+					"description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
+					"items": 
+					{
+						"minimum": 1,
+						"type": "integer"
+					},
+					"prefixItems": 
+					[
+						
+						{
+							"description": "Ammo given when only one player connected."
+						},
+						
+						{
+							"description": "Ammo given when max server capacity of players connected"
+						}
+					]
+				},
+				"properties": 
+				{
+					"active": 
+					{
+						"default": true,
+						"type": "boolean",
+						"description": "Should this context be active?"
+					},
+					"ammo_357": 
+					{
+						"default": 
+						[
+							1,
+							6
+						]
+					},
+					"ammo_556": 
+					{
+						"default": 
+						[
+							30,
+							200
+						]
+					},
+					"ammo_556clip": 
+					{
+						"default": 
+						[
+							6,
+							30
+						]
+					},
+					"ammo_9mmclip": 
+					{
+						"default": 
+						[
+							8,
+							17
+						]
+					},
+					"ammo_ARgrenades": 
+					{
+						"default": 
+						[
+							1,
+							5
+						]
+					},
+					"ammo_buckshot": 
+					{
+						"default": 
+						[
+							3,
+							8
+						]
+					},
+					"ammo_gaussclip": 
+					{
+						"default": 
+						[
+							20,
+							60
+						]
+					},
+					"bts_battery": 
+					{
+						"default": 
+						[
+							1,
+							5
+						]
+					},
+					"weapon_bts_flare": 
+					{
+						"default": 
+						[
+							1,
+							3
+						]
+					}
+				}
+			},
 			"equipment": 
 			{
 				"type": "object",
@@ -17606,116 +17716,6 @@
 						"default": true,
 						"type": "boolean",
 						"description": "Should this context be active?"
-					}
-				}
-			},
-			"dynamic_ammo": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Scales ammo pickup amounts based on connected player count.",
-				"additionalProperties": 
-				{
-					"type": "array",
-					"minItems": 2,
-					"maxItems": 2,
-					"description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
-					"items": 
-					{
-						"minimum": 1,
-						"type": "integer"
-					},
-					"prefixItems": 
-					[
-						
-						{
-							"description": "Ammo given when only one player connected."
-						},
-						
-						{
-							"description": "Ammo given when max server capacity of players connected"
-						}
-					]
-				},
-				"properties": 
-				{
-					"ammo_gaussclip": 
-					{
-						"default": 
-						[
-							20,
-							60
-						]
-					},
-					"ammo_556": 
-					{
-						"default": 
-						[
-							30,
-							200
-						]
-					},
-					"ammo_357": 
-					{
-						"default": 
-						[
-							1,
-							6
-						]
-					},
-					"ammo_556clip": 
-					{
-						"default": 
-						[
-							6,
-							30
-						]
-					},
-					"ammo_9mmclip": 
-					{
-						"default": 
-						[
-							8,
-							17
-						]
-					},
-					"ammo_ARgrenades": 
-					{
-						"default": 
-						[
-							1,
-							5
-						]
-					},
-					"active": 
-					{
-						"default": true,
-						"type": "boolean",
-						"description": "Should this context be active?"
-					},
-					"bts_battery": 
-					{
-						"default": 
-						[
-							1,
-							5
-						]
-					},
-					"weapon_bts_flare": 
-					{
-						"default": 
-						[
-							1,
-							3
-						]
-					},
-					"ammo_buckshot": 
-					{
-						"default": 
-						[
-							3,
-							8
-						]
 					}
 				}
 			},

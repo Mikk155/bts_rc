@@ -63,8 +63,6 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
     {
         this.m_iFlameSprite = g_ModelFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flamethrower.txt" );
-
         ASWeaponConfig::Precache();
     }
 

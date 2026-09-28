@@ -34,8 +34,8 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/null.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons//w_9mmhandgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmARGL.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmar.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmargl.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmhandgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmhandgunsd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_beretta.mdl" );
@@ -114,6 +114,7 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_shotbox.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_shotgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_sw637.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/weapons/w_sw637_ammobox.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzisd.mdl" );
