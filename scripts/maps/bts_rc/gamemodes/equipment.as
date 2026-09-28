@@ -235,6 +235,9 @@ final class ASEquipmentCharacter
             string buffer;
             snprintf( buffer, this.m_Description, string( player.pev.netname ), ( hasKits ? kitSet.Description : "" ) );
 
+            if( !buffer.EndsWith( '\n' ) )
+                buffer.opAddAssign( '\n' );
+
             auto msgParams = gpEquipment.MessageParams(
                 this.m_HUDMessage[0], // Red
                 this.m_HUDMessage[1], // Green
