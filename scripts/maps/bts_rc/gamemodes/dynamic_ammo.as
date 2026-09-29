@@ -274,15 +274,30 @@ final class ASDynamicAmmoConfig : IConfigurable
         return g_PlayerFuncs.GetNumPlayers();
     }
 
-    bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup ) const
+    private
+        bool m_Lock;
+
+    bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup )
     {
-        if( player is null || pickup is null )
+        if( player is null || pickup is null || this.m_Lock )
             return true;
 
         const ASDynamicAmmoData@ data = this.Find( pickup.GetClassname() );
 
         if( data is null )
             return true;
+
+        if( data.classname.StartsWith( "weapon_" ) )
+        {
+            if( player.HasNamedPlayerItem( data.classname ) is null )
+            {
+                pickup.pev.flags |= FL_KILLME;
+                this.m_Lock = true;
+                player.GiveNamedItem( data.classname );
+                this.m_Lock = false;
+                player.m_rgAmmo( data.index, 0 );
+            }
+        }
 
         int count = data.get(this.forcenumplayers);
         int max = player.GetMaxAmmo( data.index );
