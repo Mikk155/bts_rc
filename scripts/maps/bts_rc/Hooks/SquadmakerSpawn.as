@@ -39,8 +39,6 @@ namespace Hooks
                 g_EntityFuncs.DispatchKeyValue( childEdict, "$i_use_flashbang", flashbang.GetInteger() );
         }
 
-        string classname = entity.GetClassname();
-
         CBaseMonster@ monster = null;
 
         if( entity.IsMonster() )

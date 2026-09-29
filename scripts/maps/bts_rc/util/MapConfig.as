@@ -304,15 +304,14 @@ final class ASMapConfig
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             m_GlobalSchema.Set( "type", "object" );
             m_GlobalSchema.Set( "unevaluatedProperties", false );
-                btson@ properties = btson();
-                    auto@ schemaProperty = btson();
-                        schemaProperty.Set( "type", "string" );
-                        schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
-                    this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
-                    auto@ allowReloadPoperty = btson();
-                        allowReloadPoperty.Set( "type", "boolean" );
-                        allowReloadPoperty.Set( "description", "When true the map scripts will keep json schemas in memory and register a command to reload json files run time." );
-                    this.m_GlobalSchemaProperties.Set( "allow_reload", allowReloadPoperty );
+                auto@ schemaProperty = btson();
+                    schemaProperty.Set( "type", "string" );
+                    schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
+                this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
+                auto@ allowReloadPoperty = btson();
+                    allowReloadPoperty.Set( "type", "boolean" );
+                    allowReloadPoperty.Set( "description", "When true the map scripts will keep json schemas in memory and register a command to reload json files run time." );
+                this.m_GlobalSchemaProperties.Set( "allow_reload", allowReloadPoperty );
             m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
         }
 

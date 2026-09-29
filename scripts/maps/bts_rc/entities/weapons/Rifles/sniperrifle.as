@@ -123,7 +123,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
             return;
         }
 
-        bool isTrainedPersonal = util::IsTrainedPersonal( player );
         uint8 anim = ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FireLastRound : WeaponSniperRifleAnim::Fire;
 
         DisableZoom();

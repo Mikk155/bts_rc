@@ -64,8 +64,6 @@ namespace weapons
 
         if( g_WeaponsConfig.sparks_splash )
         {
-            bool should_sparks = true;
-
             int sparks_color = -1;
 
             string classname = monster.GetClassname();

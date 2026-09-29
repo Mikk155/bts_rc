@@ -173,7 +173,7 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
                 float flVolume = 1.0f - Math.clamp( flDistance / flMaxDist, 0.0f, 1.0f );
 
-                float flEffect = dot * flVolume;
+//                float flEffect = dot * flVolume;
 
                 float side = DotProduct( g_Engine.v_right, vecToTarget );
 

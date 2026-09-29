@@ -517,8 +517,6 @@ namespace btscm
 
         if( pEntity !is null )
         {
-            Vector vecCenter = pMonster.Center();
-
             if( pEntity.pev.solid != SOLID_NOT ) // just in case
                 pEntity.Killed( null, GIB_NEVER );
 

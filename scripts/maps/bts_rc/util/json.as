@@ -717,6 +717,11 @@ class btson
                 return "null";
         }
     }
+
+    void set_Type(const meta_api::json::Type &in value)
+    {
+        m_Type = value;
+    }
 }
 
 class __Deserializer__ : meta_api::json::parser::Deserializer

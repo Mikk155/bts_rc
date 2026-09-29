@@ -138,7 +138,7 @@ class weapon_bts_glock18 : BTS_FireWeapon
 
         bool isTrainedPersonal = util::IsTrainedPersonal( player );
 
-        this.SetCooldown( util::IsTrainedPersonal( this.owner ), type );
+        this.SetCooldown( isTrainedPersonal, type );
 
         if( type == AttackType::Secondary )
         {
