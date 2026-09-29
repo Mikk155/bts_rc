@@ -62,73 +62,74 @@ namespace weapons
             }
         }
 
+        auto ckv = hit.GetCustomKeyvalues();
+
         if( g_WeaponsConfig.sparks_splash )
         {
-            int sparks_color = -1;
+            auto hasSparksColor = ckv.GetKeyvalue( "$i_spark_color" );
 
-            string classname = monster.GetClassname();
-            string model = string( monster.pev.model );
+            if( hasSparksColor.Exists() )
+            {
+                int sparksColor = hasSparksColor.GetInteger();
 
-            if( "monster_robogrunt" == classname )
-            {
-                sparks_color = 5;
-            }
-            else if( "monster_sentry" == classname || "monster_turret" == classname || "monster_miniturret" == classname )
-            {
-                sparks_color = 4;
-            }
-            else if( tr.iHitgroup == 10 )
-            {
-                if( "monster_alien_grunt" == classname )
+                if( sparksColor < 0 || sparksColor > 11 )
                 {
-                    sparks_color = 0;
-                }
-                else if( "models/bts_rc/monsters/zombie_hev.mdl" == model || "models/bts_rc/monsters/gonome_hev.mdl" == model || "models/bts_rc/monsters/zombie_hev2.mdl" == model )
-                {
-                    sparks_color = 7;
-                }
-            }
-
-            if( sparks_color != -1 )
-            {
-                switch( Math.RandomLong( 0, 4 ) )
-                {
-                    case 0: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric1.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
-                    case 1: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric2.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
-                    case 2: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric3.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
-                    case 3: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric4.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
-                    case 4: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric5.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                    g_Logger.error.print("Entity {} with \"$i_spark_color\" out of range 0-11", { hit.GetClassname() } );
+                    sparksColor = -1;
                 }
 
-                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
-                    m.WriteByte( TE_STREAK_SPLASH );
-                    m.WriteCoord( tr.vecEndPos.x );
-                    m.WriteCoord( tr.vecEndPos.y );
-                    m.WriteCoord( tr.vecEndPos.z );
-                    m.WriteCoord( 0 );
-                    m.WriteCoord( 0 );
-                    m.WriteCoord( g_Engine.v_forward.z );
-                    m.WriteByte( sparks_color ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png
-                    m.WriteShort( 30 );          // Count
-                    m.WriteShort( 128 );         // Base speed
-                    m.WriteShort( 100 );         // Random velocity
-                m.End();
+                auto hasSparksBodyGroup = ckv.GetKeyvalue( "$i_spark_hitgroup" );
 
-                NetworkMessage m2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
-                    m2.WriteByte( TE_DLIGHT );
-                    m2.WriteCoord( tr.vecEndPos.x );
-                    m2.WriteCoord( tr.vecEndPos.y );
-                    m2.WriteCoord( tr.vecEndPos.z );
-                    m2.WriteByte( 5 );   // radius
-                    m2.WriteByte( 150 ); // R
-                    m2.WriteByte( 100 ); // G
-                    m2.WriteByte( 0 );   // B
-                    m2.WriteByte( 1 );   // life in 0.1's
-                    m2.WriteByte( 1 );   // decay in 0.1's
-                m2.End();
+                if( hasSparksBodyGroup.Exists() && hasSparksBodyGroup.GetInteger() != tr.iHitgroup )
+                {
+                    sparksColor = -1;
+                }
 
-                g_Utility.Sparks( tr.vecEndPos );
-                g_Utility.Ricochet( tr.vecEndPos, Math.RandomFloat( 0.5, 1.5 ) );
+                if( sparksColor != -1 )
+                {
+                    switch( Math.RandomLong( 0, 4 ) )
+                    {
+                        case 0: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric1.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                        case 1: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric2.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                        case 2: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric3.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                        case 3: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric4.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                        case 4: g_SoundSystem.EmitSoundDyn( hit.edict(), CHAN_AUTO, "weapons/ric5.wav", 1.0, ATTN_NONE, 0, PITCH_NORM ); break;
+                    }
+
+                    {
+                        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
+                            m.WriteByte( TE_STREAK_SPLASH );
+                            m.WriteCoord( tr.vecEndPos.x );
+                            m.WriteCoord( tr.vecEndPos.y );
+                            m.WriteCoord( tr.vecEndPos.z );
+                            m.WriteCoord( 0 );
+                            m.WriteCoord( 0 );
+                            m.WriteCoord( g_Engine.v_forward.z );
+                            m.WriteByte( sparksColor ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png
+                            m.WriteShort( 30 );          // Count
+                            m.WriteShort( 128 );         // Base speed
+                            m.WriteShort( 100 );         // Random velocity
+                        m.End();
+                    }
+
+                    {
+                        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
+                            m.WriteByte( TE_DLIGHT );
+                            m.WriteCoord( tr.vecEndPos.x );
+                            m.WriteCoord( tr.vecEndPos.y );
+                            m.WriteCoord( tr.vecEndPos.z );
+                            m.WriteByte( 5 );   // radius
+                            m.WriteByte( 150 ); // R
+                            m.WriteByte( 100 ); // G
+                            m.WriteByte( 0 );   // B
+                            m.WriteByte( 1 );   // life in 0.1's
+                            m.WriteByte( 1 );   // decay in 0.1's
+                        m.End();
+                    }
+
+                    g_Utility.Sparks( tr.vecEndPos );
+                    g_Utility.Ricochet( tr.vecEndPos, Math.RandomFloat( 0.5, 1.5 ) );
+                }
             }
         }
     }
