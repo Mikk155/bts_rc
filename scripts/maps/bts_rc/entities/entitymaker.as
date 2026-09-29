@@ -40,33 +40,29 @@ namespace test_chamber
 
         bool KeyValue( const string&in key, const string&in value )
         {
-            if( key[0] == "+" )
+            if( key[0] == "_" )
             {
-                if( key == "+classname" )
+                if( key == "_classname" )
                 {
                     this.m_ClassName = value;
                     return true;
                 }
-                else if( key == "+targetname" )
+                else if( key == "_targetname" )
                 {
                     this.m_KeyValues[ "targetname" ] = value;
                     return true;
                 }
-                return false;
-            }
-            else if( key[0] == '-' )
-            {
-                if( key == "+mode" )
+                else if( key == "_mode" )
                 {
                     this.m_IsThink = ( atoi( value ) == 1 );
                     return true;
                 }
-                else if( key == "+starton" )
+                else if( key == "_starton" )
                 {
                     this.m_IsOn = ( atoi( value ) == 1 );
                     return true;
                 }
-                else if( key == "+target" )
+                else if( key == "_target" )
                 {
                     this.m_Target = value;
                     return true;

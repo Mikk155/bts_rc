@@ -168,16 +168,16 @@
 
 @PointClass base(Mandatory) = entitymaker : "Squadmaker sucks ass lol"
 [
-    +classname(string) : "Child classname"
-    +targetname(string) : "Child targetname"
+    _classname(string) : "Child classname"
+    _targetname(string) : "Child targetname"
     target(string) : "Child target"
-    -target(string) : "Fire after spawn"
-    -mode(choices) : "Mode" : "0" =
+    _target(string) : "Fire after spawn"
+    _mode(choices) : "Mode" : "0" =
     [
         0 : "Trigger"
         1 : "Think"
     ]
-    -starton(choices) : "Start on" : "0" =
+    _starton(choices) : "Start on" : "0" =
     [
         0 : "No"
         1 : "Yes"
