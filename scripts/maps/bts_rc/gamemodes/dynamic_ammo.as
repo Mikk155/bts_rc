@@ -24,11 +24,11 @@ final class ASDynamicAmmoData
         return this.m_Classname;
     }
 
-    size_t m_Index;
+    int m_Index = -1;
     // Index for CBasePlayer::m_rgAmmo
     const size_t get_index() const
     {
-        return this.m_Index;
+        return size_t( this.m_Index );
     }
 
     int m_Min;
@@ -169,15 +169,29 @@ final class ASDynamicAmmoConfig : IConfigurable
 
             bot.GiveNamedItem( classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
 
-            for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+            if( data.classname.StartsWith( "weapon_" ) )
             {
-                int old = ammoInventory[idx];
-                int now = bot.m_rgAmmo(idx);
+                CBasePlayerItem@ wpn = bot.HasNamedPlayerItem( classname );
 
-                if( old < now )
+                if( wpn !is null )
                 {
-                    data.m_Index = idx;
-                    break;
+                    data.m_Index = wpn.PrimaryAmmoIndex();
+                }
+            }
+
+            if( data.m_Index <= -1 )
+            {
+                for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+                {
+                    int old = ammoInventory[idx];
+                    int now = bot.m_rgAmmo(idx);
+                    bot.m_rgAmmo(idx, 0);
+
+                    if( old < now )
+                    {
+                        data.m_Index = idx;
+                        break;
+                    }
                 }
             }
 
@@ -291,9 +305,8 @@ final class ASDynamicAmmoConfig : IConfigurable
         {
             if( player.HasNamedPlayerItem( data.classname ) is null )
             {
-                pickup.pev.flags |= FL_KILLME;
                 this.m_Lock = true;
-                player.GiveNamedItem( data.classname );
+                player.GiveNamedItem( data.classname, SF_GIVENITEM );
                 this.m_Lock = false;
                 player.m_rgAmmo( data.index, 0 );
             }
