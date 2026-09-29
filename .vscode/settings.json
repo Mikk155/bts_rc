@@ -96,5 +96,27 @@
     {
         "editor.formatOnType": false,
         "editor.formatOnSave": false
-    }
+    },
+
+    "angelscript.predefined.active": "${workspaceFolder}/as.predefined",
+    "angelscript.define": [
+        "SERVER",
+        "EDITOR_ONLY",
+        "METAMOD_PLUGIN_ASLP"
+    ],
+    "angelscript.engine.alwaysImplDefaultConstruct": true,
+    "angelscript.include.implicitExtension": true,
+    "angelscript.modules": [
+        {
+            "name": "bts_rc",
+            "entry": "${workspaceFolder}/scripts/maps/bts_rc/main.as"
+        }
+    ],
+    "angelscript.dimInactiveRegions": true,
+    "angelscript.diagnostics.reportAccessorPortability": true,
+    "angelscript.engine.disableIntegerDivision": true,
+    "angelscript.engine.disallowEmptyListElements": true,
+    "angelscript.preprocessor.pragmaMode": "error",
+    "angelscript.statusBar.alignment": "right",
+    "angelscript.diagnostics.reportPossibleNullDereference": false
 }
