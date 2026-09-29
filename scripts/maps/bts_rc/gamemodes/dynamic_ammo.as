@@ -128,19 +128,7 @@ final class ASDynamicAmmoConfig : IConfigurable
         const array<string>@ ammoTypes = config.Keys;
         uint size = ammoTypes.length();
 
-        string[] funnyNames = {
-            "Sniper",
-            "G-Man",
-            "Gaf the R man",
-            "Sara my beloved",
-            "Ares",
-            "Lizard",
-            "Suichan wa kyou mo kawai"
-        };
-
-        auto bot = g_PlayerFuncs.CreateBot( funnyNames[ Math.RandomLong( 0, funnyNames.length() - 1 ) ] );
-
-        bot.Revive();
+        auto bot = GetBot();
 
         for( uint ui = 0; ui < size; ui++ )
         {
@@ -203,8 +191,6 @@ final class ASDynamicAmmoConfig : IConfigurable
 
         if( g_Logger.info.active )
             g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
-
-        g_PlayerFuncs.BotDisconnect( bot );
 
 #if SERVER
         if( g_MapConfig.MapLoading )

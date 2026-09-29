@@ -99,6 +99,11 @@ void MapActivate()
 
     meta_api::NoticeInstallation();
 
+    for( int idx = 1; idx <= g_Engine.maxClients; idx++ )
+    {
+        g_PlayerFuncs.BotDisconnect( g_PlayerFuncs.FindPlayerByIndex( idx ) );
+    }
+
     gCheckModuleError(false);
 }
 

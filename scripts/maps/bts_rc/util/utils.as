@@ -146,6 +146,35 @@ bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
     return false;
 }
 
+EHandle __Bot__;
+
+// Get a temporal CBasePlayer (Bot) instance for using API on it.
+CBasePlayer@ GetBot()
+{
+    CBasePlayer@ bot = null;
+
+    if( !__Bot__.IsValid() || __Bot__.GetEntity() is null || ( @bot = cast<CBasePlayer@>( __Bot__.GetEntity() ) ) is null )
+    {
+        string[] funnyNames = {
+            "Sniper",
+            "G-Man",
+            "Gaf the R man",
+            "Sara my beloved",
+            "Ares",
+            "Lizard",
+            "Suichan wa kyou mo kawai"
+        };
+
+        @bot = g_PlayerFuncs.CreateBot( funnyNames[ Math.RandomLong( 0, funnyNames.length() - 1 ) ] );
+        __Bot__.opAssign( bot );
+    }
+
+    if( !bot.IsAlive() )
+        bot.Revive();
+
+    return @bot;
+}
+
 #if SERVER
 // Set a display name to a entity this is shown as simple text (No HUD Message) on the center of the screen
 void SetDebugName( CBaseEntity@ target, const string&in name )
