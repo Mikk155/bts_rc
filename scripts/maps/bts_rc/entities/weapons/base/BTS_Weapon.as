@@ -52,15 +52,8 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
 
     void Spawn()
     {
-        int defaultAmmo = this.config.GetDefaultAmmo( AttackType::Primary );
-
-        if( defaultAmmo >= 0 )
-            self.m_iDefaultAmmo = defaultAmmo;
-
-        int defaultSecondaryAmmo = this.config.GetDefaultAmmo( AttackType::Secondary );
-
-        if( defaultSecondaryAmmo >= 0 )
-            self.m_iDefaultSecAmmo = defaultSecondaryAmmo;
+        self.m_iDefaultAmmo = 0;
+        self.m_iDefaultSecAmmo = Math.clamp( 0, this.config.secondary_maxammo, Math.RandomLong( this.config.secondary_default_ammo[0], this.config.secondary_default_ammo[1] ) );
 
         g_EntityFuncs.SetModel( self, this.config.world_model );
         self.FallInit();
