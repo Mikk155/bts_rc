@@ -287,12 +287,15 @@ final class ASDynamicAmmoConfig : IConfigurable
         if( data is null )
             return true;
 
+        CBasePlayerItem@ item;
+
         if( data.classname.StartsWith( "weapon_" ) )
         {
-            if( player.HasNamedPlayerItem( data.classname ) is null )
+            if( ( @item = player.HasNamedPlayerItem( data.classname ) ) is null )
             {
                 this.m_Lock = true;
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
+                @item = player.HasNamedPlayerItem( data.classname );
                 this.m_Lock = false;
                 player.m_rgAmmo( data.index, 0 );
             }
@@ -308,7 +311,22 @@ final class ASDynamicAmmoConfig : IConfigurable
 
         pickup.pev.flags |= FL_KILLME;
 
-        player.m_rgAmmo( data.index, current + add );
+        int totalAmmo = current + add;
+
+        CBasePlayerWeapon@ weapon;
+
+        if( item !is null && ( @weapon = cast<CBasePlayerWeapon@>( item ) ) !is null )
+        {
+            int maxClip = weapon.iMaxClip();
+
+            if( maxClip != WEAPON_NOCLIP )
+            {
+                weapon.m_iClip = Math.RandomLong( 0, Math.min( totalAmmo, maxClip ) );
+                totalAmmo -= weapon.m_iClip;
+            }
+        }
+
+        player.m_rgAmmo( data.index, totalAmmo );
 
         NetworkMessage message( MSG_ONE, NetworkMessages::AmmoPickup, player.edict() );
             message.WriteByte( data.index );
