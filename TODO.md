@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/78.33333333333333?barColor=64da0b)
+> ![](https://geps.dev/progress/74.4186046511628?barColor=75da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,9 +27,16 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped.
+- [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
+- [ ] Rotate ASFlare angles when created with flaregun
+- [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
+- [ ] Create a temporal event folder for python tests in "release" mode.
+- [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
+- [ ] Create a chrono::v1 at mikk155/sven-co-op with simplified usage and add more chrono instances in the map to track total and relative times
+- [ ] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players and historical top players.
+- [ ] Add a chrono since map started and ended for player data storage.
+- [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped. Relates to [#129](https://github.com/Mikk155/bts_rc/pull/129)
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
-- [ ] Implement dynamic ammo system in PlayerCollect hook.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
 - [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
@@ -64,6 +71,8 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Fill weapon clips based on random range from zero to the max current rgAmmo.
+- [x] Implement dynamic ammo system in PlayerCollect hook.
 - [x] dynamic ammo should use a classname-based find rather than internal ammo name.
 - [x] remove whatever was left in scriprs/maps/bts_weapons
 - [x] remove various custom ammo that are otherwise duplicates

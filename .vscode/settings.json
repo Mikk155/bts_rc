@@ -118,5 +118,6 @@
     "angelscript.engine.disallowEmptyListElements": true,
     "angelscript.preprocessor.pragmaMode": "error",
     "angelscript.statusBar.alignment": "right",
-    "angelscript.diagnostics.reportPossibleNullDereference": false
+    "angelscript.diagnostics.reportPossibleNullDereference": false,
+    "angelscript.features.formatting": false
 }
