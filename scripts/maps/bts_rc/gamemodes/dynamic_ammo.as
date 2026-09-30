@@ -282,6 +282,24 @@ final class ASDynamicAmmoConfig : IConfigurable
         if( player is null || pickup is null || this.m_Lock )
             return true;
 
+        CBasePlayerItem@ pickupItem = cast<CBasePlayerItem@>( pickup );
+
+        if( pickupItem !is null && pickupItem.m_dropType != DropTypes::DROP_DEFAULT )
+            return true;
+
+#if FALSE
+        switch( pickupItem.m_dropType )
+        {
+            case DropTypes::DROP_NPC_DEATH:
+                break;
+            case DropTypes::DROP_PLAYER_CMD:
+            case DropTypes::DROP_PLAYER_DEATH:
+            case DropTypes::DROP_NPC_DEATH:
+            default:
+                return true;
+        }
+#endif
+
         const ASDynamicAmmoData@ data = this.Find( pickup.GetClassname() );
 
         if( data is null )
