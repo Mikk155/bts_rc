@@ -292,12 +292,12 @@ final class CLogger : IConfigurable
             @this.critical
         };
 
-        this.trace.SetLevel( bool( config[ "trace" ] ) );
-        this.debug.SetLevel( bool( config[ "debug" ] ) );
-        this.info.SetLevel( bool( config[ "info" ] ) );
-        this.warning.SetLevel( bool( config[ "warning" ] ) );
+        this.trace.SetLevel( config.ValueOrDefault( "trace", true ) );
+        this.debug.SetLevel( config.ValueOrDefault( "debug", true ) );
+        this.info.SetLevel( config.ValueOrDefault( "info", true ) );
+        this.warning.SetLevel( config.ValueOrDefault( "warning", true ) );
 
-        Logger::gpWriteFile = bool( config[ "file" ] );
+        Logger::gpWriteFile = config.ValueOrDefault( "file", true );
 
         if( Logger::gpWriteFile )
         {
