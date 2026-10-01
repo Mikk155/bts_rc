@@ -121,6 +121,84 @@ final class ASDynamicAmmoConfig : IConfigurable
         return this.m_Active;
     }
 
+    private
+        ClientPutInServerHook@ m_pValidation;
+
+    private
+        HookReturnCode ValidateAmunition( CBasePlayer@ player )
+        {
+            if( player is null || !player.IsConnected() )
+                return HOOK_CONTINUE;
+
+            g_Hooks.RemoveHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
+            @this.m_pValidation = null;
+
+            player.Revive();
+
+            const array<string>@ itemNames = this.m_AmmoData.getKeys();
+            const uint length = itemNames.length();
+
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                ASDynamicAmmoData@ data;
+
+                this.m_AmmoData.get( itemNames[ui], @data );
+
+                int[] ammoInventory(MAX_AMMO_TYPES);
+
+                for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
+                {
+                    ammoInventory[idx] = player.m_rgAmmo(idx);
+                }
+
+                this.m_Lock = true;
+                player.GiveNamedItem( data.classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
+                this.m_Lock = false;
+
+                if( data.classname.StartsWith( "weapon_" ) )
+                {
+                    CBasePlayerItem@ wpn = player.HasNamedPlayerItem( data.classname );
+
+                    if( wpn !is null )
+                    {
+                        data.m_Index = wpn.PrimaryAmmoIndex();
+                    }
+                }
+
+                if( data.m_Index <= -1 )
+                {
+                    for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+                    {
+                        int old = ammoInventory[idx];
+                        int now = player.m_rgAmmo(idx);
+                        player.m_rgAmmo(idx, 0);
+
+                        if( old < now )
+                        {
+                            data.m_Index = idx;
+                            break;
+                        }
+                    }
+                }
+
+                if( data.m_Index <= -1 )
+                {
+                    g_Logger.error.print( "[{}] Can not guess ammo type of \"{}\"", { this.GetName(), data.classname } );
+                    int[]a(0);a[1];
+                }
+
+                if( g_Logger.debug.active )
+                    g_Logger.debug.print( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), data.classname, data.min, data.max, data.index } );
+            }
+
+            if( g_Logger.info.active )
+                g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
+
+            player.RemoveAllItems(true, true);
+
+            return HOOK_CONTINUE;
+        }
+
     bool Register( btson@ config ) override
     {
         this.m_Active = bool( config.Remove( "active" ) );
@@ -128,7 +206,6 @@ final class ASDynamicAmmoConfig : IConfigurable
         const array<string>@ ammoTypes = config.Keys;
         uint size = ammoTypes.length();
 
-        auto bot = GetBot();
 
         for( uint ui = 0; ui < size; ui++ )
         {
@@ -148,49 +225,11 @@ final class ASDynamicAmmoConfig : IConfigurable
                 int[]a(0);a[1];
             }
 
-            int[] ammoInventory(MAX_AMMO_TYPES);
-
-            for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
-            {
-                ammoInventory[idx] = bot.m_rgAmmo(idx);
-            }
-
-            bot.GiveNamedItem( classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
-
-            if( data.classname.StartsWith( "weapon_" ) )
-            {
-                CBasePlayerItem@ wpn = bot.HasNamedPlayerItem( classname );
-
-                if( wpn !is null )
-                {
-                    data.m_Index = wpn.PrimaryAmmoIndex();
-                }
-            }
-
-            if( data.m_Index <= -1 )
-            {
-                for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
-                {
-                    int old = ammoInventory[idx];
-                    int now = bot.m_rgAmmo(idx);
-                    bot.m_rgAmmo(idx, 0);
-
-                    if( old < now )
-                    {
-                        data.m_Index = idx;
-                        break;
-                    }
-                }
-            }
-
             @this.m_AmmoData[ classname ] = data;
-
-            if( g_Logger.debug.active )
-                g_Logger.debug.print( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), classname, data.min, data.max, data.index } );
         }
 
-        if( g_Logger.info.active )
-            g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
+        @this.m_pValidation = ClientPutInServerHook( @this.ValidateAmunition );
+        g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
 
 #if SERVER
         if( g_MapConfig.MapLoading )

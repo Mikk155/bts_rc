@@ -63,6 +63,7 @@ void MapActivate()
 
     if( g_WeaponsConfig.item_tracking )
         item_tracker::Reset();
+
     uint numents = g_EngineFuncs.NumberOfEntities();
 
     for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
@@ -98,11 +99,6 @@ void MapActivate()
     @MapLoadedChrono = null;
 
     meta_api::NoticeInstallation();
-
-    for( int idx = 1; idx <= g_Engine.maxClients; idx++ )
-    {
-        g_PlayerFuncs.BotDisconnect( g_PlayerFuncs.FindPlayerByIndex( idx ) );
-    }
 
     gCheckModuleError(false);
 }
