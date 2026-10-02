@@ -119,5 +119,6 @@
     "angelscript.preprocessor.pragmaMode": "error",
     "angelscript.statusBar.alignment": "right",
     "angelscript.diagnostics.reportPossibleNullDereference": false,
-    "angelscript.features.formatting": false
+    "angelscript.features.formatting": false,
+    "angelscript.features.onTypeFormatting": false
 }

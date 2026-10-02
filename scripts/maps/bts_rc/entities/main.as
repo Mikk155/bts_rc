@@ -29,6 +29,7 @@
 #include "monsters/zombie_engineer"
 #include "monsters/zombie_uncrab"
 
+#include "env_credits"
 #if SERVER
 #include "entitymaker"
 #endif

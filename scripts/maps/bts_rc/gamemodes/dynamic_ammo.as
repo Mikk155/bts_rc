@@ -206,7 +206,6 @@ final class ASDynamicAmmoConfig : IConfigurable
         const array<string>@ ammoTypes = config.Keys;
         uint size = ammoTypes.length();
 
-
         for( uint ui = 0; ui < size; ui++ )
         {
             string classname = ammoTypes[ui];

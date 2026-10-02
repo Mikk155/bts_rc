@@ -27,6 +27,26 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
+- [ ] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
+    ```C++
+    NetworkMessage message( MSG_ALL, NetworkMessages::CreateBlood );
+        message.WriteCoord(-143);//x
+        message.WriteCoord(601);//y
+        message.WriteCoord(-1559);//z
+        //https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+        message.WriteByte(251);//color
+        message.WriteByte(255);//sacle
+    message.End();
+    ```
+_ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
+- [ ] Add timed concuss on robot boss push
+    ```C++
+    NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );
+        message.WriteFloat(15);//yall
+        message.WriteFloat(-15);//pitch
+        message.WriteFloat(15);//roll
+    message.End();
+    ```
 - [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [ ] Rotate ASFlare angles when created with flaregun
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
@@ -39,7 +59,7 @@ This file contains the list of to-do in the project.
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
-- [ ] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
+- [x] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 - [ ] Pulish black ops flashbangs which at the moment is a rare throw.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
@@ -61,7 +81,8 @@ This file contains the list of to-do in the project.
         {
             if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
                 return false;
-    ``` OR refactore the method.
+    ```
+    OR refactore the method.
 - [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
 - [ ] Add crossbow sprite when zoom in to sprite txt file.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.

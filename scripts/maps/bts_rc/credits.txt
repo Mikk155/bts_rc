@@ -1,0 +1,141 @@
+// Use $ to specify a key-word with formats, i.e "$rgb" to set Red, green and blue.
+// Formats are keept for next titles until they are set again similarly to titles.txt.
+// Formats:
+// $r: red color
+// $g: green color
+// $b: blue color
+// $rgb: the three of them together separated by space
+// $t: Think rate
+
+$t 0.3
+$rgb 255 0 0
+Project and Map Creator RaptorSKA
+$rgb 128 0 128
+Lead Scripting Mikk115
+$t 0.1
+$rgb 0 255 0
+Weapons: Arasefiq
+Weapons: Rizulix
+Weapons: Mad
+$r 255
+Player Models: SV BOY
+$g 0
+Map scripts: Mikk155
+Map scripts: Mad
+Map scripts: Gaftherman
+Map scripts: Rizulix
+Custom Zombies
+Custom Opsrey
+Custom Enforcer
+Created by:
+Gauna
+Player Sounds:
+Arasefiq
+Mikk115
+Solokiller
+Custom Headcrab Detachment:
+Mikk115
+TEXHAPb!!!
+gamit
+Custom NPCs:
+Gauna
+Nero
+Map Testers:
+Adambean
+Arasefiq
+Big Boi
+Darekstar
+Defer
+Erty
+FaLco
+Faravid
+Gauna
+Map Testers:
+Grunt
+Hondrid
+JPolito
+Killer Da Nub
+Kerncore
+Kezaeiv
+Meryilla
+MrFailz
+Ooleg
+Entity and Scripting Support:
+Erty
+Grunt
+H2
+Hondrid
+Mikk155
+Sparks
+Soctom
+Solokiller
+SV BOY
+Trempler
+Additional Scripting:
+Arasefiq
+Erty
+Gaftherman
+Hondrid
+Kerncore
+Mikk155
+Nero
+Rizulix
+Sounds by
+RaptorSKA
+Valve
+Gearbox
+Freesounds.com
+Music by
+Four-Nines
+Shiek Yerbouti
+Custom Models:
+DAVLevels
+Freeslave
+Gauna
+KernCore
+MTB
+Ryor
+SV BOY
+TEXHAPb!!!
+the303
+gamit
+Custom Model Rigs:
+Arasefiq
+MiroSklenar
+HAPE B
+Ixnay
+Organic700
+RaptorSKA
+SV BOY
+Sprites by
+Vika
+Valve
+Gearbox
+Sven co-op team
+KEZAEIV
+TEXHAPb!!!
+FaLco
+SV BOY
+RaptorSKA
+Textures:
+MrFloyd
+RaptorSKA
+Valve
+Gearbox
+Original Models:
+Valve
+Gearbox
+Voice Actors:
+Forgotten
+JPolito
+Michi
+Ooleg
+PJC_
+Skillbreed
+TheMrFailz
+YoMustDie
+Zasli
+Map Testers:
+Map Roulette
+Sbmesh Community
+Rebels Pub Community
