@@ -15,6 +15,15 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+enum DynamicEquipmentType
+{
+    Undefined = -1,
+    Ammunition = 0,
+    Weapon,
+    Armor,
+    Health
+};
+
 final class ASDynamicAmmoData
 {
     string m_Classname;
@@ -24,11 +33,18 @@ final class ASDynamicAmmoData
         return this.m_Classname;
     }
 
-    int m_Index = -1;
-    // Index for CBasePlayer::m_rgAmmo
-    const size_t get_index() const
+    DynamicEquipmentType m_Type = DynamicEquipmentType::Undefined;
+    // Type of equipment. if Ammunition/Weapon then refeer to index for CBasePlayer::m_rgAmmo index.
+    const DynamicEquipmentType get_type() const
     {
-        return size_t( this.m_Index );
+        return this.m_Type;
+    }
+
+    int m_Index = DynamicEquipmentType::Undefined;
+    // Index for CBasePlayer::m_rgAmmo
+    const int get_index() const
+    {
+        return this.m_Index;
     }
 
     int m_Min;
@@ -138,63 +154,99 @@ final class ASDynamicAmmoConfig : IConfigurable
             const array<string>@ itemNames = this.m_AmmoData.getKeys();
             const uint length = itemNames.length();
 
+            int[] ammoInventory(MAX_AMMO_TYPES);
+            float[] armor = { player.pev.armorvalue, player.pev.armortype };
+            float[] health = { player.pev.health, player.pev.max_health };
+            player.pev.armorvalue = player.pev.health = 0;
+            player.pev.armortype = player.pev.max_health = 1000;
+
+            for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
+            {
+                ammoInventory[idx] = player.m_rgAmmo(idx);
+            }
+
             for( uint ui = 0; ui < length; ui++ )
             {
                 ASDynamicAmmoData@ data;
 
                 this.m_AmmoData.get( itemNames[ui], @data );
 
-                int[] ammoInventory(MAX_AMMO_TYPES);
-
-                for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
-                {
-                    ammoInventory[idx] = player.m_rgAmmo(idx);
-                }
-
                 this.m_Lock = true;
                 player.GiveNamedItem( data.classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
                 this.m_Lock = false;
 
-                if( data.classname.StartsWith( "weapon_" ) )
+                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
+
+                if( weapon !is null )
                 {
-                    CBasePlayerItem@ wpn = player.HasNamedPlayerItem( data.classname );
-
-                    if( wpn !is null )
-                    {
-                        data.m_Index = wpn.PrimaryAmmoIndex();
-                    }
+                    data.m_Index = weapon.PrimaryAmmoIndex();
+                    data.m_Type = DynamicEquipmentType::Weapon;
                 }
-
-                if( data.m_Index <= -1 )
+                else if( player.pev.health > 0 )
+                {
+                    data.m_Type = DynamicEquipmentType::Health;
+                }
+                else if( player.pev.armorvalue > 0 )
+                {
+                    data.m_Type = DynamicEquipmentType::Armor;
+                }
+                else
                 {
                     for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
                     {
-                        int old = ammoInventory[idx];
-                        int now = player.m_rgAmmo(idx);
-                        player.m_rgAmmo(idx, 0);
+                        int old = ammoInventory[ idx ];
+                        int now = player.m_rgAmmo( idx );
+                        player.m_rgAmmo( idx, old );
 
                         if( old < now )
                         {
                             data.m_Index = idx;
+                            data.m_Type = DynamicEquipmentType::Ammunition;
                             break;
                         }
                     }
                 }
 
-                if( data.m_Index <= -1 )
-                {
-                    g_Logger.error.print( "[{}] Can not guess ammo type of \"{}\"", { this.GetName(), data.classname } );
-                    int[]a(0);a[1];
-                }
+                player.pev.health = player.pev.armorvalue = 0;
+                player.RemoveAllItems( false, false );
 
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), data.classname, data.min, data.max, data.index } );
+                switch( data.m_Type )
+                {
+                    case DynamicEquipmentType::Undefined:
+                    {
+                        g_Logger.error.print( "[{}] Can not guess ammo type of \"{}\"", { this.GetName(), data.classname } );
+                        int[]a(0);a[1];
+                        break;
+                    }
+                    case DynamicEquipmentType::Weapon:
+                    case DynamicEquipmentType::Ammunition:
+                    {
+                        if( g_Logger.debug.active )
+                            g_Logger.debug.print( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), data.classname, data.min, data.max, data.index } );
+                        break;
+                    }
+                    case DynamicEquipmentType::Armor:
+                    {
+                        if( g_Logger.debug.active )
+                            g_Logger.debug.print( "[{}] \"{}\": min={} max={} armor", { this.GetName(), data.classname, data.min, data.max } );
+                        break;
+                    }
+                    case DynamicEquipmentType::Health:
+                    {
+                        if( g_Logger.debug.active )
+                            g_Logger.debug.print( "[{}] \"{}\": min={} max={} healths", { this.GetName(), data.classname, data.min, data.max } );
+                        break;
+                    }
+                }
             }
+
+            player.pev.armorvalue = armor[0];
+            player.pev.armortype = armor[1];
+            player.pev.health = health[0];
+            player.pev.max_health = health[1];
 
             if( g_Logger.info.active )
                 g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
-
-            player.RemoveAllItems(false, false);
 
             return HOOK_CONTINUE;
         }
@@ -322,6 +374,7 @@ final class ASDynamicAmmoConfig : IConfigurable
 
         CBasePlayerItem@ pickupItem = cast<CBasePlayerItem@>( pickup );
 
+        // Skip drops from players
         if( pickupItem !is null && pickupItem.m_dropType != DropTypes::DROP_DEFAULT )
             return true;
 
@@ -343,57 +396,104 @@ final class ASDynamicAmmoConfig : IConfigurable
         if( data is null )
             return true;
 
-        CBasePlayerItem@ item;
+        CBasePlayerWeapon@ weapon;
 
-        if( data.classname.StartsWith( "weapon_" ) )
+        // If it's a weapon equip it and set ammo to zero
+        if( data.index == DynamicEquipmentType::Weapon )
         {
-            if( ( @item = player.HasNamedPlayerItem( data.classname ) ) is null )
+            if( ( @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) ) ) is null )
             {
                 this.m_Lock = true;
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
-                @item = player.HasNamedPlayerItem( data.classname );
                 this.m_Lock = false;
+                @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
                 player.m_rgAmmo( data.index, 0 );
             }
         }
 
         int count = data.get(this.forcenumplayers);
-        int max = player.GetMaxAmmo( data.index );
-        int current = player.m_rgAmmo( data.index );
-        int add = Math.min( count, max - current );
 
-        if( add < 1 )
-            return true;
-
-        pickup.pev.flags |= FL_KILLME;
-
-        int totalAmmo = current + add;
-
-        CBasePlayerWeapon@ weapon;
-
-        if( item !is null && ( @weapon = cast<CBasePlayerWeapon@>( item ) ) !is null )
+        switch( data.type )
         {
-            int maxClip = weapon.iMaxClip();
-
-            if( maxClip != WEAPON_NOCLIP )
+            case DynamicEquipmentType::Weapon:
+            case DynamicEquipmentType::Ammunition:
             {
-                weapon.m_iClip = Math.RandomLong( 0, Math.min( totalAmmo, maxClip ) );
-                totalAmmo -= weapon.m_iClip;
+                int max = player.GetMaxAmmo( data.index );
+                int current = player.m_rgAmmo( data.index );
+                int add = Math.min( count, max - current );
+
+                if( add < 1 )
+                    return true;
+
+                pickup.pev.flags |= FL_KILLME;
+
+                int totalAmmo = current + add;
+
+                // Fill clip with a random amount of bullets
+                if( weapon !is null )
+                {
+                    int maxClip = weapon.iMaxClip();
+
+                    if( maxClip != WEAPON_NOCLIP )
+                    {
+                        weapon.m_iClip = Math.RandomLong( 0, Math.min( totalAmmo, maxClip ) );
+                        totalAmmo -= weapon.m_iClip;
+                    }
+                }
+
+                player.m_rgAmmo( data.index, totalAmmo );
+
+                NetworkMessage msg( MSG_ONE, NetworkMessages::AmmoPickup, player.edict() );
+                    msg.WriteByte( data.index );
+                    msg.WriteLong( add );
+                msg.End();
+
+                NetworkMessage message( MSG_ONE, NetworkMessages::AmmoX, player.edict() );
+                    message.WriteByte( data.index );
+                    message.WriteLong( add );
+                message.End();
+
+                g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0, ATTN_NORM );
+
+                if( g_Logger.trace.active )
+                    g_Logger.trace.print( "[{}] gave {} of \"{}\" (id: {}) to player \"{}\": min={} max={}", {
+                        this.GetName(), count, data.classname, data.index, player.pev.netname, data.min, data.max } );
+
+                return false;
+            }
+            case DynamicEquipmentType::Armor:
+            {
+                float oldArmor = player.pev.armorvalue;
+
+                if( oldArmor < player.pev.armortype && pickupItem.AddToPlayer( player ) )
+                {
+                    pickup.pev.flags |= FL_KILLME;
+                    player.pev.armorvalue = oldArmor + Math.clamp( 0, player.pev.armortype, count );
+
+                    if( g_Logger.trace.active )
+                        g_Logger.trace.print( "[{}] gave {} of armor to player \"{}\": min={} max={}", {
+                            this.GetName(), count, data.classname, player.pev.netname, data.min, data.max } );
+                }
+
+                return false;
+            }
+            case DynamicEquipmentType::Health:
+            {
+                float oldHealth = player.pev.health;
+
+                if( oldHealth < player.pev.max_health && pickupItem.AddToPlayer( player ) )
+                {
+                    pickup.pev.flags |= FL_KILLME;
+                    player.pev.health = oldHealth + Math.clamp( 0, player.pev.max_health, count );
+
+                    if( g_Logger.trace.active )
+                        g_Logger.trace.print( "[{}] gave {} of health to player \"{}\": min={} max={}", {
+                            this.GetName(), count, data.classname, player.pev.netname, data.min, data.max } );
+                }
+
+                return false;
             }
         }
-
-        player.m_rgAmmo( data.index, totalAmmo );
-
-        NetworkMessage message( MSG_ONE, NetworkMessages::AmmoPickup, player.edict() );
-            message.WriteByte( data.index );
-            message.WriteLong( add );
-        message.End();
-
-        g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0, ATTN_NORM );
-
-        if( g_Logger.trace.active )
-            g_Logger.trace.print( "[{}] gave {} of \"{}\" (id: {}) to player \"{}\": min={} max={}", {
-                this.GetName(), count, data.classname, data.index, player.pev.netname, data.min, data.max } );
 
         return false;
     }

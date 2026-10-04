@@ -36,7 +36,7 @@ class item_bts_hevbattery : BTS_Item
 
         auto character = GetCharacter(player);
 
-        if( player is null || character is null || !( character.IsHEV || character.IsHazard ) || !player.TakeArmor( Math.RandomFloat( 10, 25 ), DMG_GENERIC ) )
+        if( player is null || character is null || !( character.IsHEV || character.IsHazard ) )
             return false;
 
         if( character.IsHEV )

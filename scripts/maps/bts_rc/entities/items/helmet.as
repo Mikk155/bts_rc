@@ -34,7 +34,7 @@ class item_bts_helmet : BTS_Item
 
         auto character = GetCharacter(player);
 
-        if( player is null || character is null || character.IsHEV || character.IsHazard || !player.TakeArmor( Math.RandomFloat( 7, 10 ), DMG_GENERIC ) )
+        if( player is null || character is null || character.IsHEV || character.IsHazard )
             return false;
 
         PickupObject( player, "suit_empty" );

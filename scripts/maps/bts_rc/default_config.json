@@ -679,6 +679,22 @@
             1,
             5
         ],
+        "item_bts_armorvest": [
+            20,
+            40
+        ],
+        "item_bts_helmet": [
+            4,
+            20
+        ],
+        "item_bts_hevbattery": [
+            5,
+            30
+        ],
+        "item_bts_skeleton": [
+            5,
+            30
+        ],
         "weapon_bts_eagle": [
             1,
             9

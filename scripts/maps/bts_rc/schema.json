@@ -15584,6 +15584,38 @@
 							5,
 							15
 						]
+					},
+					"item_bts_armorvest": 
+					{
+						"default": 
+						[
+							20,
+							40
+						]
+					},
+					"item_bts_skeleton": 
+					{
+						"default": 
+						[
+							5,
+							30
+						]
+					},
+					"item_bts_helmet": 
+					{
+						"default": 
+						[
+							4,
+							20
+						]
+					},
+					"item_bts_hevbattery": 
+					{
+						"default": 
+						[
+							5,
+							30
+						]
 					}
 				}
 			},
