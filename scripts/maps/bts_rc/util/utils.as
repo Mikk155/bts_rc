@@ -16,6 +16,7 @@
 **/
 
 #include "MapConfig"
+#include "CustomKeyValues"
 #include "Difficulty"
 #include "CommandContext"
 #include "EntityOverriden"

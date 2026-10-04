@@ -234,9 +234,12 @@ final class ASGlobalWeaponConfig : IConfigurable
             melee_weapons_push_monsters.insertLast( string( monstersPush[ui] ) );
         }
 
-        // ItemMapping stuff
         if( g_MapConfig.MapLoading )
         {
+            CustomKeyValues::Register( "$i_spark_color" );
+            CustomKeyValues::Register( "$i_spark_hitgroup" );
+
+            // ItemMapping stuff
             auto@ remaps = config.ValueOrDefault( "item_remap" );
             const auto@ remaps_from = remaps.Keys;
             uint length = remaps.Length();

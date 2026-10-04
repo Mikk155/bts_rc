@@ -75,7 +75,7 @@ _ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
 - [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
-- [ ] Pass squadmaker entity if valid to EntityOverriden::AddEntity to pass squadmaker custom keyvalues such as:
+- [x] Pass squadmaker entity if valid to EntityOverriden::AddEntity to pass squadmaker custom keyvalues such as:
     ```C++
         bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
         {

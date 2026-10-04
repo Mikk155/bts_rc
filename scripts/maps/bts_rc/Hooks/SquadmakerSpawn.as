@@ -26,17 +26,14 @@ namespace Hooks
 
         // Get squadmaker custom keyvalues and pass them to childs
         {
-            edict_t@ childEdict = entity.edict();
+            auto@ customKeyValues = CustomKeyValues::GetCustomKeyvalues();
+            const uint length = customKeyValues.length();
 
-            CustomKeyvalue deathdrop = ckv.GetKeyvalue( "$s_deathdrop" );
-
-            if( deathdrop.Exists() )
-                g_EntityFuncs.DispatchKeyValue( childEdict, "$s_deathdrop", deathdrop.GetString() );
-
-            CustomKeyvalue flashbang = ckv.GetKeyvalue( "$i_use_flashbang" );
-
-            if( flashbang.Exists() )
-                g_EntityFuncs.DispatchKeyValue( childEdict, "$i_use_flashbang", flashbang.GetInteger() );
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                const CustomKeyValues@ copyKeyvalues = customKeyValues[ui];
+                copyKeyvalues.CopyOver( ckv, entity );
+            }
         }
 
         CBaseMonster@ monster = null;

@@ -62,8 +62,11 @@ final class ASDeathDropConfig : IConfigurable
 
     bool Register( btson@ config ) override
     {
-        if( !bool( config[ "active" ] ) )
+        if( !bool( config[ "active" ] ) || !g_MapConfig.MapLoading )
             return false;
+
+        CustomKeyValues::Register( "$s_deathdrop" );
+        CustomKeyValues::Register( "$i_deathdrop" );
 
         const auto listNames = config.Keys;
         uint size = listNames.length();

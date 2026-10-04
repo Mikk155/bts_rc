@@ -75,6 +75,8 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
+            CustomKeyValues::Register( "$i_use_flashbang" );
+
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );

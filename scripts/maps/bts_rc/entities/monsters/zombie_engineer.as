@@ -135,7 +135,7 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         if( flNextThink <= g_Engine.time )
         {
             if( !ckv.GetKeyvalue( "$f_zecanisterhp" ).Exists() )
-                ckv.SetKeyvalue( "$f_zecanisterhp", this.m_CanisterHealth );
+                g_EntityFuncs.DispatchKeyValue( entity.edict(), "$f_zecanisterhp", this.m_CanisterHealth );
 
             if( FreeEdicts(1) )
             {
@@ -171,10 +171,10 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
                     g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, null, this.m_CanisterDamage, true );
                 }
                 else if( flCanisterHealth < this.m_CanisterHealth )
-                    ckv.SetKeyvalue( "$f_zecanisterhp", flCanisterHealth - this.m_CanisterDegrade );
+                    g_EntityFuncs.DispatchKeyValue( entity.edict(), "$f_zecanisterhp", flCanisterHealth - this.m_CanisterDegrade );
             }
 
-            ckv.SetKeyvalue( "$f_btscmthink", g_Engine.time + 0.1 );
+            g_EntityFuncs.DispatchKeyValue( entity.edict(), "$f_btscmthink", g_Engine.time + 0.1 );
         }
 
         return EntityOverridenAction::None;
