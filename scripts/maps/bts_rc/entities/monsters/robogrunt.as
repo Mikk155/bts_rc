@@ -90,6 +90,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         SetDebugName( entity, "Robo grunt" );
 #endif
 
+        BurningMonster::SetInmune( entity );
+
         return EntityOverriden::AddEntity( index, entity, ckv, monster );
     }
 

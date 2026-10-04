@@ -27,7 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Dont set on fires with flamethrower enemies such as robots turrets and other machines
+- [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines
 - [x] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::CreateBlood );
