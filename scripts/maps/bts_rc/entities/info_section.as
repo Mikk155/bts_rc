@@ -34,6 +34,7 @@ namespace test_chamber
                 g_EntityFuncs.SetOrigin( player, self.pev.origin + player.pev.view_ofs );
                 player.pev.fixangle = FixAngleMode::FAM_FORCEVIEWANGLES;
                 player.pev.v_angle = player.pev.angles = self.pev.angles;
+                player.pev.velocity = g_vecZero;
 
                 g_EntityFuncs.FireTargets( string( self.pev.target ), player, self, USE_TOGGLE, 0.0f );
             }
