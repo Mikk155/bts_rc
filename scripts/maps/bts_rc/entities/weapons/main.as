@@ -238,6 +238,7 @@ final class ASGlobalWeaponConfig : IConfigurable
         {
             CustomKeyValues::Register( "$i_spark_color" );
             CustomKeyValues::Register( "$i_spark_hitgroup" );
+            CustomKeyValues::Register( "$i_bloodcolor" );
 
             // ItemMapping stuff
             auto@ remaps = config.ValueOrDefault( "item_remap" );

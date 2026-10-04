@@ -30,6 +30,10 @@ namespace weapons
         || ( @monster = cast<CBaseMonster@>(hit) ) is null )
             return;
 
+        dictionary@ data = hit.GetUserData();
+
+        int damageTaken = int( data[ "damage_taken" ] );
+
         if( g_WeaponsConfig.blood_splash && monster.m_bloodColor != DONT_BLEED )
         {
             CSprite@ spr = null;
@@ -63,6 +67,19 @@ namespace weapons
         }
 
         auto ckv = hit.GetCustomKeyvalues();
+
+        auto hasBloodColors = ckv.GetKeyvalue( "$i_bloodcolor" );
+
+        if( hasBloodColors.Exists() )
+        {
+            NetworkMessage m( MSG_ALL, NetworkMessages::CreateBlood );
+                m.WriteCoord(tr.vecEndPos.x );
+                m.WriteCoord(tr.vecEndPos.y );
+                m.WriteCoord(tr.vecEndPos.z );
+                m.WriteByte( hasBloodColors.GetInteger() ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+                m.WriteByte( Math.clamp( 0, 255, damageTaken ) ); // Count
+            m.End();
+        }
 
         if( g_WeaponsConfig.sparks_splash )
         {
