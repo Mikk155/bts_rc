@@ -925,7 +925,19 @@
                     "Operative30",
                     "Operative31",
                     "Operative32",
-                    "Operative33"
+                    "Operative33",
+					"Operative34",
+					"Operative35",
+					"Operative36",
+					"Operative37",
+					"Operative38",
+					"Operative39",
+					"Operative40",
+					"Operative41",
+					"Operative42",
+					"Operative43",
+					"Operative44",
+					"Operative45"
                 ],
                 "description": "%1 entered the simulation as an Operative\nLoadout %2",
                 "notice": [
@@ -1524,7 +1536,7 @@
                     "ammo_9mmclip",
                     "ammo_9mmclip",
                     "ammo_9mmclip",
-                    "ammo_argrenade"
+                    "ammo_argrenades"
                 ]
             },
             "Operative3": {
@@ -2229,7 +2241,7 @@
         "deploy_time": 1.0,
         "laser_accuracy": 3.0,
         "laser_cooldown": 2.0,
-        "laser_size": 0.75,
+        "laser_size": 0.1,
         "max_clip": 9,
         "position": 9,
         "primary_accuracy": {
@@ -2326,7 +2338,7 @@
             "stand_trained": 2.0
         },
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.05,
+        "primary_trained_cooldown": 0.1,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -2359,7 +2371,7 @@
             "stand_trained": 2.0
         },
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.05,
+        "primary_trained_cooldown": 0.1,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -2385,7 +2397,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.3,
+        "primary_cooldown": 0.1,
         "primary_damage": 15,
         "primary_dropammo": 19,
         "primary_kickback": {
@@ -2402,7 +2414,7 @@
             "stand": 6.0,
             "stand_trained": 4.0
         },
-        "secondary_trained_cooldown": 0.5,
+        "secondary_trained_cooldown": 0.08,
         "slot": 1,
         "weight": 10
     },
@@ -2410,7 +2422,7 @@
         "deploy_time": 0.6,
         "laser_accuracy": 3.0,
         "laser_cooldown": 1.5,
-        "laser_size": 0.5,
+        "laser_size": 0.1,
         "max_clip": 17,
         "position": 5,
         "primary_accuracy": {
@@ -2733,7 +2745,7 @@
         "deploy_time": 1.0,
         "laser_accuracy": 3.0,
         "laser_cooldown": 1.5,
-        "laser_size": 0.5,
+        "laser_size": 0.1,
         "max_clip": 6,
         "position": 8,
         "primary_accuracy": {
