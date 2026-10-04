@@ -1386,7 +1386,7 @@
             "Operative15": {
                 "description": "Questionable Ethics",
                 "items": [
-                    "weapon_bts_crossbow",
+                    "weapon_bts_xbow",
                     "ammo_crossbow",
                     "ammo_crossbow",
                     "weapon_bts_flashlight"
