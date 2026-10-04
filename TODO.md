@@ -38,7 +38,7 @@ This file contains the list of to-do in the project.
         message.WriteByte(255);//sacle
     message.End();
     ```
-_ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
+_ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );

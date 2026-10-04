@@ -92,6 +92,8 @@ final class ASBloodPuddleConfig : IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
+            CustomKeyValues::Register( "$i_puddleskin" );
+
             @gpBloodPuddle = this;
 
             CustomEntity( "env_bloodpuddle", false );
@@ -163,6 +165,12 @@ final class ASBloodPuddleConfig : IConfigurable
         if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
             bloodpuddle.pev.skin = 1;
 
+        auto ckv = monster.GetCustomKeyvalues();
+        auto customSkin = ckv.GetKeyvalue( "$i_puddleskin" );
+
+        if( customSkin.Exists() )
+            bloodpuddle.pev.skin = customSkin.GetInteger();
+
         array<float> sizes;
 
         if( !gpBloodPuddle.m_CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
@@ -171,8 +179,8 @@ final class ASBloodPuddleConfig : IConfigurable
         bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
 
         if( g_Logger.trace.active )
-            g_Logger.trace.print( "Generated {} blood puddle with scale {} for {} at {}", {
-                ( bloodpuddle.pev.skin == 1 ? "yellow" : "red" ),
+            g_Logger.trace.print( "Generated blood puddle skin={} scale={} for {} at {}", {
+                bloodpuddle.pev.skin,
                 bloodpuddle.pev.scale,
                 monster.pev.classname,
                 monster.pev.origin.ToString()
