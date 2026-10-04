@@ -47,7 +47,16 @@ final class ASEquipmentSet
                 if( !item.is_string() )
                     g_Logger.critical.print( "only strings allowed in items at index {} for equipment {}", { string(ui), setName } );
 
-                this.m_Items.insertLast( string( items[ui] ) );
+                string itemName = string( items[ui] );
+
+                CBaseEntity@ entity = g_EntityFuncs.CreateEntity( itemName, null );
+
+                if( entity is null )
+                    g_Logger.critical.print( "Invalid item name \"{}\" at index {} for \"{}\"", { itemName, string(ui), setName } );
+
+                g_EntityFuncs.Remove( entity );
+
+                this.m_Items.insertLast( itemName );
             }
         }
 
