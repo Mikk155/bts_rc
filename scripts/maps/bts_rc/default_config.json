@@ -926,18 +926,18 @@
                     "Operative31",
                     "Operative32",
                     "Operative33",
-					"Operative34",
-					"Operative35",
-					"Operative36",
-					"Operative37",
-					"Operative38",
-					"Operative39",
-					"Operative40",
-					"Operative41",
-					"Operative42",
-					"Operative43",
-					"Operative44",
-					"Operative45"
+                    "Operative34",
+                    "Operative35",
+                    "Operative36",
+                    "Operative37",
+                    "Operative38",
+                    "Operative39",
+                    "Operative40",
+                    "Operative41",
+                    "Operative42",
+                    "Operative43",
+                    "Operative44",
+                    "Operative45"
                 ],
                 "description": "%1 entered the simulation as an Operative\nLoadout %2",
                 "notice": [
@@ -1536,7 +1536,7 @@
                     "ammo_9mmclip",
                     "ammo_9mmclip",
                     "ammo_9mmclip",
-                    "ammo_argrenades"
+                    "ammo_ARgrenades"
                 ]
             },
             "Operative3": {
