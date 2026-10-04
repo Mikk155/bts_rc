@@ -152,7 +152,6 @@ namespace weapons
     }
 }
 
-#if SERVER
 void __TraceEffects_Blood__( int x, int y, int z, int color, int range, int repeats )
 {
     if( --repeats < 0 )
@@ -193,4 +192,3 @@ ASCommand __TraceEffects_Blood_cmd__(
         __TraceEffects_Blood__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, range, 10 );
     }, true, "fx"
 );
-#endif

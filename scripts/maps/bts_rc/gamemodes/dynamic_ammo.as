@@ -230,7 +230,6 @@ final class ASDynamicAmmoConfig : IConfigurable
         @this.m_pValidation = ClientPutInServerHook( @this.ValidateAmunition );
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
 
-#if SERVER
         if( g_MapConfig.MapLoading )
         {
             RegisterCommand(
@@ -291,7 +290,6 @@ final class ASDynamicAmmoConfig : IConfigurable
                 false, "ammo"
             );
         }
-#endif
         return true;
     }
 

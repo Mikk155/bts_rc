@@ -86,11 +86,12 @@ final class func_bts_recharger : ScriptBaseEntity
 
     void Spawn()
     {
-#if SERVER
-        SetDebugName( self, "HEV/Hazard exclusive charger" );
-#endif
+        if( !g_IsMainMap )
+            SetDebugName( self, "HEV/Hazard exclusive charger" );
+
         self.pev.solid = SOLID_BSP;
         self.pev.movetype = MOVETYPE_PUSH;
+
         g_EntityFuncs.SetOrigin( self, self.pev.origin ); // set size and link into world
         g_EntityFuncs.SetSize( self.pev, self.pev.mins, self.pev.maxs );
         g_EntityFuncs.SetModel( self, self.pev.model );

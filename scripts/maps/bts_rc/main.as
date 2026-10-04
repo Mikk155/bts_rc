@@ -129,14 +129,12 @@ void MapInit()
         g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
     }
 
-#if SERVER
     if( !g_IsMainMap )
     {
         CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
         CustomEntity( "info_section", true, "test_chamber::info_section" );
         CustomEntity( "entitymaker", true, "test_chamber::entitymaker" );
     }
-#endif
 
     gCheckModuleError(false);
 }

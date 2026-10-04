@@ -260,7 +260,6 @@ final class ASMapConfig
         if( g_Logger.info.active )
             g_Logger.info.print( "Initializing context {}", { context.GetName() } );
 
-#if SERVER
         if( context.GetName().IsEmpty() )
             g_Logger.critical.print( "Got a IConfigurable with empty GetName method!" );
 
@@ -269,7 +268,6 @@ final class ASMapConfig
             if( this.m_Contexts[ui].GetName() == context.GetName() )
                 g_Logger.critical.print( "Got a IConfigurable with repeated GetName! \"{}\"", { context.GetName() } );
         }
-#endif
 
         this.m_Contexts.insertLast( @context );
     }
@@ -391,21 +389,21 @@ final class ASMapConfig
                         for( uint uia = 0; uia < allOfLength; uia++ )
                         {
                             auto@ allOfItem = allOf[uia];
-#if SERVER
+
                             if( !allOfItem.is_string() )
                             {
                                 g_Logger.error.print( "schema for {} contains \"allOf\" but value at index {} is not a string type!", { context.GetName(), uia } );
                                 continue;
                             }
-#endif
+
                             string copyKeyName = string( allOfItem );
-#if SERVER
+
                             if( !this.m_GlobalSchemaDefinitions.Contains( copyKeyName ) )
                             {
                                 g_Logger.error.print( "schema for {} contains \"allOf\" with value {} at index {} but does not exists in the schema definition!", { context.GetName(), copyKeyName, uia } );
                                 continue;
                             }
-#endif
+
                             auto@ definition = this.m_GlobalSchemaDefinitions[ copyKeyName ];
                             uint definitionLength = definition.Length();
                             for( uint uid = 0; uid < definitionLength; uid++ )
@@ -537,9 +535,6 @@ final class ASMapConfig
             }
         }
 
-#if SERVER
-        this.m_AllowReload = true;
-#endif
         this.m_AllowReload = this.m_json.ValueOrDefault( "allow_reload", this.m_AllowReload, false );
 
         if( !this.m_AllowReload )

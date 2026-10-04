@@ -616,7 +616,6 @@ void UpdatePlayerData( CBasePlayer@ player )
     UpdatePlayerData( player, util::GetClass( player ) );
 }
 
-#if SERVER
 ASCommand ASEquipmentTestCommand(
 "set",
 "[class index]",
@@ -699,4 +698,3 @@ function( CBasePlayer@ player, array<string>@ arguments )
 
     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Unknown character \"" + arguments[0] + "\". Run bts_rc class character to list valid names.\n" );
 }, true, "class" );
-#endif

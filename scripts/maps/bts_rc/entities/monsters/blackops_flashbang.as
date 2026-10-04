@@ -94,9 +94,8 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
             return false;
 
-#if SERVER
-        SetDebugName( entity, "Blackop with flashbang grenades" );
-#endif
+        if( !g_IsMainMap )
+            SetDebugName( entity, "Blackop with flashbang grenades" );
 
         return EntityOverriden::AddEntity( index, entity, ckv, monster );
     }

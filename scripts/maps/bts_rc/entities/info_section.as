@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#if SERVER
 namespace test_chamber
 {
     TextMenu::v1::Menu g_Sections;
@@ -76,4 +75,3 @@ namespace test_chamber
         }
     }
 }
-#endif

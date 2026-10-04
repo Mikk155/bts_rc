@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/74.4186046511628?barColor=75da0b)
+> ![](https://geps.dev/progress/75.18796992481202?barColor=71da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,18 +27,6 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines
-- [x] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
-    ```C++
-    NetworkMessage message( MSG_ALL, NetworkMessages::CreateBlood );
-        message.WriteCoord(-143);//x
-        message.WriteCoord(601);//y
-        message.WriteCoord(-1559);//z
-        //https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
-        message.WriteByte(251);//color
-        message.WriteByte(255);//sacle
-    message.End();
-    ```
 _ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
 - [ ] Add timed concuss on robot boss push
     ```C++
@@ -61,7 +49,6 @@ _ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
-- [x] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 - [ ] Pulish black ops flashbangs which at the moment is a rare throw.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
@@ -77,6 +64,27 @@ _ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
 - [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
+- [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
+- [ ] Add crossbow sprite when zoom in to sprite txt file.
+- [ ] Use item display name instead of item name for item_tracker collection chat message.
+---
+
+# Completed
+<!-- Python will move the completed goals from above to here.--->
+<!--CompletedGoals-start-->
+- [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines
+- [x] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
+    ```C++
+    NetworkMessage message( MSG_ALL, NetworkMessages::CreateBlood );
+        message.WriteCoord(-143);//x
+        message.WriteCoord(601);//y
+        message.WriteCoord(-1559);//z
+        //https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+        message.WriteByte(251);//color
+        message.WriteByte(255);//sacle
+    message.End();
+    ```
+- [x] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 - [x] Pass squadmaker entity if valid to EntityOverriden::AddEntity to pass squadmaker custom keyvalues such as:
     ```C++
         bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
@@ -85,15 +93,6 @@ _ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
                 return false;
     ```
     OR refactore the method.
-- [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
-- [ ] Add crossbow sprite when zoom in to sprite txt file.
-- [ ] Use item display name instead of item name for item_tracker collection chat message.
-
----
-
-# Completed
-<!-- Python will move the completed goals from above to here.--->
-<!--CompletedGoals-start-->
 - [x] Fill weapon clips based on random range from zero to the max current rgAmmo.
 - [x] Implement dynamic ammo system in PlayerCollect hook.
 - [x] dynamic ammo should use a classname-based find rather than internal ammo name.

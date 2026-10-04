@@ -108,9 +108,8 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
         if( classname != "monster_sentry" && classname != "monster_turret" && classname != "monster_miniturret" )
             return false;
 
-#if SERVER
-        SetDebugName( entity, "monster with laser aiming" );
-#endif
+        if( !g_IsMainMap )
+            SetDebugName( entity, "monster with laser aiming" );
 
         monster.pev.armortype = Math.RandomLong( 0, 20 );
         monster.pev.armorvalue = Math.RandomLong( 0, 1 );

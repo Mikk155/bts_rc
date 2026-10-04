@@ -113,7 +113,6 @@ namespace Hooks
             }
         }
 
-#if SERVER
         if( !g_IsMainMap )
         {
             TraceResult tr;
@@ -140,7 +139,6 @@ namespace Hooks
                 test_chamber::g_Sections.Open( player );
             }
         }
-#endif
 
         // Some high ping clients are lagged asf and freezed. let's wait until they press a key
         if( !data.exists( "connected" ) && player.pev.button != 0 )

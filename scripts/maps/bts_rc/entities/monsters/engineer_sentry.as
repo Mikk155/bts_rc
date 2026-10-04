@@ -116,9 +116,10 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( g_MapConfig.MapLoading )
         {
             EntityOverriden::SetThink( float( config[ "interval" ] ) );
-#if SERVER
-            g_Game.PrecacheOther( "monster_human_torch_ally" );
-#endif
+
+            if( !g_IsMainMap )
+                g_Game.PrecacheOther( "monster_human_torch_ally" );
+
             EntityOverriden::Register( this );
         }
 
@@ -130,18 +131,13 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( entity.GetClassname() != "monster_human_torch_ally" )
             return false;
 
-#if SERVER
-        SetDebugName( entity, "Engineer sentry spawner" );
-#endif
+        if( !g_IsMainMap )
+            SetDebugName( entity, "Engineer sentry spawner" );
 
         dictionary@ data = entity.GetUserData();
 
         data[ "sentry_left" ] = m_uiMaxCapacity;
         data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownInitial + Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
-
-#if SERVER
-        data[ "sentry_cooldown" ] = g_Engine.time + 10.2;
-#endif
 
         if( this.m_iGateAnimation < 0 )
             this.m_iGateAnimation = monster.LookupSequence( "open_floor_grate" );

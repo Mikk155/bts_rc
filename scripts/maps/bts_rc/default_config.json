@@ -8,6 +8,7 @@
         "interval": 0.1,
         "red": 255
     },
+    "allow_reload": true,
     "blackops_flashbang": {
         "active": true,
         "detonate_time": 6,

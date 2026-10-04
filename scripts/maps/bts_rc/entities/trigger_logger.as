@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#if SERVER
 namespace test_chamber
 {
     final class trigger_logger : ScriptBaseEntity
@@ -64,4 +63,3 @@ namespace test_chamber
         }
     }
 }
-#endif

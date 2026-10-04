@@ -171,14 +171,6 @@ namespace Logger
         const string& get_name() const override {
             return "Critical";
         }
-
-        protected void print_buffer() const override
-        {
-            string buffer = "[Critical] " + glog + "\n";
-#if SERVER
-            g_Scheduler.SetInterval( @g_EngineFuncs, "ServerPrint", 1.0f, g_Scheduler.REPEAT_INFINITE_TIMES, buffer );
-#endif
-        }
     }
 }
 
