@@ -194,7 +194,7 @@ final class ASDynamicAmmoConfig : IConfigurable
             if( g_Logger.info.active )
                 g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
 
-            player.RemoveAllItems(true, true);
+            player.RemoveAllItems(false, false);
 
             return HOOK_CONTINUE;
         }
