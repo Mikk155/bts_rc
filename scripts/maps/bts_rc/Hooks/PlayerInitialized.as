@@ -56,5 +56,13 @@ namespace Hooks
             hudParamsTitle.color1 = RGBA( 180, 180, 180, 255 );
             g_PlayerFuncs.HudCustomSprite( player, hudParamsTitle );
         }
+        else
+        {
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Da test chamberrrrr\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Use command \"bts_rc\" to see all available commands.\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Use command impulse 101 to see all weapons.\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Press TAB (Scoreboard) to open teleport menu.\n" );
+
+        }
     }
 }
