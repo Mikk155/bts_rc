@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/75.18796992481202?barColor=71da0b)
+> ![](https://geps.dev/progress/75.3731343283582?barColor=71da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,7 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-_ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
+
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );
@@ -72,6 +72,7 @@ _ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
 - [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines
 - [x] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
     ```C++

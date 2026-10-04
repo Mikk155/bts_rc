@@ -86,6 +86,7 @@ final class env_credits : ScriptBaseMonsterEntity
         if( m_Credits.length() <= 0 )
         {
             g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+            self.pev.flags |= FL_KILLME;
             return;
         }
 
@@ -103,6 +104,9 @@ final class env_credits : ScriptBaseMonsterEntity
 
     void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
     {
+        if( m_Credits.length() > 0 )
+            return;
+
         if( !g_IsMainMap )
         {
             CBasePlayer@ player;
@@ -136,7 +140,6 @@ final class env_credits : ScriptBaseMonsterEntity
         {
             string line;
             fStream.ReadLine( line );
-            g_Logger.info.print("{}", { line } );
 
             if( line.StartsWith( "//" ) )
             {
