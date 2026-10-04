@@ -128,7 +128,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
     void Precache()
     {
         g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_parasite.mdl" );
-        g_iPoisonSprite = g_Game.PrecacheModel( "sprites/poison.spr" );
+        g_iPoisonSprite = g_Game.PrecacheModel( "bts_rc/sprites/zombie_parasite_explode.spr" );
 
         for( uint i = 0; i < arrsSounds.length(); i++ )
             g_SoundSystem.PrecacheSound( arrsSounds[i] );

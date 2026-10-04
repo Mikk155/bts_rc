@@ -173,25 +173,28 @@ final class ASPanthereyeConfig : IConfigurable
 
             g_Game.PrecacheModel( "models/bts_rc/monsters/panthereye.mdl" );
 
-            g_SoundSystem.PrecacheSound( "garg/gar_idle2.wav" );
-            g_SoundSystem.PrecacheSound( "bullchicken/bc_idle5.wav" );
-            g_SoundSystem.PrecacheSound( "agrunt/ag_idle1.wav" );
-            g_SoundSystem.PrecacheSound( "bullchicken/bc_die3.wav" );
-            g_SoundSystem.PrecacheSound( "bullchicken/bc_idle3.wav" );
-            g_SoundSystem.PrecacheSound( "garg/gar_pain1.wav" );
-            g_SoundSystem.PrecacheSound( "gonome/gonome_jumpattack.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pouncehit.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash1.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash2.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/thrash3.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/stealth.ogg" );
-            g_SoundSystem.PrecacheSound( "garg/gar_pain2.wav" );
-            g_SoundSystem.PrecacheSound( "agrunt/ag_pain2.wav" );
-            g_SoundSystem.PrecacheSound( "barnacle/bcl_chew2.wav" );
-            g_SoundSystem.PrecacheSound( "barnacle/bcl_chew1.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert2.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert3.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack1.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack2.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack3.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle1.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle2.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle3.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle4.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle5.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_moan.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_moan2.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain1.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain2.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain3.wav" );
+			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_scratch.wav" );
 
             CustomEntity( "monster_panthereye" );
         }
@@ -259,9 +262,9 @@ class monster_panthereye : ScriptBaseMonsterEntity
     {
         switch( RandomUint( 2, self ) )
         {
-            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_pain1.wav", VOL_NORM, ATTN_IDLE ); break;
-            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_pain2.wav", VOL_NORM, ATTN_IDLE ); break;
-            case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_pain2.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_pain1.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_pain2.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_pain3.wav", VOL_NORM, ATTN_IDLE ); break;
         }
     }
 
@@ -269,8 +272,8 @@ class monster_panthereye : ScriptBaseMonsterEntity
     {
         switch( RandomUint( 1, self ) )
         {
-            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_die3.wav", VOL_NORM, ATTN_IDLE ); break;
-            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "barnacle/bcl_chew2.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_die1.wav", VOL_NORM, ATTN_IDLE ); break;
+            case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_die2.wav", VOL_NORM, ATTN_IDLE ); break;
         }
     }
 
@@ -280,11 +283,11 @@ class monster_panthereye : ScriptBaseMonsterEntity
         {
             switch( RandomUint( 4, self ) )
             {
-                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "garg/gar_idle2.wav", VOL_NORM, ATTN_IDLE ); break;
-                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_idle5.wav", VOL_NORM, ATTN_IDLE ); break;
-                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "agrunt/ag_idle1.wav", VOL_NORM, ATTN_IDLE ); break;
-                case 3: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bullchicken/bc_idle3.wav", VOL_NORM, ATTN_IDLE ); break;
-                case 4: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "barnacle/bcl_chew1.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 0: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_idle1.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 1: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_idle2.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 2: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_idle3.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 3: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_idle4.wav", VOL_NORM, ATTN_IDLE ); break;
+                case 4: g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, "bts_rc/panthereye/pe_idle5.wav", VOL_NORM, ATTN_IDLE ); break;
             }
         }
     }
@@ -503,7 +506,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
                 //from HL2 Fast Zombie
                 @pev.groundentity = null;
 
-                g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "gonome/gonome_jumpattack.wav", VOL_NORM, ATTN_IDLE );
+                g_SoundSystem.EmitSound( self.edict(), CHAN_WEAPON, "bts_rc/panthereye/pe_attack2.wav", VOL_NORM, ATTN_IDLE );
 
                 //Take him off ground so engine doesn't instantly reset FL_ONGROUND.
                 g_EntityFuncs.SetOrigin( self, self.pev.origin + Vector(0.0, 0.0, 1.0) );
