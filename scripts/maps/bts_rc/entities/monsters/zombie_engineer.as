@@ -43,7 +43,11 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
 
     bool Register( btson@ config ) override
     {
-        m_SpriteCanisterGas = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
+        if( g_MapConfig.MapLoading )
+        {
+            m_SpriteCanisterGas = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
+            EntityOverriden::Register( this );
+        }
         return true;
     }
 

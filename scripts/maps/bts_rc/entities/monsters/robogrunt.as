@@ -64,6 +64,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
 #endif
             EntityOverriden::SetThink( 0.1f );
+            EntityOverriden::Register( this );
         }
         return true;
     }

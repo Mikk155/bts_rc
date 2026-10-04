@@ -119,6 +119,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
 #if SERVER
             g_Game.PrecacheOther( "monster_human_torch_ally" );
 #endif
+            EntityOverriden::Register( this );
         }
 
         return true;
