@@ -151,3 +151,46 @@ namespace weapons
         }
     }
 }
+
+#if SERVER
+void __TraceEffects_Blood__( int x, int y, int z, int color, int range, int repeats )
+{
+    if( --repeats < 0 )
+        return;
+
+    NetworkMessage m( MSG_ALL, NetworkMessages::CreateBlood );
+        m.WriteCoord( x );
+        m.WriteCoord( y );
+        m.WriteCoord( z );
+        m.WriteByte( color ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+        m.WriteByte( range ); // Count
+    m.End();
+
+    g_Scheduler.SetTimeout( "__TraceEffects_Blood__", 0.5f, x, y, z, color, range, repeats );
+}
+
+ASCommand __TraceEffects_Blood_cmd__(
+    "blood",
+    "<0/255 color ranges> <0/255 particle amount (optional)>",
+    "Spawn blood particles",
+    function( CBasePlayer@ player, array<string>@ arguments )
+    {
+        if( arguments is null )
+            arguments = { 20, 20 };
+
+        while( arguments.length() < 2 )
+            arguments.insertLast( 20 );
+
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
+
+        int range = Math.clamp( 0, 255, atoi( arguments[1] ) );
+        int color = Math.clamp( 0, 255, atoi( arguments[0] ) );
+
+        g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Playing blood color " + color + " with amount " + range + '\n' );
+
+        __TraceEffects_Blood__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, range, 10 );
+    }, true, "fx"
+);
+#endif
