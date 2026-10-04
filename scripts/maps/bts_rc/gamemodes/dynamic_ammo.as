@@ -151,9 +151,9 @@ final class ASDynamicAmmoConfig : IConfigurable
                     ammoInventory[idx] = player.m_rgAmmo(idx);
                 }
 
-                this.m_Lock = true;
+                this.Lock();
                 player.GiveNamedItem( data.classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
-                this.m_Lock = false;
+                this.UnLock();
 
                 if( data.classname.StartsWith( "weapon_" ) )
                 {
@@ -313,11 +313,26 @@ final class ASDynamicAmmoConfig : IConfigurable
     }
 
     private
-        bool m_Lock;
+        float m_LockTime = 0;
+
+    bool get_Locked() const
+    {
+        return ( this.m_LockTime == g_Engine.time );
+    }
+
+    void Lock()
+    {
+        this.m_LockTime = g_Engine.time;
+    }
+
+    void UnLock()
+    {
+        this.m_LockTime = g_Engine.time;
+    }
 
     bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup )
     {
-        if( player is null || pickup is null || this.m_Lock )
+        if( player is null || pickup is null || this.Locked )
             return true;
 
         CBasePlayerItem@ pickupItem = cast<CBasePlayerItem@>( pickup );
@@ -349,10 +364,10 @@ final class ASDynamicAmmoConfig : IConfigurable
         {
             if( ( @item = player.HasNamedPlayerItem( data.classname ) ) is null )
             {
-                this.m_Lock = true;
+                this.Lock();
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
                 @item = player.HasNamedPlayerItem( data.classname );
-                this.m_Lock = false;
+                this.UnLock();
                 player.m_rgAmmo( data.index, 0 );
             }
         }
