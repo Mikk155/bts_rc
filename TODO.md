@@ -50,6 +50,7 @@ _ [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
     ```
 - [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [ ] Rotate ASFlare angles when created with flaregun
+- [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.

@@ -20,6 +20,18 @@ namespace Hooks
     // Called once per player after gpGameStarted is true and the player presses any key
     void PlayerInitialized( CBasePlayer@ player, dictionary@ data )
     {
+        {
+            NetworkMessage m( MSG_ONE, NetworkMessages::ServerName, player.edict() );
+                m.WriteString( "Black-Mesa Training Simulation" );
+            m.End();
+        }
+
+        {
+            NetworkMessage m( MSG_ONE, NetworkMessages::NextMap, player.edict() );
+                m.WriteString( "bts_rc2" );
+            m.End();
+        }
+
         if( g_IsMainMap )
         {
             if( gpGameVersion == 526 )
