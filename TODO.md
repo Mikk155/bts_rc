@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/74.28571428571429?barColor=75da0b)
+> ![](https://geps.dev/progress/73.23943661971832?barColor=7ada0b)
 <!--CompletionBar-end-->
 
 ---
@@ -30,6 +30,8 @@ This file contains the list of to-do in the project.
 - [ ] Fix schema error of items not pasing their type defined in parent
     > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
 - [ ] Add label/section in command log
+- [ ] Fix test chamber not spawning all type of canister zombies (seems it's using + for classname)
+- [ ] zombie uncrab skip zombies with spawnflag 16 (prisoner) for test chamberr
     > [Information] Registering command infinite
 - [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push

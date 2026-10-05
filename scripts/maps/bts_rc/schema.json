@@ -18034,6 +18034,42 @@
 					}
 				}
 			},
+			"zombie_engineer": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Zombie engineer config",
+				"description": "Control attributes for zombie engineer.",
+				"properties": 
+				{
+					"health": 
+					{
+						"type": "integer",
+						"description": "Canister health before explode",
+						"default": 50
+					},
+					"explosion": 
+					{
+						"type": "integer",
+						"description": "Canister explosion radius damage",
+						"default": 125
+					},
+					"stray": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"maximum": 100,
+						"description": "when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100",
+						"default": 5
+					},
+					"degrade": 
+					{
+						"type": "integer",
+						"description": "damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens",
+						"default": 1
+					}
+				}
+			},
 			"monster_panthereye": 
 			{
 				"type": "object",

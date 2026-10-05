@@ -3074,6 +3074,12 @@
         ],
         "sparks_splash": true
     },
+    "zombie_engineer": {
+        "degrade": 1,
+        "explosion": 125,
+        "health": 50,
+        "stray": 5
+    },
     "zombie_uncrab": {
         "active": true,
         "track_health": true
