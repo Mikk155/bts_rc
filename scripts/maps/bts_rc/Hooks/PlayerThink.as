@@ -243,11 +243,11 @@ namespace Hooks
         else
             player.ResetOverriddenPlayerModel( true, false );
 
+        CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
+
         if( player.m_hActiveItem.IsValid() )
         {
             auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-
-            CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
             if( lastWeapon !is null && weapon !is lastWeapon )
             {
@@ -373,6 +373,15 @@ namespace Hooks
                         }
                     }
                 }
+            }
+        }
+        else if( lastWeapon !is null )
+        {
+            ASWeaponConfig@ lastWeaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon.GetClassname() ] );
+
+            if( lastWeaponConfig !is null )
+            {
+                lastWeaponConfig.WeaponHolster( player, lastWeapon, character );
             }
         }
 

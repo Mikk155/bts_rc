@@ -42,7 +42,7 @@ This file contains the list of to-do in the project.
     ```
 - [ ] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
-- [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
+- [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [ ] Rotate ASFlare angles when created with flaregun
 - [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
