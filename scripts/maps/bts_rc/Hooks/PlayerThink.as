@@ -39,6 +39,7 @@ namespace Hooks
 
         auto character = GetCharacter(player);
 
+        // -TODO Move this to a IConfigurable context
         auto aiment = g_Utility.FindEntityForward( player );
 
         if( aiment !is null )
@@ -149,22 +150,29 @@ namespace Hooks
 
         if( character is null )
         {
-            auto observer = player.GetObserver();
-
-            if( !observer.IsObserver() )
+            if( g_IsMainMap )
             {
-                observer.StartObserver( player.pev.origin, player.pev.angles, false );
+                auto observer = player.GetObserver();
+
+                if( !observer.IsObserver() )
+                {
+                    observer.StartObserver( player.pev.origin, player.pev.angles, false );
+                }
+
+                // Let late joined players join a role
+                if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
+                {
+                    data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
+                    g_ClassSelectionMenu.Open( player );
+                }
+
+                player.pev.nextthink = g_Engine.time + 0.1f;
+                return HOOK_CONTINUE;
             }
 
-            // Let late joined players join a role
-            if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
-            {
-                data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
-                g_ClassSelectionMenu.Open( player );
-            }
-
-            player.pev.nextthink = g_Engine.time + 0.1f;
-            return HOOK_CONTINUE;
+            // Set random class in test maps for my bots to spawn
+            SetRandomClass( player, { Security, Scientist, Maintenance, Operative, HEV, Hazard } );
+            @character = GetCharacter( player );
         }
 
         if( !player.IsAlive() )
