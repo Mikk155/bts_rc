@@ -382,6 +382,7 @@ namespace Hooks
             if( lastWeaponConfig !is null )
             {
                 lastWeaponConfig.WeaponHolster( player, lastWeapon, character );
+                @data[ "current_weapon" ] = null;
             }
         }
 

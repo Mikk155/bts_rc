@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/73.57142857142858?barColor=78da0b)
+> ![](https://geps.dev/progress/74.28571428571429?barColor=75da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -42,7 +42,6 @@ This file contains the list of to-do in the project.
     ```
 - [ ] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
-- [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [ ] Rotate ASFlare angles when created with flaregun
 - [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
@@ -77,6 +76,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [x] Fix all angelscript warnings
 - [x] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players ~~and historical top players.~~
 - [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
