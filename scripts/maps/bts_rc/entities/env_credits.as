@@ -85,8 +85,38 @@ final class env_credits : ScriptBaseMonsterEntity
     {
         if( m_Credits.length() <= 0 )
         {
-            g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
-            self.pev.flags |= FL_KILLME;
+            if( g_DataTracker.CurrentPlayerMessages.length() <= 0 )
+            {
+                g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+                self.pev.flags |= FL_KILLME;
+                return;
+            }
+
+            string message = g_DataTracker.CurrentPlayerMessages[0];
+            g_DataTracker.CurrentPlayerMessages.removeAt(0);
+
+            HUDTextParams params;
+            params.channel = 1;
+            params.x = -1;
+            params.r1 = 255;
+            params.g1 = 0;
+            params.b1 = 0;
+
+            params.y = 0.40;
+            params.fadeinTime = 1.0f;
+            params.holdTime = 3.0f;
+            params.fadeoutTime = 1.0f;
+            g_PlayerFuncs.HudMessageAll( params, message );
+
+            self.pev.nextthink = g_Engine.time + params.fadeinTime + params.holdTime + params.fadeoutTime + 0.5f;
+
+            params.channel = 2;
+            params.y = 0.30;
+            params.fadeinTime = 0.0f;
+            params.holdTime = self.pev.nextthink;
+            params.fadeoutTime = 0.0f;
+            g_PlayerFuncs.HudMessageAll( params, "Simulation completed in " + g_DataTracker.FormatedTime );
+
             return;
         }
 
@@ -102,9 +132,19 @@ final class env_credits : ScriptBaseMonsterEntity
         self.pev.nextthink = g_Engine.time + 0.01f;
     }
 
+    private bool m_Thinking;
+
     void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
     {
-        if( m_Credits.length() > 0 )
+        // Test points only
+        if( true )
+        {
+            g_DataTracker.Stop();
+            self.pev.nextthink = g_Engine.time + 2.0f;
+            return;
+        }
+
+        if( this.m_Thinking )
             return;
 
         if( !g_IsMainMap )
@@ -120,6 +160,8 @@ final class env_credits : ScriptBaseMonsterEntity
                 return;
             }
         }
+
+        g_DataTracker.Stop();
 
         string creditsPath = "scripts/maps/bts_rc/credits.txt";
 
@@ -210,6 +252,8 @@ final class env_credits : ScriptBaseMonsterEntity
         this.Fade( 2.0f );
 
         self.pev.nextthink = g_Engine.time + 2.0f;
+
+        this.m_Thinking = true;
     }
 
     void Fade( float time, bool firstCall = true )

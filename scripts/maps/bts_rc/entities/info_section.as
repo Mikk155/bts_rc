@@ -30,7 +30,6 @@ namespace test_chamber
                 if( player is null )
                     return;
 
-                g_Logger.error.print( "self {} player {}", { self.pev.origin.z, player.pev.origin.z } );
                 g_EntityFuncs.SetOrigin( player, self.pev.origin );
                 player.pev.fixangle = FixAngleMode::FAM_FORCEVIEWANGLES;
                 player.pev.v_angle = player.pev.angles = self.pev.angles;

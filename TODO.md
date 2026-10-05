@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/75.3731343283582?barColor=71da0b)
+> ![](https://geps.dev/progress/74.81481481481481?barColor=73da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -28,6 +28,7 @@ This file contains the list of to-do in the project.
 
 # Pending
 
+- [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );

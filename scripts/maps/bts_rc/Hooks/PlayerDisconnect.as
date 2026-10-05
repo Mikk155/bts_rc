@@ -21,7 +21,9 @@ namespace Hooks
     {
         if( player is null )
             return HOOK_CONTINUE;
-    
+
+        g_DataTracker.Delete( player );
+
         CBaseEntity@ laserSpot = LaserSpot::Entity( player );
 
         if( laserSpot !is null )
