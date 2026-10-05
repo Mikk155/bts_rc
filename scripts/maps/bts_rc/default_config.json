@@ -8,7 +8,6 @@
         "interval": 0.1,
         "red": 255
     },
-    "allow_reload": true,
     "blackops_flashbang": {
         "active": true,
         "detonate_time": 6,
@@ -386,6 +385,9 @@
                 }
             }
         }
+    },
+    "data_tracker": {
+        "track_data": false
     },
     "deathdrop": {
         "Blackops": [
@@ -2148,11 +2150,14 @@
         "item_tracking": false
     },
     "logger": {
-        "debug": true,
+        "debug": false,
         "file": true,
         "info": true,
-        "trace": true,
+        "trace": false,
         "warning": true
+    },
+    "map_config": {
+        "allow_reload": false
     },
     "monster_panthereye": {
         "dmg_high_swipe": 25,

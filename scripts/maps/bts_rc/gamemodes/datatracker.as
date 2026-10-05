@@ -17,8 +17,40 @@
 
 #include "../../../mikk155/meta_api/json/v1"
 
-final class ASDataTracker
+final class ASDataTracker : IConfigurable
 {
+
+    const string& GetName() const override
+    {
+        return "data_tracker";
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Map configuration",
+            "description": "Configuration about the *configuration* system..",
+            "properties":
+            {
+                "track_data":
+                {
+                    "type": "boolean",
+                    "description": "When active. tracks player data and writes to scripts/maps/store/bts_rc_datatracker.json"
+                }
+            }
+        }""";
+    }
+
+    bool Register( btson@ config ) override
+    {
+        config.Get( "track_data", this.m_TrackDataActive );
+        return true;
+    }
+
+    bool m_TrackDataActive;
+
     private
         dictionary m_Data;
 
@@ -34,20 +66,13 @@ final class ASDataTracker
     {
         if( player !is null && character !is null )
         {
-            dictionary@ data = { };
+            dictionary@ data = {
+                { "joined_at", DateTime().ToUnixTimestamp() }
+            };
 
             @this.m_Data[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] = data;
 
-            // -TODO Move to initializer list
-            data[ "classify_index" ] = int( character.Classify );
-            data[ "classify" ] = Classification::ToString( character.Classify );
-            data[ "model" ] = character.Name;
-            data[ "points" ] = int( player.pev.frags );
-            data[ "joined_at" ] = DateTime().ToUnixTimestamp();
-            data[ "difficulty" ] = int( Difficulty::Level() );
-            data[ "hellbound" ] = Difficulty::HellBound();
-
-            ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Now tracking your player data.", { player }  );
+            ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Now tracking your player data.\n", { player }  );
         }
     }
 
@@ -83,27 +108,59 @@ final class ASDataTracker
             if( player is null || !player.IsConnected() )
                 continue;
 
-            ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Processing data...", { player }  );
+            auto character = GetCharacter( player );
+
+            if( character is null )
+                continue;
 
             dictionary@ data = cast<dictionary@>( this.m_Data[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] );
 
-            data[ "points" ] = int( player.pev.frags );
-            data[ "ended_at" ] = now_unix;
-            data[ "name" ] = string( player.pev.netname );
+            if( data is null )
+            {
+                ChatColor::Say( player, ChatColor::Color::Red, string( player.pev.netname ) + ": No data tracked for joining after the simulation started.\n", { player }  );
+                continue;
+            }
 
+            ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Processing data...\n", { player }  );
+
+            string netname = string( player.pev.netname );
+            int points = int( player.pev.frags );
+            string model = character.Name;
+            int classify_index = int( character.Classify );
+            string classify_name = Classification::ToString( character.Classify );
+
+            // After credits message display
             string buffer;
 
-            snprintf( buffer, "%1 completed the simulation as %2 (%3) with %4 points.\n",
-                string( player.pev.netname ),
-                string( data[ "classify" ] ),
-                string( data[ "model" ] ),
-                int( data[ "points" ] )
+            snprintf( buffer, "%1 completed the simulation as %2 (%3) with %4 points and %5 deaths.\n",
+                netname,
+                classify_name,
+                model.SubString( 4 ), // Remove the "bts_" prefix
+                points,
+                player.m_iDeaths
             );
 
             m_CurrentRun.insertLast( buffer );
+
+            // Data to store at json
+            if( this.m_TrackDataActive )
+            {
+                data[ "name" ] = netname;
+                data[ "points" ] = points;
+                data[ "model" ] = model;
+                data[ "ended_at" ] = now_unix;
+                data[ "classify_index" ] = classify_index;
+                data[ "classify" ] = classify_name;
+                data[ "difficulty" ] = int( Difficulty::Level() );
+                data[ "hellbound" ] = Difficulty::HellBound();
+                data[ "deaths" ] = player.m_iDeaths;
+            }
         }
 
-        meta_api::json::v1::Serialize( this.m_Data, "scripts/maps/store/bts_rc_datatracker.json" );
+        if( this.m_TrackDataActive )
+        {
+            meta_api::json::v1::Serialize( this.m_Data, "scripts/maps/store/bts_rc_datatracker.json" );
+        }
     }
 }
 

@@ -66,7 +66,7 @@ class DefaultConfigCheck( PyTest ):
 
                 if( oldSerialized != newSerialized ):
                     with open( self.m_DefaultConfig, "w" ) as fStream:
-                        fStream.write( newSerialized );
+                        fStream.write( newSerialized + '\n' );
 
         return True;
 

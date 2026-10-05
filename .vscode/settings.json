@@ -18,58 +18,6 @@
         "desktop.ini": true
     },
 
-    // Sven co-op specifics
-    "angelScript.characterLiterals": true,
-    "angelScript.explicitPropertyAccessor": false,
-    "angelScript.implicitMutualInclusion": true,
-    "angelScript.supportsForEach": false,
-    "angelScript.supportsDigitSeparators": false,
-    "angelScript.builtinStringType": "string",
-    "angelScript.builtinArrayType": "array",
-    "angelScript.allowUnicodeIdentifiers": false,
-    "angelScript.supportsTypedEnumerations": true,
-    "angelScript.hoistEnumParentScope": true,
-
-    "angelScript.definedSymbols":
-    [
-        "SERVER",
-        "EDITOR_ONLY",
-        "METAMOD_PLUGIN_ASLP"
-    ],
-
-    // Analyzer exclude list
-    "angelScript.files.exclude":
-    [
-        ".github/**",
-        "docs/**",
-        "maps/**",
-        "models/**",
-        "resource/**",
-        "Rubish/**",
-        "sound/**",
-        "sprites/**",
-        "src/**",
-        "wiki/**"
-    ],
-
-    "angelScript.forceIncludePredefined":
-    [
-        "as.predefined",
-        // These are defined in gitignore. move your copies there.
-        ".vscode/sven.as.predefined",
-        ".vscode/aslp.as.predefined"
-    ],
-
-    "files.watcherExclude":
-    {
-        "**": true
-    },
-
-    // Formatting configuration
-    "angelScript.formatter.useTabIndent": false,
-    "angelScript.formatter.indentSpaces": 4,
-    "angelScript.formatter.maxBlankLines": 1,
-
     "editor.indentSize": 4,
     "editor.trimAutoWhitespace": true,
     "files.insertFinalNewline": true,
@@ -81,7 +29,6 @@
     {
         "files.encoding": "utf8"
     },
-
     "[typescript]":
     {
         "editor.formatOnType": false,

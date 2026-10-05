@@ -9,11 +9,6 @@
 				"type": "string",
 				"description": "Reference to the JSON schema file used for validation and editor hinting."
 			},
-			"allow_reload": 
-			{
-				"type": "boolean",
-				"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time."
-			},
 			"logger": 
 			{
 				"type": "object",
@@ -31,12 +26,12 @@
 					"trace": 
 					{
 						"type": "boolean",
-						"default": true
+						"default": false
 					},
 					"debug": 
 					{
 						"type": "boolean",
-						"default": true
+						"default": false
 					},
 					"info": 
 					{
@@ -62,7 +57,7 @@
 					{
 						"type": "boolean",
 						"description": "Track important inventory items and expose the inventory status display.",
-						"default": true
+						"default": false
 					},
 					"battery_lighting": 
 					{
@@ -18145,6 +18140,38 @@
 						"maximum": 100,
 						"description": "Visibility percentage",
 						"default": 15
+					}
+				}
+			},
+			"map_config": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Map configuration",
+				"description": "Configuration about the *configuration* system.",
+				"properties": 
+				{
+					"allow_reload": 
+					{
+						"type": "boolean",
+						"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time. useful to test specific changes without restarting the whole map.",
+						"default": false
+					}
+				}
+			},
+			"data_tracker": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Map configuration",
+				"description": "Configuration about the *configuration* system..",
+				"properties": 
+				{
+					"track_data": 
+					{
+						"type": "boolean",
+						"description": "When active. tracks player data and writes to scripts/maps/store/bts_rc_datatracker.json",
+						"default": false
 					}
 				}
 			},

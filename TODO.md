@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/74.81481481481481?barColor=73da0b)
+> ![](https://geps.dev/progress/72.3404255319149?barColor=7dda0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,7 +27,10 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-
+- [ ] Fix schema error of items not pasing their type defined in parent
+    > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
+- [ ] Add label/section in command log
+    > [Information] Registering command infinite
 - [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push
     ```C++
@@ -37,14 +40,17 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
+- [ ] Fix all angelscript warnings
+- [ ] Remove all auto registry entities. move to MapInit.
+- [ ] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
+- [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [ ] Rotate ASFlare angles when created with flaregun
 - [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
-- [ ] Create a chrono::v1 at mikk155/sven-co-op with simplified usage and add more chrono instances in the map to track total and relative times
-- [ ] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players and historical top players.
+- [ ] Create a chrono::v1 at mikk155/sven-co-op or fork it to avoid problems in future updates there.
 - [ ] Add a chrono since map started and ended for player data storage.
 - [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped. Relates to [#129](https://github.com/Mikk155/bts_rc/pull/129)
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
@@ -73,6 +79,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players ~~and historical top players.~~
 - [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
 - [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines
 - [x] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
