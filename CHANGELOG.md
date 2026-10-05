@@ -1,3 +1,7 @@
+# 5/10/2026
+- Implemented a custom credits entity and a player score report at the end of the playthrough.
+- Said system has a means for server operators to retrieve player data from the map using JSON http://github.com/Mikk155/bts_rc/wiki/datatracker
+
 # 29/9/2026
 - Dynamic ammo system now works with entity classnames instead of internal ammo names, meaning ammo will be dynamic for all weapon and ammo pickups. if the context is disabled by the config then the maximum value will be always used instead of connected players range with min/max values.
 - Removed various unnecesary angelscript custom entities for ammunition items.

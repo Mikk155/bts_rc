@@ -152,7 +152,7 @@ namespace weapons
     }
 }
 
-void __TraceEffects_Blood__( int x, int y, int z, int color, int range, int repeats )
+void __TraceEffects_Blood__( float x, float y, float z, int color, int range, int repeats )
 {
     if( --repeats < 0 )
         return;

@@ -387,7 +387,7 @@
         }
     },
     "data_tracker": {
-        "track_data": false
+        "active": false
     },
     "deathdrop": {
         "Blackops": [

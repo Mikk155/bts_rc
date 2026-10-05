@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/72.3404255319149?barColor=7dda0b)
+> ![](https://geps.dev/progress/73.57142857142858?barColor=78da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -40,8 +40,6 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
-- [ ] Fix all angelscript warnings
-- [ ] Remove all auto registry entities. move to MapInit.
 - [ ] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
@@ -79,6 +77,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Fix all angelscript warnings
 - [x] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players ~~and historical top players.~~
 - [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
 - [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines

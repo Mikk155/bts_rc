@@ -18167,11 +18167,11 @@
 				"description": "Configuration about the *configuration* system..",
 				"properties": 
 				{
-					"track_data": 
+					"active": 
 					{
 						"type": "boolean",
 						"description": "When active. tracks player data and writes to scripts/maps/store/bts_rc_datatracker.json",
-						"default": false
+						"default": true
 					}
 				}
 			},

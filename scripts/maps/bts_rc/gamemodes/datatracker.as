@@ -34,7 +34,7 @@ final class ASDataTracker : IConfigurable
             "description": "Configuration about the *configuration* system..",
             "properties":
             {
-                "track_data":
+                "active":
                 {
                     "type": "boolean",
                     "description": "When active. tracks player data and writes to scripts/maps/store/bts_rc_datatracker.json"
@@ -45,7 +45,7 @@ final class ASDataTracker : IConfigurable
 
     bool Register( btson@ config ) override
     {
-        config.Get( "track_data", this.m_TrackDataActive );
+        config.Get( "active", this.m_TrackDataActive );
         return true;
     }
 
