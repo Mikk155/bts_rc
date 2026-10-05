@@ -46,6 +46,18 @@ final class ASCredit
 final class env_credits : ScriptBaseMonsterEntity
 {
     private
+        dictionary m_PlayersVoting;
+
+    private
+        bool m_RestartSimulation;
+
+    private
+        bool m_Intermission;
+
+    private
+        int m_TotalPlayers;
+
+    private
         array<ASCredit> m_Credits;
 
     private
@@ -116,14 +128,55 @@ final class env_credits : ScriptBaseMonsterEntity
         return this.m_FormatedTime;
     }
 
+    private
+        void VoteCallback( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option )
+        {
+            if( player !is null && option !is null )
+            {
+                string idx = string( player.entindex() );
+
+                if( option.Id == 0 )
+                {
+                    m_PlayersVoting[ idx ] = true;
+                }
+                else
+                {
+                    m_PlayersVoting.delete( idx );
+                }
+            }
+        }
+
     void Think()
     {
+        if( this.m_Intermission )
+        {
+            if( this.m_RestartSimulation )
+            {
+                g_EngineFuncs.ChangeLevel( string( g_Engine.mapname ) );
+            }
+            else
+            {
+                g_EngineFuncs.ChangeLevel( g_MapCycle.GetNextMap() );
+            }
+            return;
+        }
+
         if( m_Credits.length() <= 0 )
         {
             if( g_DataTracker.CurrentPlayerMessages.length() <= 0 )
             {
-                g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
-                self.pev.flags |= FL_KILLME;
+                if( !g_IsMainMap )
+                {
+                    g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+                    self.pev.flags |= FL_KILLME;
+                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "Skiping level change in da test chamberrrrr\n" );
+                    return;
+                }
+
+                this.m_Intermission = true;
+                NetworkMessage m( MSG_ALL, NetworkMessages::SVC_INTERMISSION );
+                m.End();
+                self.pev.nextthink = g_Engine.time + 5.0f;
                 return;
             }
 
@@ -164,6 +217,66 @@ final class env_credits : ScriptBaseMonsterEntity
             g_PlayerFuncs.HudMessageAll( params, '\n' );
         }
 
+        int percent = ( this.m_TotalPlayers > 0 ? int( ( m_PlayersVoting.getSize() * 100 ) / this.m_TotalPlayers ) : 0 );
+        this.m_TotalPlayers = 0;
+
+        this.m_RestartSimulation = ( percent > 50 );
+
+        for( int i = 1; i <= g_Engine.maxClients; i++ )
+        {
+            auto player = g_PlayerFuncs.FindPlayerByIndex(i);
+
+            if( player !is null )
+            {
+                this.m_TotalPlayers++;
+
+                TextMenu::v1::Menu menu;
+
+                menu.Text
+                    .ColorGray()
+                    .Write( "Reset simulation? " )
+                    .ColorOrange()
+                    .Write( "%" );
+
+                if( this.m_RestartSimulation )
+                    menu.Text.ColorGreen();
+                else
+                    menu.Text.ColorRed();
+
+                menu.Text
+                    .Write( percent )
+                    .ColorOrange()
+                    .Write( " (" )
+                    .ColorGray()
+                    .Write( ( this.m_RestartSimulation ? "Restart" : "Next map" ) )
+                    .ColorOrange()
+                    .Write( ")" )
+                .ColorGray();
+
+                auto@ optionResetSimulation = menu.AddOption();
+                auto@ optionEndSimulation = menu.AddOption();
+
+                string idx = string( player.entindex() );
+
+                if( m_PlayersVoting.exists( idx ) )
+                {
+                    optionResetSimulation.Text.ColorGreen();
+                }
+                else
+                {
+                    optionEndSimulation.Text.ColorGreen();
+                }
+
+                optionResetSimulation.Text.Write( "Yes, Restart map." ).ColorGray();
+                optionEndSimulation.Text.Write( "No, Next map." ).ColorGray();
+
+                optionResetSimulation.SetCallback( @TextMenu::v1::MenuOptionSelect( this.VoteCallback ) );
+                optionEndSimulation.SetCallback( @TextMenu::v1::MenuOptionSelect( this.VoteCallback ) );
+
+                menu.Open( player, 5 );
+            }
+        }
+
         self.pev.nextthink = g_Engine.time + this.m_CreditsScrollRate;
     }
 
@@ -172,7 +285,16 @@ final class env_credits : ScriptBaseMonsterEntity
     void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
     {
         if( this.m_Thinking )
+        {
+            if( !g_IsMainMap )
+            {
+                g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+                self.pev.flags |= FL_KILLME;
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "Killed credits, activate again\n" );
+                return;
+            }
             return;
+        }
 
         if( !g_IsMainMap )
         {
