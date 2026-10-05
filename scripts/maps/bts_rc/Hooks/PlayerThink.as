@@ -233,7 +233,7 @@ namespace Hooks
                 player.pev.impulse = 0;
         }
 
-        if( g_WeaponsConfig.item_tracking )
+        if( gpItemsConfig.item_tracking )
             item_tracker::Think( player );
 
         MedkitAmmo::Think( player );

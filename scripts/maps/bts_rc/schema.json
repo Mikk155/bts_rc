@@ -58,6 +58,12 @@
 				"description": "Control items configuration",
 				"properties": 
 				{
+					"item_tracking": 
+					{
+						"type": "boolean",
+						"description": "Track important inventory items and expose the inventory status display.",
+						"default": true
+					},
 					"battery_lighting": 
 					{
 						"title": "Lighting battery",
@@ -15214,12 +15220,6 @@
 						"minimum": 0,
 						"description": "Quantity of ammo carry for flashlight weapons",
 						"default": 10
-					},
-					"item_tracking": 
-					{
-						"type": "boolean",
-						"description": "Track important inventory items and expose the inventory status display.",
-						"default": true
 					},
 					"item_remap": 
 					{

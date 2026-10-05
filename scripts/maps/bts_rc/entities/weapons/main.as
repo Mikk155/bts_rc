@@ -102,7 +102,6 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool sparks_splash;
     bool m249_knockback;
     int flashlight_maxcarry;
-    bool item_tracking;
     string[] melee_weapons_push_monsters;
 
     const string& GetName() const override
@@ -178,11 +177,6 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 },
-                "item_tracking":
-                {
-                    "type": "boolean",
-                    "description": "Track important inventory items and expose the inventory status display."
-                },
                 "item_remap":
                 {
                     "type": "object",
@@ -222,7 +216,6 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.m249_knockback = bool( config[ "m249_knockback" ] );
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
-        this.item_tracking = bool( config[ "item_tracking" ] );
         this.melee_weapons_push_monsters.resize( 0 );
 
         btson@ monstersPush = config[ "melee_weapons_push_monsters" ];

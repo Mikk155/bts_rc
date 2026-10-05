@@ -61,7 +61,7 @@ void MapActivate()
     if( gCheckModuleError(true) )
         return;
 
-    if( g_WeaponsConfig.item_tracking )
+    if( gpItemsConfig.item_tracking )
         item_tracker::Reset();
 
     uint numents = g_EngineFuncs.NumberOfEntities();
@@ -83,7 +83,7 @@ void MapActivate()
         EntityOverriden::Register( entityIndex, entity, ckv, monster );
 
         // item tracker data
-        if( g_WeaponsConfig.item_tracking && entity.GetClassname() == "item_inventory" )
+        if( gpItemsConfig.item_tracking && entity.GetClassname() == "item_inventory" )
         {
             CItemInventory@ item = cast<CItemInventory@>(entity);
 

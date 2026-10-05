@@ -2144,7 +2144,8 @@
         "interval": 0.1
     },
     "items": {
-        "battery_lighting": true
+        "battery_lighting": true,
+        "item_tracking": false
     },
     "logger": {
         "debug": true,
@@ -3055,7 +3056,6 @@
         "item_remap": {
             "weapon_sniperrifle": "weapon_bts_sniperrifle"
         },
-        "item_tracking": true,
         "m249_knockback": true,
         "melee_weapons_pull": true,
         "melee_weapons_pull_force": 300,
