@@ -22,9 +22,6 @@ final class ASDataTracker
     private
         dictionary m_Data;
 
-    private
-        DateTime m_Start;
-
     void Delete( CBasePlayer@ player )
     {
         if( player !is null )
@@ -63,66 +60,21 @@ final class ASDataTracker
     }
 
     private
-        TimeDifference m_Diff;
+        DateTime m_Start;
 
     private
-        string m_FormatedTime;
+        TimeDifference m_Diff;
 
-    const string& get_FormatedTime()
+    const TimeDifference& get_Difference() const
     {
-        if( this.m_FormatedTime.IsEmpty() )
-        {
-            int val = m_Diff.GetDays();
-            if( val > 0 )
-            {
-                this.m_FormatedTime.opAddAssign( val );
-                if( val > 1 )
-                    this.m_FormatedTime.opAddAssign( " days, " );
-                else
-                    this.m_FormatedTime.opAddAssign( " day, " );
-            }
-
-            val = m_Diff.GetHours();
-            if( val > 0 )
-            {
-                this.m_FormatedTime.opAddAssign( val );
-                if( val > 1 )
-                    this.m_FormatedTime.opAddAssign( " hours, " );
-                else
-                    this.m_FormatedTime.opAddAssign( " hour, " );
-            }
-
-            val = m_Diff.GetMinutes();
-            if( val > 0 )
-            {
-                this.m_FormatedTime.opAddAssign( val );
-                if( val > 1 )
-                    this.m_FormatedTime.opAddAssign( " minutes." );
-                else
-                    this.m_FormatedTime.opAddAssign( " minute." );
-            }
-
-            this.m_FormatedTime.opAddAssign( '\n' );
-        }
-
-        return this.m_FormatedTime;
+        return this.m_Diff;
     }
 
     void Stop()
     {
-        string timeFormat;
-
         DateTime now = DateTime();
         time_t now_unix = now.ToUnixTimestamp();
-
         this.m_Diff = this.m_Start - now;
-
-        snprintf( timeFormat, "%1:%2:%3:%4",
-            m_Diff.GetDays(),
-            m_Diff.GetHours(),
-            m_Diff.GetMinutes(),
-            m_Diff.GetSeconds()
-        );
 
         for( int i = 1; i <= g_Engine.maxClients; i++ )
         {

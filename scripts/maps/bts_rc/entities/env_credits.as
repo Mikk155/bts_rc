@@ -81,6 +81,40 @@ final class env_credits : ScriptBaseMonsterEntity
         return index;
     }
 
+    private
+        string m_FormatedTime;
+
+    private
+        void FormatTime( const string&in name, int number )
+        {
+            if( number > 0 )
+            {
+                this.m_FormatedTime.opAddAssign( ' ' );
+                this.m_FormatedTime.opAddAssign( number );
+                this.m_FormatedTime.opAddAssign( ' ' );
+                this.m_FormatedTime.opAddAssign( name );
+
+                if( number > 1 )
+                    this.m_FormatedTime.opAddAssign( 's' );
+
+                this.m_FormatedTime.opAddAssign( '.' );
+            }
+        }
+
+    const string& get_FormatedTime() property
+    {
+        if( this.m_FormatedTime.IsEmpty() )
+        {
+            this.m_FormatedTime = "Simulation completed in";
+            this.FormatTime( "day", g_DataTracker.Difference.GetDays() );
+            this.FormatTime( "hour", g_DataTracker.Difference.GetHours() );
+            this.FormatTime( "minute", g_DataTracker.Difference.GetMinutes() );
+            this.FormatTime( "second", g_DataTracker.Difference.GetSeconds() );
+            this.m_FormatedTime.opAddAssign( '\n' );
+        }
+        return this.m_FormatedTime;
+    }
+
     void Think()
     {
         if( m_Credits.length() <= 0 )
@@ -113,9 +147,9 @@ final class env_credits : ScriptBaseMonsterEntity
             params.channel = 2;
             params.y = 0.30;
             params.fadeinTime = 0.0f;
-            params.holdTime = self.pev.nextthink;
+            params.holdTime = self.pev.nextthink - g_Engine.time;
             params.fadeoutTime = 0.0f;
-            g_PlayerFuncs.HudMessageAll( params, "Simulation completed in " + g_DataTracker.FormatedTime );
+            g_PlayerFuncs.HudMessageAll( params, this.FormatedTime );
 
             return;
         }
@@ -136,14 +170,6 @@ final class env_credits : ScriptBaseMonsterEntity
 
     void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
     {
-        // Test points only
-        if( true )
-        {
-            g_DataTracker.Stop();
-            self.pev.nextthink = g_Engine.time + 2.0f;
-            return;
-        }
-
         if( this.m_Thinking )
             return;
 
