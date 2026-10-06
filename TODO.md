@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/73.23943661971832?barColor=7ada0b)
+> ![](https://geps.dev/progress/73.94366197183099?barColor=77da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -29,9 +29,8 @@ This file contains the list of to-do in the project.
 # Pending
 - [ ] Fix schema error of items not pasing their type defined in parent
     > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
-- [ ] Add label/section in command log
 - [ ] Fix test chamber not spawning all type of canister zombies (seems it's using + for classname)
-- [ ] zombie uncrab skip zombies with spawnflag 16 (prisoner) for test chamberr
+- [ ] Add label/section in command log
     > [Information] Registering command infinite
 - [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push
@@ -78,6 +77,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] zombie uncrab skip zombies with spawnflag 16 (prisoner) for test chamberr
 - [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [x] Fix all angelscript warnings
 - [x] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players ~~and historical top players.~~
