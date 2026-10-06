@@ -101,6 +101,7 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashbang_pop.wav" );
             g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
             this.m_SpriteSmoke = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
 
@@ -171,6 +172,7 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             m.End();
 
             g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", 0.4f, ATTN_NORM, 0, PITCH_NORM );
+            g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "bts_rc/weapons/flashbang_pop.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
 
             for( int i = 1; i <= g_Engine.maxClients; i++ )
             {
