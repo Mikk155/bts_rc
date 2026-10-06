@@ -10,7 +10,9 @@
     },
     "blackops_flashbang": {
         "active": true,
-        "detonate_time": 6,
+        "detonate_time": 3,
+        "fadehold": 2,
+        "fadeout": 6,
         "interval": 0.5,
         "throw_flash_cooldown": 3
     },

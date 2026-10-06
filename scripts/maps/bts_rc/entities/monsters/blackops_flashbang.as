@@ -21,8 +21,13 @@
 
 final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 {
+    private float max_view_distance = 1024.0f;
+    private Vector color( 255, 255, 255 );
     private float throw_flash_cooldown;
     private float detonate_time;
+    private float fadeout;
+    private float fadehold;
+    private int m_SpriteSmoke;
 
     const string& GetName() const override
     {
@@ -49,6 +54,18 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
                     "minimum": 0.0,
                     "description": "Internal think rate interval. the lower the value the more cpu usage"
                 },
+                "fadehold":
+                {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "Fade hold time"
+                },
+                "fadeout":
+                {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "Fade out time"
+                },
                 "throw_flash_cooldown":
                 {
                     "type": "number",
@@ -71,6 +88,8 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             return false;
 
         config.Get( "detonate_time", this.detonate_time, false );
+        config.Get( "fadeout", this.fadeout, false );
+        config.Get( "fadehold", this.fadehold, false );
         config.Get( "throw_flash_cooldown", this.throw_flash_cooldown, false );
 
         EntityOverriden::SetThink( config.ValueOrDefault( "interval", 1.0f, false, false ) );
@@ -83,6 +102,7 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
             g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
+            this.m_SpriteSmoke = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
 
             EntityOverriden::Register( this );
         }
@@ -140,27 +160,35 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
         if( m_hGrenade.IsValid() && ( @grenade = cast<CGrenade@>( m_hGrenade.GetEntity() ) ) !is null )
         {
-            float flMaxDist = 1024.0f;
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, grenade.pev.origin );
+                m.WriteByte( TE_SPRITE );
+                m.WriteCoord( grenade.pev.origin.x );
+                m.WriteCoord( grenade.pev.origin.y );
+                m.WriteCoord( grenade.pev.origin.z + 16.0  );
+                m.WriteShort( this.m_SpriteSmoke );
+                m.WriteByte( 10 ); // scale * 10
+                m.WriteByte( 128 ); // brightness
+            m.End();
 
-            Vector color( 255, 255, 255 );
+            g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", 0.4f, ATTN_NORM, 0, PITCH_NORM );
 
             for( int i = 1; i <= g_Engine.maxClients; i++ )
             {
                 auto player = g_PlayerFuncs.FindPlayerByIndex(i);
 
-                if( player is null )
+                if( player is null || !player.IsAlive() )
                     continue;
 
                 float flDistance = ( grenade.pev.origin - player.pev.origin ).Length();
 
                 // Player is too far away
-                if( flDistance > flMaxDist )
+                if( flDistance > max_view_distance )
                     continue;
 
                 Vector vecSrc = player.pev.origin + player.pev.view_ofs;
 
                 TraceResult tr;
-                g_Utility.TraceLine( vecSrc, grenade.pev.origin, ignore_monsters, player.edict(), tr );
+                g_Utility.TraceLine( vecSrc, grenade.pev.origin, ignore_monsters, ignore_glass, player.edict(), tr );
 
                 if( tr.flFraction < 1.0 )
                     continue; // No line of sight
@@ -171,25 +199,23 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
                 // player is looking at it
                 if( dot >= 0.5f )
-                    g_PlayerFuncs.ScreenFade( player, color, 3.0, 1.0, 255, 0 );
+                    g_PlayerFuncs.ScreenFade( player, this.color, this.fadeout, this.fadehold, 255, 0 );
 
-                float flVolume = 1.0f - Math.clamp( flDistance / flMaxDist, 0.0f, 1.0f );
-
-//                float flEffect = dot * flVolume;
+                float flVolume = 1.0f - Math.clamp( flDistance / max_view_distance, 0.0f, 1.0f );
 
                 float side = DotProduct( g_Engine.v_right, vecToTarget );
 
                 if( ( side < 0 ? -side : side ) < 0.2f )
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
                 else if( side > 0 )
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing_right.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
                 else
                 {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_ITEM, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+                    g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing_left.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
                 }
             }
 

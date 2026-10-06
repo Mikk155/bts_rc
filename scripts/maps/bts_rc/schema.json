@@ -17908,6 +17908,20 @@
 						"description": "Internal think rate interval. the lower the value the more cpu usage",
 						"default": 0.5
 					},
+					"fadehold": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Fade hold time",
+						"default": 2
+					},
+					"fadeout": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Fade out time",
+						"default": 6
+					},
 					"throw_flash_cooldown": 
 					{
 						"type": "number",
@@ -17920,7 +17934,7 @@
 						"type": "number",
 						"minimum": 1,
 						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown.",
-						"default": 6
+						"default": 3
 					},
 					"active": 
 					{
