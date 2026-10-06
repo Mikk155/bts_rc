@@ -77,9 +77,9 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             && model == "models/bts_rc/monsters/rgrunt_opfor.mdl" );
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+        if( monster is null || !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
             return false;
 
         if( !g_IsMainMap )
@@ -87,7 +87,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         BurningMonster::SetInmune( entity );
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override

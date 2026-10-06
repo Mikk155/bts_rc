@@ -95,12 +95,12 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         return false;
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+        if( monster is null || !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
             return false;
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     void TakeDamage( CBaseMonster@ victim, DamageInfo@ info )

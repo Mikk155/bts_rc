@@ -28,7 +28,7 @@ namespace EntityOverriden
     }
 
     // Register a entity to its EntityOverriden system
-    bool Register( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
+    bool Register( CBaseEntity@ entity, CBaseMonster@ monster )
     {
         bool added = false;
 
@@ -38,7 +38,7 @@ namespace EntityOverriden
         {
             EntityOverriden@ overrider = gpEntityOverriden[ui];
 
-            if( overrider !is null && overrider.AddEntity( index, entity, ckv, monster ) )
+            if( overrider !is null && overrider.AddEntity( entity, monster ) )
             {
                 if( g_Logger.debug.active )
                     g_Logger.debug.print( "[{}] Registering {} at {}", { overrider.GetName(), entity.GetClassname(), entity.pev.origin.ToString() } );
@@ -118,7 +118,7 @@ abstract class EntityOverriden
     }
 
     // Whatever a entity should be added to the instance, entity and monster are the same instance just casted before hand.
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster )
     {
         this.m_Handles.insertLast( EHandle( entity ) );
         return true;

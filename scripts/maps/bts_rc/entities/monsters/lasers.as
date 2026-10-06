@@ -101,20 +101,23 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
         return true;
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        string classname = entity.GetClassname();
+        if( monster is null )
+            return false;
+
+        string classname = monster.GetClassname();
 
         if( classname != "monster_sentry" && classname != "monster_turret" && classname != "monster_miniturret" )
             return false;
 
         if( !g_IsMainMap )
-            SetDebugName( entity, "monster with laser aiming" );
+            SetDebugName( monster, "monster with laser aiming" );
 
         monster.pev.armortype = Math.RandomLong( 0, 20 );
         monster.pev.armorvalue = Math.RandomLong( 0, 1 );
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     protected CSprite@ sprite( Vector &in VecPos )

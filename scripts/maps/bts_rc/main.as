@@ -73,14 +73,7 @@ void MapActivate()
         if( entity is null )
             continue;
 
-        CBaseMonster@ monster = null;
-
-        if( entity.IsMonster() )
-            @monster = cast<CBaseMonster@>(entity);
-
-        auto ckv = entity.GetCustomKeyvalues();
-
-        EntityOverriden::Register( entityIndex, entity, ckv, monster );
+        EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) );
 
         // item tracker data
         if( gpItemsConfig.item_tracking && entity.GetClassname() == "item_inventory" )

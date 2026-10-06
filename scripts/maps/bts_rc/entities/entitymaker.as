@@ -109,7 +109,7 @@ namespace test_chamber
                 return;
 
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
-            Hooks::SquadmakerSpawn( self, child );
+            EntityOverriden::Register( child, cast<CBaseMonster@>(child) );
             this.m_hChild = EHandle( child );
 
             g_EntityFuncs.FireTargets( this.m_Target, child, self, USE_TOGGLE, 0.0f );

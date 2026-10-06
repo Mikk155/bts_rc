@@ -36,12 +36,7 @@ namespace Hooks
             }
         }
 
-        CBaseMonster@ monster = null;
-
-        if( entity.IsMonster() )
-            @monster = cast<CBaseMonster@>(entity);
-
-        EntityOverriden::Register(  entity.entindex(), entity, ckv, monster );
+        EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) );
 
         // Swap a specific squadmaker to a random location.
         if( ckv.GetKeyvalue( "$i_randomize_squad" ).GetInteger() == 1 )

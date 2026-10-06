@@ -70,8 +70,10 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
-        this.detonate_time = float( config[ "detonate_time" ] );
-        this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
+        config.Get( "detonate_time", this.detonate_time, false );
+        config.Get( "throw_flash_cooldown", this.throw_flash_cooldown, false );
+
+        EntityOverriden::SetThink( config.ValueOrDefault( "interval", 1.0f, false, false ) );
 
         if( g_MapConfig.MapLoading )
         {
@@ -82,22 +84,21 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
             g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
 
-            EntityOverriden::SetThink( float( config[ "interval" ] ) );
             EntityOverriden::Register( this );
         }
 
         return true;
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( ckv.GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
+        if( monster is null || monster.GetCustomKeyvalues().GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
             return false;
 
         if( !g_IsMainMap )
             SetDebugName( entity, "Blackop with flashbang grenades" );
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override

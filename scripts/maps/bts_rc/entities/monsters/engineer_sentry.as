@@ -126,15 +126,15 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         return true;
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( entity.GetClassname() != "monster_human_torch_ally" )
+        if( monster is null || monster.GetClassname() != "monster_human_torch_ally" )
             return false;
 
         if( !g_IsMainMap )
-            SetDebugName( entity, "Engineer sentry spawner" );
+            SetDebugName( monster, "Engineer sentry spawner" );
 
-        dictionary@ data = entity.GetUserData();
+        dictionary@ data = monster.GetUserData();
 
         data[ "sentry_left" ] = m_uiMaxCapacity;
         data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownInitial + Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
@@ -142,7 +142,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( this.m_iGateAnimation < 0 )
             this.m_iGateAnimation = monster.LookupSequence( "open_floor_grate" );
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     bool IsHullFree( const Vector &in vecPos )
@@ -268,7 +268,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
 
                 if( AimingLasersOverrider !is null )
                 {
-                    AimingLasersOverrider.AddEntity( sentry.entindex(), sentry, sentry.GetCustomKeyvalues(), cast<CBaseMonster@>( sentry ) );
+                    AimingLasersOverrider.AddEntity( sentry, cast<CBaseMonster@>( sentry ) );
                 }
             }
         }
