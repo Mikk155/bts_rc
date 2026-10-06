@@ -138,7 +138,6 @@ final class ASEquipmentSet
 // Class representing a classification equipment
 final class ASEquipmentCharacter
 {
-    private string m_Target;
     private string m_Description;
     private uint[] m_HUDFade(3);
     private uint[] m_HUDMessage(3);
@@ -204,7 +203,6 @@ final class ASEquipmentCharacter
         }
 
         this.m_Description = config.ValueOrDefault( "description", String::EMPTY_STRING );
-        this.m_Target = config.ValueOrDefault( "trigger", String::EMPTY_STRING );
 
         if( !this.m_Description.IsEmpty() )
         {
@@ -267,8 +265,6 @@ final class ASEquipmentCharacter
 
             g_Scheduler.SetTimeout( this, "__StupidAssSchedulerStupidAssAPI__", 1.0f, EHandle(player), color );
         }
-
-        g_EntityFuncs.FireTargets( this.m_Target, player, null, USE_TOGGLE, 0.0f );
     }
 
     void __StupidAssSchedulerStupidAssAPI__( EHandle hPlayer, Vector color )

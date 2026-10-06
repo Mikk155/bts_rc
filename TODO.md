@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/73.94366197183099?barColor=77da0b)
+> ![](https://geps.dev/progress/74.64788732394366?barColor=74da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -69,7 +69,6 @@ This file contains the list of to-do in the project.
 - [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
-- [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
 - [ ] Add crossbow sprite when zoom in to sprite txt file.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
 ---
@@ -77,6 +76,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
 - [x] zombie uncrab skip zombies with spawnflag 16 (prisoner) for test chamberr
 - [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
 - [x] Fix all angelscript warnings

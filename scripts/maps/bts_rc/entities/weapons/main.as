@@ -234,7 +234,7 @@ final class ASGlobalWeaponConfig : IConfigurable
             CustomKeyValues::Register( "$i_bloodcolor" );
 
             // ItemMapping stuff
-            auto@ remaps = config.ValueOrDefault( "item_remap" );
+            auto@ remaps = config[ "item_remap" ];
             const auto@ remaps_from = remaps.Keys;
             uint length = remaps.Length();
 
