@@ -23,7 +23,7 @@
 
 final class ASBloodPuddleConfig : IConfigurable
 {
-    float[] m_DefaultSize = { 1.5f, 2.5f };
+    float[] m_DefaultSize;
     dictionary m_CustomSizes;
     bool m_persistent;
 
@@ -102,9 +102,10 @@ final class ASBloodPuddleConfig : IConfigurable
 
         this.m_persistent = bool( config[ "persistent" ] );
 
-        btson@ defaultSize = config.ValueOrDefault( "default_size" );
-        this.m_DefaultSize[0] = defaultSize.ValueOrDefault(0, this.m_DefaultSize[0], false, true );
-        this.m_DefaultSize[1] = defaultSize.ValueOrDefault(1, this.m_DefaultSize[1], false, true );
+        btson@ defaultSize = config[ "default_size" ];
+
+        this.m_DefaultSize = { float( defaultSize[0] ), float( defaultSize[1] ) };
+
         if( this.m_DefaultSize[0] > this.m_DefaultSize[1] )
         {
             g_Logger.error.print( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
@@ -126,7 +127,7 @@ final class ASBloodPuddleConfig : IConfigurable
         {
             string name = monsterNames[ui];
 
-            btson@ customSize = config.ValueOrDefault( "default_size" );
+            btson@ customSize = custom_size[ name ];
 
             array<float> arr = { float( customSize[0] ), float( customSize[1] ) };
 
