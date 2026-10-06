@@ -213,16 +213,59 @@ class btson
     /// ======================================
     /// opConv
     /// ======================================
-    float opConv() {
+    float opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+                return atof( string( this.Value ) );
+            case meta_api::json::Type::Integer:
+                return float( int( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? 1 : 0 );
+        }
         return float( this.Value );
     }
-    int opConv() {
+    int opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+                return atoi( string( this.Value ) );
+            case meta_api::json::Type::Float:
+                return int( float( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? 1 : 0 );
+        }
         return int( this.Value );
     }
-    bool opConv() {
+    bool opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+            {
+                string val = string( this.Value );
+                return ( atoi(val) != 1 || val == "true" );
+            }
+            case meta_api::json::Type::Float:
+                return ( int( float( this.Value ) ) != 0 );
+            case meta_api::json::Type::Integer:
+                return ( int( this.Value ) != 0 );
+        }
         return bool( this.Value );
     }
-    string opConv() {
+    string opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Float:
+                return string( float( this.Value ) );
+            case meta_api::json::Type::Integer:
+                return string( int( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? "true" : "false" );
+        }
         return string( this.Value );
     }
 
