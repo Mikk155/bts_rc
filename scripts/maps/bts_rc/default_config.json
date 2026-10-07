@@ -3029,9 +3029,15 @@
         "primary_dropammo": 5,
         "primary_maxammo": 15,
         "primary_trained_cooldown": 1.8,
-        "secondary_cooldown": 0.5,
         "slot": 2,
-        "weight": 10
+        "weight": 10,
+        "scope_color": [
+            60,
+            255,
+            60
+        ],
+        "scope_fov": 20,
+        "secondary_cooldown": 0.5
     },
     "weapon_crowbar": {
         "deploy_time": 0.4,

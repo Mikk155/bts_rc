@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponXBowConfig : ASWeaponConfig
+final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
 {
     const string& GetName() const override
     {
@@ -37,7 +37,7 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         return "models/bts_rc/weapons/v_crossbow.mdl";
     }
 
-    const string& get_zoom_view_model()
+    const string& get_zoom_view_model() override
     {
         return "models/mikk155/misc/v_scope_noch.mdl";
     }
@@ -45,6 +45,11 @@ final class ASWeaponXBowConfig : ASWeaponConfig
     const string& get_animation_extension() override
     {
         return "bow";
+    }
+
+    const string& get_zoom_animation_extension() override
+    {
+        return "bowscope";
     }
 
     const string& get_primary_ammo() override
@@ -79,11 +84,8 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magin.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magready.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_draw2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
 
-        g_Game.PrecacheModel( this.zoom_view_model );
-
-        ASWeaponConfig::Precache();
+        ASWeaponScopeLightConfig::Precache();
     }
 
     bool Register( btson@ json ) override
@@ -93,7 +95,7 @@ final class ASWeaponXBowConfig : ASWeaponConfig
             g_CustomEntityFuncs.RegisterCustomEntity( "electro_bolt", "electro_bolt" );
         }
 
-        return ASWeaponConfig::Register( json );
+        return ASWeaponScopeLightConfig::Register( json );
     }
 }
 
@@ -250,7 +252,7 @@ class weapon_bts_xbow : BTS_FireWeapon
     {
         self.m_fInReload = false;
 
-        ZoomDisable();
+        gpWeaponXBowConfig.DisableZoom( this.owner, self );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.5;
         if( self.m_iClip > 0 )
@@ -261,32 +263,22 @@ class weapon_bts_xbow : BTS_FireWeapon
         BaseClass.Holster( skipLocal );
     }
 
-    void Attack( CBasePlayer@ player, AttackType type ) override
+    void PrimaryAttack() override
     {
-        this.SetCooldown( util::IsTrainedPersonal( player ), type );
-        switch( type )
-        {
-            case AttackType::Tertiary:
-                return;
-            case AttackType::Secondary:
-            {
-                ZoomIn();
-                self.pev.nextthink = g_Engine.time + 0.1;
-                self.m_flNextSecondaryAttack = g_Engine.time + 0.5;
-                return;
-            }
-        }
-
         if( self.m_iClip == 0 )
         {
             this.PlayEmptySound();
             return;
         }
 
+        CBasePlayer@ player = this.owner;
+
         player.m_iWeaponVolume = QUIET_GUN_VOLUME;
         self.m_iClip--;
 
-        ZoomDisable();
+        this.SetCooldown( util::IsTrainedPersonal( player ), AttackType::Primary );
+
+        gpWeaponXBowConfig.DisableZoom( player, self );
 
         if( self.m_iClip > 0 )
         {
@@ -341,44 +333,9 @@ class weapon_bts_xbow : BTS_FireWeapon
             self.m_flTimeWeaponIdle = g_Engine.time + 0.75;
     }
 
-    void ZoomDisable()
-    {
-        auto owner = this.owner;
-
-        if( owner.m_iFOV != 0 )
-        {
-            owner.m_iFOV = 0;
-            owner.m_szAnimExtension = "bow";
-            PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-            owner.pev.viewmodel = gpWeaponXBowConfig.view_model;
-        }
-    }
-
-    void ZoomIn()
-    {
-        auto owner = this.owner;
-
-        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-        owner.m_szAnimExtension = "bowscope";
-        owner.pev.viewmodel = gpWeaponXBowConfig.zoom_view_model;
-
-        if( owner.m_iFOV == 0 )
-        {
-            owner.m_iFOV = 60;
-            return;
-        }
-
-        owner.m_iFOV -= 15;
-
-        if( owner.m_iFOV <= 0 )
-        {
-            ZoomDisable();
-        }
-    }
-
     void Reload()
     {
-        ZoomDisable();
+        gpWeaponXBowConfig.DisableZoom( this.owner, self );
 
         if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
