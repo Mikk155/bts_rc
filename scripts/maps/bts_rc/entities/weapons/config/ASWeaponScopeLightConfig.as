@@ -57,17 +57,15 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
 
         if( player.m_iFOV == 0 )
         {
-            player.m_iFOV = this.m_FOV;
-            player.m_szAnimExtension = this.zoom_animation_extension;
-            player.pev.viewmodel = this.zoom_view_model;
-            g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.1f, 255.0f, FFADE_OUT );
+            weapon.pev.fuser1 = g_Engine.time + this.secondary_cooldown;
+            g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.5f, 255.0f, FFADE_OUT );
         }
         else
         {
             player.m_iFOV = 0;
             player.m_szAnimExtension = this.animation_extension;
             player.pev.viewmodel = this.view_model;
-            g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.1f, 255.0f, FFADE_IN );
+            g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.5f, 255.0f, FFADE_IN );
         }
     }
 
@@ -88,6 +86,18 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         ASWeaponConfig::PlayerThink( player, weapon, character );
+
+        if( weapon.pev.fuser1 > 0 )
+        {
+            if( weapon.pev.fuser1 <= g_Engine.time )
+            {
+                player.m_iFOV = this.m_FOV;
+                player.m_szAnimExtension = this.zoom_animation_extension;
+                player.pev.viewmodel = this.zoom_view_model;
+                weapon.pev.fuser1 = 0;
+            }
+            return;
+        }
 
         if( player.m_iFOV == 0 )
             return;
