@@ -10112,11 +10112,6 @@
 						"default": 2,
 						"type": "number"
 					},
-					"secondary_cooldown": 
-					{
-						"default": 0.5,
-						"type": "number"
-					},
 					"primary_damage": 
 					{
 						"default": 120,
@@ -10191,6 +10186,11 @@
 						"default": 2,
 						"type": "number"
 					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"slot": 
 					{
 						"default": 5,
@@ -10200,6 +10200,33 @@
 					{
 						"default": 10,
 						"type": "integer"
+					},
+					"scope_fov": 
+					{
+						"default": 18,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
+					},
+					"scope_color": 
+					{
+						"default": 
+						[
+							255,
+							60,
+							60
+						],
+						"description": "Night vision color when using scope",
+						"type": "array",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0,
+							"maximum": 255
+						},
+						"minItems": 3,
+						"maxItems": 3
 					},
 					"secondary_maxammo": 
 					{
@@ -10431,13 +10458,6 @@
 					"reload_sound": 
 					{
 						"type": "string"
-					},
-					"laser_size": 
-					{
-						"title": "Laser sprite size multiplier",
-						"description": "Multiplier for the sprite model when the laser spot is enabled",
-						"type": "number",
-						"minimum": 0.1
 					}
 				}
 			},
@@ -12473,11 +12493,6 @@
 						"default": 1.8,
 						"type": "number"
 					},
-					"secondary_cooldown": 
-					{
-						"default": 0.5,
-						"type": "number"
-					},
 					"primary_damage": 
 					{
 						"default": 48,
@@ -12496,6 +12511,11 @@
 					"primary_trained_cooldown": 
 					{
 						"default": 1.8,
+						"type": "number"
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
 						"type": "number"
 					},
 					"slot": 

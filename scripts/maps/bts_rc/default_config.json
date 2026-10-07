@@ -2928,6 +2928,12 @@
         },
         "primary_maxammo": 10,
         "primary_trained_cooldown": 2.0,
+        "scope_color": [
+            255,
+            60,
+            60
+        ],
+        "scope_fov": 18,
         "secondary_cooldown": 0.5,
         "slot": 5,
         "weight": 10

@@ -15,9 +15,31 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+bool ASWeaponScopeLightConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponScopeLightConfig",
+"""{
+    "scope_fov":
+    {
+        "description": "FOV when using scope",
+        "type": "integer",
+        "minimum": 10,
+        "maximum": 70
+    },
+    "scope_color":
+    {
+        "description": "Night vision color when using scope",
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "minItems": 3,
+        "maxItems": 3
+    }
+}""" );
+
 // ASWeaponConfig::WeaponHolster is too late!! Call DisableZoom yourself in your weapon.
 abstract class ASWeaponScopeLightConfig : ASWeaponConfig
 {
+    private int m_FOV;
+    private int[] m_Color;
+
     // view model used when scope is active
     const string& get_zoom_view_model()
     {
@@ -35,7 +57,7 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
 
         if( player.m_iFOV == 0 )
         {
-            player.m_iFOV = 18;
+            player.m_iFOV = this.m_FOV;
             player.m_szAnimExtension = this.zoom_animation_extension;
             player.pev.viewmodel = this.zoom_view_model;
             g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.1f, 255.0f, FFADE_OUT );
@@ -88,9 +110,7 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
             tr
         );
 
-        int[] color = { 255, 60, 60 };
-
-        g_PlayerFuncs.ScreenFade( player, Vector( color[0], color[1], color[2] ), 0.5f, 0.0f, 255.0f, FFADE_MODULATE | FFADE_IN );
+        g_PlayerFuncs.ScreenFade( player, Vector( this.m_Color[0], this.m_Color[1], this.m_Color[2] ), 0.5f, 0.0f, 255.0f, FFADE_MODULATE | FFADE_IN );
 
         {
             NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, edict );
@@ -99,9 +119,9 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
                 m.WriteCoord( tr.vecEndPos.y );
                 m.WriteCoord( tr.vecEndPos.z );
                 m.WriteByte( 128 );   // radius
-                m.WriteByte( color[0] );
-                m.WriteByte( color[1] );
-                m.WriteByte( color[2] );
+                m.WriteByte( 255 );
+                m.WriteByte( 255 );
+                m.WriteByte( 255 );
                 m.WriteByte( 2 );
                 m.WriteByte( 1 );
             m.End();
@@ -113,10 +133,10 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
                 m.WriteCoord( player.pev.origin.x );
                 m.WriteCoord( player.pev.origin.y );
                 m.WriteCoord( player.pev.origin.z );
-                m.WriteByte( 64 );   // radius
-                m.WriteByte( color[0] );
-                m.WriteByte( color[1] );
-                m.WriteByte( color[2] );
+                m.WriteByte( 16 );   // radius
+                m.WriteByte( 255 );
+                m.WriteByte( 255 );
+                m.WriteByte( 255 );
                 m.WriteByte( 2 );
                 m.WriteByte( 1 );
             m.End();
@@ -133,6 +153,7 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
             "allOf":
             [
                 "ASWeaponConfig",
+                "ASWeaponScopeLightConfig"
             ],
             "properties":
             {
@@ -149,6 +170,11 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
 
     bool Register( btson@ config ) override
     {
+        config.Get( "scope_fov", this.m_FOV, false );
+
+        btson@ nightvision = config.ValueOrDefault( "scope_color" );
+        m_Color = { int( nightvision[0] ), int( nightvision[1] ), int( nightvision[2] ) };
+
         return ASWeaponConfig::Register( config );
     }
 }

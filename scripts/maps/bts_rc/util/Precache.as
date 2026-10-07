@@ -270,7 +270,6 @@ void Precache()
     g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
     g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
     g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
-    g_SoundSystem.PrecacheSound( "sound/weapons/sniper_reload_second_seq.wav" );
     g_SoundSystem.PrecacheSound( "vox/authorized.wav" );
     g_SoundSystem.PrecacheSound( "vox/maintenance.wav" );
     g_SoundSystem.PrecacheSound( "vox/research.wav" );
