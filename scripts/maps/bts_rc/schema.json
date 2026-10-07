@@ -10112,6 +10112,11 @@
 						"default": 2,
 						"type": "number"
 					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"primary_damage": 
 					{
 						"default": 120,
@@ -10221,10 +10226,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -10430,6 +10431,13 @@
 					"reload_sound": 
 					{
 						"type": "string"
+					},
+					"laser_size": 
+					{
+						"title": "Laser sprite size multiplier",
+						"description": "Multiplier for the sprite model when the laser spot is enabled",
+						"type": "number",
+						"minimum": 0.1
 					}
 				}
 			},
@@ -12465,6 +12473,11 @@
 						"default": 1.8,
 						"type": "number"
 					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"primary_damage": 
 					{
 						"default": 48,
@@ -12520,10 +12533,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},

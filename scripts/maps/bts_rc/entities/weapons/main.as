@@ -29,6 +29,7 @@
 #include "config/ASWeaponConfig"
 #include "config/ASWeaponLaserConfig"
 #include "config/ASWeaponLightConfig"
+#include "config/ASWeaponScopeLightConfig"
 
 #include "base/BTS_FireWeapon"
 #include "base/BTS_MeleeCharge"

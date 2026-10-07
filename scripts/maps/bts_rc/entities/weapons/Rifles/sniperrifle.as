@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponSniperRifleConfig : ASWeaponConfig
+final class ASWeaponSniperRifleConfig : ASWeaponScopeLightConfig
 {
     const string& GetName() const override
     {
@@ -37,7 +37,7 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
         return "models/bts_rc/weapons/v_m40a1.mdl";
     }
 
-    const string& get_zoom_view_model()
+    const string& get_zoom_view_model() override
     {
         return "models/mikk155/misc/v_scope_ch1.mdl";
     }
@@ -45,6 +45,11 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
     const string& get_animation_extension() override
     {
         return "sniper";
+    }
+
+    const string& get_zoom_animation_extension() override
+    {
+        return "sniperscope";
     }
 
     const string& get_primary_ammo() override
@@ -65,9 +70,7 @@ final class ASWeaponSniperRifleConfig : ASWeaponConfig
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "ambience/rifle2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
-        g_Game.PrecacheModel( this.zoom_view_model );
-        ASWeaponConfig::Precache();
+        ASWeaponScopeLightConfig::Precache();
     }
 }
 
@@ -99,95 +102,27 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
     void Holster( int skiplocal = 0 )
     {
         self.m_fInReload = false;
-        DisableZoom();
+        gpWeaponSniperRifleConfig.DisableZoom( this.owner, self );
         BaseClass.Holster( skiplocal );
     }
 
-    void Attack( CBasePlayer@ player, AttackType type ) override
+    void PrimaryAttack() override
     {
-        switch( type )
-        {
-            case AttackType::Tertiary:
-                return;
-            case AttackType::Secondary:
-            {
-                ToggleZoom();
-                self.m_flNextSecondaryAttack = g_Engine.time + 0.5f;
-                return;
-            }
-        }
-
         if( self.m_iClip <= 0 )
         {
             this.PlayEmptySound();
             return;
         }
 
-        uint8 anim = ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FireLastRound : WeaponSniperRifleAnim::Fire;
+        CBasePlayer@ player = this.owner;
 
-        DisableZoom();
+        gpWeaponSniperRifleConfig.DisableZoom( player, self );
 
         bullet.Weapon( this )
             .Sound( "ambience/rifle2.wav", Math.RandomFloat( 0.9f, 1.0f ), 98 + Math.RandomLong( 0, 3 ), QUIET_GUN_VOLUME )
             .Shell( -1 )
-            .Animation( anim )
+            .Animation( ( self.m_iClip <= 1 ) ? WeaponSniperRifleAnim::FireLastRound : WeaponSniperRifleAnim::Fire )
         .Fire();
-
-        self.m_flNextPrimaryAttack = g_Engine.time + 2.0f;
-        self.m_flTimeWeaponIdle = g_Engine.time + 2.0f;
-    }
-
-    void ItemPostFrame()
-    {
-        BaseClass.ItemPostFrame();
-
-        auto owner = this.owner;
-
-        if( owner.m_iFOV == 0 )
-            return;
-
-        Vector vecSrc = owner.GetGunPosition();
-
-        Math.MakeVectors( owner.pev.v_angle + owner.pev.punchangle );
-
-        TraceResult tr;
-
-        Vector vecEnd = vecSrc + g_Engine.v_forward * 2048;
-        g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, owner.edict(), tr );
-
-        int[] color = { 255, 60, 60 };
-
-        g_PlayerFuncs.ScreenFade( owner, Vector( color[0], color[1], color[2] ), 0.5f, 0.0f, 255.0f, FFADE_MODULATE | FFADE_IN );
-
-        {
-            NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, owner.edict() );
-                m.WriteByte( TE_DLIGHT );
-                m.WriteCoord( tr.vecEndPos.x );
-                m.WriteCoord( tr.vecEndPos.y );
-                m.WriteCoord( tr.vecEndPos.z );
-                m.WriteByte( 128 );   // radius
-                m.WriteByte( color[0] );
-                m.WriteByte( color[1] );
-                m.WriteByte( color[2] );
-                m.WriteByte( 2 );
-                m.WriteByte( 1 );
-            m.End();
-        }
-
-        {
-            NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, owner.edict() );
-                m.WriteByte( TE_DLIGHT );
-                m.WriteCoord( owner.pev.origin.x );
-                m.WriteCoord( owner.pev.origin.y );
-                m.WriteCoord( owner.pev.origin.z );
-                m.WriteByte( 64 );   // radius
-                m.WriteByte( color[0] );
-                m.WriteByte( color[1] );
-                m.WriteByte( color[2] );
-                m.WriteByte( 2 );
-                m.WriteByte( 1 );
-            m.End();
-        }
     }
 
     void Reload()
@@ -197,7 +132,7 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
             return;
         }
 
-        DisableZoom();
+        gpWeaponSniperRifleConfig.DisableZoom( this.owner, self );
 
         if( self.m_iClip > 0 )
         {
@@ -219,35 +154,6 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
 
         self.m_flTimeWeaponIdle = g_Engine.time + 4.102f;
         BaseClass.Reload();
-    }
-
-    void DisableZoom()
-    {
-        if( this.owner.m_iFOV != 0 )
-        {
-            ToggleZoom();
-        }
-    }
-
-    void ToggleZoom()
-    {
-        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-
-        auto owner = this.owner;
-
-        if( owner.m_iFOV == 0 )
-        {
-            owner.m_iFOV = 18;
-            owner.m_szAnimExtension = "bowscope";
-            owner.pev.viewmodel = gpWeaponSniperRifleConfig.zoom_view_model;
-        }
-        else
-        {
-            owner.m_iFOV = 0;
-            owner.pev.viewmodel = gpWeaponSniperRifleConfig.animation_extension;
-            owner.pev.viewmodel = gpWeaponSniperRifleConfig.view_model;
-            g_PlayerFuncs.ScreenFade( owner, g_vecZero, 1.0f, 0.1f, 255.0f, FFADE_IN );
-        }
     }
 
     float Idle() override

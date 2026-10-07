@@ -2928,6 +2928,7 @@
         },
         "primary_maxammo": 10,
         "primary_trained_cooldown": 2.0,
+        "secondary_cooldown": 0.5,
         "slot": 5,
         "weight": 10
     },
@@ -3022,6 +3023,7 @@
         "primary_dropammo": 5,
         "primary_maxammo": 15,
         "primary_trained_cooldown": 1.8,
+        "secondary_cooldown": 0.5,
         "slot": 2,
         "weight": 10
     },
