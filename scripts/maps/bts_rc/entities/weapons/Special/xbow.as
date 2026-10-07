@@ -59,7 +59,7 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_xbow";
+        return "ammo_crossbow";
     }
 
     const uint8 get_animation_draw() override
@@ -72,7 +72,6 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_crossbow.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_crossbow.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_crossbow.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_crossbow_clip.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/electro_bolt.mdl" );
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fire1.wav" );
@@ -377,25 +376,5 @@ class weapon_bts_xbow : BTS_FireWeapon
             PlayAnim( WeaponXBowAnim::Fidget2 );
             return 2.66f;
         }
-    }
-}
-
-class ammo_bts_xbow : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_crossbow_clip.mdl" );
-        pev.scale = 0.8;
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( 5, "bolts", 15 ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
-            return true;
-        }
-        return false;
     }
 }

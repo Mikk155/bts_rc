@@ -10186,29 +10186,6 @@
 						"default": 2,
 						"type": "number"
 					},
-					"secondary_cooldown": 
-					{
-						"default": 0.5,
-						"type": "number"
-					},
-					"slot": 
-					{
-						"default": 5,
-						"type": "integer"
-					},
-					"weight": 
-					{
-						"default": 10,
-						"type": "integer"
-					},
-					"scope_fov": 
-					{
-						"default": 18,
-						"description": "FOV when using scope",
-						"type": "integer",
-						"minimum": 10,
-						"maximum": 70
-					},
 					"scope_color": 
 					{
 						"default": 
@@ -10227,6 +10204,29 @@
 						},
 						"minItems": 3,
 						"maxItems": 3
+					},
+					"scope_fov": 
+					{
+						"default": 18,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
+					"slot": 
+					{
+						"default": 5,
+						"type": "integer"
+					},
+					"weight": 
+					{
+						"default": 10,
+						"type": "integer"
 					},
 					"secondary_maxammo": 
 					{
@@ -12512,6 +12512,33 @@
 					{
 						"default": 1.8,
 						"type": "number"
+					},
+					"scope_color": 
+					{
+						"default": 
+						[
+							60,
+							255,
+							60
+						],
+						"description": "Night vision color when using scope",
+						"type": "array",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0,
+							"maximum": 255
+						},
+						"minItems": 3,
+						"maxItems": 3
+					},
+					"scope_fov": 
+					{
+						"default": 20,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
 					},
 					"secondary_cooldown": 
 					{
@@ -15373,8 +15400,8 @@
 					{
 						"default": 
 						[
-							1,
-							5
+							2,
+							10
 						]
 					},
 					"ammo_gaussclip": 
