@@ -32,6 +32,8 @@ namespace models
     uint saw_shell;
     // models/hlclassic/shotgunshell.mdl
     uint shotgunshell;
+    // sprites/xsmoke4.spr
+    uint xsmoke4;
 
     void Precache()
     {
@@ -42,6 +44,7 @@ namespace models
         shell = g_Game.PrecacheModel( "models/hlclassic/shell.mdl" );
         saw_shell = g_Game.PrecacheModel( "models/bts_rc/weapons/saw_shell.mdl" );
         shotgunshell = g_Game.PrecacheModel( "models/hlclassic/shotgunshell.mdl" );
+        xsmoke4 = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
 
         g_Game.PrecacheModel( "sprites/bts_rc/gametitle.spr" );
     }

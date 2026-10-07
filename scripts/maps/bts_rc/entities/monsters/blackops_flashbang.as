@@ -19,15 +19,114 @@
     Author: Mikk
 */
 
+namespace FlashbangGrenade
+{
+    const Vector color( 255, 255, 255 );
+
+    const float max_view_distance = 800;
+    float detonate_time;
+    float fadeout;
+    float fadehold;
+
+    // Tracks a grenade entity to override it into a flashbang grenade.
+    // If detonateTime is zero (By default) uses the json configured detonation time.
+    void Create( CGrenade@ grenade, float detonateTime = 0 )
+    {
+        if( grenade !is null )
+        {
+            if( detonateTime <= 0.0 )
+                detonateTime = detonate_time;
+
+            @grenade.pev.owner = null;
+            grenade.pev.dmgtime = g_Engine.time + detonateTime + 1.0f;
+            g_EntityFuncs.SetModel( grenade, "models/bts_rc/weapons/w_fgrenade.mdl" );
+            g_Scheduler.SetTimeout( "__ExplodeFlashbangGrenade__", detonateTime, EHandle( grenade ) );
+        }
+    }
+
+    // Tracks a grenade entity to override it into a flashbang grenade.
+    // If detonateTime is zero (By default) uses the json configured detonation time.
+    void Create( CBaseEntity@ grenade, float detonateTime = 0 )
+    {
+        if( grenade !is null )
+            Create( cast<CGrenade@>( grenade ) );
+    }
+}
+
+void __ExplodeFlashbangGrenade__( EHandle handle )
+{
+    CGrenade@ grenade = null;
+
+    if( !handle.IsValid() || handle.GetEntity() is null || ( @grenade = cast<CGrenade@>( handle.GetEntity() ) ) is null )
+        return;
+
+
+    g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", 0.4f, ATTN_NORM, 0, PITCH_NORM );
+    g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "bts_rc/weapons/flashbang_pop.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
+
+    NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, grenade.pev.origin );
+        m.WriteByte( TE_SPRITE );
+        m.WriteCoord( grenade.pev.origin.x );
+        m.WriteCoord( grenade.pev.origin.y );
+        m.WriteCoord( grenade.pev.origin.z + 16.0  );
+        m.WriteShort( models::xsmoke4 );
+        m.WriteByte( 10 ); // scale * 10
+        m.WriteByte( 128 ); // brightness
+    m.End();
+
+    for( int i = 1; i <= g_Engine.maxClients; i++ )
+    {
+        auto player = g_PlayerFuncs.FindPlayerByIndex(i);
+
+        if( player is null || !player.IsAlive() )
+            continue;
+
+        float flDistance = ( grenade.pev.origin - player.pev.origin ).Length();
+
+        // Player is too far away
+        if( flDistance > FlashbangGrenade::max_view_distance )
+            continue;
+
+        Vector vecSrc = player.pev.origin + player.pev.view_ofs;
+
+        TraceResult tr;
+        g_Utility.TraceLine( vecSrc, grenade.pev.origin, ignore_monsters, ignore_glass, player.edict(), tr );
+
+        if( tr.flFraction < 1.0 )
+            continue; // No line of sight
+
+        Math.MakeVectors( player.pev.v_angle );
+        Vector vecToTarget = ( grenade.pev.origin - vecSrc ).Normalize();
+        float dot = DotProduct( g_Engine.v_forward, vecToTarget );
+
+        // player is looking at it
+        if( dot >= 0.5f )
+            g_PlayerFuncs.ScreenFade( player, FlashbangGrenade::color, FlashbangGrenade::fadeout, FlashbangGrenade::fadehold, 255, 0 );
+
+        float flVolume = 1.0f - Math.clamp( flDistance / FlashbangGrenade::max_view_distance, 0.0f, 1.0f );
+
+        float side = DotProduct( g_Engine.v_right, vecToTarget );
+
+        if( ( side < 0 ? -side : side ) < 0.2f )
+        {
+            g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+        }
+        else if( side > 0 )
+        {
+            g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing_right.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+        }
+        else
+        {
+            g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing_left.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
+        }
+    }
+
+    g_EntityFuncs.Remove( grenade );
+}
+
 final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 {
-    private float max_view_distance = 1024.0f;
-    private Vector color( 255, 255, 255 );
     private float throw_flash_cooldown;
-    private float detonate_time;
-    private float fadeout;
-    private float fadehold;
-    private int m_SpriteSmoke;
 
     const string& GetName() const override
     {
@@ -84,12 +183,14 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
     bool Register( btson@ config ) override
     {
+        // Deathdrop may use these.
+        config.Get( "detonate_time", FlashbangGrenade::detonate_time, false );
+        config.Get( "fadeout", FlashbangGrenade::fadeout, false );
+        config.Get( "fadehold", FlashbangGrenade::fadehold, false );
+
         if( !bool( config[ "active" ] ) )
             return false;
 
-        config.Get( "detonate_time", this.detonate_time, false );
-        config.Get( "fadeout", this.fadeout, false );
-        config.Get( "fadehold", this.fadehold, false );
         config.Get( "throw_flash_cooldown", this.throw_flash_cooldown, false );
 
         EntityOverriden::SetThink( config.ValueOrDefault( "interval", 1.0f, false, false ) );
@@ -97,14 +198,6 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         if( g_MapConfig.MapLoading )
         {
             CustomKeyValues::Register( "$i_use_flashbang" );
-
-            g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
-            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
-            g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
-            g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashbang_pop.wav" );
-            g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
-            this.m_SpriteSmoke = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
-
             EntityOverriden::Register( this );
         }
 
@@ -146,7 +239,6 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
     }
 
     // Flashbang grenade
-    private EHandle m_hGrenade;
     private float m_flTracking;
     private uint m_uiTrackingOwner;
 
@@ -156,75 +248,6 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             return;
 
         this.nextthink = g_Engine.time + this.interval;
-
-        CGrenade@ grenade = null;
-
-        if( m_hGrenade.IsValid() && ( @grenade = cast<CGrenade@>( m_hGrenade.GetEntity() ) ) !is null )
-        {
-            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, grenade.pev.origin );
-                m.WriteByte( TE_SPRITE );
-                m.WriteCoord( grenade.pev.origin.x );
-                m.WriteCoord( grenade.pev.origin.y );
-                m.WriteCoord( grenade.pev.origin.z + 16.0  );
-                m.WriteShort( this.m_SpriteSmoke );
-                m.WriteByte( 10 ); // scale * 10
-                m.WriteByte( 128 ); // brightness
-            m.End();
-
-            g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", 0.4f, ATTN_NORM, 0, PITCH_NORM );
-            g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "bts_rc/weapons/flashbang_pop.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
-
-            for( int i = 1; i <= g_Engine.maxClients; i++ )
-            {
-                auto player = g_PlayerFuncs.FindPlayerByIndex(i);
-
-                if( player is null || !player.IsAlive() )
-                    continue;
-
-                float flDistance = ( grenade.pev.origin - player.pev.origin ).Length();
-
-                // Player is too far away
-                if( flDistance > max_view_distance )
-                    continue;
-
-                Vector vecSrc = player.pev.origin + player.pev.view_ofs;
-
-                TraceResult tr;
-                g_Utility.TraceLine( vecSrc, grenade.pev.origin, ignore_monsters, ignore_glass, player.edict(), tr );
-
-                if( tr.flFraction < 1.0 )
-                    continue; // No line of sight
-
-                Math.MakeVectors( player.pev.v_angle );
-                Vector vecToTarget = ( grenade.pev.origin - vecSrc ).Normalize();
-                float dot = DotProduct( g_Engine.v_forward, vecToTarget );
-
-                // player is looking at it
-                if( dot >= 0.5f )
-                    g_PlayerFuncs.ScreenFade( player, this.color, this.fadeout, this.fadehold, 255, 0 );
-
-                float flVolume = 1.0f - Math.clamp( flDistance / max_view_distance, 0.0f, 1.0f );
-
-                float side = DotProduct( g_Engine.v_right, vecToTarget );
-
-                if( ( side < 0 ? -side : side ) < 0.2f )
-                {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
-                }
-                else if( side > 0 )
-                {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing_right.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
-                }
-                else
-                {
-                    g_SoundSystem.PlaySound( player.edict(), CHAN_AUTO, "mikk155/player/earringing_left.wav", flVolume, ATTN_NORM, 0, PITCH_NORM, player.entindex() );
-                }
-            }
-
-            g_EntityFuncs.Remove( grenade );
-            this.nextthink = g_Engine.time + this.throw_flash_cooldown;
-            return;
-        }
 
         if( m_flTracking > g_Engine.time )
         {
@@ -250,13 +273,9 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
 
                     if( bestGrenade !is null )
                     {
-                        @bestGrenade.pev.owner = null;
-                        bestGrenade.pev.dmgtime = g_Engine.time + this.detonate_time + 1.0f;
-                        g_EntityFuncs.SetModel( bestGrenade, "models/bts_rc/weapons/w_fgrenade.mdl" );
-
                         this.m_flTracking = 0;
-                        this.m_hGrenade = EHandle( bestGrenade );
-                        this.nextthink = g_Engine.time + this.detonate_time;
+                        FlashbangGrenade::Create( bestGrenade );
+                        this.nextthink = g_Engine.time + this.throw_flash_cooldown;
                     }
                 }
             }

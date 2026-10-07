@@ -61,7 +61,6 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         }""";
     }
 
-    private int m_SpriteCanisterGas;
     private int m_CanisterStrayChance;
     private int m_CanisterDamage;
     private int m_CanisterDegrade;
@@ -71,7 +70,6 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
     {
         if( g_MapConfig.MapLoading )
         {
-            m_SpriteCanisterGas = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
             EntityOverriden::SetThink( 0.1f );
             EntityOverriden::Register( this );
         }
@@ -190,7 +188,7 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
                 m.WriteCoord( vecOrigin.x );
                 m.WriteCoord( vecOrigin.y );
                 m.WriteCoord( vecOrigin.z + ( !monster.IsAlive() ? 16.0 : 8.0 ) );
-                m.WriteShort( this.m_SpriteCanisterGas );
+                m.WriteShort( models::xsmoke4 );
                 m.WriteByte( 3 );   // scale * 10
                 m.WriteByte( 128 ); // brightness
             m.End();

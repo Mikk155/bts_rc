@@ -65,6 +65,11 @@ final class ASDeathDropConfig : IConfigurable
         if( !bool( config[ "active" ] ) || !g_MapConfig.MapLoading )
             return false;
 
+        array<string> specialEntNames = {
+            "grenade",
+            "flashbang"
+        };
+
         CustomKeyValues::Register( "$s_deathdrop" );
         CustomKeyValues::Register( "$i_deathdrop" );
 
@@ -92,7 +97,7 @@ final class ASDeathDropConfig : IConfigurable
                 // Precache
                 if( g_MapConfig.MapLoading )
                 {
-                    if( !itemName.IsEmpty() && itemName != "grenade" )
+                    if( !itemName.IsEmpty() && specialEntNames.find( itemName ) < 0 )
                     {
                         CBaseEntity@ ent = g_EntityFuncs.CreateEntity( itemName, null, false );
 
@@ -192,6 +197,13 @@ final class ASDeathDropConfig : IConfigurable
         if( drop == "grenade" )
         {
             auto timed = g_EntityFuncs.ShootTimed( monster.pev, origin, Vector( 0, 0, -90 ), Math.RandomFloat( 1.5, 5.5 ) );
+            return timed;
+        }
+
+        if( drop == "flashbang" )
+        {
+            auto timed = g_EntityFuncs.ShootTimed( monster.pev, origin, Vector( 0, 0, -90 ), 10.0f );
+            FlashbangGrenade::Create( timed, Math.RandomFloat( 0.1f, FlashbangGrenade::detonate_time ) );
             return timed;
         }
 

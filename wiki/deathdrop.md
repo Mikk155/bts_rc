@@ -50,6 +50,10 @@ In the JSON config, you can define special entity names with unique behaviors:
 
   * Spawns a live hand grenade.
 
+* `"flashbang"`
+
+  * Spawns a live flash grenade.
+
 * `""` (empty string)
 
   * Represents a chance to drop nothing.

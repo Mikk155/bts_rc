@@ -19,6 +19,7 @@ namespace EntityOverriden
 {
     array<EntityOverriden@> gpEntityOverriden(0);
 
+    // Register the given EntityOverriden
     void Register( EntityOverriden@ instance )
     {
         if( g_Logger.info.active )

@@ -32,7 +32,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         return String::EMPTY_STRING;
     }
 
-    protected uint m_iSmokeSprite;
     protected uint m_iGibs1;
     protected uint m_iGibs2;
     // when to trigger low-health mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%
@@ -49,7 +48,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
     bool Register( btson@ config ) override
     {
-        this.m_iSmokeSprite = g_Game.PrecacheModel( "sprites/steam1.spr" );
         this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
         this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
 
@@ -108,7 +106,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                     m1.WriteCoord( monster.pev.origin.x + Math.RandomFloat( -16.0, 16.0 ) );
                     m1.WriteCoord( monster.pev.origin.y + Math.RandomFloat( -16.0, 16.0 ) );
                     m1.WriteCoord( monster.pev.origin.z + monster.pev.size.z - 32.0 );
-                    m1.WriteShort( this.m_iSmokeSprite );
+                    m1.WriteShort( models::steam1 );
                     m1.WriteByte( Math.RandomLong( 1, 9 ) );
                     m1.WriteByte( 12 );
                 m1.End();
@@ -209,7 +207,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                         m1.WriteCoord( vecOrigin.x );
                         m1.WriteCoord( vecOrigin.y );
                         m1.WriteCoord( vecOrigin.z );
-                        m1.WriteShort( this.m_iSmokeSprite );
+                        m1.WriteShort( models::steam1 );
                         m1.WriteByte( 15 ); // scale * 10
                         m1.WriteByte( 10 ); // framerate
                     m1.End();

@@ -17092,7 +17092,6 @@
 									1,
 									255
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17121,7 +17120,6 @@
 									255,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17150,7 +17148,6 @@
 									255,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17174,7 +17171,6 @@
 									165,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17198,7 +17194,6 @@
 									255,
 									255
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17266,7 +17261,6 @@
 									1,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
