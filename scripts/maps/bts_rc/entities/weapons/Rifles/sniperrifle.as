@@ -67,6 +67,11 @@ final class ASWeaponSniperRifleConfig : ASWeaponScopeLightConfig
         return WeaponSniperRifleAnim::Draw;
     }
 
+    const uint8 get_animation_zoom() override
+    {
+        return WeaponSniperRifleAnim::Zoom;
+    }
+
     void Precache() override
     {
         g_SoundSystem.PrecacheSound( "ambience/rifle2.wav" );
@@ -86,7 +91,8 @@ enum WeaponSniperRifleAnim
     Reload2,
     Reload3,
     SlowIdle2,
-    Holster
+    Holster,
+    Zoom
 };
 
 class weapon_bts_sniperrifle : BTS_FireWeapon

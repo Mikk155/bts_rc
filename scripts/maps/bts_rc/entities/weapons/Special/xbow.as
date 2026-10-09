@@ -67,6 +67,11 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         return WeaponXBowAnim::Draw1;
     }
 
+    const uint8 get_animation_zoom() override
+    {
+        return WeaponXBowAnim::Zoom;
+    }
+
     void Precache() override
     {
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_crossbow.mdl" );
@@ -113,7 +118,8 @@ enum WeaponXBowAnim
     Draw1,
     Draw2,
     Holster1,
-    Holster2
+    Holster2,
+    Zoom
 };
 
 const int BOLT_AIR_VELOCITY = 2000;

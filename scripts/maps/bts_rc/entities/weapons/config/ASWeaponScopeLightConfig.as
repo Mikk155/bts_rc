@@ -51,17 +51,24 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
         return this.animation_extension;
     }
 
+    const uint8 get_animation_zoom()
+    {
+        return this.animation_draw;
+    }
+
     void ToggleZoom( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
     {
         g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/sniper_zoom.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
 
         if( player.m_iFOV == 0 )
         {
+            weapon.SendWeaponAnim( this.animation_zoom, 0, weapon.pev.body );
             weapon.pev.fuser1 = g_Engine.time + this.secondary_cooldown;
             g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.5f, 255.0f, FFADE_OUT );
         }
         else
         {
+            weapon.SendWeaponAnim( this.animation_draw, 0, weapon.pev.body );
             player.m_iFOV = 0;
             player.m_szAnimExtension = this.animation_extension;
             player.pev.viewmodel = this.view_model;
@@ -80,7 +87,7 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         this.ToggleZoom( player, weapon );
-        weapons::SetCooldown( weapon, player, AttackType::Secondary, this );
+        weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) + 0.3f );
     }
 
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
