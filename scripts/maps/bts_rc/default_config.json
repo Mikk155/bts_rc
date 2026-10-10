@@ -2153,7 +2153,8 @@
         "warning": true
     },
     "map_config": {
-        "allow_reload": true
+        "allow_reload": false,
+        "skip_validation": false
     },
     "monster_panthereye": {
         "dmg_high_swipe": 25,

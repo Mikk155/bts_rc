@@ -124,6 +124,11 @@ final class ASMapConfig : IConfigurable
                 {
                     "type": "boolean",
                     "description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time. useful to test specific changes without restarting the whole map."
+                },
+                "skip_validation":
+                {
+                    "type": "boolean",
+                    "description": "Disable this to skip json schema validation. you MUST define everything from default config or exceptions will raise."
                 }
             }
         }""";
@@ -131,7 +136,7 @@ final class ASMapConfig : IConfigurable
 
     bool Register( btson@ config ) override
     {
-        this.m_AllowReload = config.ValueOrDefault( "allow_reload", this.m_AllowReload, false );
+        this.m_AllowReload = ( g_Debug || bool( config[ "allow_reload" ] ) );
         return true;
     }
 
@@ -159,6 +164,9 @@ final class ASMapConfig : IConfigurable
 
     private
         bool m_AllowReload = false;
+
+    private
+        bool m_SkipValidation = false;
 
     private
         bool m_ShouldWriteServerConfig = false;
@@ -263,14 +271,24 @@ final class ASMapConfig : IConfigurable
             }
         }
 
+
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( buffer );
-
-        if( g_Debug )
+        if( !g_Debug )
         {
-            @this.m_json = btson();
-            g_EngineFuncs.ServerPrint( "But the object readed from store/ is cleared on debug mode.\n" );
+            this.m_SkipValidation = true;
+            @this.m_json = m_defaults;
+            g_EngineFuncs.ServerPrint( "No extenal config loaded. Skiping JSON Schema validation.\n" );
+        }
+
+        btson@ skipValidation = this.m_json.ValueOrDefault( this.GetName() ).Remove( "skip_validation" );
+
+        if( skipValidation !is null && bool( skipValidation ) )
+        {
+            this.m_SkipValidation = true;
+            g_EngineFuncs.ServerPrint( "[WARNING] \"scripts/maps/store/bts_rc.json\" has set \"skip_validation\" to true!\n" );
+            g_EngineFuncs.ServerPrint( "Problems will arise if the configuration is not correct.\n" );
         }
 
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
@@ -331,7 +349,7 @@ final class ASMapConfig : IConfigurable
 
         uint length = this.m_Contexts.length();
 
-        if( MapLoading )
+        if( MapLoading && !m_SkipValidation )
         {
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             m_GlobalSchema.Set( "type", "object" );
@@ -343,134 +361,129 @@ final class ASMapConfig : IConfigurable
             m_GlobalSchema.Set( "properties", this.m_GlobalSchemaProperties );
         }
 
-        for( uint ui = 0; ui < length; ui++ )
+        if( !m_SkipValidation )
         {
-            IConfigurable@ context = this.m_Contexts[ui];
-
-            string schemaString = context.GetSchema();
-
-            if( schemaString.IsEmpty() )
+            for( uint ui = 0; ui < length; ui++ )
             {
-                if( g_Logger.info.active )
-                    g_Logger.info.print( "Skipping context {} at priority {} which returned an empty schema.", { context.GetName(), ui } );
-                continue;
-            }
+                IConfigurable@ context = this.m_Contexts[ui];
 
-            btson@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
-            int configCount = config.Count();
+                string schemaString = context.GetSchema();
 
-            if( g_Logger.info.active )
-            {
-                if( configCount > 0 )
-                    g_Logger.info.print( "Validating context {} at priority {} with {} variables", { context.GetName(), ui, configCount } );
-
-//                if( g_Logger.trace.active && config.Length() > 0 )
-//                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
-            }
-
-            btson@ schema;
-
-            meta_api::json::Error err;
-
-#if REMOVED_FROM_VALIDATION
-            if( schemaString.IsEmpty() )
-            {
-                // HACK onto empty string schemas since unevaluated properties
-                this.m_GlobalSchemaProperties.Set( context.GetName(), defaultEmptySchema );
-            }
-            else
-#endif
-            if( Deserialize( schemaString, schema, err ) && schema !is null )
-            {
-                auto@ defaultConfigurations = m_defaults[ context.GetName() ];
-
-                // Inject default configuration data
-                if( defaultConfigurations !is null )
+                if( schemaString.IsEmpty() )
                 {
-                    auto@ weaponProperties = schema.ValueOrDefault( "properties", null, true );
-
-                    uint defConfigLength = defaultConfigurations.Length();
-                    const array<string>@ wpnKeys = defaultConfigurations.Keys;
-
-                    for( uint ui2 = 0; ui2 < defConfigLength; ui2++ )
-                    {
-                        string keyName = wpnKeys[ ui2 ];
-                        auto@ defaultValue = defaultConfigurations[ keyName ];
-                        if( defaultValue !is null )
-                        {
-                            auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
-                            weaponProperty.Set( "default", defaultValue );
-                        }
-                    }
+                    if( g_Logger.info.active )
+                        g_Logger.info.print( "Skipping context {} at priority {} which returned an empty schema.", { context.GetName(), ui } );
+                    continue;
                 }
 
-                if( schema.Contains( "allOf" ) )
+                btson@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
+                int configCount = config.Count();
+
+                if( g_Logger.info.active )
                 {
-                    auto@ allOf = schema[ "allOf" ];
+                    if( configCount > 0 )
+                        g_Logger.info.print( "Validating context {} at priority {} with {} variables", { context.GetName(), ui, configCount } );
 
-                    if( allOf.is_array() )
+    //                if( g_Logger.trace.active && config.Length() > 0 )
+    //                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+                }
+
+                btson@ schema;
+
+                meta_api::json::Error err;
+
+                if( Deserialize( schemaString, schema, err ) && schema !is null )
+                {
+                    auto@ defaultConfigurations = m_defaults[ context.GetName() ];
+
+                    // Inject default configuration data
+                    if( defaultConfigurations !is null )
                     {
-                        auto@ schemaProperties = schema.ValueOrDefault( "properties", null, true );
+                        auto@ weaponProperties = schema.ValueOrDefault( "properties", null, true );
 
-                        uint allOfLength = allOf.Length();
+                        uint defConfigLength = defaultConfigurations.Length();
+                        const array<string>@ wpnKeys = defaultConfigurations.Keys;
 
-                        for( uint uia = 0; uia < allOfLength; uia++ )
+                        for( uint ui2 = 0; ui2 < defConfigLength; ui2++ )
                         {
-                            auto@ allOfItem = allOf[uia];
-
-                            if( !allOfItem.is_string() )
+                            string keyName = wpnKeys[ ui2 ];
+                            auto@ defaultValue = defaultConfigurations[ keyName ];
+                            if( defaultValue !is null )
                             {
-                                g_Logger.error.print( "schema for {} contains \"allOf\" but value at index {} is not a string type!", { context.GetName(), uia } );
-                                continue;
+                                auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
+                                weaponProperty.Set( "default", defaultValue );
                             }
+                        }
+                    }
 
-                            string copyKeyName = string( allOfItem );
+                    if( schema.Contains( "allOf" ) )
+                    {
+                        auto@ allOf = schema[ "allOf" ];
 
-                            if( !this.m_GlobalSchemaDefinitions.Contains( copyKeyName ) )
+                        if( allOf.is_array() )
+                        {
+                            auto@ schemaProperties = schema.ValueOrDefault( "properties", null, true );
+
+                            uint allOfLength = allOf.Length();
+
+                            for( uint uia = 0; uia < allOfLength; uia++ )
                             {
-                                g_Logger.error.print( "schema for {} contains \"allOf\" with value {} at index {} but does not exists in the schema definition!", { context.GetName(), copyKeyName, uia } );
-                                continue;
-                            }
+                                auto@ allOfItem = allOf[uia];
 
-                            auto@ definition = this.m_GlobalSchemaDefinitions[ copyKeyName ];
-                            uint definitionLength = definition.Length();
-                            for( uint uid = 0; uid < definitionLength; uid++ )
-                            {
-                                auto@ property = definition[uid];
-                                uint propertyLength = property.Length();
-                                auto@ schemaProperty = schemaProperties.ValueOrDefault( property.Name, null, true );
-                                for( uint uip = 0; uip < propertyLength; uip++ )
+                                if( !allOfItem.is_string() )
                                 {
-                                    auto@ val = property[uip];
-                                    if( !schemaProperty.Contains( val.Name ) )
-                                        schemaProperty.Set( val.Name, val );
+                                    g_Logger.error.print( "schema for {} contains \"allOf\" but value at index {} is not a string type!", { context.GetName(), uia } );
+                                    continue;
+                                }
+
+                                string copyKeyName = string( allOfItem );
+
+                                if( !this.m_GlobalSchemaDefinitions.Contains( copyKeyName ) )
+                                {
+                                    g_Logger.error.print( "schema for {} contains \"allOf\" with value {} at index {} but does not exists in the schema definition!", { context.GetName(), copyKeyName, uia } );
+                                    continue;
+                                }
+
+                                auto@ definition = this.m_GlobalSchemaDefinitions[ copyKeyName ];
+                                uint definitionLength = definition.Length();
+                                for( uint uid = 0; uid < definitionLength; uid++ )
+                                {
+                                    auto@ property = definition[uid];
+                                    uint propertyLength = property.Length();
+                                    auto@ schemaProperty = schemaProperties.ValueOrDefault( property.Name, null, true );
+                                    for( uint uip = 0; uip < propertyLength; uip++ )
+                                    {
+                                        auto@ val = property[uip];
+                                        if( !schemaProperty.Contains( val.Name ) )
+                                            schemaProperty.Set( val.Name, val );
+                                    }
                                 }
                             }
+                            schema.Remove( "allOf" );
                         }
-                        schema.Remove( "allOf" );
+                        else
+                        {
+                            g_Logger.error.print( "schema for {} contains \"allOf\" but is not an array type!", { context.GetName() } );
+                        }
                     }
-                    else
-                    {
-                        g_Logger.error.print( "schema for {} contains \"allOf\" but is not an array type!", { context.GetName() } );
-                    }
+                    this.m_GlobalSchemaProperties.Set( context.GetName(), schema );
                 }
-                this.m_GlobalSchemaProperties.Set( context.GetName(), schema );
-            }
-            else
-            {
-                switch( err )
+                else
                 {
-                    case meta_api::json::Error::SYNTAX_ERROR:
-                        g_Logger.critical.print( "Failed to parse GetSchema() for context \"{}\"", { context.GetName() } );
-                    break;
+                    switch( err )
+                    {
+                        case meta_api::json::Error::SYNTAX_ERROR:
+                            g_Logger.critical.print( "Failed to parse GetSchema() for context \"{}\"", { context.GetName() } );
+                        break;
+                    }
                 }
             }
-        }
 
-        if( !schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
-        {
-            if( g_Logger.warning.active )
-                g_Logger.warning.print( "Error validating some values for json. Using default values..." );
+            if( !schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
+            {
+                if( g_Logger.warning.active )
+                    g_Logger.warning.print( "Error validating some values for json. Using default values..." );
+            }
         }
 
         for( uint ui = 0; ui < length; ui++ )
@@ -523,11 +536,12 @@ final class ASMapConfig : IConfigurable
 
         if( this.m_ShouldWriteServerConfig && MapLoading )
         {
-            File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc.json", OpenFile::WRITE );
+            File@ file = g_FileSystem.OpenFile( "scripts/maps/store/bts_rc_example.json", OpenFile::WRITE );
             if( file !is null )
             {
                 file.Write( """/**
-*   This file has been generated by bts_rc and it's used for external configuration.
+*   This file has been generated by bts_rc and can be used for external configuration.
+*   Simply rename the file to bts_rc.json so the map scripts validates this configuration file.
 *   Use Visual studio code or any other editor that support schema validation to get more specific information on configuring the map.
 *   The file "bts_rc_defaults.json next to this file is unused by the map but generated by it with all the default values from the map.
 *   Check the web site documentation if you can't validate schema through a proper editor: https://mikk155.github.io/bts_rc/
@@ -540,9 +554,6 @@ final class ASMapConfig : IConfigurable
         "info": false,
         "trace": false,
         "warning": false
-    },
-    "map_config": {
-        "allow_reload": false
     }
 }
 """ );
@@ -550,7 +561,7 @@ final class ASMapConfig : IConfigurable
             }
         }
 
-        if( this.WritingSchema() )
+        if( this.WritingSchema() && !m_SkipValidation )
         {
             meta_api::json::parser::Style schemaStyle = meta_api::json::parser::Style::AllMan;
             meta_api::json::parser::Indentation schemaIndentation = meta_api::json::parser::Indentation::OneTabSpace;

@@ -26,12 +26,12 @@
 					"trace": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"debug": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"info": 
 					{
@@ -15396,6 +15396,14 @@
 							8
 						]
 					},
+					"ammo_crossbow": 
+					{
+						"default": 
+						[
+							2,
+							10
+						]
+					},
 					"ammo_gaussclip": 
 					{
 						"default": 
@@ -15626,14 +15634,6 @@
 						[
 							5,
 							15
-						]
-					},
-					"ammo_crossbow": 
-					{
-						"default": 
-						[
-							2,
-							10
 						]
 					}
 				}
@@ -18255,6 +18255,12 @@
 					{
 						"type": "boolean",
 						"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time. useful to test specific changes without restarting the whole map.",
+						"default": false
+					},
+					"skip_validation": 
+					{
+						"type": "boolean",
+						"description": "Disable this to skip json schema validation. you MUST define everything from default config or exceptions will raise.",
 						"default": false
 					}
 				}

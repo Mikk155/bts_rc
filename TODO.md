@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/78.57142857142857?barColor=63da0b)
+> ![](https://geps.dev/progress/79.28571428571428?barColor=61da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -60,7 +60,6 @@ This file contains the list of to-do in the project.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
-- [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
@@ -69,6 +68,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [x] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [x] Fix schema error of items not pasing their type defined in parent
     > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
