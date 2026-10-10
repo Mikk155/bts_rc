@@ -297,7 +297,7 @@ class weapon_bts_xbow : BTS_FireWeapon
         else
         {
             PlayAnim( WeaponXBowAnim::Fire3, PLAYER_ANIM::PLAYER_ATTACK1 );
-            PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.1, 93 + Math.RandomLong( 0, 15 ) );
+            PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.0, 93 + Math.RandomLong( 0, 15 ) );
         }
 
         Vector anglesAim = player.pev.v_angle + player.pev.punchangle;
