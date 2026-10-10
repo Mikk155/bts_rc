@@ -69,7 +69,7 @@ final class ASWeaponSniperRifleConfig : ASWeaponScopeLightConfig
 
     const uint8 get_animation_zoom() override
     {
-        return WeaponSniperRifleAnim::Zoom;
+        return WeaponSniperRifleAnim::IronIn;
     }
 
     void Precache() override
@@ -92,7 +92,11 @@ enum WeaponSniperRifleAnim
     Reload3,
     SlowIdle2,
     Holster,
-    Zoom
+    IronIn,
+    IronOut,
+    IronOutEmpty,
+    IronOutReload,
+    IronOutReloadEmpty
 };
 
 class weapon_bts_sniperrifle : BTS_FireWeapon
@@ -138,17 +142,23 @@ class weapon_bts_sniperrifle : BTS_FireWeapon
             return;
         }
 
-        gpWeaponSniperRifleConfig.DisableZoom( this.owner, self );
-
         if( self.m_iClip > 0 )
         {
             if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::Reload3, 2.324f, this.body ) )
             {
+                if( gpWeaponSniperRifleConfig.DisableZoom( this.owner, self ) )
+                {
+                    PlayAnim( WeaponSniperRifleAnim::IronOutReload, PLAYER_ANIM::PLAYER_RELOAD );
+                }
                 self.m_flNextPrimaryAttack = g_Engine.time + 2.324f;
             }
         }
         else if( self.DefaultReload( gpWeaponSniperRifleConfig.max_clip, WeaponSniperRifleAnim::Reload1, 2.324f, this.body ) )
         {
+            if( gpWeaponSniperRifleConfig.DisableZoom( this.owner, self ) )
+            {
+                PlayAnim( WeaponSniperRifleAnim::IronOutReloadEmpty, PLAYER_ANIM::PLAYER_RELOAD );
+            }
             self.m_flNextPrimaryAttack = g_Engine.time + 4.102f;
             m_flReloadStart = g_Engine.time;
             m_bReloading = true;

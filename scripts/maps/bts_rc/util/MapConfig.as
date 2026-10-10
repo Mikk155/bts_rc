@@ -275,6 +275,7 @@ final class ASMapConfig : IConfigurable
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( buffer );
+
         if( !g_Debug )
         {
             this.m_SkipValidation = true;

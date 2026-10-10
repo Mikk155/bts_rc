@@ -62,26 +62,29 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
 
         if( player.m_iFOV == 0 )
         {
-            weapon.SendWeaponAnim( this.animation_zoom, 0, weapon.pev.body );
             weapon.pev.fuser1 = g_Engine.time + this.secondary_cooldown;
+            weapon.SendWeaponAnim( this.animation_zoom + ( weapon.m_iClip == 0 ? 1 : 0 ), 0, weapon.pev.body );
             g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.5f, 255.0f, FFADE_OUT );
         }
         else
         {
-            weapon.SendWeaponAnim( this.animation_draw, 0, weapon.pev.body );
             player.m_iFOV = 0;
             player.m_szAnimExtension = this.animation_extension;
             player.pev.viewmodel = this.view_model;
-            g_PlayerFuncs.ScreenFade( player, g_vecZero, this.secondary_cooldown, 0.5f, 255.0f, FFADE_IN );
+            weapon.SendWeaponAnim( this.animation_zoom + ( weapon.m_iClip == 0 ? 3 : 2 ), 0, weapon.pev.body );
+            g_PlayerFuncs.ScreenFade( player, g_vecZero, 0.5f, 0.3f, 255.0f, FFADE_IN );
         }
     }
 
-    void DisableZoom( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
+    // Disable zoom. returns whatever it was active
+    bool DisableZoom( CBasePlayer@ player, CBasePlayerWeapon@ weapon )
     {
         if( player.m_iFOV != 0 )
         {
             this.ToggleZoom( player, weapon );
+            return true;
         }
+        return false;
     }
 
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override

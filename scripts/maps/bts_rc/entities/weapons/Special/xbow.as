@@ -69,7 +69,7 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
 
     const uint8 get_animation_zoom() override
     {
-        return WeaponXBowAnim::Zoom;
+        return WeaponXBowAnim::IronIn;
     }
 
     void Precache() override
@@ -119,7 +119,10 @@ enum WeaponXBowAnim
     Draw2,
     Holster1,
     Holster2,
-    Zoom
+    IronIn,
+    IronOut,
+    IronOutEmpty,
+    IronOutReload
 };
 
 const int BOLT_AIR_VELOCITY = 2000;
@@ -340,8 +343,6 @@ class weapon_bts_xbow : BTS_FireWeapon
 
     void Reload()
     {
-        gpWeaponXBowConfig.DisableZoom( this.owner, self );
-
         if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
@@ -350,6 +351,10 @@ class weapon_bts_xbow : BTS_FireWeapon
 
         if( self.DefaultReload( gpWeaponXBowConfig.max_clip, WeaponXBowAnim::Reload, 4.5, this.body ) )
         {
+            if( gpWeaponSniperRifleConfig.DisableZoom( this.owner, self ) )
+            {
+                PlayAnim( WeaponXBowAnim::IronOutReload, PLAYER_ANIM::PLAYER_RELOAD );
+            }
             PlaySound( "bts_rc/weapons/xbow_magready.wav", 1.0, 93 + Math.RandomLong( 0, 15 ) );
         }
 
