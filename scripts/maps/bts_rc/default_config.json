@@ -3037,6 +3037,7 @@
         ],
         "scope_fov": 20,
         "secondary_cooldown": 0.5,
+        "bolt_gravity": 0.3,
         "slot": 2,
         "weight": 10
     },

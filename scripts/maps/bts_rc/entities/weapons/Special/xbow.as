@@ -92,12 +92,41 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         ASWeaponScopeLightConfig::Precache();
     }
 
+    float bolt_gravity;
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASWeaponScopeLightConfig"
+            ],
+            "properties":
+            {
+                "bolt_gravity":
+                {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "maximum": 1.0,
+                    "description": "Bolt's gravity"
+                }
+            }
+        }""";
+    }
+
     bool Register( btson@ json ) override
     {
         if( g_MapConfig.MapLoading )
         {
             g_CustomEntityFuncs.RegisterCustomEntity( "electro_bolt", "electro_bolt" );
         }
+
+        this.bolt_gravity = float( json[ "bolt_gravity" ] );
 
         return ASWeaponScopeLightConfig::Register( json );
     }
@@ -132,9 +161,8 @@ class electro_bolt : ScriptBaseEntity
 {
     void Spawn()
     {
-        pev.movetype = MOVETYPE_FLY;
+        pev.movetype = MOVETYPE_TOSS;
         pev.solid = SOLID_BBOX;
-        pev.gravity = 0.5;
         self.SetClassification( CLASS_NONE );
 
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/electro_bolt.mdl" );
@@ -316,6 +344,7 @@ class weapon_bts_xbow : BTS_FireWeapon
         electro_bolt@ pBolt = cast<electro_bolt@>( CastToScriptClass( preBolt ) );
         pBolt.Spawn();
 
+        pBolt.pev.gravity = gpWeaponXBowConfig.bolt_gravity;
         pBolt.pev.origin = vecSrc;
         pBolt.pev.angles = anglesAim;
         pBolt.pev.dmg = flDamage;
