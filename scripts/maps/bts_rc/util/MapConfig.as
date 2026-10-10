@@ -266,6 +266,13 @@ final class ASMapConfig : IConfigurable
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( buffer );
+
+        if( g_Debug )
+        {
+            @this.m_json = btson();
+            g_EngineFuncs.ServerPrint( "But the object readed from store/ is cleared on debug mode.\n" );
+        }
+
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
         g_EngineFuncs.ServerPrint( "==============================================================\n" );
 
@@ -526,7 +533,17 @@ final class ASMapConfig : IConfigurable
 *   Check the web site documentation if you can't validate schema through a proper editor: https://mikk155.github.io/bts_rc/
 **/
 {
-    "$schema": "bts_rc_schema.json"
+    "$schema": "bts_rc_schema.json",
+    "logger": {
+        "debug": false,
+        "file": false,
+        "info": false,
+        "trace": false,
+        "warning": false
+    },
+    "map_config": {
+        "allow_reload": false
+    }
 }
 """ );
                 file.Close();

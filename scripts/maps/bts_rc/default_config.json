@@ -2146,14 +2146,14 @@
         "item_tracking": false
     },
     "logger": {
-        "debug": false,
+        "debug": true,
         "file": true,
         "info": true,
-        "trace": false,
+        "trace": true,
         "warning": true
     },
     "map_config": {
-        "allow_reload": false
+        "allow_reload": true
     },
     "monster_panthereye": {
         "dmg_high_swipe": 25,
