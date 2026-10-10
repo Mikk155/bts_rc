@@ -223,8 +223,8 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
-	g_SoundSystem.PrecacheSound( "bts_rc/weapons/iron_in.wav" );
-	g_SoundSystem.PrecacheSound( "bts_rc/weapons/iron_out.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/weapons/iron_in.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/weapons/iron_out.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/m16_fire1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4_fire1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4sd_fire1.wav" );

@@ -167,11 +167,6 @@ final class ASMapConfig : IConfigurable
         bool m_ShouldWriteSchema = false;
 
     const bool WritingSchema() const {
-// Always write schema & defaults while on development.
-#if SERVER
-        if( true )
-            return true;
-#endif
         return this.m_ShouldWriteSchema;
     }
 
@@ -373,10 +368,6 @@ final class ASMapConfig : IConfigurable
 #if REMOVED_FROM_VALIDATION
             if( schemaString.IsEmpty() )
             {
-#if SERVER
-                if( g_Logger.warning.active )
-                    g_Logger.warning.print( "Got empty schema for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
-#endif
                 // HACK onto empty string schemas since unevaluated properties
                 this.m_GlobalSchemaProperties.Set( context.GetName(), defaultEmptySchema );
             }

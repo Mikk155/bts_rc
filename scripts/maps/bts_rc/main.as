@@ -33,7 +33,12 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
         return;
 
 #if METAMOD_PLUGIN_ASCURL
-    UpdateChecker(); // Notice of new github releases if we're running a old version.
+    // Dont request every time while developing
+    if( !g_Debug )
+    {
+        // Notice of new github releases if we're running a old version.
+        UpdateChecker();
+    }
 #endif
 
     gpGameStarted = true;
@@ -46,12 +51,25 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
         randomizer::Initialize();
     }
 
-    activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
-
     auto ckv = activator.GetCustomKeyvalues();
 
     Difficulty::__HellBound__ = ( ckv.GetKeyvalue( "$i_hellbound" ).GetInteger() == 1 );
     Difficulty::__Difficulty__ = Difficulty( ckv.GetKeyvalue( "$i_difficulty" ).GetInteger() );
+
+    if( Difficulty::HellBound() )
+    {
+        for( int i = 0; i <= g_Engine.maxClients; i++ )
+        {
+            auto player = g_PlayerFuncs.FindPlayerByIndex(i);
+
+            if( player !is null )
+            {
+                UpdatePlayerData( player, util::GetClass( player ) );
+            }
+        }
+    }
+
+    activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
 
     gCheckModuleError(false);
 }

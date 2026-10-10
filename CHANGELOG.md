@@ -1,3 +1,7 @@
+# 8/10/2026
+- Added night vision scopes to sniper rifle weapon and crossbow weapon.
+- Finish implementation of "Flashbang" grenades for blackops.
+
 # 5/10/2026
 - Implemented a custom credits entity and a player score report at the end of the playthrough.
 - Said system has a means for server operators to retrieve player data from the map using JSON http://github.com/Mikk155/bts_rc/wiki/datatracker

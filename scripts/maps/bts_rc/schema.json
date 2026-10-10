@@ -15396,14 +15396,6 @@
 							8
 						]
 					},
-					"ammo_crossbow": 
-					{
-						"default": 
-						[
-							2,
-							10
-						]
-					},
 					"ammo_gaussclip": 
 					{
 						"default": 
@@ -15634,6 +15626,14 @@
 						[
 							5,
 							15
+						]
+					},
+					"ammo_crossbow": 
+					{
+						"default": 
+						[
+							2,
+							10
 						]
 					}
 				}

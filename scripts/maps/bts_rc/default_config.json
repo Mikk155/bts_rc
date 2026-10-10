@@ -668,6 +668,10 @@
             3,
             8
         ],
+        "ammo_crossbow": [
+            2,
+            10
+        ],
         "ammo_gaussclip": [
             20,
             60
@@ -783,10 +787,6 @@
         "weapon_bts_xbow": [
             5,
             15
-        ],
-        "ammo_crossbow":
-        [
-            2, 10
         ]
     },
     "equipment": {

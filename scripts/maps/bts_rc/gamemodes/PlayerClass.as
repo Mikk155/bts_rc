@@ -593,7 +593,7 @@ void UpdatePlayerData( CBasePlayer@ player, const Classification&in classify )
     if( player is null )
         return;
 
-    if( gpHellHound )
+    if( Difficulty::HellBound() )
     {
         player.pev.health = player.pev.max_health = 1;
         player.pev.armortype = player.pev.armorvalue = 0;

@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/74.64788732394366?barColor=74da0b)
+> ![](https://geps.dev/progress/78.57142857142857?barColor=63da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,8 +27,6 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Fix schema error of items not pasing their type defined in parent
-    > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
 - [ ] Fix test chamber not spawning all type of canister zombies (seems it's using + for classname)
 - [ ] Add label/section in command log
     > [Information] Registering command infinite
@@ -41,16 +39,12 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
-- [ ] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [ ] Rotate ASFlare angles when created with flaregun
 - [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
-- [ ] Create a chrono::v1 at mikk155/sven-co-op or fork it to avoid problems in future updates there.
-- [ ] Add a chrono since map started and ended for player data storage.
-- [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped. Relates to [#129](https://github.com/Mikk155/bts_rc/pull/129)
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
@@ -69,13 +63,18 @@ This file contains the list of to-do in the project.
 - [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
-- [ ] Add crossbow sprite when zoom in to sprite txt file.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
+- [x] Fix schema error of items not pasing their type defined in parent
+    > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
+    Moved to Issue [#132](https://github.com/Mikk155/bts_rc/issues/132)
+- [x] Add a chrono since map started and ended for player data storage.
+- [x] Add crossbow sprite when zoom in to sprite txt file.
 - [x] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
 - [x] zombie uncrab skip zombies with spawnflag 16 (prisoner) for test chamberr
 - [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.

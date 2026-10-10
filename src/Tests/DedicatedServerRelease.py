@@ -13,9 +13,9 @@ class DedicatedServerRelease( DedicatedServer ):
     def Build(self) -> bool:
 
         dbg = DebugCheck();
-        dbg.toggle_debug( "SERVER", "DEBUG", True );
+        dbg.toggle_debug( False );
         result: bool = DedicatedServer().Build();
-        dbg.toggle_debug( "DEBUG", "SERVER", True );
+        dbg.toggle_debug( True );
 
         return result;
 

@@ -34,6 +34,9 @@
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 
+// Boolean supposed to be true on Github while development. this is set to false when a release is generated.
+const bool g_Debug = true;
+
 const SemanticVersion@ g_ScriptsVersion = SemVer( 4, 8, 1 );
 
 // Whatever the current map is bts_rc
@@ -41,9 +44,6 @@ const bool g_IsMainMap = ( string( g_Engine.mapname ) == "bts_rc" );
 
 // Has the game started in the map?
 bool gpGameStarted;
-
-// Idk raptor
-bool gpHellHound = false;
 
 // Current game version
 const uint32 gpGameVersion = g_Game.GetGameVersion();
@@ -102,19 +102,6 @@ bool CustomEntity( const string&in className, bool precacheEntity = false, const
     }
 
     return g_CustomEntityFuncs.IsCustomEntity( className );
-}
-
-namespace Hellbound
-{
-    void Startup( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
-    {
-        gpHellHound = true;
-
-        for( int i = 0; i <= g_Engine.maxClients; i++ )
-        {
-            UpdatePlayerData( g_PlayerFuncs.FindPlayerByIndex( i ), Classification::Unset );
-        }
-    }
 }
 
 float __LastMultiTouchTime__;

@@ -18,10 +18,6 @@
 void UpdateChecker()
 {
 #if METAMOD_PLUGIN_ASCURL
-#if SERVER
-    if( true ) // Dont request every time while developing
-        return;
-#endif
     // Tell server ops there's a new update
     int requestID = g_EngineFuncs.CreateHTTPRequest( "https://api.github.com/repos/Mikk155/bts_rc/releases/latest", true, 0, 5000, 10000 );
     g_EngineFuncs.AppendHTTPRequestHeader(requestID, "User-Agent: sven-coop" );
@@ -29,17 +25,17 @@ void UpdateChecker()
     g_EngineFuncs.SetHTTPRequestCallback( requestID, function( int reqid )
     {
         int response_code = 0;
-        string response_json;
-        g_EngineFuncs.GetHTTPResponse( reqid, response_code, void, response_json );
+        string response_string;
+        g_EngineFuncs.GetHTTPResponse( reqid, response_code, void, response_string );
 
         if( response_code >= 200 )
         {
-            btson@ response;
-            if( Deserialize( response_json, response ) )
+            dictionary response_json;
+            if( meta_api::json::v1::Deserialize( response_string, response_json ) )
             {
                 string tagName;
 
-                if( response.Get( "tag_name", tagName ) )
+                if( response_json.get( "tag_name", tagName ) )
                 {
                     const SemanticVersion@ latestVersion = SemVer( tagName, true );
 
