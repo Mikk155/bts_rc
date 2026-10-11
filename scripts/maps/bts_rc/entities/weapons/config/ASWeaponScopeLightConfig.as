@@ -190,9 +190,9 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
 
     bool Register( btson@ config ) override
     {
-        config.Get( "scope_fov", this.m_FOV, false );
+        this.m_FOV = int( config[ "scope_fov" ] );
 
-        btson@ nightvision = config.ValueOrDefault( "scope_color" );
+        btson@ nightvision = config[ "scope_color" ];
         m_Color = { int( nightvision[0] ), int( nightvision[1] ), int( nightvision[2] ) };
 
         return ASWeaponConfig::Register( config );

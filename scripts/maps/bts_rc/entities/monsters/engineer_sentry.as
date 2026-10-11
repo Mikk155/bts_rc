@@ -105,13 +105,13 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
-        config.Get( "capacity", this.m_uiMaxCapacity );
-        config.Get( "distance", this.m_fRadius, false );
-        config.Get( "cooldown_start", this.m_fCooldownInitial, false );
-        config.Get( "cooldown_combat", this.m_fCooldownCombat, false );
-        config.Get( "cooldown_idle", this.m_fCooldownIdle, false );
-        config.Get( "cooldown_rng", this.m_fCooldownRNG, false );
-        config.Get( "chance", this.m_uiRandomChance, false );
+        this.m_uiMaxCapacity = uint( int( config[ "capacity" ] ) );
+        this.m_fRadius = float( config[ "distance" ] );
+        this.m_fCooldownInitial = float( config[ "cooldown_start" ] );
+        this.m_fCooldownCombat = float( config[ "cooldown_combat" ] );
+        this.m_fCooldownIdle = float( config[ "cooldown_idle" ] );
+        this.m_fCooldownRNG = float( config[ "cooldown_rng" ] );
+        this.m_uiRandomChance = uint( int( config[ "chance" ] ) );
 
         if( g_MapConfig.MapLoading )
         {

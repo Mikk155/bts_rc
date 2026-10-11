@@ -184,16 +184,16 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
     bool Register( btson@ config ) override
     {
         // Deathdrop may use these.
-        config.Get( "detonate_time", FlashbangGrenade::detonate_time, false );
-        config.Get( "fadeout", FlashbangGrenade::fadeout, false );
-        config.Get( "fadehold", FlashbangGrenade::fadehold, false );
+        FlashbangGrenade::detonate_time = float( config[ "detonate_time" ] );
+        FlashbangGrenade::fadeout = float( config[ "fadeout" ] );
+        FlashbangGrenade::fadehold = float( config[ "fadehold" ] );
 
         if( !bool( config[ "active" ] ) )
             return false;
 
-        config.Get( "throw_flash_cooldown", this.throw_flash_cooldown, false );
+        this.throw_flash_cooldown = float( config[ "throw_flash_cooldown" ] );
 
-        EntityOverriden::SetThink( config.ValueOrDefault( "interval", 1.0f, false, false ) );
+        EntityOverriden::SetThink( float( config[ "interval" ] ) );
 
         if( g_MapConfig.MapLoading )
         {
