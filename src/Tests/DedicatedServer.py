@@ -67,6 +67,8 @@ class DedicatedServer( PyTest ):
         lastLoadingChar = "/";
         printed: int = 0;
 
+        fullLog: list[str] = [];
+
         def cleanUpConsole() -> None:
 
             nonlocal printed;
@@ -94,9 +96,20 @@ class DedicatedServer( PyTest ):
             for k, _ in generateFiles.items():
                 os.remove( os.path.join( self.Workspace, k ) );
 
+            result = ( len(errorMessages) + len(criticalMessages) == 0 and finished );
+
+            cacheFolder =  os.path.join( self.Workspace, "src", "Tests", "cache" );
+            os.makedirs( cacheFolder, exist_ok=True );
+            logPath = os.path.join( cacheFolder, "ds.log" );
+            with open( logPath, "w" ) as fStream:
+                fStream.write( "".join( f"{l}\n" for l in fullLog ) );
+
+            if result is False:
+                os.startfile( logPath );
+
             #-TODO self.log these items if any.
 
-            return ( len(errorMessages) + len(criticalMessages) == 0 and finished );
+            return result;
 
         mapLoaded = False;
         mapLoaded = True;
@@ -117,6 +130,7 @@ class DedicatedServer( PyTest ):
                 continue;
 
             line = line.replace( '\r', '' ).replace( '\n', '' ).strip()
+            fullLog.append( line )
 
             lineLower: str = line.lower();
 

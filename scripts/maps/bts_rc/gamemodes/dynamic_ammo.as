@@ -171,9 +171,16 @@ final class ASDynamicAmmoConfig : IConfigurable
 
                 this.m_AmmoData.get( itemNames[ui], @data );
 
-                this.m_Lock = true;
+                int[] ammoInventory(MAX_AMMO_TYPES);
+
+                for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
+                {
+                    ammoInventory[idx] = player.m_rgAmmo(idx);
+                }
+
+                this.Lock();
                 player.GiveNamedItem( data.classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
-                this.m_Lock = false;
+                this.UnLock();
 
                 CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
 
@@ -282,7 +289,6 @@ final class ASDynamicAmmoConfig : IConfigurable
         @this.m_pValidation = ClientPutInServerHook( @this.ValidateAmunition );
         g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
 
-#if SERVER
         if( g_MapConfig.MapLoading )
         {
             RegisterCommand(
@@ -343,7 +349,6 @@ final class ASDynamicAmmoConfig : IConfigurable
                 false, "ammo"
             );
         }
-#endif
         return true;
     }
 
@@ -365,11 +370,26 @@ final class ASDynamicAmmoConfig : IConfigurable
     }
 
     private
-        bool m_Lock;
+        float m_LockTime = 0;
+
+    bool get_Locked() const
+    {
+        return ( this.m_LockTime == g_Engine.time );
+    }
+
+    void Lock()
+    {
+        this.m_LockTime = g_Engine.time;
+    }
+
+    void UnLock()
+    {
+        this.m_LockTime = g_Engine.time;
+    }
 
     bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup )
     {
-        if( player is null || pickup is null || this.m_Lock )
+        if( player is null || pickup is null || this.Locked )
             return true;
 
         CBasePlayerItem@ pickupItem = cast<CBasePlayerItem@>( pickup );
@@ -403,10 +423,10 @@ final class ASDynamicAmmoConfig : IConfigurable
         {
             if( ( @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) ) ) is null )
             {
-                this.m_Lock = true;
+                this.Lock();
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
-                this.m_Lock = false;
                 @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
+                this.UnLock();
                 player.m_rgAmmo( data.index, 0 );
             }
         }

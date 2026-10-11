@@ -20,6 +20,18 @@ namespace Hooks
     // Called once per player after gpGameStarted is true and the player presses any key
     void PlayerInitialized( CBasePlayer@ player, dictionary@ data )
     {
+        {
+            NetworkMessage m( MSG_ONE, NetworkMessages::ServerName, player.edict() );
+                m.WriteString( "Black-Mesa Training Simulation" );
+            m.End();
+        }
+
+        {
+            NetworkMessage m( MSG_ONE, NetworkMessages::NextMap, player.edict() );
+                m.WriteString( "bts_rc2" );
+            m.End();
+        }
+
         if( g_IsMainMap )
         {
             if( gpGameVersion == 526 )
@@ -43,6 +55,14 @@ namespace Hooks
             hudParamsTitle.flags = HUD_ELEM_SCR_CENTER_X | HUD_ELEM_SCR_CENTER_Y;
             hudParamsTitle.color1 = RGBA( 180, 180, 180, 255 );
             g_PlayerFuncs.HudCustomSprite( player, hudParamsTitle );
+        }
+        else
+        {
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Da test chamberrrrr\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Use command \"bts_rc\" to see all available commands.\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Use command impulse 101 to see all weapons.\n" );
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Press TAB (Scoreboard) to open teleport menu.\n" );
+
         }
     }
 }

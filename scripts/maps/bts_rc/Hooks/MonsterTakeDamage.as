@@ -29,6 +29,8 @@ namespace Hooks
 
         dictionary@ data = info.pVictim.GetUserData();
 
+        data[ "damage_taken" ] = int( info.flDamage );
+
         if( info.flDamage > 0 && victim.m_LastHitGroup == 1 )
         {
             if( gpZombieUncrab !is null && gpZombieUncrab.TrackHealth && gpZombieUncrab.IsValid( info.pVictim ) )

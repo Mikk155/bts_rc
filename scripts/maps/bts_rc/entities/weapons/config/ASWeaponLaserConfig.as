@@ -280,9 +280,9 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
 
     bool Register( btson@ config ) override
     {
-        this.laser_accuracy = config.ValueOrDefault( "laser_accuracy", this.laser_accuracy );
-        this.laser_cooldown = config.ValueOrDefault( "laser_cooldown", this.laser_cooldown );
-        this.laser_size = config.ValueOrDefault( "laser_size", this.laser_size );
+        this.laser_accuracy = float( config[ "laser_accuracy" ] );
+        this.laser_cooldown = float( config[ "laser_cooldown" ] );
+        this.laser_size = float( config[ "laser_size" ] );
 
         return ASWeaponConfig::Register( config );
     }

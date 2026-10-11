@@ -30,6 +30,10 @@ namespace weapons
         || ( @monster = cast<CBaseMonster@>(hit) ) is null )
             return;
 
+        dictionary@ data = hit.GetUserData();
+
+        int damageTaken = int( data[ "damage_taken" ] );
+
         if( g_WeaponsConfig.blood_splash && monster.m_bloodColor != DONT_BLEED )
         {
             CSprite@ spr = null;
@@ -63,6 +67,19 @@ namespace weapons
         }
 
         auto ckv = hit.GetCustomKeyvalues();
+
+        auto hasBloodColors = ckv.GetKeyvalue( "$i_bloodcolor" );
+
+        if( hasBloodColors.Exists() )
+        {
+            NetworkMessage m( MSG_ALL, NetworkMessages::CreateBlood );
+                m.WriteCoord(tr.vecEndPos.x );
+                m.WriteCoord(tr.vecEndPos.y );
+                m.WriteCoord(tr.vecEndPos.z );
+                m.WriteByte( hasBloodColors.GetInteger() ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+                m.WriteByte( Math.clamp( 0, 255, damageTaken ) ); // Count
+            m.End();
+        }
 
         if( g_WeaponsConfig.sparks_splash )
         {
@@ -134,3 +151,44 @@ namespace weapons
         }
     }
 }
+
+void __TraceEffects_Blood__( float x, float y, float z, int color, int range, int repeats )
+{
+    if( --repeats < 0 )
+        return;
+
+    NetworkMessage m( MSG_ALL, NetworkMessages::CreateBlood );
+        m.WriteCoord( x );
+        m.WriteCoord( y );
+        m.WriteCoord( z );
+        m.WriteByte( color ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+        m.WriteByte( range ); // Count
+    m.End();
+
+    g_Scheduler.SetTimeout( "__TraceEffects_Blood__", 0.5f, x, y, z, color, range, repeats );
+}
+
+ASCommand __TraceEffects_Blood_cmd__(
+    "blood",
+    "<0/255 color ranges> <0/255 particle amount (optional)>",
+    "Spawn blood particles",
+    function( CBasePlayer@ player, array<string>@ arguments )
+    {
+        if( arguments is null )
+            arguments = { 20, 20 };
+
+        while( arguments.length() < 2 )
+            arguments.insertLast( 20 );
+
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
+
+        int range = Math.clamp( 0, 255, atoi( arguments[1] ) );
+        int color = Math.clamp( 0, 255, atoi( arguments[0] ) );
+
+        g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Playing blood color " + color + " with amount " + range + '\n' );
+
+        __TraceEffects_Blood__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, range, 10 );
+    }, true, "fx"
+);

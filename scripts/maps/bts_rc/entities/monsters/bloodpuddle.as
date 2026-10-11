@@ -23,7 +23,7 @@
 
 final class ASBloodPuddleConfig : IConfigurable
 {
-    float[] m_DefaultSize = { 1.5f, 2.5f };
+    float[] m_DefaultSize;
     dictionary m_CustomSizes;
     bool m_persistent;
 
@@ -92,6 +92,8 @@ final class ASBloodPuddleConfig : IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
+            CustomKeyValues::Register( "$i_puddleskin" );
+
             @gpBloodPuddle = this;
 
             CustomEntity( "env_bloodpuddle", false );
@@ -100,9 +102,10 @@ final class ASBloodPuddleConfig : IConfigurable
 
         this.m_persistent = bool( config[ "persistent" ] );
 
-        btson@ defaultSize = config.ValueOrDefault( "default_size" );
-        this.m_DefaultSize[0] = defaultSize.ValueOrDefault(0, this.m_DefaultSize[0], false, true );
-        this.m_DefaultSize[1] = defaultSize.ValueOrDefault(1, this.m_DefaultSize[1], false, true );
+        btson@ defaultSize = config[ "default_size" ];
+
+        this.m_DefaultSize = { float( defaultSize[0] ), float( defaultSize[1] ) };
+
         if( this.m_DefaultSize[0] > this.m_DefaultSize[1] )
         {
             g_Logger.error.print( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
@@ -124,7 +127,7 @@ final class ASBloodPuddleConfig : IConfigurable
         {
             string name = monsterNames[ui];
 
-            btson@ customSize = config.ValueOrDefault( "default_size" );
+            btson@ customSize = custom_size[ name ];
 
             array<float> arr = { float( customSize[0] ), float( customSize[1] ) };
 
@@ -163,6 +166,12 @@ final class ASBloodPuddleConfig : IConfigurable
         if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
             bloodpuddle.pev.skin = 1;
 
+        auto ckv = monster.GetCustomKeyvalues();
+        auto customSkin = ckv.GetKeyvalue( "$i_puddleskin" );
+
+        if( customSkin.Exists() )
+            bloodpuddle.pev.skin = customSkin.GetInteger();
+
         array<float> sizes;
 
         if( !gpBloodPuddle.m_CustomSizes.get( string( monster.pev.classname ), sizes ) || sizes.length() < 2 )
@@ -171,8 +180,8 @@ final class ASBloodPuddleConfig : IConfigurable
         bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
 
         if( g_Logger.trace.active )
-            g_Logger.trace.print( "Generated {} blood puddle with scale {} for {} at {}", {
-                ( bloodpuddle.pev.skin == 1 ? "yellow" : "red" ),
+            g_Logger.trace.print( "Generated blood puddle skin={} scale={} for {} at {}", {
+                bloodpuddle.pev.skin,
                 bloodpuddle.pev.scale,
                 monster.pev.classname,
                 monster.pev.origin.ToString()

@@ -35,39 +35,39 @@ array<ScriptSchedule@>@ custom_parasite_schedules;
 
 const array<string> pIdleSounds =
 {
-    "headcrab/hc_idle1.wav",
-    "headcrab/hc_idle2.wav",
-    "headcrab/hc_idle3.wav"
+    "bts_rc/parasite/pa_idle1.ogg",
+    "bts_rc/parasite/pa_idle2.ogg",
+    "bts_rc/parasite/pa_idle3.ogg"
 };
 
 const array<string> pAlertSounds =
 {
-    "headcrab/hc_alert1.wav"
+    "bts_rc/parasite/pa_alert1.ogg"
 };
 
 const array<string> pPainSounds =
 {
-    "headcrab/hc_pain1.wav",
-    "headcrab/hc_pain2.wav",
-    "headcrab/hc_pain3.wav"
+    "bts_rc/parasite/pa_pain1.ogg",
+    "bts_rc/parasite/pa_pain2.ogg",
+    "bts_rc/parasite/pa_pain3.ogg"
 };
 
 const array<string> pAttackSounds =
 {
-    "headcrab/hc_attack1.wav",
-    "headcrab/hc_attack2.wav",
-    "headcrab/hc_attack3.wav"
+    "bts_rc/parasite/pa_attack1.ogg",
+    "bts_rc/parasite/pa_attack2.ogg",
+    "bts_rc/parasite/pa_attack3.ogg"
 };
 
 const array<string> pDeathSounds =
 {
-    "headcrab/hc_die1.wav",
-    "headcrab/hc_die2.wav"
+    "bts_rc/parasite/pa_die1.ogg",
+    "bts_rc/parasite/pa_die2.ogg"
 };
 
 const array<string> pBiteSounds =
 {
-    "headcrab/hc_headbite.wav"
+    "bts_rc/parasite/pa_headbite.ogg"
 };
 
 final class monster_parasite : bts_rc_base_monster

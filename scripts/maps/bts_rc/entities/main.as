@@ -30,14 +30,8 @@
 #include "monsters/zombie_uncrab"
 
 #include "env_credits"
-#if SERVER
 #include "entitymaker"
-#endif
 #include "func_bts_recharger"
-#if SERVER
 #include "info_section"
-#endif
 #include "point_checkpoint"
-#if SERVER
 #include "trigger_logger"
-#endif

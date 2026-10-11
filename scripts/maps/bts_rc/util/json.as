@@ -213,16 +213,59 @@ class btson
     /// ======================================
     /// opConv
     /// ======================================
-    float opConv() {
+    float opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+                return atof( string( this.Value ) );
+            case meta_api::json::Type::Integer:
+                return float( int( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? 1 : 0 );
+        }
         return float( this.Value );
     }
-    int opConv() {
+    int opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+                return atoi( string( this.Value ) );
+            case meta_api::json::Type::Float:
+                return int( float( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? 1 : 0 );
+        }
         return int( this.Value );
     }
-    bool opConv() {
+    bool opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::String:
+            {
+                string val = string( this.Value );
+                return ( atoi(val) != 1 || val == "true" );
+            }
+            case meta_api::json::Type::Float:
+                return ( int( float( this.Value ) ) != 0 );
+            case meta_api::json::Type::Integer:
+                return ( int( this.Value ) != 0 );
+        }
         return bool( this.Value );
     }
-    string opConv() {
+    string opConv()
+    {
+        switch( this.Type )
+        {
+            case meta_api::json::Type::Float:
+                return string( float( this.Value ) );
+            case meta_api::json::Type::Integer:
+                return string( int( this.Value ) );
+            case meta_api::json::Type::Boolean:
+                return ( bool( this.Value ) ? "true" : "false" );
+        }
         return string( this.Value );
     }
 
@@ -667,8 +710,10 @@ class btson
         btson@ value;
         this.Get( key, value );
 
-        this.m_KeyValues.delete( key );
-        this.m_KeyNames.removeAt( this.m_KeyNames.find( key ) );
+        if( this.m_KeyValues.delete( key ) )
+        {
+            this.m_KeyNames.removeAt( this.m_KeyNames.find( key ) );
+        }
 
         return value;
     }
@@ -681,14 +726,12 @@ class btson
             g_Logger.error.print( "Can not Remove value at index {} from a json that is not an object! type: {}", { index, meta_api::json::Type::ToString( this.Type ) } );
         }
 
-        btson@ value;
         if( index < this.Length() )
         {
-            @value = this.opIndex(index);
-            this.m_KeyValues.delete( this.m_KeyNames[index] );
+            return this.Remove( this.m_KeyNames[index] );
         }
 
-        return value;
+        return null;
     }
 
     /// Get the value converted to string.

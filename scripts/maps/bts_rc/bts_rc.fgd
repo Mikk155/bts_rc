@@ -143,6 +143,8 @@
 @PointClass base(Mandatory) = monster_zombie_parasite : "" : "" [ ]
 @PointClass base(Mandatory) = monster_parasite : "" : "" [ ]
 
+@PointClass base(Mandatory) = env_credits : "credits" [ ]
+
 // Next entities only takes places outside of bts_rc map (bts_rc_test_chamber)
 @SolidClass base(Mandatory, ZHLT) = trigger_logger: "Fast message displayer"
 [

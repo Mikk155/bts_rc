@@ -105,47 +105,44 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( !bool( config[ "active" ] ) )
             return false;
 
-        config.Get( "capacity", this.m_uiMaxCapacity );
-        config.Get( "distance", this.m_fRadius, false );
-        config.Get( "cooldown_start", this.m_fCooldownInitial, false );
-        config.Get( "cooldown_combat", this.m_fCooldownCombat, false );
-        config.Get( "cooldown_idle", this.m_fCooldownIdle, false );
-        config.Get( "cooldown_rng", this.m_fCooldownRNG, false );
-        config.Get( "chance", this.m_uiRandomChance, false );
+        this.m_uiMaxCapacity = uint( int( config[ "capacity" ] ) );
+        this.m_fRadius = float( config[ "distance" ] );
+        this.m_fCooldownInitial = float( config[ "cooldown_start" ] );
+        this.m_fCooldownCombat = float( config[ "cooldown_combat" ] );
+        this.m_fCooldownIdle = float( config[ "cooldown_idle" ] );
+        this.m_fCooldownRNG = float( config[ "cooldown_rng" ] );
+        this.m_uiRandomChance = uint( int( config[ "chance" ] ) );
 
         if( g_MapConfig.MapLoading )
         {
             EntityOverriden::SetThink( float( config[ "interval" ] ) );
-#if SERVER
-            g_Game.PrecacheOther( "monster_human_torch_ally" );
-#endif
+
+            if( !g_IsMainMap )
+                g_Game.PrecacheOther( "monster_human_torch_ally" );
+
+            EntityOverriden::Register( this );
         }
 
         return true;
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( entity.GetClassname() != "monster_human_torch_ally" )
+        if( monster is null || monster.GetClassname() != "monster_human_torch_ally" )
             return false;
 
-#if SERVER
-        SetDebugName( entity, "Engineer sentry spawner" );
-#endif
+        if( !g_IsMainMap )
+            SetDebugName( monster, "Engineer sentry spawner" );
 
-        dictionary@ data = entity.GetUserData();
+        dictionary@ data = monster.GetUserData();
 
         data[ "sentry_left" ] = m_uiMaxCapacity;
         data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownInitial + Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
 
-#if SERVER
-        data[ "sentry_cooldown" ] = g_Engine.time + 10.2;
-#endif
-
         if( this.m_iGateAnimation < 0 )
             this.m_iGateAnimation = monster.LookupSequence( "open_floor_grate" );
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     bool IsHullFree( const Vector &in vecPos )
@@ -271,7 +268,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
 
                 if( AimingLasersOverrider !is null )
                 {
-                    AimingLasersOverrider.AddEntity( sentry.entindex(), sentry, sentry.GetCustomKeyvalues(), cast<CBaseMonster@>( sentry ) );
+                    AimingLasersOverrider.AddEntity( sentry, cast<CBaseMonster@>( sentry ) );
                 }
             }
         }

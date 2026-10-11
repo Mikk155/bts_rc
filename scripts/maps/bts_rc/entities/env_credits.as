@@ -21,8 +21,6 @@ final class ASCredit
 {
     string Content;
 
-    float Speed;
-
     float __pos__ = 1.0f;
 
     private
@@ -48,7 +46,22 @@ final class ASCredit
 final class env_credits : ScriptBaseMonsterEntity
 {
     private
+        dictionary m_PlayersVoting;
+
+    private
+        bool m_RestartSimulation;
+
+    private
+        bool m_Intermission;
+
+    private
+        int m_TotalPlayers;
+
+    private
         array<ASCredit> m_Credits;
+
+    private
+        float m_CreditsScrollRate;
 
     void Spawn()
     {
@@ -81,11 +94,117 @@ final class env_credits : ScriptBaseMonsterEntity
         return index;
     }
 
+    private
+        string m_FormatedTime;
+
+    private
+        void FormatTime( const string&in name, int number )
+        {
+            if( number > 0 )
+            {
+                this.m_FormatedTime.opAddAssign( ' ' );
+                this.m_FormatedTime.opAddAssign( number );
+                this.m_FormatedTime.opAddAssign( ' ' );
+                this.m_FormatedTime.opAddAssign( name );
+
+                if( number > 1 )
+                    this.m_FormatedTime.opAddAssign( 's' );
+
+                this.m_FormatedTime.opAddAssign( '.' );
+            }
+        }
+
+    const string& get_FormatedTime() property
+    {
+        if( this.m_FormatedTime.IsEmpty() )
+        {
+            this.m_FormatedTime = "Simulation completed in";
+            this.FormatTime( "day", g_DataTracker.Difference.GetDays() );
+            this.FormatTime( "hour", g_DataTracker.Difference.GetHours() );
+            this.FormatTime( "minute", g_DataTracker.Difference.GetMinutes() );
+            this.FormatTime( "second", g_DataTracker.Difference.GetSeconds() );
+            this.m_FormatedTime.opAddAssign( '\n' );
+        }
+        return this.m_FormatedTime;
+    }
+
+    private
+        void VoteCallback( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option )
+        {
+            if( player !is null && option !is null )
+            {
+                string idx = string( player.entindex() );
+
+                if( option.Id == 0 )
+                {
+                    m_PlayersVoting[ idx ] = true;
+                }
+                else
+                {
+                    m_PlayersVoting.delete( idx );
+                }
+            }
+        }
+
     void Think()
     {
+        if( this.m_Intermission )
+        {
+            if( this.m_RestartSimulation )
+            {
+                g_EngineFuncs.ChangeLevel( string( g_Engine.mapname ) );
+            }
+            else
+            {
+                g_EngineFuncs.ChangeLevel( g_MapCycle.GetNextMap() );
+            }
+            return;
+        }
+
         if( m_Credits.length() <= 0 )
         {
-            g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+            if( g_DataTracker.CurrentPlayerMessages.length() <= 0 )
+            {
+                if( !g_IsMainMap )
+                {
+                    g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+                    self.pev.flags |= FL_KILLME;
+                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "Skiping level change in da test chamberrrrr\n" );
+                    return;
+                }
+
+                this.m_Intermission = true;
+                NetworkMessage m( MSG_ALL, NetworkMessages::SVC_INTERMISSION );
+                m.End();
+                self.pev.nextthink = g_Engine.time + 5.0f;
+                return;
+            }
+
+            string message = g_DataTracker.CurrentPlayerMessages[0];
+            g_DataTracker.CurrentPlayerMessages.removeAt(0);
+
+            HUDTextParams params;
+            params.channel = 1;
+            params.x = -1;
+            params.r1 = 255;
+            params.g1 = 0;
+            params.b1 = 0;
+
+            params.y = 0.40;
+            params.fadeinTime = 1.0f;
+            params.holdTime = 3.0f;
+            params.fadeoutTime = 1.0f;
+            g_PlayerFuncs.HudMessageAll( params, message );
+
+            self.pev.nextthink = g_Engine.time + params.fadeinTime + params.holdTime + params.fadeoutTime + 0.5f;
+
+            params.channel = 2;
+            params.y = 0.30;
+            params.fadeinTime = 0.0f;
+            params.holdTime = self.pev.nextthink - g_Engine.time;
+            params.fadeoutTime = 0.0f;
+            g_PlayerFuncs.HudMessageAll( params, this.FormatedTime );
+
             return;
         }
 
@@ -98,11 +217,85 @@ final class env_credits : ScriptBaseMonsterEntity
             g_PlayerFuncs.HudMessageAll( params, '\n' );
         }
 
-        self.pev.nextthink = g_Engine.time + 0.01f;
+        int percent = ( this.m_TotalPlayers > 0 ? int( ( m_PlayersVoting.getSize() * 100 ) / this.m_TotalPlayers ) : 0 );
+        this.m_TotalPlayers = 0;
+
+        this.m_RestartSimulation = ( percent > 50 );
+
+        for( int i = 1; i <= g_Engine.maxClients; i++ )
+        {
+            auto player = g_PlayerFuncs.FindPlayerByIndex(i);
+
+            if( player !is null )
+            {
+                this.m_TotalPlayers++;
+
+                TextMenu::v1::Menu menu;
+
+                menu.Text
+                    .ColorGray()
+                    .Write( "Reset simulation? " )
+                    .ColorOrange()
+                    .Write( "%" );
+
+                if( this.m_RestartSimulation )
+                    menu.Text.ColorGreen();
+                else
+                    menu.Text.ColorRed();
+
+                menu.Text
+                    .Write( percent )
+                    .ColorOrange()
+                    .Write( " (" )
+                    .ColorGray()
+                    .Write( ( this.m_RestartSimulation ? "Restart" : "Next map" ) )
+                    .ColorOrange()
+                    .Write( ")" )
+                .ColorGray();
+
+                auto@ optionResetSimulation = menu.AddOption();
+                auto@ optionEndSimulation = menu.AddOption();
+
+                string idx = string( player.entindex() );
+
+                if( m_PlayersVoting.exists( idx ) )
+                {
+                    optionResetSimulation.Text.ColorGreen();
+                }
+                else
+                {
+                    optionEndSimulation.Text.ColorGreen();
+                }
+
+                optionResetSimulation.Text.Write( "Yes, Restart map." ).ColorGray();
+                optionEndSimulation.Text.Write( "No, Next map." ).ColorGray();
+
+                optionResetSimulation.SetCallback( @TextMenu::v1::MenuOptionSelect( this.VoteCallback ) );
+                optionEndSimulation.SetCallback( @TextMenu::v1::MenuOptionSelect( this.VoteCallback ) );
+
+                menu.Open( player, 5 );
+            }
+        }
+
+        self.pev.nextthink = g_Engine.time + this.m_CreditsScrollRate;
     }
+
+    private bool m_Thinking;
 
     void Use( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
     {
+        if( this.m_Thinking )
+        {
+            if( !g_IsMainMap )
+            {
+                g_EntityFuncs.FireTargets( self.pev.target, null, null, USE_TOGGLE, 0.0f );
+                self.pev.flags |= FL_KILLME;
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTTALK, "Killed credits, activate again\n" );
+                return;
+            }
+            return;
+        }
+
         if( !g_IsMainMap )
         {
             CBasePlayer@ player;
@@ -116,6 +309,8 @@ final class env_credits : ScriptBaseMonsterEntity
                 return;
             }
         }
+
+        g_DataTracker.Stop();
 
         string creditsPath = "scripts/maps/bts_rc/credits.txt";
 
@@ -136,7 +331,6 @@ final class env_credits : ScriptBaseMonsterEntity
         {
             string line;
             fStream.ReadLine( line );
-            g_Logger.info.print("{}", { line } );
 
             if( line.StartsWith( "//" ) )
             {
@@ -164,6 +358,10 @@ final class env_credits : ScriptBaseMonsterEntity
             {
                 credit.Color.r = atoi( line.SubString( 3 ) );
             }
+            else if( line.StartsWith( "$t" ) )
+            {
+                this.m_CreditsScrollRate = Math.clamp( 0.01, 0.5f, atof( line.SubString( 3 ) ) );
+            }
             else if( line.StartsWith( "$g" ) )
             {
                 credit.Color.g = atoi( line.SubString( 3 ) );
@@ -171,10 +369,6 @@ final class env_credits : ScriptBaseMonsterEntity
             else if( line.StartsWith( "$b" ) )
             {
                 credit.Color.b = atoi( line.SubString( 3 ) );
-            }
-            else if( line.StartsWith( "$t" ) )
-            {
-                credit.Speed = atof( line.SubString( 3 ) );
             }
             else
             {
@@ -193,8 +387,6 @@ final class env_credits : ScriptBaseMonsterEntity
 #endif
                 this.m_Credits.insertLast( credit );
             }
-
-            credit.Speed = Math.clamp( 0.1f, 1.0f, credit.Speed );
         }
 
 #if FALSE
@@ -207,6 +399,8 @@ final class env_credits : ScriptBaseMonsterEntity
         this.Fade( 2.0f );
 
         self.pev.nextthink = g_Engine.time + 2.0f;
+
+        this.m_Thinking = true;
     }
 
     void Fade( float time, bool firstCall = true )

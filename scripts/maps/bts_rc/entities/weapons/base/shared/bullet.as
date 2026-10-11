@@ -179,7 +179,6 @@ final class ASBullet
     // Set muzzle flash size, 0 to not use muzzle flash at all
     ASBullet@ Flash( int flash = NORMAL_GUN_FLASH, bool dlight = true )
     {
-#if SERVER
         switch( flash )
         {
             case 0:
@@ -190,16 +189,16 @@ final class ASBullet
             default:
                 g_Logger.critical.print( "Weapon {} called bullet.Flash with value other than DIM_GUN_FLASH, BRIGHT_GUN_FLASH or NORMAL_GUN_FLASH!", { this.m_Config.GetName() } );
         }
-#endif
+
         this.m_FlashSize = flash;
         this.m_FlashLight = dlight;
+
         return this;
     }
 
     // Volume for sound
     ASBullet@ Volume( float volume = 1.0, int weaponVolume = NORMAL_GUN_VOLUME )
     {
-#if SERVER
         if( volume > 1.0 )
         {
             g_Logger.critical.print( "Weapon {} called bullet.Volume with value higher than 1.0!", { this.m_Config.GetName() } );
@@ -208,10 +207,10 @@ final class ASBullet
         {
             g_Logger.critical.print( "Weapon {} called bullet.Volume with value lower than 0.0!", { this.m_Config.GetName() } );
         }
-#endif
 
         this.m_Volume = volume;
         this.m_WeaponVolume = weaponVolume;
+
         return this;
     }
 

@@ -220,7 +220,7 @@ namespace item_tracker
                 continue;
 
             string message;
-            snprintf( message, "%1 %2: collected %3.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ), name );
+            snprintf( message, "[%1] %2: collected %3.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ), name );
             ChatColor::Say( player, ChatColor::Color::Yellow, message );
 
             storedItems.insertLast( name );
@@ -292,12 +292,6 @@ namespace item_tracker
         int playerMOTDVersion = data.exists( MOTD_VERSION_KEY ) ? int( data[ MOTD_VERSION_KEY ] ) : -1;
         edict_t@ edict = player.edict();
 
-        {
-            NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
-                msg.WriteString( "Item holders list" );
-            msg.End();
-        }
-
         if( playerMOTDVersion != gpBufferVersion )
         {
             if( gpBufferDirty )
@@ -313,12 +307,6 @@ namespace item_tracker
         {
             NetworkMessage msg( MSG_ONE, NetworkMessages::SVC_STUFFTEXT, edict );
                 msg.WriteString( "servermotd\n" );
-            msg.End();
-        }
-
-        {
-            NetworkMessage msg( MSG_ONE, NetworkMessages::ServerName, edict );
-                msg.WriteString( g_EngineFuncs.CVarGetString( "hostname" ) );
             msg.End();
         }
     }

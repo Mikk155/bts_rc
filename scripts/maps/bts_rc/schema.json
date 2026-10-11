@@ -9,11 +9,6 @@
 				"type": "string",
 				"description": "Reference to the JSON schema file used for validation and editor hinting."
 			},
-			"allow_reload": 
-			{
-				"type": "boolean",
-				"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time."
-			},
 			"logger": 
 			{
 				"type": "object",
@@ -58,6 +53,12 @@
 				"description": "Control items configuration",
 				"properties": 
 				{
+					"item_tracking": 
+					{
+						"type": "boolean",
+						"description": "Track important inventory items and expose the inventory status display.",
+						"default": false
+					},
 					"battery_lighting": 
 					{
 						"title": "Lighting battery",
@@ -3979,7 +3980,7 @@
 					},
 					"laser_size": 
 					{
-						"default": 0.75,
+						"default": 0.1,
 						"title": "Laser sprite size multiplier",
 						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
@@ -4510,7 +4511,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.05,
+						"default": 0.1,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -4914,7 +4915,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.05,
+						"default": 0.1,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -5270,7 +5271,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.3,
+						"default": 0.1,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -5415,7 +5416,7 @@
 					},
 					"secondary_trained_cooldown": 
 					{
-						"default": 0.5,
+						"default": 0.08,
 						"type": "number"
 					},
 					"slot": 
@@ -5631,7 +5632,7 @@
 					},
 					"laser_size": 
 					{
-						"default": 0.5,
+						"default": 0.1,
 						"title": "Laser sprite size multiplier",
 						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
@@ -6444,7 +6445,7 @@
 					},
 					"laser_size": 
 					{
-						"default": 0.5,
+						"default": 0.1,
 						"title": "Laser sprite size multiplier",
 						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
@@ -10185,6 +10186,38 @@
 						"default": 2,
 						"type": "number"
 					},
+					"scope_color": 
+					{
+						"default": 
+						[
+							255,
+							60,
+							60
+						],
+						"description": "Night vision color when using scope",
+						"type": "array",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0,
+							"maximum": 255
+						},
+						"minItems": 3,
+						"maxItems": 3
+					},
+					"scope_fov": 
+					{
+						"default": 18,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"slot": 
 					{
 						"default": 5,
@@ -10220,10 +10253,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -12444,6 +12473,20 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"bolt_gravity": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"maximum": 1,
+						"description": "Bolt's gravity",
+						"default": 0.3
+					},
+					"crosshair": 
+					{
+						"type": "string",
+						"description": "Crossbow crosshair",
+						"default": "[- . -]\n|\n. | .\n|\n--: | :--\n|\n--.-- | --.--\n|\n--- . --- | --- . ---"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -12484,6 +12527,38 @@
 						"default": 1.8,
 						"type": "number"
 					},
+					"scope_color": 
+					{
+						"default": 
+						[
+							60,
+							255,
+							60
+						],
+						"description": "Night vision color when using scope",
+						"type": "array",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0,
+							"maximum": 255
+						},
+						"minItems": 3,
+						"maxItems": 3
+					},
+					"scope_fov": 
+					{
+						"default": 20,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"slot": 
 					{
 						"default": 2,
@@ -12519,10 +12594,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -15215,12 +15286,6 @@
 						"description": "Quantity of ammo carry for flashlight weapons",
 						"default": 10
 					},
-					"item_tracking": 
-					{
-						"type": "boolean",
-						"description": "Track important inventory items and expose the inventory status display.",
-						"default": true
-					},
 					"item_remap": 
 					{
 						"type": "object",
@@ -15349,8 +15414,8 @@
 					{
 						"default": 
 						[
-							1,
-							5
+							2,
+							10
 						]
 					},
 					"ammo_gaussclip": 
@@ -16160,7 +16225,7 @@
 								"description": "Questionable Ethics",
 								"items": 
 								[
-									"weapon_bts_crossbow",
+									"weapon_bts_xbow",
 									"ammo_crossbow",
 									"ammo_crossbow",
 									"weapon_bts_flashlight"
@@ -16342,7 +16407,7 @@
 									"ammo_9mmclip",
 									"ammo_9mmclip",
 									"ammo_9mmclip",
-									"ammo_argrenade"
+									"ammo_ARgrenades"
 								]
 							},
 							"Operative3": 
@@ -17129,7 +17194,6 @@
 									1,
 									255
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17158,7 +17222,6 @@
 									255,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17187,7 +17250,6 @@
 									255,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17211,7 +17273,6 @@
 									165,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17235,7 +17296,6 @@
 									255,
 									255
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17276,7 +17336,19 @@
 									"Operative30",
 									"Operative31",
 									"Operative32",
-									"Operative33"
+									"Operative33",
+									"Operative34",
+									"Operative35",
+									"Operative36",
+									"Operative37",
+									"Operative38",
+									"Operative39",
+									"Operative40",
+									"Operative41",
+									"Operative42",
+									"Operative43",
+									"Operative44",
+									"Operative45"
 								],
 								"description": "%1 entered the simulation as an Operative\nLoadout %2",
 								"notice": 
@@ -17291,7 +17363,6 @@
 									1,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17933,6 +18004,20 @@
 						"description": "Internal think rate interval. the lower the value the more cpu usage",
 						"default": 0.5
 					},
+					"fadehold": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Fade hold time",
+						"default": 2
+					},
+					"fadeout": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Fade out time",
+						"default": 6
+					},
 					"throw_flash_cooldown": 
 					{
 						"type": "number",
@@ -17945,7 +18030,7 @@
 						"type": "number",
 						"minimum": 1,
 						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown.",
-						"default": 6
+						"default": 3
 					},
 					"active": 
 					{
@@ -18059,6 +18144,42 @@
 					}
 				}
 			},
+			"zombie_engineer": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Zombie engineer config",
+				"description": "Control attributes for zombie engineer.",
+				"properties": 
+				{
+					"health": 
+					{
+						"type": "integer",
+						"description": "Canister health before explode",
+						"default": 50
+					},
+					"explosion": 
+					{
+						"type": "integer",
+						"description": "Canister explosion radius damage",
+						"default": 125
+					},
+					"stray": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"maximum": 100,
+						"description": "when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100",
+						"default": 5
+					},
+					"degrade": 
+					{
+						"type": "integer",
+						"description": "damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens",
+						"default": 1
+					}
+				}
+			},
 			"monster_panthereye": 
 			{
 				"type": "object",
@@ -18165,6 +18286,44 @@
 						"maximum": 100,
 						"description": "Visibility percentage",
 						"default": 15
+					}
+				}
+			},
+			"map_config": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Map configuration",
+				"description": "Configuration about the *configuration* system.",
+				"properties": 
+				{
+					"allow_reload": 
+					{
+						"type": "boolean",
+						"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time. useful to test specific changes without restarting the whole map.",
+						"default": false
+					},
+					"skip_validation": 
+					{
+						"type": "boolean",
+						"description": "Disable this to skip json schema validation. you MUST define everything from default config or exceptions will raise.",
+						"default": false
+					}
+				}
+			},
+			"data_tracker": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Map configuration",
+				"description": "Configuration about the *configuration* system..",
+				"properties": 
+				{
+					"active": 
+					{
+						"type": "boolean",
+						"description": "When active. tracks player data and writes to scripts/maps/store/bts_rc_datatracker.json",
+						"default": false
 					}
 				}
 			},

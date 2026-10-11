@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#if SERVER
 namespace test_chamber
 {
     final class entitymaker : ScriptBaseMonsterEntity
@@ -110,7 +109,7 @@ namespace test_chamber
                 return;
 
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
-            Hooks::SquadmakerSpawn( self, child );
+            EntityOverriden::Register( child, cast<CBaseMonster@>(child) );
             this.m_hChild = EHandle( child );
 
             g_EntityFuncs.FireTargets( this.m_Target, child, self, USE_TOGGLE, 0.0f );
@@ -142,4 +141,3 @@ namespace test_chamber
         }
     }
 }
-#endif

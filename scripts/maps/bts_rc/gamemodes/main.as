@@ -15,6 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+#include "datatracker"
 #include "item_tracker"
 #include "deathdrop"
 #include "dynamic_ammo"

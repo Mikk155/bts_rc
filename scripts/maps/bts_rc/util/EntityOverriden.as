@@ -19,16 +19,17 @@ namespace EntityOverriden
 {
     array<EntityOverriden@> gpEntityOverriden(0);
 
+    // Register the given EntityOverriden
     void Register( EntityOverriden@ instance )
     {
         if( g_Logger.info.active )
-            g_Logger.info.print( "Registering EntityOverriden {}", { instance.GetName() } );
+            g_Logger.info.print( "Registering EntityOverriden \"{}\"", { instance.GetName() } );
 
         gpEntityOverriden.insertLast(instance);
     }
 
     // Register a entity to its EntityOverriden system
-    bool Register( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
+    bool Register( CBaseEntity@ entity, CBaseMonster@ monster )
     {
         bool added = false;
 
@@ -38,10 +39,10 @@ namespace EntityOverriden
         {
             EntityOverriden@ overrider = gpEntityOverriden[ui];
 
-            if( overrider !is null && overrider.AddEntity( index, entity, ckv, monster ) )
+            if( overrider !is null && overrider.AddEntity( entity, monster ) )
             {
-                if( g_Logger.trace.active )
-                    g_Logger.trace.print( "Registering {} at {} for {}", { entity.GetClassname(), entity.pev.origin.ToString(), overrider.GetName() } );
+                if( g_Logger.debug.active )
+                    g_Logger.debug.print( "[{}] Registering {} at {}", { overrider.GetName(), entity.GetClassname(), entity.pev.origin.ToString() } );
                 added = true;
             }
         }
@@ -70,8 +71,55 @@ abstract class EntityOverriden
     // List of entities
     protected array<EHandle> m_Handles(0);
 
+    // Find a entity by reference. return it's index and handle in m_Handles.
+    bool Find( CBaseEntity@ entity, int &out index, EHandle &out handle )
+    {
+        if( entity !is null )
+        {
+            uint length = this.m_Handles.length();
+
+            CBaseEntity@ e = null;
+
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                EHandle h = this.m_Handles[ui];
+
+                if( h.IsValid() && ( @e = h.GetEntity() ) !is null && e is entity )
+                {
+                    index = ui;
+                    handle = h;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Find a entity by reference. return it's handle in m_Handles.
+    bool Find( CBaseEntity@ entity, EHandle &out handle )
+    {
+        return this.Find( entity, void, handle );
+    }
+
+    // Find a entity by reference. return it's index in m_Handles.
+    bool Find( CBaseEntity@ entity, int &out index )
+    {
+        return this.Find( entity, index, void );
+    }
+
+    // Find a entity by reference. if exists in m_Handles removes it
+    void Remove( CBaseEntity@ entity )
+    {
+        int index;
+
+        if( this.Find( entity, index, void ) )
+        {
+            this.m_Handles.removeAt( index );
+        }
+    }
+
     // Whatever a entity should be added to the instance, entity and monster are the same instance just casted before hand.
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster )
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster )
     {
         this.m_Handles.insertLast( EHandle( entity ) );
         return true;
@@ -104,8 +152,8 @@ abstract class EntityOverriden
 
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
-                if( g_Logger.warning.active )
-                    g_Logger.warning.print( snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.GetName(), index ) );
+                if( g_Logger.debug.active )
+                    g_Logger.debug.print( snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.GetName(), index ) );
                 this.m_Handles.removeAt(index);
                 continue;
             }
@@ -119,8 +167,8 @@ abstract class EntityOverriden
 
             if( ( flags & EntityOverridenAction::Remove ) != 0 )
             {
-                if( g_Logger.trace.active )
-                    g_Logger.trace.print( snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.GetName(), index ) );
+                if( g_Logger.debug.active )
+                    g_Logger.debug.print( snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.GetName(), index ) );
                 this.m_Handles.removeAt(index);
             }
 

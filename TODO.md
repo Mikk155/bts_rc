@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/74.4186046511628?barColor=75da0b)
+> ![](https://geps.dev/progress/79.28571428571428?barColor=61da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,18 +27,10 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
-    ```C++
-    NetworkMessage message( MSG_ALL, NetworkMessages::CreateBlood );
-        message.WriteCoord(-143);//x
-        message.WriteCoord(601);//y
-        message.WriteCoord(-1559);//z
-        //https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
-        message.WriteByte(251);//color
-        message.WriteByte(255);//sacle
-    message.End();
-    ```
-_ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
+- [ ] Fix test chamber not spawning all type of canister zombies (seems it's using + for classname)
+- [ ] Add label/section in command log
+    > [Information] Registering command infinite
+- [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );
@@ -47,19 +39,15 @@ _ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
         message.WriteFloat(15);//roll
     message.End();
     ```
-- [ ] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
+- [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [ ] Rotate ASFlare angles when created with flaregun
+- [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
-- [ ] Create a chrono::v1 at mikk155/sven-co-op with simplified usage and add more chrono instances in the map to track total and relative times
-- [ ] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players and historical top players.
-- [ ] Add a chrono since map started and ended for player data storage.
-- [ ] Use json::v1 for GetSchema? Could use the initializer list provided by the addon then serialize with v1 and deserialize with v2 IF validation is not skiped. Relates to [#129](https://github.com/Mikk155/bts_rc/pull/129)
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
-- [x] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
 - [ ] Pulish black ops flashbangs which at the moment is a rare throw.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
@@ -72,10 +60,41 @@ _ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
-- [ ] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [ ] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
-- [ ] Pass squadmaker entity if valid to EntityOverriden::AddEntity to pass squadmaker custom keyvalues such as:
+- [ ] Use item display name instead of item name for item_tracker collection chat message.
+---
+
+# Completed
+<!-- Python will move the completed goals from above to here.--->
+<!--CompletedGoals-start-->
+- [x] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
+- [x] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
+- [x] Fix schema error of items not pasing their type defined in parent
+    > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
+    Moved to Issue [#132](https://github.com/Mikk155/bts_rc/issues/132)
+- [x] Add a chrono since map started and ended for player data storage.
+- [x] Add crossbow sprite when zoom in to sprite txt file.
+- [x] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
+- [x] zombie uncrab skip zombies with spawnflag 16 (prisoner) for test chamberr
+- [x] Issue when droping laser/flashlight guns and not having other guns in inventory, the laser/spot remains active.
+- [x] Fix all angelscript warnings
+- [x] Use json v1 to track player data in difficulty modes, hellbound etc and have a custom entity to show progress of current connected players ~~and historical top players.~~
+- [x] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin colors on monsters (Requires system to track squadmaker-to-child custom keyvalues)
+- [x] Dont set on fires with flamethrower enemies such as robots turrets and other machines
+- [x] Add ``$i_bloodcolor`` at TraceAttack method to spit mapper-set blood colors (Requires system to track squadmaker-to-child custom keyvalues)
+    ```C++
+    NetworkMessage message( MSG_ALL, NetworkMessages::CreateBlood );
+        message.WriteCoord(-143);//x
+        message.WriteCoord(601);//y
+        message.WriteCoord(-1559);//z
+        //https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+        message.WriteByte(251);//color
+        message.WriteByte(255);//sacle
+    message.End();
+    ```
+- [x] **Flamethrower**: Emit a dynamic light (`DLIGHT`) while monsters are burning.
+- [x] Pass squadmaker entity if valid to EntityOverriden::AddEntity to pass squadmaker custom keyvalues such as:
     ```C++
         bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
         {
@@ -83,15 +102,6 @@ _ [ ] Add ``$i_puddleskin`` at blood puddle context to allow mapper-set skin col
                 return false;
     ```
     OR refactore the method.
-- [ ] Remove various json ValueOrDefault use opIndex when the value type is known as strict type (i.e string and bool)
-- [ ] Add crossbow sprite when zoom in to sprite txt file.
-- [ ] Use item display name instead of item name for item_tracker collection chat message.
-
----
-
-# Completed
-<!-- Python will move the completed goals from above to here.--->
-<!--CompletedGoals-start-->
 - [x] Fill weapon clips based on random range from zero to the max current rgAmmo.
 - [x] Implement dynamic ammo system in PlayerCollect hook.
 - [x] dynamic ammo should use a classname-based find rather than internal ammo name.

@@ -39,6 +39,11 @@ final class ASItemsConfig : IConfigurable
             "description": "Control items configuration",
             "properties":
             {
+                "item_tracking":
+                {
+                    "type": "boolean",
+                    "description": "Track important inventory items and expose the inventory status display."
+                },
                 "battery_lighting":
                 {
                     "title": "Lighting battery",
@@ -55,9 +60,16 @@ final class ASItemsConfig : IConfigurable
         return this.m_BatteryLighting;
     }
 
+    private bool m_ItemTracking;
+
+    const bool get_item_tracking() const {
+        return this.m_ItemTracking;
+    }
+
     bool Register( btson@ config ) override
     {
         this.m_BatteryLighting = bool( config[ "battery_lighting" ] );
+        this.m_ItemTracking = bool( config[ "item_tracking" ] );
 
         if( g_MapConfig.MapLoading )
         {

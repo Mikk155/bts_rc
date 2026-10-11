@@ -29,6 +29,7 @@
 #include "config/ASWeaponConfig"
 #include "config/ASWeaponLaserConfig"
 #include "config/ASWeaponLightConfig"
+#include "config/ASWeaponScopeLightConfig"
 
 #include "base/BTS_FireWeapon"
 #include "base/BTS_MeleeCharge"
@@ -102,7 +103,6 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool sparks_splash;
     bool m249_knockback;
     int flashlight_maxcarry;
-    bool item_tracking;
     string[] melee_weapons_push_monsters;
 
     const string& GetName() const override
@@ -178,11 +178,6 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 },
-                "item_tracking":
-                {
-                    "type": "boolean",
-                    "description": "Track important inventory items and expose the inventory status display."
-                },
                 "item_remap":
                 {
                     "type": "object",
@@ -222,7 +217,6 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.m249_knockback = bool( config[ "m249_knockback" ] );
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
-        this.item_tracking = bool( config[ "item_tracking" ] );
         this.melee_weapons_push_monsters.resize( 0 );
 
         btson@ monstersPush = config[ "melee_weapons_push_monsters" ];
@@ -234,10 +228,14 @@ final class ASGlobalWeaponConfig : IConfigurable
             melee_weapons_push_monsters.insertLast( string( monstersPush[ui] ) );
         }
 
-        // ItemMapping stuff
         if( g_MapConfig.MapLoading )
         {
-            auto@ remaps = config.ValueOrDefault( "item_remap" );
+            CustomKeyValues::Register( "$i_spark_color" );
+            CustomKeyValues::Register( "$i_spark_hitgroup" );
+            CustomKeyValues::Register( "$i_bloodcolor" );
+
+            // ItemMapping stuff
+            auto@ remaps = config[ "item_remap" ];
             const auto@ remaps_from = remaps.Keys;
             uint length = remaps.Length();
 
