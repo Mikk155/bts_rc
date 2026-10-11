@@ -188,7 +188,7 @@ namespace Flashlight
     }
 }
 
-final class bts_battery : BTS_Ammo
+final class bts_battery : BTS_Item
 {
     const string& get_m_PlaySound() override {
         return "bts_rc/items/battery_pickup1.wav";
@@ -200,7 +200,13 @@ final class bts_battery : BTS_Ammo
 
     bool AddAmmo( CBaseEntity@ other )
     {
-        return BTS_Ammo::PickupObject( other, 1, "bts_battery", g_WeaponsConfig.flashlight_maxcarry );
+        if( other is null || other.GiveAmmo( 1, "bts_battery", g_WeaponsConfig.flashlight_maxcarry ) == -1 )
+            return false;
+
+        g_EntityFuncs.FireTargets( self.pev.target, other, self, USE_TOGGLE, 0, 0 );
+
+        g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
+        return true;
     }
 }
 

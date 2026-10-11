@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponXBowConfig : ASWeaponConfig
+final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
 {
     const string& GetName() const override
     {
@@ -37,7 +37,7 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         return "models/bts_rc/weapons/v_crossbow.mdl";
     }
 
-    const string& get_zoom_view_model()
+    const string& get_zoom_view_model() override
     {
         return "models/mikk155/misc/v_scope_noch.mdl";
     }
@@ -47,6 +47,11 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         return "bow";
     }
 
+    const string& get_zoom_animation_extension() override
+    {
+        return "bowscope";
+    }
+
     const string& get_primary_ammo() override
     {
         return "bolts";
@@ -54,7 +59,7 @@ final class ASWeaponXBowConfig : ASWeaponConfig
 
     const string& get_primary_ammoentity() override
     {
-        return "ammo_bts_xbow";
+        return "ammo_crossbow";
     }
 
     const uint8 get_animation_draw() override
@@ -62,15 +67,18 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         return WeaponXBowAnim::Draw1;
     }
 
+    const uint8 get_animation_zoom() override
+    {
+        return WeaponXBowAnim::IronIn;
+    }
+
     void Precache() override
     {
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_crossbow.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/w_crossbow.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/p_crossbow.mdl" );
-        g_Game.PrecacheModel( "models/bts_rc/weapons/w_crossbow_clip.mdl" );
         g_Game.PrecacheModel( "models/bts_rc/weapons/electro_bolt.mdl" );
 
-        g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fire1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_bolt.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fidget2.wav" );
@@ -80,11 +88,61 @@ final class ASWeaponXBowConfig : ASWeaponConfig
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magin.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magready.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_draw2.wav" );
-        g_SoundSystem.PrecacheSound( "weapons/sniper_zoom.wav" );
 
-        g_Game.PrecacheModel( this.zoom_view_model );
+        ASWeaponScopeLightConfig::Precache();
+    }
 
-        ASWeaponConfig::Precache();
+    float bolt_gravity;
+    HUDTextParams crosshair_params;
+    string crosshair;
+
+    void ToggleZoom( CBasePlayer@ player, CBasePlayerWeapon@ weapon ) override
+    {
+        if( player.m_iFOV != 0 )
+        {
+            g_PlayerFuncs.HudMessage( player, crosshair_params, " " );
+        }
+        ASWeaponScopeLightConfig::ToggleZoom( player, weapon );
+    }
+
+    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        ASWeaponScopeLightConfig::PlayerThink( player, weapon, character );
+
+        if( player.m_iFOV == 0 || weapon.pev.fuser1 > 0 )
+            return;
+
+        g_PlayerFuncs.HudMessage( player, crosshair_params, crosshair );
+    }
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASWeaponScopeLightConfig"
+            ],
+            "properties":
+            {
+                "bolt_gravity":
+                {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "maximum": 1.0,
+                    "description": "Bolt's gravity"
+                },
+                "crosshair":
+                {
+                    "type": "string",
+                    "description": "Crossbow crosshair"
+                }
+            }
+        }""";
     }
 
     bool Register( btson@ json ) override
@@ -94,7 +152,22 @@ final class ASWeaponXBowConfig : ASWeaponConfig
             g_CustomEntityFuncs.RegisterCustomEntity( "electro_bolt", "electro_bolt" );
         }
 
-        return ASWeaponConfig::Register( json );
+        this.bolt_gravity = float( json[ "bolt_gravity" ] );
+        this.crosshair = string( json[ "crosshair" ] );
+
+        crosshair_params.x = -1.0f;
+        crosshair_params.y = 0.5;
+        crosshair_params.effect = 0;
+        crosshair_params.r1 = 0;
+        crosshair_params.g1 = 255;
+        crosshair_params.b1 = 200;
+        crosshair_params.a1 = 200;
+        crosshair_params.fadeinTime = 0.0f;
+        crosshair_params.fadeoutTime = 0.1f;
+        crosshair_params.holdTime = 0.15f;
+        crosshair_params.channel = 4;
+
+        return ASWeaponScopeLightConfig::Register( json );
     }
 }
 
@@ -113,19 +186,22 @@ enum WeaponXBowAnim
     Draw1,
     Draw2,
     Holster1,
-    Holster2
+    Holster2,
+    IronIn,
+    IronInEmpty,
+    IronOut,
+    IronOutEmpty,
+    IronOutReload
 };
 
 const int BOLT_AIR_VELOCITY = 2000;
-const int BOLT_WATER_VELOCITY = 1000;
 
 class electro_bolt : ScriptBaseEntity
 {
     void Spawn()
     {
-        pev.movetype = MOVETYPE_FLY;
+        pev.movetype = MOVETYPE_TOSS;
         pev.solid = SOLID_BBOX;
-        pev.gravity = 0.5;
         self.SetClassification( CLASS_NONE );
 
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/electro_bolt.mdl" );
@@ -167,10 +243,7 @@ class electro_bolt : ScriptBaseEntity
 
             g_WeaponFuncs.ClearMultiDamage();
 
-            if( pOther.IsPlayer() )
-                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_NEVERGIB );
-            else
-                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_NERVEGAS | DMG_NEVERGIB );
+            pOther.TraceAttack( pevOwner, gpWeaponXBowConfig.primary_damage, pev.velocity.Normalize(), tr, DMG_NEVERGIB );
 
             g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
 
@@ -251,7 +324,7 @@ class weapon_bts_xbow : BTS_FireWeapon
     {
         self.m_fInReload = false;
 
-        ZoomDisable();
+        gpWeaponXBowConfig.DisableZoom( this.owner, self );
 
         self.m_flNextPrimaryAttack = g_Engine.time + 0.5;
         if( self.m_iClip > 0 )
@@ -262,32 +335,35 @@ class weapon_bts_xbow : BTS_FireWeapon
         BaseClass.Holster( skipLocal );
     }
 
-    void Attack( CBasePlayer@ player, AttackType type ) override
+    void GetBoltDirection( Vector&out vecAngles, Vector&out vecSrc, Vector&out vecDir )
     {
-        this.SetCooldown( util::IsTrainedPersonal( player ), type );
-        switch( type )
-        {
-            case AttackType::Tertiary:
-                return;
-            case AttackType::Secondary:
-            {
-                ZoomIn();
-                self.pev.nextthink = g_Engine.time + 0.1;
-                self.m_flNextSecondaryAttack = g_Engine.time + 0.5;
-                return;
-            }
-        }
+        CBasePlayer@ player = this.owner;
 
+        vecAngles = player.pev.v_angle + player.pev.punchangle;
+        g_EngineFuncs.MakeVectors( vecAngles );
+        vecAngles.x = -vecAngles.x;
+
+        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+        vecSrc = player.GetGunPosition() - g_Engine.v_up * 2;
+        vecDir = g_Engine.v_forward;
+    }
+
+    void PrimaryAttack() override
+    {
         if( self.m_iClip == 0 )
         {
             this.PlayEmptySound();
             return;
         }
 
+        CBasePlayer@ player = this.owner;
+
         player.m_iWeaponVolume = QUIET_GUN_VOLUME;
         self.m_iClip--;
 
-        ZoomDisable();
+        this.SetCooldown( util::IsTrainedPersonal( player ), AttackType::Primary );
+
+        gpWeaponXBowConfig.DisableZoom( player, self );
 
         if( self.m_iClip > 0 )
         {
@@ -298,40 +374,19 @@ class weapon_bts_xbow : BTS_FireWeapon
         else
         {
             PlayAnim( WeaponXBowAnim::Fire3, PLAYER_ANIM::PLAYER_ATTACK1 );
-            PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.1, 93 + Math.RandomLong( 0, 15 ) );
+            PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.0, 93 + Math.RandomLong( 0, 15 ) );
         }
 
-        Vector anglesAim = player.pev.v_angle + player.pev.punchangle;
-        g_EngineFuncs.MakeVectors( anglesAim );
-
-        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        anglesAim.x = -anglesAim.x;
-        Vector vecSrc = player.GetGunPosition() - g_Engine.v_up * 2;
-        Vector vecDir = g_Engine.v_forward;
-
-        float flDamage = gpWeaponXBowConfig.primary_damage;
-        if( self.m_flCustomDmg > 0 )
-            flDamage = self.m_flCustomDmg;
-
-        CBaseEntity@ preBolt = g_EntityFuncs.CreateEntity( "electro_bolt", null, false );
+        CBaseEntity@ preBolt = g_EntityFuncs.Create( "electro_bolt", g_vecZero, g_vecZero, false, player.edict() );
         electro_bolt@ pBolt = cast<electro_bolt@>( CastToScriptClass( preBolt ) );
-        pBolt.Spawn();
 
-        pBolt.pev.origin = vecSrc;
-        pBolt.pev.angles = anglesAim;
-        pBolt.pev.dmg = flDamage;
+        Vector vecDir;
+        this.GetBoltDirection( pBolt.pev.angles, pBolt.pev.origin, vecDir );
+
+        pBolt.pev.gravity = gpWeaponXBowConfig.bolt_gravity;
         @pBolt.pev.owner = player.edict();
-
-        if( player.pev.waterlevel == 3 )
-        {
-            pBolt.pev.velocity = vecDir * BOLT_WATER_VELOCITY;
-            pBolt.pev.speed = BOLT_WATER_VELOCITY;
-        }
-        else
-        {
-            pBolt.pev.velocity = vecDir * BOLT_AIR_VELOCITY;
-            pBolt.pev.speed = BOLT_AIR_VELOCITY;
-        }
+        pBolt.pev.velocity = vecDir * BOLT_AIR_VELOCITY;
+        pBolt.pev.speed = BOLT_AIR_VELOCITY;
         pBolt.pev.avelocity.z = 10;
 
         player.pev.punchangle.x = -3.0f;
@@ -342,45 +397,8 @@ class weapon_bts_xbow : BTS_FireWeapon
             self.m_flTimeWeaponIdle = g_Engine.time + 0.75;
     }
 
-    void ZoomDisable()
-    {
-        auto owner = this.owner;
-
-        if( owner.m_iFOV != 0 )
-        {
-            owner.m_iFOV = 0;
-            owner.m_szAnimExtension = "bow";
-            PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-            owner.pev.viewmodel = gpWeaponXBowConfig.view_model;
-        }
-    }
-
-    void ZoomIn()
-    {
-        auto owner = this.owner;
-
-        PlaySound( "weapons/sniper_zoom.wav", 1.0f );
-        owner.m_szAnimExtension = "bowscope";
-        owner.pev.viewmodel = gpWeaponXBowConfig.zoom_view_model;
-
-        if( owner.m_iFOV == 0 )
-        {
-            owner.m_iFOV = 60;
-            return;
-        }
-
-        owner.m_iFOV -= 15;
-
-        if( owner.m_iFOV <= 0 )
-        {
-            ZoomDisable();
-        }
-    }
-
     void Reload()
     {
-        ZoomDisable();
-
         if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return;
 
@@ -389,6 +407,10 @@ class weapon_bts_xbow : BTS_FireWeapon
 
         if( self.DefaultReload( gpWeaponXBowConfig.max_clip, WeaponXBowAnim::Reload, 4.5, this.body ) )
         {
+            if( gpWeaponXBowConfig.DisableZoom( this.owner, self ) )
+            {
+                PlayAnim( WeaponXBowAnim::IronOutReload, PLAYER_ANIM::PLAYER_RELOAD );
+            }
             PlaySound( "bts_rc/weapons/xbow_magready.wav", 1.0, 93 + Math.RandomLong( 0, 15 ) );
         }
 
@@ -421,25 +443,5 @@ class weapon_bts_xbow : BTS_FireWeapon
             PlayAnim( WeaponXBowAnim::Fidget2 );
             return 2.66f;
         }
-    }
-}
-
-class ammo_bts_xbow : ScriptBasePlayerAmmoEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_crossbow_clip.mdl" );
-        pev.scale = 0.8;
-        BaseClass.Spawn();
-    }
-
-    bool AddAmmo( CBaseEntity@ pOther )
-    {
-        if( pOther.GiveAmmo( 5, "bolts", 15 ) != -1 )
-        {
-            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1, ATTN_NORM );
-            return true;
-        }
-        return false;
     }
 }

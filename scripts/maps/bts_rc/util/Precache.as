@@ -34,8 +34,8 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/null.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons//w_9mmhandgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmARGL.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmar.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmargl.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmhandgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmhandgunsd.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_beretta.mdl" );
@@ -94,6 +94,7 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_argrenade_solo.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_beretta.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_desert_eagle.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/weapons/w_fgrenade.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flame.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flare.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_flaregun.mdl" );
@@ -114,6 +115,7 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_shotbox.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_shotgun.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_sw637.mdl" );
+    g_Game.PrecacheModel( "models/bts_rc/weapons/w_sw637_ammobox.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzi_clip.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/w_uzisd.mdl" );
@@ -203,6 +205,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_shot1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehit1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehitbod1.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashbang_pop.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hitbod1.wav" );
@@ -220,6 +223,8 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/grenade_throw2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/gun_fire4.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/weapons/iron_in.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/weapons/iron_out.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/m16_fire1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4_fire1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/m4sd_fire1.wav" );
@@ -250,6 +255,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "debris/beamstart7.wav" );
     g_SoundSystem.PrecacheSound( "fvox/ammo_depleted.wav" );
     g_SoundSystem.PrecacheSound( "headcrab/hc_headbite.wav" );
+    g_SoundSystem.PrecacheSound( "hlclassic/items/9mmclip1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_cock1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_reload1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/357_shot1.wav" );
@@ -263,7 +269,9 @@ void Precache()
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/sbarrel1.wav" );
     g_SoundSystem.PrecacheSound( "hlclassic/weapons/scock1.wav" );
     g_SoundSystem.PrecacheSound( "items/medshotno1.wav" );
-    g_SoundSystem.PrecacheSound( "sound/weapons/sniper_reload_second_seq.wav" );
+    g_SoundSystem.PrecacheSound( "mikk155/player/earringing.wav" );
+    g_SoundSystem.PrecacheSound( "mikk155/player/earringing_left.wav" );
+    g_SoundSystem.PrecacheSound( "mikk155/player/earringing_right.wav" );
     g_SoundSystem.PrecacheSound( "vox/authorized.wav" );
     g_SoundSystem.PrecacheSound( "vox/maintenance.wav" );
     g_SoundSystem.PrecacheSound( "vox/research.wav" );

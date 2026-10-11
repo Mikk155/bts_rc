@@ -33,14 +33,6 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
     {
         "type": "integer"
     },
-    "primary_default_ammo":
-    {
-        "type": "array",
-        "description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-        "items": { "type": "integer", "minimum": 0 },
-        "minItems": 2,
-        "maxItems": 2
-    },
     "secondary_default_ammo":
     {
         "type": "array",
@@ -319,8 +311,6 @@ abstract class ASWeaponConfig : IConfigurable
     int secondary_maxammo = WEAPON_NOCLIP;
     // Weapon secondary max ammo drop. automatically set in BTS_Weapon::GetItemInfo
     int secondary_dropammo = WEAPON_NOCLIP;
-    // Mmin/max ammo supplied by each spawned weapon. Negative values leave the engine default unchanged.
-    int[] primary_default_ammo = { -1, -1 };
     array<int> secondary_default_ammo = { -1, -1 };
     // Accuracy for secondary attacks
     float[] secondary_accuracy(6);
@@ -402,28 +392,6 @@ abstract class ASWeaponConfig : IConfigurable
         }
     }
 
-    int GetDefaultAmmo( AttackType type )
-    {
-        array<int>@ range;
-        int maximum;
-
-        if( type == AttackType::Secondary )
-        {
-            @range = @this.secondary_default_ammo;
-            maximum = this.secondary_maxammo;
-        }
-        else
-        {
-            @range = @this.primary_default_ammo;
-            maximum = this.primary_maxammo;
-        }
-
-        if( range[0] < 0 || range[1] < 0 )
-            return -1;
-
-        return Math.clamp( 0, maximum, Math.RandomLong( range[0], range[1] ) );
-    }
-
     // Whatever this is a custom weapon
     const bool IsCustomWeapon()
     {
@@ -489,15 +457,6 @@ abstract class ASWeaponConfig : IConfigurable
 
         this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
         this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
-
-        btson@ primaryDefaultAmmo = config.ValueOrDefault( "primary_default_ammo" );
-        primary_default_ammo[0] = primaryDefaultAmmo.ValueOrDefault(0, primary_default_ammo[0], false, true );
-        primary_default_ammo[1] = primaryDefaultAmmo.ValueOrDefault(1, primary_default_ammo[1], false, true );
-        if( primary_default_ammo[0] > primary_default_ammo[1] )
-        {
-            g_Logger.error.print( "Inverted min/max values at \"primary_default_ammo\" for {}", { this.GetName() } );
-            primary_default_ammo[3];
-        }
 
         btson@ secondaryDefaultAmmo = config.ValueOrDefault( "secondary_default_ammo" );
         secondary_default_ammo[0] = secondaryDefaultAmmo.ValueOrDefault(0, secondary_default_ammo[0], false, true );

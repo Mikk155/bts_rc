@@ -35,7 +35,12 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
         return;
 
 #if METAMOD_PLUGIN_ASCURL
-    UpdateChecker(); // Notice of new github releases if we're running a old version.
+    // Dont request every time while developing
+    if( !g_Debug )
+    {
+        // Notice of new github releases if we're running a old version.
+        UpdateChecker();
+    }
 #endif
 
     gpGameStarted = true;
@@ -48,12 +53,25 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
         randomizer::Initialize();
     }
 
-    activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
-
     auto ckv = activator.GetCustomKeyvalues();
 
     Difficulty::__HellBound__ = ( ckv.GetKeyvalue( "$i_hellbound" ).GetInteger() == 1 );
     Difficulty::__Difficulty__ = Difficulty( ckv.GetKeyvalue( "$i_difficulty" ).GetInteger() );
+
+    if( Difficulty::HellBound() )
+    {
+        for( int i = 0; i <= g_Engine.maxClients; i++ )
+        {
+            auto player = g_PlayerFuncs.FindPlayerByIndex(i);
+
+            if( player !is null )
+            {
+                UpdatePlayerData( player, util::GetClass( player ) );
+            }
+        }
+    }
+
+    activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
 
     gCheckModuleError(false);
 }
@@ -63,8 +81,9 @@ void MapActivate()
     if( gCheckModuleError(true) )
         return;
 
-    if( g_WeaponsConfig.item_tracking )
+    if( gpItemsConfig.item_tracking )
         item_tracker::Reset();
+
     uint numents = g_EngineFuncs.NumberOfEntities();
 
     for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
@@ -74,17 +93,10 @@ void MapActivate()
         if( entity is null )
             continue;
 
-        CBaseMonster@ monster = null;
-
-        if( entity.IsMonster() )
-            @monster = cast<CBaseMonster@>(entity);
-
-        auto ckv = entity.GetCustomKeyvalues();
-
-        EntityOverriden::Register( entityIndex, entity, ckv, monster );
+        EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) );
 
         // item tracker data
-        if( g_WeaponsConfig.item_tracking && entity.GetClassname() == "item_inventory" )
+        if( gpItemsConfig.item_tracking && entity.GetClassname() == "item_inventory" )
         {
             CItemInventory@ item = cast<CItemInventory@>(entity);
 
@@ -147,14 +159,12 @@ void MapInit()
         }
     }
 
-#if SERVER
     if( !g_IsMainMap )
     {
         CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
         CustomEntity( "info_section", true, "test_chamber::info_section" );
         CustomEntity( "entitymaker", true, "test_chamber::entitymaker" );
     }
-#endif
 
     gCheckModuleError(false);
 }

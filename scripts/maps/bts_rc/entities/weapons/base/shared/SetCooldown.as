@@ -33,4 +33,14 @@ namespace weapons
 
         return gCooldown;
     }
+
+    float SetCooldown( CBasePlayerWeapon@ weapon, CBasePlayer@ player, AttackType type, ASWeaponConfig@ config, bool is_trained_personal )
+    {
+        return weapons::SetCooldown( weapon, player, config.GetCooldown( is_trained_personal, type ) );
+    }
+
+    float SetCooldown( CBasePlayerWeapon@ weapon, CBasePlayer@ player, AttackType type, ASWeaponConfig@ config )
+    {
+        return weapons::SetCooldown( weapon, player, config.GetCooldown( util::IsTrainedPersonal( player ), type ) );
+    }
 }

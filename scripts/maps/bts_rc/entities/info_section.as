@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#if SERVER
 namespace test_chamber
 {
     TextMenu::v1::Menu g_Sections;
@@ -31,9 +30,10 @@ namespace test_chamber
                 if( player is null )
                     return;
 
-                g_EntityFuncs.SetOrigin( player, self.pev.origin + player.pev.view_ofs );
+                g_EntityFuncs.SetOrigin( player, self.pev.origin );
                 player.pev.fixangle = FixAngleMode::FAM_FORCEVIEWANGLES;
                 player.pev.v_angle = player.pev.angles = self.pev.angles;
+                player.pev.velocity = g_vecZero;
 
                 g_EntityFuncs.FireTargets( string( self.pev.target ), player, self, USE_TOGGLE, 0.0f );
             }
@@ -54,6 +54,7 @@ namespace test_chamber
 
             self.pev.solid = SOLID_NOT;
             self.pev.movetype = MOVETYPE_NONE;
+            self.pev.origin.z += 37;
         }
 
         void UpdateOnRemove()
@@ -75,4 +76,3 @@ namespace test_chamber
         }
     }
 }
-#endif

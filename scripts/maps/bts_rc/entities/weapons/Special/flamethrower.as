@@ -63,8 +63,6 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
     {
         this.m_iFlameSprite = g_ModelFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
 
-        g_Game.PrecacheGeneric( "sprites/bts_rc/weapons/weapon_bts_flamethrower.txt" );
-
         ASWeaponConfig::Precache();
     }
 
@@ -164,12 +162,22 @@ final class ASBurningMonster : ScriptBaseEntity
 
 namespace BurningMonster
 {
+    void SetInmune( CBaseEntity@ entity )
+    {
+        dictionary@ data = entity.GetUserData();
+        data[ "bts_burning_monster_inmune" ] = true;
+    }
+
     void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration = 4.0f )
     {
         if( target is null || !target.IsMonster() || target.IsMachine() || !target.IsAlive() )
             return;
 
         dictionary@ data = target.GetUserData();
+
+        if( data.exists( "bts_burning_monster_inmune" ) )
+            return;
+
         ASBurningMonster@ burning;
 
         if( data.get( "bts_burning_monster", @burning ) && burning !is null )

@@ -21,7 +21,9 @@ namespace Hooks
     {
         if( player is null )
             return HOOK_CONTINUE;
-    
+
+        g_DataTracker.Delete( player );
+
         CBaseEntity@ laserSpot = LaserSpot::Entity( player );
 
         if( laserSpot !is null )
@@ -36,7 +38,7 @@ namespace Hooks
             flashlightSpot.pev.effects |= EF_NODRAW;
         }
 
-        if( g_WeaponsConfig.item_tracking )
+        if( gpItemsConfig.item_tracking )
             item_tracker::OnPlayerDisconnect( player );
 
         return HOOK_CONTINUE;

@@ -43,7 +43,7 @@ class item_bts_hevbattery : BTS_Item
         {
             int pct = int( float( player.pev.armorvalue * 100.0 ) * ( 1.0 / 100 ) + 0.5 );
 
-            pct = ( pct / 5 );
+            pct = int( pct / 5 );
 
             if( pct > 0 )
                 pct--;

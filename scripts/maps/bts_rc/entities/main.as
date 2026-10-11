@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#include "ammo/main"
 #include "items/main"
 #include "weapons/main"
 
@@ -30,14 +29,9 @@
 #include "monsters/zombie_engineer"
 #include "monsters/zombie_uncrab"
 
-#if SERVER
+#include "env_credits"
 #include "entitymaker"
-#endif
 #include "func_bts_recharger"
-#if SERVER
 #include "info_section"
-#endif
 #include "point_checkpoint"
-#if SERVER
 #include "trigger_logger"
-#endif

@@ -39,6 +39,7 @@ namespace Hooks
 
         auto character = GetCharacter(player);
 
+        // -TODO Move this to a IConfigurable context
         auto aiment = g_Utility.FindEntityForward( player );
 
         if( aiment !is null )
@@ -113,7 +114,6 @@ namespace Hooks
             }
         }
 
-#if SERVER
         if( !g_IsMainMap )
         {
             TraceResult tr;
@@ -140,7 +140,6 @@ namespace Hooks
                 test_chamber::g_Sections.Open( player );
             }
         }
-#endif
 
         // Some high ping clients are lagged asf and freezed. let's wait until they press a key
         if( !data.exists( "connected" ) && player.pev.button != 0 )
@@ -151,22 +150,29 @@ namespace Hooks
 
         if( character is null )
         {
-            auto observer = player.GetObserver();
-
-            if( !observer.IsObserver() )
+            if( g_IsMainMap )
             {
-                observer.StartObserver( player.pev.origin, player.pev.angles, false );
+                auto observer = player.GetObserver();
+
+                if( !observer.IsObserver() )
+                {
+                    observer.StartObserver( player.pev.origin, player.pev.angles, false );
+                }
+
+                // Let late joined players join a role
+                if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
+                {
+                    data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
+                    g_ClassSelectionMenu.Open( player );
+                }
+
+                player.pev.nextthink = g_Engine.time + 0.1f;
+                return HOOK_CONTINUE;
             }
 
-            // Let late joined players join a role
-            if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
-            {
-                data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
-                g_ClassSelectionMenu.Open( player );
-            }
-
-            player.pev.nextthink = g_Engine.time + 0.1f;
-            return HOOK_CONTINUE;
+            // Set random class in test maps for my bots to spawn
+            SetRandomClass( player, { Security, Scientist, Maintenance, Operative, HEV, Hazard } );
+            @character = GetCharacter( player );
         }
 
         if( !player.IsAlive() )
@@ -187,6 +193,8 @@ namespace Hooks
         {
             const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
             uint length = weaponNames.length();
+
+            gpDynamicAmmo.Lock();
 
             for( uint ui = 0; ui < length; ui++ )
             {
@@ -213,6 +221,7 @@ namespace Hooks
                 }
             }
             player.pev.impulse = 0;
+            gpDynamicAmmo.UnLock();
         }
 
         // Don't allow flashlight while busy
@@ -224,7 +233,7 @@ namespace Hooks
                 player.pev.impulse = 0;
         }
 
-        if( g_WeaponsConfig.item_tracking )
+        if( gpItemsConfig.item_tracking )
             item_tracker::Think( player );
 
         MedkitAmmo::Think( player );
@@ -234,11 +243,11 @@ namespace Hooks
         else
             player.ResetOverriddenPlayerModel( true, false );
 
+        CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
+
         if( player.m_hActiveItem.IsValid() )
         {
             auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
-
-            CBasePlayerWeapon@ lastWeapon = cast<CBasePlayerWeapon@>( data[ "current_weapon" ] );
 
             if( lastWeapon !is null && weapon !is lastWeapon )
             {
@@ -364,6 +373,16 @@ namespace Hooks
                         }
                     }
                 }
+            }
+        }
+        else if( lastWeapon !is null )
+        {
+            ASWeaponConfig@ lastWeaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon.GetClassname() ] );
+
+            if( lastWeaponConfig !is null )
+            {
+                lastWeaponConfig.WeaponHolster( player, lastWeapon, character );
+                @data[ "current_weapon" ] = null;
             }
         }
 

@@ -136,8 +136,6 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
     float Idle() override
     {
-        int mdl = g_ModelFuncs.ModelIndex( gpWeaponSW637Config.view_model );
-
         if( !m_fReloading )
         {
             PlayAnim( WeaponSW637Anim::Idle );
@@ -210,8 +208,6 @@ class weapon_bts_sw637 : BTS_FireWeapon
 
     void Reload()
     {
-        int mdl = g_ModelFuncs.ModelIndex( gpWeaponSW637Config.view_model );
-
         if( m_fReloading )
         {
             return;

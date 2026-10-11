@@ -28,6 +28,12 @@
         "bts_rc/stepsounds/gonome_step3.wav",
         "bts_rc/stepsounds/gonome_step4.wav"
     ],
+    "models/bts_rc/monsters/gonome_alt.mdl": [
+        "bts_rc/stepsounds/gonome_step1.wav",
+        "bts_rc/stepsounds/gonome_step2.wav",
+        "bts_rc/stepsounds/gonome_step3.wav",
+        "bts_rc/stepsounds/gonome_step4.wav"
+    ],
     "models/bts_rc/monsters/gonome_barney.mdl": [
         "bts_rc/stepsounds/gonome_step1.wav",
         "bts_rc/stepsounds/gonome_step2.wav",
@@ -83,6 +89,10 @@
         "bts_rc/weapons/grenade_pinpull.wav",
         "bts_rc/weapons/grenade_throw1.wav"
     ],
+    "models/bts_rc/monsters/hgrunt_m4.mdl": [
+        "bts_rc/weapons/grenade_pinpull.wav",
+        "bts_rc/weapons/grenade_throw1.wav"
+    ],
     "models/bts_rc/monsters/hgrunt_medic.mdl": [
         "bts_rc/fgrunt/medic_give_shot.wav"
     ],
@@ -92,6 +102,8 @@
         "bts_rc/fgrunt/torch_cut.wav"
     ],
     "models/bts_rc/monsters/hgrunt_torch2.mdl": [
+        "bts_rc/weapons/grenade_pinpull.wav",
+        "bts_rc/weapons/grenade_throw1.wav",
         "bts_rc/fgrunt/torch_cut.wav"
     ],
     "models/bts_rc/monsters/houndeye.mdl": [
@@ -111,16 +123,14 @@
         "bts_rc/stepsounds/aslave_step2.wav"
     ],
     "models/bts_rc/monsters/massn.mdl": [
-        "bts_rc/ops/ops_kill1.wav",
-        "bts_rc/ops/ops_advance.wav",
-        "bts_rc/ops/ops_flank.wav"
+        "bts_rc/ops/ops_idle3.ogg"
     ],
     "models/bts_rc/monsters/massn_medic.mdl": [
-        "bts_rc/fgrunt/medic_give_shot.wav",
-        "bts_rc/ops/ops_med_notime.wav"
+        "bts_rc/ops/ops_idle1.ogg",
+        "bts_rc/fgrunt/medic_give_shot.wav"
     ],
     "models/bts_rc/monsters/massn_opfor.mdl": [
-        "bts_rc/ops/ops_kill1.wav",
+        "bts_rc/ops/ops_idle1.ogg",
         "bts_rc/ops/ops_alert1.ogg"
     ],
     "models/bts_rc/monsters/panthereye.mdl": [
@@ -168,6 +178,9 @@
     ],
     "models/bts_rc/monsters/scientist_alt2.mdl": [
         "bts_rc/scientist/sci_upgradehint.ogg"
+    ],
+    "models/bts_rc/monsters/scientist_big.mdl": [
+        "bts_rc/scientist/test1.wav"
     ],
     "models/bts_rc/monsters/scientist_classic.mdl": [
         "bts_rc/scientist/test1.wav"
@@ -281,6 +294,15 @@
         "bts_rc/weapons/m79_shellin.wav",
         "bts_rc/weapons/m79_close.wav",
         "bts_rc/weapons/m79_aimon.wav"
+    ],
+    "models/bts_rc/weapons/v_samr.mdl": [
+        "bts_rc/weapons/fidget_4.wav",
+        "bts_rc/weapons/fidget_2.wav",
+        "bts_rc/weapons/m4_cliprelease1.wav",
+        "bts_rc/weapons/mp5_draw.wav",
+        "bts_rc/weapons/m4_clipinsert1.wav",
+        "bts_rc/weapons/mp5_slap.wav",
+        "bts_rc/weapons/fidget_3.wav"
     ],
     "models/bts_rc/weapons/v_saw.mdl": [
         "bts_rc/weapons/fidget_3.wav",

@@ -27,23 +27,56 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         return "zombie_engineer";
     }
 
-    const string GetSchema() const override
-    {
-        return String::EMPTY_STRING;
+    const string GetSchema() const override {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Zombie engineer config",
+            "description": "Control attributes for zombie engineer.",
+            "properties":
+            {
+                "health":
+                {
+                    "type": "integer",
+                    "description": "Canister health before explode"
+                },
+                "explosion":
+                {
+                    "type": "integer",
+                    "description": "Canister explosion radius damage"
+                },
+                "stray":
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100"
+                },
+                "degrade":
+                {
+                    "type": "integer",
+                    "description": "damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens"
+                }
+            }
+        }""";
     }
 
-    private int m_SpriteCanisterGas;
-
-    // when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100
-    private int m_CanisterStrayChance = 5;
-    private int m_CanisterDamage = 125;
-    // damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens
-    private float m_CanisterDegrade = 0.5;
-    private int m_CanisterHealth = 50;
+    private int m_CanisterStrayChance;
+    private int m_CanisterDamage;
+    private int m_CanisterDegrade;
+    private int m_CanisterHealth;
 
     bool Register( btson@ config ) override
     {
-        m_SpriteCanisterGas = g_Game.PrecacheModel( "sprites/xsmoke4.spr" );
+        if( g_MapConfig.MapLoading )
+        {
+            EntityOverriden::SetThink( 0.1f );
+            EntityOverriden::Register( this );
+        }
+        this.m_CanisterHealth = int( config[ "health" ] );
+        this.m_CanisterDamage = int( config[ "explosion" ] );
+        this.m_CanisterStrayChance = int( config[ "stray" ] );
+        this.m_CanisterDegrade = int( config[ "degrade" ] );
         return true;
     }
 
@@ -60,12 +93,12 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         return false;
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+        if( monster is null || !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
             return false;
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     void TakeDamage( CBaseMonster@ victim, DamageInfo@ info )
@@ -97,29 +130,31 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
             case HITGROUP_CHEST:
             case HITGROUP_STOMACH:
             {
-                if( Math.RandomLong( 1, 100 ) <= this.m_CanisterStrayChance )
+                if( this.m_CanisterStrayChance == 100 || ( this.m_CanisterStrayChance > 0 && Math.RandomLong( 1, 100 ) <= this.m_CanisterStrayChance ) )
                     ShouldHandleDamage = true;
                 break;
             }
         }
 
-        if( !ShouldHandleDamage )
+        if( !ShouldHandleDamage || info.flDamage < 1 )
             return;
 
-        CustomKeyvalues@ ckv = victim.GetCustomKeyvalues();
+        dictionary@ data = victim.GetUserData();
 
-        float flCanisterHealth = ckv.GetKeyvalue( "$f_zecanisterhp" ).GetFloat();
-        flCanisterHealth -= info.flDamage;
+        int canisterHealth;
 
-        if( flCanisterHealth > 0 )
+        if( !data.get( "canister_hp", canisterHealth ) )
         {
-            ckv.SetKeyvalue( "$f_zecanisterhp", flCanisterHealth );
+            data[ "canister_hp" ] = canisterHealth = this.m_CanisterHealth;
         }
-        else if( flCanisterHealth != -1337 )
+
+        data[ "canister_hp" ] = canisterHealth = ( canisterHealth - int( info.flDamage ) );
+
+        if( canisterHealth <= 0 )
         {
-            ckv.SetKeyvalue( "$f_zecanisterhp", -1337 );
-            g_EntityFuncs.CreateExplosion( victim.pev.origin, g_vecZero, null, this.m_CanisterDamage, true );
+            EntityThink( 0, victim, victim );
             victim.Killed( ( attacker !is null ? attacker.pev : null ), GIB_ALWAYS );
+            this.Remove( victim );
         }
     }
 
@@ -128,53 +163,50 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         if( monster is null )
             return EntityOverridenAction::Remove;
 
-        CustomKeyvalues@ ckv = monster.GetCustomKeyvalues();
+        dictionary@ data = monster.GetUserData();
 
-        float flNextThink = ckv.GetKeyvalue( "$f_btscmthink" ).GetFloat();
+        int canisterHealth;
 
-        if( flNextThink <= g_Engine.time )
+        if( !data.get( "canister_hp", canisterHealth ) )
         {
-            if( !ckv.GetKeyvalue( "$f_zecanisterhp" ).Exists() )
-                ckv.SetKeyvalue( "$f_zecanisterhp", this.m_CanisterHealth );
+            data[ "canister_hp" ] = canisterHealth = this.m_CanisterHealth;
+        }
 
-            if( FreeEdicts(1) )
+        Vector vecOrigin;
+
+        if( Math.RandomLong( 0, this.m_CanisterHealth ) > canisterHealth )
+        {
+            if( this.m_CanisterDegrade > 0 )
             {
-                float flCanisterHealth = ckv.GetKeyvalue( "$f_zecanisterhp" ).GetFloat();
-
-                if( flCanisterHealth > 0 and Math.RandomLong( 0, this.m_CanisterHealth ) > flCanisterHealth )
-                {
-                    Vector vecOrigin;
-                    Vector sashifixplis;
-                    monster.GetAttachment( 0, vecOrigin, sashifixplis );
-
-                    NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
-                    m1.WriteByte( TE_SPRITE );
-                    m1.WriteCoord( vecOrigin.x );
-                    m1.WriteCoord( vecOrigin.y );
-                    m1.WriteCoord( vecOrigin.z + ( monster.pev.deadflag == DEAD_DEAD ? 16.0 : 8.0 ) );
-                    m1.WriteShort( m_SpriteCanisterGas );
-                    m1.WriteByte( 3 );   // scale * 10
-                    m1.WriteByte( 128 ); // brightness
-                    m1.End();
-                }
+                data[ "canister_hp" ] = canisterHealth = ( canisterHealth - m_CanisterDegrade );
             }
 
-            if( monster.pev.deadflag == DEAD_DEAD )
-            {
-                float flCanisterHealth = ckv.GetKeyvalue( "$f_zecanisterhp" ).GetFloat();
+            monster.GetAttachment( 0, vecOrigin, void );
 
-                if( flCanisterHealth <= 0 )
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
+                m.WriteByte( TE_SPRITE );
+                m.WriteCoord( vecOrigin.x );
+                m.WriteCoord( vecOrigin.y );
+                m.WriteCoord( vecOrigin.z + ( !monster.IsAlive() ? 16.0 : 8.0 ) );
+                m.WriteShort( models::xsmoke4 );
+                m.WriteByte( 3 );   // scale * 10
+                m.WriteByte( 128 ); // brightness
+            m.End();
+        }
+
+        if( canisterHealth < 0 )
+        {
+            if( !monster.IsAlive() )
+            {
+                if( vecOrigin == g_vecZero )
                 {
-                    Vector vecOrigin;
-                    Vector sashifixplis;
-                    monster.GetAttachment( 0, vecOrigin, sashifixplis );
-                    g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, null, this.m_CanisterDamage, true );
+                    monster.GetAttachment( 0, vecOrigin, void );
                 }
-                else if( flCanisterHealth < this.m_CanisterHealth )
-                    ckv.SetKeyvalue( "$f_zecanisterhp", flCanisterHealth - this.m_CanisterDegrade );
+
+                g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, null, this.m_CanisterDamage, true );
             }
 
-            ckv.SetKeyvalue( "$f_btscmthink", g_Engine.time + 0.1 );
+            return EntityOverridenAction::Remove;
         }
 
         return EntityOverridenAction::None;

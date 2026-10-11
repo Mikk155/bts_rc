@@ -47,7 +47,16 @@ final class ASEquipmentSet
                 if( !item.is_string() )
                     g_Logger.critical.print( "only strings allowed in items at index {} for equipment {}", { string(ui), setName } );
 
-                this.m_Items.insertLast( string( items[ui] ) );
+                string itemName = string( items[ui] );
+
+                CBaseEntity@ entity = g_EntityFuncs.CreateEntity( itemName, null );
+
+                if( entity is null )
+                    g_Logger.critical.print( "Invalid item name \"{}\" at index {} for \"{}\"", { itemName, string(ui), setName } );
+
+                g_EntityFuncs.Remove( entity );
+
+                this.m_Items.insertLast( itemName );
             }
         }
 
@@ -129,7 +138,6 @@ final class ASEquipmentSet
 // Class representing a classification equipment
 final class ASEquipmentCharacter
 {
-    private string m_Target;
     private string m_Description;
     private uint[] m_HUDFade(3);
     private uint[] m_HUDMessage(3);
@@ -195,7 +203,6 @@ final class ASEquipmentCharacter
         }
 
         this.m_Description = config.ValueOrDefault( "description", String::EMPTY_STRING );
-        this.m_Target = config.ValueOrDefault( "trigger", String::EMPTY_STRING );
 
         if( !this.m_Description.IsEmpty() )
         {
@@ -235,6 +242,9 @@ final class ASEquipmentCharacter
             string buffer;
             snprintf( buffer, this.m_Description, string( player.pev.netname ), ( hasKits ? kitSet.Description : "" ) );
 
+            if( !buffer.EndsWith( '\n' ) )
+                buffer.opAddAssign( '\n' );
+
             auto msgParams = gpEquipment.MessageParams(
                 this.m_HUDMessage[0], // Red
                 this.m_HUDMessage[1], // Green
@@ -255,8 +265,6 @@ final class ASEquipmentCharacter
 
             g_Scheduler.SetTimeout( this, "__StupidAssSchedulerStupidAssAPI__", 1.0f, EHandle(player), color );
         }
-
-        g_EntityFuncs.FireTargets( this.m_Target, player, null, USE_TOGGLE, 0.0f );
     }
 
     void __StupidAssSchedulerStupidAssAPI__( EHandle hPlayer, Vector color )

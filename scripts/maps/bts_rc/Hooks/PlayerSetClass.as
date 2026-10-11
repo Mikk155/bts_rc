@@ -30,6 +30,8 @@ namespace Hooks
             break;
         }
 
+        g_DataTracker.Track( player, character );
+
         if( player.IsAlive() )
         {
             // Re-Deploy weapon to update view model hands

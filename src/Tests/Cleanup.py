@@ -20,8 +20,12 @@ class Cleanup( PyTest ):
 
             index: int = filePath.rfind( '.' );
 
-            if index >= 0 and filePath[ index : ] in fileExtensions:
-                return True;
+            for ext in fileExtensions:
+                if filePath.endswith( ext ):
+                    return True;
+
+#            if index >= 0 and filePath[ index : ] in fileExtensions:
+#                return True;
 
             return False;
 
@@ -29,14 +33,21 @@ class Cleanup( PyTest ):
             ".bsp",
             ".cfg",
             ".gmr",
-            ".gsr"
+            ".gsr",
+            "_motd.txt"
         ];
 
         mapsDirectory: str = os.path.join( self.Workspace, "maps" );
 
         for fileName in os.listdir( mapsDirectory ):
-            if not isExtension( os.path.join( mapsDirectory, fileName ), allowedExtensions ) and os.path.isfile( fileName ):
-                os.remove( os.path.join( mapsDirectory, fileName ) );
+
+            filePath = os.path.join( mapsDirectory, fileName );
+
+            if isExtension( filePath, allowedExtensions ) is False:
+                try:
+                    os.remove( filePath );
+                except:
+                    pass;
 
         return True;
 

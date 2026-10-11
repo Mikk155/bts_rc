@@ -9,11 +9,6 @@
 				"type": "string",
 				"description": "Reference to the JSON schema file used for validation and editor hinting."
 			},
-			"allow_reload": 
-			{
-				"type": "boolean",
-				"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time."
-			},
 			"logger": 
 			{
 				"type": "object",
@@ -26,22 +21,22 @@
 					{
 						"type": "boolean",
 						"description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.",
-						"default": false
+						"default": true
 					},
 					"trace": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"debug": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"info": 
 					{
 						"type": "boolean",
-						"default": false
+						"default": true
 					},
 					"warning": 
 					{
@@ -58,6 +53,12 @@
 				"description": "Control items configuration",
 				"properties": 
 				{
+					"item_tracking": 
+					{
+						"type": "boolean",
+						"description": "Track important inventory items and expose the inventory status display.",
+						"default": false
+					},
 					"battery_lighting": 
 					{
 						"title": "Lighting battery",
@@ -160,18 +161,6 @@
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"secondary_default_ammo": 
 					{
@@ -544,18 +533,6 @@
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"secondary_default_ammo": 
 					{
@@ -968,18 +945,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"secondary_default_ammo": 
 					{
 						"type": "array",
@@ -1343,18 +1308,6 @@
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"secondary_default_ammo": 
 					{
@@ -1762,18 +1715,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"secondary_default_ammo": 
 					{
 						"type": "array",
@@ -2161,18 +2102,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"secondary_default_ammo": 
 					{
 						"type": "array",
@@ -2555,18 +2484,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"secondary_default_ammo": 
 					{
 						"type": "array",
@@ -2922,18 +2839,6 @@
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"secondary_default_ammo": 
 					{
@@ -3314,18 +3219,6 @@
 					"secondary_dropammo": 
 					{
 						"type": "integer"
-					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"secondary_default_ammo": 
 					{
@@ -3710,23 +3603,6 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							1,
-							15
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 15,
@@ -4104,7 +3980,7 @@
 					},
 					"laser_size": 
 					{
-						"default": 0.75,
+						"default": 0.1,
 						"title": "Laser sprite size multiplier",
 						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
@@ -4176,23 +4052,6 @@
 					{
 						"default": 65,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							1,
-							9
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -4590,23 +4449,6 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							8,
-							17
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 17,
@@ -4669,7 +4511,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.05,
+						"default": 0.1,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -5011,23 +4853,6 @@
 						"default": 15,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							8,
-							17
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 17,
@@ -5090,7 +4915,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.05,
+						"default": 0.1,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -5446,30 +5271,13 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.3,
+						"default": 0.1,
 						"type": "number"
 					},
 					"primary_damage": 
 					{
 						"default": 15,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							19
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -5608,7 +5416,7 @@
 					},
 					"secondary_trained_cooldown": 
 					{
-						"default": 0.5,
+						"default": 0.08,
 						"type": "number"
 					},
 					"slot": 
@@ -5824,7 +5632,7 @@
 					},
 					"laser_size": 
 					{
-						"default": 0.5,
+						"default": 0.1,
 						"title": "Laser sprite size multiplier",
 						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
@@ -5896,23 +5704,6 @@
 					{
 						"default": 16,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							8,
-							17
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -6311,23 +6102,6 @@
 						"default": 19,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							0,
-							0
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 5,
@@ -6671,7 +6445,7 @@
 					},
 					"laser_size": 
 					{
-						"default": 0.5,
+						"default": 0.1,
 						"title": "Laser sprite size multiplier",
 						"description": "Multiplier for the sprite model when the laser spot is enabled",
 						"type": "number",
@@ -6743,23 +6517,6 @@
 					{
 						"default": 66,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							3,
-							6
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -7158,23 +6915,6 @@
 						"default": 17,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							5,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 25,
@@ -7572,23 +7312,6 @@
 					{
 						"default": 17,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -7998,23 +7721,6 @@
 						"default": 16,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							6,
-							20
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 20,
@@ -8412,23 +8118,6 @@
 						"default": 17,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							6,
-							20
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 20,
@@ -8820,23 +8509,6 @@
 					{
 						"default": 22,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -9236,23 +8908,6 @@
 					{
 						"default": 22,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -9659,23 +9314,6 @@
 					{
 						"default": 23,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							15,
-							30
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -10085,23 +9723,6 @@
 						"default": 24,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							9,
-							20
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 20,
@@ -10496,23 +10117,6 @@
 						"default": 120,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							5,
-							5
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 5,
@@ -10582,6 +10186,38 @@
 						"default": 2,
 						"type": "number"
 					},
+					"scope_color": 
+					{
+						"default": 
+						[
+							255,
+							60,
+							60
+						],
+						"description": "Night vision color when using scope",
+						"type": "array",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0,
+							"maximum": 255
+						},
+						"minItems": 3,
+						"maxItems": 3
+					},
+					"scope_fov": 
+					{
+						"default": 18,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
+						"type": "number"
+					},
 					"slot": 
 					{
 						"default": 5,
@@ -10617,10 +10253,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -10861,23 +10493,6 @@
 					{
 						"default": 18,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							2,
-							8
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -11280,23 +10895,6 @@
 					{
 						"default": 16,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							1,
-							6
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -11767,23 +11365,6 @@
 						"default": 22,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							19,
-							100
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 50,
@@ -12184,23 +11765,6 @@
 						"default": 23,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							19,
-							100
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 50,
@@ -12551,23 +12115,6 @@
 					{
 						"default": 130,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							0,
-							3
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -12926,6 +12473,20 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"bolt_gravity": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"maximum": 1,
+						"description": "Bolt's gravity",
+						"default": 0.3
+					},
+					"crosshair": 
+					{
+						"type": "string",
+						"description": "Crossbow crosshair",
+						"default": "[- . -]\n|\n. | .\n|\n--: | :--\n|\n--.-- | --.--\n|\n--- . --- | --- . ---"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -12951,23 +12512,6 @@
 						"default": 48,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							5,
-							5
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 5,
@@ -12981,6 +12525,38 @@
 					"primary_trained_cooldown": 
 					{
 						"default": 1.8,
+						"type": "number"
+					},
+					"scope_color": 
+					{
+						"default": 
+						[
+							60,
+							255,
+							60
+						],
+						"description": "Night vision color when using scope",
+						"type": "array",
+						"items": 
+						{
+							"type": "integer",
+							"minimum": 0,
+							"maximum": 255
+						},
+						"minItems": 3,
+						"maxItems": 3
+					},
+					"scope_fov": 
+					{
+						"default": 20,
+						"description": "FOV when using scope",
+						"type": "integer",
+						"minimum": 10,
+						"maximum": 70
+					},
+					"secondary_cooldown": 
+					{
+						"default": 0.5,
 						"type": "number"
 					},
 					"slot": 
@@ -13018,10 +12594,6 @@
 						"type": "number"
 					},
 					"tertiary_damage": 
-					{
-						"type": "number"
-					},
-					"secondary_cooldown": 
 					{
 						"type": "number"
 					},
@@ -13342,23 +12914,6 @@
 					{
 						"default": 130,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							1,
-							1
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_distance": 
 					{
@@ -13747,23 +13302,6 @@
 						"default": 18,
 						"type": "number"
 					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							40,
-							40
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"primary_dropammo": 
 					{
 						"default": 40,
@@ -14138,23 +13676,6 @@
 					{
 						"default": 1,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							1,
-							1
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_distance": 
 					{
@@ -14537,23 +14058,6 @@
 					{
 						"default": 35,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							3,
-							3
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_dropammo": 
 					{
@@ -14975,18 +14479,6 @@
 					{
 						"type": "integer"
 					},
-					"primary_default_ammo": 
-					{
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
-					},
 					"secondary_default_ammo": 
 					{
 						"type": "array",
@@ -15357,23 +14849,6 @@
 					{
 						"default": 7,
 						"type": "number"
-					},
-					"primary_default_ammo": 
-					{
-						"default": 
-						[
-							0,
-							2
-						],
-						"type": "array",
-						"description": "Minimum and maximum primary ammo supplied by a spawned weapon.",
-						"items": 
-						{
-							"type": "integer",
-							"minimum": 0
-						},
-						"minItems": 2,
-						"maxItems": 2
 					},
 					"primary_distance": 
 					{
@@ -15811,12 +15286,6 @@
 						"description": "Quantity of ammo carry for flashlight weapons",
 						"default": 10
 					},
-					"item_tracking": 
-					{
-						"type": "boolean",
-						"description": "Track important inventory items and expose the inventory status display.",
-						"default": true
-					},
 					"item_remap": 
 					{
 						"type": "object",
@@ -15830,6 +15299,356 @@
 						{
 							"weapon_sniperrifle": "weapon_bts_sniperrifle"
 						}
+					}
+				}
+			},
+			"dynamic_ammo": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"description": "Scales ammo pickup amounts based on connected player count.",
+				"additionalProperties": 
+				{
+					"type": "array",
+					"minItems": 2,
+					"maxItems": 2,
+					"description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
+					"items": 
+					{
+						"minimum": 1,
+						"type": "integer"
+					},
+					"prefixItems": 
+					[
+						
+						{
+							"description": "Ammo given when only one player connected."
+						},
+						
+						{
+							"description": "Ammo given when max server capacity of players connected"
+						}
+					]
+				},
+				"properties": 
+				{
+					"active": 
+					{
+						"default": true,
+						"type": "boolean",
+						"description": "Should this context be active?"
+					},
+					"ammo_357": 
+					{
+						"default": 
+						[
+							1,
+							6
+						]
+					},
+					"ammo_556": 
+					{
+						"default": 
+						[
+							30,
+							200
+						]
+					},
+					"ammo_556clip": 
+					{
+						"default": 
+						[
+							6,
+							30
+						]
+					},
+					"ammo_762": 
+					{
+						"default": 
+						[
+							1,
+							5
+						]
+					},
+					"ammo_9mmAR": 
+					{
+						"default": 
+						[
+							1,
+							50
+						]
+					},
+					"ammo_9mmbox": 
+					{
+						"default": 
+						[
+							1,
+							80
+						]
+					},
+					"ammo_9mmclip": 
+					{
+						"default": 
+						[
+							8,
+							17
+						]
+					},
+					"ammo_ARgrenades": 
+					{
+						"default": 
+						[
+							1,
+							5
+						]
+					},
+					"ammo_buckshot": 
+					{
+						"default": 
+						[
+							3,
+							8
+						]
+					},
+					"ammo_crossbow": 
+					{
+						"default": 
+						[
+							2,
+							10
+						]
+					},
+					"ammo_gaussclip": 
+					{
+						"default": 
+						[
+							20,
+							60
+						]
+					},
+					"ammo_uziclip": 
+					{
+						"default": 
+						[
+							1,
+							20
+						]
+					},
+					"bts_battery": 
+					{
+						"default": 
+						[
+							1,
+							5
+						]
+					},
+					"weapon_bts_eagle": 
+					{
+						"default": 
+						[
+							1,
+							9
+						]
+					},
+					"weapon_bts_flamethrower": 
+					{
+						"default": 
+						[
+							20,
+							60
+						]
+					},
+					"weapon_bts_flare": 
+					{
+						"default": 
+						[
+							1,
+							3
+						]
+					},
+					"weapon_bts_flaregun": 
+					{
+						"default": 
+						[
+							3,
+							6
+						]
+					},
+					"weapon_bts_flashlight": 
+					{
+						"default": 
+						[
+							0,
+							3
+						]
+					},
+					"weapon_bts_glock": 
+					{
+						"default": 
+						[
+							8,
+							27
+						]
+					},
+					"weapon_bts_glock17f": 
+					{
+						"default": 
+						[
+							8,
+							27
+						]
+					},
+					"weapon_bts_glock18": 
+					{
+						"default": 
+						[
+							8,
+							27
+						]
+					},
+					"weapon_bts_handgrenade": 
+					{
+						"default": 
+						[
+							1,
+							4
+						]
+					},
+					"weapon_bts_m16": 
+					{
+						"default": 
+						[
+							15,
+							50
+						]
+					},
+					"weapon_bts_m16sd": 
+					{
+						"default": 
+						[
+							15,
+							50
+						]
+					},
+					"weapon_bts_m4": 
+					{
+						"default": 
+						[
+							15,
+							50
+						]
+					},
+					"weapon_bts_m4sd": 
+					{
+						"default": 
+						[
+							15,
+							50
+						]
+					},
+					"weapon_bts_m79": 
+					{
+						"default": 
+						[
+							15,
+							50
+						]
+					},
+					"weapon_bts_mp5": 
+					{
+						"default": 
+						[
+							5,
+							40
+						]
+					},
+					"weapon_bts_mp5gl": 
+					{
+						"default": 
+						[
+							5,
+							40
+						]
+					},
+					"weapon_bts_python": 
+					{
+						"default": 
+						[
+							1,
+							6
+						]
+					},
+					"weapon_bts_saw": 
+					{
+						"default": 
+						[
+							19,
+							100
+						]
+					},
+					"weapon_bts_sawsd": 
+					{
+						"default": 
+						[
+							19,
+							100
+						]
+					},
+					"weapon_bts_sbshotgun": 
+					{
+						"default": 
+						[
+							1,
+							12
+						]
+					},
+					"weapon_bts_shotgun": 
+					{
+						"default": 
+						[
+							1,
+							12
+						]
+					},
+					"weapon_bts_sniperrifle": 
+					{
+						"default": 
+						[
+							3,
+							8
+						]
+					},
+					"weapon_bts_sw637": 
+					{
+						"default": 
+						[
+							2,
+							8
+						]
+					},
+					"weapon_bts_uzi": 
+					{
+						"default": 
+						[
+							7,
+							30
+						]
+					},
+					"weapon_bts_uzisd": 
+					{
+						"default": 
+						[
+							7,
+							30
+						]
+					},
+					"weapon_bts_xbow": 
+					{
+						"default": 
+						[
+							5,
+							15
+						]
 					}
 				}
 			},
@@ -16374,7 +16193,7 @@
 								"description": "Questionable Ethics",
 								"items": 
 								[
-									"weapon_bts_crossbow",
+									"weapon_bts_xbow",
 									"ammo_crossbow",
 									"ammo_crossbow",
 									"weapon_bts_flashlight"
@@ -16556,7 +16375,7 @@
 									"ammo_9mmclip",
 									"ammo_9mmclip",
 									"ammo_9mmclip",
-									"ammo_argrenade"
+									"ammo_ARgrenades"
 								]
 							},
 							"Operative3": 
@@ -17343,7 +17162,6 @@
 									1,
 									255
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17372,7 +17190,6 @@
 									255,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17401,7 +17218,6 @@
 									255,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17425,7 +17241,6 @@
 									165,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17449,7 +17264,6 @@
 									255,
 									255
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17490,7 +17304,19 @@
 									"Operative30",
 									"Operative31",
 									"Operative32",
-									"Operative33"
+									"Operative33",
+									"Operative34",
+									"Operative35",
+									"Operative36",
+									"Operative37",
+									"Operative38",
+									"Operative39",
+									"Operative40",
+									"Operative41",
+									"Operative42",
+									"Operative43",
+									"Operative44",
+									"Operative45"
 								],
 								"description": "%1 entered the simulation as an Operative\nLoadout %2",
 								"notice": 
@@ -17505,7 +17331,6 @@
 									1,
 									1
 								],
-								"trigger": "FireThisentity",
 								"sets_enforce": 
 								[
 								]
@@ -17606,116 +17431,6 @@
 						"default": true,
 						"type": "boolean",
 						"description": "Should this context be active?"
-					}
-				}
-			},
-			"dynamic_ammo": 
-			{
-				"type": "object",
-				"unevaluatedProperties": false,
-				"description": "Scales ammo pickup amounts based on connected player count.",
-				"additionalProperties": 
-				{
-					"type": "array",
-					"minItems": 2,
-					"maxItems": 2,
-					"description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
-					"items": 
-					{
-						"minimum": 1,
-						"type": "integer"
-					},
-					"prefixItems": 
-					[
-						
-						{
-							"description": "Ammo given when only one player connected."
-						},
-						
-						{
-							"description": "Ammo given when max server capacity of players connected"
-						}
-					]
-				},
-				"properties": 
-				{
-					"ammo_gaussclip": 
-					{
-						"default": 
-						[
-							20,
-							60
-						]
-					},
-					"ammo_556": 
-					{
-						"default": 
-						[
-							30,
-							200
-						]
-					},
-					"ammo_357": 
-					{
-						"default": 
-						[
-							1,
-							6
-						]
-					},
-					"ammo_556clip": 
-					{
-						"default": 
-						[
-							6,
-							30
-						]
-					},
-					"ammo_9mmclip": 
-					{
-						"default": 
-						[
-							8,
-							17
-						]
-					},
-					"ammo_ARgrenades": 
-					{
-						"default": 
-						[
-							1,
-							5
-						]
-					},
-					"active": 
-					{
-						"default": true,
-						"type": "boolean",
-						"description": "Should this context be active?"
-					},
-					"bts_battery": 
-					{
-						"default": 
-						[
-							1,
-							5
-						]
-					},
-					"weapon_bts_flare": 
-					{
-						"default": 
-						[
-							1,
-							3
-						]
-					},
-					"ammo_buckshot": 
-					{
-						"default": 
-						[
-							3,
-							8
-						]
 					}
 				}
 			},
@@ -18257,6 +17972,20 @@
 						"description": "Internal think rate interval. the lower the value the more cpu usage",
 						"default": 0.5
 					},
+					"fadehold": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Fade hold time",
+						"default": 2
+					},
+					"fadeout": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Fade out time",
+						"default": 6
+					},
 					"throw_flash_cooldown": 
 					{
 						"type": "number",
@@ -18269,7 +17998,7 @@
 						"type": "number",
 						"minimum": 1,
 						"description": "Time, in seconds, at which the flashbang will detonate since it's thrown.",
-						"default": 6
+						"default": 3
 					},
 					"active": 
 					{
@@ -18383,6 +18112,42 @@
 					}
 				}
 			},
+			"zombie_engineer": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Zombie engineer config",
+				"description": "Control attributes for zombie engineer.",
+				"properties": 
+				{
+					"health": 
+					{
+						"type": "integer",
+						"description": "Canister health before explode",
+						"default": 50
+					},
+					"explosion": 
+					{
+						"type": "integer",
+						"description": "Canister explosion radius damage",
+						"default": 125
+					},
+					"stray": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"maximum": 100,
+						"description": "when shooting the zombies in the chest or stomach there is a risk of damaging the canister, in percentage 1-100",
+						"default": 5
+					},
+					"degrade": 
+					{
+						"type": "integer",
+						"description": "damaged canisters will degrade until they explode when the zombie dies, this sets how fast this happens",
+						"default": 1
+					}
+				}
+			},
 			"monster_panthereye": 
 			{
 				"type": "object",
@@ -18489,6 +18254,44 @@
 						"maximum": 100,
 						"description": "Visibility percentage",
 						"default": 15
+					}
+				}
+			},
+			"map_config": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Map configuration",
+				"description": "Configuration about the *configuration* system.",
+				"properties": 
+				{
+					"allow_reload": 
+					{
+						"type": "boolean",
+						"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time. useful to test specific changes without restarting the whole map.",
+						"default": false
+					},
+					"skip_validation": 
+					{
+						"type": "boolean",
+						"description": "Disable this to skip json schema validation. you MUST define everything from default config or exceptions will raise.",
+						"default": false
+					}
+				}
+			},
+			"data_tracker": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Map configuration",
+				"description": "Configuration about the *configuration* system..",
+				"properties": 
+				{
+					"active": 
+					{
+						"type": "boolean",
+						"description": "When active. tracks player data and writes to scripts/maps/store/bts_rc_datatracker.json",
+						"default": false
 					}
 				}
 			},

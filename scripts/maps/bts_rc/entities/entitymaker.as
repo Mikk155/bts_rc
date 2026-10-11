@@ -15,7 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#if SERVER
 namespace test_chamber
 {
     final class entitymaker : ScriptBaseMonsterEntity
@@ -40,33 +39,29 @@ namespace test_chamber
 
         bool KeyValue( const string&in key, const string&in value )
         {
-            if( key[0] == "+" )
+            if( key[0] == "_" )
             {
-                if( key == "+classname" )
+                if( key == "_classname" )
                 {
                     this.m_ClassName = value;
                     return true;
                 }
-                else if( key == "+targetname" )
+                else if( key == "_targetname" )
                 {
                     this.m_KeyValues[ "targetname" ] = value;
                     return true;
                 }
-                return false;
-            }
-            else if( key[0] == '-' )
-            {
-                if( key == "+mode" )
+                else if( key == "_mode" )
                 {
                     this.m_IsThink = ( atoi( value ) == 1 );
                     return true;
                 }
-                else if( key == "+starton" )
+                else if( key == "_starton" )
                 {
                     this.m_IsOn = ( atoi( value ) == 1 );
                     return true;
                 }
-                else if( key == "+target" )
+                else if( key == "_target" )
                 {
                     this.m_Target = value;
                     return true;
@@ -114,7 +109,7 @@ namespace test_chamber
                 return;
 
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
-            Hooks::SquadmakerSpawn( self, child );
+            EntityOverriden::Register( child, cast<CBaseMonster@>(child) );
             this.m_hChild = EHandle( child );
 
             g_EntityFuncs.FireTargets( this.m_Target, child, self, USE_TOGGLE, 0.0f );
@@ -146,4 +141,3 @@ namespace test_chamber
         }
     }
 }
-#endif

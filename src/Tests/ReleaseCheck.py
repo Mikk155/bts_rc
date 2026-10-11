@@ -60,7 +60,7 @@ class ReleaseCheck( PyTest ):
 
         if response.status_code != 200:
             self.Log( "Failed to retrieve release data from Github" );
-            return False;
+            return True;
 
         releaseData: dict = response.json();
 

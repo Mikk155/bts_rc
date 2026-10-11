@@ -69,6 +69,10 @@ final class ASZombieUncrabConfig : IConfigurable
         if( zombie is null )
             return false;
 
+        // "Prisoner" flag on test map zombies
+        if( !g_IsMainMap && ( zombie.pev.spawnflags & 16 ) != 0 )
+            return false;
+
         string classname = zombie.GetClassname();
 
         if( "monster_zombie" != classname

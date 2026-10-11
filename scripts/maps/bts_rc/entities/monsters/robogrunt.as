@@ -32,7 +32,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         return String::EMPTY_STRING;
     }
 
-    protected uint m_iSmokeSprite;
     protected uint m_iGibs1;
     protected uint m_iGibs2;
     // when to trigger low-health mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%
@@ -49,7 +48,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
     bool Register( btson@ config ) override
     {
-        this.m_iSmokeSprite = g_Game.PrecacheModel( "sprites/steam1.spr" );
         this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
         this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
 
@@ -59,21 +57,17 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
             g_SoundSystem.PrecacheSound( "debris/beamstart14.wav" );
 
-#if SERVER
-            g_Game.PrecacheOther( "monster_human_grunt_ally" );
-            g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
-#endif
+            if( !g_IsMainMap )
+            {
+                g_Game.PrecacheOther( "monster_human_grunt_ally" );
+                g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
+            }
+
             EntityOverriden::SetThink( 0.1f );
+            EntityOverriden::Register( this );
         }
         return true;
     }
-
-#if SERVER
-    dictionary@ get_TestKeys()
-    {
-        return { { "classname", "monster_human_grunt_ally" }, { "model", "models/bts_rc/monsters/rgrunt_opfor.mdl" }, { "is_player_ally", "1" } };
-    }
-#endif
 
     bool IsValid( const string&in classname, const string&in model )
     {
@@ -81,16 +75,17 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             && model == "models/bts_rc/monsters/rgrunt_opfor.mdl" );
     }
 
-    bool AddEntity( uint index, CBaseEntity@ entity, CustomKeyvalues@ ckv, CBaseMonster@ monster ) override
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+        if( monster is null || !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
             return false;
 
-#if SERVER
-        SetDebugName( entity, "Robo grunt" );
-#endif
+        if( !g_IsMainMap )
+            SetDebugName( entity, "Robo grunt" );
 
-        return EntityOverriden::AddEntity( index, entity, ckv, monster );
+        BurningMonster::SetInmune( entity );
+
+        return EntityOverriden::AddEntity( entity, monster );
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
@@ -111,7 +106,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                     m1.WriteCoord( monster.pev.origin.x + Math.RandomFloat( -16.0, 16.0 ) );
                     m1.WriteCoord( monster.pev.origin.y + Math.RandomFloat( -16.0, 16.0 ) );
                     m1.WriteCoord( monster.pev.origin.z + monster.pev.size.z - 32.0 );
-                    m1.WriteShort( this.m_iSmokeSprite );
+                    m1.WriteShort( models::steam1 );
                     m1.WriteByte( Math.RandomLong( 1, 9 ) );
                     m1.WriteByte( 12 );
                 m1.End();
@@ -212,7 +207,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                         m1.WriteCoord( vecOrigin.x );
                         m1.WriteCoord( vecOrigin.y );
                         m1.WriteCoord( vecOrigin.z );
-                        m1.WriteShort( this.m_iSmokeSprite );
+                        m1.WriteShort( models::steam1 );
                         m1.WriteByte( 15 ); // scale * 10
                         m1.WriteByte( 10 ); // framerate
                     m1.End();
@@ -420,25 +415,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
         return "robo_grunt_boss";
     }
 
-    bool Register( btson@ json ) override
-    {
-#if SERVER
-        if( g_MapConfig.MapLoading )
-        {
-            g_Game.PrecacheOther( "monster_hwgrunt" );
-            g_Game.PrecacheModel( "models/bts_rc/monsters/robothwgrunt.mdl" );
-        }
-#endif
-        ASRoboGrunt::Register( json );
-        return true;
-    }
-
-#if SERVER
-    dictionary@ get_TestKeys() override {
-        return { { "classname", "monster_hwgrunt" }, { "model", "models/bts_rc/monsters/robothwgrunt.mdl" } };
-    }
-#endif
-
     bool IsValid( const string&in classname, const string&in model ) override
     {
         return ( classname == "monster_hwgrunt"
@@ -458,28 +434,3 @@ final class ASRoboGruntBoss : ASRoboGrunt
 }
 
 ASRoboGruntBoss gpRoboGruntBoss;
-
-#if SERVER
-ASCommand __gpRoboGruntTestCmd__(
-    "robogrunt_test",
-    "0/1 for regular or boss",
-    "Spawn a robogrunt ahead",
-    function( CBasePlayer@ player, array<string>@ arguments )
-    {
-        TraceResult tr;
-        Math.MakeVectors( player.pev.v_angle );
-        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
-
-        bool isBoss = ( arguments !is null && arguments.length() > 0 && atoi( arguments[0] ) == 1 );
-
-        auto@ roboGrunt = ( isBoss ? gpRoboGruntBoss : gpRoboGrunt );
-        dictionary@ keys = roboGrunt.TestKeys;
-
-        CBaseEntity@ robo = g_EntityFuncs.CreateEntity( string( keys[ "classname" ] ), keys, true );
-
-        robo.SetOrigin( tr.vecEndPos );
-
-        roboGrunt.AddEntity( robo.entindex(), robo, null, null );
-    }
-);
-#endif
