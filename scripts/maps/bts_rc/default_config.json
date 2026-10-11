@@ -3022,6 +3022,8 @@
         "weight": 10
     },
     "weapon_bts_xbow": {
+        "bolt_gravity": 0.3,
+        "crosshair": "[- . -]\n|\n. | .\n|\n--: | :--\n|\n--.-- | --.--\n|\n--- . --- | --- . ---",
         "deploy_time": 1.0,
         "max_clip": 5,
         "position": 11,
@@ -3037,7 +3039,6 @@
         ],
         "scope_fov": 20,
         "secondary_cooldown": 0.5,
-        "bolt_gravity": 0.3,
         "slot": 2,
         "weight": 10
     },

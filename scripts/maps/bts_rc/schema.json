@@ -12473,6 +12473,20 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"bolt_gravity": 
+					{
+						"type": "number",
+						"minimum": 0.1,
+						"maximum": 1,
+						"description": "Bolt's gravity",
+						"default": 0.3
+					},
+					"crosshair": 
+					{
+						"type": "string",
+						"description": "Crossbow crosshair",
+						"default": "[- . -]\n|\n. | .\n|\n--: | :--\n|\n--.-- | --.--\n|\n--- . --- | --- . ---"
+					},
 					"deploy_time": 
 					{
 						"default": 1,

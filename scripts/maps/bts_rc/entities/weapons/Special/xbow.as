@@ -93,6 +93,27 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
     }
 
     float bolt_gravity;
+    HUDTextParams crosshair_params;
+    string crosshair;
+
+    void ToggleZoom( CBasePlayer@ player, CBasePlayerWeapon@ weapon ) override
+    {
+        if( player.m_iFOV != 0 )
+        {
+            g_PlayerFuncs.HudMessage( player, crosshair_params, " " );
+        }
+        ASWeaponScopeLightConfig::ToggleZoom( player, weapon );
+    }
+
+    void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        ASWeaponScopeLightConfig::PlayerThink( player, weapon, character );
+
+        if( player.m_iFOV == 0 || weapon.pev.fuser1 > 0 )
+            return;
+
+        g_PlayerFuncs.HudMessage( player, crosshair_params, crosshair );
+    }
 
     const string GetSchema() const override
     {
@@ -114,6 +135,11 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
                     "minimum": 0.1,
                     "maximum": 1.0,
                     "description": "Bolt's gravity"
+                },
+                "crosshair":
+                {
+                    "type": "string",
+                    "description": "Crossbow crosshair"
                 }
             }
         }""";
@@ -127,6 +153,19 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         }
 
         this.bolt_gravity = float( json[ "bolt_gravity" ] );
+        this.crosshair = string( json[ "crosshair" ] );
+
+        crosshair_params.x = -1.0f;
+        crosshair_params.y = 0.5;
+        crosshair_params.effect = 0;
+        crosshair_params.r1 = 0;
+        crosshair_params.g1 = 255;
+        crosshair_params.b1 = 200;
+        crosshair_params.a1 = 200;
+        crosshair_params.fadeinTime = 0.0f;
+        crosshair_params.fadeoutTime = 0.1f;
+        crosshair_params.holdTime = 0.15f;
+        crosshair_params.channel = 4;
 
         return ASWeaponScopeLightConfig::Register( json );
     }
@@ -149,13 +188,13 @@ enum WeaponXBowAnim
     Holster1,
     Holster2,
     IronIn,
+    IronInEmpty,
     IronOut,
     IronOutEmpty,
     IronOutReload
 };
 
 const int BOLT_AIR_VELOCITY = 2000;
-const int BOLT_WATER_VELOCITY = 1000;
 
 class electro_bolt : ScriptBaseEntity
 {
@@ -204,10 +243,7 @@ class electro_bolt : ScriptBaseEntity
 
             g_WeaponFuncs.ClearMultiDamage();
 
-            if( pOther.IsPlayer() )
-                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_NEVERGIB );
-            else
-                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_NERVEGAS | DMG_NEVERGIB );
+            pOther.TraceAttack( pevOwner, gpWeaponXBowConfig.primary_damage, pev.velocity.Normalize(), tr, DMG_NEVERGIB );
 
             g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
 
@@ -299,6 +335,19 @@ class weapon_bts_xbow : BTS_FireWeapon
         BaseClass.Holster( skipLocal );
     }
 
+    void GetBoltDirection( Vector&out vecAngles, Vector&out vecSrc, Vector&out vecDir )
+    {
+        CBasePlayer@ player = this.owner;
+
+        vecAngles = player.pev.v_angle + player.pev.punchangle;
+        g_EngineFuncs.MakeVectors( vecAngles );
+        vecAngles.x = -vecAngles.x;
+
+        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+        vecSrc = player.GetGunPosition() - g_Engine.v_up * 2;
+        vecDir = g_Engine.v_forward;
+    }
+
     void PrimaryAttack() override
     {
         if( self.m_iClip == 0 )
@@ -328,38 +377,16 @@ class weapon_bts_xbow : BTS_FireWeapon
             PlaySound( "bts_rc/weapons/xbow_fire1.ogg", 1.0, 93 + Math.RandomLong( 0, 15 ) );
         }
 
-        Vector anglesAim = player.pev.v_angle + player.pev.punchangle;
-        g_EngineFuncs.MakeVectors( anglesAim );
-
-        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        anglesAim.x = -anglesAim.x;
-        Vector vecSrc = player.GetGunPosition() - g_Engine.v_up * 2;
-        Vector vecDir = g_Engine.v_forward;
-
-        float flDamage = gpWeaponXBowConfig.primary_damage;
-        if( self.m_flCustomDmg > 0 )
-            flDamage = self.m_flCustomDmg;
-
-        CBaseEntity@ preBolt = g_EntityFuncs.CreateEntity( "electro_bolt", null, false );
+        CBaseEntity@ preBolt = g_EntityFuncs.Create( "electro_bolt", g_vecZero, g_vecZero, false, player.edict() );
         electro_bolt@ pBolt = cast<electro_bolt@>( CastToScriptClass( preBolt ) );
-        pBolt.Spawn();
+
+        Vector vecDir;
+        this.GetBoltDirection( pBolt.pev.angles, pBolt.pev.origin, vecDir );
 
         pBolt.pev.gravity = gpWeaponXBowConfig.bolt_gravity;
-        pBolt.pev.origin = vecSrc;
-        pBolt.pev.angles = anglesAim;
-        pBolt.pev.dmg = flDamage;
         @pBolt.pev.owner = player.edict();
-
-        if( player.pev.waterlevel == 3 )
-        {
-            pBolt.pev.velocity = vecDir * BOLT_WATER_VELOCITY;
-            pBolt.pev.speed = BOLT_WATER_VELOCITY;
-        }
-        else
-        {
-            pBolt.pev.velocity = vecDir * BOLT_AIR_VELOCITY;
-            pBolt.pev.speed = BOLT_AIR_VELOCITY;
-        }
+        pBolt.pev.velocity = vecDir * BOLT_AIR_VELOCITY;
+        pBolt.pev.speed = BOLT_AIR_VELOCITY;
         pBolt.pev.avelocity.z = 10;
 
         player.pev.punchangle.x = -3.0f;
@@ -380,7 +407,7 @@ class weapon_bts_xbow : BTS_FireWeapon
 
         if( self.DefaultReload( gpWeaponXBowConfig.max_clip, WeaponXBowAnim::Reload, 4.5, this.body ) )
         {
-            if( gpWeaponSniperRifleConfig.DisableZoom( this.owner, self ) )
+            if( gpWeaponXBowConfig.DisableZoom( this.owner, self ) )
             {
                 PlayAnim( WeaponXBowAnim::IronOutReload, PLAYER_ANIM::PLAYER_RELOAD );
             }

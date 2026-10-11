@@ -67,5 +67,6 @@
     "angelscript.statusBar.alignment": "right",
     "angelscript.diagnostics.reportPossibleNullDereference": false,
     "angelscript.features.formatting": false,
-    "angelscript.features.onTypeFormatting": false
+    "angelscript.features.onTypeFormatting": false,
+    "angelscript.features.inlayHints": false,
 }

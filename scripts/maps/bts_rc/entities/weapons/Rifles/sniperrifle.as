@@ -93,10 +93,11 @@ enum WeaponSniperRifleAnim
     SlowIdle2,
     Holster,
     IronIn,
+    IronInEmpty,
     IronOut,
     IronOutEmpty,
-    IronOutReload,
-    IronOutReloadEmpty
+    IronOutReloadEmpty,
+    IronOutReload
 };
 
 class weapon_bts_sniperrifle : BTS_FireWeapon
