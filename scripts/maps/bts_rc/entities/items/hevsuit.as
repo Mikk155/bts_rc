@@ -39,6 +39,6 @@ class item_bts_hevsuit : BTS_Item
 
         g_SoundSystem.EmitSoundSuit( player.edict(), "!HEV_A0" );
 
-        return true; 
+        return true;
     }
 }
