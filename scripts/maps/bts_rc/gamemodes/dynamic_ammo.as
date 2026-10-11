@@ -149,6 +149,8 @@ final class ASDynamicAmmoConfig : IConfigurable
             g_Hooks.RemoveHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
             @this.m_pValidation = null;
 
+            this.Lock();
+
             player.Revive();
 
             const array<string>@ itemNames = this.m_AmmoData.getKeys();
@@ -160,7 +162,7 @@ final class ASDynamicAmmoConfig : IConfigurable
             player.pev.armorvalue = player.pev.health = 0;
             player.pev.armortype = player.pev.max_health = 1000;
 
-            for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
+            for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
             {
                 ammoInventory[idx] = player.m_rgAmmo(idx);
             }
@@ -171,50 +173,83 @@ final class ASDynamicAmmoConfig : IConfigurable
 
                 this.m_AmmoData.get( itemNames[ui], @data );
 
-                int[] ammoInventory(MAX_AMMO_TYPES);
-
-                for( size_t idx = 0 ; idx < MAX_AMMO_TYPES; idx++ )
+                int[] prefixedItem;
+                if( this.m_prefixedItems.get( data.classname, prefixedItem ) )
                 {
-                    ammoInventory[idx] = player.m_rgAmmo(idx);
+                    data.m_Type = DynamicEquipmentType( prefixedItem[0] );
+
+                    if( prefixedItem[1] > -1 )
+                        data.m_Index = prefixedItem[1];
+
+                    this.m_prefixedItems.delete( data.classname );
                 }
 
-                this.Lock();
-                player.GiveNamedItem( data.classname, ( SF_CREATEDWEAPON | SF_GIVENITEM ), 1 );
-                this.UnLock();
+                if( data.m_Type == DynamicEquipmentType::Undefined )
+                {
+                    auto entity = g_EntityFuncs.Create( data.classname, g_vecZero, g_vecZero, true, null );
 
-                CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
-
-                if( weapon !is null )
-                {
-                    data.m_Index = weapon.PrimaryAmmoIndex();
-                    data.m_Type = DynamicEquipmentType::Weapon;
-                }
-                else if( player.pev.health > 0 )
-                {
-                    data.m_Type = DynamicEquipmentType::Health;
-                }
-                else if( player.pev.armorvalue > 0 )
-                {
-                    data.m_Type = DynamicEquipmentType::Armor;
-                }
-                else
-                {
-                    for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+                    if( entity is null )
                     {
-                        int old = ammoInventory[ idx ];
-                        int now = player.m_rgAmmo( idx );
-                        player.m_rgAmmo( idx, old );
+                        g_Logger.error.print( "[{}] Can not create null entity \"{}\"", { this.GetName(), data.classname } );
+                        int[]a(0);a[1];
+                    }
 
-                        if( old < now )
+                    entity.pev.flags |= FL_KILLME;
+                    entity.pev.spawnflags |= SF_NORESPAWN;
+                    entity.pev.spawnflags |= SF_CREATEDWEAPON;
+                    entity.pev.spawnflags |= SF_GIVENITEM;
+                    g_EntityFuncs.DispatchSpawn( entity.edict() );
+
+                    CBasePlayerItem@ item;
+                    CBasePlayerAmmo@ ammo;
+
+                    if( ( @item = cast<CBasePlayerItem@>( entity ) ) !is null )
+                        player.AddPlayerItem( item );
+                    else if( ( @ammo = cast<CBasePlayerAmmo@>( entity ) ) !is null )
+                        ammo.AddAmmo( player );
+
+                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
+
+                    if( weapon !is null )
+                    {
+                        data.m_Index = weapon.m_iPrimaryAmmoType;
+
+                        // Weapons that are their own ammo i.e flare/grenade
+                        if( data.m_Index < 0 )
                         {
-                            data.m_Index = idx;
-                            data.m_Type = DynamicEquipmentType::Ammunition;
-                            break;
+                            data.m_Index = g_PlayerFuncs.GetAmmoIndex( cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.GetClassname() ] ).primary_ammo );
+                        }
+
+                        data.m_Type = DynamicEquipmentType::Weapon;
+                    }
+                    else if( player.pev.health > 0 )
+                    {
+                        data.m_Type = DynamicEquipmentType::Health;
+                        player.pev.health = 0;
+                    }
+                    else if( player.pev.armorvalue > 0 )
+                    {
+                        data.m_Type = DynamicEquipmentType::Armor;
+                        player.pev.armorvalue = 0;
+                    }
+                    else
+                    {
+                        for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+                        {
+                            int old = ammoInventory[ idx ];
+                            int now = player.m_rgAmmo( idx );
+                            player.m_rgAmmo( idx, old );
+
+                            if( old < now )
+                            {
+                                data.m_Index = idx;
+                                data.m_Type = DynamicEquipmentType::Ammunition;
+                                break;
+                            }
                         }
                     }
                 }
 
-                player.pev.health = player.pev.armorvalue = 0;
                 player.RemoveAllItems( false, false );
 
                 switch( data.m_Type )
@@ -252,8 +287,15 @@ final class ASDynamicAmmoConfig : IConfigurable
             player.pev.health = health[0];
             player.pev.max_health = health[1];
 
+            for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
+            {
+                player.m_rgAmmo( idx, ammoInventory[idx] );
+            }
+
             if( g_Logger.info.active )
                 g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
+
+            this.UnLock();
 
             return HOOK_CONTINUE;
         }
@@ -360,6 +402,16 @@ final class ASDynamicAmmoConfig : IConfigurable
         return @data;
     }
 
+    private
+        dictionary m_prefixedItems;
+
+    // Set item type ahead of time, and index if ammo/weapon.
+    void SetType( const string&in classname, DynamicEquipmentType type, int index = -1 )
+    {
+        int[] list = { int(type), index };
+        this.m_prefixedItems[ classname ] = list;
+    }
+
     int forcenumplayers = 0;
 
     int get_Players() const
@@ -393,23 +445,13 @@ final class ASDynamicAmmoConfig : IConfigurable
             return true;
 
         CBasePlayerItem@ pickupItem = cast<CBasePlayerItem@>( pickup );
+        CBasePlayerAmmo@ pickupAmmo = cast<CBasePlayerAmmo@>( pickup );
 
-        // Skip drops from players
+        // Skip weapon drops from players
         if( pickupItem !is null && pickupItem.m_dropType != DropTypes::DROP_DEFAULT )
             return true;
+        // -TODO Do same check on pickupAmmo after 5.27 if kerncore made its commit.
 
-#if FALSE
-        switch( pickupItem.m_dropType )
-        {
-            case DropTypes::DROP_NPC_DEATH:
-                break;
-            case DropTypes::DROP_PLAYER_CMD:
-            case DropTypes::DROP_PLAYER_DEATH:
-            case DropTypes::DROP_NPC_DEATH:
-            default:
-                return true;
-        }
-#endif
 
         const ASDynamicAmmoData@ data = this.Find( pickup.GetClassname() );
 
@@ -419,15 +461,15 @@ final class ASDynamicAmmoConfig : IConfigurable
         CBasePlayerWeapon@ weapon;
 
         // If it's a weapon equip it and set ammo to zero
-        if( data.index == DynamicEquipmentType::Weapon )
+        if( data.type == DynamicEquipmentType::Weapon )
         {
             if( ( @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) ) ) is null )
             {
                 this.Lock();
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
                 @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
-                this.UnLock();
                 player.m_rgAmmo( data.index, 0 );
+                this.UnLock();
             }
         }
 
@@ -485,13 +527,14 @@ final class ASDynamicAmmoConfig : IConfigurable
             {
                 float oldArmor = player.pev.armorvalue;
 
-                if( oldArmor < player.pev.armortype && pickupItem.AddToPlayer( player ) )
+                if( oldArmor < player.pev.armortype &&
+                ( pickupAmmo !is null && pickupAmmo.AddAmmo( player ) ) || ( pickupItem !is null && pickupItem.AddToPlayer( player ) ) )
                 {
                     pickup.pev.flags |= FL_KILLME;
                     player.pev.armorvalue = oldArmor + Math.clamp( 0, player.pev.armortype, count );
 
                     if( g_Logger.trace.active )
-                        g_Logger.trace.print( "[{}] gave {} of armor to player \"{}\": min={} max={}", {
+                        g_Logger.trace.print( "[{}] gave {} of \"{}\" to player \"{}\": min={} max={}", {
                             this.GetName(), count, data.classname, player.pev.netname, data.min, data.max } );
                 }
 
@@ -501,13 +544,14 @@ final class ASDynamicAmmoConfig : IConfigurable
             {
                 float oldHealth = player.pev.health;
 
-                if( oldHealth < player.pev.max_health && pickupItem.AddToPlayer( player ) )
+                if( oldHealth < player.pev.max_health &&
+                ( pickupAmmo !is null && pickupAmmo.AddAmmo( player ) ) || ( pickupItem !is null && pickupItem.AddToPlayer( player ) ) )
                 {
                     pickup.pev.flags |= FL_KILLME;
                     player.pev.health = oldHealth + Math.clamp( 0, player.pev.max_health, count );
 
                     if( g_Logger.trace.active )
-                        g_Logger.trace.print( "[{}] gave {} of health to player \"{}\": min={} max={}", {
+                        g_Logger.trace.print( "[{}] gave {} of \"{}\" to player \"{}\": min={} max={}", {
                             this.GetName(), count, data.classname, player.pev.netname, data.min, data.max } );
                 }
 

@@ -44,7 +44,7 @@ final class ASWeaponFlareConfig : ASWeaponConfig
 
     const string& get_primary_ammo() override
     {
-        return "Emergency Flare";
+        return "Trip Mine";
     }
 
     const string& get_primary_ammoentity() override

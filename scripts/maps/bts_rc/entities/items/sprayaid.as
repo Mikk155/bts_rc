@@ -27,7 +27,7 @@ class item_bts_sprayaid : BTS_Item
 
     bool AddAmmo( CBaseEntity@ other )
     {
-        if( !IsValid( other ) || other.pev.health >= other.pev.max_health || !other.TakeHealth( Math.RandomFloat( 10, 20 ), DMG_GENERIC ))
+        if( !IsValid( other ) || other.pev.health >= other.pev.max_health )
             return false;
 
         PickupObject( cast<CBasePlayer@>(other), "item_healthkit" );
