@@ -188,25 +188,32 @@ namespace Flashlight
     }
 }
 
-final class bts_battery : BTS_Item
+final class bts_battery : ScriptBasePlayerAmmoEntity
 {
-    const string& get_m_PlaySound() override {
-        return "bts_rc/items/battery_pickup1.wav";
+    void Precache()
+    {
+        g_Game.PrecacheGeneric( "sound/bts_rc/items/battery_pickup1.wav" );
+        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
+        g_Game.PrecacheModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
     }
 
-    const string& get_m_Model() override {
-        return "models/bts_rc/furniture/w_flashlightbattery.mdl";
+    void Spawn()
+    {
+        Precache();
+        g_EntityFuncs.SetModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
+        g_EntityFuncs.SetSize( self.pev, Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) );
+        BaseClass.Spawn();
     }
 
     bool AddAmmo( CBaseEntity@ other )
     {
-        if( other is null || other.GiveAmmo( 1, "bts_battery", g_WeaponsConfig.flashlight_maxcarry ) == -1 )
-            return false;
-
-        g_EntityFuncs.FireTargets( self.pev.target, other, self, USE_TOGGLE, 0, 0 );
-
-        g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
-        return true;
+        if( other !is null && other.GiveAmmo( 1, "bts_battery", g_WeaponsConfig.flashlight_maxcarry ) == -1 )
+        {
+            g_SoundSystem.EmitSound( self.edict(), CHAN_ITEM, "bts_rc/items/battery_pickup1.wav", 1.0f, ATTN_NORM );
+            self.pev.flags |= FL_KILLME;
+            return true;
+        }
+        return false;
     }
 }
 
