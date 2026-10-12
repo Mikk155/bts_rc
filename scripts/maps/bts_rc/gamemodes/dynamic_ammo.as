@@ -138,34 +138,27 @@ final class ASDynamicAmmoConfig : IConfigurable
     }
 
     private
-        ClientPutInServerHook@ m_pValidation;
+        bool m_Validated = false;
 
     private
-        HookReturnCode ValidateAmunition( CBasePlayer@ player )
+        bool Validated( CBasePlayer@ player )
         {
-            if( player is null || !player.IsConnected() )
-                return HOOK_CONTINUE;
+            if( this.m_Validated )
+                return true;
 
-            g_Hooks.RemoveHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
-            @this.m_pValidation = null;
+            if( player is null || !player.IsConnected() || !player.IsAlive() )
+                return false;
 
             this.Lock();
-
-            player.Revive();
 
             const array<string>@ itemNames = this.m_AmmoData.getKeys();
             const uint length = itemNames.length();
 
-            int[] ammoInventory(MAX_AMMO_TYPES);
             float[] armor = { player.pev.armorvalue, player.pev.armortype };
             float[] health = { player.pev.health, player.pev.max_health };
             player.pev.armorvalue = player.pev.health = 0;
             player.pev.armortype = player.pev.max_health = 1000;
-
-            for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
-            {
-                ammoInventory[idx] = player.m_rgAmmo(idx);
-            }
+            player.RemoveAllItems( false, false );
 
             for( uint ui = 0; ui < length; ui++ )
             {
@@ -221,6 +214,8 @@ final class ASDynamicAmmoConfig : IConfigurable
                         }
 
                         data.m_Type = DynamicEquipmentType::Weapon;
+
+                        player.RemoveAllItems( false, false );
                     }
                     else if( player.pev.health > 0 )
                     {
@@ -236,21 +231,19 @@ final class ASDynamicAmmoConfig : IConfigurable
                     {
                         for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
                         {
-                            int old = ammoInventory[ idx ];
                             int now = player.m_rgAmmo( idx );
-                            player.m_rgAmmo( idx, old );
 
-                            if( old < now )
+                            if( now > 0 )
                             {
                                 data.m_Index = idx;
-                                data.m_Type = DynamicEquipmentType::Ammunition;
                                 break;
                             }
                         }
+
+                        data.m_Type = DynamicEquipmentType::Ammunition;
+                        player.RemoveAllItems( false, false );
                     }
                 }
-
-                player.RemoveAllItems( false, false );
 
                 switch( data.m_Type )
                 {
@@ -287,17 +280,13 @@ final class ASDynamicAmmoConfig : IConfigurable
             player.pev.health = health[0];
             player.pev.max_health = health[1];
 
-            for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
-            {
-                player.m_rgAmmo( idx, ammoInventory[idx] );
-            }
-
             if( g_Logger.info.active )
                 g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
 
             this.UnLock();
 
-            return HOOK_CONTINUE;
+            this.m_Validated = true;
+            return true;
         }
 
     bool Register( btson@ config ) override
@@ -327,9 +316,6 @@ final class ASDynamicAmmoConfig : IConfigurable
 
             @this.m_AmmoData[ classname ] = data;
         }
-
-        @this.m_pValidation = ClientPutInServerHook( @this.ValidateAmunition );
-        g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @this.m_pValidation );
 
         if( g_MapConfig.MapLoading )
         {
@@ -441,7 +427,7 @@ final class ASDynamicAmmoConfig : IConfigurable
 
     bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup )
     {
-        if( player is null || pickup is null || this.Locked )
+        if( player is null || pickup is null || this.Locked || !this.Validated( player ) )
             return true;
 
         CBasePlayerItem@ pickupItem = cast<CBasePlayerItem@>( pickup );
