@@ -231,17 +231,14 @@ final class ASDynamicAmmoConfig : IConfigurable
                     {
                         for( size_t idx = 0; idx < MAX_AMMO_TYPES; idx++ )
                         {
-                            int now = player.m_rgAmmo( idx );
-
-                            if( now > 0 )
+                            if( player.m_rgAmmo( idx ) > 0 )
                             {
                                 data.m_Index = idx;
+                                data.m_Type = DynamicEquipmentType::Ammunition;
+                                player.RemoveAllItems( false, false );
                                 break;
                             }
                         }
-
-                        data.m_Type = DynamicEquipmentType::Ammunition;
-                        player.RemoveAllItems( false, false );
                     }
                 }
 
@@ -279,6 +276,7 @@ final class ASDynamicAmmoConfig : IConfigurable
             player.pev.armortype = armor[1];
             player.pev.health = health[0];
             player.pev.max_health = health[1];
+            player.RemoveAllItems( false, false );
 
             if( g_Logger.info.active )
                 g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
@@ -408,21 +406,21 @@ final class ASDynamicAmmoConfig : IConfigurable
     }
 
     private
-        float m_LockTime = 0;
+        bool m_Locked = false;
 
     bool get_Locked() const
     {
-        return ( this.m_LockTime == g_Engine.time );
+        return this.m_Locked;
     }
 
     void Lock()
     {
-        this.m_LockTime = g_Engine.time;
+        this.m_Locked = true;
     }
 
     void UnLock()
     {
-        this.m_LockTime = g_Engine.time;
+        this.m_Locked = false;
     }
 
     bool PlayerCanCollect( CBasePlayer@ player, CBaseEntity@ pickup )
