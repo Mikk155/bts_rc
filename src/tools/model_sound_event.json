@@ -146,6 +146,11 @@
         "bts_rc/panthereye/pe_moan2.wav",
         "bts_rc/panthereye/pe_moan.wav"
     ],
+    "models/bts_rc/monsters/parasite.mdl": [
+        "bts_rc/stepsounds/parasite_step1.wav",
+        "bts_rc/stepsounds/parasite_step3.wav",
+        "bts_rc/stepsounds/parasite_step4.wav"
+    ],
     "models/bts_rc/monsters/pit_drone.mdl": [
         "bts_rc/stepsounds/pd_step1.wav",
         "bts_rc/stepsounds/pd_step4.wav",
@@ -235,7 +240,9 @@
         "bts_rc/weapons/m4_cliprelease1.wav",
         "bts_rc/weapons/xbow_magready.wav",
         "bts_rc/weapons/xbow_magin.wav",
-        "bts_rc/weapons/mp5_draw.wav"
+        "bts_rc/weapons/mp5_draw.wav",
+        "bts_rc/weapons/iron_in.wav",
+        "bts_rc/weapons/iron_out.wav"
     ],
     "models/bts_rc/weapons/v_desert_eagle.mdl": [
         "bts_rc/weapons/desert_eagle_reload.wav",
@@ -277,7 +284,9 @@
         "bts_rc/weapons/fidget_2.wav",
         "bts_rc/weapons/sniper_bolt1.wav",
         "bts_rc/weapons/sniper_bolt2.wav",
-        "bts_rc/weapons/sniper_reload_first_seq.wav"
+        "bts_rc/weapons/sniper_reload_first_seq.wav",
+        "bts_rc/weapons/iron_in.wav",
+        "bts_rc/weapons/iron_out.wav"
     ],
     "models/bts_rc/weapons/v_m4sd.mdl": [
         "bts_rc/weapons/fidget_3.wav",
@@ -302,7 +311,9 @@
         "bts_rc/weapons/mp5_draw.wav",
         "bts_rc/weapons/m4_clipinsert1.wav",
         "bts_rc/weapons/mp5_slap.wav",
-        "bts_rc/weapons/fidget_3.wav"
+        "bts_rc/weapons/fidget_3.wav",
+        "bts_rc/weapons/iron_in.wav",
+        "bts_rc/weapons/iron_out.wav"
     ],
     "models/bts_rc/weapons/v_saw.mdl": [
         "bts_rc/weapons/fidget_3.wav",

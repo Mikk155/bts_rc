@@ -145,6 +145,7 @@ void MapInit()
         CustomEntity( "trigger_logger", true, "test_chamber::trigger_logger" );
         CustomEntity( "info_section", true, "test_chamber::info_section" );
         CustomEntity( "entitymaker", true, "test_chamber::entitymaker" );
+        CustomEntity( "func_target", true, "test_chamber::func_target" );
     }
 
     gCheckModuleError(false);

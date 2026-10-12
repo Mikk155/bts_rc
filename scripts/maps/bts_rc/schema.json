@@ -15346,14 +15346,6 @@
 							6
 						]
 					},
-					"item_bts_sprayaid": 
-					{
-						"default": 
-						[
-							5,
-							50
-						]
-					},
 					"ammo_556": 
 					{
 						"default": 
@@ -15480,6 +15472,14 @@
 						[
 							5,
 							30
+						]
+					},
+					"item_bts_sprayaid": 
+					{
+						"default": 
+						[
+							5,
+							50
 						]
 					},
 					"weapon_bts_eagle": 

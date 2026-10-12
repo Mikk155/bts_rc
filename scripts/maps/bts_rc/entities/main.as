@@ -32,6 +32,7 @@
 #include "env_credits"
 #include "entitymaker"
 #include "func_bts_recharger"
+#include "func_target"
 #include "info_section"
 #include "point_checkpoint"
 #include "trigger_logger"

@@ -162,3 +162,50 @@ bool gCheckModuleError( bool setTo )
     __gmodule_error__ = setTo;
     return false;
 }
+
+void EquipAllWeapons( CBasePlayer@ player )
+{
+    if( player is null )
+        return;
+
+    const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
+    uint length = weaponNames.length();
+
+    gpDynamicEquipment.Lock();
+
+    for( uint ui = 0; ui < length; ui++ )
+    {
+        const string weapon_name = weaponNames[ui];
+
+        player.GiveNamedItem( weapon_name );
+
+        CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
+
+        if( item is null )
+            continue;
+
+        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
+
+        if( weapon is null )
+            continue;
+
+        if( weapon.m_iPrimaryAmmoType > 0 )
+        {
+            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
+        }
+
+        weapon.m_iClip = weapon.iMaxClip();
+
+        if( weapon.m_iSecondaryAmmoType > 0 )
+        {
+            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
+        }
+    }
+    gpDynamicEquipment.UnLock();
+}
+
+void EquipAllWeapons( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+{
+    if( activator !is null && activator.IsPlayer() )
+        EquipAllWeapons( cast<CBasePlayer@>( activator ) );
+}

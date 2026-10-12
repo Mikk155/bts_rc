@@ -7208,9 +7208,9 @@
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = flame_proj : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = bts_burning_monster : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = flare : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = env_bloodpuddle : "" : ""
-@PointClass base(Monster) = monster_panthereye : "" : ""
-@PointClass base(Monster) = monster_zombie_grenadier : "" : ""
+@PointClass base(Mandatory, Angles, Appearflags, Targetname) = env_bloodpuddle : "" : "" [ ]
+@PointClass base(Monster) = monster_panthereye : "" : "" [ ]
+@PointClass base(Monster) = monster_zombie_grenadier : "" : "" [ ]
 @PointClass base(Monster) = monster_snapbug : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = snapbug : "" : "" [ ]
 @PointClass base(Monster) = monster_zombie_gunner : "" : "" [ ]

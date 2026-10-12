@@ -189,39 +189,10 @@ namespace Hooks
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
         // Change impulse 101 command with our own weapons
-        if( player.pev.impulse == 101 && ( !g_IsMainMap || g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES ) )
+        if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
         {
-            const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
-            uint length = weaponNames.length();
-
-            gpDynamicEquipment.Lock();
-
-            for( uint ui = 0; ui < length; ui++ )
-            {
-                const string weapon_name = weaponNames[ui];
-
-                player.GiveNamedItem( weapon_name );
-
-                CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
-
-                if( item !is null )
-                {
-                    CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( item );
-
-                    if( weapon !is null )
-                    {
-                        if( weapon.m_iPrimaryAmmoType > 0 )
-                            player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );
-
-                        weapon.m_iClip = weapon.iMaxClip();
-
-                        if( weapon.m_iSecondaryAmmoType > 0 )
-                            player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
-                    }
-                }
-            }
+            EquipAllWeapons( player );
             player.pev.impulse = 0;
-            gpDynamicEquipment.UnLock();
         }
 
         // Don't allow flashlight while busy
