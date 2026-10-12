@@ -1,3 +1,8 @@
+# 12/10/2026
+- Implement a dynamic equipment system that provides ammunition, armor and health based on player count.
+- Removed various unused assets.
+- Merge various model sequence and texture extensions
+
 # 8/10/2026
 - Added night vision scopes to sniper rifle weapon and crossbow weapon.
 - Finish implementation of "Flashbang" grenades for blackops.
