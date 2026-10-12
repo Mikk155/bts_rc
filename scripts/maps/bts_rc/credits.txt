@@ -5,14 +5,15 @@
 // $g: green color
 // $b: blue color
 // $rgb: the three of them together separated by space
-// $t: Think rate. this is readed only once so to find your ideal speed value.
+// $time: Think rate. This is updated when the next credit hits
 
-$t 0.01
-
+$time 0.05
 $rgb 255 0 0
 Project and Map Creator RaptorSKA
+$time 0.03
 $rgb 128 0 128
 Lead Scripting Mikk115
+$time 0.01
 $rgb 0 255 0
 Weapons: Arasefiq
 Weapons: Rizulix

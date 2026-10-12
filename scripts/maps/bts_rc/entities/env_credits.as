@@ -40,6 +40,8 @@ final class ASCredit
         return this.__Params__;
     }
 
+    float Speed;
+
     RGBA Color(255, 255, 255, 255);
 }
 
@@ -59,9 +61,6 @@ final class env_credits : ScriptBaseMonsterEntity
 
     private
         array<ASCredit> m_Credits;
-
-    private
-        float m_CreditsScrollRate;
 
     void Spawn()
     {
@@ -208,6 +207,8 @@ final class env_credits : ScriptBaseMonsterEntity
             return;
         }
 
+        ASCredit@ curCredit = this.m_Credits[0];
+
         int onScreen = this.PrintNext(0);
 
         while( onScreen < 4 )
@@ -277,7 +278,7 @@ final class env_credits : ScriptBaseMonsterEntity
             }
         }
 
-        self.pev.nextthink = g_Engine.time + this.m_CreditsScrollRate;
+        self.pev.nextthink = g_Engine.time + curCredit.Speed;
     }
 
     private bool m_Thinking;
@@ -358,9 +359,9 @@ final class env_credits : ScriptBaseMonsterEntity
             {
                 credit.Color.r = atoi( line.SubString( 3 ) );
             }
-            else if( line.StartsWith( "$t" ) )
+            else if( line.StartsWith( "$time" ) )
             {
-                this.m_CreditsScrollRate = Math.clamp( 0.01, 0.5f, atof( line.SubString( 3 ) ) );
+                credit.Speed = Math.clamp( 0.01, 0.5f, atof( line.SubString( 3 ) ) );
             }
             else if( line.StartsWith( "$g" ) )
             {
