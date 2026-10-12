@@ -15306,13 +15306,13 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"description": "Scales ammo pickup amounts based on connected player count.",
+				"description": "Scales equipment pickup amounts based on connected player count.",
 				"additionalProperties": 
 				{
 					"type": "array",
 					"minItems": 2,
 					"maxItems": 2,
-					"description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
+					"description": "Scaled minimum and maximum amount to give for each entity based on player count.",
 					"items": 
 					{
 						"minimum": 1,
@@ -15322,11 +15322,11 @@
 					[
 						
 						{
-							"description": "Ammo given when only one player connected."
+							"description": "Count given when only one player connected."
 						},
 						
 						{
-							"description": "Ammo given when max server capacity of players connected"
+							"description": "Count given when max server capacity of players connected"
 						}
 					]
 				},
@@ -15344,6 +15344,14 @@
 						[
 							1,
 							6
+						]
+					},
+					"item_bts_sprayaid": 
+					{
+						"default": 
+						[
+							5,
+							50
 						]
 					},
 					"ammo_556": 
@@ -15440,6 +15448,38 @@
 						[
 							1,
 							5
+						]
+					},
+					"item_bts_armorvest": 
+					{
+						"default": 
+						[
+							20,
+							40
+						]
+					},
+					"item_bts_helmet": 
+					{
+						"default": 
+						[
+							4,
+							20
+						]
+					},
+					"item_bts_hevbattery": 
+					{
+						"default": 
+						[
+							5,
+							30
+						]
+					},
+					"item_bts_skeleton": 
+					{
+						"default": 
+						[
+							5,
+							30
 						]
 					},
 					"weapon_bts_eagle": 
@@ -15648,38 +15688,6 @@
 						[
 							5,
 							15
-						]
-					},
-					"item_bts_armorvest": 
-					{
-						"default": 
-						[
-							20,
-							40
-						]
-					},
-					"item_bts_skeleton": 
-					{
-						"default": 
-						[
-							5,
-							30
-						]
-					},
-					"item_bts_helmet": 
-					{
-						"default": 
-						[
-							4,
-							20
-						]
-					},
-					"item_bts_hevbattery": 
-					{
-						"default": 
-						[
-							5,
-							30
 						]
 					}
 				}

@@ -193,7 +193,6 @@ final class bts_battery : ScriptBasePlayerAmmoEntity
     void Precache()
     {
         g_Game.PrecacheGeneric( "sound/bts_rc/items/battery_pickup1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/items/battery_pickup1.wav" );
         g_Game.PrecacheModel( self, "models/bts_rc/furniture/w_flashlightbattery.mdl" );
     }
 

@@ -636,10 +636,6 @@
             1,
             6
         ],
-        "item_bts_sprayaid": [
-            5,
-            50
-        ],
         "ammo_556": [
             30,
             200
@@ -703,6 +699,10 @@
         "item_bts_skeleton": [
             5,
             30
+        ],
+        "item_bts_sprayaid": [
+            5,
+            50
         ],
         "weapon_bts_eagle": [
             1,
