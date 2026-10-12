@@ -57,6 +57,7 @@
 //
 @BaseClass = Mandatory
 [
+    $s_message(string) : "Entity aim info in test map"
     ondestroyfn(string) : "OnDestroy Function"
 ]
 
@@ -550,6 +551,13 @@
 
 @BaseClass base(Targetname, Target, RenderFields, Angles, AttackObject, NotRevivable) color(0 200 200) = Monster
 [
+    $i_puddleskin(integer) : "Custom blood puddle skin in model"
+    $i_bloodcolor(integer) : "Blood color index (disable vanilla blood)" : "" : "https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1"
+    $i_spark_color(integer) : "Sparks color index" : "" : "https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png"
+    $i_spark_hitgroup(integer) : "Sparks color hitgroup (Empty = anywhere)"
+    $s_deathdrop(string) : "Deathdrop name (Refeer to wiki at github)"
+    $i_deathdrop(integer) : "Deathdrop attachment"
+
     spawnflags(Flags) =
     [
         1 : "WaitTillSeen" : 0
@@ -4320,10 +4328,23 @@
     ]
 ]
 
-@PointClass base(Monster) size(-16 -16 0, 16 16 72) studio("models/hassassin.mdl") = monster_human_assassin : "Human Assassin" []
+@PointClass base(Monster) size(-16 -16 0, 16 16 72) studio("models/hassassin.mdl") = monster_human_assassin : "Human Assassin"
+[
+    $i_use_flashbang(choices) : "Can throw flashbang? (need Hand grenades)" : "" =
+    [
+        0 : "Doesn't use flashbangs"
+        1 : "Can throw flashbangs"
+    ]
+]
 
 @PointClass base(Monster) size(-16 -16 0, 16 16 72) studio("models/hgrunt.mdl") = monster_human_grunt : "Human Grunt (camo)"
 [
+    $i_use_flashbang(choices) : "Can throw flashbang? (need Hand grenades)" : "" =
+    [
+        0 : "Doesn't use flashbangs"
+        1 : "Can throw flashbangs"
+    ]
+
     spawnflags(Flags) =
     [
         32 : "SquadLeader" : 0
@@ -4530,6 +4551,12 @@
 
 @PointClass base(Monster) size(-16 -16 0, 16 16 72) studio("models/massn.mdl") = monster_male_assassin : "Male Assassin"
 [
+    $i_use_flashbang(choices) : "Can throw flashbang? (need Hand grenades)" : "" =
+    [
+        0 : "Doesn't use flashbangs"
+        1 : "Can throw flashbangs"
+    ]
+
     netname(string) : "Squad Name"
     spawnflags(Flags) =
     [
@@ -5420,6 +5447,18 @@
 
 @PointClass base(Targetname, Angles, RenderFields, AttackObject, NotRevivable) size(-16 -16 0, 16 16 72) color(245 128 96) = squadmaker : "Squad Maker"
 [
+    $i_puddleskin(integer) : "Custom blood puddle skin in model"
+    $i_bloodcolor(integer) : "Blood color index (disable vanilla blood)" : "" : "https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1"
+    $i_spark_color(integer) : "Sparks color index" : "" : "https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png"
+    $i_spark_hitgroup(integer) : "Sparks color hitgroup (Empty = anywhere)"
+    $s_deathdrop(string) : "Deathdrop name (Refeer to wiki at github)"
+    $i_deathdrop(integer) : "Deathdrop attachment"
+    $i_use_flashbang(choices) : "Can throw flashbang? (need Hand grenades)" : "" =
+    [
+        0 : "Doesn't use flashbangs"
+        1 : "Can throw flashbangs"
+    ]
+
     spawnflags(Flags) =
     [
         1 : "Start ON"  : 0
@@ -5559,7 +5598,7 @@
     wpn_w_model(String) : "W_model (Weapons Only)" : ""
     wpn_p_model(String) : "P_model (Weapons Only)" : ""
 
-    function_name(string) : "Angelscript function name" //Angelscript function to call on creation of a monster. Format: void FunctionName(MonsterEntity@ pSquadmaker, Entity@ pMonster)
+    function_name(string) : "Angelscript function name" : "Hooks::SquadmakerSpawn" //Angelscript function to call on creation of a monster. Format: void FunctionName(MonsterEntity@ pSquadmaker, Entity@ pMonster)
 ]
 
 @PointClass base(Targetname) color(255 240 128) = target_cdaudio : "CD Audio Target"
@@ -6694,6 +6733,33 @@
         4 : "Self '!caller' (trigger mode)" : 0
         64 : "Keep '!activator' (think mode)" : 0
     ]
+
+    $i_difficulty(choices) : "Difficulty (MMapBegin callback)" : 0 =
+    [
+        0 : "Story mode"
+        1 : "Relaxed"
+        2 : "Medium"
+        3 : "Punished"
+        4 : "Tortured Standard"
+        5 : "Tortured Legacy"
+    ]
+
+    $i_hellbound(choices) : "Hell bound mode (MMapBegin callback)" : 0 =
+    [
+        0 : "Disabled"
+        1 : "Enabled"
+    ]
+
+    health(choices) : "Set class on !activator (PlayerSetClass callback)" : 0 =
+    [
+        -1 : "Unset"
+        0 : "Security"
+        1 : "Scientist"
+        2 : "Maintenance"
+        3 : "HEV"
+        4 : "Hazard"
+        5 : "Operative"
+    ]
 ]
 
 @PointClass base(Targetname) color(40 200 150) = trigger_setcvar : "Sets a CVAR"
@@ -7143,14 +7209,14 @@
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = bts_burning_monster : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = flare : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = env_bloodpuddle : "" : ""
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = monster_panthereye : "" : ""
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = monster_zombie_grenadier : "" : ""
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = monster_snapbug : "" : "" [ ]
+@PointClass base(Monster) = monster_panthereye : "" : ""
+@PointClass base(Monster) = monster_zombie_grenadier : "" : ""
+@PointClass base(Monster) = monster_snapbug : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = snapbug : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = monster_zombie_gunner : "" : "" [ ]
+@PointClass base(Monster) = monster_zombie_gunner : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = zombie_parasite_cloud : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = monster_zombie_parasite : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = monster_parasite : "" : "" [ ]
+@PointClass base(Monster) = monster_zombie_parasite : "" : "" [ ]
+@PointClass base(Monster) = monster_parasite : "" : "" [ ]
 
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = env_credits : "credits" [ ]
 
@@ -7179,6 +7245,18 @@
 
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = entitymaker : "Squadmaker sucks ass lol"
 [
+    $i_puddleskin(integer) : "Custom blood puddle skin in model"
+    $i_bloodcolor(integer) : "Blood color index (disable vanilla blood)" : "" : "https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1"
+    $i_spark_color(integer) : "Sparks color index" : "" : "https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png"
+    $i_spark_hitgroup(integer) : "Sparks color hitgroup (Empty = anywhere)"
+    $s_deathdrop(string) : "Deathdrop name (Refeer to wiki at github)"
+    $i_deathdrop(integer) : "Deathdrop attachment"
+    $i_use_flashbang(choices) : "Can throw flashbang? (need Hand grenades)" : "" =
+    [
+        0 : "Doesn't use flashbangs"
+        1 : "Can throw flashbangs"
+    ]
+
     _classname(string) : "Child classname"
     _targetname(string) : "Child targetname"
     target(string) : "Child target"
