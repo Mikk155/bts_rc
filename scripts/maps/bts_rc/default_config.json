@@ -630,7 +630,7 @@
             "weapon_bts_flare"
         ]
     },
-    "dynamic_ammo": {
+    "dynamic_equipment": {
         "active": true,
         "ammo_357": [
             1,

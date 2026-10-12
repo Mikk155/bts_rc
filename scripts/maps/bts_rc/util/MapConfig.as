@@ -62,7 +62,7 @@ void RegisterContexts()
 
     g_MapConfig.Register( g_WeaponsConfig ); // Always active
 
-    g_MapConfig.Register( gpDynamicAmmo ); // Always active
+    g_MapConfig.Register( gpDynamicEquipment ); // Always active
 
     g_MapConfig.Register( gpEquipment ); // Always active
 

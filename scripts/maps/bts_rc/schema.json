@@ -15302,7 +15302,7 @@
 					}
 				}
 			},
-			"dynamic_ammo": 
+			"dynamic_equipment": 
 			{
 				"type": "object",
 				"unevaluatedProperties": false,

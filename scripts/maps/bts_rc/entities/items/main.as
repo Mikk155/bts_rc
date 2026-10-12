@@ -74,23 +74,23 @@ final class ASItemsConfig : IConfigurable
         if( g_MapConfig.MapLoading )
         {
             CustomEntity( "item_bts_armorvest", true );
-            gpDynamicAmmo.SetType( "item_bts_armorvest", DynamicEquipmentType::Armor );
+            gpDynamicEquipment.SetType( "item_bts_armorvest", DynamicEquipmentType::Armor );
 
             CustomEntity( "item_bts_clsuit", true );
 
             CustomEntity( "item_bts_helmet", true );
-            gpDynamicAmmo.SetType( "item_bts_helmet", DynamicEquipmentType::Armor );
+            gpDynamicEquipment.SetType( "item_bts_helmet", DynamicEquipmentType::Armor );
 
             CustomEntity( "item_bts_hevbattery", true );
-            gpDynamicAmmo.SetType( "item_bts_hevbattery", DynamicEquipmentType::Armor );
+            gpDynamicEquipment.SetType( "item_bts_hevbattery", DynamicEquipmentType::Armor );
 
             CustomEntity( "item_bts_hevsuit", true );
 
             CustomEntity( "item_bts_skeleton", true );
-            gpDynamicAmmo.SetType( "item_bts_skeleton", DynamicEquipmentType::Armor );
+            gpDynamicEquipment.SetType( "item_bts_skeleton", DynamicEquipmentType::Armor );
 
             CustomEntity( "item_bts_sprayaid", true );
-            gpDynamicAmmo.SetType( "item_bts_sprayaid", DynamicEquipmentType::Health );
+            gpDynamicEquipment.SetType( "item_bts_sprayaid", DynamicEquipmentType::Health );
         }
 
         return true;

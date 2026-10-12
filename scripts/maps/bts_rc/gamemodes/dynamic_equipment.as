@@ -24,7 +24,7 @@ enum DynamicEquipmentType
     Health
 };
 
-final class ASDynamicAmmoData
+final class ASDynamicEquipmentData
 {
     string m_Classname;
     // Entity classname
@@ -55,16 +55,16 @@ final class ASDynamicAmmoData
     }
 
     int m_Max;
-    // maximum ammount to give ammo.
+    // maximum ammount to give.
     const int get_max() const
     {
         return this.m_Max;
     }
 
-    // Get corresponding ammo
+    // Get corresponding ammount.
     int get( int players = 0 ) const
     {
-        if( !gpDynamicAmmo.Active )
+        if( !gpDynamicEquipment.Active )
             return this.max;
 
         players = Math.min( Math.max( players, 0 ), g_Engine.maxClients );
@@ -87,25 +87,25 @@ final class ASDynamicAmmoData
     }
 }
 
-final class ASDynamicAmmoConfig : IConfigurable
+final class ASDynamicEquipentConfig : IConfigurable
 {
     private
-        dictionary m_AmmoData;
+        dictionary m_EquipentData;
 
-    const dictionary@ get_AmmoData() const
+    const dictionary@ get_EquipentData() const
     {
-        return @this.m_AmmoData;
+        return @this.m_EquipentData;
     }
 
     const string& GetName() const override {
-        return "dynamic_ammo";
+        return "dynamic_equipment";
     }
 
     const string GetSchema() const override {
         return """{
             "type": "object",
             "unevaluatedProperties": false,
-            "description": "Scales ammo pickup amounts based on connected player count.",
+            "description": "Scales equipment pickup amounts based on connected player count.",
             "allOf":
             [
                 "IConfigurable"
@@ -115,7 +115,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 "type": "array",
                 "minItems": 2,
                 "maxItems": 2,
-                "description": "Scaled minimum and maximum amount of ammo to give for each entity based on player count.",
+                "description": "Scaled minimum and maximum amount to give for each entity based on player count.",
                 "items":
                 {
                     "minimum": 1,
@@ -123,8 +123,8 @@ final class ASDynamicAmmoConfig : IConfigurable
                 },
                 "prefixItems":
                 [
-                    { "description": "Ammo given when only one player connected." },
-                    { "description": "Ammo given when max server capacity of players connected" }
+                    { "description": "Count given when only one player connected." },
+                    { "description": "Count given when max server capacity of players connected" }
                 ]
             }
         }""";
@@ -151,7 +151,7 @@ final class ASDynamicAmmoConfig : IConfigurable
 
             this.Lock();
 
-            const array<string>@ itemNames = this.m_AmmoData.getKeys();
+            const array<string>@ itemNames = this.m_EquipentData.getKeys();
             const uint length = itemNames.length();
 
             float[] armor = { player.pev.armorvalue, player.pev.armortype };
@@ -162,9 +162,9 @@ final class ASDynamicAmmoConfig : IConfigurable
 
             for( uint ui = 0; ui < length; ui++ )
             {
-                ASDynamicAmmoData@ data;
+                ASDynamicEquipmentData@ data;
 
-                this.m_AmmoData.get( itemNames[ui], @data );
+                this.m_EquipentData.get( itemNames[ui], @data );
 
                 int[] prefixedItem;
                 if( this.m_prefixedItems.get( data.classname, prefixedItem ) )
@@ -246,7 +246,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 {
                     case DynamicEquipmentType::Undefined:
                     {
-                        g_Logger.error.print( "[{}] Can not guess ammo type of \"{}\"", { this.GetName(), data.classname } );
+                        g_Logger.error.print( "[{}] Can not guess entity type of \"{}\"", { this.GetName(), data.classname } );
                         int[]a(0);a[1];
                         break;
                     }
@@ -279,7 +279,7 @@ final class ASDynamicAmmoConfig : IConfigurable
             player.RemoveAllItems( false, false );
 
             if( g_Logger.info.active )
-                g_Logger.info.print( "[{}] Registered {} dynamic ammo types.", { this.GetName(), this.m_AmmoData.getSize() } );
+                g_Logger.info.print( "[{}] Registered {} dynamic equipment types.", { this.GetName(), this.m_EquipentData.getSize() } );
 
             this.UnLock();
 
@@ -291,14 +291,14 @@ final class ASDynamicAmmoConfig : IConfigurable
     {
         this.m_Active = bool( config.Remove( "active" ) );
 
-        const array<string>@ ammoTypes = config.Keys;
-        uint size = ammoTypes.length();
+        const array<string>@ equipmentItems = config.Keys;
+        uint size = equipmentItems.length();
 
         for( uint ui = 0; ui < size; ui++ )
         {
-            string classname = ammoTypes[ui];
+            string classname = equipmentItems[ui];
 
-            ASDynamicAmmoData data;
+            ASDynamicEquipmentData data;
 
             btson@ range = config[ classname ];
 
@@ -312,7 +312,7 @@ final class ASDynamicAmmoConfig : IConfigurable
                 int[]a(0);a[1];
             }
 
-            @this.m_AmmoData[ classname ] = data;
+            @this.m_EquipentData[ classname ] = data;
         }
 
         if( g_MapConfig.MapLoading )
@@ -320,25 +320,25 @@ final class ASDynamicAmmoConfig : IConfigurable
             RegisterCommand(
                 "dynamic force",
                 "<int 0/" + g_Engine.maxClients + " (optional)>",
-                "Set force number of players for dynamic ammo, use zero to reset to actual number of players",
+                "Set force number of players for dynamic equipment, use zero to reset to actual number of players",
                 function( CBasePlayer@ player, array<string>@ arguments )
                 {
-                    gpDynamicAmmo.forcenumplayers = ( arguments is null || arguments.length() <= 0 ) ? 0 : Math.min( atoi( arguments[0] ), g_Engine.maxClients );
+                    gpDynamicEquipment.forcenumplayers = ( arguments is null || arguments.length() <= 0 ) ? 0 : Math.min( atoi( arguments[0] ), g_Engine.maxClients );
 
-                    if( gpDynamicAmmo.forcenumplayers <= 0 )
+                    if( gpDynamicEquipment.forcenumplayers <= 0 )
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Reseted number of players.\n" );
                     else
-                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Set force number of players to " + gpDynamicAmmo.forcenumplayers + "\n" );
-                }, true, "ammo"
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Set force number of players to " + gpDynamicEquipment.forcenumplayers + "\n" );
+                }, true, "equipment"
             );
 
             RegisterCommand(
                 "dynamic_info",
                 "<int 1/" + g_Engine.maxClients + " (optional)>",
-                "Print dynamic ammo values for all configured types. Pass a number to simulate that many players connected.",
+                "Print dynamic equipment values for all configured types. Pass a number to simulate that many players connected.",
                 function( CBasePlayer@ player, array<string>@ arguments )
                 {
-                    int simPlayers = gpDynamicAmmo.Players;
+                    int simPlayers = gpDynamicEquipment.Players;
 
                     if( arguments !is null && arguments.length() > 0 )
                     {
@@ -348,41 +348,41 @@ final class ASDynamicAmmoConfig : IConfigurable
                     }
 
                     string buffer;
-                    snprintf( buffer, "[Dynamic Ammo] g_Engine.maxClients=%1 connected=%2 simulated=%3\n", g_Engine.maxClients, g_PlayerFuncs.GetNumPlayers(), simPlayers );
+                    snprintf( buffer, "[Dynamic Equipment] g_Engine.maxClients=%1 connected=%2 simulated=%3\n", g_Engine.maxClients, g_PlayerFuncs.GetNumPlayers(), simPlayers );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
                     float t = 0.0f;
                     if( g_Engine.maxClients > 1 )
                         t = float( simPlayers - 1 ) / float( g_Engine.maxClients - 1 );
 
-                    snprintf( buffer, "[Dynamic Ammo] t=%1 (0=solo, 1=full)\n", t );
+                    snprintf( buffer, "[Dynamic Equipment] t=%1 (0=solo, 1=full)\n", t );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Ammo Type ---   --- Give ---\n" );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Type ---   --- Give ---\n" );
 
-                    const array<string> keys = gpDynamicAmmo.AmmoData.getKeys();
+                    const array<string> keys = gpDynamicEquipment.EquipentData.getKeys();
                     const uint length = keys.length();
 
                     for( uint ui = 0; ui < length; ui++ )
                     {
-                        const ASDynamicAmmoData@ data = gpDynamicAmmo.Find( keys[ui] );
+                        const ASDynamicEquipmentData@ data = gpDynamicEquipment.Find( keys[ui] );
                         snprintf( buffer, "  %1: %2  (range: %3-%4)\n", data.classname, data.get(simPlayers), data.min, data.max );
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
                     }
 
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- End ---\n" );
                 },
-                false, "ammo"
+                false, "equipment"
             );
         }
         return true;
     }
 
-    // Get the ASDynamicAmmoData instance for the given classname
-    const ASDynamicAmmoData@ Find( const string&in classname ) const
+    // Get the ASDynamicEquipmentData instance for the given classname
+    const ASDynamicEquipmentData@ Find( const string&in classname ) const
     {
-        ASDynamicAmmoData@ data;
-        this.m_AmmoData.get( classname, @data );
+        ASDynamicEquipmentData@ data;
+        this.m_EquipentData.get( classname, @data );
         return @data;
     }
 
@@ -437,7 +437,7 @@ final class ASDynamicAmmoConfig : IConfigurable
         // -TODO Do same check on pickupAmmo after 5.27 if kerncore made its commit.
 
 
-        const ASDynamicAmmoData@ data = this.Find( pickup.GetClassname() );
+        const ASDynamicEquipmentData@ data = this.Find( pickup.GetClassname() );
 
         if( data is null )
             return true;
@@ -547,4 +547,4 @@ final class ASDynamicAmmoConfig : IConfigurable
     }
 }
 
-ASDynamicAmmoConfig gpDynamicAmmo;
+ASDynamicEquipentConfig gpDynamicEquipment;

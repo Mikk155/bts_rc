@@ -194,7 +194,7 @@ namespace Hooks
             const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
             uint length = weaponNames.length();
 
-            gpDynamicAmmo.Lock();
+            gpDynamicEquipment.Lock();
 
             for( uint ui = 0; ui < length; ui++ )
             {
@@ -221,7 +221,7 @@ namespace Hooks
                 }
             }
             player.pev.impulse = 0;
-            gpDynamicAmmo.UnLock();
+            gpDynamicEquipment.UnLock();
         }
 
         // Don't allow flashlight while busy

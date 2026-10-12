@@ -18,7 +18,7 @@
 #include "datatracker"
 #include "item_tracker"
 #include "deathdrop"
-#include "dynamic_ammo"
+#include "dynamic_equipment"
 #include "equipment"
 #include "player_voices"
 #include "PlayerClass"
