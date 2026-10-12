@@ -74,12 +74,23 @@ final class ASItemsConfig : IConfigurable
         if( g_MapConfig.MapLoading )
         {
             CustomEntity( "item_bts_armorvest", true );
+            gpDynamicEquipment.SetType( "item_bts_armorvest", DynamicEquipmentType::Armor );
+
             CustomEntity( "item_bts_clsuit", true );
+
             CustomEntity( "item_bts_helmet", true );
+            gpDynamicEquipment.SetType( "item_bts_helmet", DynamicEquipmentType::Armor );
+
             CustomEntity( "item_bts_hevbattery", true );
+            gpDynamicEquipment.SetType( "item_bts_hevbattery", DynamicEquipmentType::Armor );
+
             CustomEntity( "item_bts_hevsuit", true );
+
             CustomEntity( "item_bts_skeleton", true );
+            gpDynamicEquipment.SetType( "item_bts_skeleton", DynamicEquipmentType::Armor );
+
             CustomEntity( "item_bts_sprayaid", true );
+            gpDynamicEquipment.SetType( "item_bts_sprayaid", DynamicEquipmentType::Health );
         }
 
         return true;
@@ -165,8 +176,6 @@ abstract class BTS_Item : ScriptBasePlayerAmmoEntity
 
     void PickupObject( CBasePlayer@ player, const string&in name = String::EMPTY_STRING )
     {
-        g_EntityFuncs.FireTargets( self.pev.target, player, self, USE_TOGGLE, 0, 0 );
-
         if( g_Logger.trace.active )
             g_Logger.trace.print( "Added {} to player {}", { self.pev.classname, player.pev.netname } );
 

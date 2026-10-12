@@ -630,7 +630,7 @@
             "weapon_bts_flare"
         ]
     },
-    "dynamic_ammo": {
+    "dynamic_equipment": {
         "active": true,
         "ammo_357": [
             1,
@@ -683,6 +683,26 @@
         "bts_battery": [
             1,
             5
+        ],
+        "item_bts_armorvest": [
+            20,
+            40
+        ],
+        "item_bts_helmet": [
+            4,
+            20
+        ],
+        "item_bts_hevbattery": [
+            5,
+            30
+        ],
+        "item_bts_skeleton": [
+            5,
+            30
+        ],
+        "item_bts_sprayaid": [
+            5,
+            50
         ],
         "weapon_bts_eagle": [
             1,

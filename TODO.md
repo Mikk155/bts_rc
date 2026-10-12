@@ -71,7 +71,7 @@ This file contains the list of to-do in the project.
 - [x] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [x] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [x] Fix schema error of items not pasing their type defined in parent
-    > [Error] <root>->dynamic_ammo->weapon_bts_sbshotgun expected "type" at schema but is undefined!
+    > [Error] <root>->dynamic_equipment->weapon_bts_sbshotgun expected "type" at schema but is undefined!
     Moved to Issue [#132](https://github.com/Mikk155/bts_rc/issues/132)
 - [x] Add a chrono since map started and ended for player data storage.
 - [x] Add crossbow sprite when zoom in to sprite txt file.

@@ -34,7 +34,7 @@ class item_bts_armorvest : BTS_Item
         CBasePlayer@ player = cast<CBasePlayer@>( other );
         auto character = GetCharacter(player);
 
-        if( player is null || character is null || character.IsHEV || character.IsHazard || !player.TakeArmor( Math.RandomFloat( 20, 30 ), DMG_GENERIC ) )
+        if( player is null || character is null || character.IsHEV || character.IsHazard )
             return false;
 
         PickupObject( player, "suit_empty" );

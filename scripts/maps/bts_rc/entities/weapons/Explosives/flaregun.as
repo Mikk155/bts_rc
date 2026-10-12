@@ -45,7 +45,7 @@ final class ASWeaponFlareGunConfig : ASWeaponConfig
 
     const string& get_primary_ammo() override
     {
-        return "Emergency Flare";
+        return "Trip Mine";
     }
 
     const string& get_primary_ammoentity() override
@@ -88,7 +88,7 @@ class weapon_bts_flaregun : BTS_FireWeapon
     bool AddAmmo( CBaseEntity@ other )
     {
         // -TODO Call to PickupObject when globalized
-        // Play "bts_rc/weapons/flare_pickup.wav" or remove from precaches and mega 
+        // Play "bts_rc/weapons/flare_pickup.wav" or remove from precaches and mega
         if( other !is null && other.GiveAmmo( 1, gpWeaponFlareGunConfig.primary_ammo, gpWeaponFlareGunConfig.primary_maxammo ) != -1 )
             return true;
         return false;

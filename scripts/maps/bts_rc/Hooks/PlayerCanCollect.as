@@ -51,7 +51,7 @@ namespace Hooks
             }
         }
 
-        if( !gpDynamicAmmo.PlayerCanCollect( player, pickup ) )
+        if( !gpDynamicEquipment.PlayerCanCollect( player, pickup ) )
         {
             result = false;
             return HOOK_CONTINUE;

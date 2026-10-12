@@ -6,6 +6,7 @@
 -d:maps/soundcache*
 -d:resource*
 -d:scripts*
+-d:sevenkewp*
 -d:src*
 -d:wiki*
 -f:.clang-format*
