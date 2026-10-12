@@ -434,8 +434,12 @@ final class ASDynamicEquipentConfig : IConfigurable
         // Skip weapon drops from players
         if( pickupItem !is null && pickupItem.m_dropType != DropTypes::DROP_DEFAULT )
             return true;
-        // -TODO Do same check on pickupAmmo after 5.27 if kerncore made its commit.
 
+#if SVENCOOP_527
+        // -TODO Remove macro after 5.27 if kerncore made its commit.
+        if( pickupAmmo !is null && pickupAmmo.m_dropType != DropTypes::DROP_DEFAULT )
+            return true;
+#endif
 
         const ASDynamicEquipmentData@ data = this.Find( pickup.GetClassname() );
 
