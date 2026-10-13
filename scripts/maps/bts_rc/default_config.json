@@ -979,6 +979,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -994,6 +995,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Suit used for protection while going into highly toxic locations.",
                         "display_name": "Blackmesa Cleansuit",
                         "holder_can_drop": "0",
@@ -1014,6 +1016,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1029,6 +1032,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "HEV SUPPLY FOR: SUIT ARMOR",
                         "display_name": "MK 5 Hazardous Environmental Suit - Experimental",
                         "holder_can_drop": "0",
@@ -1049,6 +1053,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1065,6 +1070,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1091,6 +1097,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1107,6 +1114,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1133,6 +1141,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1149,6 +1158,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1175,6 +1185,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1191,6 +1202,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1217,6 +1229,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1233,6 +1246,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1259,6 +1273,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1275,6 +1290,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1322,6 +1338,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1365,6 +1382,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1381,6 +1399,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "This Toolbox can be used for Orange Repair Markers (30 SLOTS)",
                         "display_name": "Maintenance Toolbox",
                         "holder_can_drop": "1",
@@ -1501,6 +1520,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Dormatories keycard for room A-106",
                         "display_name": "A-106",
                         "holder_can_drop": "1",
@@ -1601,6 +1621,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1628,6 +1649,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1643,6 +1665,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1659,6 +1682,7 @@
                     },
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1775,6 +1799,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1834,6 +1859,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1858,6 +1884,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1883,6 +1910,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1908,6 +1936,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1933,6 +1962,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1957,6 +1987,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1981,6 +2012,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2009,6 +2041,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2037,6 +2070,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2066,6 +2100,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2095,6 +2130,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2125,6 +2161,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
+						"carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2340,6 +2377,7 @@
         "weight": 15
     },
     "weapon_bts_flashlight": {
+		"name": "Flashlight",
         "deploy_time": 0.5,
         "flashlight_ammount": 100,
         "flashlight_drain": 0.8,
