@@ -15,6 +15,8 @@ final class ASFlare : ScriptBaseEntity
         self.pev.movetype = MOVETYPE::MOVETYPE_BOUNCE;
         self.pev.effects |= EFFECTS::EF_FULLBRIGHT;
 
+        self.pev.nextthink = g_Engine.time;
+
         g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
     }
 
@@ -226,8 +228,6 @@ mixin class ASMFlareConfig
             msg.WriteByte( 10 );
             msg.WriteByte( 200 );
         msg.End();
-
-        flare.pev.nextthink = g_Engine.time;
 
         return flare;
     }
