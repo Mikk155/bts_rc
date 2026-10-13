@@ -147,7 +147,7 @@ final class weapon_bts_pipe : BTS_MeleeCharge
         }
         else
         {
-            weapons::TraceEffects( g_EntityFuncs.Instance( tr.pHit ), tr.vecEndPos, tr.iHitgroup );
+            weapons::TraceEffects(tr);
 
             if( this.IsFlesh(hit) )
             {

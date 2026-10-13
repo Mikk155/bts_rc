@@ -134,7 +134,7 @@ class weapon_bts_spanner : BTS_MeleeWeapon
                 }
             }
 
-            weapons::TraceEffects( g_EntityFuncs.Instance( tr.pHit ), tr.vecEndPos, tr.iHitgroup );
+            weapons::TraceEffects(tr);
 
             if( this.IsFlesh( hit ) )
             {
