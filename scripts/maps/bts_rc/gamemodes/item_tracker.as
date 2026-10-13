@@ -73,12 +73,29 @@ namespace item_tracker
         MarkDirty();
     }
 
+    CItemInventory@ Find( const string&in itemName )
+    {
+        EHandle handle;
+        CBaseEntity@ entity;
+        CItemInventory@ item;
+
+        if( gpItemEntities.get( EntityKey( item ), handle )
+        && handle.IsValid()
+        && ( @entity = handle.GetEntity() ) !is null
+        && ( @item = cast<CItemInventory@>( entity ) ) !is null )
+        {
+            return item;
+        }
+
+        return null;
+    }
+
     void RegisterItem( CItemInventory@ item )
     {
         if( item is null )
             return;
 
-        gpItemEntities[ EntityKey( item ) ] = @item;
+        gpItemEntities[ EntityKey( item ) ] = EHandle( item );
 
         string itemName = item.m_szItemName;
         array<string> details = { item.m_szDisplayName, item.m_szDescription };
@@ -87,11 +104,7 @@ namespace item_tracker
 
     bool IsTrackedItem( CItemInventory@ item )
     {
-        if( item is null )
-            return false;
-
-        CItemInventory@ trackedItem;
-        return gpItemEntities.get( EntityKey( item ), @trackedItem ) && trackedItem is item;
+        return ( item !is null && item is Find( EntityKey( item ) ) );
     }
 
     void OnPlayerDisconnect( CBasePlayer@ player )

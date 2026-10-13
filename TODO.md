@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/81.42857142857143?barColor=58da0b)
+> ![](https://geps.dev/progress/82.14285714285714?barColor=55da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -37,7 +37,6 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
-- [ ] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [ ] Rotate ASFlare angles when created with flaregun
 - [ ] Add gravity to flaregun ASFLares
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
@@ -64,6 +63,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [x] Add label/section in command log
     > [Information] Registering command infinite
 - [x] Pulish black ops flashbangs which at the moment is a rare throw.
