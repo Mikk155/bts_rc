@@ -15,7 +15,120 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-final class ASWeaponFlareConfig : ASWeaponConfig
+bool ASMFlareConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMFlareConfigSchema",
+"""{
+    "flare_duration":
+    {
+        "type": "integer",
+        "minimum": 1,
+        "description": "Flare duration"
+    },
+    "flare_gravity":
+    {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "description": "Flare gravity"
+    },
+    "flare_damage":
+    {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Flare damage hitting enemies"
+    },
+    "flare_burn_damage":
+    {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Flare damage when burning enemies"
+    },
+    "flare_burn_time":
+    {
+        "type": "number",
+        "minimum": 0.1,
+        "description": "Flare duration when burning enemies"
+    }
+}""" );
+
+// mixin for throwing flares
+mixin class ASMFlareConfig
+{
+    const string& get_flare_classname() const property final {
+        return "bts_flare";
+    }
+
+    int flare_duration;
+    float flare_gravity;
+    int flare_damage;
+    int flare_burn_damage;
+    float flare_burn_time;
+
+    void flare_register( btson@ json ) final
+    {
+        this.flare_duration = int( json[ "flare_duration" ] );
+        this.flare_gravity = float( json[ "flare_gravity" ] );
+        this.flare_damage = int( json[ "flare_damage" ] );
+        this.flare_burn_damage = int( json[ "flare_burn_damage" ] );
+        this.flare_burn_time = float( json[ "flare_burn_time" ] );
+
+        if( !g_MapConfig.MapLoading || g_CustomEntityFuncs.IsCustomEntity( this.flare_classname ) )
+            return;
+
+        g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", this.flare_classname );
+
+        g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_on.wav" );
+    }
+
+    ASFlare@ flare_create( CBaseEntity@ owner, Vector&in origin, Vector&in velocity ) const
+    {
+        if( owner is null )
+        {
+            g_Logger.error.print( "Null owner at ASMFlareConfig::flare_create(CBaseEntity@, Vector&in, Vector&in)" );
+            return null;
+        }
+
+        CBaseEntity@ entity = g_EntityFuncs.Create( this.flare_classname, origin, g_vecZero, true, owner.edict() );
+
+        if( entity is null )
+            return null;
+
+        ASFlare@ flare = cast<ASFlare@>( CastToScriptClass( entity ) );
+
+        if( flare is null )
+        {
+            g_EntityFuncs.Remove( entity );
+            return null;
+        }
+
+        g_EntityFuncs.DispatchSpawn( entity.edict() );
+
+        flare.pev.velocity = velocity;
+        flare.pev.gravity = this.flare_gravity;
+        flare.pev.angles = Math.VecToAngles( velocity );
+        flare.pev.dmg = this.flare_damage;
+        flare.pev.armorvalue = this.flare_burn_damage;
+        flare.pev.armortype = this.flare_burn_time;
+        flare.pev.dmgtime = g_Engine.time + this.flare_duration;
+
+        NetworkMessage msg( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, flare.pev.origin );
+            msg.WriteByte( TE_BEAMFOLLOW );
+            msg.WriteShort( flare.self.entindex() );
+            msg.WriteShort( models::laserbeam );
+            msg.WriteByte( 20 );
+            msg.WriteByte( 4 );
+            msg.WriteByte( 180 );
+            msg.WriteByte( 10 );
+            msg.WriteByte( 10 );
+            msg.WriteByte( 200 );
+        msg.End();
+
+        flare.pev.nextthink = g_Engine.time;
+
+        return flare;
+    }
+}
+
+final class ASWeaponFlareConfig : ASWeaponConfig, ASMFlareConfig
 {
     const string& GetName() const override
     {
@@ -62,13 +175,24 @@ final class ASWeaponFlareConfig : ASWeaponConfig
         return 0;
     }
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMFlareConfigSchema"
+            ]
+        }""";
+    }
+
     bool Register( btson@ json ) override
     {
-        if( g_MapConfig.MapLoading )
-        {
-            g_CustomEntityFuncs.RegisterCustomEntity( "ASFlare", "flare" );
-        }
-
+        flare_register(json);
         return ASWeaponConfig::Register( json );
     }
 }
@@ -88,298 +212,122 @@ enum WeaponFlareAnim
 
 final class ASFlare : ScriptBaseEntity
 {
-    private float m_flBounceTime = 0.0f;
-    private float m_flNextAttack = 0.0f;
+//================
+    private float m_flBounceTime;
     private int m_iBounces = 0;
-
-    bool m_fRemoveAfterHit = false;
-    bool m_fAttachToWorld = false;
 
     void Spawn()
     {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/flare.mdl" );
+        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flare.mdl" );
         g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
 
-        pev.solid = SOLID_BBOX;
-        pev.movetype = MOVETYPE_NONE;
-        pev.friction = 0.6f;
-        pev.gravity = 0.5f;
+        self.pev.friction = 0.6f;
+        self.pev.solid = SOLID::SOLID_BBOX;
+        self.pev.movetype = MOVETYPE::MOVETYPE_BOUNCE;
+        self.pev.effects |= EFFECTS::EF_FULLBRIGHT;
 
-        pev.dmg = 1.0f;
-        pev.dmgtime = g_Engine.time + 30.0f;
-        pev.effects |= EF_NOSHADOW;
-
-        IgniteSound();
+        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
     }
 
-    void FlareThink()
+    void Think()
     {
-        if( pev.dmgtime != -1.0f )
-        {
-            if( pev.dmgtime < g_Engine.time )
-            {
-                FlareLight( 2, 64 );
-                g_EntityFuncs.Remove( self );
-                return;
+        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, self.pev.origin );
+            m.WriteByte( TE_DLIGHT );
+            m.WriteCoord( self.pev.origin.x );
+            m.WriteCoord( self.pev.origin.y );
+            m.WriteCoord( self.pev.origin.z );
+            if( self.pev.waterlevel > WATERLEVEL_FEET ) {
+                m.WriteByte( 9 );
             }
-        }
+            else {
+                m.WriteByte( 18 );
+            }
+            m.WriteByte( 255 );
+            m.WriteByte( 21 );
+            m.WriteByte( 18 );
+            m.WriteByte( 1 );
+            if( g_Engine.time > self.pev.dmgtime ) {
+                m.WriteByte( 64 );
+            }
+            else {
+                m.WriteByte( 1 );
+            }
+        m.End();
 
-        if( pev.waterlevel > WATERLEVEL_FEET )
+        if( self.pev.waterlevel > WATERLEVEL_FEET )
         {
-            g_Utility.Bubbles( pev.absmin, pev.absmax, 1 );
+            g_Utility.Bubbles( self.pev.absmin, self.pev.absmax, 1 );
         }
         else
         {
             if( Math.RandomLong( 0, 8 ) == 1 )
             {
-                g_Utility.Sparks( pev.origin );
+                // -TODO TE_ something?
+                g_Utility.Sparks( self.pev.origin );
             }
         }
 
-        FlareLight( 1, 1 );
-        pev.nextthink = g_Engine.time + 0.1f;
+        if( g_Engine.time > self.pev.dmgtime )
+        {
+            self.pev.flags |= FL_KILLME;
+        }
+
+        self.pev.nextthink = g_Engine.time + 0.1f;
     }
 
-    void FlareTouch( CBaseEntity@ pOther )
+    void Touch( CBaseEntity@ pOther )
     {
-        if( @pOther.edict() == @pev.owner )
-            return;
+        BurningMonster::Ignite( pOther, g_EntityFuncs.Instance( self.pev.owner ), self.pev.armorvalue, self.pev.armortype );
 
-        if( ( m_iBounces < 10 ) && pev.waterlevel < WATERLEVEL_FEET )
+        if( ( m_iBounces < 10 ) && self.pev.waterlevel < WATERLEVEL_FEET )
         {
-            g_Utility.Sparks( pev.origin );
+            g_Utility.Sparks( self.pev.origin );
         }
 
         TraceResult tr = g_Utility.GetGlobalTrace();
-        Vector vecDir = pev.velocity.Normalize();
+        Vector vecDir = self.pev.velocity.Normalize();
         Vector vecNewDir = vecDir - 2.0f * tr.vecPlaneNormal * DotProduct( tr.vecPlaneNormal, vecDir );
-        pev.angles = Math.VecToAngles( vecNewDir );
+        self.pev.angles = Math.VecToAngles( vecNewDir );
+        self.pev.angles.z -= 90;
+        self.pev.angles.y += 90;
 
         if( pOther.pev.takedamage != DAMAGE_NO )
         {
-            entvars_t@ pevOwner = pev;
-            if( pev.owner !is null )
-                @pevOwner = pev.owner.vars;
-
-            g_WeaponFuncs.ClearMultiDamage();
-
-            if( pOther.IsPlayer() )
-                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
-            else
-                pOther.TraceAttack( pevOwner, pev.dmg, pev.velocity.Normalize(), tr, DMG_POISON | DMG_NEVERGIB );
-
-            g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
-
+            pOther.TraceAttack( ( self.pev.owner !is null ? self.pev.owner.vars : self.pev ), self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
             g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/weapons/flarehitbod1.wav", VOL_NORM, ATTN_NORM );
-
-            if( m_fRemoveAfterHit )
-            {
-                pev.velocity = pev.velocity * 0.1f;
-                pev.gravity = 1.0f;
-                g_EntityFuncs.Remove( self );
-                return;
-            }
         }
         else
         {
-            if( m_iBounces == 0 )
+            m_iBounces++;
+            if( ( self.pev.flags & FL_ONGROUND ) == 0 )
             {
-                if( pOther.pev.ClassNameIs( "worldspawn" ) )
+                if( g_Engine.time >= m_flBounceTime )
                 {
-                    float flSurfDot = DotProduct( tr.vecPlaneNormal, vecDir );
-                    if( m_fAttachToWorld && !( tr.vecPlaneNormal.z < -0.5f && flSurfDot > -0.9f ) )
-                    {
-                        pev.velocity = g_vecZero;
-                        pev.avelocity = g_vecZero;
-                        pev.angles = Math.VecToAngles( vecDir );
-                        pev.movetype = MOVETYPE_NONE;
-                        pev.origin = tr.vecEndPos + tr.vecPlaneNormal * 2.0f;
+                    m_flBounceTime = g_Engine.time + Math.RandomFloat( 0.2f, 0.3f );
 
-                        SetTouch( TouchFunction( this.FlareBurnTouch ) );
-                        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_BODY, "bts_rc/weapons/flarehit1.wav", Math.RandomFloat( 0.95f, 1.0f ), ATTN_NORM, 0, 98 + Math.RandomLong( 0, 7 ) );
-                        return;
+                    if( g_Utility.GetGlobalTrace().flFraction < 1.0f )
+                    {
+                        if( g_Utility.GetGlobalTrace().pHit !is null )
+                        {
+                            CBaseEntity@ pHit = g_EntityFuncs.Instance( g_Utility.GetGlobalTrace().pHit );
+                            if( pHit.IsBSPModel() )
+                            {
+                                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+                            }
+                        }
                     }
                 }
             }
 
-            pev.gravity = 0.8f;
+            self.pev.velocity.x *= 0.8f;
+            self.pev.velocity.y *= 0.8f;
 
-            m_iBounces++;
-            if( ( pev.flags & FL_ONGROUND ) == 0 )
-                BounceSounds();
-
-            pev.velocity.x *= 0.8f;
-            pev.velocity.y *= 0.8f;
-
-            if( pev.velocity.Length() < 64.0f )
+            if( self.pev.velocity.Length() < 64.0f )
             {
-                pev.velocity = g_vecZero;
-                pev.angles.x = 0.0f;
-                pev.angles.z = 0.0f;
-                pev.movetype = MOVETYPE_NONE;
-
-                SetTouch( TouchFunction( this.FlareBurnTouch ) );
+                self.pev.velocity = g_vecZero;
+                self.pev.movetype = MOVETYPE_NONE;
             }
         }
-    }
-
-    void FlareBurnTouch( CBaseEntity@ pOther )
-    {
-        if( pOther.pev.takedamage != DAMAGE_NO )
-        {
-            if( m_flNextAttack < g_Engine.time )
-            {
-                entvars_t@ pevOwner = pev;
-                if( pev.owner !is null )
-                    @pevOwner = pev.owner.vars;
-
-                TraceResult tr = g_Utility.GetGlobalTrace();
-
-                g_WeaponFuncs.ClearMultiDamage();
-                pOther.TraceAttack( pevOwner, 1.0f, g_Engine.v_forward, tr, DMG_BURN | DMG_NEVERGIB );
-                g_WeaponFuncs.ApplyMultiDamage( pev, pevOwner );
-
-                m_flNextAttack = g_Engine.time + 1.0f;
-            }
-        }
-    }
-
-    void Start( float flLifeTime )
-    {
-        IgniteSound();
-
-        if( flLifeTime > 0.0f )
-            pev.dmgtime = g_Engine.time + flLifeTime;
-        else
-            pev.dmgtime = -1.0f;
-
-        pev.effects &= ~EF_NODRAW;
-
-        SetThink( ThinkFunction( this.FlareThink ) );
-        pev.nextthink = g_Engine.time + 0.1f;
-    }
-
-    void BounceSounds()
-    {
-        if( g_Engine.time < m_flBounceTime )
-            return;
-
-        m_flBounceTime = g_Engine.time + Math.RandomFloat( 0.2f, 0.3f );
-
-        if( g_Utility.GetGlobalTrace().flFraction < 1.0f )
-        {
-            if( g_Utility.GetGlobalTrace().pHit !is null )
-            {
-                CBaseEntity@ pHit = g_EntityFuncs.Instance( g_Utility.GetGlobalTrace().pHit );
-                if( pHit.IsBSPModel() )
-                {
-                    g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
-                }
-            }
-        }
-    }
-
-    void FlareTrail()
-    {
-        NetworkMessage msg( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pev.origin );
-        msg.WriteByte( TE_BEAMFOLLOW );
-        msg.WriteShort( self.entindex() );
-        msg.WriteShort( models::laserbeam );
-        msg.WriteByte( 20 );
-        msg.WriteByte( 4 );
-        msg.WriteByte( 180 );
-        msg.WriteByte( 10 );
-        msg.WriteByte( 10 );
-        msg.WriteByte( 200 );
-        msg.End();
-    }
-
-    void FlareLight( uint8 life, uint8 decayRate )
-    {
-        NetworkMessage msg( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pev.origin );
-        msg.WriteByte( TE_DLIGHT );
-        msg.WriteCoord( pev.origin.x );
-        msg.WriteCoord( pev.origin.y );
-        msg.WriteCoord( pev.origin.z );
-        msg.WriteByte( pev.waterlevel > WATERLEVEL_FEET ? 9 : 18 );
-        msg.WriteByte( 255 );
-        msg.WriteByte( 21 );
-        msg.WriteByte( 18 );
-        msg.WriteByte( life );
-        msg.WriteByte( decayRate );
-        msg.End();
-    }
-
-    void IgniteSound()
-    {
-        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
-    }
-}
-
-namespace FLARE
-{
-    ASFlare@ Toss( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration, float flSparkAfter )
-    {
-        CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
-
-        ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
-
-        if( pFlare is null )
-            return null;
-
-        g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
-        g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
-        g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
-
-        pFlare.pev.dmg = flDmg;
-        pFlare.pev.movetype = MOVETYPE_BOUNCE;
-
-        pFlare.pev.velocity = vecVelocity;
-        pFlare.pev.angles = Math.VecToAngles( pFlare.pev.velocity );
-        @pFlare.pev.owner = pevOwner.pContainingEntity;
-
-        pFlare.Start( flDuration );
-        pFlare.pev.dmgtime = g_Engine.time + flDuration;
-
-        pFlare.SetThink( ThinkFunction( pFlare.FlareThink ) );
-        pFlare.pev.nextthink = g_Engine.time + flSparkAfter;
-        pFlare.SetTouch( TouchFunction( pFlare.FlareTouch ) );
-
-        return pFlare;
-    }
-
-    ASFlare@ Shoot( entvars_t@ pevOwner, const Vector& in vecStart, const Vector& in vecVelocity, float flDmg, float flDuration )
-    {
-        CBaseEntity@ preFlare = g_EntityFuncs.CreateEntity( "flare", null, false );
-
-        ASFlare@ pFlare = cast<ASFlare@>( CastToScriptClass( preFlare ) );
-
-        if( pFlare is null )
-            return null;
-
-        g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
-        g_EntityFuncs.DispatchSpawn( pFlare.self.edict() );
-        g_EntityFuncs.SetOrigin( pFlare.self, vecStart );
-
-        pFlare.FlareTrail();
-        pFlare.m_fAttachToWorld = true;
-        pFlare.m_fRemoveAfterHit = true;
-
-        pFlare.pev.dmg = flDmg;
-        pFlare.pev.movetype = MOVETYPE_FLY;
-
-        pFlare.pev.velocity = vecVelocity;
-        pFlare.pev.angles = Math.VecToAngles( pFlare.pev.velocity );
-        @pFlare.pev.owner = pevOwner.pContainingEntity;
-
-        pFlare.Start( flDuration );
-        pFlare.pev.dmgtime = g_Engine.time + flDuration;
-
-        pFlare.SetThink( ThinkFunction( pFlare.FlareThink ) );
-        pFlare.pev.nextthink = g_Engine.time + 0.5f;
-        pFlare.SetTouch( TouchFunction( pFlare.FlareTouch ) );
-
-        return pFlare;
     }
 }
 
@@ -405,7 +353,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
     void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage )
     {
-        FLARE::Toss( this.owner.pev, source, velocity, damage, 180.0f, 1.5f );
+        gpWeaponFlareConfig.flare_create( this.owner, source, velocity );
     }
 
     void Spawn() override
@@ -509,8 +457,8 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
             case AttackType::Tertiary:
             {
                 PlayAnim( WeaponFlareAnim::PullHold );
-                @this.m_FlareOnHold = FLARE::Toss( this.owner.pev, g_vecZero, g_vecZero, 0, 180.0f, 1.5f );
-                this.m_FlareOnHold.self.pev.nextthink = self.m_flNextTertiaryAttack;
+//                @this.m_FlareOnHold = FLARE::Toss( this.owner.pev, g_vecZero, g_vecZero, 0 );
+//                this.m_FlareOnHold.self.pev.nextthink = self.m_flNextTertiaryAttack;
                 break;
             }
         }

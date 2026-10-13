@@ -33,7 +33,6 @@ void Precache()
     g_Game.PrecacheModel( "models/bts_rc/monsters/zombie_blackops.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/null.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons//w_9mmhandgun.mdl" );
-    g_Game.PrecacheModel( "models/bts_rc/weapons/flare.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmar.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmargl.mdl" );
     g_Game.PrecacheModel( "models/bts_rc/weapons/p_9mmhandgun.mdl" );
@@ -198,12 +197,10 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget_3.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_bounce.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_deploy.wav" );
-    g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_on.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_pickup.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_shot1.wav" );
-    g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehit1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flarehitbod1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashbang_pop.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flashlight_hit1.wav" );

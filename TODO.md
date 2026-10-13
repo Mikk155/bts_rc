@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/82.14285714285714?barColor=55da0b)
+> ![](https://geps.dev/progress/82.26950354609929?barColor=54da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,8 +27,8 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
+- [ ] Check attacker relationship at BurningMonster ignite.
 - [ ] Fix test chamber not spawning all type of canister zombies (use trigger_changevalues as modified in bsp file.)
-- [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );
@@ -63,6 +63,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [x] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [x] Add label/section in command log
     > [Information] Registering command infinite

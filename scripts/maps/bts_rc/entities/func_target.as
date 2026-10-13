@@ -121,6 +121,7 @@ namespace test_chamber
                         m_Direction = false;
                     }
                     self.pev.origin.y -= 5.0f;
+                    self.pev.velocity.y = 200;
                 }
                 else
                 {
@@ -129,6 +130,7 @@ namespace test_chamber
                         m_Direction = true;
                     }
                     self.pev.origin.y += 5.0f;
+                    self.pev.velocity.y = 200;
                 }
                 g_EntityFuncs.SetOrigin( self, self.pev.origin );
             }

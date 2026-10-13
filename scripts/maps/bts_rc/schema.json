@@ -13677,11 +13677,6 @@
 						"default": 1,
 						"type": "number"
 					},
-					"primary_distance": 
-					{
-						"default": 750,
-						"type": "number"
-					},
 					"primary_dropammo": 
 					{
 						"default": 1,
@@ -13716,6 +13711,47 @@
 					{
 						"default": 5,
 						"type": "integer"
+					},
+					"flare_duration": 
+					{
+						"default": 120,
+						"type": "integer",
+						"minimum": 1,
+						"description": "Flare duration"
+					},
+					"flare_gravity": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"minimum": 0,
+						"maximum": 1,
+						"description": "Flare gravity"
+					},
+					"flare_damage": 
+					{
+						"default": 35,
+						"type": "integer",
+						"minimum": 0,
+						"description": "Flare damage hitting enemies"
+					},
+					"flare_burn_damage": 
+					{
+						"default": 1,
+						"type": "integer",
+						"minimum": 0,
+						"description": "Flare damage when burning enemies"
+					},
+					"primary_distance": 
+					{
+						"default": 750,
+						"type": "number"
+					},
+					"flare_burn_time": 
+					{
+						"default": 1,
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Flare duration when burning enemies"
 					},
 					"secondary_maxammo": 
 					{
@@ -14089,6 +14125,31 @@
 						"default": 15,
 						"type": "integer"
 					},
+					"primary_distance": 
+					{
+						"default": 1500,
+						"type": "number"
+					},
+					"flare_duration": 
+					{
+						"default": 120
+					},
+					"flare_gravity": 
+					{
+						"default": 0.6
+					},
+					"flare_damage": 
+					{
+						"default": 1
+					},
+					"flare_burn_damage": 
+					{
+						"default": 1
+					},
+					"flare_burn_time": 
+					{
+						"default": 1
+					},
 					"secondary_maxammo": 
 					{
 						"type": "integer"
@@ -14169,10 +14230,6 @@
 						"type": "number"
 					},
 					"tertiary_trained_cooldown": 
-					{
-						"type": "number"
-					},
-					"primary_distance": 
 					{
 						"type": "number"
 					},

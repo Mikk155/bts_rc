@@ -16,7 +16,7 @@
 **/
 
 // -TODO inherit this config from default flare or opposite
-final class ASWeaponFlareGunConfig : ASWeaponConfig
+final class ASWeaponFlareGunConfig : ASWeaponConfig, ASMFlareConfig
 {
     const string& GetName() const override
     {
@@ -56,6 +56,12 @@ final class ASWeaponFlareGunConfig : ASWeaponConfig
     const uint8 get_animation_draw() override
     {
         return WeaponFlareGunAnim::Draw;
+    }
+
+    bool Register( btson@ json ) override
+    {
+        flare_register(json);
+        return ASWeaponConfig::Register( json );
     }
 }
 
@@ -125,12 +131,16 @@ class weapon_bts_flaregun : BTS_FireWeapon
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector offset = Vector( 16.0f, 6.0f, -2.0f );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * offset.x + g_Engine.v_right * offset.y + g_Engine.v_up * offset.z;
-        Vector vecVelocity = g_Engine.v_forward * 1500.0f;
+        Vector vecVelocity = g_Engine.v_forward * gpWeaponFlareGunConfig.primary_distance;
 
-        auto flare = FLARE::Shoot( player.pev, vecSrc, vecVelocity, 35.0f, 180.0f );
+        auto flare = gpWeaponFlareGunConfig.flare_create( player, vecSrc, vecVelocity );
+
         if( flare !is null )
         {
-            flare.pev.scale = 1.0f;
+            // Player aiming direction - offset to rotate it
+            flare.pev.angles = player.pev.angles;
+            flare.pev.angles.z -= 90;
+            flare.pev.angles.y -= 90;
         }
 
         PlayAnim( WeaponFlareGunAnim::Shoot, PLAYER_ANIM::PLAYER_ATTACK1 );
