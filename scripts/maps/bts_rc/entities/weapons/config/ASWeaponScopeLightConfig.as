@@ -91,6 +91,7 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
     {
         this.ToggleZoom( player, weapon );
         weapons::SetCooldown( weapon, player, this.GetCooldown( util::IsTrainedPersonal( player ), AttackType::Secondary ) + 0.3f );
+        ASWeaponConfig::WeaponSecondaryAttack( player, weapon, character );
     }
 
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override

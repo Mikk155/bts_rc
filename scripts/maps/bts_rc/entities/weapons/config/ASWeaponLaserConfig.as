@@ -118,7 +118,9 @@ abstract class ASWeaponLaserConfig : ASWeaponConfig
         else
         {
             g_SoundSystem.EmitSoundDyn( weapon.edict(), SOUND_CHANNEL::CHAN_WEAPON, "weapons/desert_eagle_sight2.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
-            player.pev.weaponmodel = this.player_model;
+
+            if( player.m_hActiveItem.IsValid() && player.m_hActiveItem.GetEntity() is weapon )
+                player.pev.weaponmodel = this.player_model;
         }
     }
 

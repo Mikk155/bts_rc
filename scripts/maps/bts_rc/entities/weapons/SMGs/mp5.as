@@ -90,11 +90,6 @@ class weapon_bts_mp5 : BTS_FireWeapon
     private int m_iBurstCount = 0, m_iBurstLeft = 0;
     private float m_flNextBurstFireTime = 0;
 
-    void Spawn() override
-    {
-        BTS_FireWeapon::Spawn();
-    }
-
     void Holster( int skiplocal = 0 )
     {
         BaseClass.Holster( skiplocal );

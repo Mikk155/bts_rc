@@ -126,7 +126,8 @@ namespace Flashlight
             player.FlashlightTurnOff();
         }
 
-        player.pev.weaponmodel = config.player_model;
+        if( player.m_hActiveItem.IsValid() && player.m_hActiveItem.GetEntity() is weapon )
+            player.pev.weaponmodel = config.player_model;
 
         CBaseEntity@ spot = Flashlight::Entity( player );
 
@@ -318,6 +319,7 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     void WeaponSecondaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         this.FlashlightToggle( player, weapon );
+        ASWeaponConfig::WeaponSecondaryAttack( player, weapon, character );
     }
 
     void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
