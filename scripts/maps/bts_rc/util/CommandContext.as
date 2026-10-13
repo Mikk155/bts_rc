@@ -40,9 +40,6 @@ final class ASCommand
         const string&in section = String::EMPTY_STRING
     )
     {
-        if( g_Logger.info.active )
-            g_Logger.info.print( snprintf( glog, "Registering command %1", command ) );
-
         this.Command = command;
         this.Arguments = arguments;
         this.Help = help;
@@ -71,14 +68,14 @@ ASCommand@ RegisterCommand( ASCommand@ command )
         {
             if( g_Logger.warning.active )
             {
-                g_Logger.warning.print( "Skipping duplicate command registration for {}{}", {
-                    command.Section.IsEmpty() ? String::EMPTY_STRING : command.Section + " ",
-                    command.Command
-                } );
+                g_Logger.warning.print( "Skipping duplicate command registration for {}{}{}", { command.Section, ( command.Section.IsEmpty() ? '' : ' ' ), command.Command } );
             }
-            return @registered;
+            return null;
         }
     }
+
+    if( g_Logger.info.active )
+        g_Logger.info.print( "Registering command \"bts_rc {}{}{}\"", { command.Section, ( command.Section.IsEmpty() ? '' : ' ' ), command.Command } );
 
     __CommandContexts__.insertLast( @command );
     return @command;
@@ -101,9 +98,6 @@ ASCommand@ RegisterCommand(
     @context.Lambda = lambda;
     context.AdminOnly = admin_only;
     context.Section = section;
-
-    if( g_Logger.info.active )
-        g_Logger.info.print( snprintf( glog, "Registering command %1", context.Command ) );
 
     return RegisterCommand( context );
 }

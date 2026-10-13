@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/79.28571428571428?barColor=61da0b)
+> ![](https://geps.dev/progress/81.42857142857143?barColor=58da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,9 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Fix test chamber not spawning all type of canister zombies (seems it's using + for classname)
-- [ ] Add label/section in command log
-    > [Information] Registering command infinite
+- [ ] Fix test chamber not spawning all type of canister zombies (use trigger_changevalues as modified in bsp file.)
 - [ ] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [ ] Add timed concuss on robot boss push
     ```C++
@@ -48,7 +46,6 @@ This file contains the list of to-do in the project.
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
-- [x] Pulish black ops flashbangs which at the moment is a rare throw.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
 - [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
@@ -60,7 +57,6 @@ This file contains the list of to-do in the project.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
-- [x] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
 ---
@@ -68,6 +64,10 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Add label/section in command log
+    > [Information] Registering command infinite
+- [x] Pulish black ops flashbangs which at the moment is a rare throw.
+- [x] weapon flashlight not turn off when flashlight power run out.
 - [x] json global property "skip_validation" to completelly skip schema validation. this will save loading time at expense of must-know what to do. make sure to spit skip_validation to false in the store/ config so it's noticeable.
 - [x] Remove all ``gp`` prefixes to ``g_`` to non properties declarations.
 - [x] Fix schema error of items not pasing their type defined in parent
