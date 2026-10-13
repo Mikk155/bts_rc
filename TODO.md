@@ -48,7 +48,7 @@ This file contains the list of to-do in the project.
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
 - [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
-- [ ] Pulish black ops flashbangs which at the moment is a rare throw.
+- [x] Pulish black ops flashbangs which at the moment is a rare throw.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
 - [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
@@ -60,7 +60,7 @@ This file contains the list of to-do in the project.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
-- [ ] weapon flashlight not turn off when flashlight power run out.
+- [x] weapon flashlight not turn off when flashlight power run out.
 - [ ] crowbar hands are white on black otis.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
 ---

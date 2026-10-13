@@ -392,39 +392,42 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
                     break;
                 }
 
-                if( player.FlashlightIsOn() )
+                if( !player.FlashlightIsOn() )
                 {
-                    float nextDrain = float( data[ "flashlight_nextdrain" ] );
-
-                    if( nextDrain <= g_Engine.time && !g_WeaponsConfig.infinite_ammo )
-                    {
-                        data[ "flashlight_nextdrain" ] = g_Engine.time + flashlight_drain;
-
-                        Battery--;
-
-                        if( Battery <= 0 )
-                        {
-                            Battery = 0;
-                            Flashlight::TurnOff( player, weapon, this );
-                            weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
-                            break;
-                        }
-                    }
-
-                    CBaseEntity@ spot = Flashlight::Entity( player );
-
-                    // Gradual turn on
-                    if( spot.pev.renderamt < 100 )
-                        spot.pev.renderamt += 5;
-
-                    Math.MakeVectors( player.pev.v_angle );
-                    Vector vecSrc = player.GetGunPosition();
-                    Vector vecEnd = vecSrc + ( g_Engine.v_forward * 8192 ); // -TODO Fade out if nothing hit?
-
-                    TraceResult tr;
-                    g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
-                    g_EntityFuncs.SetOrigin( spot, tr.vecEndPos );
+                    Flashlight::TurnOff( player, weapon, this );
+                    break;
                 }
+
+                float nextDrain = float( data[ "flashlight_nextdrain" ] );
+
+                if( nextDrain <= g_Engine.time && !g_WeaponsConfig.infinite_ammo )
+                {
+                    data[ "flashlight_nextdrain" ] = g_Engine.time + flashlight_drain;
+
+                    Battery--;
+
+                    if( Battery <= 0 )
+                    {
+                        Battery = 0;
+                        Flashlight::TurnOff( player, weapon, this );
+                        weapon.SendWeaponAnim( player.pev.weaponanim, 0, this.WeaponBody( player, weapon, GetCharacter( player ) ) );
+                        break;
+                    }
+                }
+
+                CBaseEntity@ spot = Flashlight::Entity( player );
+
+                // Gradual turn on
+                if( spot.pev.renderamt < 100 )
+                    spot.pev.renderamt += 5;
+
+                Math.MakeVectors( player.pev.v_angle );
+                Vector vecSrc = player.GetGunPosition();
+                Vector vecEnd = vecSrc + ( g_Engine.v_forward * 8192 ); // -TODO Fade out if nothing hit?
+
+                TraceResult tr;
+                g_Utility.TraceLine( vecSrc, vecEnd, dont_ignore_monsters, player.edict(), tr );
+                g_EntityFuncs.SetOrigin( spot, tr.vecEndPos );
                 break;
             }
         }
