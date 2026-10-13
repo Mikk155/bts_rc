@@ -54,9 +54,9 @@ namespace item_tracker
 
     string EntityKey( CBaseEntity@ entity )
     {
-        string key;
-        snprintf( key, "%1", entity.entindex() );
-        return key;
+        if( entity !is null )
+            return string( entity.entindex() );
+        return String::EMPTY_STRING;
     }
 
     void MarkDirty()
@@ -79,7 +79,7 @@ namespace item_tracker
         CBaseEntity@ entity;
         CItemInventory@ item;
 
-        if( gpItemEntities.get( EntityKey( item ), handle )
+        if( gpItemEntities.get( itemName, handle )
         && handle.IsValid()
         && ( @entity = handle.GetEntity() ) !is null
         && ( @item = cast<CItemInventory@>( entity ) ) !is null )
