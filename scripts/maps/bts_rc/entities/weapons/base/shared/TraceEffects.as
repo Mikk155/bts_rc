@@ -17,6 +17,16 @@
 
 namespace weapons
 {
+    // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png
+    dictionary gpTraceMaterials = {
+        { "C", 0 },
+        { "M", 0 },
+        { "V", 0 },
+        { "G", 0 },
+        { "P", 0 },
+        { "Y", 0 }
+    };
+
     // Play effects
     void TraceEffects( TraceResult&in tr, CBasePlayer@ origenPlayer = null )
     {
@@ -29,7 +39,7 @@ namespace weapons
         if( isWorldspawn && origenPlayer !is null )
         {
             TraceResult tr2;
-            g_Utility.TraceLine( origenPlayer.GetGunPosition(), tr.vecEndPos, IGNORE_MONSTERS::dont_ignore_monsters, origenPlayer.edict(), tr );
+            g_Utility.TraceLine( origenPlayer.GetGunPosition(), tr.vecEndPos, IGNORE_MONSTERS::dont_ignore_monsters, origenPlayer.edict(), tr2 );
 
             if( tr2.pHit !is null && tr2.pHit.vars.classname != "worldspawn" )
             {
@@ -38,16 +48,13 @@ namespace weapons
             }
         }
 
-        CBaseEntity@ hit;
-
-        if( ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) is null )
-            return;
-
         int sparksColor = -1;
 
+        CBaseEntity@ hit;
         CBaseMonster@ monster = null;
 
-        if( hit.IsMonster() && ( @monster = cast<CBaseMonster@>(hit) ) !is null )
+        if( ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) !is null
+        && hit.IsMonster() && ( @monster = cast<CBaseMonster@>(hit) ) !is null )
         {
             dictionary@ data = hit.GetUserData();
 
@@ -119,6 +126,18 @@ namespace weapons
                         sparksColor = -1;
                     }
                 }
+            }
+        }
+
+        if( ( isWorldspawn || ( hit !is null && hit.IsBSPModel() ) ) && tr.flFraction < 1.0f )
+        {
+            string textureName = g_Utility.TraceTexture( hit.edict(), tr.vecEndPos + Vector( -1, -1, -1 ), tr.vecEndPos + Vector( 1, 1, 1 ) );
+
+            int colour;
+
+            if( gpTraceMaterials.get( string( g_SoundSystem.FindMaterialType( textureName ) ), colour ) )
+            {
+                sparksColor = colour;
             }
         }
 
