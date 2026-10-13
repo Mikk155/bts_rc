@@ -24,9 +24,6 @@ namespace Hooks
 
         CBaseMonster@ victim = cast<CBaseMonster@>( info.pVictim );
 
-        weapons::__TraceEffectTakeDamageTrace__ = g_Utility.GetGlobalTrace();
-        weapons::__TraceEffectTakeDamageTime__ = g_Engine.time;
-
         if( victim is null )
             return HOOK_CONTINUE;
 

@@ -17,29 +17,25 @@
 
 namespace weapons
 {
-    float __TraceEffectTakeDamageTime__;
-    TraceResult __TraceEffectTakeDamageTrace__;
-
     // Play effects
-    void TraceEffects( TraceResult&in tr )
+    void TraceEffects( TraceResult&in tr, CBasePlayer@ origenPlayer = null )
     {
         if( !FreeEdicts( 5 ) || tr.pHit is null )
             return;
 
         bool isWorldspawn = ( tr.pHit.vars.classname == "worldspawn" );
 
-        // Same frame as a monster took damage. stupid ass game
-        if( __TraceEffectTakeDamageTime__ == g_Engine.time )
+        // Stupid ass game fuck off sniper
+        if( isWorldspawn && origenPlayer !is null )
         {
-            if( isWorldspawn )
+            TraceResult tr2;
+            g_Utility.TraceLine( origenPlayer.GetGunPosition(), tr.vecEndPos, IGNORE_MONSTERS::dont_ignore_monsters, origenPlayer.edict(), tr );
+
+            if( tr2.pHit !is null && tr2.pHit.vars.classname != "worldspawn" )
             {
-                if( __TraceEffectTakeDamageTrace__.pHit !is null )
-                {
-                    tr = __TraceEffectTakeDamageTrace__;
-                    isWorldspawn = ( tr.pHit.vars.classname == "worldspawn" );
-                }
+                tr = tr2;
+                isWorldspawn = false;
             }
-            __TraceEffectTakeDamageTime__ = -1;
         }
 
         CBaseEntity@ hit;
