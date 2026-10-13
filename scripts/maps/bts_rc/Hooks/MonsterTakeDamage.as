@@ -42,9 +42,9 @@ namespace Hooks
         string classname = victim.GetClassname();
         string model = string( victim.pev.model );
 
-        if( gpZombieEngineer.IsValid( classname, model ) )
-            gpZombieEngineer.TakeDamage( victim, info );
-        else if( gpRoboGrunt.IsValid( classname, model ) )
+        gpZombieEngineer.TakeDamage( victim, info );
+
+        if( gpRoboGrunt.IsValid( classname, model ) )
             gpRoboGrunt.TakeDamage( victim, info );
         else if( gpRoboGruntBoss.IsValid( classname, model ) )
             gpRoboGruntBoss.TakeDamage( victim, info );

@@ -61,10 +61,14 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         }""";
     }
 
-    private int m_CanisterStrayChance;
-    private int m_CanisterDamage;
-    private int m_CanisterDegrade;
-    private int m_CanisterHealth;
+    private
+        int stray;
+    private
+        int explosion;
+    private
+        int degrade;
+    private
+        int health;
 
     bool Register( btson@ config ) override
     {
@@ -73,36 +77,44 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
             EntityOverriden::SetThink( 0.1f );
             EntityOverriden::Register( this );
         }
-        this.m_CanisterHealth = int( config[ "health" ] );
-        this.m_CanisterDamage = int( config[ "explosion" ] );
-        this.m_CanisterStrayChance = int( config[ "stray" ] );
-        this.m_CanisterDegrade = int( config[ "degrade" ] );
-        return true;
-    }
 
-    bool IsValid( const string&in classname, const string&in model )
-    {
-        if( classname == "monster_gonome" )
-        {
-            if( model == "models/bts_rc/monsters/zombie_engineer2.mdl" )
-                return true;
-        }
-        if( classname == "monster_zombie_soldier" &&
-        ( model == "models/bts_rc/monsters/zombie_engineer.mdl" || model == "models/bts_rc/monsters/zombie_construction_welder.mdl" ) )
-            return true;
-        return false;
+        this.health = int( config[ "health" ] );
+        this.explosion = int( config[ "explosion" ] );
+        this.stray = int( config[ "stray" ] );
+        this.degrade = int( config[ "degrade" ] );
+
+        return true;
     }
 
     bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( monster is null || !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+        if( monster is null )
             return false;
 
-        return EntityOverriden::AddEntity( entity, monster );
+        string classname = monster.GetClassname();
+        string model = string( monster.pev.model );
+
+        if( classname == "monster_gonome" )
+        {
+            if( model == "models/bts_rc/monsters/zombie_engineer2.mdl" )
+                return EntityOverriden::AddEntity( entity, monster );
+        }
+
+        if( classname == "monster_zombie_soldier" )
+        {
+            if( model == "models/bts_rc/monsters/zombie_engineer.mdl"
+            ||   model == "models/bts_rc/monsters/zombie_construction_welder.mdl" )
+                return EntityOverriden::AddEntity( entity, monster );
+        }
+
+        return false;
     }
 
     void TakeDamage( CBaseMonster@ victim, DamageInfo@ info )
     {
+        if( !victim.IsAlive() || !this.Find( victim, void, void ) )
+            return;
+
         bool ShouldHandleDamage = false;
 
         CBaseEntity@ attacker = info.pAttacker;
@@ -117,20 +129,21 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
                 if( attacker !is null && attacker.IsPlayer() )
                 {
                     TraceResult tr = g_Utility.GetGlobalTrace();
-                    NetworkMessage ricochet( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, attacker.edict() );
-                    ricochet.WriteByte( TE_ARMOR_RICOCHET );
-                    ricochet.WriteCoord( tr.vecEndPos.x );
-                    ricochet.WriteCoord( tr.vecEndPos.y );
-                    ricochet.WriteCoord( tr.vecEndPos.z );
-                    ricochet.WriteByte( 10 ); // scale in 0.1's
-                    ricochet.End();
+
+                    NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, attacker.edict() );
+                        m.WriteByte( TE_ARMOR_RICOCHET );
+                        m.WriteCoord( tr.vecEndPos.x );
+                        m.WriteCoord( tr.vecEndPos.y );
+                        m.WriteCoord( tr.vecEndPos.z );
+                        m.WriteByte( 10 ); // scale in 0.1's
+                    m.End();
                 }
                 break;
             }
             case HITGROUP_CHEST:
             case HITGROUP_STOMACH:
             {
-                if( this.m_CanisterStrayChance == 100 || ( this.m_CanisterStrayChance > 0 && Math.RandomLong( 1, 100 ) <= this.m_CanisterStrayChance ) )
+                if( this.stray == 100 || ( this.stray > 0 && Math.RandomLong( 1, 100 ) <= this.stray ) )
                     ShouldHandleDamage = true;
                 break;
             }
@@ -145,16 +158,17 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
 
         if( !data.get( "canister_hp", canisterHealth ) )
         {
-            data[ "canister_hp" ] = canisterHealth = this.m_CanisterHealth;
+            data[ "canister_hp" ] = canisterHealth = this.health;
         }
 
         data[ "canister_hp" ] = canisterHealth = ( canisterHealth - int( info.flDamage ) );
 
         if( canisterHealth <= 0 )
         {
-            EntityThink( 0, victim, victim );
+            Vector vecOrigin;
+            victim.GetAttachment( 1, vecOrigin, void );
             victim.Killed( ( attacker !is null ? attacker.pev : null ), GIB_ALWAYS );
-            this.Remove( victim );
+            g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, victim.edict(), this.explosion, true );
         }
     }
 
@@ -169,19 +183,27 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
 
         if( !data.get( "canister_hp", canisterHealth ) )
         {
-            data[ "canister_hp" ] = canisterHealth = this.m_CanisterHealth;
+            data[ "canister_hp" ] = canisterHealth = this.health;
         }
 
         Vector vecOrigin;
 
-        if( Math.RandomLong( 0, this.m_CanisterHealth ) > canisterHealth )
+        if( canisterHealth <= 0 )
         {
-            if( this.m_CanisterDegrade > 0 )
+            monster.GetAttachment( 1, vecOrigin, void );
+            monster.Killed( null, GIB_ALWAYS );
+            g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, monster.edict(), this.explosion, true );
+            return EntityOverridenAction::Remove;
+        }
+
+        if( Math.RandomLong( 0, this.health ) > canisterHealth )
+        {
+            if( this.degrade > 0 )
             {
-                data[ "canister_hp" ] = canisterHealth = ( canisterHealth - m_CanisterDegrade );
+                data[ "canister_hp" ] = canisterHealth - degrade;
             }
 
-            monster.GetAttachment( 0, vecOrigin, void );
+            monster.GetAttachment( 1, vecOrigin, void );
 
             NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
                 m.WriteByte( TE_SPRITE );
@@ -192,21 +214,6 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
                 m.WriteByte( 3 );   // scale * 10
                 m.WriteByte( 128 ); // brightness
             m.End();
-        }
-
-        if( canisterHealth < 0 )
-        {
-            if( !monster.IsAlive() )
-            {
-                if( vecOrigin == g_vecZero )
-                {
-                    monster.GetAttachment( 0, vecOrigin, void );
-                }
-
-                g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, null, this.m_CanisterDamage, true );
-            }
-
-            return EntityOverridenAction::Remove;
         }
 
         return EntityOverridenAction::None;
