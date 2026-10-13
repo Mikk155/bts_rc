@@ -98,7 +98,7 @@ namespace weapons
 
             if( hasBloodColors.Exists() )
             {
-                NetworkMessage m( MSG_ALL, NetworkMessages::CreateBlood );
+                NetworkMessage m( MSG_PVS, NetworkMessages::CreateBlood, tr.vecEndPos );
                     m.WriteCoord(tr.vecEndPos.x );
                     m.WriteCoord(tr.vecEndPos.y );
                     m.WriteCoord(tr.vecEndPos.z );
