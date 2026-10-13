@@ -100,6 +100,7 @@ final class ASDataTracker : IConfigurable
         DateTime now = DateTime();
         time_t now_unix = now.ToUnixTimestamp();
         this.m_Diff = this.m_Start - now;
+        this.m_Diff.MakeAbsolute();
 
         for( int i = 1; i <= g_Engine.maxClients; i++ )
         {

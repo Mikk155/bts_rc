@@ -1,0 +1,444 @@
+// This file is parsed using json V1 which has a issue with numbers.
+// Variables supposed to be float are required to explicitly set decimals!
+{
+    // Time to take before credits roll out (Uses a fade in and out according to this variable * 2 + (1.0 hold time ))
+    "fadetime": 2.0, // In this example it takes 5 seconds in total with fading but only 4 (fadetime * 2) to fire target (see bellow)
+
+    // Fires this target after the bellow delay.
+    "target": "start_camera",
+    "delay": 2.0,
+
+    // Most variables are stored for the next caption until they are explicitly re-defined.
+    // Only variables that are not stored are "message", "target" and "delay". they're cleared every new entry.
+    // And parameters x, holdtime, y and fadein if scroll is true since they're dynamically updated.
+    "captions":
+    [
+        {
+            // scroll: false means this is a standar game_text style message
+            // The next caption will play after fadein + fadeout + fadehold ends.
+            "scroll": false,
+            // These next variables are used only on non-scroll captions.
+            "x": -1.0,
+            // Remember decimals are important to retrieve "float"
+            "y": -1.0,
+            "fadeintime": 1.0,
+            "fadeouttime": 1.0,
+            "holdtime": 3.0,
+            "fxtime": 1.0,
+            // Except effect it is integer.
+            "effect": 1,
+            "rgb2": [ 0, 255, 0 ],
+            "rgb": [ 0, 255, 0 ],
+            "message": "You passed the simulation\n\n\nthe test at Sector C is going ahead\n\n\nyou return to your work space as advised\n\n\nhowever, the training event, becomes a reality,"
+        },
+        {
+            "rgb": [ 255, 0, 0 ],
+            "message": "The Resonance Cascades scale however is revealed\n\n\nThe entire planet is in a battle against alien fauna\n\n\nPortal Storms surround the planet that end up attracting\n\n\nSomething far worse than the Xen Invasion."
+        },
+        {
+            // scroll: true means this and the next three captions will scroll in screen from down to top.
+            // When this caption has a screen difference of 0.3 Y it launchs a new caption upt to 4 in screen (channel limitation)
+            // When this caption is out of screen a new caption is launched and so on.
+            // Unless scroll: false is read again in that case it will launch once all scrolling captions are out of screen.
+            "scroll": true,
+            "scroll_rate": 0.005,
+            "scroll_think": 0.05,
+            "rgb": [ 255, 0, 0 ],
+            // Think rate for scrolling messages.
+            // This takes effect when the caption first pops up and will be overrided with another caption's think rate (if defined) when they pop up.
+            // This entity is triggered when this caption is first displayed
+            "target": "First trigger_camera targetname",
+            // Delay to trigger the above entity.
+            "delay": 0.5,
+            "message": "Project and Map Creator RaptorSKA"
+        },
+        {
+            "scroll_think": 0.03,
+            "rgb": [ 128, 0, 128 ],
+            "target": "Second trigger_camera targetname",
+            "message": "Lead Scripting Mikk115"
+        },
+        {
+            "scroll_think": 0.001,
+            "target": "Another entity to fire when arase pop up",
+            "rgb": [ 0, 255, 0 ],
+            "message": "Weapons: Arasefiq"
+        },
+        {
+            "message": "Weapons: Rizulix"
+        },
+        {
+            "message": "Weapons: Mad"
+        },
+        {
+            "message": "Weapons: Mikk155"
+        },
+        {
+            "message": "Player Models: SV BOY"
+        },
+        {
+            "message": "Map scripts: Mikk155"
+        },
+        {
+            "message": "Map scripts: Mad"
+        },
+        {
+            "message": "Map scripts: Gaftherman"
+        },
+        {
+            "message": "Map scripts: Rizulix"
+        },
+        {
+            "message": "Custom Zombies"
+        },
+        {
+            "message": "Custom Opsrey"
+        },
+        {
+            "message": "Custom Enforcer"
+        },
+        {
+            "message": "Created by:"
+        },
+        {
+            "message": "Gauna"
+        },
+        {
+            "message": "Player Sounds:"
+        },
+        {
+            "message": "Arasefiq"
+        },
+        {
+            "message": "Mikk115"
+        },
+        {
+            "message": "Solokiller"
+        },
+        {
+            "message": "Custom Headcrab Detachment:"
+        },
+        {
+            "message": "Mikk115"
+        },
+        {
+            "message": "TEXHAPb!!!"
+        },
+        {
+            "message": "gamit"
+        },
+        {
+            "message": "Custom NPCs:"
+        },
+        {
+            "message": "Gauna"
+        },
+        {
+            "message": "Nero"
+        },
+        {
+            "message": "Map Testers:"
+        },
+        {
+            "message": "Adambean"
+        },
+        {
+            "message": "Arasefiq"
+        },
+        {
+            "message": "Big Boi"
+        },
+        {
+            "message": "Darekstar"
+        },
+        {
+            "message": "Defer"
+        },
+        {
+            "message": "Erty"
+        },
+        {
+            "message": "FaLco"
+        },
+        {
+            "message": "Faravid"
+        },
+        {
+            "message": "Gauna"
+        },
+        {
+            "message": "Map Testers:"
+        },
+        {
+            "message": "Grunt"
+        },
+        {
+            "message": "Hondrid"
+        },
+        {
+            "message": "JPolito"
+        },
+        {
+            "message": "Killer Da Nub"
+        },
+        {
+            "message": "Kerncore"
+        },
+        {
+            "message": "Kezaeiv"
+        },
+        {
+            "message": "Meryilla"
+        },
+        {
+            "message": "MrFailz"
+        },
+        {
+            "message": "Ooleg"
+        },
+        {
+            "message": "Entity and Scripting Support:"
+        },
+        {
+            "message": "Erty"
+        },
+        {
+            "message": "Grunt"
+        },
+        {
+            "message": "H2"
+        },
+        {
+            "message": "Hondrid"
+        },
+        {
+            "message": "Mikk155"
+        },
+        {
+            "message": "Sparks"
+        },
+        {
+            "message": "Soctom"
+        },
+        {
+            "message": "Solokiller"
+        },
+        {
+            "message": "SV BOY"
+        },
+        {
+            "message": "Trempler"
+        },
+        {
+            "message": "Additional Scripting:"
+        },
+        {
+            "message": "Arasefiq"
+        },
+        {
+            "message": "Erty"
+        },
+        {
+            "message": "Gaftherman"
+        },
+        {
+            "message": "Hondrid"
+        },
+        {
+            "message": "Kerncore"
+        },
+        {
+            "message": "Mikk155"
+        },
+        {
+            "message": "Nero"
+        },
+        {
+            "message": "Rizulix"
+        },
+        {
+            "message": "Sounds by"
+        },
+        {
+            "message": "RaptorSKA"
+        },
+        {
+            "message": "Valve"
+        },
+        {
+            "message": "Gearbox"
+        },
+        {
+            "message": "Freesounds.com"
+        },
+        {
+            "message": "Music by"
+        },
+        {
+            "message": "Four-Nines"
+        },
+        {
+            "message": "Shiek Yerbouti"
+        },
+        {
+            "message": "Custom Models:"
+        },
+        {
+            "message": "DAVLevels"
+        },
+        {
+            "message": "Freeslave"
+        },
+        {
+            "message": "Gauna"
+        },
+        {
+            "message": "KernCore"
+        },
+        {
+            "message": "MTB"
+        },
+        {
+            "message": "Ryor"
+        },
+        {
+            "message": "SV BOY"
+        },
+        {
+            "message": "TEXHAPb!!!"
+        },
+        {
+            "message": "the303"
+        },
+        {
+            "message": "gamit"
+        },
+        {
+            "message": "Custom Model Rigs:"
+        },
+        {
+            "message": "Arasefiq"
+        },
+        {
+            "message": "MiroSklenar"
+        },
+        {
+            "message": "HAPE B"
+        },
+        {
+            "message": "Ixnay"
+        },
+        {
+            "message": "Organic700"
+        },
+        {
+            "message": "RaptorSKA"
+        },
+        {
+            "message": "SV BOY"
+        },
+        {
+            "message": "Sprites by"
+        },
+        {
+            "message": "Vika"
+        },
+        {
+            "message": "Valve"
+        },
+        {
+            "message": "Gearbox"
+        },
+        {
+            "message": "Sven co-op team"
+        },
+        {
+            "message": "KEZAEIV"
+        },
+        {
+            "message": "TEXHAPb!!!"
+        },
+        {
+            "message": "FaLco"
+        },
+        {
+            "message": "SV BOY"
+        },
+        {
+            "message": "RaptorSKA"
+        },
+        {
+            "message": "Textures:"
+        },
+        {
+            "message": "MrFloyd"
+        },
+        {
+            "message": "RaptorSKA"
+        },
+        {
+            "message": "Valve"
+        },
+        {
+            "message": "Gearbox"
+        },
+        {
+            "message": "Original Models:"
+        },
+        {
+            "message": "Valve"
+        },
+        {
+            "message": "Gearbox"
+        },
+        {
+            "message": "Voice Actors:"
+        },
+        {
+            "message": "Forgotten"
+        },
+        {
+            "message": "JPolito"
+        },
+        {
+            "message": "Michi"
+        },
+        {
+            "message": "Ooleg"
+        },
+        {
+            "message": "PJC_"
+        },
+        {
+            "message": "Skillbreed"
+        },
+        {
+            "message": "TheMrFailz"
+        },
+        {
+            "message": "YoMustDie"
+        },
+        {
+            "message": "Zasli"
+        },
+        {
+            "message": "Map Testers:"
+        },
+        {
+            "message": "Map Roulette"
+        },
+        {
+            "message": "Sbmesh Community"
+        },
+        {
+            "message": "Rebels Pub Community"
+        },
+        {
+            "scroll": false,
+            "message": "This map was created\nduring the most difficult times\nin my life. My Wife had a near\nfatal experience involving a tumour.\nThis project, has been my cope.\nShe is now very well, and out of danger."
+        },
+        {
+            "message": "Blackmesa Training Simulation\nResonance Cascade\nwas not possible, without\nNot just the Sven Co-op Community\nBut Goldsource as a whole.\nI can't thank everybody who has\ncontributed to the project enough\n\n\nThank you for playing."
+        }
+    ]
+}
