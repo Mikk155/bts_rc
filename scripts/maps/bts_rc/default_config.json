@@ -2302,6 +2302,7 @@
         "subsequent_hits_deduction": 0.5
     },
     "weapon_bts_eagle": {
+		"name": ".357 Desert Eagle",
         "deploy_time": 1.0,
         "laser_accuracy": 3.0,
         "laser_cooldown": 2.0,
@@ -2410,7 +2411,7 @@
             "stand": 0.03,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.15,
         "primary_damage": 15,
         "primary_dropammo": 17,
         "primary_kickback": {
@@ -2418,7 +2419,7 @@
             "stand_trained": 2.0
         },
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.1,
+        "primary_trained_cooldown": 0.15,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -2428,8 +2429,8 @@
             "stand": 0.2,
             "stand_trained": 0.1
         },
-        "secondary_cooldown": 0.3,
-        "secondary_trained_cooldown": 0.3,
+        "secondary_cooldown": 0.1,
+        "secondary_trained_cooldown": 0.1,
         "slot": 1,
         "weight": 10
     },
@@ -2444,7 +2445,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.15,
         "primary_damage": 15,
         "primary_dropammo": 17,
         "primary_kickback": {
@@ -2452,7 +2453,7 @@
             "stand_trained": 2.0
         },
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.1,
+        "primary_trained_cooldown": 0.15,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -2479,7 +2480,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.5,
         "primary_damage": 15,
         "primary_dropammo": 19,
         "primary_kickback": {
@@ -2491,7 +2492,7 @@
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
-        "secondary_cooldown": 0.5,
+        "secondary_cooldown": 0.08,
         "secondary_kickback": {
             "stand": 6.0,
             "stand_trained": 4.0
@@ -2514,7 +2515,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.15,
         "primary_damage": 16,
         "primary_dropammo": 17,
         "primary_kickback": {
@@ -2522,7 +2523,7 @@
             "stand_trained": 2.0
         },
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.1,
+        "primary_trained_cooldown": 0.15,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -2537,7 +2538,7 @@
         "max_clip": -1,
         "position": 6,
         "primary_damage": 130,
-        "primary_distance": 500,
+        "primary_distance": 900,
         "primary_dropammo": 1,
         "primary_maxammo": 10,
         "secondary_cooldown": 0.8,
@@ -2580,7 +2581,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.12,
         "primary_damage": 23,
         "primary_dropammo": 30,
         "primary_kickback": {
@@ -2590,7 +2591,7 @@
             "stand_trained": 2.75
         },
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.1,
+        "primary_trained_cooldown": 0.12,
         "reload_anim": 6,
         "reload_empty_anim": 6,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -2618,11 +2619,11 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.12,
         "primary_damage": 24,
         "primary_dropammo": 20,
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.1,
+        "primary_trained_cooldown": 0.12,
         "reload_anim": 6,
         "reload_empty_anim": 6,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
