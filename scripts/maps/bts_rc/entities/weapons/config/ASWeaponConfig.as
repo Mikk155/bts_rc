@@ -17,6 +17,10 @@
 
 bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfig",
 """{
+    "name":
+    {
+        "type": "string"
+    },
     "primary_maxammo":
     {
         "type": "integer"
@@ -297,6 +301,9 @@ abstract class ASWeaponConfig : IConfigurable
         return this.m_view_model_index;
     }
 
+    // Weapon display name
+    string name;
+
     // Weapon deploy time cooldown for attacking. automatically set in BTS_Weapon::Deploy
     float deploy_time = 1.0f;
     // Weapon primary max ammo capacity. automatically set in BTS_Weapon::GetItemInfo
@@ -451,6 +458,8 @@ abstract class ASWeaponConfig : IConfigurable
 
     bool Register( btson@ config ) override
     {
+        this.name = config.ValueOrDefault( "name", this.GetName(), false, false );
+
         this.primary_maxammo = config.ValueOrDefault( "primary_maxammo", this.primary_maxammo, false, false );
 
         this.secondary_maxammo = config.ValueOrDefault( "secondary_maxammo", this.secondary_maxammo, false, false );
@@ -608,7 +617,37 @@ abstract class ASWeaponConfig : IConfigurable
     }
 
     // Called when the weapon is deployed. this is too late!
-    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+    void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
+    {
+        if( g_WeaponsConfig.display_weapon_info )
+        {
+            string notify;
+            snprintf( notify, "Equiped %1 (%2)\n", this.name, this.GetName() );
+
+            HUDTextParams params;
+
+            params.x = -1;
+            params.effect = 0;
+            params.r1 = RGBA_SVENCOOP.r;
+            params.g1 = RGBA_SVENCOOP.g;
+            params.b1 = RGBA_SVENCOOP.b;
+            params.a1 = 0;
+            params.r2 = RGBA_SVENCOOP.r;
+            params.g2 = RGBA_SVENCOOP.g;
+            params.b2 = RGBA_SVENCOOP.b;
+            params.a2 = 0;
+            params.fadeinTime = 0;
+            params.fadeoutTime = 0.25;
+            params.fxTime = 0;
+            params.holdTime = 2;
+            params.channel = 3;
+            params.y = 0.90;
+
+            g_PlayerFuncs.HudMessage( player, params, notify );
+            g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, notify );
+        }
+    }
+
     // Called just before WeaponDeploy at this class
     void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of PrimaryAttack

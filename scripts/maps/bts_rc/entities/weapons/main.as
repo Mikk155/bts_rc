@@ -94,6 +94,7 @@ const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWI
 
 final class ASGlobalWeaponConfig : IConfigurable
 {
+    bool display_weapon_info;
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
     bool infinite_ammo;
@@ -119,6 +120,11 @@ final class ASGlobalWeaponConfig : IConfigurable
             "description": "Global weapon-related gameplay modifiers.",
             "properties":
             {
+                "display_weapon_info":
+                {
+                    "type": "boolean",
+                    "description": "Display on HUD weapon name & classname when deploy"
+                },
                 "melee_weapons_pull":
                 {
                     "type": "boolean",
@@ -208,6 +214,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 
     bool Register( btson@ config ) override
     {
+        this.display_weapon_info = bool( config[ "display_weapon_info" ] );
         this.melee_weapons_pull = bool( config[ "melee_weapons_pull" ] );
         this.melee_weapons_pull_force = int( config[ "melee_weapons_pull_force" ] );
         this.melee_weapons_push = bool( config[ "melee_weapons_push" ] );
