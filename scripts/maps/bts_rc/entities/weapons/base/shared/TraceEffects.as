@@ -18,16 +18,11 @@
 namespace weapons
 {
     // Play effects
-    void TraceEffects( CBasePlayerWeapon@ weapon, CBasePlayer@ player, ASWeaponConfig@ config, TraceResult &in tr )
+    void TraceEffects( CBaseEntity@ hit, Vector&in pos, int hitgroup )
     {
-        CBaseEntity@ hit = null;
         CBaseMonster@ monster = null;
 
-        if( !FreeEdicts( 5 )
-        || !g_EntityFuncs.IsValidEntity( tr.pHit )
-        || ( @hit = g_EntityFuncs.Instance( tr.pHit ) ) is null
-        || !hit.IsMonster()
-        || ( @monster = cast<CBaseMonster@>(hit) ) is null )
+        if( !FreeEdicts( 5 ) || hit is null || !hit.IsMonster() || ( @monster = cast<CBaseMonster@>(hit) ) is null )
             return;
 
         dictionary@ data = hit.GetUserData();
@@ -42,20 +37,20 @@ namespace weapons
             {
                 switch( Math.RandomLong( 0, 2 ) )
                 {
-                    case 0: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/hblood_1.spr", tr.vecEndPos, true ); break;
-                    case 1: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/hblood_2.spr", tr.vecEndPos, true ); break;
-                    case 2: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/hblood_3.spr", tr.vecEndPos, true ); break;
+                    case 0: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/hblood_1.spr", pos, true ); break;
+                    case 1: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/hblood_2.spr", pos, true ); break;
+                    case 2: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/hblood_3.spr", pos, true ); break;
                 }
             }
             else if( monster.m_bloodColor == BLOOD_COLOR_GREEN || monster.m_bloodColor == BLOOD_COLOR_YELLOW )
             {
                 switch( Math.RandomLong( 0, 4 ) )
                 {
-                    case 0: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_1.spr", tr.vecEndPos, true ); break;
-                    case 1: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_2.spr", tr.vecEndPos, true ); break;
-                    case 2: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_3.spr", tr.vecEndPos, true ); break;
-                    case 3: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_4.spr", tr.vecEndPos, true ); break;
-                    case 4: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_5.spr", tr.vecEndPos, true ); break;
+                    case 0: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_1.spr", pos, true ); break;
+                    case 1: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_2.spr", pos, true ); break;
+                    case 2: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_3.spr", pos, true ); break;
+                    case 3: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_4.spr", pos, true ); break;
+                    case 4: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_5.spr", pos, true ); break;
                 }
             }
 
@@ -73,9 +68,9 @@ namespace weapons
         if( hasBloodColors.Exists() )
         {
             NetworkMessage m( MSG_ALL, NetworkMessages::CreateBlood );
-                m.WriteCoord(tr.vecEndPos.x );
-                m.WriteCoord(tr.vecEndPos.y );
-                m.WriteCoord(tr.vecEndPos.z );
+                m.WriteCoord(pos.x );
+                m.WriteCoord(pos.y );
+                m.WriteCoord(pos.z );
                 m.WriteByte( hasBloodColors.GetInteger() ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
                 m.WriteByte( Math.clamp( 0, 255, damageTaken ) ); // Count
             m.End();
@@ -95,9 +90,7 @@ namespace weapons
                     sparksColor = -1;
                 }
 
-                auto hasSparksBodyGroup = ckv.GetKeyvalue( "$i_spark_hitgroup" );
-
-                if( hasSparksBodyGroup.Exists() && hasSparksBodyGroup.GetInteger() != tr.iHitgroup )
+                if( ckv.HasKeyvalue( "$i_spark_hitgroup" ) && hitgroup != ckv.GetKeyvalue( "$i_spark_hitgroup" ).GetInteger() )
                 {
                     sparksColor = -1;
                 }
@@ -114,11 +107,11 @@ namespace weapons
                     }
 
                     {
-                        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
+                        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pos );
                             m.WriteByte( TE_STREAK_SPLASH );
-                            m.WriteCoord( tr.vecEndPos.x );
-                            m.WriteCoord( tr.vecEndPos.y );
-                            m.WriteCoord( tr.vecEndPos.z );
+                            m.WriteCoord( pos.x );
+                            m.WriteCoord( pos.y );
+                            m.WriteCoord( pos.z );
                             m.WriteCoord( 0 );
                             m.WriteCoord( 0 );
                             m.WriteCoord( g_Engine.v_forward.z );
@@ -130,11 +123,11 @@ namespace weapons
                     }
 
                     {
-                        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, tr.vecEndPos );
+                        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pos );
                             m.WriteByte( TE_DLIGHT );
-                            m.WriteCoord( tr.vecEndPos.x );
-                            m.WriteCoord( tr.vecEndPos.y );
-                            m.WriteCoord( tr.vecEndPos.z );
+                            m.WriteCoord( pos.x );
+                            m.WriteCoord( pos.y );
+                            m.WriteCoord( pos.z );
                             m.WriteByte( 5 );   // radius
                             m.WriteByte( 150 ); // R
                             m.WriteByte( 100 ); // G
@@ -144,8 +137,8 @@ namespace weapons
                         m.End();
                     }
 
-                    g_Utility.Sparks( tr.vecEndPos );
-                    g_Utility.Ricochet( tr.vecEndPos, Math.RandomFloat( 0.5, 1.5 ) );
+                    g_Utility.Sparks( pos );
+                    g_Utility.Ricochet( pos, Math.RandomFloat( 0.5, 1.5 ) );
                 }
             }
         }
@@ -165,7 +158,7 @@ void __TraceEffects_Blood__( float x, float y, float z, int color, int range, in
         m.WriteByte( range ); // Count
     m.End();
 
-    g_Scheduler.SetTimeout( "__TraceEffects_Blood__", 0.5f, x, y, z, color, range, repeats );
+    g_Scheduler.SetTimeout( "__TraceEffects_Blood__", 0.5f, x, y, z, color, range, repeats ); // disable-line E118
 }
 
 ASCommand __TraceEffects_Blood_cmd__(
@@ -190,5 +183,50 @@ ASCommand __TraceEffects_Blood_cmd__(
         g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Playing blood color " + color + " with amount " + range + '\n' );
 
         __TraceEffects_Blood__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, range, 10 );
+    }, true, "fx"
+);
+
+void __TraceEffects_Sparks__( float x, float y, float z, int color, int repeats )
+{
+    if( --repeats < 0 )
+        return;
+
+    NetworkMessage m( MSG_ALL, NetworkMessages::SVC_TEMPENTITY );
+        m.WriteByte( TE_STREAK_SPLASH );
+        m.WriteCoord( x );
+        m.WriteCoord( y );
+        m.WriteCoord( z );
+        m.WriteCoord( 0 );
+        m.WriteCoord( 0 );
+        m.WriteCoord( g_Engine.v_forward.z );
+        m.WriteByte( color );
+        m.WriteShort( 30 );          // Count
+        m.WriteShort( 128 );         // Base speed
+        m.WriteShort( 100 );         // Random velocity
+    m.End();
+
+    g_Scheduler.SetTimeout( "__TraceEffects_Sparks__", 0.5f, x, y, z, color, repeats ); // disable-line E118
+}
+ASCommand __TraceEffects_Sparks_cmd__(
+    "blood",
+    "<0/255 color ranges> <0/255 particle amount (optional)>",
+    "Spawn blood particles",
+    function( CBasePlayer@ player, array<string>@ arguments )
+    {
+        if( arguments is null )
+            arguments = { 0 };
+
+        while( arguments.length() < 1 )
+            arguments.insertLast( 0 );
+
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
+
+        int color = Math.clamp( 0, 11, atoi( arguments[0] ) );
+
+        g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Playing sparks color " + color + '\n' );
+
+        __TraceEffects_Sparks__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, 10 );
     }, true, "fx"
 );

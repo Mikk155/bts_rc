@@ -502,7 +502,7 @@ final class ASBullet
             tr = g_Utility.GetGlobalTrace();
         }
 
-        weapons::TraceEffects( this.m_WeaponEntity, this.m_Player, this.m_Config, tr );
+        weapons::TraceEffects( g_EntityFuncs.Instance( tr.pHit ), tr.vecEndPos, tr.iHitgroup );
 
         // -TODO Move these to build-pattern option when silencer weapons are made
         CSoundEnt@ sound = GetSoundEntInstance();

@@ -211,11 +211,6 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         }
     }
 
-    void TraceEffects( TraceResult &in tr )
-    {
-        weapons::TraceEffects( self, this.owner, this.config, tr );
-    }
-
     protected uint8 __last_random__ = 0;
 
     // Get a random number between 0 and max. if RandomUint was called before the result will be stored in __last_random__ to avoid repeating the same number in a row

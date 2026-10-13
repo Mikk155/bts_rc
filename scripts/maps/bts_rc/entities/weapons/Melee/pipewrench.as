@@ -194,7 +194,7 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
         this.SetCooldown( is_trained_personal, miss, type );
 
         if( !miss )
-            TraceEffects(tr);
+            weapons::TraceEffects( g_EntityFuncs.Instance( tr.pHit ), tr.vecEndPos, tr.iHitgroup );
     }
 
     float Idle() override

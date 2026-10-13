@@ -146,7 +146,7 @@ final class weapon_bts_axe : BTS_MeleeWeapon
         }
         else
         {
-            TraceEffects(tr);
+            weapons::TraceEffects( g_EntityFuncs.Instance( tr.pHit ), tr.vecEndPos, tr.iHitgroup );
 
             if( this.IsFlesh(hit) )
             {

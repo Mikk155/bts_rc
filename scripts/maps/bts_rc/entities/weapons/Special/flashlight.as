@@ -153,7 +153,7 @@ final class weapon_bts_flashlight : BTS_MeleeWeapon
             return;
         }
 
-        TraceEffects(tr);
+        weapons::TraceEffects( g_EntityFuncs.Instance( tr.pHit ), tr.vecEndPos, tr.iHitgroup );
 
         if( this.IsFlesh( hit ) )
         {
