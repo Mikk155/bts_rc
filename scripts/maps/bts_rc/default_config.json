@@ -2304,7 +2304,7 @@
     },
     "weapon_bts_flare": {
         "deploy_time": 0.75,
-        "flare_burn_damage": 1.0,
+        "flare_burn_damage": 1,
         "flare_burn_time": 1.0,
         "flare_damage": 35,
         "flare_duration": 120,
