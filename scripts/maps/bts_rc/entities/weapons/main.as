@@ -237,6 +237,12 @@ final class ASGlobalWeaponConfig : IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
+
+            if( !g_IsMainMap )
+            {
+                this.display_weapon_info = true;
+            }
+
             CustomKeyValues::Register( "$i_spark_color" );
             CustomKeyValues::Register( "$i_spark_hitgroup" );
             CustomKeyValues::Register( "$i_bloodcolor" );

@@ -289,6 +289,14 @@ final class CLogger : IConfigurable
         this.info.SetLevel( bool( config[ "info" ] ) );
         this.warning.SetLevel( bool( config[ "warning" ] ) );
 
+        if( !g_IsMainMap && g_MapConfig.MapLoading )
+        {
+            this.trace.SetLevel( true );
+            this.debug.SetLevel( true );
+            this.info.SetLevel( true );
+            this.warning.SetLevel( true );
+        }
+
         Logger::gpWriteFile = bool( config[ "file" ] );
 
         if( Logger::gpWriteFile )

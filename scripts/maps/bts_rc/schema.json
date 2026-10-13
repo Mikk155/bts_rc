@@ -57,7 +57,7 @@
 					{
 						"type": "boolean",
 						"description": "Track important inventory items and expose the inventory status display.",
-						"default": false
+						"default": true
 					},
 					"battery_lighting": 
 					{
@@ -76,6 +76,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Crowbar",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.4,
@@ -460,6 +465,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Screwdriver",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.3,
@@ -841,6 +851,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Pool cue",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.5,
@@ -1228,6 +1243,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Pipe wrench",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -1611,6 +1631,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Broken Pipe",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.7,
@@ -1998,6 +2023,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Combat knife",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -2385,6 +2415,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Fire axe",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.7,
@@ -2771,6 +2806,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Broom",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -3151,6 +3191,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Engineer Wrench",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.5,
@@ -3531,6 +3576,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Beretta M9",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -3957,6 +4007,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": ".357 Desert Eagle",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -4377,6 +4432,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Glock 17",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.45,
@@ -4441,7 +4501,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.15,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -4511,7 +4571,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.15,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -4578,12 +4638,12 @@
 					},
 					"secondary_cooldown": 
 					{
-						"default": 0.3,
+						"default": 0.1,
 						"type": "number"
 					},
 					"secondary_trained_cooldown": 
 					{
-						"default": 0.3,
+						"default": 0.1,
 						"type": "number"
 					},
 					"slot": 
@@ -4781,6 +4841,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Glock 17 with Flashlight",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -4845,7 +4910,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.15,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -4915,7 +4980,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.15,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -5207,6 +5272,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Glock 18",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -5271,7 +5341,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.5,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -5361,7 +5431,7 @@
 					},
 					"secondary_cooldown": 
 					{
-						"default": 0.5,
+						"default": 0.08,
 						"type": "number"
 					},
 					"secondary_kickback": 
@@ -5609,6 +5679,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Glock 17 Special",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -5697,7 +5772,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.15,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -5767,7 +5842,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.15,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -6030,6 +6105,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "S&W 637",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -6422,6 +6502,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": ".357 Colt Python",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -6841,6 +6926,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "H&K MP5A3",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -7239,6 +7329,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "H&K MP5A3 with M203",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -7649,6 +7744,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Mini-Uzi",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1.275,
@@ -8046,6 +8146,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Mini-Uzi Suppressed",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1.1,
@@ -8436,6 +8541,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M4A1",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1.2,
@@ -8835,6 +8945,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M4A1 Suppressed",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1.2,
@@ -9234,6 +9349,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M16A2 with M203",
+						"type": "string"
+					},
 					"automatic_accuracy_multiplier": 
 					{
 						"default": 2.5,
@@ -9307,7 +9427,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.12,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -9379,7 +9499,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.12,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -9642,6 +9762,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M16A2 Suppressed with M203",
+						"type": "string"
+					},
 					"automatic_accuracy_multiplier": 
 					{
 						"default": 2.5,
@@ -9715,7 +9840,7 @@
 					},
 					"primary_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.12,
 						"type": "number"
 					},
 					"primary_damage": 
@@ -9735,7 +9860,7 @@
 					},
 					"primary_trained_cooldown": 
 					{
-						"default": 0.1,
+						"default": 0.12,
 						"type": "number"
 					},
 					"reload_anim": 
@@ -10043,6 +10168,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M40A1 with NVS",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -10469,6 +10599,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Spas-12 Special",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -10871,6 +11006,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Mossberg 500",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.6,
@@ -11291,6 +11431,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M249",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -11691,6 +11836,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M249 Suppressed",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
@@ -12091,6 +12241,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "M79 Grenade launcher",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1.03,
@@ -12486,6 +12641,11 @@
 						"type": "string",
 						"description": "Crossbow crosshair",
 						"default": "[- . -]\n|\n. | .\n|\n--: | :--\n|\n--.-- | --.--\n|\n--- . --- | --- . ---"
+					},
+					"name": 
+					{
+						"default": "Crossbow with NVS",
+						"type": "string"
 					},
 					"deploy_time": 
 					{
@@ -12895,6 +13055,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Hand grenade",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.66,
@@ -12917,7 +13082,7 @@
 					},
 					"primary_distance": 
 					{
-						"default": 500,
+						"default": 900,
 						"type": "number"
 					},
 					"primary_dropammo": 
@@ -13277,6 +13442,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Flamethrower",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.7,
@@ -13657,10 +13827,51 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Emergency Flare",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.75,
 						"type": "number"
+					},
+					"flare_burn_damage": 
+					{
+						"default": 1,
+						"type": "integer",
+						"minimum": 0,
+						"description": "Flare damage when burning enemies"
+					},
+					"flare_burn_time": 
+					{
+						"default": 1,
+						"type": "number",
+						"minimum": 0.1,
+						"description": "Flare duration when burning enemies"
+					},
+					"flare_damage": 
+					{
+						"default": 35,
+						"type": "integer",
+						"minimum": 0,
+						"description": "Flare damage hitting enemies"
+					},
+					"flare_duration": 
+					{
+						"default": 120,
+						"type": "integer",
+						"minimum": 1,
+						"description": "Flare duration"
+					},
+					"flare_gravity": 
+					{
+						"default": 0.5,
+						"type": "number",
+						"minimum": 0,
+						"maximum": 1,
+						"description": "Flare gravity"
 					},
 					"max_clip": 
 					{
@@ -13675,6 +13886,11 @@
 					"primary_damage": 
 					{
 						"default": 1,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 750,
 						"type": "number"
 					},
 					"primary_dropammo": 
@@ -13711,47 +13927,6 @@
 					{
 						"default": 5,
 						"type": "integer"
-					},
-					"flare_duration": 
-					{
-						"default": 120,
-						"type": "integer",
-						"minimum": 1,
-						"description": "Flare duration"
-					},
-					"flare_gravity": 
-					{
-						"default": 0.5,
-						"type": "number",
-						"minimum": 0,
-						"maximum": 1,
-						"description": "Flare gravity"
-					},
-					"flare_damage": 
-					{
-						"default": 35,
-						"type": "integer",
-						"minimum": 0,
-						"description": "Flare damage hitting enemies"
-					},
-					"flare_burn_damage": 
-					{
-						"default": 1,
-						"type": "integer",
-						"minimum": 0,
-						"description": "Flare damage when burning enemies"
-					},
-					"primary_distance": 
-					{
-						"default": 750,
-						"type": "number"
-					},
-					"flare_burn_time": 
-					{
-						"default": 1,
-						"type": "number",
-						"minimum": 0.1,
-						"description": "Flare duration when burning enemies"
 					},
 					"secondary_maxammo": 
 					{
@@ -14075,10 +14250,35 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Flaregun",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 1,
 						"type": "number"
+					},
+					"flare_burn_damage": 
+					{
+						"default": 1
+					},
+					"flare_burn_time": 
+					{
+						"default": 1
+					},
+					"flare_damage": 
+					{
+						"default": 1
+					},
+					"flare_duration": 
+					{
+						"default": 120
+					},
+					"flare_gravity": 
+					{
+						"default": 0.6
 					},
 					"max_clip": 
 					{
@@ -14093,6 +14293,11 @@
 					"primary_damage": 
 					{
 						"default": 35,
+						"type": "number"
+					},
+					"primary_distance": 
+					{
+						"default": 1500,
 						"type": "number"
 					},
 					"primary_dropammo": 
@@ -14124,31 +14329,6 @@
 					{
 						"default": 15,
 						"type": "integer"
-					},
-					"primary_distance": 
-					{
-						"default": 1500,
-						"type": "number"
-					},
-					"flare_duration": 
-					{
-						"default": 120
-					},
-					"flare_gravity": 
-					{
-						"default": 0.6
-					},
-					"flare_damage": 
-					{
-						"default": 1
-					},
-					"flare_burn_damage": 
-					{
-						"default": 1
-					},
-					"flare_burn_time": 
-					{
-						"default": 1
 					},
 					"secondary_maxammo": 
 					{
@@ -14488,6 +14668,11 @@
 					"health_cost": 
 					{
 						"type": "integer"
+					},
+					"name": 
+					{
+						"default": "Medical Defibrilator",
+						"type": "string"
 					},
 					"deploy_time": 
 					{
@@ -14866,6 +15051,11 @@
 				"description": "weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"name": 
+					{
+						"default": "Flashlight",
+						"type": "string"
+					},
 					"deploy_time": 
 					{
 						"default": 0.5,
@@ -15268,6 +15458,12 @@
 				"description": "Global weapon-related gameplay modifiers.",
 				"properties": 
 				{
+					"display_weapon_info": 
+					{
+						"type": "boolean",
+						"description": "Display on HUD weapon name & classname when deploy",
+						"default": true
+					},
 					"melee_weapons_pull": 
 					{
 						"type": "boolean",
@@ -15808,6 +16004,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -15824,6 +16021,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Suit used for protection while going into highly toxic locations.",
 										"display_name": "Blackmesa Cleansuit",
 										"holder_can_drop": "0",
@@ -15848,6 +16046,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -15864,6 +16063,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "HEV SUPPLY FOR: SUIT ARMOR",
 										"display_name": "MK 5 Hazardous Environmental Suit - Experimental",
 										"holder_can_drop": "0",
@@ -15888,6 +16088,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -15905,6 +16106,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
 										"display_name": "Engineers Toolbox",
 										"holder_can_drop": "1",
@@ -15935,6 +16137,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -15952,6 +16155,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
 										"display_name": "Engineers Toolbox",
 										"holder_can_drop": "1",
@@ -15982,6 +16186,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -15999,6 +16204,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
 										"display_name": "Engineers Toolbox",
 										"holder_can_drop": "1",
@@ -16029,6 +16235,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -16046,6 +16253,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
 										"display_name": "Engineers Toolbox",
 										"holder_can_drop": "1",
@@ -16076,6 +16284,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -16093,6 +16302,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
 										"display_name": "Engineers Toolbox",
 										"holder_can_drop": "1",
@@ -16123,6 +16333,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -16140,6 +16351,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
 										"display_name": "Engineers Toolbox",
 										"holder_can_drop": "1",
@@ -16195,6 +16407,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16246,6 +16459,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -16263,6 +16477,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "This Toolbox can be used for Orange Repair Markers (30 SLOTS)",
 										"display_name": "Maintenance Toolbox",
 										"holder_can_drop": "1",
@@ -16409,6 +16624,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Dormatories keycard for room A-106",
 										"display_name": "A-106",
 										"holder_can_drop": "1",
@@ -16531,6 +16747,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16562,6 +16779,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16578,6 +16796,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Maintenance Keycard used for accessing maintenance areas",
 										"display_name": "Maintenance Keycard",
 										"holder_can_drop": "1",
@@ -16595,6 +16814,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16739,6 +16959,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16808,6 +17029,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16836,6 +17058,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16865,6 +17088,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16894,6 +17118,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16923,6 +17148,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16951,6 +17177,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Research Clearance Level 1",
 										"display_name": "Research Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -16979,6 +17206,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -17011,6 +17239,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -17043,6 +17272,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -17076,6 +17306,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -17109,6 +17340,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -17143,6 +17375,7 @@
 									
 									{
 										"classname": "item_inventory",
+										"carried_hidden": "1",
 										"description": "Blackmesa Security Clearance Level 1",
 										"display_name": "Security Keycard lvl 1",
 										"holder_can_drop": "1",
@@ -18366,12 +18599,12 @@
 					{
 						"type": "boolean",
 						"description": "When true the map scripts will keep json schemas in memory and register a command to reload json files run time. useful to test specific changes without restarting the whole map.",
-						"default": false
+						"default": true
 					},
 					"skip_validation": 
 					{
 						"type": "boolean",
-						"description": "Disable this to skip json schema validation. you MUST define everything from default config or exceptions will raise.",
+						"description": "Set true to skip json schema validation and improve loading time. You MUST define everything from default config in here or exceptions WILL raise. You MUST NOT use wrong variables or exceptions WILL raise.",
 						"default": false
 					}
 				}

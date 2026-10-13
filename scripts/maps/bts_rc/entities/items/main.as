@@ -73,6 +73,11 @@ final class ASItemsConfig : IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
+            if( !g_IsMainMap )
+            {
+                this.m_ItemTracking = true;
+            }
+
             CustomEntity( "item_bts_armorvest", true );
             gpDynamicEquipment.SetType( "item_bts_armorvest", DynamicEquipmentType::Armor );
 

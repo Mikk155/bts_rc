@@ -46,6 +46,12 @@ final class ASDataTracker : IConfigurable
     bool Register( btson@ config ) override
     {
         config.Get( "active", this.m_TrackDataActive );
+
+        if( !g_IsMainMap && g_MapConfig.MapLoading )
+        {
+            this.m_TrackDataActive = true;
+        }
+
         return true;
     }
 

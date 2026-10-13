@@ -979,7 +979,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -995,7 +995,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Suit used for protection while going into highly toxic locations.",
                         "display_name": "Blackmesa Cleansuit",
                         "holder_can_drop": "0",
@@ -1016,7 +1016,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1032,7 +1032,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "HEV SUPPLY FOR: SUIT ARMOR",
                         "display_name": "MK 5 Hazardous Environmental Suit - Experimental",
                         "holder_can_drop": "0",
@@ -1053,7 +1053,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1070,7 +1070,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1097,7 +1097,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1114,7 +1114,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1141,7 +1141,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1158,7 +1158,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1185,7 +1185,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1202,7 +1202,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1229,7 +1229,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1246,7 +1246,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1273,7 +1273,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1290,7 +1290,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Yellow and Orange Repair Markers (10 SLOTS)",
                         "display_name": "Engineers Toolbox",
                         "holder_can_drop": "1",
@@ -1338,7 +1338,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1382,7 +1382,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1399,7 +1399,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "This Toolbox can be used for Orange Repair Markers (30 SLOTS)",
                         "display_name": "Maintenance Toolbox",
                         "holder_can_drop": "1",
@@ -1520,7 +1520,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Dormatories keycard for room A-106",
                         "display_name": "A-106",
                         "holder_can_drop": "1",
@@ -1621,7 +1621,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1649,7 +1649,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1665,7 +1665,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Maintenance Keycard used for accessing maintenance areas",
                         "display_name": "Maintenance Keycard",
                         "holder_can_drop": "1",
@@ -1682,7 +1682,7 @@
                     },
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1799,7 +1799,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1859,7 +1859,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1884,7 +1884,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1910,7 +1910,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1936,7 +1936,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1962,7 +1962,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -1987,7 +1987,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Research Clearance Level 1",
                         "display_name": "Research Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2012,7 +2012,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2041,7 +2041,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2070,7 +2070,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2100,7 +2100,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2130,7 +2130,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2161,7 +2161,7 @@
                 "entities": [
                     {
                         "classname": "item_inventory",
-						"carried_hidden": "1",
+                        "carried_hidden": "1",
                         "description": "Blackmesa Security Clearance Level 1",
                         "display_name": "Security Keycard lvl 1",
                         "holder_can_drop": "1",
@@ -2200,7 +2200,7 @@
     },
     "items": {
         "battery_lighting": true,
-        "item_tracking": false
+        "item_tracking": true
     },
     "logger": {
         "debug": true,
@@ -2210,7 +2210,7 @@
         "warning": true
     },
     "map_config": {
-        "allow_reload": false,
+        "allow_reload": true,
         "skip_validation": false
     },
     "monster_panthereye": {
@@ -2235,8 +2235,8 @@
         "speed_rate": 0.35
     },
     "weapon_bts_axe": {
-		"name": "Fire axe",
         "deploy_time": 0.7,
+        "name": "Fire axe",
         "position": 10,
         "primary_cooldown": 0.8,
         "primary_damage": 21,
@@ -2254,9 +2254,9 @@
         "subsequent_hits_deduction": 0.5
     },
     "weapon_bts_beretta": {
-		"name": "Beretta M9",
         "deploy_time": 1.0,
         "max_clip": 15,
+        "name": "Beretta M9",
         "position": 6,
         "primary_accuracy": {
             "crouch": 0.012,
@@ -2289,8 +2289,8 @@
         "weight": 10
     },
     "weapon_bts_broom": {
-		"name": "Broom",
         "deploy_time": 0.6,
+        "name": "Broom",
         "position": 12,
         "primary_cooldown": 0.42,
         "primary_damage": 11,
@@ -2302,12 +2302,12 @@
         "subsequent_hits_deduction": 0.5
     },
     "weapon_bts_eagle": {
-		"name": ".357 Desert Eagle",
         "deploy_time": 1.0,
         "laser_accuracy": 3.0,
         "laser_cooldown": 2.0,
         "laser_size": 0.1,
         "max_clip": 9,
+        "name": ".357 Desert Eagle",
         "position": 9,
         "primary_accuracy": {
             "crouch": 0.02,
@@ -2332,9 +2332,9 @@
         "weight": 10
     },
     "weapon_bts_flamethrower": {
-		"name": "Flamethrower",
         "deploy_time": 0.7,
         "max_clip": -1,
+        "name": "Flamethrower",
         "position": 5,
         "primary_cooldown": 0.1,
         "primary_damage": 18,
@@ -2345,7 +2345,6 @@
         "weight": 30
     },
     "weapon_bts_flare": {
-		"name": "Emergency Flare",
         "deploy_time": 0.75,
         "flare_burn_damage": 1,
         "flare_burn_time": 1.0,
@@ -2353,6 +2352,7 @@
         "flare_duration": 120,
         "flare_gravity": 0.5,
         "max_clip": -1,
+        "name": "Emergency Flare",
         "position": 5,
         "primary_damage": 1,
         "primary_distance": 750,
@@ -2365,7 +2365,6 @@
         "weight": 5
     },
     "weapon_bts_flaregun": {
-		"name": "Flaregun",
         "deploy_time": 1.0,
         "flare_burn_damage": 1.0,
         "flare_burn_time": 1.0,
@@ -2373,6 +2372,7 @@
         "flare_duration": 120,
         "flare_gravity": 0.6,
         "max_clip": 1,
+        "name": "Flaregun",
         "position": 13,
         "primary_damage": 35,
         "primary_distance": 1500,
@@ -2384,11 +2384,11 @@
         "weight": 15
     },
     "weapon_bts_flashlight": {
-		"name": "Flashlight",
         "deploy_time": 0.5,
         "flashlight_ammount": 100,
         "flashlight_drain": 0.8,
         "flashlight_reload": 2.5,
+        "name": "Flashlight",
         "position": 4,
         "primary_cooldown": 0.375,
         "primary_damage": 7,
@@ -2401,9 +2401,9 @@
         "slot": 4
     },
     "weapon_bts_glock": {
-		"name": "Glock 17",
         "deploy_time": 0.45,
         "max_clip": 17,
+        "name": "Glock 17",
         "position": 4,
         "primary_accuracy": {
             "crouch": 0.04,
@@ -2435,9 +2435,9 @@
         "weight": 10
     },
     "weapon_bts_glock17f": {
-		"name": "Glock 17 with Flashlight",
         "deploy_time": 0.6,
         "max_clip": 17,
+        "name": "Glock 17 with Flashlight",
         "position": 7,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2470,9 +2470,9 @@
         "weight": 10
     },
     "weapon_bts_glock18": {
-		"name": "Glock 18",
         "deploy_time": 0.6,
         "max_clip": 19,
+        "name": "Glock 18",
         "position": 10,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2502,12 +2502,12 @@
         "weight": 10
     },
     "weapon_bts_glocksd": {
-		"name": "Glock 17 Special",
         "deploy_time": 0.6,
         "laser_accuracy": 3.0,
         "laser_cooldown": 1.5,
         "laser_size": 0.1,
         "max_clip": 17,
+        "name": "Glock 17 Special",
         "position": 5,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2533,9 +2533,9 @@
         "weight": 10
     },
     "weapon_bts_handgrenade": {
-		"name": "Hand grenade",
         "deploy_time": 0.66,
         "max_clip": -1,
+        "name": "Hand grenade",
         "position": 6,
         "primary_damage": 130,
         "primary_distance": 900,
@@ -2548,8 +2548,8 @@
         "weight": 20
     },
     "weapon_bts_knife": {
-		"name": "Combat knife",
         "deploy_time": 0.6,
+        "name": "Combat knife",
         "position": 11,
         "primary_cooldown": 0.35,
         "primary_damage": 19,
@@ -2568,10 +2568,10 @@
         "weight": 10
     },
     "weapon_bts_m16": {
-		"name": "M16A2 with M203",
         "automatic_accuracy_multiplier": 2.5,
         "deploy_time": 1.0,
         "max_clip": 30,
+        "name": "M16A2 with M203",
         "position": 10,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2606,10 +2606,10 @@
         "weight": 5
     },
     "weapon_bts_m16sd": {
-		"name": "M16A2 Suppressed with M203",
         "automatic_accuracy_multiplier": 2.5,
         "deploy_time": 1.0,
         "max_clip": 20,
+        "name": "M16A2 Suppressed with M203",
         "position": 11,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2638,9 +2638,9 @@
         "weight": 5
     },
     "weapon_bts_m4": {
-		"name": "M4A1",
         "deploy_time": 1.2,
         "max_clip": 30,
+        "name": "M4A1",
         "position": 8,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2668,9 +2668,9 @@
         "weight": 5
     },
     "weapon_bts_m4sd": {
-		"name": "M4A1 Suppressed",
         "deploy_time": 1.2,
         "max_clip": 30,
+        "name": "M4A1 Suppressed",
         "position": 9,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2698,9 +2698,9 @@
         "weight": 5
     },
     "weapon_bts_m79": {
-		"name": "M79 Grenade launcher",
         "deploy_time": 1.03,
         "max_clip": 1,
+        "name": "M79 Grenade launcher",
         "position": 4,
         "primary_cooldown": 1.0,
         "primary_damage": 130.0,
@@ -2713,9 +2713,9 @@
         "weight": 20
     },
     "weapon_bts_mp5": {
-		"name": "H&K MP5A3",
         "deploy_time": 0.6,
         "max_clip": 30,
+        "name": "H&K MP5A3",
         "position": 4,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2742,9 +2742,9 @@
         "weight": 5
     },
     "weapon_bts_mp5gl": {
-		"name": "H&K MP5A3 with M203",
         "deploy_time": 0.6,
         "max_clip": 50,
+        "name": "H&K MP5A3 with M203",
         "position": 5,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2782,8 +2782,8 @@
         "weight": 5
     },
     "weapon_bts_pipe": {
-		"name": "Broken Pipe",
         "deploy_time": 0.7,
+        "name": "Broken Pipe",
         "position": 6,
         "primary_cooldown": 0.75,
         "primary_damage": 18,
@@ -2802,8 +2802,8 @@
         "weight": 10
     },
     "weapon_bts_pipewrench": {
-		"name": "Pipe wrench",
         "deploy_time": 0.6,
+        "name": "Pipe wrench",
         "position": 5,
         "primary_cooldown": 0.75,
         "primary_damage": 17,
@@ -2818,8 +2818,8 @@
         "slot": 0
     },
     "weapon_bts_poolstick": {
-		"name": "Pool cue",
         "deploy_time": 0.5,
+        "name": "Pool cue",
         "position": 7,
         "primary_cooldown": 0.4,
         "primary_damage": 11,
@@ -2838,12 +2838,12 @@
         "weight": 10
     },
     "weapon_bts_python": {
-		"name": ".357 Colt Python",
         "deploy_time": 1.0,
         "laser_accuracy": 3.0,
         "laser_cooldown": 1.5,
         "laser_size": 0.1,
         "max_clip": 6,
+        "name": ".357 Colt Python",
         "position": 8,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2867,9 +2867,9 @@
         "weight": 10
     },
     "weapon_bts_saw": {
-		"name": "M249",
         "deploy_time": 1.0,
         "max_clip": 100,
+        "name": "M249",
         "position": 4,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2898,9 +2898,9 @@
         "weight": 20
     },
     "weapon_bts_sawsd": {
-		"name": "M249 Suppressed",
         "deploy_time": 1.0,
         "max_clip": 100,
+        "name": "M249 Suppressed",
         "position": 5,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -2929,9 +2929,9 @@
         "weight": 20
     },
     "weapon_bts_sbshotgun": {
-		"name": "Mossberg 500",
         "deploy_time": 0.6,
         "max_clip": 6,
+        "name": "Mossberg 500",
         "position": 6,
         "primary_cooldown": 0.85,
         "primary_damage": 16,
@@ -2958,8 +2958,8 @@
         "weight": 15
     },
     "weapon_bts_screwdriver": {
-		"name": "Screwdriver",
         "deploy_time": 0.3,
+        "name": "Screwdriver",
         "position": 8,
         "primary_cooldown": 0.35,
         "primary_damage": 9,
@@ -2972,9 +2972,9 @@
         "weight": 10
     },
     "weapon_bts_shotgun": {
-		"name": "Spas-12 Special",
         "deploy_time": 1.0,
         "max_clip": 8,
+        "name": "Spas-12 Special",
         "position": 7,
         "primary_cooldown": 0.85,
         "primary_damage": 18,
@@ -3003,9 +3003,9 @@
         "weight": 15
     },
     "weapon_bts_sniperrifle": {
-		"name": "M40A1 with NVS",
         "deploy_time": 1.0,
         "max_clip": 5,
+        "name": "M40A1 with NVS",
         "position": 5,
         "primary_accuracy": {
             "crouch": 0.01,
@@ -3039,8 +3039,8 @@
         "weight": 10
     },
     "weapon_bts_spanner": {
-		"name": "Engineer Wrench",
         "deploy_time": 0.5,
+        "name": "Engineer Wrench",
         "position": 11,
         "primary_cooldown": 0.3,
         "primary_damage": 11,
@@ -3052,9 +3052,9 @@
         "subsequent_hits_deduction": 0.5
     },
     "weapon_bts_sw637": {
-		"name": "S&W 637",
         "deploy_time": 1.0,
         "max_clip": 5,
+        "name": "S&W 637",
         "position": 17,
         "primary_accuracy": {
             "crouch": 0.05,
@@ -3075,9 +3075,9 @@
         "weight": 10
     },
     "weapon_bts_uzi": {
-		"name": "Mini-Uzi",
         "deploy_time": 1.275,
         "max_clip": 20,
+        "name": "Mini-Uzi",
         "position": 11,
         "primary_accuracy": {
             "crouch": 0.0175,
@@ -3103,9 +3103,9 @@
         "weight": 10
     },
     "weapon_bts_uzisd": {
-		"name": "Mini-Uzi Suppressed",
         "deploy_time": 1.1,
         "max_clip": 20,
+        "name": "Mini-Uzi Suppressed",
         "position": 15,
         "primary_accuracy": {
             "crouch": 0.0175,
@@ -3125,11 +3125,11 @@
         "weight": 10
     },
     "weapon_bts_xbow": {
-		"name": "Crossbow with NVS",
         "bolt_gravity": 0.3,
         "crosshair": "[- . -]\n|\n. | .\n|\n--: | :--\n|\n--.-- | --.--\n|\n--- . --- | --- . ---",
         "deploy_time": 1.0,
         "max_clip": 5,
+        "name": "Crossbow with NVS",
         "position": 11,
         "primary_cooldown": 1.8,
         "primary_damage": 48,
@@ -3147,8 +3147,8 @@
         "weight": 10
     },
     "weapon_crowbar": {
-		"name": "Crowbar",
         "deploy_time": 0.4,
+        "name": "Crowbar",
         "primary_cooldown": 0.5,
         "primary_damage": 14,
         "primary_distance": 32,
@@ -3164,8 +3164,8 @@
         "tertiary_damage": 17
     },
     "weapon_medkit": {
-		"name": "Medical Defibrilator",
         "deploy_time": 0.6,
+        "name": "Medical Defibrilator",
         "position": 14,
         "primary_cooldown": 2.0,
         "primary_maxammo": 120,
@@ -3175,6 +3175,7 @@
     },
     "weapons": {
         "blood_splash": true,
+        "display_weapon_info": true,
         "flashlight_maxcarry": 10,
         "infinite_ammo": false,
         "item_remap": {
