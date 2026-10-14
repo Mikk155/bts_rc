@@ -129,23 +129,29 @@ namespace Logger
                     file.Write( buffer );
                 }
 
-                if( g_EngineFuncs.IsDedicatedServer() )
+                while( buffer.Length() > 1 )
                 {
-                    g_EngineFuncs.ServerPrint( buffer );
-                }
-                // Host is not yet fully connected, print to server console not network client
-                else if( g_Engine.time < 5 )
-                {
-                    auto host = g_PlayerFuncs.FindPlayerByIndex(0);
+                    uint length = Math.min( 128, int( buffer.Length() ) );
+                    string bufferPrint = buffer.SubString( 0, length );
+                    buffer = buffer.SubString( length, String::INVALID_INDEX );
 
-                    if( host is null || !host.IsConnected() )
+                    if( g_EngineFuncs.IsDedicatedServer() )
                     {
-                        g_EngineFuncs.ServerPrint( buffer );
-                        return;
+                        g_EngineFuncs.ServerPrint( bufferPrint );
                     }
-                }
+                    // Host is not yet fully connected, print to server console not network client
+                    else if( g_Engine.time < 5 )
+                    {
+                        auto host = g_PlayerFuncs.FindPlayerByIndex(0);
 
-                g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, buffer );
+                        if( host is null || !host.IsConnected() )
+                        {
+                            g_EngineFuncs.ServerPrint( bufferPrint );
+                        }
+                    }
+
+                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, bufferPrint );
+                }
             }
     }
 
