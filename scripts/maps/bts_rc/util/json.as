@@ -702,7 +702,7 @@ class btson
     /// Removes the value at the given key. returns the value
     btson@ Remove( const string&in key )
     {
-        if( !this.is_object() )
+        if( !this.is_structured() )
         {
             g_Logger.error.print( "Can not Remove value at key {} from a json that is not an object! type: {}", { key, meta_api::json::Type::ToString( this.Type ) } );
         }
