@@ -58,6 +58,21 @@ final class ASWeaponFlareGunConfig : ASWeaponConfig, ASMFlareConfig
         return WeaponFlareGunAnim::Draw;
     }
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon config",
+            "description": "weapon-related gameplay modifiers.",
+            "allOf":
+            [
+                "ASWeaponConfig",
+                "ASMFlareConfigSchema"
+            ]
+        }""";
+    }
+
     bool Register( btson@ json ) override
     {
         flare_register(json);
