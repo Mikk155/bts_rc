@@ -150,10 +150,10 @@
                 "hands": 6,
                 "voice": "barney"
             },
-            "bts_op_fat": {
+            "bts_op_worker": {
                 "classify": 5,
                 "hands": 6,
-                "voice": "barney"
+                "voice": "construction"
             },
             "bts_op_free": {
                 "classify": 5,
