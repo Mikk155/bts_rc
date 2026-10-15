@@ -27,6 +27,21 @@ namespace Hooks
         if( victim is null )
             return HOOK_CONTINUE;
 
+        uint length = EntityOverriden::gpEntityOverriden.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EntityOverriden@ overrider = EntityOverriden::gpEntityOverriden[ui];
+
+            int index;
+
+            if( overrider !is null && overrider.Find( victim, index, void ) )
+            {
+                if( overrider.CheckFlags( overrider.TakeDamage( index, victim, info ), index ) )
+                    break;
+            }
+        }
+
         dictionary@ data = info.pVictim.GetUserData();
 
         data[ "damage_taken" ] = int( info.flDamage );
@@ -38,16 +53,6 @@ namespace Hooks
                 data["headcrab_damage"] = float( data["headcrab_damage"] ) + info.flDamage;
             }
         }
-
-        string classname = victim.GetClassname();
-        string model = string( victim.pev.model );
-
-        gpZombieEngineer.TakeDamage( victim, info );
-
-        if( gpRoboGrunt.IsValid( classname, model ) )
-            gpRoboGrunt.TakeDamage( victim, info );
-        else if( gpRoboGruntBoss.IsValid( classname, model ) )
-            gpRoboGruntBoss.TakeDamage( victim, info );
 
         return HOOK_CONTINUE;
     }

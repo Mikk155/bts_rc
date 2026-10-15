@@ -25,6 +25,7 @@
 #include "monsters/bloodpuddle"
 #include "monsters/engineer_sentry"
 #include "monsters/lasers"
+#include "monsters/robogrunt_boss"
 #include "monsters/robogrunt"
 #include "monsters/zombie_engineer"
 #include "monsters/zombie_uncrab"

@@ -75,9 +75,9 @@ void RegisterContexts()
     g_MapConfig.Register( ASGruntEngineer() );
     g_MapConfig.Register( ASWallRechargerConfig() ); // Always active
 
-    g_MapConfig.Register( gpRoboGrunt ); // Always active
-    g_MapConfig.Register( gpRoboGruntBoss ); // Always active
-    g_MapConfig.Register( gpZombieEngineer ); // Always active
+    g_MapConfig.Register( ASRoboGrunt() ); // Always active
+    g_MapConfig.Register( ASRoboGruntBoss() ); // Always active
+    g_MapConfig.Register( ASZombieEngineer() ); // Always active
     g_MapConfig.Register( gpPanthereyeConfig ); // Always active
 
     g_MapConfig.Register( g_MapConfig ); // Always active

@@ -69,15 +69,9 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         return true;
     }
 
-    bool IsValid( const string&in classname, const string&in model )
-    {
-        return ( classname == "monster_human_grunt_ally"
-            && model == "models/bts_rc/monsters/rgrunt_opfor.mdl" );
-    }
-
     bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( monster is null || !this.IsValid( entity.GetClassname(), string( entity.pev.model ) ) )
+        if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/rgrunt_opfor.mdl" )
             return false;
 
         if( !g_IsMainMap )
@@ -316,7 +310,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         g_EntityFuncs.Remove( monster );
     }
 
-    void Killed( CBaseMonster@ monster, CBaseEntity@ attacker, bool gibbed, int gib )
+    uint Killed( uint index, CBaseMonster@ monster, CBaseEntity@ attacker, bool gibbed ) override
     {
         dictionary@ data = monster.GetUserData();
 
@@ -326,7 +320,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         if( gibbed )
         {
             ExplosiveDeath( monster );
-            return;
+            return EntityOverridenAction::Remove;
         }
 
         GlowEffect( monster, false );
@@ -339,11 +333,13 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         data[ "removethink" ] = g_Engine.time + Math.RandomFloat( 3.0, 7.0 );
         data[ "diethink" ] = g_Engine.time;
+
+        return EntityOverridenAction::None;
     }
 
-    void TakeDamage( CBaseMonster@ victim, DamageInfo@ info )
+    uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
     {
-        dictionary@ data = victim.GetUserData();
+        dictionary@ data = monster.GetUserData();
 
         bool bShockTouch = bool( data[ "shocktouch" ] );
 
@@ -351,13 +347,13 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         {
             if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 )
             {
-                info.pAttacker.TakeDamage( info.pVictim.pev, info.pVictim.pev, this.m_iShockTouchDamage / 4, DMG_SHOCK );
+                info.pAttacker.TakeDamage(monster.pev, monster.pev, this.m_iShockTouchDamage / 4, DMG_SHOCK );
                 info.flDamage = 0.01;
             }
         }
-        else if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 && info.pVictim.pev.health <= 20.0 && Math.RandomLong( 0, 2 ) > 1 )
+        else if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 && monster.pev.health <= 20.0 && Math.RandomLong( 0, 2 ) > 1 )
         {
-            GlowEffect( victim, true );
+            GlowEffect( monster, true );
             data[ "shocktouch" ] = true;
         }
 
@@ -373,7 +369,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             bRicochet = true;
             info.flDamage *= this.m_fDmgMultiplierMelee;
         }
-        else if( ( info.bitsDamageType & DMG_BLAST ) != 0 && info.pVictim.pev.health > 10.0 )
+        else if( ( info.bitsDamageType & DMG_BLAST ) != 0 && monster.pev.health > 10.0 )
         {
             if( info.flDamage > 15.0 )
                 info.flDamage -= 15.0;
@@ -384,7 +380,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             info.bitsDamageType &= ~DMG_POISON;
             info.flDamage *= this.m_fDmgMultiplierPoison;
         }
-        else if( ( info.bitsDamageType & DMG_BURN ) == 0 || info.pVictim.pev.health <= 10.0 )
+        else if( ( info.bitsDamageType & DMG_BURN ) == 0 || monster.pev.health <= 10.0 )
             info.flDamage *= this.m_fDmgMultiplierBurn;
         else
             info.flDamage *= this.m_fDmgMultiplierGeneric;
@@ -404,33 +400,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                 ricochet.End();
             }
         }
+
+        return EntityOverridenAction::None;
     }
 }
-
-ASRoboGrunt gpRoboGrunt;
-
-final class ASRoboGruntBoss : ASRoboGrunt
-{
-    const string& GetName() const override {
-        return "robo_grunt_boss";
-    }
-
-    bool IsValid( const string&in classname, const string&in model ) override
-    {
-        return ( classname == "monster_hwgrunt"
-            && model == "models/bts_rc/monsters/robothwgrunt.mdl" );
-    }
-
-    void TakeDamage( CBaseMonster@ victim, DamageInfo@ info )
-    {
-        if( ( info.bitsDamageType & DMG_BLAST ) != 0 && victim.pev.health > 10.0 )
-        {
-            info.bitsDamageType &= ~DMG_BLAST | DMG_LAUNCH;
-            info.flDamage *= this.m_fDmgMultiplierBlast;
-        }
-
-        ASRoboGrunt::TakeDamage( victim, info );
-    }
-}
-
-ASRoboGruntBoss gpRoboGruntBoss;

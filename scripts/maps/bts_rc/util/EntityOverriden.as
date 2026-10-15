@@ -107,14 +107,26 @@ abstract class EntityOverriden
         return this.Find( entity, index, void );
     }
 
-    // Find a entity by reference. if exists in m_Handles removes it
+    // Removes the entity with the given index at m_Handles.
+    void Remove( int index )
+    {
+        if( index >= 0 && index < int( this.m_Handles.length() ) )
+        {
+            if( g_Logger.debug.active )
+                g_Logger.debug.print( "[{}] Removing entity at index {}", { this.GetName(), index } );
+
+            this.m_Handles.removeAt( index );
+        }
+    }
+
+    // Find a entity by reference. if exists in m_Handles removes it.
     void Remove( CBaseEntity@ entity )
     {
         int index;
 
         if( this.Find( entity, index, void ) )
         {
-            this.m_Handles.removeAt( index );
+            this.Remove( index );
         }
     }
 
@@ -131,10 +143,40 @@ abstract class EntityOverriden
         return EntityOverridenAction::None;
     }
 
+    // Called every time a entity in this.m_Handles takes damage. See EntityOverridenAction for bits
+    uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info )
+    {
+        return EntityOverridenAction::None;
+    }
+
+    // Called every time a entity in this.m_Handles is killed. See EntityOverridenAction for bits
+    uint Killed( uint index, CBaseMonster@ monster, CBaseEntity@ attacker, bool gibbed )
+    {
+        return EntityOverridenAction::None;
+    }
+
     // Whatever it's a think instance and it's time to call Think
     bool ShouldThink()
     {
         return ( this.thinks && g_Engine.time >= this.nextthink );
+    }
+
+    bool CheckFlags( uint flags, int index ) final
+    {
+        if( ( flags & EntityOverridenAction::Remove ) != 0 )
+        {
+            if( g_Logger.debug.active )
+                g_Logger.debug.print( "[{}] requested to remove a entity at index {}", { this.GetName(), index } );
+
+            this.Remove( index );
+        }
+
+        if( ( flags & EntityOverridenAction::Break ) != 0 )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     // Called every frame before EntityThink.
@@ -153,8 +195,9 @@ abstract class EntityOverriden
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
                 if( g_Logger.debug.active )
-                    g_Logger.debug.print( snprintf( glog, "Got an invalid handle for %1 at index %2 removing...", this.GetName(), index ) );
-                this.m_Handles.removeAt(index);
+                    g_Logger.debug.print( "[{}] Got an invalid handle for {} at index {}", { this.GetName(), entity.GetClassname(), index } );
+
+                this.Remove( index );
                 continue;
             }
 
@@ -163,19 +206,8 @@ abstract class EntityOverriden
             if( entity.IsMonster() )
                 @monster = cast<CBaseMonster@>(entity);
 
-            uint flags = EntityThink( index, entity, monster );
-
-            if( ( flags & EntityOverridenAction::Remove ) != 0 )
-            {
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( snprintf( glog, "%1 requested to remove a entity at index %2 removing...", this.GetName(), index ) );
-                this.m_Handles.removeAt(index);
-            }
-
-            if( ( flags & EntityOverridenAction::Break ) != 0 )
-            {
+            if( this.CheckFlags( EntityThink( index, entity, monster ), index ) )
                 break;
-            }
         }
     }
 
@@ -183,15 +215,23 @@ abstract class EntityOverriden
     protected float interval;
     protected float nextthink;
 
-    // Set entity think rate, negative values to stop thinking
-    void SetThink( float time )
+    // Set entity think rate, Use a negative value to stop thinking.
+    void SetThink( float time ) final
     {
         this.interval = time;
         this.thinks = ( this.interval >= 0.0 );
 
         if( this.thinks )
         {
+            if( g_Logger.debug.active )
+                g_Logger.debug.print( "[{}] Set think to {}", { this.GetName(), this.interval } );
+
             this.nextthink = g_Engine.time + this.interval;
+        }
+        else
+        {
+            if( g_Logger.debug.active )
+                g_Logger.debug.print( "[{}] Stop thinking", { this.GetName() } );
         }
     }
 }

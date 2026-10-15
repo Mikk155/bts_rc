@@ -23,7 +23,7 @@ namespace btscm
 {
     HookReturnCode HWRGTakeDamage( DamageInfo@ pDamageInfo )
     {
-        if( gpRoboGruntBoss.IsValid( pDamageInfo.pVictim.GetClassname(), pDamageInfo.pVictim.pev.model ) )
+        if( string( pDamageInfo.pVictim.pev.model ) == "models/bts_rc/monsters/robothwgrunt.mdl" )
         {
             if( pDamageInfo.flDamage <= 0.0 or pDamageInfo.pVictim.pev.takedamage == DAMAGE_NO )
                 return HOOK_CONTINUE;

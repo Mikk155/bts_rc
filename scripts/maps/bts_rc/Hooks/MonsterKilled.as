@@ -24,6 +24,21 @@ namespace Hooks
 
         bool gibbed = ( gib == GIB_ALWAYS || ( gib != GIB_NEVER && monster.pev.health < -40 ) );
 
+        uint length = EntityOverriden::gpEntityOverriden.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EntityOverriden@ overrider = EntityOverriden::gpEntityOverriden[ui];
+
+            int index;
+
+            if( overrider !is null && overrider.Find( monster, index, void ) )
+            {
+                if( overrider.CheckFlags( overrider.Killed( index, monster, attacker, gibbed ), index ) )
+                    break;
+            }
+        }
+
         dictionary@ data = monster.GetUserData();
 
         if( gpDeathDrop !is null )
@@ -34,14 +49,6 @@ namespace Hooks
 
         if( gpZombieUncrab !is null && gpZombieUncrab.IsValid( monster ) )
             gpZombieUncrab.Create( monster, attacker, gib, data );
-
-        const string classname = monster.GetClassname();
-        const string model = string( monster.pev.model );
-
-        if( gpRoboGrunt.IsValid( classname, model ) )
-            gpRoboGrunt.Killed( monster, attacker, gibbed, gib );
-        else if( gpRoboGruntBoss.IsValid( classname, model ) )
-            gpRoboGruntBoss.Killed( monster, attacker, gibbed, gib );
 
         return HOOK_CONTINUE;
     }

@@ -110,16 +110,16 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         return false;
     }
 
-    void TakeDamage( CBaseMonster@ victim, DamageInfo@ info )
+    uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
     {
-        if( !victim.IsAlive() || !this.Find( victim, void, void ) )
-            return;
+        if( !monster.IsAlive() )
+            return EntityOverridenAction::Remove;
 
         bool ShouldHandleDamage = false;
 
         CBaseEntity@ attacker = info.pAttacker;
 
-        switch( victim.m_LastHitGroup )
+        switch( monster.m_LastHitGroup )
         {
             case 10:
             {
@@ -150,9 +150,9 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         }
 
         if( !ShouldHandleDamage || info.flDamage < 1 )
-            return;
+            return EntityOverridenAction::None;
 
-        dictionary@ data = victim.GetUserData();
+        dictionary@ data = monster.GetUserData();
 
         int canisterHealth;
 
@@ -166,10 +166,13 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         if( canisterHealth <= 0 )
         {
             Vector vecOrigin;
-            victim.GetAttachment( 1, vecOrigin, void );
-            victim.Killed( ( attacker !is null ? attacker.pev : null ), GIB_ALWAYS );
-            g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, victim.edict(), this.explosion, true );
+            monster.GetAttachment( 1, vecOrigin, void );
+            monster.Killed( ( attacker !is null ? attacker.pev : null ), GIB_ALWAYS );
+            g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, monster.edict(), this.explosion, true );
+            return EntityOverridenAction::Remove;
         }
+
+        return EntityOverridenAction::None;
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
@@ -219,5 +222,3 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         return EntityOverridenAction::None;
     }
 }
-
-ASZombieEngineer gpZombieEngineer;
