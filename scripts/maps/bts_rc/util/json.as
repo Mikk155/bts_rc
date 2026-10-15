@@ -554,13 +554,14 @@ class btson
     /// In this json case if the default value is null we will initialize a instance and return that
     btson@ ValueOrDefault( const string&in keyName, btson@ value = null, bool store = false )
     {
-        if( !this.Get( keyName, value ) )
-        {
-            if( value is null )
-                @value = btson();
-            if( store )
-                this.Set( keyName, value );
-        }
+        btson@ valGet;
+        if( this.Get( keyName, valGet ) )
+            @value = valGet;
+
+        if( value is null )
+            @value = btson();
+        if( store )
+            this.Set( keyName, value );
         return value;
     }
     /// Get the stored value at the given key name or a default value if not exists.
