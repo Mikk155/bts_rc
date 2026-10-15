@@ -270,7 +270,7 @@ final class CLogger : IConfigurable
             "title": "Logging",
             "properties":
             {
-                "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start.", "default": false },
+                "file": { "type": "boolean", "description": "Should we log into an unique scripts/maps/store/bts_rc.log file? the file is restored every map start." },
                 "trace": { "type": "boolean" },
                 "debug": { "type": "boolean" },
                 "info": { "type": "boolean" },
@@ -295,15 +295,16 @@ final class CLogger : IConfigurable
         this.info.SetLevel( bool( config[ "info" ] ) );
         this.warning.SetLevel( bool( config[ "warning" ] ) );
 
+        Logger::gpWriteFile = bool( config[ "file" ] );
+
         if( !g_IsMainMap && g_MapConfig.MapLoading )
         {
             this.trace.SetLevel( true );
             this.debug.SetLevel( true );
             this.info.SetLevel( true );
             this.warning.SetLevel( true );
+            Logger::gpWriteFile = true;
         }
-
-        Logger::gpWriteFile = bool( config[ "file" ] );
 
         if( Logger::gpWriteFile )
         {
