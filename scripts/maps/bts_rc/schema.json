@@ -14634,20 +14634,19 @@
 			"dynamic_equipment": 
 			{
 				"type": "object",
-				"unevaluatedProperties": true,
 				"description": "Scales equipment pickup amounts based on connected player count.",
 				"additionalProperties": 
 				{
 					"type": "array",
 					"minItems": 2,
 					"maxItems": 2,
-					"description": "Scaled minimum and maximum amount to give for each entity based on player count.",
 					"items": 
 					{
 						"minimum": 1,
 						"type": "integer",
 						"description": "Minimum and maximum amount to give for each entity based on player count."
-					}
+					},
+					"description": "Scaled minimum and maximum amount to give for each entity based on player count."
 				},
 				"properties": 
 				{

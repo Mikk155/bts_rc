@@ -115,6 +115,12 @@ namespace schema
 
         private bool Validate( btson@ obj, btson@ schema, const string&in name, btson@ defaults )
         {
+            if( defaults !is null && obj.Length() <= 0 )
+            {
+                // -TODO DeepCopy
+                obj.opAssign( defaults.Copy() );
+            }
+
             if( !this.is_type( obj, schema, name, defaults ) && this.strict )
                 return false;
 
@@ -165,13 +171,14 @@ namespace schema
                             string key = keys[ui];
                             btson@ value = obj[key];
 
-                            if( isArrayAdditionalProperties )
+                            if( !schemaProperties.Contains( key ) )
                             {
-                                schemaProperties.Set( key, additionalPropertiesSchema.Copy() );
-                                continue;
-                            }
-                            else if( !schemaProperties.Contains( key ) )
-                            {
+                                if( isArrayAdditionalProperties )
+                                {
+                                    schemaProperties.Set( key, additionalPropertiesSchema.Copy() );
+                                    continue;
+                                }
+
                                 if( hasAdditionalProperties )
                                 {
                                     if( additionalPropertiesSchema.Contains( key ) )

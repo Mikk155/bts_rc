@@ -391,15 +391,12 @@ final class ASMapConfig : IConfigurable
                 }
 
                 btson@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
-                int configCount = config.Count();
 
                 if( g_Logger.info.active )
                 {
+                    int configCount = config.Count();
                     if( configCount > 0 )
-                        g_Logger.info.print( "Validating context {} at priority {} with {} variables", { context.GetName(), ui, configCount } );
-
-    //                if( g_Logger.trace.active && config.Length() > 0 )
-    //                    g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+                        g_Logger.info.print( "Validating {} external variables for context {} at priority {}", { configCount, context.GetName(), ui } );
                 }
 
                 btson@ schema;
