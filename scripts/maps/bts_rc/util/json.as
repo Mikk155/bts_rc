@@ -857,7 +857,12 @@ string Serialize( const btson@ obj, meta_api::json::parser::Serializer@ Serializ
             }
             case meta_api::json::Type::Float:
             {
-                Serializer.KeyValue( key, float( value.Value ), value.Type );
+                string fValue = string( float( value.Value ) );
+
+                if( fValue.Find( "." ) == String::INVALID_INDEX )
+                    fValue.opAddAssign( ".0" );
+
+                Serializer.KeyValue( key, fValue, value.Type );
                 break;
             }
             case meta_api::json::Type::Integer:
