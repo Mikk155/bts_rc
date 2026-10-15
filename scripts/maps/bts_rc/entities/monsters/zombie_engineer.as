@@ -112,10 +112,8 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
 
     uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
     {
-        if( !monster.IsAlive() )
-            return EntityOverridenAction::Remove;
-
-        bool ShouldHandleDamage = false;
+        if( !monster.IsAlive() || info.flDamage <= 0 )
+            return EntityOverridenAction::None;
 
         CBaseEntity@ attacker = info.pAttacker;
 
@@ -123,9 +121,6 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
         {
             case 10:
             {
-                info.flDamage *= 0.1;
-                ShouldHandleDamage = true;
-
                 if( attacker !is null && attacker.IsPlayer() )
                 {
                     TraceResult tr = g_Utility.GetGlobalTrace();
@@ -144,13 +139,17 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
             case HITGROUP_STOMACH:
             {
                 if( this.stray == 100 || ( this.stray > 0 && Math.RandomLong( 1, 100 ) <= this.stray ) )
-                    ShouldHandleDamage = true;
-                break;
+                {
+                    break;
+                }
+                return EntityOverridenAction::None;
+            }
+            default:
+            {
+                if( true ) // WARNING: Unreachable code
+                    return EntityOverridenAction::None;
             }
         }
-
-        if( !ShouldHandleDamage || info.flDamage < 1 )
-            return EntityOverridenAction::None;
 
         dictionary@ data = monster.GetUserData();
 
@@ -193,9 +192,14 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
 
         if( canisterHealth <= 0 )
         {
+            if( monster.IsAlive() )
+            {
+                monster.Killed( null, GIB_ALWAYS );
+            }
+
             monster.GetAttachment( 1, vecOrigin, void );
-            monster.Killed( null, GIB_ALWAYS );
             g_EntityFuncs.CreateExplosion( vecOrigin, g_vecZero, monster.edict(), this.explosion, true );
+
             return EntityOverridenAction::Remove;
         }
 
