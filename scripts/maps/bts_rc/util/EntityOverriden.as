@@ -195,8 +195,7 @@ abstract class EntityOverriden
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
                 if( g_Logger.debug.active )
-                    g_Logger.debug.print( "[{}] Got an invalid handle for {} at index {}", { this.GetName(), entity.GetClassname(), index } );
-
+                    g_Logger.debug.print( "[{}] Got an invalid handle for {} at index {}", { this.GetName(), index } );
                 this.Remove( index );
                 continue;
             }
