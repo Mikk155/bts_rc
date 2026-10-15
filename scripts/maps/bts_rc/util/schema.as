@@ -37,7 +37,7 @@ namespace schema
             uint errors = 0;
 
         // Return whatever the given obj is of type of the given string.
-        bool is_type( btson@ obj, btson@ schema, const string&in name )
+        bool is_type( btson@ obj, btson@ schema, const string&in name, btson@ defaults )
         {
             if( !schema.Contains( "type" ) )
             {
@@ -100,15 +100,22 @@ namespace schema
                 obj.SetType( expectedType );
 
                 if( schema.Contains( "default" ) )
-                    obj.opAssign( schema[ "default" ] );
+                {
+                    // -TODO DeepCopy
+                    obj.opAssign( schema[ "default" ].Copy() );
+                }
+                else if( defaults !is null )
+                {
+                    obj.opAssign( defaults.Copy() );
+                }
             }
 
             return false;
         }
 
-        private bool Validate( btson@ obj, btson@ schema, const string&in name )
+        private bool Validate( btson@ obj, btson@ schema, const string&in name, btson@ defaults )
         {
-            if( !this.is_type( obj, schema, name ) && this.strict )
+            if( !this.is_type( obj, schema, name, defaults ) && this.strict )
                 return false;
 
             switch( obj.Type )
@@ -116,12 +123,12 @@ namespace schema
                 case meta_api::json::Type::Object:
                 case meta_api::json::Type::Array:
                 {
-                    btson@ schemaProperties = schema.ValueOrDefault( ( obj.is_object() ? "properties" : "items" ) ).Copy();
+                    bool is_array = obj.is_array();
 
-                    array<string> additionalProperties(0);
+                    btson@ schemaProperties = schema.ValueOrDefault( "properties" ).Copy();
 
                     // Array specific validations
-                    if( obj.is_array() )
+                    if( is_array )
                     {
                         uint uiTemp;
 
@@ -141,42 +148,56 @@ namespace schema
                                 return false;
                         }
                     }
-                    else
+
+                    // Validate over additional properties and if they're allowed.
+                    if( obj.Length() > schemaProperties.Length() )
                     {
-                        bool hasAdditionalProperties = schema.Contains( "additionalProperties" );
+                        btson@ additionalPropertiesSchema = schema[ "additionalProperties" ];
+                        bool isArrayAdditionalProperties = ( additionalPropertiesSchema !is null && string( additionalPropertiesSchema[ "type" ] ) == "array" );
+                        bool hasAdditionalProperties = ( additionalPropertiesSchema !is null );
+                        bool allowUnevaluatedProperties = schema.ValueOrDefault( "unevaluatedProperties", true );
 
-                        // Whatever non-defined properties in schema are allowed in obj
-                        if( schema.ValueOrDefault( "unevaluatedProperties", true ) == false )
+                        const array<string>@ keys = obj.Keys;
+                        uint length = obj.Length();
+
+                        for( uint ui = 0; ui < length; ui++ )
                         {
-                            uint length = obj.Length();
+                            string key = keys[ui];
+                            btson@ value = obj[key];
 
-                            for( uint ui = 0; ui < length; ui++ )
+                            if( isArrayAdditionalProperties )
                             {
-                                btson@ pair = obj[ui];
-
-                                if( !schemaProperties.Contains( pair.Name ) )
+                                schemaProperties.Set( key, additionalPropertiesSchema.Copy() );
+                                continue;
+                            }
+                            else if( !schemaProperties.Contains( key ) )
+                            {
+                                if( hasAdditionalProperties )
                                 {
-                                    if( hasAdditionalProperties )
+                                    if( additionalPropertiesSchema.Contains( key ) )
                                     {
-                                        additionalProperties.insertLast( pair.Name );
+                                        schemaProperties.Set( key, additionalPropertiesSchema[ key ].Copy() );
                                         continue;
                                     }
-
-                                    this.errors++;
-                                    g_Logger.error.print( "{} got unevaluated property \"{}\" which is not allowed!", { name, pair.Name } );
-                                    if( this.strict )
-                                        return false;
-                                }
-
-                                // It's items?
-                                if( !obj.is_object() )
-                                {
-                                    if( !pair.Contains( "type" ) )
-                                        pair.Set( "type", schemaProperties[ "type" ] );
                                 }
                             }
-                        }
 
+                            if( allowUnevaluatedProperties )
+                                continue;
+
+                            this.errors++;
+                            g_Logger.error.print( "{} got unevaluated property \"{}\" ({}) which is not allowed!", { name, key, meta_api::json::Type::ToString(value.Type) } );
+                            if( this.strict )
+                                return false;
+
+                            --length;
+                            obj.Remove( ui );
+                            --ui;
+                        }
+                    }
+
+                    if( !is_array )
+                    {
                         // Whatever required properties in schema are defined in obj
                         if( schema.Contains( "required" ) )
                         {
@@ -199,32 +220,31 @@ namespace schema
                         }
                     }
 
-                    btson@ additionalPropertiesSchema = schema[ "additionalProperties" ];
-                    uint additionalPropertiesLength = additionalProperties.length();
-                    for( uint ui = 0; ui < additionalPropertiesLength; ui++ )
-                    {
-                        schemaProperties.Set( additionalProperties[ui], additionalPropertiesSchema.Copy() );
-                    }
-
                     // validate all properties
+                    const array<string>@ keys = schemaProperties.Keys;
                     uint length = schemaProperties.Length();
 
                     for( uint ui = 0; ui < length; ui++ )
                     {
-                        btson@ pair = schemaProperties[ui];
+                        string key = keys[ui];
+                        btson@ value = schemaProperties[key];
 
-                        btson@ childObj = obj[ pair.Name ];
+                        btson@ childObj = obj[key];
+                        btson@ defaultChild = ( defaults !is null ? defaults[ key ] : null );
 
                         if( childObj is null )
                         {
-                            if( !this.strict )
+                            if( value.Contains( "default" ) )
                             {
-                                if( pair.Contains( "default" ) )
-                                {
-                                    // -TODO DeepCopy
-                                    @childObj = pair[ "default" ].Copy();
-                                    obj.Set( pair.Name, childObj );
-                                }
+                                // -TODO DeepCopy
+                                @childObj = value[ "default" ].Copy();
+                                obj.Set( key, childObj );
+                            }
+                            else if( defaultChild !is null )
+                            {
+                                // -TODO DeepCopy
+                                @childObj = defaultChild.Copy();
+                                obj.Set( key, childObj );
                             }
 
                             if( childObj is null )
@@ -232,9 +252,9 @@ namespace schema
                         }
 
                         string childName;
-                        snprintf( childName, "%1->%2", name, pair.Name );
+                        snprintf( childName, "%1->%2", name, key );
 
-                        bool result = this.Validate( childObj, pair, childName );
+                        bool result = this.Validate( childObj, value, childName, defaultChild );
 
                         if( this.strict && result == false )
                             return false;
@@ -272,27 +292,27 @@ namespace schema
             return ( this.errors == 0 );
         }
 
-        bool Validate( btson@ obj, btson@ schema )
+        bool Validate( btson@ obj, btson@ schema, btson@ defaults )
         {
-            return this.Validate( obj, schema, "<root>" );
+            return this.Validate( obj, schema, "<root>", defaults );
         }
     }
 
     /// Validate obj against schema
     /// strict: if true the method will return false right away stoping the validation.
     /// Otherwise the validation will keep going removing invalid values, attempting to set defaults if provided by the schema.
-    bool Validate( btson@ obj, btson@ schema, bool strict = false )
+    bool Validate( btson@ obj, btson@ schema, bool strict = false, btson@ defaults = null )
     {
         Validator validator( strict );
-        return validator.Validate( obj, schema );
+        return validator.Validate( obj, schema, defaults );
     }
 
     /// Validate obj against schema
     /// strict: if true the method will return false right away stoping the validation.
     /// Otherwise the validation will keep going removing invalid values, attempting to set defaults if provided by the schema.
-    bool Validate( btson@ obj, const string&in schema, bool strict = false )
+    bool Validate( btson@ obj, const string&in schema, bool strict = false, btson@ defaults = null )
     {
         btson@ schemaObject;
-        return Deserialize( schema, schemaObject ) && Validate( obj, schemaObject, strict );
+        return Deserialize( schema, schemaObject ) && Validate( obj, schemaObject, strict, defaults );
     }
 } // schema

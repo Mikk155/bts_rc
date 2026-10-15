@@ -286,7 +286,7 @@ final class ASMapConfig : IConfigurable
         if( this.m_SkipValidation )
         {
             this.m_SkipValidation = true;
-            @this.m_json = m_defaults;
+            @this.m_json = this.m_defaults;
             g_EngineFuncs.ServerPrint( "No extenal config loaded. Skiping JSON Schema validation.\n" );
         }
 
@@ -408,28 +408,6 @@ final class ASMapConfig : IConfigurable
 
                 if( Deserialize( schemaString, schema, err ) && schema !is null )
                 {
-                    auto@ defaultConfigurations = m_defaults[ context.GetName() ];
-
-                    // Inject default configuration data
-                    if( defaultConfigurations !is null )
-                    {
-                        auto@ weaponProperties = schema.ValueOrDefault( "properties", null, true );
-
-                        uint defConfigLength = defaultConfigurations.Length();
-                        const array<string>@ wpnKeys = defaultConfigurations.Keys;
-
-                        for( uint ui2 = 0; ui2 < defConfigLength; ui2++ )
-                        {
-                            string keyName = wpnKeys[ ui2 ];
-                            auto@ defaultValue = defaultConfigurations[ keyName ];
-                            if( defaultValue !is null )
-                            {
-                                auto@ weaponProperty = weaponProperties.ValueOrDefault( keyName, null, true );
-                                weaponProperty.Set( "default", defaultValue );
-                            }
-                        }
-                    }
-
                     if( schema.Contains( "allOf" ) )
                     {
                         auto@ allOf = schema[ "allOf" ];
@@ -493,7 +471,7 @@ final class ASMapConfig : IConfigurable
                 }
             }
 
-            if( !schema::Validate( this.m_json, this.m_GlobalSchema, false ) )
+            if( !schema::Validate( this.m_json, this.m_GlobalSchema, false, this.m_defaults ) )
             {
                 if( g_Logger.warning.active )
                     g_Logger.warning.print( "Error validating some values for json. Using default values..." );

@@ -104,7 +104,6 @@ final class ASDynamicEquipentConfig : IConfigurable
     const string GetSchema() const override {
         return """{
             "type": "object",
-            "unevaluatedProperties": false,
             "description": "Scales equipment pickup amounts based on connected player count.",
             "allOf":
             [
@@ -115,17 +114,13 @@ final class ASDynamicEquipentConfig : IConfigurable
                 "type": "array",
                 "minItems": 2,
                 "maxItems": 2,
-                "description": "Scaled minimum and maximum amount to give for each entity based on player count.",
                 "items":
                 {
                     "minimum": 1,
-                    "type": "integer"
+                    "type": "integer",
+                    "description": "Minimum and maximum amount to give for each entity based on player count."
                 },
-                "prefixItems":
-                [
-                    { "description": "Count given when only one player connected." },
-                    { "description": "Count given when max server capacity of players connected" }
-                ]
+                "description": "Scaled minimum and maximum amount to give for each entity based on player count."
             }
         }""";
     }

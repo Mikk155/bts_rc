@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/82.26950354609929?barColor=54da0b)
+> ![](https://geps.dev/progress/84.39716312056737?barColor=4bda0b)
 <!--CompletionBar-end-->
 
 ---
@@ -37,13 +37,11 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
-- [ ] Rotate ASFlare angles when created with flaregun
-- [ ] Add gravity to flaregun ASFLares
+- [ ] Remove ``bts_rc/weapons/flarehit1.wav`` if unused.
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
 - [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
-- [ ] Purge all sequence and texture model extensions with modelguy
 - [ ] Globalize PickupObject for using anywhere
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
@@ -56,13 +54,15 @@ This file contains the list of to-do in the project.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
-- [ ] crowbar hands are white on black otis.
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Rotate ASFlare angles when created with flaregun
+- [x] Add gravity to flaregun ASFLares
+- [x] Purge all sequence and texture model extensions with modelguy
 - [x] Implement IConfigurable in data tracker to disable it by default and document propertly the wiki.
 - [x] Use EHandle on item_tracker instead of CItemInventory. maybe make a helper getter to safely cast.
 - [x] Add label/section in command log

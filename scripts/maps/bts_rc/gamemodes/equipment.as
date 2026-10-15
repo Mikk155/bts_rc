@@ -301,7 +301,7 @@ final class ASEquipmentConfig : IConfigurable
                     "type": "object",
                     "title": "kit sets",
                     "description": "Set to equip, additional objects in within are entities to create and give to the player.",
-                    "unevaluatedProperties": false,
+                    "unevaluatedProperties": true,
                     "additionalProperties":
                     {
                         "type": "object",
