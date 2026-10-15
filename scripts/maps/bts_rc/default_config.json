@@ -721,7 +721,7 @@
             6
         ],
         "weapon_bts_flashlight": [
-            0,
+            1,
             3
         ],
         "weapon_bts_glock": [
@@ -2366,7 +2366,7 @@
     },
     "weapon_bts_flaregun": {
         "deploy_time": 1.0,
-        "flare_burn_damage": 1.0,
+        "flare_burn_damage": 1,
         "flare_burn_time": 1.0,
         "flare_damage": 1,
         "flare_duration": 120,
