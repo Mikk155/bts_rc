@@ -20,6 +20,7 @@ array<EHandle> gpLivingFlares(0);
 
 final class ASFlare : ScriptBaseEntity
 {
+    private EHandle m_hOwner;
     private float m_flBounceTime;
 
     void Spawn()
@@ -33,6 +34,9 @@ final class ASFlare : ScriptBaseEntity
         self.pev.effects |= EFFECTS::EF_FULLBRIGHT;
 
         gpLivingFlares.insertLast( EHandle( self ) );
+
+        if( self.pev.owner !is null )
+            this.m_hOwner.opAssign( g_EntityFuncs.Instance( self.pev.owner ) );
 
         self.pev.nextthink = g_Engine.time;
 
@@ -85,15 +89,28 @@ final class ASFlare : ScriptBaseEntity
         self.pev.nextthink = g_Engine.time + 0.1f;
     }
 
+    CBaseEntity@ get_Owner() const property
+    {
+        if( this.m_hOwner.IsValid() )
+            return this.m_hOwner.GetEntity();
+        if( self.pev.owner !is null )
+            return g_EntityFuncs.Instance( self.pev.owner );
+        return self;
+    }
+
     void Touch( CBaseEntity@ pOther )
     {
         if( pOther is null )
             return;
 
-        BurningMonster::Ignite( pOther, g_EntityFuncs.Instance( self.pev.owner ), self.pev.armorvalue, self.pev.armortype );
+        BurningMonster::Ignite( pOther, this.Owner, self.pev.armorvalue, self.pev.armortype );
 
         if( self.pev.movetype != MOVETYPE::MOVETYPE_BOUNCE )
             return;
+
+        // Allow a player to burn himself after a bounce
+        if( self.pev.owner !is null )
+            @self.pev.owner = null;
 
         if( self.pev.fuser1 > 0.0 )
         {
@@ -116,7 +133,7 @@ final class ASFlare : ScriptBaseEntity
 
         if( pOther.pev.takedamage != DAMAGE_NO )
         {
-            pOther.TraceAttack( ( self.pev.owner !is null ? self.pev.owner.vars : self.pev ), self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
+            pOther.TraceAttack( ( self.pev.owner !is null ? self.pev.owner.vars : self.pev ), self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
             g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/weapons/flarehitbod1.wav", VOL_NORM, ATTN_NORM );
         }
         else

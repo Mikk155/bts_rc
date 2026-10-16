@@ -143,7 +143,7 @@ final class ASBurningMonster : ScriptBaseEntity
         }
 
         entvars_t@ attackerVars = attacker is null ? self.pev : attacker.pev;
-        target.TakeDamage( self.pev, attackerVars, m_Damage, DMG_BURN | DMG_SLOWBURN | DMG_NEVERGIB );
+        target.TakeDamage( self.pev, attackerVars, m_Damage, DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB );
 
         NetworkMessage flame( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, target.Center() );
             flame.WriteByte( TE_EXPLOSION );
@@ -170,12 +170,26 @@ namespace BurningMonster
 
     void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration = 4.0f )
     {
-        if( target is null || !target.IsMonster() || target.IsMachine() || !target.IsAlive() )
+        /***
+         * This is definitelly a player. but we gotta check here.
+         * A player could theorically shoot flames/flares to another player and leave the server before it hits.
+         * Then that poor player will get his arse on flames.
+         * I've definitelly not though on doing this to my teammates.
+         * It just happened by chance that i though someone may.
+         * I swear i'm innocent, i would n-never!
+         */
+        if( attacker is null )
             return;
 
-        dictionary@ data = target.GetUserData();
+        dictionary@ data;
 
-        if( data.exists( "bts_burning_monster_inmune" ) )
+        if( target is null
+        || !target.IsMonster()
+        || target.IsMachine()
+        || target.pev.takedamage == DAMAGE_NO
+        || ( target.IRelationship( attacker ) == RELATIONSHIP::R_AL && target !is attacker )
+        || ( @data = target.GetUserData() ) is null
+        || data.exists( "bts_burning_monster_inmune" ) )
             return;
 
         EHandle handle;
@@ -262,13 +276,13 @@ class flame_proj : ScriptBaseEntity
             g_WeaponFuncs.ClearMultiDamage();
 
             if( szClassname == "monster_cleansuit_scientist" || pOther.IsMachine() )
-                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.50, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
+                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.50, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
             else if( szClassname == "monster_gargantua" || szClassname == "monster_babygarg" )
-                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.45, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_SLOWBURN | DMG_NEVERGIB );
+                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.45, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
             else if( pOther.pev.model == "models/bts_rc/monsters/zombie_hev.mdl" )
-                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.40, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
+                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.40, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
             else
-                pOther.TraceAttack( pevOwner, self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_SLOWBURN | DMG_NEVERGIB | DMG_POISON );
+                pOther.TraceAttack( pevOwner, self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB | DMG_POISON );
 
             g_WeaponFuncs.ApplyMultiDamage( self.pev, pevOwner );
             BurningMonster::Ignite( pOther, g_EntityFuncs.Instance( pevOwner.pContainingEntity ), self.pev.dmg * 0.15f );
@@ -276,7 +290,7 @@ class flame_proj : ScriptBaseEntity
 
         if( pOther.IsBSPModel() )
         {
-            g_WeaponFuncs.RadiusDamage( self.GetOrigin() + Vector( 0, 0, 4 ), self.pev, pevOwner, self.pev.dmg * 0.5, self.pev.dmg + 32, CLASS_NONE, DMG_BURN | DMG_SLOWBURN );
+            g_WeaponFuncs.RadiusDamage( self.GetOrigin() + Vector( 0, 0, 4 ), self.pev, pevOwner, self.pev.dmg * 0.5, self.pev.dmg + 32, CLASS_NONE, DMG_BURN );
         }
 
         if( pOther is null || pOther.IsBSPModel() )
