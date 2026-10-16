@@ -75,14 +75,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
     uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
     {
-        if( info.flDamage <= 0.0 or monster.pev.takedamage == DAMAGE_NO )
-            return ASRoboGrunt::TakeDamage( index, monster, info );
-
-        if( ( info.bitsDamageType & DMG_BLAST ) != 0 && monster.pev.health > 10.0 )
-        {
-            info.bitsDamageType &= ~DMG_BLAST | DMG_LAUNCH;
-            info.flDamage *= this.m_fDmgMultiplierBlast;
-        }
+        uint result = ASRoboGrunt::TakeDamage( index, monster, info );
 
         dictionary@ data = monster.GetUserData();
         int hitgroup = monster.m_LastHitGroup;
@@ -101,7 +94,16 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteCoord( tr.vecEndPos.z );
                     m.End();
                 }
-                info.flDamage *= DAMAGE_MULT_SHIELD;
+
+                if( ( info.bitsDamageType & ( DMG_BURN | DMG_SLOWBURN | DMG_BLAST ) ) == 0 )
+                {
+                    info.flDamage *= DAMAGE_MULT_SHIELD;
+                }
+                else
+                {
+                    info.flDamage = 0;
+                }
+
                 break;
             }
             case HITGROUP_HEAD:
@@ -111,7 +113,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
             }
         }
 
-        return ASRoboGrunt::TakeDamage( index, monster, info );
+        return result;
     }
 
     CBaseEntity@ CheckTraceHullAttack( CBaseEntity@ attacker, float dist )
