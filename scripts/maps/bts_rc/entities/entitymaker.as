@@ -79,12 +79,8 @@ namespace test_chamber
                 this.m_KeyValues[ key ] = value;
         }
 
-        void Spawn()
+        void RetrieveEntvars()
         {
-            self.pev.solid = SOLID_NOT;
-            self.pev.movetype = MOVETYPE_NONE;
-            self.pev.effects |= EF_NODRAW;
-
             SetPair( "model", self.pev.model );
             SetPair( "origin", self.pev.origin.ToString() );
             SetPair( "angles", self.pev.angles.ToString() );
@@ -93,7 +89,15 @@ namespace test_chamber
             SetPair( "target", self.pev.target );
             SetPair( "message", self.pev.message );
             SetPair( "spawnflags", self.pev.spawnflags );
+        }
 
+        void Spawn()
+        {
+            self.pev.solid = SOLID_NOT;
+            self.pev.movetype = MOVETYPE_NONE;
+            self.pev.effects |= EF_NODRAW;
+
+            RetrieveEntvars();
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
             g_EntityFuncs.Remove( child );
 
@@ -108,6 +112,7 @@ namespace test_chamber
             if( this.m_hChild.IsValid() && this.m_hChild.GetEntity() !is null && this.m_hChild.GetEntity().IsAlive() )
                 return;
 
+            RetrieveEntvars();
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
             EntityOverriden::Register( child, cast<CBaseMonster@>(child) );
             this.m_hChild = EHandle( child );
