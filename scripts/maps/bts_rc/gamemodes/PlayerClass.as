@@ -422,24 +422,13 @@ final class ASPlayerCharactersConfig : IConfigurable
         g_VoiceResponse.Register( config[ "voice_profiles" ] );
         this.RegisterCharacters( config[ "models" ] );
 
-        // Have at least one of each if undefined
-        if( g_Characters[Classification::Hazard].length() <= 0 ) {
-            this.__RegisterCharacter__("bts_cleansuit", Classification::Hazard, Hands::Cleansuit );
-        }
-        if( g_Characters[Classification::HEV].length() <= 0 ) {
-            this.__RegisterCharacter__("bts_helmet", Classification::HEV, Hands::Hevsuit );
-        }
-        if( g_Characters[Classification::Security].length() <= 0 ) {
-            this.__RegisterCharacter__("bts_barney", Classification::Security, Hands::Blue );
-        }
-        if( g_Characters[Classification::Scientist].length() <= 0 ) {
-            this.__RegisterCharacter__("bts_scientist", Classification::Scientist, Hands::White );
-        }
-        if( g_Characters[Classification::Maintenance].length() <= 0 ) {
-            this.__RegisterCharacter__("bts_construction", Classification::Maintenance, Hands::Orange );
-        }
-        if( g_Characters[Classification::Operative].length() <= 0 ) {
-            this.__RegisterCharacter__("bts_op", Classification::Operative, Hands::Gray );
+        for( int i = Classification::Unset + 1; i < Classification::__Size__; i++ )
+        {
+            if( g_Characters[i].length() <= 0 )
+            {
+                g_Logger.critical.print( "No characters registered at index class {}!", { Classification::ToString(Classification(i)) } );
+                int[]a(0);a[1];
+            }
         }
 
         g_ClassSelectionMenu.Text
