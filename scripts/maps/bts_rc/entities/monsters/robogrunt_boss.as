@@ -407,51 +407,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
             }
         }
 
-        array<ASFlare@>@ livingFlares = util::GetLivingFlares();
-
-        uint length = livingFlares.length();
-
-        for( uint ui = 0; ui < length; ui++ )
-        {
-            ASFlare@ flare = livingFlares[ui];
-
-            if( monster.FVisible( flare.self, true ) )
-            {
-                flare.pev.flags |= FL_KILLME;
-
-                if( FreeEdicts( 1 ) )
-                {
-                    CBeam@ pBeam = g_EntityFuncs.CreateBeam( "sprites/laserbeam.spr", 50 );
-                    if( pBeam !is null )
-                    {
-                        pBeam.PointsInit( monster.Center(), flare.self.Center() );
-                        RGBA col;// = GetBeamColor( monster, true );
-                        pBeam.SetColor( col.r, col.g, col.b );
-                        pBeam.SetBrightness( col.a );
-                        pBeam.SetFlags( 130 );
-                        pBeam.SetNoise( 50 );
-                        pBeam.SetScrollRate( 50.0 );
-                        pBeam.LiveForTime( 0.2 );
-                    }
-                }
-
-                if( FreeEdicts( 1 ) )
-                {
-                    NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, flare.pev.origin );
-                    m.WriteByte( TE_SMOKE );
-                    m.WriteCoord( flare.pev.origin.x );
-                    m.WriteCoord( flare.pev.origin.y );
-                    m.WriteCoord( flare.pev.origin.z - 32.0 );
-                    m.WriteShort( models::steam1 );
-                    m.WriteByte( Math.RandomLong( 1, 6 ) ); // scale * 10
-                    m.WriteByte( 24 );                      // framerate
-                    m.End();
-                }
-
-                g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_STATIC, "debris/beamstart14.wav", 0.8, ATTN_NORM, 0, PITCH_NORM + Math.RandomLong( -10, 10 ) );
-            }
-        }
-
         return ASRoboGrunt::EntityThink( index, entity, monster );
     }
 }
