@@ -27,6 +27,8 @@ namespace Hooks
         if( player is null )
             return HOOK_CONTINUE;
 
+        BurningMonster::IgniteCheck( info );
+
         auto character = GetCharacter(player);
 
         if( character is null )

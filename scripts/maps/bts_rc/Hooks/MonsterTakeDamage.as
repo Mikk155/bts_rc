@@ -27,6 +27,8 @@ namespace Hooks
         if( victim is null )
             return HOOK_CONTINUE;
 
+        BurningMonster::IgniteCheck( info );
+
         uint length = EntityOverriden::gpEntityOverriden.length();
 
         for( uint ui = 0; ui < length; ui++ )

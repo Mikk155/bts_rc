@@ -168,6 +168,20 @@ namespace BurningMonster
         data[ "bts_burning_monster_inmune" ] = true;
     }
 
+    void IgniteCheck( DamageInfo@ info )
+    {
+        if( info is null || info.pVictim is null || ( info.bitsDamageType & DMG_BURN ) == 0 )
+            return;
+
+        if( info.pAttacker !is null && info.pAttacker.GetClassname() == "bts_burning_monster" )
+            return;
+
+        if( info.pInflictor !is null && info.pInflictor.GetClassname() == "bts_burning_monster" )
+            return;
+
+        Ignite( info.pVictim, ( info.pAttacker !is null ? info.pAttacker : info.pInflictor ), 10, 4.0f );
+    }
+
     void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration = 4.0f )
     {
         /***
@@ -285,7 +299,6 @@ class flame_proj : ScriptBaseEntity
                 pOther.TraceAttack( pevOwner, self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB | DMG_POISON );
 
             g_WeaponFuncs.ApplyMultiDamage( self.pev, pevOwner );
-            BurningMonster::Ignite( pOther, g_EntityFuncs.Instance( pevOwner.pContainingEntity ), self.pev.dmg * 0.15f );
         }
 
         if( pOther.IsBSPModel() )
