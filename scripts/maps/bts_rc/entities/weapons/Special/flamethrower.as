@@ -138,7 +138,7 @@ final class ASBurningMonster : ScriptBaseEntity
         {
             if( target !is null )
                 target.GetUserData().delete( "bts_burning_monster" );
-            g_EntityFuncs.Remove( self );
+            self.pev.flags |= EdictFlags::FL_KILLME;
             return;
         }
 
@@ -178,9 +178,10 @@ namespace BurningMonster
         if( data.exists( "bts_burning_monster_inmune" ) )
             return;
 
+        EHandle handle;
         ASBurningMonster@ burning;
 
-        if( data.get( "bts_burning_monster", @burning ) && burning !is null )
+        if( data.get( "bts_burning_monster", handle ) && handle.IsValid() && ( @burning = cast<ASBurningMonster@>( CastToScriptClass( handle.GetEntity() ) ) ) !is null )
         {
             burning.Refresh( attacker, damage, duration );
             return;
@@ -193,7 +194,7 @@ namespace BurningMonster
             return;
 
         g_EntityFuncs.DispatchSpawn( entity.edict() );
-        @data[ "bts_burning_monster" ] = burning;
+        data[ "bts_burning_monster" ] = EHandle(entity);
         burning.Ignite( target, attacker, damage, duration );
     }
 }
