@@ -146,18 +146,11 @@ final class ASMapConfig : IConfigurable
         return true;
     }
 
-    private
-        btson@ m_json;
-
-    private
-        btson@ m_defaults;
-
-    private
-        btson@ m_GlobalSchema = btson();
-    private
-        btson@ m_GlobalSchemaDefinitions = btson();
-    private
-        btson@ m_GlobalSchemaProperties = btson();
+    btson@ m_json;
+    btson@ m_defaults;
+    btson@ m_GlobalSchema = btson();
+    btson@ m_GlobalSchemaDefinitions = btson();
+    btson@ m_GlobalSchemaProperties = btson();
 
     private
         bool m_MapInit = true;
@@ -189,12 +182,6 @@ final class ASMapConfig : IConfigurable
 
     private
         Server::chrono@ m_chrono;
-
-    // Get a handle to the map configuration. this is null after MapInit
-    const btson@ get_json()
-    {
-        return this.m_json;
-    }
 
     // Register a schema "$def" property to use globaly
     bool RegisterSchemaDefinition( const string&in name, const string&in value )
@@ -242,7 +229,7 @@ final class ASMapConfig : IConfigurable
 
         if( !Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
         {
-            g_Logger.critical.print( "Failed to parse weapon data! \"const string __GetDefaultConfig__()\"" );
+            g_Logger.critical.print( "Failed to parse config data! \"const string __GetDefaultConfig__()\"" );
             array<int> arr(0);
             arr[1]; // When SetException x[
         }
@@ -634,6 +621,45 @@ final class ASMapConfig : IConfigurable
                 snprintf( buffer, "Done with all map configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
                 g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
             } ), true, "json" );
+
+            if( !g_IsMainMap )
+            {
+                RegisterCommand( "reload", "<string context name>", "Updates the json config a specific context with the given name",
+                @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
+                {
+                    auto chrono = Server::chrono();
+
+                    if( arguments is null || arguments.length() < 0 )
+                        @arguments = { "" };
+
+                    IConfigurable@ ctx = g_MapConfig.GetContext( arguments[0] );
+
+                    if( ctx is null )
+                    {
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Could not find context with name \"" + arguments[0] + "\"\n" );
+                        return;
+                    }
+
+                    if( !Deserialize( g_MapConfig.__GetDefaultConfig__(), g_MapConfig.m_defaults ) )
+                    {
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Failed to parse config data!\n" );
+                        return;
+                    }
+
+                    if( !schema::Validate( g_MapConfig.m_json, g_MapConfig.m_GlobalSchema, false, g_MapConfig.m_defaults ) )
+                    {
+                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Error validating some values for json. Using default values...\n" );
+                    }
+
+                    ctx.Register( g_MapConfig.m_json[ ctx.GetName() ] );
+
+                    chrono.Stop();
+
+                    string buffer;
+                    snprintf( buffer, "Done with configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+                } ), true, "json" );
+            }
         }
     }
 }
