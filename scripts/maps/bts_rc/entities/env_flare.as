@@ -16,9 +16,10 @@
 **/
 
 
+array<EHandle> gpLivingFlares(0);
+
 final class ASFlare : ScriptBaseEntity
 {
-//================
     private float m_flBounceTime;
     private int m_iBounces = 0;
 
@@ -31,6 +32,8 @@ final class ASFlare : ScriptBaseEntity
         self.pev.solid = SOLID::SOLID_BBOX;
         self.pev.movetype = MOVETYPE::MOVETYPE_BOUNCE;
         self.pev.effects |= EFFECTS::EF_FULLBRIGHT;
+
+        gpLivingFlares.insertLast( EHandle( self ) );
 
         self.pev.nextthink = g_Engine.time;
 
@@ -136,6 +139,41 @@ final class ASFlare : ScriptBaseEntity
                 self.pev.movetype = MOVETYPE_NONE;
             }
         }
+    }
+}
+
+namespace util
+{
+    float __FlaresCurrentFrame__;
+    array<ASFlare@> __FlaresCurrentArray__;
+
+    // Get an array of living env_flare entities
+    // Handle to util::__FlaresCurrentArray__ never return null.
+    array<ASFlare@>@ GetLivingFlares()
+    {
+        if( __FlaresCurrentFrame__ == g_Engine.time )
+            return @__FlaresCurrentArray__;
+
+        __FlaresCurrentFrame__ = g_Engine.time;
+        __FlaresCurrentArray__.resize(0);
+
+        uint length = gpLivingFlares.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EHandle handle = gpLivingFlares[ui];
+
+            if( !handle.IsValid() || handle.GetEntity() is null )
+            {
+                gpLivingFlares.removeAt(ui);
+                ui--; length--;
+                continue;
+            }
+
+            __FlaresCurrentArray__.insertLast( cast<ASFlare@>( CastToScriptClass( handle.GetEntity() ) ) );
+        }
+
+        return @__FlaresCurrentArray__;
     }
 }
 
