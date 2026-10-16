@@ -152,7 +152,7 @@
             },
             "bts_op_worker": {
                 "classify": 5,
-                "hands": 6,
+                "hands": 8,
                 "voice": "construction"
             },
             "bts_op_free": {
