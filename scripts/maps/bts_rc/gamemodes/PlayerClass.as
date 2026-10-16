@@ -512,18 +512,30 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
         return;
 
     data.delete( "character" );
+    data.delete( "security" );
 
     switch( util::GetClass( player ) )
     {
         case Classification::Security:
         case Classification::Operative:
+        {
+            data[ "security" ] = true; // A trained personal
             break;
+        }
+        case Classification::Unset:
+        {
+            g_DataTracker.Track( player );
+            break;
+        }
         default:
-            data.delete( "security" );
+        {
+            break;
+        }
     }
 
     if( classify <= Classification::Unset || classify >= Classification::__Size__ )
     {
+        data.delete( "pm_equiped" );
         player.RemoveAllItems( false, false );
         return;
     }
@@ -545,7 +557,25 @@ void SetCharacter( CBasePlayer@ player, CCharacter@ character )
     @data[ "character" ] = character;
     player.SetOverriddenPlayerModel(character.Name);
     UpdatePlayerData( player, character.Classify );
-    Hooks::PlayerSetClass( player, character );
+
+    if( player.IsAlive() )
+    {
+        // Re-Deploy weapon to update view model hands
+        if( player.m_hActiveItem.IsValid() )
+        {
+            CBaseEntity@ active_item = player.m_hActiveItem.GetEntity();
+
+            if( active_item !is null )
+            {
+                CBasePlayerItem@ weapon = cast<CBasePlayerItem@>( active_item );
+
+                if( weapon !is null )
+                {
+                    weapon.Deploy();
+                }
+            }
+        }
+    }
 }
 
 void PlayerSetClass( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )

@@ -68,9 +68,9 @@ final class ASDataTracker : IConfigurable
         }
     }
 
-    void Track( CBasePlayer@ player, CCharacter@ character )
+    void Track( CBasePlayer@ player )
     {
-        if( player !is null && character !is null )
+        if( player !is null )
         {
             dictionary@ data = {
                 { "joined_at", DateTime().ToUnixTimestamp() }
