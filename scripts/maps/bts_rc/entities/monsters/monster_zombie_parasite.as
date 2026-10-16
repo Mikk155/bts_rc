@@ -339,7 +339,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
         float flForce = self.DamageForce( flDamage );
         m_vecDamageForce = vecDir * flForce;
 
-        if( !m_bHeadShot and btscm::HasFlags(bitsDamageType, DMG_BULLET) and !btscm::HasFlags(bitsDamageType, DMG_SNIPER) and !btscm::IsUsingSniperRifle(g_EntityFuncs.Instance(pevAttacker)) )
+        if( !m_bHeadShot and btscm::HasFlags(bitsDamageType, DMG_BULLET) and !btscm::HasFlags(bitsDamageType, DMG_SNIPER) )
             flDamage *= 0.5;
 
         int tookDamage = BaseClass.TakeDamage( pevInflictor, pevAttacker, flDamage, bitsDamageType );

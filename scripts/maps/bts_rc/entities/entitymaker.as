@@ -95,7 +95,7 @@ namespace test_chamber
             SetPair( "spawnflags", self.pev.spawnflags );
 
             CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
-            g_EntityFuncs.Remove( ( child is null ? self : child ) );
+            g_EntityFuncs.Remove( child );
 
             if( this.m_IsOn )
             {

@@ -57,7 +57,7 @@ void CustomMonsterMapInit()
 void MonsterThink()
 {
     //ScientistThink();
-    HWRGThink();
+    //HWRGThink();
 }
 
 HookReturnCode PlayerTakeDamage( DamageInfo@ pDamageInfo )

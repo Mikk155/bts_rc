@@ -48,20 +48,14 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
     bool Register( btson@ config ) override
     {
-        this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
-        this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
-
         if( g_MapConfig.MapLoading )
         {
+            this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
+            this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
+
             g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
             g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
             g_SoundSystem.PrecacheSound( "debris/beamstart14.wav" );
-
-            if( !g_IsMainMap )
-            {
-                g_Game.PrecacheOther( "monster_human_grunt_ally" );
-                g_Game.PrecacheModel( "models/bts_rc/monsters/rgrunt_opfor.mdl" );
-            }
 
             EntityOverriden::SetThink( 0.1f );
             EntityOverriden::Register( this );
