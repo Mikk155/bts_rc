@@ -21,7 +21,6 @@ array<EHandle> gpLivingFlares(0);
 final class ASFlare : ScriptBaseEntity
 {
     private float m_flBounceTime;
-    private int m_iBounces = 0;
 
     void Spawn()
     {
@@ -88,11 +87,21 @@ final class ASFlare : ScriptBaseEntity
 
     void Touch( CBaseEntity@ pOther )
     {
+        if( pOther is null )
+            return;
+
         BurningMonster::Ignite( pOther, g_EntityFuncs.Instance( self.pev.owner ), self.pev.armorvalue, self.pev.armortype );
 
-        if( ( m_iBounces < 10 ) && self.pev.waterlevel < WATERLEVEL_FEET )
+        if( self.pev.movetype != MOVETYPE::MOVETYPE_BOUNCE )
+            return;
+
+        self.pev.velocity.x *= 0.8f;
+        self.pev.velocity.y *= 0.8f;
+
+        if( self.pev.velocity.Length() < 64.0f )
         {
-            g_Utility.Sparks( self.pev.origin );
+            self.pev.velocity = g_vecZero;
+            self.pev.movetype = MOVETYPE::MOVETYPE_TOSS;
         }
 
         TraceResult tr = g_Utility.GetGlobalTrace();
@@ -109,18 +118,17 @@ final class ASFlare : ScriptBaseEntity
         }
         else
         {
-            m_iBounces++;
             if( ( self.pev.flags & FL_ONGROUND ) == 0 )
             {
                 if( g_Engine.time >= m_flBounceTime )
                 {
                     m_flBounceTime = g_Engine.time + Math.RandomFloat( 0.2f, 0.3f );
 
-                    if( g_Utility.GetGlobalTrace().flFraction < 1.0f )
+                    if( tr.flFraction < 1.0f )
                     {
-                        if( g_Utility.GetGlobalTrace().pHit !is null )
+                        if( tr.pHit !is null )
                         {
-                            CBaseEntity@ pHit = g_EntityFuncs.Instance( g_Utility.GetGlobalTrace().pHit );
+                            CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                             if( pHit.IsBSPModel() )
                             {
                                 g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
@@ -128,15 +136,6 @@ final class ASFlare : ScriptBaseEntity
                         }
                     }
                 }
-            }
-
-            self.pev.velocity.x *= 0.8f;
-            self.pev.velocity.y *= 0.8f;
-
-            if( self.pev.velocity.Length() < 64.0f )
-            {
-                self.pev.velocity = g_vecZero;
-                self.pev.movetype = MOVETYPE_NONE;
             }
         }
     }
