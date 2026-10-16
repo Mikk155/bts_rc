@@ -287,6 +287,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
             {
                 float flAdjustedDamage;
                 float flDist;
+                RGBA beamColor = GetBeamColor( monster );
 
                 // Houndeye rings
                 {
@@ -304,10 +305,10 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteByte( 2 ); // life
                         m.WriteByte( 16 ); // width
                         m.WriteByte( 0 ); // noise
-                        m.WriteByte( GetBeamColor( monster ).r ); // r, g, b
-                        m.WriteByte( GetBeamColor( monster ).g ); // r, g, b
-                        m.WriteByte( GetBeamColor( monster ).b ); // r, g, b
-                        m.WriteByte( GetBeamColor( monster ).a ); // brightness
+                        m.WriteByte( beamColor.r ); // r, g, b
+                        m.WriteByte( beamColor.g ); // r, g, b
+                        m.WriteByte( beamColor.b ); // r, g, b
+                        m.WriteByte( beamColor.a ); // brightness
                         m.WriteByte( 0 ); // speed
                     m.End();
                 }
@@ -327,10 +328,10 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteByte( 2 ); // life
                         m.WriteByte( 16 ); // width
                         m.WriteByte( 0 ); // noise
-                        m.WriteByte( GetBeamColor( monster ).r ); // r, g, b
-                        m.WriteByte( GetBeamColor( monster ).g ); // r, g, b
-                        m.WriteByte( GetBeamColor( monster ).b ); // r, g, b
-                        m.WriteByte( GetBeamColor( monster ).a ); // brightness
+                        m.WriteByte( beamColor.r ); // r, g, b
+                        m.WriteByte( beamColor.g ); // r, g, b
+                        m.WriteByte( beamColor.b ); // r, g, b
+                        m.WriteByte( beamColor.a ); // brightness
                         m.WriteByte( 0 ); // speed
                     m.End();
                 }
