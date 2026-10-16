@@ -207,9 +207,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             }
         }
 
-        if( g_Logger.trace.active )
-            g_Logger.trace.print( "Engineer grunt spawn a sentry at {}", { monster.pev.origin.ToString() } );
-
         return EntityOverridenAction::None;
     }
 

@@ -229,7 +229,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
             return EntityOverridenAction::None;
 
         if( g_Logger.trace.active )
-            g_Logger.trace.print( "Engineer grunt spawn a sentry at {}", { monster.pev.origin.ToString() } );
+            g_Logger.trace.print( "[{}] {} spawn a sentry at {}", { this.GetName(), monster.GetClassname(), monster.pev.origin.ToString() } );
 
         // -TODO Make the monster face towards the sentry
         monster.SetState( MONSTERSTATE::MONSTERSTATE_SCRIPT );
