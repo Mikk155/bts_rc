@@ -95,8 +95,11 @@ final class ASFlare : ScriptBaseEntity
         if( self.pev.movetype != MOVETYPE::MOVETYPE_BOUNCE )
             return;
 
-        self.pev.velocity.x *= 0.8f;
-        self.pev.velocity.y *= 0.8f;
+        if( self.pev.fuser1 > 0.0 )
+        {
+            self.pev.velocity.x *= self.pev.fuser1;
+            self.pev.velocity.y *= self.pev.fuser1;
+        }
 
         if( self.pev.velocity.Length() < 64.0f )
         {
@@ -208,6 +211,12 @@ bool ASMFlareConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMFlareConfi
         "type": "number",
         "minimum": 0.1,
         "description": "Flare duration when burning enemies"
+    },
+    "flare_bounce_resistance":
+    {
+        "type": "number",
+        "minimum": 0.9,
+        "description": "X/Y velocity deduction multiplier every time the flare hits something"
     }
 }""" );
 
@@ -223,6 +232,7 @@ mixin class ASMFlareConfig
     int flare_damage;
     int flare_burn_damage;
     float flare_burn_time;
+    float flare_bounce_resistance;
 
     void flare_register( btson@ json ) final
     {
@@ -231,6 +241,7 @@ mixin class ASMFlareConfig
         this.flare_damage = int( json[ "flare_damage" ] );
         this.flare_burn_damage = int( json[ "flare_burn_damage" ] );
         this.flare_burn_time = float( json[ "flare_burn_time" ] );
+        this.flare_bounce_resistance = float( json[ "flare_bounce_resistance" ] );
 
         if( !g_MapConfig.MapLoading || g_CustomEntityFuncs.IsCustomEntity( this.flare_classname ) )
             return;
@@ -269,6 +280,7 @@ mixin class ASMFlareConfig
         flare.pev.dmg = this.flare_damage;
         flare.pev.armorvalue = this.flare_burn_damage;
         flare.pev.armortype = this.flare_burn_time;
+        flare.pev.fuser1 = this.flare_bounce_resistance;
         flare.pev.dmgtime = g_Engine.time + this.flare_duration;
 
         NetworkMessage msg( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, flare.pev.origin );

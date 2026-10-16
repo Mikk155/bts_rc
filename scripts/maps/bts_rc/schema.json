@@ -13357,6 +13357,12 @@
 						"type": "number",
 						"minimum": 0.1,
 						"description": "Flare duration when burning enemies"
+					},
+					"flare_bounce_resistance": 
+					{
+						"type": "number",
+						"minimum": 0.9,
+						"description": "X/Y velocity deduction multiplier every time the flare hits something"
 					}
 				}
 			},
@@ -13762,6 +13768,12 @@
 						"type": "number",
 						"minimum": 0.1,
 						"description": "Flare duration when burning enemies"
+					},
+					"flare_bounce_resistance": 
+					{
+						"type": "number",
+						"minimum": 0.9,
+						"description": "X/Y velocity deduction multiplier every time the flare hits something"
 					}
 				}
 			},
