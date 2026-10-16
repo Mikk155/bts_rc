@@ -142,8 +142,23 @@ final class ASBurningMonster : ScriptBaseEntity
             return;
         }
 
+        float damage = this.m_Damage;
+
+        if( target.IsPlayer() )
+        {
+            switch( util::GetClass( target ) )
+            {
+                case Classification::HEV:
+                    damage *= 0.8f;
+                break;
+                case Classification::Hazard:
+                    damage *= 0.9f;
+                break;
+            }
+        }
+
         entvars_t@ attackerVars = attacker is null ? self.pev : attacker.pev;
-        target.TakeDamage( self.pev, attackerVars, m_Damage, DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB );
+        target.TakeDamage( self.pev, attackerVars, damage, DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB );
 
         NetworkMessage flame( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, target.Center() );
             flame.WriteByte( TE_EXPLOSION );
