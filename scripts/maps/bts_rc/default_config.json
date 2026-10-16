@@ -150,11 +150,6 @@
                 "hands": 6,
                 "voice": "barney"
             },
-            "bts_op_worker": {
-                "classify": 5,
-                "hands": 8,
-                "voice": "construction"
-            },
             "bts_op_free": {
                 "classify": 5,
                 "hands": 6,
@@ -209,6 +204,11 @@
                 "classify": 5,
                 "hands": 9,
                 "voice": "soldier"
+            },
+            "bts_op_worker": {
+                "classify": 5,
+                "hands": 8,
+                "voice": "construction"
             },
             "bts_otis": {
                 "classify": 0,
@@ -2346,8 +2346,8 @@
     },
     "weapon_bts_flare": {
         "deploy_time": 0.75,
-        "flare_burn_damage": 1,
         "flare_bounce_resistance": 0.7,
+        "flare_burn_damage": 1,
         "flare_burn_time": 1.0,
         "flare_damage": 35,
         "flare_duration": 120,
@@ -2367,11 +2367,11 @@
     },
     "weapon_bts_flaregun": {
         "deploy_time": 1.0,
+        "flare_bounce_resistance": 1.0,
         "flare_burn_damage": 1,
         "flare_burn_time": 1.0,
         "flare_damage": 1,
         "flare_duration": 120,
-        "flare_bounce_resistance": 1.0,
         "flare_gravity": 0.6,
         "max_clip": 1,
         "name": "Flaregun",

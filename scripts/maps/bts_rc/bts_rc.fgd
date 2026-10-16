@@ -7122,6 +7122,15 @@
 // -BTS_RC starts
 @SolidClass base(Mandatory, Angles, Appearflags, Targetname, ZHLT) = func_bts_recharger: "Wall hev armor recharger" [ ]
 
+@PointClass base(Mandatory, Angles, Appearflags, Targetname) studio( "models/bts_rc/weapons/w_flare.mdl" ) = env_flare : "Living flare"
+[
+    dmgtime(float) : "Flare duration" : 120
+    armorvalue(float) : "Time to burn touchers" : 1.0
+    armorvalue(float) : "Damage when burn" : 1
+    dmg(float) : "Damage when hit" : 4
+    gravity(float) : "Gravity" : 0.8
+]
+
 @BaseClass base(Mandatory, Angles, Appearflags, Targetname) = BTS_Item
 [
     spawnflags(Flags) =

@@ -215,7 +215,8 @@ bool ASMFlareConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMFlareConfi
     "flare_bounce_resistance":
     {
         "type": "number",
-        "minimum": 0.9,
+        "minimum": 0.0,
+        "maximum": 1.0,
         "description": "X/Y velocity deduction multiplier every time the flare hits something"
     }
 }""" );
