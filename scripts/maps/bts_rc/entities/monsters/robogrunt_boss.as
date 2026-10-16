@@ -15,6 +15,8 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+// multipliers; 0.0 = damage is set to 0, 0.5 = damage is halved, 1.0 = damage is unaffected, 2.0 = damage is doubled, etc.
+const float DAMAGE_MULT_SHIELD = 0.0;
 const int SHIELD_AOE_RADIUS = 240;
 const float SHIELD_AOE_DAMAGE = 15.0;
 const float SHIELD_AOE_KNOCKBACK = 1337.0;
@@ -83,7 +85,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
         }
 
         dictionary@ data = monster.GetUserData();
-        int hitgroup = monster.MyMonsterPointer().m_LastHitGroup;
+        int hitgroup = monster.m_LastHitGroup;
 
         switch( hitgroup )
         {
@@ -99,9 +101,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteCoord( tr.vecEndPos.z );
                     m.End();
                 }
-
-//                info.flDamage *= DAMAGE_MULT_SHIELD; this was at 0.0
-
+                info.flDamage *= DAMAGE_MULT_SHIELD;
                 break;
             }
             case HITGROUP_HEAD:

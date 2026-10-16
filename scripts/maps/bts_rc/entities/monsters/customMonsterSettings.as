@@ -33,11 +33,6 @@ namespace btscm
     /*hwrgboss.as*/
     const float THINKRATE_AOE_CHECK = 0.5; // checks if there are players near the boss
 
-    // how much damage the boss takes from various sources
-    // multipliers; 0.0 = damage is set to 0, 0.5 = damage is halved, 1.0 = damage is unaffected, 2.0 = damage is doubled, etc.
-    const float DAMAGE_MULT_SHIELD = 0.0;
-    const float DAMAGE_MULT_HEAD = 0.9; // sniper rifle only
-
     // if the boss is shooting and a Shield Stomp is triggered, it first uses either a Kick, or a Shield Slam (just a smoother transition between the animation)
     const float KICK_RANGE = 80.0;
     const float KICK_DAMAGE = 15.0;
@@ -68,10 +63,6 @@ namespace btscm
     const string KVN_MONSTERTHINK = "$f_btscmthink";
 
     const string SPRITE_RGRUNT_SMOKE = "sprites/steam1.spr";
-
-    /*hwrgboss*/
-    const int HITGROUP_SHIELD = 15;
-    // const int HITGROUP_MINIGUN            = 16; //only here if you want to do something if players shoot the minigun
 
     const string KVN_KICK = "$f_hwrgkick";
     const string KVN_SHIELDCHECK = "$f_hwrgshieldcheck";

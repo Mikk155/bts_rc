@@ -21,48 +21,6 @@
 
 namespace btscm
 {
-    HookReturnCode HWRGTakeDamage( DamageInfo@ pDamageInfo )
-    {
-        if( string( pDamageInfo.pVictim.pev.model ) == "models/bts_rc/monsters/robothwgrunt.mdl" )
-        {
-            if( pDamageInfo.flDamage <= 0.0 or pDamageInfo.pVictim.pev.takedamage == DAMAGE_NO )
-                return HOOK_CONTINUE;
-
-            dictionary@ data = pDamageInfo.pVictim.GetUserData();
-            int iHitGroup = pDamageInfo.pVictim.MyMonsterPointer().m_LastHitGroup;
-
-            if( iHitGroup == HITGROUP_SHIELD )
-            {
-                TraceResult tr = g_Utility.GetGlobalTrace();
-
-                if( pDamageInfo.pAttacker !is null and pDamageInfo.pAttacker.pev.FlagBitSet( FL_CLIENT ) )
-                {
-                    NetworkMessage m1( MSG_ONE, NetworkMessages::ShieldRic, pDamageInfo.pAttacker.edict() );
-                    m1.WriteCoord( tr.vecEndPos.x );
-                    m1.WriteCoord( tr.vecEndPos.y );
-                    m1.WriteCoord( tr.vecEndPos.z );
-                    m1.End();
-                }
-
-                pDamageInfo.flDamage *= DAMAGE_MULT_SHIELD;
-
-                return HOOK_CONTINUE;
-            }
-            else if( iHitGroup == HITGROUP_HEAD and ( HasFlags( pDamageInfo.bitsDamageType, DMG_SNIPER ) or IsUsingSniperRifle( pDamageInfo.pAttacker ) ) )
-            {
-                data[ "smokepuff" ] = int( 3 + ( pDamageInfo.flDamage / 5.0 ) );
-
-                pDamageInfo.flDamage *= DAMAGE_MULT_HEAD;
-
-                return HOOK_CONTINUE;
-            }
-
-//            HandleRobotDamage( pDamageInfo, true );
-        }
-
-        return HOOK_CONTINUE;
-    }
-
     bool IsUsingSniperRifle( CBaseEntity@ pEntity )
     {
         if( HasFlags( pEntity.pev.flags, FL_CLIENT ) )
@@ -111,7 +69,6 @@ namespace btscm
                     DoKick( EHandle( pEntity ) );
                     DoShieldSlam( EHandle( pEntity ) );
                     DoShieldStomp( EHandle( pEntity ) );
-                    DealWithFlares( EHandle( pEntity ) );
                 }
 
 //                DieThink( EHandle( pEntity ) );
@@ -499,60 +456,6 @@ namespace btscm
         return null;
     }
 
-    void DealWithFlares( EHandle hMonster )
-    {
-        CBaseEntity@ pMonster = hMonster.GetEntity();
-        if( pMonster is null )
-            return;
-
-        CBaseEntity@ pEntity = null;
-        while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, pMonster.pev.origin, ANTIFLARE_RANGE, "*", "classname" ) ) !is null )
-        {
-            if( pEntity.GetClassname() != "flare" )
-                continue;
-
-            if( pMonster.FVisible( pEntity, true ) )
-                break;
-        }
-
-        if( pEntity !is null )
-        {
-            if( pEntity.pev.solid != SOLID_NOT ) // just in case
-                pEntity.Killed( null, GIB_NEVER );
-
-            if( FreeEdicts( 1 ) )
-            {
-                CBeam@ pBeam = g_EntityFuncs.CreateBeam( SPRITE_ANTIFLARE, 50 );
-                if( pBeam !is null )
-                {
-                    pBeam.PointsInit( pMonster.Center(), pEntity.Center() );
-                    RGBA col = GetBeamColor( hMonster, true );
-                    pBeam.SetColor( col.r, col.g, col.b );
-                    pBeam.SetBrightness( col.a );
-                    pBeam.SetFlags( 130 );
-                    pBeam.SetNoise( 50 );
-                    pBeam.SetScrollRate( 50.0 );
-                    pBeam.LiveForTime( 0.2 );
-                }
-            }
-
-            if( FreeEdicts( 1 ) )
-            {
-                NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, pEntity.pev.origin );
-                m1.WriteByte( TE_SMOKE );
-                m1.WriteCoord( pEntity.pev.origin.x );
-                m1.WriteCoord( pEntity.pev.origin.y );
-                m1.WriteCoord( pEntity.pev.origin.z - 32.0 );
-                m1.WriteShort( g_Game.PrecacheModel( SPRITE_RGRUNT_SMOKE ) );
-                m1.WriteByte( Math.RandomLong( 1, 6 ) ); // scale * 10
-                m1.WriteByte( 24 );                      // framerate
-                m1.End();
-            }
-
-            g_SoundSystem.EmitSoundDyn( pMonster.edict(), CHAN_STATIC, "debris/beamstart14.wav", 0.8, ATTN_NORM, 0, PITCH_NORM + Math.RandomLong( -10, 10 ) );
-        }
-    }
-
     void HWRGMapInit() // HWRGMapInit
     {
         g_Game.PrecacheModel( SPRITE_ANTIFLARE );
@@ -560,8 +463,5 @@ namespace btscm
         // shield aoe
         g_SoundSystem.PrecacheSound( "garg/gar_stomp1.wav" );
         g_Game.PrecacheModel( SPRITE_SHIELD_AOE );
-
-        // handles different hitgroups (head, shield), ricochets, and damage reduction for various damage types, probably needs tweaking :eheh:
-        g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @HWRGTakeDamage );
     }
 } // namespace btscm END
