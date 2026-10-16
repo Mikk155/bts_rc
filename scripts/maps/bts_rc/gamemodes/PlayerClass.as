@@ -512,7 +512,6 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
         return;
 
     data.delete( "character" );
-    data.delete( "pm_equiped" );
 
     switch( util::GetClass( player ) )
     {
