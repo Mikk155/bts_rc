@@ -119,6 +119,21 @@ abstract class EntityOverriden
         }
     }
 
+    // Get the entity at the given index at m_Handles. null if out of range.
+    CBaseEntity@ Get( int index )
+    {
+        if( index >= 0 && index < int( this.m_Handles.length() ) )
+        {
+            return this.m_Handles[index].GetEntity();
+        }
+        return null;
+    }
+
+    CBaseEntity@ opIndex( int index )
+    {
+        return this.Get(index);
+    }
+
     // Find a entity by reference. if exists in m_Handles removes it.
     void Remove( CBaseEntity@ entity )
     {
