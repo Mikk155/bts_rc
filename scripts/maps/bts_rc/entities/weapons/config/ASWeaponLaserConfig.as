@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-bool ASWeaponLaserConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponLaserConfig",
+bool ASWeaponLaserConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponLaserConfig", // disable-line W117
 """{
     "laser_accuracy":
     {

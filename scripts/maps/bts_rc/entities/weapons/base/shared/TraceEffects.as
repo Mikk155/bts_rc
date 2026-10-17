@@ -205,7 +205,7 @@ void __TraceEffects_Blood__( float x, float y, float z, int color, int range, in
     g_Scheduler.SetTimeout( "__TraceEffects_Blood__", 0.5f, x, y, z, color, range, repeats ); // disable-line E118
 }
 
-ASCommand __TraceEffects_Blood_cmd__(
+ASCommand __TraceEffects_Blood_cmd__( // disable-line W117
     "blood",
     "<0/255 color ranges> <0/255 particle amount (optional)>",
     "Spawn blood particles",
@@ -251,7 +251,7 @@ void __TraceEffects_Sparks__( float x, float y, float z, int color, int repeats 
 
     g_Scheduler.SetTimeout( "__TraceEffects_Sparks__", 0.5f, x, y, z, color, repeats ); // disable-line E118
 }
-ASCommand __TraceEffects_Sparks_cmd__(
+ASCommand __TraceEffects_Sparks_cmd__( // disable-line W117
     "blood",
     "<0/255 color ranges> <0/255 particle amount (optional)>",
     "Spawn blood particles",

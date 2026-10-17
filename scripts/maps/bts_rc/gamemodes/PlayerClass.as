@@ -118,11 +118,6 @@ enum Hands
     __Size__
 };
 
-array<CCharacter@> g_ScienceTeam;
-array<CCharacter@> g_MaintenanceTeam;
-array<CCharacter@> g_SecurityTeam;
-array<CCharacter@> g_OperativeTeam;
-
 final class CCharacter
 {
     private CVoices@ m_Voices;
@@ -634,7 +629,7 @@ void UpdatePlayerData( CBasePlayer@ player )
     UpdatePlayerData( player, util::GetClass( player ) );
 }
 
-ASCommand ASEquipmentTestCommand(
+ASCommand ASEquipmentTestCommand( // disable-line W117
 "set",
 "[class index]",
 "Set your class to the given index, use w/o arguments to see indexes",
@@ -672,7 +667,7 @@ function( CBasePlayer@ player, array<string>@ arguments )
     SetClass( player, classify );
 }, true, "class" );
 
-ASCommand ASCharacterTestCommand(
+ASCommand ASCharacterTestCommand( // disable-line W117
 "character",
 "[model name]",
 "Show playable characters or select a specific character",

@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-const bool Reg_point_checkpoint = CustomEntity( "point_checkpoint", true );
+const bool Reg_point_checkpoint = CustomEntity( "point_checkpoint", true ); // disable-line W117
 
 final class point_checkpoint : ScriptBaseAnimating
 {

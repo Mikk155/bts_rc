@@ -142,7 +142,7 @@ bool IsCommandSection( const string&in name )
     return false;
 }
 
-CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function( const CCommand@ args )
+CClientCommand __CommandContextCallback__( "bts_rc", "bts_rc commands", function( const CCommand@ args ) // disable-line W117
 {
     auto player = g_ConCommandSystem.GetCurrentPlayer();
 

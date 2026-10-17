@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-bool ASWeaponScopeLightConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponScopeLightConfig",
+bool ASWeaponScopeLightConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponScopeLightConfig", // disable-line W117
 """{
     "scope_fov":
     {

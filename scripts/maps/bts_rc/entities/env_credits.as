@@ -15,7 +15,7 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-const bool Reg_env_credits = CustomEntity( "env_credits", true );
+const bool Reg_env_credits = CustomEntity( "env_credits", true ); // disable-line W117
 
 final class ASCaption
 {
