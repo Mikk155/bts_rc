@@ -159,6 +159,7 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/weapon_m79.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/wepspr.spr" );
     g_Game.PrecacheModel( "sprites/exit1.spr" );
+    g_Game.PrecacheModel( "sprites/glow01.spr" );
     g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_1.spr" );
     g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_2.spr" );
     g_Game.PrecacheModel( "sprites/mikk155/particles/ablood_3.spr" );

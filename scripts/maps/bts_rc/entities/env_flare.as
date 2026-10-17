@@ -18,10 +18,27 @@
 
 array<EHandle> gpLivingFlares(0);
 
-final class ASFlare : ScriptBaseEntity
+const RGBA ASFlareColor( 255, 21, 18, 100 );
+
+final class ASFlare : ScriptBaseAnimating
 {
     private EHandle m_hOwner;
+    private array<EHandle> m_Sprites;
     private float m_flBounceTime;
+
+    CSprite@ AllocSprite( const string&in spriteModel )
+    {
+        CSprite@ sprite = g_EntityFuncs.CreateSprite( spriteModel, self.pev.origin, true );
+
+        sprite.pev.rendercolor[0] = ASFlareColor.r;
+        sprite.pev.rendercolor[1] = ASFlareColor.g;
+        sprite.pev.rendercolor[2] = ASFlareColor.b;
+        sprite.pev.renderamt = ASFlareColor.a;
+
+        this.m_Sprites.insertLast( EHandle( sprite ) );
+
+        return sprite;
+    }
 
     void Spawn()
     {
@@ -35,10 +52,35 @@ final class ASFlare : ScriptBaseEntity
 
         gpLivingFlares.insertLast( EHandle( self ) );
 
+        edict_t@ edict = self.edict();
+
         self.pev.nextthink = g_Engine.time;
 
-        g_SoundSystem.PlaySound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NONE, 0 );
-        g_SoundSystem.EmitSoundDyn( self.edict(), SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+        // Play fire loop
+        g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NONE, 0 );
+
+        g_SoundSystem.EmitSoundDyn( edict, SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+
+        if( FreeEdicts(3) )
+        {
+            CSprite@ sprite;
+
+            @sprite = this.AllocSprite( "sprites/glow01.spr" );
+            sprite.SetAttachment( edict, 0 );
+            sprite.pev.rendermode = RenderModes::kRenderGlow;
+            sprite.pev.renderamt = 255;
+
+            @sprite = this.AllocSprite( "sprites/glow01.spr" );
+            sprite.SetAttachment( edict, 0 );
+            sprite.pev.rendermode = RenderModes::kRenderGlow;
+            sprite.pev.renderamt = 100;
+            sprite.pev.scale = 2.5;
+
+            @sprite = this.AllocSprite( "sprites/glow01.spr" );
+            sprite.SetAttachment( edict, 0 );
+            sprite.pev.rendermode = RenderModes::kRenderTransAdd;
+            sprite.pev.renderamt = 100;
+        }
 
         // By simply doing this it stores the owner in m_hOwner.
         this.Owner;
@@ -46,25 +88,41 @@ final class ASFlare : ScriptBaseEntity
 
     void UpdateOnRemove()
     {
+        // Stop fire loop
         g_SoundSystem.StopSound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", false );
+
+        // Kill sprites
+        const uint length = this.m_Sprites.length();
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            EHandle handle = this.m_Sprites[ui];
+            CBaseEntity@ sprite;
+
+            if( handle.IsValid() && ( @sprite = handle.GetEntity() ) !is null )
+                sprite.pev.flags |= FL_KILLME;
+        }
     }
 
     void Think()
     {
+        Vector origin;
+        Vector angles;
+        self.GetAttachment( 0, origin, angles );
+
         NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, self.pev.origin );
             m.WriteByte( TE_DLIGHT );
-            m.WriteCoord( self.pev.origin.x );
-            m.WriteCoord( self.pev.origin.y );
-            m.WriteCoord( self.pev.origin.z );
+            m.WriteCoord( origin.x );
+            m.WriteCoord( origin.y );
+            m.WriteCoord( origin.z );
             if( self.pev.waterlevel > WATERLEVEL_FEET ) {
                 m.WriteByte( 9 );
             }
             else {
                 m.WriteByte( 18 );
             }
-            m.WriteByte( 255 );
-            m.WriteByte( 21 );
-            m.WriteByte( 18 );
+            m.WriteByte( ASFlareColor.r );
+            m.WriteByte( ASFlareColor.g );
+            m.WriteByte( ASFlareColor.b );
             m.WriteByte( 1 );
             if( g_Engine.time > self.pev.dmgtime ) {
                 m.WriteByte( 64 );
@@ -83,12 +141,15 @@ final class ASFlare : ScriptBaseEntity
             if( Math.RandomLong( 0, 8 ) == 1 )
             {
                 // -TODO TE_ something?
-                g_Utility.Sparks( self.pev.origin );
+                g_Utility.Sparks( origin );
             }
         }
 
+        self.pev.nextthink = g_Engine.time + 0.1f;
+
         if( g_Engine.time > self.pev.dmgtime )
         {
+            UpdateOnRemove();
             self.pev.flags |= FL_KILLME;
         }
 
@@ -100,13 +161,26 @@ final class ASFlare : ScriptBaseEntity
             vecEnd.z -= 200;
             g_Utility.TraceLine( self.pev.origin, vecEnd, ignore_monsters, self.edict(), tr );
             g_EntityFuncs.SetOrigin( self, tr.vecEndPos );
-            self.pev.velocity = g_vecZero;
-            self.pev.solid = SOLID::SOLID_TRIGGER;
-            self.pev.movetype = MOVETYPE::MOVETYPE_NONE;
-            g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
+            this.HitFloor();
         }
+    }
 
-        self.pev.nextthink = g_Engine.time + 0.1f;
+    void HitFloor()
+    {
+        self.pev.velocity = g_vecZero;
+        self.pev.solid = SOLID::SOLID_TRIGGER;
+        self.pev.movetype = MOVETYPE::MOVETYPE_NONE;
+        g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
+
+        // Kill non glow sprite after it hits the floor
+        if( m_Sprites.length() > 0 )
+        {
+            EHandle handle = m_Sprites[2];
+            m_Sprites.removeAt(2);
+
+            if( handle.IsValid() && handle.GetEntity() !is null )
+                handle.GetEntity().pev.flags |= FL_KILLME;
+        }
     }
 
     CBaseEntity@ get_Owner() property
@@ -174,12 +248,7 @@ final class ASFlare : ScriptBaseEntity
 
         // Touch the floor or is stuck in a monster
         if( ( self.pev.flags & EdictFlags::FL_ONGROUND ) != 0 )
-        {
-            self.pev.velocity = g_vecZero;
-            self.pev.solid = SOLID::SOLID_TRIGGER;
-            self.pev.movetype = MOVETYPE::MOVETYPE_NONE;
-            g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
-        }
+            this.HitFloor();
     }
 }
 

@@ -258,41 +258,6 @@ namespace btscm
             pTarget.pev.velocity = vecVictim;
     }
 
-    bool IsSurrounded( EHandle hMonster )
-    {
-        CBaseEntity@ pMonster = hMonster.GetEntity();
-        if( pMonster is null )
-            return false;
-
-        return SurroundedBy( hMonster ) >= SHIELD_AOE_TRIGGER;
-    }
-
-    int SurroundedBy( EHandle hMonster )
-    {
-        CBaseEntity@ pMonster = hMonster.GetEntity();
-        if( pMonster is null )
-            return 0;
-
-        int iSurroundedBy = 0;
-
-        CBaseEntity@ pEntity = null;
-        while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, pMonster.pev.origin, SURROUND_RADIUS, "*", "classname" ) ) !is null )
-        {
-            if( pEntity.pev.FlagBitSet( FL_MONSTER | FL_CLIENT ) and pEntity.pev.takedamage != DAMAGE_NO and pEntity.edict() !is pMonster.edict() )
-            {
-                if( !pMonster.FVisible( pEntity, true ) )
-                    continue;
-
-                if( pMonster.IRelationship( pEntity ) <= R_NO )
-                    continue;
-
-                iSurroundedBy++;
-            }
-        }
-
-        return iSurroundedBy;
-    }
-
     void DoKick( EHandle hMonster )
     {
         CBaseEntity@ pMonster = hMonster.GetEntity();

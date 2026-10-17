@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/84.39716312056737?barColor=4bda0b)
+> ![](https://geps.dev/progress/85.1063829787234?barColor=49da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -28,7 +28,6 @@ This file contains the list of to-do in the project.
 
 # Pending
 - [ ] Check attacker relationship at BurningMonster ignite.
-- [ ] Fix test chamber not spawning all type of canister zombies (use trigger_changevalues as modified in bsp file.)
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );
@@ -60,6 +59,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Fix test chamber not spawning all type of canister zombies (use trigger_changevalues as modified in bsp file.)
 - [x] Rotate ASFlare angles when created with flaregun
 - [x] Add gravity to flaregun ASFLares
 - [x] Purge all sequence and texture model extensions with modelguy

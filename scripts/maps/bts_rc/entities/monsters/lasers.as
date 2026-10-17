@@ -93,8 +93,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
-            g_Game.PrecacheModel( "sprites/glow01.spr" );
-
             EntityOverriden::SetThink( float( config[ "interval" ] ) );
             EntityOverriden::Register( this );
         }

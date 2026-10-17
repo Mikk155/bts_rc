@@ -460,7 +460,6 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
     void Precache() override
     {
         g_Game.PrecacheModel( this.player_model_flashlight );
-        g_Game.PrecacheModel( "sprites/glow01.spr" );
 
         g_SoundSystem.PrecacheSound( "bts_rc/items/battery_reload.wav" );
 
