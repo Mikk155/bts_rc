@@ -66,18 +66,19 @@ final class ASFlare : ScriptBaseAnimating
             CSprite@ sprite;
 
             @sprite = this.AllocSprite( "sprites/glow01.spr" );
-            sprite.SetAttachment( edict, 0 );
+            sprite.SetAttachment( edict, 1 );
             sprite.pev.rendermode = RenderModes::kRenderGlow;
             sprite.pev.renderamt = 255;
 
             @sprite = this.AllocSprite( "sprites/glow01.spr" );
-            sprite.SetAttachment( edict, 0 );
+            sprite.SetAttachment( edict, 1 );
             sprite.pev.rendermode = RenderModes::kRenderGlow;
             sprite.pev.renderamt = 100;
             sprite.pev.scale = 2.5;
 
+            // This sprite is deleted at index 3 when HitFloor is called
             @sprite = this.AllocSprite( "sprites/glow01.spr" );
-            sprite.SetAttachment( edict, 0 );
+            sprite.SetAttachment( edict, 1 );
             sprite.pev.rendermode = RenderModes::kRenderTransAdd;
             sprite.pev.renderamt = 100;
         }
