@@ -15313,6 +15313,61 @@
 				"title": "Robot grunt configuration",
 				"properties": 
 				{
+					"dmg_shield": 
+					{
+						"type": "number",
+						"minimum": 0.0,
+						"description": "Multiplier for damage dealth on shield hitgroup (15). DMG_BURN, DMG_SLOWBURN, DMG_BLAST skips this."
+					},
+					"shield_blast_radius": 
+					{
+						"type": "integer",
+						"minimum": 64,
+						"description": "Shield blast radius."
+					},
+					"shield_blast_damage": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"description": "Shield blast damage."
+					},
+					"shield_blast_push": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"description": "Shield blast push force."
+					},
+					"shield_blast_range": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"description": "Range check for enemies to use shield blast."
+					},
+					"shield_blast_bonus": 
+					{
+						"type": "number",
+						"minimum": 1.0,
+						"description": "Shield blast damage multiplier bonus for the amount of targets in shield radius"
+					},
+					"shield_blast_colours": 
+					{
+						"type": "array",
+						"description": "Colour ranges used based on count of enemies in range i.e index 3 would be used if 3 enemies in range. if more enemies in range than lists defined it will simply use the last one.",
+						"items": 
+						{
+							"type": "array",
+							"description": "[Red, Green, Blue, Alpha]",
+							"minItems": 4,
+							"maxItems": 4,
+							"items": 
+							{
+								"minimum": 1,
+								"maximum": 255,
+								"type": "integer",
+								"description": " 0-255"
+							}
+						}
+					},
 					"explosion_damage": 
 					{
 						"type": "integer",

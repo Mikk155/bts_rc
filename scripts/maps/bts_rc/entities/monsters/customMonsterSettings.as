@@ -43,17 +43,6 @@ namespace btscm
     const float SHIELD_SLAM_FORCE = 200.0; // for knockback
 
     const int SHIELD_AOE_TRIGGER = 1;      // the minimum number of players around the boss to trigger a stomp
-    const int SHIELD_AOE_RADIUS = 240;
-    const float SHIELD_AOE_DAMAGE = 15.0;
-    const float SHIELD_AOE_KNOCKBACK = 1337.0;
-    const float SURROUND_RADIUS = 220.0;                        // the number of players within this range will change the color and damage of the aoe
-    const float SURROUND_BONUS = 1.1;                           // damage multiplied by this for every player in range (~ish) set to 0.0 for no bonus (unless my math is flawed :owo:)
-    const RGBA SONIC_BEAM_COLOR_1 = RGBA( 188, 220, 255, 255 ); // based on number of nearby players
-    const RGBA SONIC_BEAM_COLOR_2 = RGBA( 101, 133, 221, 255 );
-    const RGBA SONIC_BEAM_COLOR_3 = RGBA( 67, 85, 255, 255 );
-    const RGBA SONIC_BEAM_COLOR_4 = RGBA( 62, 33, 211, 255 );
-
-    const float ANTIFLARE_RANGE = 200.0;
 
     ////////////////////////////////////////////////////////
     // OTHER (shouldn't need changing, but might) //

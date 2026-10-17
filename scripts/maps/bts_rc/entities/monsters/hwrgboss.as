@@ -21,19 +21,6 @@
 
 namespace btscm
 {
-    bool IsUsingSniperRifle( CBaseEntity@ pEntity )
-    {
-        if( HasFlags( pEntity.pev.flags, FL_CLIENT ) )
-        {
-            CBasePlayer@ pPlayer = cast<CBasePlayer@>( pEntity );
-
-            if( pPlayer.m_hActiveItem.GetEntity() !is null and pPlayer.m_hActiveItem.GetEntity().GetClassname() == "weapon_bts_sniperrifle" )
-                return true;
-        }
-
-        return false;
-    }
-
     void HWRGThink()
     {
         CBaseEntity@ pEntity = null;
@@ -306,54 +293,6 @@ namespace btscm
         return iSurroundedBy;
     }
 
-    RGBA GetBeamColor( EHandle hMonster, bool bRandom = false )
-    {
-        CBaseEntity@ pMonster = hMonster.GetEntity();
-        if( pMonster is null )
-            return RGBA( 255, 255, 255, 255 );
-
-        uint8 bRed, bGreen, bBlue;
-
-        if( IsSurrounded( hMonster ) or bRandom )
-        {
-            int iNumToCheck = SurroundedBy( hMonster );
-            if( bRandom )
-                iNumToCheck = Math.RandomLong( 0, 4 );
-
-            switch( iNumToCheck )
-            {
-                case 2:
-                    bRed = SONIC_BEAM_COLOR_2.r;
-                    bGreen = SONIC_BEAM_COLOR_2.g;
-                    bBlue = SONIC_BEAM_COLOR_2.b;
-                    break;
-                case 3:
-                    bRed = SONIC_BEAM_COLOR_3.r;
-                    bGreen = SONIC_BEAM_COLOR_3.g;
-                    bBlue = SONIC_BEAM_COLOR_3.b;
-                    break;
-                case 4:
-                    bRed = SONIC_BEAM_COLOR_4.r;
-                    bGreen = SONIC_BEAM_COLOR_4.g;
-                    bBlue = SONIC_BEAM_COLOR_4.b;
-                    break;
-                default:
-                    bRed = SONIC_BEAM_COLOR_4.r;
-                    bGreen = SONIC_BEAM_COLOR_4.g;
-                    bBlue = SONIC_BEAM_COLOR_4.b;
-                    break;
-            }
-        }
-        else
-        {
-            bRed = SONIC_BEAM_COLOR_1.r;
-            bGreen = SONIC_BEAM_COLOR_1.g;
-            bBlue = SONIC_BEAM_COLOR_1.b;
-        }
-
-        return RGBA( bRed, bGreen, bBlue, 255 );
-    }
-
     void DoKick( EHandle hMonster )
     {
         CBaseEntity@ pMonster = hMonster.GetEntity();
@@ -454,14 +393,5 @@ namespace btscm
         }
 
         return null;
-    }
-
-    void HWRGMapInit() // HWRGMapInit
-    {
-        g_Game.PrecacheModel( SPRITE_ANTIFLARE );
-
-        // shield aoe
-        g_SoundSystem.PrecacheSound( "garg/gar_stomp1.wav" );
-        g_Game.PrecacheModel( SPRITE_SHIELD_AOE );
     }
 } // namespace btscm END

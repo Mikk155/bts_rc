@@ -2243,7 +2243,39 @@
         "dmg_burn": 0.18,
         "dmg_generic": 0.6,
         "dmg_melee": 0.08,
+        "dmg_shield": 0.0,
         "explosion_damage": 125,
+        "shield_blast_bonus": 1.1,
+        "shield_blast_colours": [
+            [
+                188,
+                220,
+                255,
+                255
+            ],
+            [
+                101,
+                133,
+                221,
+                255
+            ],
+            [
+                67,
+                85,
+                255,
+                255
+            ],
+            [
+                62,
+                33,
+                211,
+                255
+            ]
+        ],
+        "shield_blast_damage": 15,
+        "shield_blast_push": 1337,
+        "shield_blast_radius": 240,
+        "shield_blast_range": 220,
         "shock_active": 0.3,
         "shock_touch": 125
     },

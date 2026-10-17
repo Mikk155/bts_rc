@@ -20,7 +20,6 @@
 */
 
 #include "customMonsterSettings"
-#include "hwrgboss"
 //#include "scientists"
 #include "monster_zombie_grenadier"
 #include "monster_snapbug"
@@ -35,7 +34,6 @@ CScheduledFunction@ g_monsterThink = null;
 
 void CustomMonsterMapInit()
 {
-    HWRGMapInit();
     //ScientistMapInit();
 
     monster_zombie_grenadier::Register();

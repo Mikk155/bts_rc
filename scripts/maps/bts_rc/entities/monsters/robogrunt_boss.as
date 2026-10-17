@@ -15,20 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-// multipliers; 0.0 = damage is set to 0, 0.5 = damage is halved, 1.0 = damage is unaffected, 2.0 = damage is doubled, etc.
-const float DAMAGE_MULT_SHIELD = 0.0;
-const int SHIELD_AOE_RADIUS = 240;
-const float SHIELD_AOE_DAMAGE = 15.0;
-const float SHIELD_AOE_KNOCKBACK = 1337.0;
-const float SURROUND_RADIUS = 220.0;                        // the number of players within this range will change the color and damage of the aoe
-const float SURROUND_BONUS = 1.1;                           // damage multiplied by this for every player in range (~ish) set to 0.0 for no bonus (unless my math is flawed :owo:)
-const RGBA SONIC_BEAM_COLOR_1 = RGBA( 188, 220, 255, 255 ); // based on number of nearby players
-const RGBA SONIC_BEAM_COLOR_2 = RGBA( 101, 133, 221, 255 );
-const RGBA SONIC_BEAM_COLOR_3 = RGBA( 67, 85, 255, 255 );
-const RGBA SONIC_BEAM_COLOR_4 = RGBA( 62, 33, 211, 255 );
-
-const float ANTIFLARE_RANGE = 200.0;
-
 final class ASRoboGruntBoss : ASRoboGrunt
 {
     const string& GetName() const override {
@@ -47,10 +33,72 @@ final class ASRoboGruntBoss : ASRoboGrunt
             ],
             "properties":
             {
+                "dmg_shield":
+                {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "description": "Multiplier for damage dealth on shield hitgroup (15). DMG_BURN, DMG_SLOWBURN, DMG_BLAST skips this."
+                },
+                "shield_blast_radius":
+                {
+                    "type": "integer",
+                    "minimum": 64,
+                    "description": "Shield blast radius."
+                },
+                "shield_blast_damage":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Shield blast damage."
+                },
+                "shield_blast_push":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Shield blast push force."
+                },
+                "shield_blast_range":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Range check for enemies to use shield blast."
+                },
+                "shield_blast_bonus":
+                {
+                    "type": "number",
+                    "minimum": 1.0,
+                    "description": "Shield blast damage multiplier bonus for the amount of targets in shield radius"
+                },
+                "shield_blast_colours":
+                {
+                    "type": "array",
+                    "description": "Colour ranges used based on count of enemies in range i.e index 3 would be used if 3 enemies in range. if more enemies in range than lists defined it will simply use the last one.",
+                    "items":
+                    {
+                        "type": "array",
+                        "description": "[Red, Green, Blue, Alpha]",
+                        "minItems": 4,
+                        "maxItems": 4,
+                        "items": 
+                        {
+                            "minimum": 1,
+                            "maximum": 255,
+                            "type": "integer",
+                            "description": " 0-255"
+                        }
+                    }
+                }
             }
         }""";
     }
 
+    array<RGBA> shield_blast_colours;
+    private float shield_blast_bonus;
+    private int shield_blast_range;
+    private int shield_blast_push;
+    private int shield_blast_radius;
+    private int shield_blast_damage;
+    private float dmg_shield;
     private int m_iShockwave;
     private int m_iAnimAttack = -1;
     private int m_iAnimSpindown = -1;
@@ -58,6 +106,22 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
     bool Register( btson@ config ) override
     {
+        this.dmg_shield = float( config[ "dmg_shield" ] );
+        this.shield_blast_radius = int( config[ "shield_blast_radius" ] );
+        this.shield_blast_damage = int( config[ "shield_blast_damage" ] );
+        this.shield_blast_push = int( config[ "shield_blast_push" ] );
+        this.shield_blast_bonus = float( config[ "shield_blast_bonus" ] );
+        this.shield_blast_range = int( config[ "shield_blast_range" ] );
+
+        btson@ colours = config[ "shield_blast_colours" ];
+        const uint length = colours.Length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            btson@ colour = colours[ui];
+            shield_blast_colours.insertLast( RGBA( int(colour[0]), int(colour[1]), int(colour[2]), int(colour[3]) ) );
+        }
+
         if( g_MapConfig.MapLoading )
         {
             g_SoundSystem.PrecacheSound( "garg/gar_stomp1.wav" );
@@ -71,9 +135,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
     {
         if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/robothwgrunt.mdl" )
             return false;
-
-        if( !g_IsMainMap )
-            SetDebugName( entity, "Robo grunt boss" );
 
         if( this.m_iAnimAttack < 0 )
             this.m_iAnimAttack = monster.LookupSequence( "attack" );
@@ -113,11 +174,10 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
                 if( ( info.bitsDamageType & ( DMG_BURN | DMG_SLOWBURN | DMG_BLAST ) ) == 0 )
                 {
-                    info.flDamage *= DAMAGE_MULT_SHIELD;
-                }
-                else
-                {
-                    info.flDamage = 0;
+                    if( this.dmg_shield > 0.0 )
+                        info.flDamage *= this.dmg_shield;
+                    else
+                        info.flDamage = 0;
                 }
 
                 break;
@@ -151,7 +211,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
         int iNearby = 0;
 
         CBaseEntity@ entity = null;
-        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, SURROUND_RADIUS, "*", "classname" ) ) !is null )
+        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, this.shield_blast_range, "*", "classname" ) ) !is null )
         {
             if( entity.pev.FlagBitSet( FL_MONSTER | FL_CLIENT ) and entity.pev.takedamage != DAMAGE_NO and entity.edict() !is monster.edict() )
             {
@@ -207,53 +267,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
         }
     }
 
-    RGBA GetBeamColor( CBaseMonster@ monster, bool bRandom = false )
-    {
-        if( monster is null )
-            return RGBA( 255, 255, 255, 255 );
-
-        uint8 bRed, bGreen, bBlue;
-
-        if( bRandom || Nearby( monster ) >= 1 )
-        {
-            int iNumToCheck = Nearby( monster );
-            if( bRandom )
-                iNumToCheck = Math.RandomLong( 0, 4 );
-
-            switch( iNumToCheck )
-            {
-                case 2:
-                    bRed = SONIC_BEAM_COLOR_2.r;
-                    bGreen = SONIC_BEAM_COLOR_2.g;
-                    bBlue = SONIC_BEAM_COLOR_2.b;
-                    break;
-                case 3:
-                    bRed = SONIC_BEAM_COLOR_3.r;
-                    bGreen = SONIC_BEAM_COLOR_3.g;
-                    bBlue = SONIC_BEAM_COLOR_3.b;
-                    break;
-                case 4:
-                    bRed = SONIC_BEAM_COLOR_4.r;
-                    bGreen = SONIC_BEAM_COLOR_4.g;
-                    bBlue = SONIC_BEAM_COLOR_4.b;
-                    break;
-                default:
-                    bRed = SONIC_BEAM_COLOR_4.r;
-                    bGreen = SONIC_BEAM_COLOR_4.g;
-                    bBlue = SONIC_BEAM_COLOR_4.b;
-                    break;
-            }
-        }
-        else
-        {
-            bRed = SONIC_BEAM_COLOR_1.r;
-            bGreen = SONIC_BEAM_COLOR_1.g;
-            bBlue = SONIC_BEAM_COLOR_1.b;
-        }
-
-        return RGBA( bRed, bGreen, bBlue, 255 );
-    }
-
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
         if( !entity.IsAlive() )
@@ -305,7 +318,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
             {
                 float flAdjustedDamage;
                 float flDist;
-                RGBA beamColor = GetBeamColor( monster );
+                RGBA beamColor = this.shield_blast_colours[ Math.clamp( 0, this.shield_blast_colours.length() - 1, Nearby( monster ) ) ];
 
                 // Houndeye rings
                 {
@@ -316,7 +329,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteCoord( monster.pev.origin.z + 16 );
                         m.WriteCoord( monster.pev.origin.x );
                         m.WriteCoord( monster.pev.origin.y );
-                        m.WriteCoord( monster.pev.origin.z + 16 + SHIELD_AOE_RADIUS / 0.2 ); // reach damage radius over .3 seconds
+                        m.WriteCoord( monster.pev.origin.z + 16 + this.shield_blast_radius / 0.2 ); // reach damage radius over .3 seconds
                         m.WriteShort( this.m_iShockwave );
                         m.WriteByte( 0 ); // startframe
                         m.WriteByte( 0 ); // framerate
@@ -339,7 +352,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteCoord( monster.pev.origin.z + 16 );
                         m.WriteCoord( monster.pev.origin.x );
                         m.WriteCoord( monster.pev.origin.y );
-                        m.WriteCoord( monster.pev.origin.z + 16 + ( SHIELD_AOE_RADIUS / 2 ) / 0.2 ); // reach damage radius over .3 seconds
+                        m.WriteCoord( monster.pev.origin.z + 16 + ( this.shield_blast_radius / 2 ) / 0.2 ); // reach damage radius over .3 seconds
                         m.WriteShort( this.m_iShockwave );
                         m.WriteByte( 0 ); // startframe
                         m.WriteByte( 0 ); // framerate
@@ -355,20 +368,20 @@ final class ASRoboGruntBoss : ASRoboGrunt
                 }
 
                 CBaseEntity@ pEntity = null;
-                while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, monster.pev.origin, SHIELD_AOE_RADIUS, "*", "classname" ) ) !is null )
+                while( ( @pEntity = g_EntityFuncs.FindEntityInSphere( pEntity, monster.pev.origin, this.shield_blast_radius, "*", "classname" ) ) !is null )
                 {
                     if( pEntity.pev.takedamage != DAMAGE_NO and pEntity.edict() !is monster.edict() )
                     {
                         if( !pEntity.pev.ClassNameIs( "monster_hwgrunt" ) )
                         {
                             if( Nearby( monster ) > 1 )
-                                flAdjustedDamage = SHIELD_AOE_DAMAGE + SHIELD_AOE_DAMAGE * ( SURROUND_BONUS * ( Nearby( monster ) - 1 ) );
+                                flAdjustedDamage = this.shield_blast_damage + this.shield_blast_damage * ( this.shield_blast_bonus * ( Nearby( monster ) - 1 ) );
                             else
-                                flAdjustedDamage = SHIELD_AOE_DAMAGE;
+                                flAdjustedDamage = this.shield_blast_damage;
 
                             flDist = ( pEntity.Center() - monster.pev.origin ).Length();
 
-                            flAdjustedDamage -= ( flDist / SHIELD_AOE_RADIUS ) * flAdjustedDamage;
+                            flAdjustedDamage -= ( flDist / this.shield_blast_radius ) * flAdjustedDamage;
 
                             if( !monster.FVisible( pEntity, true ) )
                             {
@@ -400,7 +413,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
                             vecVictim = vecVictim * ( 1.0f / flDistance );
 
                             vecVicCurVel = pEntity.pev.velocity;
-                            vecVictim = vecVictim * SHIELD_AOE_KNOCKBACK;
+                            vecVictim = vecVictim * this.shield_blast_push;
                             vecVictim.z = vecVictim.Length() * 0.15f;
 
                             if( !monster.pev.FlagBitSet( FL_ONGROUND ) )
