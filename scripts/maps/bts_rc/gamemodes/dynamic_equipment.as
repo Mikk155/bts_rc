@@ -454,6 +454,11 @@ final class ASDynamicEquipentConfig : IConfigurable
                 player.m_rgAmmo( data.index, 0 );
                 this.UnLock();
             }
+            else
+            {
+                // Don't adjust clip
+                @weapon = null;
+            }
         }
 
         int count = data.get(this.forcenumplayers);
