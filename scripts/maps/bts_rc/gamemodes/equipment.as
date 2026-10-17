@@ -116,7 +116,7 @@ final class ASEquipmentSet
 
         for( uint ui = 0; ui < itemsLength; ui++ )
         {
-            player.GiveNamedItem( this.m_Items[ui] );
+            player.GiveNamedItem( this.m_Items[ui], SF_GIVENITEM );
         }
 
         uint entitiesLength = this.m_Entities.length();
