@@ -28,7 +28,27 @@ namespace Hooks
 
         if( classname.StartsWith( "weapon_" ) )
         {
-            if( classname == "weapon_shockrifle" )
+            CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>(pickup);
+
+            if( weapon !is null )
+            {
+                ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.GetClassname() ] );
+
+                if( weaponConfig !is null )
+                {
+                    if( ( weapon.pev.flags & EdictFlags::FL_ONGROUND ) != 0 )
+                    {
+                        if( ( player.pev.button & IN_USE ) == 0 )
+                        {
+                            g_PlayerFuncs.PrintKeyBindingString( player, "+use Pickup " + weaponConfig.name + "\n" );
+                            result = false;
+                            return HOOK_CONTINUE;
+                        }
+                        g_PlayerFuncs.PrintKeyBindingString( player, "" );
+                    }
+                }
+            }
+            else if( classname == "weapon_shockrifle" )
             {
                 result = false;
 
