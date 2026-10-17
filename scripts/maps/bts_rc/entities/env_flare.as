@@ -19,6 +19,8 @@
 array<EHandle> gpLivingFlares(0);
 
 const RGBA ASFlareColor( 255, 21, 18, 100 );
+// https://github.com/baso88/SC_AngelScript/wiki/images/engine_palette_2.png
+array<int> ASFlareSparksColours = { 0, 1, 4, 5, 6, 8, 9, 10, 11 };
 
 final class ASFlare : ScriptBaseAnimating
 {
@@ -105,6 +107,7 @@ final class ASFlare : ScriptBaseAnimating
     }
 
     float m_flLastSmoke;
+    float m_flLastSpark;
 
     void Think()
     {
@@ -157,12 +160,25 @@ final class ASFlare : ScriptBaseAnimating
 
                 this.m_flLastSmoke = 0.8f;
             }
+        }
 
-            if( Math.RandomLong( 0, 8 ) == 1 )
-            {
-                // -TODO TE_ something?
-                g_Utility.Sparks( origin );
-            }
+        if( this.m_flLastSpark < g_Engine.time )
+        {
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, origin );
+                m.WriteByte( TE_STREAK_SPLASH );
+                m.WriteCoord( origin.x );
+                m.WriteCoord( origin.y );
+                m.WriteCoord( origin.z );
+                m.WriteCoord( angles[0] );
+                m.WriteCoord( angles[1] );
+                m.WriteCoord( angles[2] );
+                m.WriteByte( ASFlareSparksColours[ Math.RandomLong( 0, ASFlareSparksColours.length() - 1 ) ] );
+                m.WriteShort( 10 ); // Count
+                m.WriteShort( 128 ); // Base speed
+                m.WriteShort( 100 ); // Random velocity
+            m.End();
+
+            this.m_flLastSpark = 0.8f;
         }
 
         self.pev.nextthink = g_Engine.time + 0.1f;
