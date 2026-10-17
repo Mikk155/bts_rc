@@ -80,11 +80,10 @@ namespace test_chamber
 
             if( self.pev.owner is null )
             {
-                Vector vecPos = self.pev.origin;
-                vecPos.z += 100;
-                CBaseEntity@ moving = g_EntityFuncs.Create( self.GetClassname(), vecPos, self.pev.angles, true, self.edict() );
+                CBaseEntity@ moving = g_EntityFuncs.Create( self.GetClassname(), self.pev.origin, self.pev.angles, true, self.edict() );
                 moving.pev.model = self.pev.model;
                 moving.pev.message = self.pev.message;
+                moving.pev.velocity = g_Engine.v_up * 500;
                 g_EntityFuncs.DispatchSpawn( moving.edict() );
                 @moving.pev.owner = self.edict();
             }
@@ -130,6 +129,7 @@ namespace test_chamber
                     }
                     self.pev.origin.y += 5.0f;
                 }
+                self.pev.origin.z = self.pev.owner.vars.origin.z + 100;
                 g_EntityFuncs.SetOrigin( self, self.pev.origin );
             }
 
