@@ -207,26 +207,34 @@ final class ASRoboGruntBoss : ASRoboGrunt
         return g_EntityFuncs.Instance( tr.pHit );
     }
 
-    int Nearby( CBaseMonster@ monster )
+    private float m_NearbyLastCheck;
+    private array<EHandle> m_NearbyEnemies;
+
+    // Get a list of all entities nearby
+    const array<EHandle>@ get_EnemiesNearby() property
     {
-        int iNearby = 0;
+        if( this.m_NearbyLastCheck > g_Engine.time )
+            return @this.m_NearbyEnemies;
+
+        // Rebuild list every second
+        this.m_NearbyLastCheck = g_Engine.time + 1.0f;
+
+        this.m_NearbyEnemies.resize(0);
+
+        auto@ monster = this[0];
 
         CBaseEntity@ entity = null;
-        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, this.shield_blast_range, "*", "classname" ) ) !is null )
+        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, this.shield_blast_range, "*", "classname" ) ) !is null
+        && entity.pev.takedamage != DAMAGE_NO
+        && ( entity.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0
+        && entity !is monster
+        && monster.FVisible( entity, true )
+        && monster.IRelationship( entity ) != R_AL )
         {
-            if( entity.pev.FlagBitSet( FL_MONSTER | FL_CLIENT ) and entity.pev.takedamage != DAMAGE_NO and entity.edict() !is monster.edict() )
-            {
-                if( !monster.FVisible( entity, true ) )
-                    continue;
-
-                if( monster.IRelationship( entity ) <= R_NO )
-                    continue;
-
-                iNearby++;
-            }
+            this.m_NearbyEnemies.insertLast( EHandle( entity ) );
         }
 
-        return iNearby;
+        return @this.m_NearbyEnemies;
     }
 
     void MeleeAttack( CBaseMonster@ monster, bool bKick )
@@ -289,7 +297,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
         }
         else if( data.get( "nextstompcheck", attackTime ) && attackTime <= g_Engine.time
         && monster.pev.sequence != this.m_iAnimShieldStomp
-        && Nearby( monster ) >= 1 )
+        && this.EnemiesNearby.length() >= 1 )
         {
             if( monster.pev.sequence == this.m_iAnimAttack
             ||   monster.pev.sequence == this.m_iAnimSpindown )
@@ -319,7 +327,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
             {
                 float flAdjustedDamage;
                 float flDist;
-                RGBA beamColor = this.shield_blast_colours[ Math.clamp( 0, this.shield_blast_colours.length() - 1, Nearby( monster ) ) ];
+                RGBA beamColor = this.shield_blast_colours[ Math.clamp( 0, this.shield_blast_colours.length() - 1, this.EnemiesNearby.length() ) ];
 
                 // Houndeye rings
                 {
@@ -375,8 +383,8 @@ final class ASRoboGruntBoss : ASRoboGrunt
                     {
                         if( !pEntity.pev.ClassNameIs( "monster_hwgrunt" ) )
                         {
-                            if( Nearby( monster ) > 1 )
-                                flAdjustedDamage = this.shield_blast_damage + this.shield_blast_damage * ( this.shield_blast_bonus * ( Nearby( monster ) - 1 ) );
+                            if( this.EnemiesNearby.length() > 1 )
+                                flAdjustedDamage = this.shield_blast_damage + this.shield_blast_damage * ( this.shield_blast_bonus * ( this.EnemiesNearby.length() - 1 ) );
                             else
                                 flAdjustedDamage = this.shield_blast_damage;
 
