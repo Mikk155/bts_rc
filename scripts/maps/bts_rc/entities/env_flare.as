@@ -26,7 +26,7 @@ final class ASFlare : ScriptBaseEntity
     void Spawn()
     {
         g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flare.mdl" );
-        g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
+        g_EntityFuncs.SetSize( pev, g_vecZero, g_vecZero );
 
         self.pev.friction = 0.6f;
         self.pev.solid = SOLID::SOLID_BBOX;
@@ -35,12 +35,12 @@ final class ASFlare : ScriptBaseEntity
 
         gpLivingFlares.insertLast( EHandle( self ) );
 
-        if( self.pev.owner !is null )
-            this.m_hOwner.opAssign( g_EntityFuncs.Instance( self.pev.owner ) );
-
         self.pev.nextthink = g_Engine.time;
 
         g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+
+        // By simply doing this it stores the owner in m_hOwner.
+        this.Owner;
     }
 
     void Think()
@@ -86,42 +86,49 @@ final class ASFlare : ScriptBaseEntity
             self.pev.flags |= FL_KILLME;
         }
 
+        // Stupid ass engine
+        if( self.pev.movetype == MOVETYPE::MOVETYPE_BOUNCE && self.pev.velocity.Length() <= 16 )
+        {
+            TraceResult tr;
+            Vector vecEnd = self.pev.origin;
+            vecEnd.z -= 200;
+            g_Utility.TraceLine( self.pev.origin, vecEnd, ignore_monsters, self.edict(), tr );
+            g_EntityFuncs.SetOrigin( self, tr.vecEndPos );
+            self.pev.velocity = g_vecZero;
+            self.pev.solid = SOLID::SOLID_TRIGGER;
+            self.pev.movetype = MOVETYPE::MOVETYPE_NONE;
+            g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
+        }
+
         self.pev.nextthink = g_Engine.time + 0.1f;
     }
 
-    CBaseEntity@ get_Owner() const property
+    CBaseEntity@ get_Owner() property
     {
-        if( this.m_hOwner.IsValid() )
+        if( !this.m_hOwner.IsValid() )
+            this.m_hOwner = EHandle( g_EntityFuncs.Instance( self.pev.owner ) );
+        if( this.m_hOwner.GetEntity() !is null )
             return this.m_hOwner.GetEntity();
-        if( self.pev.owner !is null )
-            return g_EntityFuncs.Instance( self.pev.owner );
         return self;
     }
 
-    void Touch( CBaseEntity@ pOther )
+    void Touch( CBaseEntity@ other )
     {
-        if( pOther is null )
+        if( self.pev.owner !is null )
+            @self.pev.owner = null;
+
+        if( other is null )
             return;
 
-        BurningMonster::Ignite( pOther, this.Owner, self.pev.armorvalue, self.pev.armortype );
+        BurningMonster::Ignite( other, this.Owner, self.pev.armorvalue, self.pev.armortype );
 
         if( self.pev.movetype != MOVETYPE::MOVETYPE_BOUNCE )
             return;
-
-        // Allow a player to burn himself after a bounce
-        if( self.pev.owner !is null )
-            @self.pev.owner = null;
 
         if( self.pev.fuser1 > 0.0 )
         {
             self.pev.velocity.x *= self.pev.fuser1;
             self.pev.velocity.y *= self.pev.fuser1;
-        }
-
-        if( self.pev.velocity.Length() < 64.0f )
-        {
-            self.pev.velocity = g_vecZero;
-            self.pev.movetype = MOVETYPE::MOVETYPE_TOSS;
         }
 
         TraceResult tr = g_Utility.GetGlobalTrace();
@@ -131,9 +138,9 @@ final class ASFlare : ScriptBaseEntity
         self.pev.angles.z -= 90;
         self.pev.angles.y += 90;
 
-        if( pOther.pev.takedamage != DAMAGE_NO )
+        if( other.pev.takedamage != DAMAGE_NO )
         {
-            pOther.TraceAttack( ( self.pev.owner !is null ? self.pev.owner.vars : self.pev ), self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
+            other.TraceAttack( ( self.pev.owner !is null ? self.pev.owner.vars : self.pev ), self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
             g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/weapons/flarehitbod1.wav", VOL_NORM, ATTN_NORM );
         }
         else
@@ -157,6 +164,15 @@ final class ASFlare : ScriptBaseEntity
                     }
                 }
             }
+        }
+
+        // Touch the floor or is stuck in a monster
+        if( ( self.pev.flags & EdictFlags::FL_ONGROUND ) != 0 )
+        {
+            self.pev.velocity = g_vecZero;
+            self.pev.solid = SOLID::SOLID_TRIGGER;
+            self.pev.movetype = MOVETYPE::MOVETYPE_NONE;
+            g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
         }
     }
 }
