@@ -150,6 +150,11 @@
                 "hands": 6,
                 "voice": "barney"
             },
+            "bts_op_worker": {
+                "classify": 5,
+                "hands": 3,
+                "voice": "construction"
+            },
             "bts_op_free": {
                 "classify": 5,
                 "hands": 6,
@@ -204,11 +209,6 @@
                 "classify": 5,
                 "hands": 9,
                 "voice": "soldier"
-            },
-            "bts_op_worker": {
-                "classify": 5,
-                "hands": 8,
-                "voice": "construction"
             },
             "bts_otis": {
                 "classify": 0,
