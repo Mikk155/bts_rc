@@ -147,6 +147,18 @@ final class ASFlare : ScriptBaseAnimating
 
         self.pev.nextthink = g_Engine.time + 0.1f;
 
+        if( this.m_PlaceScorch )
+        {
+            TraceResult tr;
+            Vector vecEnd = origin;
+            vecEnd.z -= 32;
+            g_Utility.TraceLine( origin, vecEnd, ignore_monsters, self.edict(), tr );
+//            snprintf( smscorch, "smscorch%1", Math.RandomLong( 1, 3 ) );
+            g_Utility.DecalTrace( tr, Math.RandomLong( decal_e::DECAL_SMALLSCORCH1, decal_e::DECAL_SMALLSCORCH3 ) );
+
+            this.m_PlaceScorch = false;
+        }
+
         if( g_Engine.time > self.pev.dmgtime )
         {
             UpdateOnRemove();
@@ -165,6 +177,8 @@ final class ASFlare : ScriptBaseAnimating
         }
     }
 
+    bool m_PlaceScorch;
+
     void HitFloor()
     {
         self.pev.velocity = g_vecZero;
@@ -173,7 +187,7 @@ final class ASFlare : ScriptBaseAnimating
         g_EntityFuncs.SetSize( pev, Vector( -2, -2, -2 ), Vector( 2, 2, 2 ) );
 
         // Kill non glow sprite after it hits the floor
-        if( m_Sprites.length() > 0 )
+        if( m_Sprites.length() >= 3 )
         {
             EHandle handle = m_Sprites[2];
             m_Sprites.removeAt(2);
@@ -181,6 +195,8 @@ final class ASFlare : ScriptBaseAnimating
             if( handle.IsValid() && handle.GetEntity() !is null )
                 handle.GetEntity().pev.flags |= FL_KILLME;
         }
+
+        this.m_PlaceScorch = true;
     }
 
     CBaseEntity@ get_Owner() property
