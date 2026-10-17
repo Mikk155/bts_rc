@@ -270,7 +270,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( !entity.IsAlive() )
+        if( !monster.IsAlive() || !monster.m_hEnemy.IsValid() )
             return ASRoboGrunt::EntityThink( index, entity, monster );
 
         dictionary@ data = monster.GetUserData();
