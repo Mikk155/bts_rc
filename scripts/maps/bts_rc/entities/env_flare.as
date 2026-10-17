@@ -104,34 +104,38 @@ final class ASFlare : ScriptBaseAnimating
         }
     }
 
+    float m_flLastSmoke;
+
     void Think()
     {
         Vector origin;
         Vector angles;
         self.GetAttachment( 0, origin, angles );
 
-        NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, self.pev.origin );
-            m.WriteByte( TE_DLIGHT );
-            m.WriteCoord( origin.x );
-            m.WriteCoord( origin.y );
-            m.WriteCoord( origin.z );
-            if( self.pev.waterlevel > WATERLEVEL_FEET ) {
-                m.WriteByte( 9 );
-            }
-            else {
-                m.WriteByte( 18 );
-            }
-            m.WriteByte( ASFlareColor.r );
-            m.WriteByte( ASFlareColor.g );
-            m.WriteByte( ASFlareColor.b );
-            m.WriteByte( 1 );
-            if( g_Engine.time > self.pev.dmgtime ) {
-                m.WriteByte( 64 );
-            }
-            else {
+        {
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, origin );
+                m.WriteByte( TE_DLIGHT );
+                m.WriteCoord( origin.x );
+                m.WriteCoord( origin.y );
+                m.WriteCoord( origin.z );
+                if( self.pev.waterlevel > WATERLEVEL_FEET ) {
+                    m.WriteByte( 9 );
+                }
+                else {
+                    m.WriteByte( 18 );
+                }
+                m.WriteByte( ASFlareColor.r );
+                m.WriteByte( ASFlareColor.g );
+                m.WriteByte( ASFlareColor.b );
                 m.WriteByte( 1 );
-            }
-        m.End();
+                if( g_Engine.time > self.pev.dmgtime ) {
+                    m.WriteByte( 64 );
+                }
+                else {
+                    m.WriteByte( 1 );
+                }
+            m.End();
+        }
 
         if( self.pev.waterlevel > WATERLEVEL_FEET )
         {
@@ -139,6 +143,21 @@ final class ASFlare : ScriptBaseAnimating
         }
         else
         {
+            if( this.m_flLastSmoke < g_Engine.time )
+            {
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, origin );
+                    m.WriteByte( TE_SMOKE );
+                    m.WriteCoord( origin.x );
+                    m.WriteCoord( origin.y );
+                    m.WriteCoord( origin.z - 10 );
+                    m.WriteShort( models::steam1 );
+                    m.WriteByte( Math.RandomLong( 1, 9 ) );
+                    m.WriteByte( 12 );
+                m.End();
+
+                this.m_flLastSmoke = 0.8f;
+            }
+
             if( Math.RandomLong( 0, 8 ) == 1 )
             {
                 // -TODO TE_ something?
