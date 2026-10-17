@@ -1,3 +1,8 @@
+# 16/10/2026
+- Implemented a flame entity that can set monsters and players on fire and burn them. this is triggered by touching activ flares, flamethrower or a gargantua monster.
+- Made HEV and Hazard have fire resistance which reduces flames damages in 20% and 10% accordingly to their class.
+- Players can now burn themselves by using flamethrower too close to a wall or steping in flares.
+
 # 12/10/2026
 - Implement a dynamic equipment system that provides ammunition, armor and health based on player count.
 - Removed various unused assets.

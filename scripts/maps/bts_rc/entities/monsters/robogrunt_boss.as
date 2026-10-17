@@ -35,6 +35,22 @@ final class ASRoboGruntBoss : ASRoboGrunt
         return "robo_grunt_boss";
     }
 
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Robot grunt configuration",
+            "allOf":
+            [
+                "ASRoboGruntSchema"
+            ],
+            "properties":
+            {
+            }
+        }""";
+    }
+
     private int m_iShockwave;
     private int m_iAnimAttack = -1;
     private int m_iAnimSpindown = -1;

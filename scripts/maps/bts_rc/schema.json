@@ -15254,6 +15254,110 @@
 					}
 				}
 			},
+			"robo_grunt": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Robot grunt configuration",
+				"properties": 
+				{
+					"explosion_damage": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"description": "Explosion damage on death, set to 0 to disable."
+					},
+					"dmg_generic": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for generic damage not fit in other multipliers."
+					},
+					"dmg_burn": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
+					},
+					"dmg_melee": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_CLUB | DMG_SLASH type damage (Crowbar, knife, pipe etc)."
+					},
+					"dmg_bullet": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_BULLET type damage (All fire arms)."
+					},
+					"shock_touch": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"description": "Damage dealt to nearby enemies when shock (double to player that triggered the shock with a melee weapon)"
+					},
+					"shock_active": 
+					{
+						"type": "number",
+						"minimum": 0.0,
+						"maximum": 1.0,
+						"description": " when to trigger shock mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%"
+					}
+				}
+			},
+			"robo_grunt_boss": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Robot grunt configuration",
+				"properties": 
+				{
+					"explosion_damage": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"description": "Explosion damage on death, set to 0 to disable."
+					},
+					"dmg_generic": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for generic damage not fit in other multipliers."
+					},
+					"dmg_burn": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
+					},
+					"dmg_melee": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_CLUB | DMG_SLASH type damage (Crowbar, knife, pipe etc)."
+					},
+					"dmg_bullet": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_BULLET type damage (All fire arms)."
+					},
+					"shock_touch": 
+					{
+						"type": "integer",
+						"minimum": 0,
+						"description": "Damage dealt to nearby enemies when shock (double to player that triggered the shock with a melee weapon)"
+					},
+					"shock_active": 
+					{
+						"type": "number",
+						"minimum": 0.0,
+						"maximum": 1.0,
+						"description": " when to trigger shock mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%"
+					}
+				}
+			},
 			"zombie_engineer": 
 			{
 				"type": "object",

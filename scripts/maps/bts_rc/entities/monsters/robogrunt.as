@@ -20,6 +20,53 @@
     Original code: Nero
 */
 
+bool ASRoboGruntSchema = g_MapConfig.RegisterSchemaDefinition( "ASRoboGruntSchema",
+"""{
+    "explosion_damage":
+    {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Explosion damage on death, set to 0 to disable."
+    },
+    "dmg_generic":
+    {
+        "type": "number",
+        "minimum": 0.01,
+        "description": "Multiplier for generic damage not fit in other multipliers."
+    },
+    "dmg_burn":
+    {
+        "type": "number",
+        "minimum": 0.01,
+        "description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
+    },
+    "dmg_melee":
+    {
+        "type": "number",
+        "minimum": 0.01,
+        "description": "Multiplier for DMG_CLUB | DMG_SLASH type damage (Crowbar, knife, pipe etc)."
+    },
+    "dmg_bullet":
+    {
+        "type": "number",
+        "minimum": 0.01,
+        "description": "Multiplier for DMG_BULLET type damage (All fire arms)."
+    },
+    "shock_touch":
+    {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Damage dealt to nearby enemies when shock (double to player that triggered the shock with a melee weapon)"
+    },
+    "shock_active":
+    {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0,
+        "description": " when to trigger shock mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%"
+    }
+}""" );
+
 class ASRoboGrunt : EntityOverriden, IConfigurable
 {
     const string& GetName() const override
@@ -29,29 +76,42 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
     const string GetSchema() const override
     {
-        return String::EMPTY_STRING;
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Robot grunt configuration",
+            "allOf":
+            [
+                "ASRoboGruntSchema"
+            ]
+        }""";
     }
 
-    protected uint m_iGibs1;
-    protected uint m_iGibs2;
+    protected uint computergibs;
+    protected uint chromegibs;
     // when to trigger low-health mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%
-    protected float m_fLowHealthChance = 0.3;
-    // when low-health is active, periodically shock anything in close proximity
-    protected int m_iShockTouchDamage = 125;
-    protected float m_fDmgMultiplierMelee = 0.08;
-    protected float m_fDmgMultiplierBlast = 0.7;
-    protected float m_fDmgMultiplierPoison = 0.07;
-    protected float m_fDmgMultiplierBurn = 0.18;
-    protected float m_fDmgMultiplierGeneric = 0.6;
-    // robots will explode shortly after death, can be set to 0
-    protected int m_iDmgExplode = 125;
+    protected float shock_active;
+    protected int shock_touch;
+    protected float dmg_melee;
+    protected float dmg_bullet;
+    protected float dmg_burn;
+    protected float dmg_generic;
+    protected int explosion_damage;
 
     bool Register( btson@ config ) override
     {
+        this.dmg_generic = float( config[ "dmg_generic" ] );
+        this.dmg_burn = float( config[ "dmg_burn" ] );
+        this.dmg_melee = float( config[ "dmg_melee" ] );
+        this.dmg_bullet = float( config[ "dmg_bullet" ] );
+        this.explosion_damage = int( config[ "explosion_damage" ] );
+        this.shock_touch = int( config[ "shock_touch" ] );
+        this.shock_active = float( config[ "shock_active" ] );
+
         if( g_MapConfig.MapLoading )
         {
-            this.m_iGibs1 = g_Game.PrecacheModel( "models/computergibs.mdl" );
-            this.m_iGibs2 = g_Game.PrecacheModel( "models/chromegibs.mdl" );
+            this.computergibs = g_Game.PrecacheModel( "models/computergibs.mdl" );
+            this.chromegibs = g_Game.PrecacheModel( "models/chromegibs.mdl" );
 
             g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
             g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
@@ -60,6 +120,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             EntityOverriden::SetThink( 0.1f );
             EntityOverriden::Register( this );
         }
+
         return true;
     }
 
@@ -67,9 +128,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     {
         if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/rgrunt_opfor.mdl" )
             return false;
-
-        if( !g_IsMainMap )
-            SetDebugName( entity, "Robo grunt" );
 
         BurningMonster::SetInmune( entity );
 
@@ -106,7 +164,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             data[ "smokepuff" ] = iDoSmokePuff;
             bool bShockTouch = bool( data[ "shocktouch" ] );
 
-            if( ( monster.pev.health / monster.pev.max_health ) <= this.m_fLowHealthChance )
+            if( ( monster.pev.health / monster.pev.max_health ) <= this.shock_active )
             {
                 float flNextSpark = float( data[ "nextspark" ] );
                 bool bDoubleSpark = bool( data[ "doublespark" ] );
@@ -158,7 +216,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                     if( pTarget is monster or !pTarget.IsAlive() or pTarget.pev.takedamage == DAMAGE_NO )
                         continue;
 
-                    pTarget.TakeDamage( monster.pev, monster.pev, this.m_iShockTouchDamage, DMG_SHOCK | DMG_LAUNCH );
+                    pTarget.TakeDamage( monster.pev, monster.pev, this.shock_touch, DMG_SHOCK | DMG_LAUNCH );
                 }
                 float flNextShockTouch = float( data[ "nextshock" ] );
                 if( flNextShockTouch <= g_Engine.time )
@@ -180,6 +238,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             {
                 monster.pev.solid = SOLID_NOT;
                 ExplosiveDeath( monster );
+                EntityOverridenAction::Remove;
             }
             else
             {
@@ -235,48 +294,52 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     {
         dictionary@ data = monster.GetUserData();
 
-        g_EntityFuncs.CreateExplosion( monster.pev.origin, g_vecZero, monster.edict(), this.m_iDmgExplode, true );
-
-        if( FreeEdicts( 15 ) )
+        if( this.explosion_damage > 0 )
         {
-            NetworkMessage gib1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
-            gib1.WriteByte( TE_BREAKMODEL );
-            gib1.WriteCoord( monster.pev.origin.x );                     // position
-            gib1.WriteCoord( monster.pev.origin.y );
-            gib1.WriteCoord( monster.pev.origin.z );
-            gib1.WriteCoord( 200 );                                       // size
-            gib1.WriteCoord( 200 );
-            gib1.WriteCoord( 64 );
-            gib1.WriteCoord( 10 );                                        // velocity
-            gib1.WriteCoord( 20 );
-            gib1.WriteCoord( 80 );
-            gib1.WriteByte( 30 );                                         // randomization
-            gib1.WriteShort( this.m_iGibs1 ); // model id#
-            gib1.WriteByte( 15 );                                         // # of shards
-            gib1.WriteByte( 100 );                                        // duration (3.0 seconds)
-            gib1.WriteByte( BREAK_METAL );                                // flags
-            gib1.End();
+            monster.pev.flags |= EdictFlags::FL_KILLME;
+            g_EntityFuncs.CreateExplosion( monster.pev.origin, g_vecZero, monster.edict(), this.explosion_damage, true );
         }
 
         if( FreeEdicts( 15 ) )
         {
-            NetworkMessage gib2( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
-            gib2.WriteByte( TE_BREAKMODEL );
-            gib2.WriteCoord( monster.pev.origin.x );                     // position
-            gib2.WriteCoord( monster.pev.origin.y );
-            gib2.WriteCoord( monster.pev.origin.z );
-            gib2.WriteCoord( 200 );                                       // size
-            gib2.WriteCoord( 200 );
-            gib2.WriteCoord( 96 );
-            gib2.WriteCoord( 0 );                                         // velocity
-            gib2.WriteCoord( 0 );
-            gib2.WriteCoord( 10 );
-            gib2.WriteByte( 30 );                                         // randomization
-            gib2.WriteShort( this.m_iGibs2 ); // model id#
-            gib2.WriteByte( 15 );                                         // # of shards
-            gib2.WriteByte( 100 );                                        // duration (3.0 seconds)
-            gib2.WriteByte( BREAK_METAL );                                // flags
-            gib2.End();
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
+                m.WriteByte( TE_BREAKMODEL );
+                m.WriteCoord( monster.pev.origin.x ); // position
+                m.WriteCoord( monster.pev.origin.y );
+                m.WriteCoord( monster.pev.origin.z );
+                m.WriteCoord( 200 ); // size
+                m.WriteCoord( 200 );
+                m.WriteCoord( 64 );
+                m.WriteCoord( 10 ); // velocity
+                m.WriteCoord( 20 );
+                m.WriteCoord( 80 );
+                m.WriteByte( 30 ); // randomization
+                m.WriteShort( this.computergibs ); // model id#
+                m.WriteByte( 15 ); // # of shards
+                m.WriteByte( 100 ); // duration (3.0 seconds)
+                m.WriteByte( BREAK_METAL ); // flags
+            m.End();
+        }
+
+        if( FreeEdicts( 15 ) )
+        {
+            NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
+                m.WriteByte( TE_BREAKMODEL );
+                m.WriteCoord( monster.pev.origin.x ); // position
+                m.WriteCoord( monster.pev.origin.y );
+                m.WriteCoord( monster.pev.origin.z );
+                m.WriteCoord( 200 ); // size
+                m.WriteCoord( 200 );
+                m.WriteCoord( 96 );
+                m.WriteCoord( 0 ); // velocity
+                m.WriteCoord( 0 );
+                m.WriteCoord( 10 );
+                m.WriteByte( 30 ); // randomization
+                m.WriteShort( this.chromegibs ); // model id#
+                m.WriteByte( 15 ); // # of shards
+                m.WriteByte( 100 ); // duration (3.0 seconds)
+                m.WriteByte( BREAK_METAL ); // flags
+            m.End();
         }
 
         g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_BODY, "debris/beamstart14.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
@@ -298,7 +361,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         g_Utility.Sparks( vecOrigin );
 
         data[ "diethink" ] = 0;
-        g_EntityFuncs.Remove( monster );
     }
 
     uint Killed( uint index, CBaseMonster@ monster, CBaseEntity@ attacker, bool gibbed ) override
@@ -338,7 +400,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         {
             if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 )
             {
-                info.pAttacker.TakeDamage(monster.pev, monster.pev, this.m_iShockTouchDamage / 4, DMG_SHOCK );
+                info.pAttacker.TakeDamage(monster.pev, monster.pev, this.shock_touch, DMG_SHOCK );
                 info.flDamage = 0.01;
             }
         }
@@ -353,28 +415,26 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         if( ( info.bitsDamageType & DMG_BULLET ) != 0)
         {
             bRicochet = true;
-            info.flDamage *= this.m_fDmgMultiplierMelee;
+            info.flDamage *= this.dmg_bullet;
         }
         else if( ( info.bitsDamageType & DMG_CLUB | DMG_SLASH ) != 0 )
         {
             bRicochet = true;
-            info.flDamage *= this.m_fDmgMultiplierMelee;
+            info.flDamage *= this.dmg_melee;
         }
         else if( ( info.bitsDamageType & DMG_BLAST ) != 0 && monster.pev.health > 10.0 )
         {
             if( info.flDamage > 15.0 )
                 info.flDamage -= 15.0;
         }
-        else if( ( info.bitsDamageType & DMG_POISON ) == 0 )
-        {
-            // robots can't get poisoned
-            info.bitsDamageType &= ~DMG_POISON;
-            info.flDamage *= this.m_fDmgMultiplierPoison;
-        }
         else if( ( info.bitsDamageType & DMG_BURN ) == 0 || monster.pev.health <= 10.0 )
-            info.flDamage *= this.m_fDmgMultiplierBurn;
+        {
+            info.flDamage *= this.dmg_burn;
+        }
         else
-            info.flDamage *= this.m_fDmgMultiplierGeneric;
+        {
+            info.flDamage *= this.dmg_generic;
+        }
 
         if( bRicochet )
         {
@@ -382,13 +442,13 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
             if( info.pAttacker !is null and info.pAttacker.pev.FlagBitSet( FL_CLIENT ) )
             {
-                NetworkMessage ricochet( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, info.pAttacker.edict() );
-                ricochet.WriteByte( TE_ARMOR_RICOCHET );
-                ricochet.WriteCoord( tr.vecEndPos.x );
-                ricochet.WriteCoord( tr.vecEndPos.y );
-                ricochet.WriteCoord( tr.vecEndPos.z );
-                ricochet.WriteByte( 10 ); // scale in 0.1's
-                ricochet.End();
+                NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, info.pAttacker.edict() );
+                    m.WriteByte( TE_ARMOR_RICOCHET );
+                    m.WriteCoord( tr.vecEndPos.x );
+                    m.WriteCoord( tr.vecEndPos.y );
+                    m.WriteCoord( tr.vecEndPos.z );
+                    m.WriteByte( 10 ); // scale in 0.1's
+                m.End();
             }
         }
 

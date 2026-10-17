@@ -2229,6 +2229,24 @@
         "struggle_grin": 8,
         "struggle_max": 100
     },
+    "robo_grunt": {
+        "dmg_bullet": 0.1,
+        "dmg_burn": 0.18,
+        "dmg_generic": 0.6,
+        "dmg_melee": 0.08,
+        "explosion_damage": 125,
+        "shock_active": 0.3,
+        "shock_touch": 125
+    },
+    "robo_grunt_boss": {
+        "dmg_bullet": 0.1,
+        "dmg_burn": 0.18,
+        "dmg_generic": 0.6,
+        "dmg_melee": 0.08,
+        "explosion_damage": 125,
+        "shock_active": 0.3,
+        "shock_touch": 125
+    },
     "wall_recharger": {
         "juice": 35,
         "recharge_time": 300,
