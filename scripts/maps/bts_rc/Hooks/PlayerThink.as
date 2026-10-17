@@ -135,7 +135,7 @@ namespace Hooks
                 }
             }
 
-            if( ( player.pev.button & IN_SCORE ) != 0 )
+            if( ( player.pev.button & IN_SCORE ) != 0 && player.IsAlive() && ( player.m_afButtonLast & IN_SCORE ) != 0 )
             {
                 test_chamber::g_Sections.Open( player );
             }
