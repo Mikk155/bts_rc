@@ -37,10 +37,16 @@ final class ASFlare : ScriptBaseEntity
 
         self.pev.nextthink = g_Engine.time;
 
-        g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+        g_SoundSystem.PlaySound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NONE, 0 );
+        g_SoundSystem.EmitSoundDyn( self.edict(), SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
         // By simply doing this it stores the owner in m_hOwner.
         this.Owner;
+    }
+
+    void UpdateOnRemove()
+    {
+        g_SoundSystem.StopSound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", false );
     }
 
     void Think()
@@ -141,7 +147,7 @@ final class ASFlare : ScriptBaseEntity
         if( other.pev.takedamage != DAMAGE_NO )
         {
             other.TraceAttack( ( self.pev.owner !is null ? self.pev.owner.vars : self.pev ), self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_SLOWBURN | DMG_NEVERGIB );
-            g_SoundSystem.EmitSound( self.edict(), CHAN_BODY, "bts_rc/weapons/flarehitbod1.wav", VOL_NORM, ATTN_NORM );
+            g_SoundSystem.EmitSound( self.edict(), SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flarehitbod1.wav", VOL_NORM, ATTN_NORM );
         }
         else
         {
@@ -158,7 +164,7 @@ final class ASFlare : ScriptBaseEntity
                             CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
                             if( pHit.IsBSPModel() )
                             {
-                                g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_ITEM, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
+                                g_SoundSystem.EmitSoundDyn( self.edict(), SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
                             }
                         }
                     }
