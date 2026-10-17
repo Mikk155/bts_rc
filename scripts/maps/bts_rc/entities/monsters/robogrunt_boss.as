@@ -113,13 +113,14 @@ final class ASRoboGruntBoss : ASRoboGrunt
         this.shield_blast_bonus = float( config[ "shield_blast_bonus" ] );
         this.shield_blast_range = int( config[ "shield_blast_range" ] );
 
+        this.shield_blast_colours.resize(0);
         btson@ colours = config[ "shield_blast_colours" ];
         const uint length = colours.Length();
 
         for( uint ui = 0; ui < length; ui++ )
         {
             btson@ colour = colours[ui];
-            shield_blast_colours.insertLast( RGBA( int(colour[0]), int(colour[1]), int(colour[2]), int(colour[3]) ) );
+            this.shield_blast_colours.insertLast( RGBA( int(colour[0]), int(colour[1]), int(colour[2]), int(colour[3]) ) );
         }
 
         if( g_MapConfig.MapLoading )
