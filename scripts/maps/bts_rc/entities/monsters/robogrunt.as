@@ -283,13 +283,24 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     // Get RGB based on monster health, Alpha is the health percentage.
     RGBA GetGlowColor( CBaseMonster@ monster )
     {
-        float healthPercent = Math.clamp( 0.0f, 1.0f, Math.clamp( 1, monster.pev.max_health, monster.pev.health ) / monster.pev.max_health );
+        float maxHealth = Math.max( 1.0f, monster.pev.max_health );
+        float healthPercent = Math.clamp( 0.0f, 1.0f, monster.pev.health / maxHealth );
+        float glowProgress = 0.0f;
+
+        if( this.shock_active > 0.0f && healthPercent <= this.shock_active )
+        {
+            glowProgress = Math.clamp( 0.0f, 1.0f, 1.0f - healthPercent / this.shock_active );
+        }
+        else if( this.shock_active <= 0.0f && healthPercent <= 0.0f )
+        {
+            glowProgress = 1.0f;
+        }
 
         return RGBA(
-            int( ASRoboGruntGlowColor.r - ( 155 * healthPercent ) ),
-            int( ASRoboGruntGlowColor.g * healthPercent ),
-            int( ASRoboGruntGlowColor.b * healthPercent ),
-            int( healthPercent )
+            int( ASRoboGruntGlowColor.r + ( ( 255 - ASRoboGruntGlowColor.r ) * glowProgress ) ),
+            int( ASRoboGruntGlowColor.g * ( 1.0f - glowProgress ) ),
+            int( ASRoboGruntGlowColor.b * ( 1.0f - glowProgress ) ),
+            int( 255.0f * healthPercent )
         );
     }
 
