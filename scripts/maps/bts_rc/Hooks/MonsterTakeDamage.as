@@ -19,7 +19,6 @@ namespace Hooks
 {
     HookReturnCode MonsterTakeDamage( DamageInfo@ info )
     {
-        g_Game.AlertMessage( at_console, "Called TakeDamage\n" );
         util::Trace::Fix();
 
         if( info.pVictim is null )

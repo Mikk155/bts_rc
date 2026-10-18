@@ -476,7 +476,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
 
             if( cbeCrab is null )
             {
-                g_Game.AlertMessage( at_warning, "**%1: Can't make %2!\n", self.GetClassname(), GetHeadcrabClassname() );
+                //g_Game.AlertMessage( at_warning, "**%1: Can't make %2!\n", self.GetClassname(), GetHeadcrabClassname() );
                 return;
             }
 

@@ -230,7 +230,6 @@ namespace util
 
         void Fix()
         {
-        g_Game.AlertMessage( at_console, "Called Fix\n" );
             if( __ShouldFix__ != g_Engine.time )
                 return;
 
@@ -246,7 +245,6 @@ namespace util
             || ( !entity.IsPlayer() )
             || ( @player = cast<CBasePlayer@>( entity ) ) is null )
                 return;
-        g_Game.AlertMessage( at_console, "Fixing\n" );
 
             // Get the global trace (The one traced AGAIN at FireBullets)
             TraceResult tr = g_Utility.GetGlobalTrace();

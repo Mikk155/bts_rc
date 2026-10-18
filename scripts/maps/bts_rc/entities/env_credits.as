@@ -266,7 +266,6 @@ final class env_credits : ScriptBaseMonsterEntity
                     m_PlayersVoting.delete( idx );
                 }
             }
-            g_Game.AlertMessage( at_console, "Called vote or expired!\n" );
         }
 
     private
