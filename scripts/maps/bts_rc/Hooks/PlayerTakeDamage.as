@@ -19,6 +19,8 @@ namespace Hooks
 {
     HookReturnCode PlayerTakeDamage( DamageInfo@ info )
     {
+        util::Trace::Fix();
+
         if( info.pVictim is null )
             return HOOK_CONTINUE;
 

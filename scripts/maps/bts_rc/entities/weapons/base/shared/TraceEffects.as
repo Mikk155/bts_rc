@@ -28,25 +28,10 @@ namespace weapons
     };
 
     // Play effects
-    void TraceEffects( TraceResult&in tr, CBasePlayer@ origenPlayer = null )
+    void TraceEffects( TraceResult&in tr )
     {
         if( !FreeEdicts( 5 ) || tr.pHit is null )
             return;
-
-        bool isWorldspawn = ( tr.pHit.vars.classname == "worldspawn" );
-
-        // Stupid ass game fuck off sniper
-        if( isWorldspawn && origenPlayer !is null )
-        {
-            TraceResult tr2;
-            g_Utility.TraceLine( origenPlayer.GetGunPosition(), tr.vecEndPos, IGNORE_MONSTERS::dont_ignore_monsters, origenPlayer.edict(), tr2 );
-
-            if( tr2.pHit !is null && tr2.pHit.vars.classname != "worldspawn" )
-            {
-                tr = tr2;
-                isWorldspawn = false;
-            }
-        }
 
         int sparksColor = -1;
 
@@ -129,7 +114,7 @@ namespace weapons
             }
         }
 
-        if( ( isWorldspawn || ( hit !is null && hit.IsBSPModel() ) ) && tr.flFraction < 1.0f )
+        if( ( hit !is null && ( hit.IsBSPModel() || tr.pHit.vars.classname == "worldspawn" ) ) && tr.flFraction < 1.0f )
         {
             string textureName = g_Utility.TraceTexture( hit.edict(), tr.vecEndPos + Vector( -1, -1, -1 ), tr.vecEndPos + Vector( 1, 1, 1 ) );
 

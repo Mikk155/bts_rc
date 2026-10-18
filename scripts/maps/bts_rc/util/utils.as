@@ -209,3 +209,62 @@ void EquipAllWeapons( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_
     if( activator !is null && activator.IsPlayer() )
         EquipAllWeapons( cast<CBasePlayer@>( activator ) );
 }
+
+namespace util
+{
+    // Fix stupid double trace at CBasePlayerWeapon::FireBullets
+    // Because some dumb ass though it would be cool to make a new trace line alo CS to pass through victim
+    // BUT they trace line BEFORE calling the fucking Take/Trace-Damage hooks!
+    namespace Trace
+    {
+        EHandle __EntIgnore__;
+        Vector __StartPoint__;
+        float __ShouldFix__;
+
+        void Prepare( CBaseEntity@ owner, const Vector&in vecSrc )
+        {
+            __ShouldFix__ = g_Engine.time;
+            __StartPoint__ = vecSrc;
+            __EntIgnore__ = EHandle( owner );
+        }
+
+        void Fix()
+        {
+        g_Game.AlertMessage( at_console, "Called Fix\n" );
+            if( __ShouldFix__ != g_Engine.time )
+                return;
+
+            __ShouldFix__ = 0;
+
+            CBasePlayer@ player = null;
+            CBaseEntity@ entity = null;
+            edict_t@ edict = null;
+
+            if( !__EntIgnore__.IsValid()
+            || ( @entity = __EntIgnore__.GetEntity() ) is null
+            || ( @edict = entity.edict() ) is null
+            || ( !entity.IsPlayer() )
+            || ( @player = cast<CBasePlayer@>( entity ) ) is null )
+                return;
+        g_Game.AlertMessage( at_console, "Fixing\n" );
+
+            // Get the global trace (The one traced AGAIN at FireBullets)
+            TraceResult tr = g_Utility.GetGlobalTrace();
+
+            // Alien grunt for example won't trace again if hit in armor so we shouldn't tracing again
+            if( tr.pHit is null
+            || tr.pHit.vars.classname == "worldspawn" )
+            {
+                TraceResult tr2;
+                g_Utility.TraceLine(
+                    __StartPoint__,
+                    tr.vecEndPos,
+                    IGNORE_MONSTERS::dont_ignore_monsters,
+                    IGNORE_GLASS::dont_ignore_glass,
+                    edict,
+                    tr2
+                );
+            }
+        }
+    }
+}

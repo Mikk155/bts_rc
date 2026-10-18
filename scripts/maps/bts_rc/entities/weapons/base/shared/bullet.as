@@ -487,6 +487,8 @@ final class ASBullet
         }
         else
         {
+        g_Game.AlertMessage( at_console, "Called Bullet\n" );
+            util::Trace::Prepare( this.m_Player, vecSrc );
             this.m_WeaponEntity.FireBullets(
                 this.m_Shots,
                 vecSrc,
@@ -500,9 +502,26 @@ final class ASBullet
             );
 
             tr = g_Utility.GetGlobalTrace();
+        g_Game.AlertMessage( at_console, "Called GetGlobalTrace\n" );
+
+            tr = g_Utility.GetGlobalTrace();
+
+            // Fix stupid double trace at CBasePlayerWeapon::FireBullets
+            // Because some dumb ass though it would be cool to make a new trace line alo CS to pass through victim
+            // BUT they trace line BEFORE calling the fucking Take/Trace-Damage hooks!
+            if( tr.pHit !is null &&  tr.pHit.vars.classname == "worldspawn" )
+            {
+                TraceResult tr2;
+                g_Utility.TraceLine( this.m_Player.GetGunPosition(), tr.vecEndPos, IGNORE_MONSTERS::dont_ignore_monsters, this.m_Player.edict(), tr2 );
+
+                if( tr2.pHit !is null && tr2.pHit.vars.classname != "worldspawn" )
+                {
+                    tr = tr2;
+                }
+            }
         }
 
-        weapons::TraceEffects(tr, this.m_Player);
+        weapons::TraceEffects(tr);
 
         // -TODO Move these to build-pattern option when silencer weapons are made
         CSoundEnt@ sound = GetSoundEntInstance();
