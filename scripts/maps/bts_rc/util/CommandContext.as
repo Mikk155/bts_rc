@@ -115,16 +115,46 @@ void PrintCommandHelp( CBasePlayer@ player, const string&in section = String::EM
         if( !section.IsEmpty() && context.Section != section )
             continue;
 
-        string buffer;
+        if( ui > 0 )
+        {
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "------------------------------\n" );
+        }
 
-        if( context.Section.IsEmpty() )
-            snprintf( buffer, "bts_rc %1 %2\n", context.Command, context.Arguments );
-        else
-            snprintf( buffer, "bts_rc %1 %2 %3\n", context.Section, context.Command, context.Arguments );
+        string buffer = "bts_rc ";
 
-        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+        if( !context.Section.IsEmpty() )
+        {
+            buffer.opAddAssign( context.Section );
+            buffer.opAddAssign( ' ' );
+        }
 
-        snprintf( buffer, "- %1\n%2", context.Help, ( context.AdminOnly ? "- Administrator only\n" : "\n" ) );
+        buffer.opAddAssign( context.Command );
+
+        if( !context.Arguments.IsEmpty() )
+        {
+            buffer.opAddAssign( ' ' );
+            buffer.opAddAssign( context.Arguments );
+        }
+
+        buffer.opAddAssign( '\n' );
+
+        if( !context.Help.IsEmpty() )
+        {
+            buffer.opAddAssign( "- " );
+            buffer.opAddAssign( context.Help );
+            buffer.opAddAssign( '\n' );
+        }
+
+        if( context.AdminOnly )
+        {
+            buffer.opAddAssign( "- Administrators only.\n" );
+        }
+
+        while( buffer.Length() > 128 )
+        {
+            g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer.SubString( 0, 128 ) );
+            buffer = buffer.SubString( 128 );
+        }
         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
     }
 }
