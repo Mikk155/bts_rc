@@ -20,6 +20,8 @@ namespace weapons
     // Hit ahead. return whatever it was a hit or a miss. automatically damages the target with config data
     bool Hit( CBasePlayerWeapon@ weapon, CBasePlayer@ player, TraceResult&out tr, AttackType type, CBaseEntity@&out hit, ASWeaponConfig@ config, bool Shove = false )
     {
+        bool isTrainedPersonal = util::IsTrainedPersonal(player);
+
         Math.MakeVectors( player.pev.v_angle );
         Vector vecSrc = player.GetGunPosition();
         Vector vecDirection = g_Engine.v_forward;
@@ -28,13 +30,16 @@ namespace weapons
         {
             case AttackType::Tertiary:
                 vecDirection = vecDirection * config.tertiary_distance;
+                weapons::Kickback( player, config.primary_kickback, isTrainedPersonal );
             break;
             case AttackType::Secondary:
                 vecDirection = vecDirection * config.secondary_distance;
+                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
             break;
             case AttackType::Primary:
             default:
                 vecDirection = vecDirection * config.primary_distance;
+                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
             break;
         }
 
