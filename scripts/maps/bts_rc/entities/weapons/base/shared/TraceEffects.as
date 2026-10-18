@@ -45,9 +45,10 @@ namespace weapons
 
             int damageTaken = int( data[ "damage_taken" ] );
 
-            if( g_WeaponsConfig.blood_splash && monster.m_bloodColor != DONT_BLEED )
+            if( g_WeaponsConfig.blood_splash )
             {
                 CSprite@ spr = null;
+                array<string>@ bloodSprites;
 
                 if( monster.m_bloodColor == BLOOD_COLOR_RED )
                 {
@@ -68,6 +69,10 @@ namespace weapons
                         case 3: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_4.spr", tr.vecEndPos, true ); break;
                         case 4: @spr = g_EntityFuncs.CreateSprite( "sprites/mikk155/particles/ablood_5.spr", tr.vecEndPos, true ); break;
                     }
+                }
+                else if( data.get( "blood_sprites", @bloodSprites ) && bloodSprites !is null )
+                {
+                    @spr = g_EntityFuncs.CreateSprite( bloodSprites[ Math.RandomLong( 0, bloodSprites.length() - 1 ) ], tr.vecEndPos, true );
                 }
 
                 if( spr !is null )

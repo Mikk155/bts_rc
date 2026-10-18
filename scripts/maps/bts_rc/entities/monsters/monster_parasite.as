@@ -70,6 +70,13 @@ const array<string> pBiteSounds =
     "bts_rc/parasite/pa_headbite.ogg"
 };
 
+array<string>@ gpParasiteBloodSprites =
+{
+    "sprites/bts_rc/zombie_parasite_blood_1.spr",
+    "sprites/bts_rc/zombie_parasite_blood_2.spr",
+    "sprites/bts_rc/zombie_parasite_blood_3.spr"
+};
+
 final class monster_parasite : bts_rc_base_monster
 {
     protected float m_flIgnoreWorldCollisionTime;
@@ -98,6 +105,8 @@ final class monster_parasite : bts_rc_base_monster
 
         if( string( self.m_FormattedName ).IsEmpty() )
             self.m_FormattedName = "Parasite";
+
+        @self.GetUserData()[ "blood_sprites" ] = gpParasiteBloodSprites;
 
         self.MonsterInit();
     }
