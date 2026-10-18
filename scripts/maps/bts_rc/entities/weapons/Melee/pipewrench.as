@@ -159,9 +159,6 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
                 miss = this.Hit( tr, AttackType::Secondary, hit );
                 this.PlayAnim( ( miss ? WeaponPipeWrenchAnim::AttackBigMiss : WeaponPipeWrenchAnim::AttackBigHit ), PLAYER_ANIM::PLAYER_ATTACK1 );
 
-                Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-                player.pev.punchangle.x = -2.0f;
-
                 if( miss )
                 {
                     this.PlaySound( "weapons/pwrench_big_miss.wav" );

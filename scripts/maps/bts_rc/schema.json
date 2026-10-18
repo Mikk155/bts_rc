@@ -233,33 +233,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -273,33 +267,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -342,33 +330,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -387,33 +369,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -607,33 +583,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -647,33 +617,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -716,33 +680,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -761,33 +719,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -981,33 +933,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1021,33 +967,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1090,33 +1030,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1135,33 +1069,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1355,33 +1283,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1395,33 +1317,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1464,33 +1380,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1509,33 +1419,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1729,33 +1633,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1769,33 +1667,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1838,33 +1730,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -1883,33 +1769,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2103,33 +1983,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2143,33 +2017,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2212,33 +2080,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2257,33 +2119,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2477,33 +2333,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2517,33 +2367,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2586,33 +2430,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2631,33 +2469,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2851,33 +2683,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2891,33 +2717,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -2960,33 +2780,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3005,33 +2819,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3225,33 +3033,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3265,33 +3067,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3334,33 +3130,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3379,33 +3169,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3599,33 +3383,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3639,33 +3417,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3708,33 +3480,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3753,33 +3519,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -3994,33 +3754,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4034,33 +3788,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4103,33 +3851,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4148,33 +3890,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4389,33 +4125,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4429,33 +4159,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4498,33 +4222,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4543,33 +4261,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4763,33 +4475,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4803,33 +4509,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4872,33 +4572,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -4917,33 +4611,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5158,33 +4846,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5198,33 +4880,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5267,33 +4943,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5312,33 +4982,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5532,33 +5196,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5572,33 +5230,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5641,33 +5293,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5686,33 +5332,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5927,33 +5567,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -5967,33 +5601,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6036,33 +5664,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6081,33 +5703,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6301,33 +5917,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6341,33 +5951,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6410,33 +6014,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6455,33 +6053,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6696,33 +6288,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6736,33 +6322,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6805,33 +6385,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -6850,33 +6424,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7070,33 +6638,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7110,33 +6672,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7179,33 +6735,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7224,33 +6774,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7444,33 +6988,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7484,33 +7022,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7553,33 +7085,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7598,33 +7124,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7818,33 +7338,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7858,33 +7372,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7927,33 +7435,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -7972,33 +7474,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8192,33 +7688,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8232,33 +7722,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8301,33 +7785,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8346,33 +7824,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8566,33 +8038,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8606,33 +8072,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8675,33 +8135,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8720,33 +8174,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8940,33 +8388,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -8980,33 +8422,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9049,33 +8485,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9094,33 +8524,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9314,33 +8738,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9354,33 +8772,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9423,33 +8835,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9468,33 +8874,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9688,33 +9088,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9728,33 +9122,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9797,33 +9185,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -9842,33 +9224,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10082,33 +9458,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10122,33 +9492,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10191,33 +9555,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10236,33 +9594,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10456,33 +9808,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10496,33 +9842,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10565,33 +9905,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10610,33 +9944,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10851,33 +10179,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10891,33 +10213,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -10960,33 +10276,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11005,33 +10315,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11225,33 +10529,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11265,33 +10563,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11334,33 +10626,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11379,33 +10665,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11599,33 +10879,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11639,33 +10913,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11708,33 +10976,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11753,33 +11015,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -11985,33 +11241,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12025,33 +11275,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12094,33 +11338,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12139,33 +11377,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12379,33 +11611,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12419,33 +11645,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12488,33 +11708,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12533,33 +11747,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12753,33 +11961,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12793,33 +11995,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12862,33 +12058,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -12907,33 +12097,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13127,33 +12311,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13167,33 +12345,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13236,33 +12408,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13281,33 +12447,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13539,33 +12699,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13579,33 +12733,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13648,33 +12796,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13693,33 +12835,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -13964,33 +13100,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14004,33 +13134,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14073,33 +13197,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14118,33 +13236,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14338,33 +13450,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14378,33 +13484,27 @@
 						{
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14447,33 +13547,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
@@ -14492,33 +13586,27 @@
 							},
 							"stand": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"stand_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"crouch_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							},
 							"run_trained": 
 							{
-								"type": "number",
-								"minimum": 0.001
+								"type": "number"
 							}
 						}
 					},
