@@ -175,12 +175,12 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
         "description": "weapon accuracy modifiers.",
         "properties":
         {
-            "stand": { "type": "number", "minimum": 0.001 },
-            "stand_trained": { "type": "number", "minimum": 0.001 },
-            "crouch": { "type": "number", "minimum": 0.001 },
-            "crouch_trained": { "type": "number", "minimum": 0.001 },
-            "run": { "type": "number", "minimum": 0.001 },
-            "run_trained": { "type": "number", "minimum": 0.001 }
+            "stand": { "type": "number" },
+            "stand_trained": { "type": "number" },
+            "crouch": { "type": "number" },
+            "crouch_trained": { "type": "number" },
+            "run": { "type": "number" },
+            "run_trained": { "type": "number" }
         }
     },
     "primary_accuracy":
@@ -191,12 +191,12 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
         "description": "weapon accuracy modifiers.",
         "properties":
         {
-            "stand": { "type": "number", "minimum": 0.001 },
-            "stand_trained": { "type": "number", "minimum": 0.001 },
-            "crouch": { "type": "number", "minimum": 0.001 },
-            "crouch_trained": { "type": "number", "minimum": 0.001 },
-            "run": { "type": "number", "minimum": 0.001 },
-            "run_trained": { "type": "number", "minimum": 0.001 }
+            "stand": { "type": "number" },
+            "stand_trained": { "type": "number" },
+            "crouch": { "type": "number" },
+            "crouch_trained": { "type": "number" },
+            "run": { "type": "number" },
+            "run_trained": { "type": "number" }
         }
     },
     "primary_spread":
@@ -224,12 +224,12 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
         "properties":
         {
             "force": { "type": "boolean", "description": "if true the values are set, if false the values are added and accumulated." },
-            "stand": { "type": "number", "minimum": 0.001 },
-            "stand_trained": { "type": "number", "minimum": 0.001 },
-            "crouch": { "type": "number", "minimum": 0.001 },
-            "crouch_trained": { "type": "number", "minimum": 0.001 },
-            "run": { "type": "number", "minimum": 0.001 },
-            "run_trained": { "type": "number", "minimum": 0.001 }
+            "stand": { "type": "number" },
+            "stand_trained": { "type": "number" },
+            "crouch": { "type": "number" },
+            "crouch_trained": { "type": "number" },
+            "run": { "type": "number" },
+            "run_trained": { "type": "number" }
         }
     },
     "secondary_kickback":
@@ -241,12 +241,12 @@ bool ASWeaponConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASWeaponConfi
         "properties":
         {
             "force": { "type": "boolean", "description": "if true the values are set, if false the values are added and accumulated." },
-            "stand": { "type": "number", "minimum": 0.001 },
-            "stand_trained": { "type": "number", "minimum": 0.001 },
-            "crouch": { "type": "number", "minimum": 0.001 },
-            "crouch_trained": { "type": "number", "minimum": 0.001 },
-            "run": { "type": "number", "minimum": 0.001 },
-            "run_trained": { "type": "number", "minimum": 0.001 }
+            "stand": { "type": "number" },
+            "stand_trained": { "type": "number" },
+            "crouch": { "type": "number" },
+            "crouch_trained": { "type": "number" },
+            "run": { "type": "number" },
+            "run_trained": { "type": "number" }
         }
     },
     "reload_time":
