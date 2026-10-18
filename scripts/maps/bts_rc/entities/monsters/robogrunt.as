@@ -417,7 +417,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                     m.WriteCoord( src.z + 16 );
                     m.WriteCoord( src.x );
                     m.WriteCoord( src.y );
-                    m.WriteCoord( src.z + 16 + ( this.shock_radius / 2 ) / 0.2 ); // reach damage radius over .3 seconds
+                    m.WriteCoord( src.z + 16 + this.shock_radius / 0.2 ); // reach damage radius over the 0.2-second effect life
                     m.WriteShort( this.shockwave );
                     m.WriteByte( 0 ); // startframe
                     m.WriteByte( 0 ); // framerate
@@ -437,7 +437,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                     m.WriteCoord( src.x );
                     m.WriteCoord( src.y );
                     m.WriteCoord( src.z );
-                    m.WriteByte( int( this.shock_radius / 8 ) ); // radius
+                    m.WriteByte( int( Math.clamp( 1.0f, 255.0f, this.shock_radius / 10.0f + 0.5f ) ) ); // radius in 10-unit increments
                     m.WriteByte( colour.r );
                     m.WriteByte( colour.g );
                     m.WriteByte( colour.b );
