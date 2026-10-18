@@ -99,7 +99,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
     private int shield_blast_radius;
     private int shield_blast_damage;
     private float dmg_shield;
-    private int m_iShockwave;
     private int m_iAnimAttack = -1;
     private int m_iAnimSpindown = -1;
     private int m_iAnimShieldStomp = -1;
@@ -126,7 +125,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
         if( g_MapConfig.MapLoading )
         {
             g_SoundSystem.PrecacheSound( "garg/gar_stomp1.wav" );
-            this.m_iShockwave = g_Game.PrecacheModel( "sprites/shockwave.spr" );
         }
 
         return ASRoboGrunt::Register( config );
@@ -327,7 +325,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteCoord( monster.pev.origin.x );
                         m.WriteCoord( monster.pev.origin.y );
                         m.WriteCoord( monster.pev.origin.z + 16 + this.shield_blast_radius / 0.2 ); // reach damage radius over .3 seconds
-                        m.WriteShort( this.m_iShockwave );
+                        m.WriteShort( this.shockwave );
                         m.WriteByte( 0 ); // startframe
                         m.WriteByte( 0 ); // framerate
                         m.WriteByte( 2 ); // life
@@ -350,7 +348,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
                         m.WriteCoord( monster.pev.origin.x );
                         m.WriteCoord( monster.pev.origin.y );
                         m.WriteCoord( monster.pev.origin.z + 16 + ( this.shield_blast_radius / 2 ) / 0.2 ); // reach damage radius over .3 seconds
-                        m.WriteShort( this.m_iShockwave );
+                        m.WriteShort( this.shockwave );
                         m.WriteByte( 0 ); // startframe
                         m.WriteByte( 0 ); // framerate
                         m.WriteByte( 2 ); // life
