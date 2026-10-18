@@ -30,7 +30,7 @@ namespace weapons
             modifier = values[ is_trained_personal ? 1 : 0 ];
 
         if( int( values[6] ) != 0 )
-            player.pev.punchangle.x = modifier;
+            player.pev.punchangle.x = -modifier;
         else
             player.pev.punchangle.x -= modifier;
     }

@@ -562,7 +562,7 @@ abstract class ASWeaponConfig : IConfigurable
             this.primary_kickback[3] = kickback.ValueOrDefault( "crouch_trained", this.primary_kickback[2], false, false );
             this.primary_kickback[4] = kickback.ValueOrDefault( "run", this.primary_kickback[3], false, false );
             this.primary_kickback[5] = kickback.ValueOrDefault( "run_trained", this.primary_kickback[4], false, false );
-            this.primary_kickback[6] = kickback.ValueOrDefault( "force", 0, false, false );
+            this.primary_kickback[6] = kickback.ValueOrDefault( "force", 1, false, false );
         }
 
         @kickback = config[ "secondary_kickback" ];
@@ -575,7 +575,7 @@ abstract class ASWeaponConfig : IConfigurable
             this.secondary_kickback[3] = kickback.ValueOrDefault( "crouch_trained", this.secondary_kickback[2], false, false );
             this.secondary_kickback[4] = kickback.ValueOrDefault( "run", this.secondary_kickback[3], false, false );
             this.secondary_kickback[5] = kickback.ValueOrDefault( "run_trained", this.secondary_kickback[4], false, false );
-            this.secondary_kickback[6] = kickback.ValueOrDefault( "force", 0, false, false );
+            this.secondary_kickback[6] = kickback.ValueOrDefault( "force", 1, false, false );
         }
 
         // Reload properties
