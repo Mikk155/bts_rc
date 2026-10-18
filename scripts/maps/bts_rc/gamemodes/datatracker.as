@@ -64,7 +64,7 @@ final class ASDataTracker : IConfigurable
     {
         if( player !is null )
         {
-            this.m_Data.delete( g_EngineFuncs.GetPlayerAuthId( player.edict() ) );
+            this.m_Data.delete( Player::GetUniqueID( player ) );
         }
     }
 
@@ -76,7 +76,7 @@ final class ASDataTracker : IConfigurable
                 { "joined_at", DateTime().ToUnixTimestamp() }
             };
 
-            @this.m_Data[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] = data;
+            @this.m_Data[ Player::GetUniqueID( player ) ] = data;
 
             ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Now tracking your player data.\n", { player }  );
         }
@@ -120,7 +120,7 @@ final class ASDataTracker : IConfigurable
             if( character is null )
                 continue;
 
-            dictionary@ data = cast<dictionary@>( this.m_Data[ g_EngineFuncs.GetPlayerAuthId( player.edict() ) ] );
+            dictionary@ data = cast<dictionary@>( this.m_Data[ Player::GetUniqueID( player ) ] );
 
             if( data is null )
             {

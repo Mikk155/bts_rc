@@ -27,10 +27,12 @@
 #include "Precache"
 #include "test_chamber"
 
-#include "../../../mikk155/Server/chrono"
+#include "../../../mikk155/Server/chrono/v1"
 #include "../../../mikk155/SemanticVersion"
 #include "../../../mikk155/TextMenu/v1"
 #include "../../../mikk155/Player/ChatColor"
+#include "../../../mikk155/Player/GetUniqueID"
+#include "../../../mikk155/Entity/Create"
 #include "../../../mikk155/meta_api"
 
 TextMenu::v1::Menu g_ClassSelectionMenu;

@@ -125,7 +125,7 @@ final class ASEquipmentSet
         {
             dictionary@ entData = this.m_Entities[ui];
 
-            CBaseEntity@ entity = g_EntityFuncs.CreateEntity( string( entData[ "classname" ] ), entData );
+            CBaseEntity@ entity = Entity::Create( entData );
 
             if( entity !is null )
             {

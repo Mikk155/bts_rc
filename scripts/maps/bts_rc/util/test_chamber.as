@@ -50,7 +50,7 @@ function( CBasePlayer@ player, array<string>@ arguments )
                 TraceResult tr;
                 Math.MakeVectors( player.pev.v_angle );
                 g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
-                g_EntityFuncs.CreateEntity( string( option.Data[ "classname" ] ), option.Data, true );
+                Entity::Create( option.Data );
             }
         );
     }

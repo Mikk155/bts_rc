@@ -20,9 +20,6 @@ namespace test_chamber
     final class entitymaker : ScriptBaseMonsterEntity
     {
         private
-            string m_ClassName;
-
-        private
             EHandle m_hChild;
 
         private
@@ -43,7 +40,7 @@ namespace test_chamber
             {
                 if( key == "_classname" )
                 {
-                    this.m_ClassName = value;
+                    this.m_KeyValues[ "classname" ] = value;
                     return true;
                 }
                 else if( key == "_targetname" )
@@ -98,7 +95,7 @@ namespace test_chamber
             self.pev.effects |= EF_NODRAW;
 
             RetrieveEntvars();
-            CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
+            CBaseEntity@ child = Entity::Create( this.m_KeyValues );
             g_EntityFuncs.Remove( child );
 
             if( this.m_IsOn )
@@ -113,7 +110,7 @@ namespace test_chamber
                 return;
 
             RetrieveEntvars();
-            CBaseEntity@ child = g_EntityFuncs.CreateEntity( this.m_ClassName, this.m_KeyValues, true );
+            CBaseEntity@ child = Entity::Create( this.m_KeyValues );
             EntityOverriden::Register( child, cast<CBaseMonster@>(child) );
             this.m_hChild = EHandle( child );
 
