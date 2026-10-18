@@ -155,38 +155,25 @@ final class ASRoboGruntBoss : ASRoboGrunt
     {
         uint result = ASRoboGrunt::TakeDamage( index, monster, info );
 
-        dictionary@ data = monster.GetUserData();
-        int hitgroup = monster.m_LastHitGroup;
-
-        switch( hitgroup )
+        if( monster.m_LastHitGroup == 15 )
         {
-            case 15:
+            TraceResult tr = g_Utility.GetGlobalTrace();
+
+            if( info.pAttacker !is null and info.pAttacker.IsPlayer() )
             {
-                TraceResult tr = g_Utility.GetGlobalTrace();
-
-                if( info.pAttacker !is null and info.pAttacker.IsPlayer() )
-                {
-                    NetworkMessage m( MSG_ONE, NetworkMessages::ShieldRic, info.pAttacker.edict() );
-                        m.WriteCoord( tr.vecEndPos.x );
-                        m.WriteCoord( tr.vecEndPos.y );
-                        m.WriteCoord( tr.vecEndPos.z );
-                    m.End();
-                }
-
-                if( ( info.bitsDamageType & ( DMG_BURN | DMG_SLOWBURN | DMG_BLAST ) ) == 0 )
-                {
-                    if( this.dmg_shield > 0.0 )
-                        info.flDamage *= this.dmg_shield;
-                    else
-                        info.flDamage = 0;
-                }
-
-                break;
+                NetworkMessage m( MSG_ONE, NetworkMessages::ShieldRic, info.pAttacker.edict() );
+                    m.WriteCoord( tr.vecEndPos.x );
+                    m.WriteCoord( tr.vecEndPos.y );
+                    m.WriteCoord( tr.vecEndPos.z );
+                m.End();
             }
-            case HITGROUP_HEAD:
+
+            if( ( info.bitsDamageType & ( DMG_BURN | DMG_SLOWBURN | DMG_BLAST ) ) == 0 )
             {
-                data[ "smokepuff" ] = int( 3 + ( info.flDamage / 5.0 ) );
-                break;
+                if( this.dmg_shield > 0.0 )
+                    info.flDamage *= this.dmg_shield;
+                else
+                    info.flDamage = 0;
             }
         }
 

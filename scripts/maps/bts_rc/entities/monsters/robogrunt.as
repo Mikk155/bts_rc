@@ -396,6 +396,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         bool bShockTouch = bool( data[ "shocktouch" ] );
 
+        data[ "smokepuff" ] = int( 3 + ( info.flDamage / 5.0 ) );
+
         if( bShockTouch )
         {
             if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 )
