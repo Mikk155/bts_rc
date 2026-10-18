@@ -265,8 +265,15 @@ final class ASFlare : ScriptBaseAnimating
         this.m_PlaceScorch = true;
     }
 
+    float m_lastTouch;
+
     void Touch( CBaseEntity@ other )
     {
+        if( this.m_lastTouch > g_Engine.time )
+            return;
+
+        this.m_lastTouch = g_Engine.time + 0.2f;
+
         if( self.pev.owner !is null )
             @self.pev.owner = null;
 
