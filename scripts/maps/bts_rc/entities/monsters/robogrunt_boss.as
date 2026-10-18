@@ -153,8 +153,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
     uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
     {
-        uint result = ASRoboGrunt::TakeDamage( index, monster, info );
-
         if( monster.m_LastHitGroup == 15 )
         {
             TraceResult tr = g_Utility.GetGlobalTrace();
@@ -174,10 +172,12 @@ final class ASRoboGruntBoss : ASRoboGrunt
                     info.flDamage *= this.dmg_shield;
                 else
                     info.flDamage = 0;
+
+                return EntityOverridenAction::None;
             }
         }
 
-        return result;
+        return ASRoboGrunt::TakeDamage( index, monster, info );;
     }
 
     CBaseEntity@ CheckTraceHullAttack( CBaseEntity@ attacker, float dist )
@@ -198,7 +198,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
     private array<EHandle> m_NearbyEnemies;
 
     // Get a list of all entities nearby
-    const array<EHandle>@ get_EnemiesNearby() property
+    const array<EHandle>@ EnemiesNearby( CBaseMonster@ monster )
     {
         if( this.m_NearbyLastCheck > g_Engine.time )
             return @this.m_NearbyEnemies;
@@ -207,8 +207,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
         this.m_NearbyLastCheck = g_Engine.time + 1.0f;
 
         this.m_NearbyEnemies.resize(0);
-
-        auto@ monster = this[0];
 
         CBaseEntity@ entity = null;
         while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, this.shield_blast_range, "*", "classname" ) ) !is null
@@ -270,6 +268,9 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
         dictionary@ data = monster.GetUserData();
 
+        const auto nearbyEnemies = this.EnemiesNearby( monster );
+        const int nearbyEnemiesCount = nearbyEnemies.length();
+
         float attackTime;
 
         if( data.get( "nextkick", attackTime ) && attackTime <= g_Engine.time )
@@ -284,7 +285,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
         }
         else if( data.get( "nextstompcheck", attackTime ) && attackTime <= g_Engine.time
         && monster.pev.sequence != this.m_iAnimShieldStomp
-        && this.EnemiesNearby.length() >= 1 )
+        && nearbyEnemiesCount >= 1 )
         {
             if( monster.pev.sequence == this.m_iAnimAttack
             ||   monster.pev.sequence == this.m_iAnimSpindown )
@@ -314,7 +315,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
             {
                 float flAdjustedDamage;
                 float flDist;
-                RGBA beamColor = this.shield_blast_colours[ Math.clamp( 0, this.shield_blast_colours.length() - 1, this.EnemiesNearby.length() ) ];
+                RGBA beamColor = this.shield_blast_colours[ Math.clamp( 0, this.shield_blast_colours.length() - 1, nearbyEnemiesCount ) ];
 
                 // Houndeye rings
                 {
@@ -370,8 +371,8 @@ final class ASRoboGruntBoss : ASRoboGrunt
                     {
                         if( !pEntity.pev.ClassNameIs( "monster_hwgrunt" ) )
                         {
-                            if( this.EnemiesNearby.length() > 1 )
-                                flAdjustedDamage = this.shield_blast_damage + this.shield_blast_damage * ( this.shield_blast_bonus * ( this.EnemiesNearby.length() - 1 ) );
+                            if( nearbyEnemiesCount > 1 )
+                                flAdjustedDamage = this.shield_blast_damage + this.shield_blast_damage * ( this.shield_blast_bonus * ( nearbyEnemiesCount - 1 ) );
                             else
                                 flAdjustedDamage = this.shield_blast_damage;
 
