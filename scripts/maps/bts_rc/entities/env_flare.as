@@ -58,7 +58,7 @@ final class ASFlare : ScriptBaseAnimating
         g_SoundSystem.EmitSoundDyn( edict, SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
         // Play fire loop
-        g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NONE, 0 );
+        g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_burning.wav", VOL_NORM, ATTN_NONE, 0 );
 
         if( FreeEdicts(3) )
         {
@@ -114,7 +114,7 @@ final class ASFlare : ScriptBaseAnimating
         self.pev.nextthink = 0;
 
         // Stop fire loop
-        g_SoundSystem.StopSound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", false );
+        g_SoundSystem.StopSound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_burning.wav", false );
 
         // Kill sprites
         const uint length = this.m_Sprites.length();
