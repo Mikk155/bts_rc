@@ -283,12 +283,12 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     // Get RGB based on monster health, Alpha is the health percentage.
     RGBA GetGlowColor( CBaseMonster@ monster )
     {
-        float healthPercent = Math.clamp( 0.0f, 1.0f, Math.max( 1, monster.pev.health ) / monster.pev.max_health );
+        float healthPercent = Math.clamp( 0.0f, 1.0f, Math.clamp( 1, monster.pev.max_health, monster.pev.health ) / monster.pev.max_health );
 
         return RGBA(
-            ASRoboGruntGlowColor.r - ( 155 * healthPercent ),
-            ASRoboGruntGlowColor.g * healthPercent,
-            ASRoboGruntGlowColor.b * healthPercent,
+            int( ASRoboGruntGlowColor.r - ( 155 * healthPercent ) ),
+            int( ASRoboGruntGlowColor.g * healthPercent ),
+            int( ASRoboGruntGlowColor.b * healthPercent ),
             int( healthPercent )
         );
     }
@@ -329,17 +329,26 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         if( monster is null )
             return;
 
-        Vector src = origin;
-        src.z += 15;
-
-        RGBA colour = this.GetGlowColor( monster );
-
-        CBaseEntity@ entity = null;
-
-        Vector punchAngle( float(Math.RandomLong(-3,3)), float(Math.RandomLong(-3,3)), float(Math.RandomLong(-3,3)) );
+        Vector src;
+        RGBA colour;
+        Vector colour_v;
+        Vector punch;
 
         const array<EHandle>@ nearbyEnemies = this.EnemiesNearby( monster, this.shock_radius, 0.3f );
         const uint length = nearbyEnemies.length();
+
+        if( length > 0 )
+        {
+            src = origin;
+            src.z += 15;
+            colour = this.GetGlowColor( monster );
+            colour_v = Vector( colour.r, colour.g, colour.b );
+            punch = Vector(
+                float( Math.RandomLong( -5, 5 ) ),
+                float( Math.RandomLong( -5, 5 ) ),
+                float( Math.RandomLong( -5, 5 ) )
+            );
+        }
 
         for( uint ui = 0; ui < length; ui++ )
         {
@@ -348,8 +357,14 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
             if( handle.IsValid() && ( @entity = handle.GetEntity() ) !is null )
             {
-                entity.pev.punchangle = punchAngle;
-                entity.pev.velocity = entity.pev.velocity * 0.5f;
+                entity.pev.velocity.x *= 0.2;
+                entity.pev.velocity.y *= 0.2;
+
+                if( entity.IsPlayer() )
+                {
+                    entity.pev.punchangle = punch;
+                    g_PlayerFuncs.ScreenFade( entity, colour_v, 0.5f, 0.0f, 255.0f, FFADE_MODULATE | FFADE_IN );
+                }
 
                 entity.TakeDamage( monster.pev, monster.pev, this.shock_damage, DMG_SHOCK | DMG_LAUNCH );
 
