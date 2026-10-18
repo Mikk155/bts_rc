@@ -174,16 +174,20 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         return true;
     }
 
-    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
+    bool RegisterRobogrunt( CBaseMonster@ monster, bool condition ) final
     {
-        if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/rgrunt_opfor.mdl" )
+        if( !condition )
             return false;
 
         g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_puddleskin", "3" );
+        BurningMonster::SetInmune( monster );
 
-        BurningMonster::SetInmune( entity );
+        return EntityOverriden::AddEntity( monster, monster );
+    }
 
-        return EntityOverriden::AddEntity( entity, monster );
+    bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
+    {
+        return RegisterRobogrunt( monster, ( string( entity.pev.model ) == "models/bts_rc/monsters/rgrunt_opfor.mdl" ) );
     }
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
@@ -533,12 +537,12 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             case 1: g_SoundSystem.EmitSound( monster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death2.wav", VOL_NORM, 0.5 ); break;
         }
 
+        float dieDuration = Math.RandomFloat( this.explosion_delay[0], this.explosion_delay[1] );
+        data[ "diethink" ] = g_Engine.time + dieDuration;
+
 #if ROBOSS_EXPAND_GLOW
         data[ "dieduration" ] = dieDuration;
 #endif
-
-        float dieDuration = Math.RandomFloat( this.explosion_delay[0], this.explosion_delay[1] );
-        data[ "diethink" ] = g_Engine.time + dieDuration;
 
         return EntityOverridenAction::None;
     }

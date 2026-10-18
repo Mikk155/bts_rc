@@ -132,7 +132,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
     bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
-        if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/robothwgrunt.mdl" )
+        if( !RegisterRobogrunt( monster, ( string( entity.pev.model ) == "models/bts_rc/monsters/robothwgrunt.mdl" ) ) )
             return false;
 
         if( this.m_iAnimAttack < 0 )
@@ -144,9 +144,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
         if( this.m_iAnimShieldStomp < 0 )
             this.m_iAnimShieldStomp = monster.LookupSequence( "shield_stomp" );
 
-        BurningMonster::SetInmune( entity );
-
-        return EntityOverriden::AddEntity( entity, monster );
+        return true;
     }
 
     uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
