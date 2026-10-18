@@ -23,17 +23,17 @@
             "y": -1.0,
             "fadeintime": 1.0,
             "fadeouttime": 1.0,
-            "holdtime": 3.0,
+            "holdtime": 8.0,
             "fxtime": 1.0,
             // Except effect it is integer.
             "effect": 1,
-            "rgb2": [ 0, 255, 0 ],
-            "rgb": [ 0, 255, 0 ],
-            "message": "You passed the simulation\n\n\nthe test at Sector C is going ahead\n\n\nyou return to your work space as advised\n\n\nhowever, the training event, becomes a reality,"
+            "rgb2": [ 230, 230, 230 ],
+            "rgb": [ 230, 230, 230 ],
+            "message": "You have successfully passed the simulation.\nThe test at Sector C is proceeding as planned.\n\nAs instructed,\nyou return to your workspace, believing the training exercise to be over.\nBut then, without warning, the unthinkable happens.\nThe training scenario becomes reality."
         },
         {
-            "rgb": [ 255, 0, 0 ],
-            "message": "The Resonance Cascades scale however is revealed\n\n\nThe entire planet is in a battle against alien fauna\n\n\nPortal Storms surround the planet that end up attracting\n\n\nSomething far worse than the Xen Invasion."
+            "rgb": [ 230, 230, 230 ],
+            "message": "The true scale of the Resonance Cascade is only now beginning to reveal itself.\nThe entire planet is plunged into a desperate war against an invasion of alien fauna,\nas reality itself begins to fracture.\nPortal Storms engulf the world, tearing open gateways to unknown dimensions.\nBut the Xen invasion is only the beginning.\n\nSomething far more dangerous is coming."
         },
         {
             // scroll: true means this and the next three captions will scroll in screen from down to top.
@@ -43,402 +43,117 @@
             "scroll": true,
             "scroll_rate": 0.005,
             "scroll_think": 0.05,
-            "rgb": [ 255, 0, 0 ],
+            "rgb": [ 230, 230, 230 ],
             // Think rate for scrolling messages.
             // This takes effect when the caption first pops up and will be overrided with another caption's think rate (if defined) when they pop up.
             // This entity is triggered when this caption is first displayed
             "target": "First trigger_camera targetname",
             // Delay to trigger the above entity.
             "delay": 0.5,
-            "message": "Project and Map Creator RaptorSKA"
+            "message": "Project Lead and Map Creator:\n\nRaptorSKA"
         },
         {
-            "scroll_think": 0.03,
-            "rgb": [ 128, 0, 128 ],
+            "scroll_think": 0.04,
+            "rgb": [ 230, 230, 230 ],
             "target": "Second trigger_camera targetname",
-            "message": "Lead Scripting Mikk115"
+            "message": "Lead Scripting:\n\nMikk115"
         },
         {
-            "scroll_think": 0.001,
+            "scroll_think": 0.04,
             "target": "Another entity to fire when arase pop up",
-            "rgb": [ 0, 255, 0 ],
-            "message": "Weapons: Arasefiq"
+            "rgb": [ 230, 230, 230 ],
+            "message": "Weapons created by:\n\nArasefiq\nRizulix\n Mad\n Mikk155"
         },
         {
-            "message": "Weapons: Rizulix"
+            "message": "Player Models by:\nSV BOY"
         },
         {
-            "message": "Weapons: Mad"
+            "message": "Map scripts by:\nMikk155\nMad\nGaftherman\nRizulix\nNero"
         },
         {
-            "message": "Weapons: Mikk155"
+            "message": "Custom Zombies\nCustom Opsrey\nCustom Robot Enforcer\n Created by:\n\n Gauna"
         },
         {
-            "message": "Player Models: SV BOY"
+            "message": "Player class sounds\n Created by:\n\nArasefiq\nMikk115"
         },
         {
-            "message": "Map scripts: Mikk155"
+            "message": "Custom Headcrab Detachment\nCreated by:\n\nMikk115\nGauna"
         },
-        {
-            "message": "Map scripts: Mad"
-        },
-        {
-            "message": "Map scripts: Gaftherman"
-        },
-        {
-            "message": "Map scripts: Rizulix"
-        },
-        {
-            "message": "Custom Zombies"
-        },
-        {
-            "message": "Custom Opsrey"
-        },
-        {
-            "message": "Custom Enforcer"
-        },
-        {
-            "message": "Created by:"
-        },
-        {
-            "message": "Gauna"
-        },
-        {
-            "message": "Player Sounds:"
-        },
-        {
-            "message": "Arasefiq"
-        },
-        {
-            "message": "Mikk115"
-        },
-        {
-            "message": "Solokiller"
-        },
-        {
-            "message": "Custom Headcrab Detachment:"
-        },
-        {
-            "message": "Mikk115"
-        },
-        {
-            "message": "TEXHAPb!!!"
-        },
-        {
-            "message": "gamit"
-        },
-        {
-            "message": "Custom NPCs:"
-        },
-        {
-            "message": "Gauna"
-        },
-        {
-            "message": "Nero"
-        },
-        {
-            "message": "Map Testers:"
-        },
-        {
-            "message": "Adambean"
-        },
-        {
-            "message": "Arasefiq"
-        },
-        {
-            "message": "Big Boi"
-        },
-        {
-            "message": "Darekstar"
-        },
-        {
-            "message": "Defer"
-        },
-        {
-            "message": "Erty"
-        },
-        {
-            "message": "FaLco"
-        },
-        {
-            "message": "Faravid"
-        },
-        {
-            "message": "Gauna"
-        },
-        {
-            "message": "Map Testers:"
-        },
-        {
-            "message": "Grunt"
-        },
-        {
-            "message": "Hondrid"
-        },
-        {
-            "message": "JPolito"
-        },
-        {
-            "message": "Killer Da Nub"
-        },
-        {
-            "message": "Kerncore"
-        },
-        {
-            "message": "Kezaeiv"
-        },
-        {
-            "message": "Meryilla"
-        },
-        {
-            "message": "MrFailz"
-        },
-        {
-            "message": "Ooleg"
-        },
-        {
-            "message": "Entity and Scripting Support:"
-        },
-        {
-            "message": "Erty"
-        },
-        {
-            "message": "Grunt"
-        },
-        {
-            "message": "H2"
-        },
-        {
-            "message": "Hondrid"
-        },
-        {
-            "message": "Mikk155"
-        },
-        {
-            "message": "Sparks"
-        },
-        {
-            "message": "Soctom"
-        },
-        {
-            "message": "Solokiller"
-        },
-        {
-            "message": "SV BOY"
-        },
-        {
-            "message": "Trempler"
-        },
-        {
-            "message": "Additional Scripting:"
-        },
-        {
-            "message": "Arasefiq"
-        },
-        {
-            "message": "Erty"
-        },
-        {
-            "message": "Gaftherman"
-        },
-        {
-            "message": "Hondrid"
-        },
-        {
-            "message": "Kerncore"
-        },
-        {
-            "message": "Mikk155"
-        },
-        {
-            "message": "Nero"
-        },
-        {
-            "message": "Rizulix"
-        },
-        {
-            "message": "Sounds by"
-        },
-        {
-            "message": "RaptorSKA"
-        },
-        {
-            "message": "Valve"
-        },
-        {
-            "message": "Gearbox"
-        },
-        {
-            "message": "Freesounds.com"
-        },
-        {
-            "message": "Music by"
-        },
-        {
-            "message": "Four-Nines"
-        },
-        {
-            "message": "Shiek Yerbouti"
-        },
-        {
-            "message": "Custom Models:"
-        },
-        {
-            "message": "DAVLevels"
-        },
-        {
-            "message": "Freeslave"
-        },
-        {
-            "message": "Gauna"
-        },
-        {
-            "message": "KernCore"
-        },
-        {
-            "message": "MTB"
-        },
-        {
-            "message": "Ryor"
-        },
-        {
-            "message": "SV BOY"
-        },
-        {
-            "message": "TEXHAPb!!!"
-        },
-        {
-            "message": "the303"
-        },
-        {
-            "message": "gamit"
-        },
-        {
-            "message": "Custom Model Rigs:"
-        },
-        {
-            "message": "Arasefiq"
-        },
-        {
-            "message": "MiroSklenar"
-        },
-        {
-            "message": "HAPE B"
-        },
-        {
-            "message": "Ixnay"
-        },
-        {
-            "message": "Organic700"
-        },
-        {
-            "message": "RaptorSKA"
-        },
-        {
-            "message": "SV BOY"
-        },
-        {
-            "message": "Sprites by"
-        },
-        {
-            "message": "Vika"
+		{
+            "message": "Custom Models\nCreated by:\nTEXHAPb!!!\nGamit\nGauna\nRusty\nSV BOY"
         },
         {
-            "message": "Valve"
+            "message": "Custom NPCs\nCreated by:\nGauna\nNero\nMikk155"
         },
         {
-            "message": "Gearbox"
+            "message": "Map Testers:\n\nAdambean\nArasefiq\nDarekstar\nDatSat\nDefer\nErty\nFaLco"
         },
-        {
-            "message": "Sven co-op team"
-        },
-        {
-            "message": "KEZAEIV"
-        },
-        {
-            "message": "TEXHAPb!!!"
-        },
-        {
-            "message": "FaLco"
-        },
-        {
-            "message": "SV BOY"
-        },
-        {
-            "message": "RaptorSKA"
-        },
-        {
-            "message": "Textures:"
-        },
-        {
-            "message": "MrFloyd"
+		{
+            "message": "Map Testers:\n\nFaravid\nForan\nGauna\nGeneric\nGrunt\nHondrid\nJPolito"
         },
-        {
-            "message": "RaptorSKA"
-        },
-        {
-            "message": "Valve"
+		{
+            "message": "Map Testers:\n\nJensen\nKerncore\nKezaeiv\nMemeMachine\nMeryilla\nMrFailz\nOfficer"
         },
-        {
-            "message": "Gearbox"
+		{
+            "message": "Map Testers:\n\nOoleg\nRyor\nSV BOY\nTama\nYoMustDie\nZang"
         },
         {
-            "message": "Original Models:"
+            "message": "Entity and Scripting Support:\n\nErty\nGrunt\nH2\nHondrid"
         },
-        {
-            "message": "Valve"
+		{
+            "message": "Entity and Scripting Support:\n\nMikk115\nSparks\nSoctom\nTrempler"
         },
         {
-            "message": "Gearbox"
+            "message": "Additional Scripting by:\n\nArasefiq\nErty\nGaftherman\nHondrid"
         },
-        {
-            "message": "Voice Actors:"
+		{
+            "message": "Additional Scripting by:\n\nKerncore\nMikk155\nMad\nNero\nRizulix"
         },
         {
-            "message": "Forgotten"
+            "message": "Sounds by:\n\nRaptorSKA\nValve\nGearbox\nFreesounds.com\nZode"
         },
         {
-            "message": "JPolito"
+            "message": "Music by:\n\nFour-Nines\nShiek Yerbouti\nRobert._\nCO.Ag Music"
         },
         {
-            "message": "Michi"
+            "message": "Additional Models:\n\nDAVLevels\nFreeslave\nGauna\nKerncore\nMTB"
         },
-        {
-            "message": "Ooleg"
+		{
+            "message": "Additional Models:\n\nRusty\nRyor\nThe303\nSV BOY\nTEXHAPb!!!"
         },
         {
-            "message": "PJC_"
+            "message": "Custom Model Rigs:\n\nArasefiq\nGauna\nHAPE B\nIxnay"
         },
-        {
-            "message": "Skillbreed"
+		{
+            "message": "Custom Model Rigs:\n\nMiroSklenar\nOrganic700\nRaptorSKA\nSV BOY"
         },
         {
-            "message": "TheMrFailz"
+            "message": "Sprites by:\n\nGearbox\nKEZAEIV\nSven co-op team\nRaptorSKA"
         },
-        {
-            "message": "YoMustDie"
+		{
+            "message": "Sprites by:\n\nSV BOY\nTEXHAPb!!!\nValve\nVika"
         },
         {
-            "message": "Zasli"
+            "message": "Custom Textures:\n\nGearbox\nMrFloyd\nRaptorSKA\nValve"
         },
         {
-            "message": "Map Testers:"
+            "message": "Original Models:\n\nGearbox\nValve"
         },
         {
-            "message": "Map Roulette"
+            "message": "Voice Actors:\n\nJPolito as Projector Scientist\nMichi as Grunt Voice #3\nOoleg as Maintenance Npc and Grunt Voice #1\nPJC_ as Dr. Johnson"
         },
-        {
-            "message": "Sbmesh Community"
+		{
+            "message": "Voice Actors:\n\nMrFailz as Maintenance Man #1\nSkillbreed as Maintenance Man #2\nYoMustDie as Grunt Voice #2\nZasli as Grunt Voice #4"
         },
         {
-            "message": "Rebels Pub Community"
+            "message": "Map Testing Servers:\n\nMap Roulette\nSbmesh Community\nRebels Pub Community\nS/v/en Co-op Community"
         },
         {
             "scroll": false,
-            "message": "This map was created\nduring the most difficult times\nin my life. My Wife had a near\nfatal experience involving a tumour.\nThis project, has been my cope.\nShe is now very well, and out of danger."
+            "message": "This Project was made possible\nThanks to the Goldsource and Sven Co-op community\nI would like to personally thank everybody\nwho took part in testing and providing feedback\nthis has easily been the most stressful project\nI have ever worked on."
         },
         {
-            "message": "Blackmesa Training Simulation\nResonance Cascade\nwas not possible, without\nNot just the Sven Co-op Community\nBut Goldsource as a whole.\nI can't thank everybody who has\ncontributed to the project enough\n\n\nThank you for playing."
+            "message": "This Project was started due to horrible circumstances\nMy Wife had a benign tumour called a Colloid Cyst. \nwhich resulted in a near fatal Acute hydrocephalus experience \nthe tumour almost killed her, and she still remains in hospital \n\nit has been beyond 2 years. \nHer Husband, Her Children, Her Family\nWill fight until she is home again\nWe love you, will every fibre.\n\nThank you"
         }
     ]
 }
