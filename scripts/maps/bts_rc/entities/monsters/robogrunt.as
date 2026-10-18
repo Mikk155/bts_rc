@@ -245,6 +245,17 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                 EntityOverridenAction::Remove;
             }
 
+            float timeRemaining = Math.max( 0.0f, dieThink - g_Engine.time );
+
+#if ROBOSS_EXPAND_GLOW
+            float dieDuration = Math.max( 0.01f, float( data[ "dieduration" ] ) );
+            float countdownProgress = 1.0f - Math.clamp( 0.0f, 1.0f, timeRemaining / dieDuration );
+            monster.pev.renderamt = 4.0f + 251.0f * countdownProgress;
+#endif
+
+            float maxDelay = Math.max( 0.01f, float( explosion_delay[1] ) );
+            monster.pev.rendercolor.x = Math.clamp( 0.0f, 255.0f, 255.0f * timeRemaining / maxDelay );
+
             data[ "smokepuff" ] = RandomUint( 6, monster );
         }
 
@@ -336,7 +347,11 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             case 1: g_SoundSystem.EmitSound( monster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death2.wav", VOL_NORM, 0.5 ); break;
         }
 
-        data[ "diethink" ] = g_Engine.time + Math.RandomFloat( explosion_delay[0], explosion_delay[1] );
+#if ROBOSS_EXPAND_GLOW
+        float dieDuration = Math.RandomFloat( explosion_delay[0], explosion_delay[1] );
+        data[ "diethink" ] = g_Engine.time + dieDuration;
+        data[ "dieduration" ] = dieDuration;
+#endif
 
         return EntityOverridenAction::None;
     }
