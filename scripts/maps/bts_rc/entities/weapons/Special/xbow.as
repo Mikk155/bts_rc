@@ -72,6 +72,11 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         return WeaponXBowAnim::IronIn;
     }
 
+    const uint8 get_hands_group() override
+    {
+        return 2;
+    }
+
     void Precache() override
     {
         g_Game.PrecacheModel( "models/bts_rc/weapons/v_crossbow.mdl" );
