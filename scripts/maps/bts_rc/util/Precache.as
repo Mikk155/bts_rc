@@ -197,6 +197,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget1.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/fidget_3.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_bounce.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_burning.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_deploy.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flare_pickup.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/weapons/flaregun_reload1.wav" );

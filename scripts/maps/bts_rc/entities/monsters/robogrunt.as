@@ -20,13 +20,15 @@
     Original code: Nero
 */
 
+const RGBA ASRoboGruntGlowColor( 100, 100, 220, 0 );
+
 bool ASRoboGruntSchema = g_MapConfig.RegisterSchemaDefinition( "ASRoboGruntSchema",
 """{
     "explosion_damage":
     {
         "type": "integer",
         "minimum": 0,
-        "description": "Explosion damage on death, set to 0 to disable."
+        "description": "Explosion damage on death."
     },
     "dmg_generic":
     {
@@ -40,6 +42,12 @@ bool ASRoboGruntSchema = g_MapConfig.RegisterSchemaDefinition( "ASRoboGruntSchem
         "minimum": 0.01,
         "description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
     },
+    "dmg_blast":
+    {
+        "type": "number",
+        "minimum": 0.01,
+        "description": "Multiplier for DMG_BLAST type damage (Grenades, Explosives)."
+    },
     "dmg_melee":
     {
         "type": "number",
@@ -52,18 +60,48 @@ bool ASRoboGruntSchema = g_MapConfig.RegisterSchemaDefinition( "ASRoboGruntSchem
         "minimum": 0.01,
         "description": "Multiplier for DMG_BULLET type damage (All fire arms)."
     },
-    "shock_touch":
+    "shock_damage":
     {
         "type": "integer",
         "minimum": 0,
-        "description": "Damage dealt to nearby enemies when shock (double to player that triggered the shock with a melee weapon)"
+        "description": "Damage dealt to nearby entities during a shock discharge."
+    },
+    "shock_cooldown":
+    {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": 
+        {
+            "minimum": 0.0,
+            "type": "number"
+        },
+        "description": "Shock discharge min/max random intervals."
+    },
+    "shock_radius":
+    {
+        "type": "integer",
+        "minimum": 64,
+        "description": "Shock discharge radius."
     },
     "shock_active":
     {
         "type": "number",
         "minimum": 0.0,
         "maximum": 1.0,
-        "description": " when to trigger shock mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%"
+        "description": "Activate shock mode at this health percentage (0.0 - 1.0); 0.3 means 30%."
+    },
+    "explosion_delay":
+    {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": 
+        {
+            "minimum": 0.0,
+            "type": "number"
+        },
+        "description": "Activate explosion after this min/max random time."
     }
 }""" );
 
@@ -89,29 +127,41 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
     protected uint computergibs;
     protected uint chromegibs;
+    protected uint shockwave;
     // when to trigger low-health mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%
     protected float shock_active;
-    protected int shock_touch;
+    protected int shock_damage;
+    protected float[] shock_cooldown;
+    protected int shock_radius;
     protected float dmg_melee;
     protected float dmg_bullet;
     protected float dmg_burn;
+    protected float dmg_blast;
     protected float dmg_generic;
     protected int explosion_damage;
+    protected float[] explosion_delay;
 
     bool Register( btson@ config ) override
     {
         this.dmg_generic = float( config[ "dmg_generic" ] );
         this.dmg_burn = float( config[ "dmg_burn" ] );
+        this.dmg_blast = float( config[ "dmg_blast" ] );
         this.dmg_melee = float( config[ "dmg_melee" ] );
         this.dmg_bullet = float( config[ "dmg_bullet" ] );
         this.explosion_damage = int( config[ "explosion_damage" ] );
-        this.shock_touch = int( config[ "shock_touch" ] );
+        this.shock_damage = int( config[ "shock_damage" ] );
         this.shock_active = float( config[ "shock_active" ] );
+        this.shock_radius = int( config[ "shock_radius" ] );
+        btson@ expDelay = config[ "explosion_delay" ];
+        this.explosion_delay = { float( expDelay[0] ), float( expDelay[1] ) };
+        btson@ shockDelay = config[ "shock_cooldown" ];
+        this.shock_cooldown = { float( shockDelay[0] ), float( shockDelay[1] ) };
 
         if( g_MapConfig.MapLoading )
         {
             this.computergibs = g_Game.PrecacheModel( "models/computergibs.mdl" );
             this.chromegibs = g_Game.PrecacheModel( "models/chromegibs.mdl" );
+            this.shockwave = g_Game.PrecacheModel( "sprites/shockwave.spr" );
 
             g_SoundSystem.PrecacheSound( "buttons/spark5.wav" );
             g_SoundSystem.PrecacheSound( "buttons/spark6.wav" );
@@ -129,6 +179,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/rgrunt_opfor.mdl" )
             return false;
 
+        g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_puddleskin", "3" );
+
         BurningMonster::SetInmune( entity );
 
         return EntityOverriden::AddEntity( entity, monster );
@@ -141,164 +193,270 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         dictionary@ data = monster.GetUserData();
 
-        if( monster.IsAlive() )
+        int smokePuffs;
+
+        if( data.get( "smokepuff", smokePuffs ) )
         {
-            int iDoSmokePuff = int( data[ "smokepuff" ] );
+            // Clamp in case somehow it gets massive damage
+            smokePuffs = Math.clamp( 1, 8, smokePuffs );
 
-            if( iDoSmokePuff > 0 || Math.RandomLong( 0, 99 ) > monster.pev.health )
+            float heightPos = monster.pev.origin.z + monster.pev.size.z - 32.0;
+
+            for( int i = 0; i < smokePuffs; i++ )
             {
-                NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
-                    m1.WriteByte( TE_SMOKE );
-                    m1.WriteCoord( monster.pev.origin.x + Math.RandomFloat( -16.0, 16.0 ) );
-                    m1.WriteCoord( monster.pev.origin.y + Math.RandomFloat( -16.0, 16.0 ) );
-                    m1.WriteCoord( monster.pev.origin.z + monster.pev.size.z - 32.0 );
-                    m1.WriteShort( models::steam1 );
-                    m1.WriteByte( Math.RandomLong( 1, 9 ) );
-                    m1.WriteByte( 12 );
-                m1.End();
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
+                    m.WriteByte( TE_SMOKE );
+                    m.WriteCoord( monster.pev.origin.x + Math.RandomFloat( -16.0, 16.0 ) );
+                    m.WriteCoord( monster.pev.origin.y + Math.RandomFloat( -16.0, 16.0 ) );
+                    m.WriteCoord( heightPos );
+                    m.WriteShort( models::steam1 );
+                    m.WriteByte( Math.RandomLong( 1, 9 ) );
+                    m.WriteByte( 12 );
+                m.End();
             }
 
-            if( iDoSmokePuff > 0 )
-                iDoSmokePuff--;
+            data.delete( "smokepuff" );
+        }
 
-            data[ "smokepuff" ] = iDoSmokePuff;
-            bool bShockTouch = bool( data[ "shocktouch" ] );
+        float nextShock;
+        bool shockModeActive = data.get( "shockmode", nextShock );
 
-            if( ( monster.pev.health / monster.pev.max_health ) <= this.shock_active )
+        if( shockModeActive )
+        {
+            // Do shock discharge
+            if( nextShock > 0 && nextShock < g_Engine.time )
             {
-                float flNextSpark = float( data[ "nextspark" ] );
-                bool bDoubleSpark = bool( data[ "doublespark" ] );
-
-                Vector vecOrigin = Vector( Math.RandomFloat( monster.pev.absmin.x, monster.pev.absmax.x ), Math.RandomFloat( monster.pev.absmin.y, monster.pev.absmax.y ), Math.RandomFloat( monster.pev.origin.z, monster.pev.absmax.z ) );
-
-                if( ( flNextSpark - 0.1 ) <= g_Engine.time and bDoubleSpark )
-                {
-                    g_Utility.Sparks( vecOrigin );
-                    data[ "doublespark" ] = false;
-                }
-
-                if( flNextSpark + Math.RandomFloat( 0, 1 ) <= g_Engine.time )
-                {
-                    g_Utility.Sparks( vecOrigin );
-                    if( Math.RandomLong( 1, 2 ) == 1 )
-                        g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_BODY, "buttons/spark5.wav", 0.5, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
-                    else
-                        g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_BODY, "buttons/spark6.wav", 0.5, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) );
-
-                    data[ "doublespark" ] = true;
-                    data[ "nextspark" ] = g_Engine.time + 0.3;
-
-                    if( flNextSpark > g_Engine.time and !bShockTouch )
-                    {
-                        if( Math.RandomLong( 0, 30 ) > 26 )
-                        {
-                            g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_STATIC, "debris/beamstart14.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
-                            GlowEffect( monster, true );
-                            data[ "shocktouch" ] = bShockTouch = true;
-                            data[ "nextshock" ] = g_Engine.time + 0.45;
-                        }
-                        else if( Math.RandomLong( 0, 40 ) == 15 )
-                        {
-                            g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_STATIC, "debris/beamstart14.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
-                            GlowEffect( monster, true );
-                            data[ "shocktouch" ] = bShockTouch = true;
-                            data[ "nextshock" ] = g_Engine.time + 0.35;
-                        }
-                    }
-                }
+                float shockAgain = Math.RandomFloat( this.shock_cooldown[0], this.shock_cooldown[1] );
+                data[ "shockmode" ] = g_Engine.time + shockAgain;
+                ShockDischarge( monster.pev.origin, monster );
             }
 
-            if( bShockTouch )
-            {
-                CBaseEntity@ pTarget = null;
-                while( ( @pTarget = g_EntityFuncs.FindEntityInSphere( pTarget, monster.pev.origin, monster.pev.size.z, "*", "classname" ) ) !is null )
-                {
-                    if( pTarget is monster or !pTarget.IsAlive() or pTarget.pev.takedamage == DAMAGE_NO )
-                        continue;
+            float nextSpark;
+            data.get( "nextspark", nextSpark );
 
-                    pTarget.TakeDamage( monster.pev, monster.pev, this.shock_touch, DMG_SHOCK | DMG_LAUNCH );
-                }
-                float flNextShockTouch = float( data[ "nextshock" ] );
-                if( flNextShockTouch <= g_Engine.time )
+            if( nextSpark < g_Engine.time )
+            {
+                data[ "nextspark" ] = g_Engine.time + Math.RandomFloat( 0.0f, 1.0f );
+
+                Vector vecOrigin = Vector(
+                    Math.RandomFloat( monster.pev.absmin.x, monster.pev.absmax.x ),
+                    Math.RandomFloat( monster.pev.absmin.y, monster.pev.absmax.y ),
+                    Math.RandomFloat( monster.pev.origin.z, monster.pev.absmax.z )
+                );
+
+                g_Utility.Sparks( vecOrigin );
+
+                switch( RandomUint( 1, monster ) )
                 {
-                    GlowEffect( monster, false );
-                    data[ "shocktouch" ] = false;
+                    case 0: g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_BODY, "buttons/spark5.wav", 0.5, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) ); break;
+                    case 1: g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_BODY, "buttons/spark6.wav", 0.5, ATTN_NORM, 0, 95 + Math.RandomLong( 0, 10 ) ); break;
                 }
             }
         }
 
-        float flNextDieThink = float( data[ "diethink" ] );
+        float dieThink;
 
-        if( flNextDieThink > 0.0 && flNextDieThink <= g_Engine.time )
+        if( data.get( "diethink", dieThink ) )
         {
-            if( monster.pev.deadflag != DEAD_DEAD )
-                monster.pev.deadflag = DEAD_DEAD;
-
-            if( float( data[ "removethink" ] ) <= g_Engine.time )
+            if( dieThink <= g_Engine.time )
             {
                 monster.pev.solid = SOLID_NOT;
                 ExplosiveDeath( monster );
                 EntityOverridenAction::Remove;
             }
-            else
-            {
-                Vector vecOrigin;
-                vecOrigin.x = monster.pev.absmin.x + monster.pev.size.x * ( Math.RandomFloat( 0, 1 ) );
-                vecOrigin.y = monster.pev.absmin.y + monster.pev.size.y * ( Math.RandomFloat( 0, 1 ) );
-                vecOrigin.z = monster.pev.absmin.z + monster.pev.size.z * ( Math.RandomFloat( 0, 1 ) ) + 1; // absmin.z is in the floor because the engine subtracts 1 to enlarge the box
 
-                if( FreeEdicts( 1 ) )
-                {
-                    NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
-                        m1.WriteByte( TE_SMOKE );
-                        m1.WriteCoord( vecOrigin.x );
-                        m1.WriteCoord( vecOrigin.y );
-                        m1.WriteCoord( vecOrigin.z );
-                        m1.WriteShort( models::steam1 );
-                        m1.WriteByte( 15 ); // scale * 10
-                        m1.WriteByte( 10 ); // framerate
-                    m1.End();
-                }
+            float timeRemaining = Math.max( 0.0f, dieThink - g_Engine.time );
 
-                g_Utility.Sparks( vecOrigin );
+#if ROBOSS_EXPAND_GLOW
+            float dieDuration = Math.max( 0.01f, float( data[ "dieduration" ] ) );
+            float countdownProgress = 1.0f - Math.clamp( 0.0f, 1.0f, timeRemaining / dieDuration );
+            monster.pev.renderamt = 4.0f + 251.0f * countdownProgress;
+#endif
 
-                data[ "diethink" ] = g_Engine.time + 0.1;
-            }
+            float maxDelay = Math.max( 0.01f, float( explosion_delay[1] ) );
+            monster.pev.rendercolor.x = Math.clamp( 0.0f, 255.0f, 255.0f * timeRemaining / maxDelay );
+
+            data[ "smokepuff" ] = RandomUint( 6, monster );
         }
 
         return EntityOverridenAction::None;
     }
 
-    void GlowEffect( CBaseMonster@ monster, bool bOn )
+    // Get RGB based on monster health, Alpha is the health percentage.
+    RGBA GetGlowColor( CBaseMonster@ monster )
+    {
+        float maxHealth = Math.max( 1.0f, monster.pev.max_health );
+        float healthPercent = Math.clamp( 0.0f, 1.0f, monster.pev.health / maxHealth );
+        float glowProgress = 0.0f;
+
+        if( this.shock_active > 0.0f && healthPercent <= this.shock_active )
+        {
+            glowProgress = Math.clamp( 0.0f, 1.0f, 1.0f - healthPercent / this.shock_active );
+        }
+        else if( this.shock_active <= 0.0f && healthPercent <= 0.0f )
+        {
+            glowProgress = 1.0f;
+        }
+
+        return RGBA(
+            int( ASRoboGruntGlowColor.r + ( ( 255 - ASRoboGruntGlowColor.r ) * glowProgress ) ),
+            int( ASRoboGruntGlowColor.g * ( 1.0f - glowProgress ) ),
+            int( ASRoboGruntGlowColor.b * ( 1.0f - glowProgress ) ),
+            int( 255.0f * healthPercent )
+        );
+    }
+
+    private float m_NearbyLastCheck;
+    private float m_NearbyLastRange;
+    private array<EHandle> m_NearbyEnemies;
+
+    // Get a list of all entities nearby
+    const array<EHandle>@ EnemiesNearby( CBaseMonster@ monster, int range, float nextCheck = 1.0f )
+    {
+        if( this.m_NearbyLastCheck > g_Engine.time && this.m_NearbyLastRange == range )
+            return @this.m_NearbyEnemies;
+
+        // Rebuild list every second
+        this.m_NearbyLastCheck = g_Engine.time + nextCheck;
+        this.m_NearbyLastRange = range;
+
+        this.m_NearbyEnemies.resize(0);
+
+        CBaseEntity@ entity = null;
+        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, range, "*", "classname" ) ) !is null
+        && entity.pev.takedamage != DAMAGE_NO
+        && ( entity.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0
+        && entity.IsAlive()
+        && entity !is monster
+        && monster.FVisible( entity, true )
+        && monster.IRelationship( entity ) != R_AL )
+        {
+            this.m_NearbyEnemies.insertLast( EHandle( entity ) );
+        }
+
+        return @this.m_NearbyEnemies;
+    }
+
+    void ShockDischarge( const Vector&in origin, CBaseMonster@ monster )
     {
         if( monster is null )
             return;
 
-        if( bOn )
+        Vector src;
+        RGBA colour;
+        Vector colour_v;
+        Vector punch;
+
+        const array<EHandle>@ nearbyEnemies = this.EnemiesNearby( monster, this.shock_radius, 0.3f );
+        const uint length = nearbyEnemies.length();
+
+        if( length > 0 )
         {
-            monster.pev.renderfx = kRenderFxGlowShell;
-            monster.pev.renderamt = 4.0;
-            monster.pev.rendercolor.x = 100;
-            monster.pev.rendercolor.y = 100;
-            monster.pev.rendercolor.z = 220;
+            src = origin;
+            src.z += 15;
+            colour = this.GetGlowColor( monster );
+            colour_v = Vector( colour.r, colour.g, colour.b );
+            punch = Vector(
+                float( Math.RandomLong( -5, 5 ) ),
+                float( Math.RandomLong( -5, 5 ) ),
+                float( Math.RandomLong( -5, 5 ) )
+            );
         }
-        else
+
+        for( uint ui = 0; ui < length; ui++ )
         {
-            monster.pev.renderfx = kRenderFxNone;
-            monster.pev.renderamt = 255.0;
-            monster.pev.rendercolor = g_vecZero;
+            EHandle handle = nearbyEnemies[ui];
+            CBaseEntity@ entity;
+
+            if( handle.IsValid() && ( @entity = handle.GetEntity() ) !is null )
+            {
+                entity.pev.velocity.x *= 0.2;
+                entity.pev.velocity.y *= 0.2;
+
+                if( entity.IsPlayer() )
+                {
+                    entity.pev.punchangle = punch;
+                    g_PlayerFuncs.ScreenFade( entity, colour_v, 0.5f, 0.0f, 255.0f, FFADE_MODULATE | FFADE_IN );
+                }
+
+                entity.TakeDamage( monster.pev, monster.pev, this.shock_damage, DMG_SHOCK | DMG_LAUNCH );
+
+                Vector target = entity.pev.origin;
+                target.z += 15;
+
+                {
+                    NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, src );
+                        m.WriteByte( TE_BEAMPOINTS );
+                        m.WriteCoord( src.x );
+                        m.WriteCoord( src.y );
+                        m.WriteCoord( src.z );
+                        m.WriteCoord( target.x );
+                        m.WriteCoord( target.y );
+                        m.WriteCoord( target.z );
+                        m.WriteShort( models::laserbeam );
+                        m.WriteByte( 0 ); // start frame
+                        m.WriteByte( 25 ); // frame rate
+                        m.WriteByte( 4 ); // life
+                        m.WriteByte( 16 ); // width
+                        m.WriteByte( 16 ); // noise
+                        m.WriteByte( colour.r ); // red
+                        m.WriteByte( colour.g ); // green
+                        m.WriteByte( colour.b ); // blue
+                        m.WriteByte( 220 ); // brightness
+                        m.WriteByte( 0 ); // scroll speed
+                    m.End();
+                }
+            }
+        }
+
+        if( length > 0 )
+        {
+            {
+                NetworkMessage m( MSG_PAS, NetworkMessages::SVC_TEMPENTITY, src );
+                    m.WriteByte( TE_BEAMCYLINDER );
+                    m.WriteCoord( src.x );
+                    m.WriteCoord( src.y );
+                    m.WriteCoord( src.z + 16 );
+                    m.WriteCoord( src.x );
+                    m.WriteCoord( src.y );
+                    m.WriteCoord( src.z + 16 + this.shock_radius / 0.2 ); // reach damage radius over the 0.2-second effect life
+                    m.WriteShort( this.shockwave );
+                    m.WriteByte( 0 ); // startframe
+                    m.WriteByte( 0 ); // framerate
+                    m.WriteByte( 2 ); // life
+                    m.WriteByte( 16 ); // width
+                    m.WriteByte( 0 ); // noise
+                    m.WriteByte( colour.r ); // r, g, b
+                    m.WriteByte( colour.g ); // r, g, b
+                    m.WriteByte( colour.b ); // r, g, b
+                    m.WriteByte( 100 ); // brightness
+                    m.WriteByte( 0 ); // speed
+                m.End();
+            }
+            {
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, src );
+                    m.WriteByte( TE_DLIGHT );
+                    m.WriteCoord( src.x );
+                    m.WriteCoord( src.y );
+                    m.WriteCoord( src.z );
+                    m.WriteByte( int( Math.clamp( 1.0f, 255.0f, this.shock_radius / 10.0f + 0.5f ) ) ); // radius in 10-unit increments
+                    m.WriteByte( colour.r );
+                    m.WriteByte( colour.g );
+                    m.WriteByte( colour.b );
+                    m.WriteByte( 2 );
+                    m.WriteByte( 1 );
+                m.End();
+            }
+
+            g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_AUTO, "debris/beamstart14.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
+
         }
     }
 
     void ExplosiveDeath( CBaseMonster@ monster )
     {
-        dictionary@ data = monster.GetUserData();
-
-        if( this.explosion_damage > 0 )
-        {
-            monster.pev.flags |= EdictFlags::FL_KILLME;
-            g_EntityFuncs.CreateExplosion( monster.pev.origin, g_vecZero, monster.edict(), this.explosion_damage, true );
-        }
+        monster.pev.flags |= EdictFlags::FL_KILLME;
+        g_EntityFuncs.CreateExplosion( monster.pev.origin, g_vecZero, monster.edict(), this.explosion_damage, true );
 
         if( FreeEdicts( 15 ) )
         {
@@ -346,46 +504,41 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         if( FreeEdicts( 1 ) )
         {
-            CBaseEntity@ pSmoker = g_EntityFuncs.Create( "env_smoker", monster.pev.origin, g_vecZero, false );
-            pSmoker.pev.health = 1;                      // 1 smoke balls
-            pSmoker.pev.scale = 10;                      // 4.6X normal size
-            pSmoker.pev.dmg = 0;                         // 0 radial distribution
-            pSmoker.pev.nextthink = g_Engine.time + 0.5; // Start in 0.5 seconds
+            CBaseEntity@ smoker = g_EntityFuncs.Create( "env_smoker", monster.pev.origin, g_vecZero, false );
+            smoker.pev.health = 1; // 1 smoke balls
+            smoker.pev.scale = 10; // 4.6X normal size
+            smoker.pev.dmg = 0; // 0 radial distribution
+            smoker.pev.nextthink = g_Engine.time + 0.5; // Start in 0.5 seconds
         }
-
-        Vector vecOrigin;
-        vecOrigin.x = monster.pev.absmin.x + monster.pev.size.x * ( Math.RandomFloat( 0, 1 ) );
-        vecOrigin.y = monster.pev.absmin.y + monster.pev.size.y * ( Math.RandomFloat( 0, 1 ) );
-        vecOrigin.z = monster.pev.absmin.z + monster.pev.size.z * ( Math.RandomFloat( 0, 1 ) ) + 1; // absmin.z is in the floor because the engine subtracts 1 to enlarge the box
-
-        g_Utility.Sparks( vecOrigin );
-
-        data[ "diethink" ] = 0;
     }
 
     uint Killed( uint index, CBaseMonster@ monster, CBaseEntity@ attacker, bool gibbed ) override
     {
-        dictionary@ data = monster.GetUserData();
-
-        monster.pev.velocity = g_vecZero;
-        monster.pev.deadflag = DEAD_DYING;
-
         if( gibbed )
         {
             ExplosiveDeath( monster );
             return EntityOverridenAction::Remove;
         }
 
-        GlowEffect( monster, false );
+        dictionary@ data = monster.GetUserData();
+
+        monster.pev.velocity = g_vecZero;
+        monster.pev.deadflag = DEAD_DYING;
+
         GetSoundEntInstance().InsertSound( bits_SOUND_DANGER, monster.pev.origin, 250, 2.5, monster );
 
-        if( Math.RandomLong( 1, 2 ) == 1 )
-            g_SoundSystem.EmitSound( monster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death1.wav", VOL_NORM, 0.5 );
-        else
-            g_SoundSystem.EmitSound( monster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death2.wav", VOL_NORM, 0.5 );
+        switch( Math.RandomLong( 0, 1 ) )
+        {
+            case 0: g_SoundSystem.EmitSound( monster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death1.wav", VOL_NORM, 0.5 ); break;
+            case 1: g_SoundSystem.EmitSound( monster.edict(), CHAN_VOICE, "bts_rc/rgrunt/rb_death2.wav", VOL_NORM, 0.5 ); break;
+        }
 
-        data[ "removethink" ] = g_Engine.time + Math.RandomFloat( 3.0, 7.0 );
-        data[ "diethink" ] = g_Engine.time;
+#if ROBOSS_EXPAND_GLOW
+        data[ "dieduration" ] = dieDuration;
+#endif
+
+        float dieDuration = Math.RandomFloat( this.explosion_delay[0], this.explosion_delay[1] );
+        data[ "diethink" ] = g_Engine.time + dieDuration;
 
         return EntityOverridenAction::None;
     }
@@ -393,22 +546,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     uint TakeDamage( uint index, CBaseMonster@ monster, DamageInfo@ info ) override
     {
         dictionary@ data = monster.GetUserData();
-
-        bool bShockTouch = bool( data[ "shocktouch" ] );
-
-        if( bShockTouch )
-        {
-            if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 )
-            {
-                info.pAttacker.TakeDamage(monster.pev, monster.pev, this.shock_touch, DMG_SHOCK );
-                info.flDamage = 0.01;
-            }
-        }
-        else if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 && monster.pev.health <= 20.0 && Math.RandomLong( 0, 2 ) > 1 )
-        {
-            GlowEffect( monster, true );
-            data[ "shocktouch" ] = true;
-        }
 
         bool bRicochet = false;
 
@@ -422,12 +559,11 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             bRicochet = true;
             info.flDamage *= this.dmg_melee;
         }
-        else if( ( info.bitsDamageType & DMG_BLAST ) != 0 && monster.pev.health > 10.0 )
+        else if( ( info.bitsDamageType & DMG_BLAST ) != 0 )
         {
-            if( info.flDamage > 15.0 )
-                info.flDamage -= 15.0;
+            info.flDamage *= this.dmg_blast;
         }
-        else if( ( info.bitsDamageType & DMG_BURN ) == 0 || monster.pev.health <= 10.0 )
+        else if( ( info.bitsDamageType & DMG_BURN ) == 0 )
         {
             info.flDamage *= this.dmg_burn;
         }
@@ -438,11 +574,11 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         if( bRicochet )
         {
-            TraceResult tr = g_Utility.GetGlobalTrace();
-
-            if( info.pAttacker !is null and info.pAttacker.pev.FlagBitSet( FL_CLIENT ) )
+            if( info.pAttacker !is null )
             {
-                NetworkMessage m( MSG_ONE, NetworkMessages::SVC_TEMPENTITY, info.pAttacker.edict() );
+                TraceResult tr = g_Utility.GetGlobalTrace();
+
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
                     m.WriteByte( TE_ARMOR_RICOCHET );
                     m.WriteCoord( tr.vecEndPos.x );
                     m.WriteCoord( tr.vecEndPos.y );
@@ -454,7 +590,57 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         if( info.flDamage > 0 )
         {
-            data[ "smokepuff" ] = int( 3 + ( info.flDamage / 5.0 ) );
+            data[ "smokepuff" ] = Math.max( int( 3 + ( info.flDamage / 5.0 ) ), int( data[ "smokepuff" ] ) );
+
+            float nextShock;
+            bool shockModeActive = data.get( "shockmode", nextShock );
+
+            if( !shockModeActive )
+            {
+                // Set shock mode if health is going to be lesser than percent expected
+                if( monster.pev.health - info.flDamage <= monster.pev.max_health * this.shock_active )
+                {
+                    shockModeActive = true;
+                }
+            }
+
+            uint bloodSplash = RandomUint( 16, monster ) + 1;
+
+            if( bloodSplash > 7 )
+                bloodSplash = -1;
+
+            g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_bloodcolor", bloodSplash );
+
+            if( Math.RandomLong( 0, 10 ) < 4 )
+            {
+                TraceResult tr = g_Utility.GetGlobalTrace();
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
+                    m.WriteByte( TE_BLOOD );
+                    m.WriteCoord( tr.vecEndPos.x );
+                    m.WriteCoord( tr.vecEndPos.y );
+                    m.WriteCoord( tr.vecEndPos.z );
+                    m.WriteCoord( 0 );
+                    m.WriteCoord( 0 );
+                    m.WriteCoord( -90);
+                    m.WriteByte( 110 ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+                    m.WriteByte( 16 );
+                m.End();
+            }
+
+            // Set up next shock
+            if( shockModeActive )
+            {
+                monster.pev.renderamt = 4.0;
+                monster.pev.renderfx = kRenderFxGlowShell;
+
+                RGBA colour = this.GetGlowColor( monster );
+
+                monster.pev.rendercolor[0] = colour.r;
+                monster.pev.rendercolor[1] = colour.g;
+                monster.pev.rendercolor[2] = colour.b;
+
+                data[ "shockmode" ] = g_Engine.time;
+            }
         }
 
         return EntityOverridenAction::None;

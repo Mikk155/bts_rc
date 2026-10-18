@@ -451,16 +451,6 @@ final class env_credits : ScriptBaseMonsterEntity
 
         g_DataTracker.Stop();
 
-        string creditsPath = "scripts/maps/bts_rc/credits.txt";
-
-        File@ fStream = g_FileSystem.OpenFile( creditsPath, OpenFile::READ );
-
-        if( fStream is null || !fStream.IsOpen() )
-        {
-            g_Logger.critical.print("Could not open {}", { creditsPath } );
-            int[]a(0);a[1];
-        }
-
         if( g_Logger.info.active )
             g_Logger.info.print("Parsing credits file..." );
 

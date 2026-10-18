@@ -83,13 +83,18 @@ namespace weapons
 
             if( hasBloodColors.Exists() )
             {
-                NetworkMessage m( MSG_PVS, NetworkMessages::CreateBlood, tr.vecEndPos );
-                    m.WriteCoord(tr.vecEndPos.x );
-                    m.WriteCoord(tr.vecEndPos.y );
-                    m.WriteCoord(tr.vecEndPos.z );
-                    m.WriteByte( hasBloodColors.GetInteger() ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
-                    m.WriteByte( Math.clamp( 0, 255, damageTaken ) ); // Count
-                m.End();
+                uint val = hasBloodColors.GetInteger();
+
+                if( val >= 0 && val <= 255 )
+                {
+                    NetworkMessage m( MSG_PVS, NetworkMessages::CreateBlood, tr.vecEndPos );
+                        m.WriteCoord(tr.vecEndPos.x );
+                        m.WriteCoord(tr.vecEndPos.y );
+                        m.WriteCoord(tr.vecEndPos.z );
+                        m.WriteByte( val ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+                        m.WriteByte( Math.clamp( 0, 255, damageTaken ) ); // Count
+                    m.End();
+                }
             }
 
             if( g_WeaponsConfig.sparks_splash )
@@ -257,5 +262,50 @@ ASCommand __TraceEffects_Sparks_cmd__( // disable-line W117
         g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Playing sparks color " + color + '\n' );
 
         __TraceEffects_Sparks__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, 10 );
+    }, true, "fx"
+);
+
+
+void __TraceEffects_Bleed__( float x, float y, float z, int color, int repeats )
+{
+    if( --repeats < 0 )
+        return;
+
+    NetworkMessage m( MSG_ALL, NetworkMessages::SVC_TEMPENTITY );
+        m.WriteByte( TE_BLOOD );
+        m.WriteCoord( x );
+        m.WriteCoord( y );
+        m.WriteCoord( z );
+        m.WriteCoord( 0 );
+        m.WriteCoord( 0 );
+        m.WriteCoord( -90);
+        m.WriteByte( color ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+        m.WriteByte( 16 );
+    m.End();
+
+    g_Scheduler.SetTimeout( "__TraceEffects_Bleed__", 0.5f, x, y, z, color, repeats ); // disable-line E118
+}
+
+ASCommand __TraceEffects_Bleed_cmd__( // disable-line W117
+    "bleed",
+    "<0/255 color ranges>",
+    "Spawn bleed particles",
+    function( CBasePlayer@ player, array<string>@ arguments )
+    {
+        if( arguments is null )
+            arguments = { 20 };
+
+        while( arguments.length() < 1 )
+            arguments.insertLast( 20 );
+
+        TraceResult tr;
+        Math.MakeVectors( player.pev.v_angle );
+        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
+
+        int color = Math.clamp( 0, 255, atoi( arguments[0] ) );
+
+        g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Playing bleed color " + color + '\n' );
+
+        __TraceEffects_Bleed__( tr.vecEndPos.x, tr.vecEndPos.y, tr.vecEndPos.z, color, 10 );
     }, true, "fx"
 );

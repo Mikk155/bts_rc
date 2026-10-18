@@ -15265,7 +15265,7 @@
 					{
 						"type": "integer",
 						"minimum": 0,
-						"description": "Explosion damage on death, set to 0 to disable."
+						"description": "Explosion damage on death."
 					},
 					"dmg_generic": 
 					{
@@ -15279,6 +15279,12 @@
 						"minimum": 0.01,
 						"description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
 					},
+					"dmg_blast": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_BLAST type damage (Grenades, Explosives)."
+					},
 					"dmg_melee": 
 					{
 						"type": "number",
@@ -15291,18 +15297,48 @@
 						"minimum": 0.01,
 						"description": "Multiplier for DMG_BULLET type damage (All fire arms)."
 					},
-					"shock_touch": 
+					"shock_damage": 
 					{
 						"type": "integer",
 						"minimum": 0,
-						"description": "Damage dealt to nearby enemies when shock (double to player that triggered the shock with a melee weapon)"
+						"description": "Damage dealt to nearby entities during a shock discharge."
+					},
+					"shock_cooldown": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"items": 
+						{
+							"minimum": 0.0,
+							"type": "number"
+						},
+						"description": "Shock discharge min/max random intervals."
+					},
+					"shock_radius": 
+					{
+						"type": "integer",
+						"minimum": 64,
+						"description": "Shock discharge radius."
 					},
 					"shock_active": 
 					{
 						"type": "number",
 						"minimum": 0.0,
 						"maximum": 1.0,
-						"description": " when to trigger shock mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%"
+						"description": "Activate shock mode at this health percentage (0.0 - 1.0); 0.3 means 30%."
+					},
+					"explosion_delay": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"items": 
+						{
+							"minimum": 0.0,
+							"type": "number"
+						},
+						"description": "Activate explosion after this min/max random time."
 					}
 				}
 			},
@@ -15372,7 +15408,7 @@
 					{
 						"type": "integer",
 						"minimum": 0,
-						"description": "Explosion damage on death, set to 0 to disable."
+						"description": "Explosion damage on death."
 					},
 					"dmg_generic": 
 					{
@@ -15386,6 +15422,12 @@
 						"minimum": 0.01,
 						"description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
 					},
+					"dmg_blast": 
+					{
+						"type": "number",
+						"minimum": 0.01,
+						"description": "Multiplier for DMG_BLAST type damage (Grenades, Explosives)."
+					},
 					"dmg_melee": 
 					{
 						"type": "number",
@@ -15398,18 +15440,48 @@
 						"minimum": 0.01,
 						"description": "Multiplier for DMG_BULLET type damage (All fire arms)."
 					},
-					"shock_touch": 
+					"shock_damage": 
 					{
 						"type": "integer",
 						"minimum": 0,
-						"description": "Damage dealt to nearby enemies when shock (double to player that triggered the shock with a melee weapon)"
+						"description": "Damage dealt to nearby entities during a shock discharge."
+					},
+					"shock_cooldown": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"items": 
+						{
+							"minimum": 0.0,
+							"type": "number"
+						},
+						"description": "Shock discharge min/max random intervals."
+					},
+					"shock_radius": 
+					{
+						"type": "integer",
+						"minimum": 64,
+						"description": "Shock discharge radius."
 					},
 					"shock_active": 
 					{
 						"type": "number",
 						"minimum": 0.0,
 						"maximum": 1.0,
-						"description": " when to trigger shock mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%"
+						"description": "Activate shock mode at this health percentage (0.0 - 1.0); 0.3 means 30%."
+					},
+					"explosion_delay": 
+					{
+						"type": "array",
+						"minItems": 2,
+						"maxItems": 2,
+						"items": 
+						{
+							"minimum": 0.0,
+							"type": "number"
+						},
+						"description": "Activate explosion after this min/max random time."
 					}
 				}
 			},

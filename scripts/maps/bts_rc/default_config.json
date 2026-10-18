@@ -2230,21 +2230,36 @@
         "struggle_max": 100
     },
     "robo_grunt": {
+        "dmg_blast": 0.5,
         "dmg_bullet": 0.1,
         "dmg_burn": 0.18,
         "dmg_generic": 0.6,
         "dmg_melee": 0.08,
         "explosion_damage": 125,
-        "shock_active": 0.3,
-        "shock_touch": 125
+        "explosion_delay": [
+            3.0,
+            7.0
+        ],
+        "shock_active": 0.5,
+        "shock_cooldown": [
+            5.0,
+            10.0
+        ],
+        "shock_damage": 10,
+        "shock_radius": 128
     },
     "robo_grunt_boss": {
+        "dmg_blast": 0.5,
         "dmg_bullet": 0.1,
         "dmg_burn": 0.18,
         "dmg_generic": 0.6,
         "dmg_melee": 0.08,
         "dmg_shield": 0.0,
         "explosion_damage": 125,
+        "explosion_delay": [
+            3.0,
+            7.0
+        ],
         "shield_blast_bonus": 1.1,
         "shield_blast_colours": [
             [
@@ -2276,8 +2291,13 @@
         "shield_blast_push": 1337,
         "shield_blast_radius": 240,
         "shield_blast_range": 220,
-        "shock_active": 0.3,
-        "shock_touch": 125
+        "shock_active": 0.7,
+        "shock_cooldown": [
+            2.0,
+            8.0
+        ],
+        "shock_damage": 10,
+        "shock_radius": 256
     },
     "wall_recharger": {
         "juice": 35,

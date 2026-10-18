@@ -105,11 +105,16 @@ void MapActivate()
         }
     }
 
+    meta_api::NoticeInstallation();
+
+    if( !g_IsMainMap )
+    {
+        test_chamber::SortSections();
+    }
+
     MapLoadedChrono.Stop();
     g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
     @MapLoadedChrono = null;
-
-    meta_api::NoticeInstallation();
 
     gCheckModuleError(false);
 }
