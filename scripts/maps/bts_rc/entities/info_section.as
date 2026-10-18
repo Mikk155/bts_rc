@@ -18,11 +18,17 @@
 namespace test_chamber
 {
     TextMenu::v1::Menu g_Sections;
+    array<EHandle> g_SectionEntities;
 
     final class info_section : ScriptBaseEntity
     {
         private
             TextMenu::v1::MenuOption@ m_option;
+
+        TextMenu::v1::MenuOption@ GetOption() const
+        {
+            return this.m_option;
+        }
 
         private
             void MenuOptionSelect( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option )
@@ -52,6 +58,8 @@ namespace test_chamber
 
             this.m_option.SetCallback( m_callback );
 
+            g_SectionEntities.insertLast( EHandle( self ) );
+
             self.pev.solid = SOLID_NOT;
             self.pev.movetype = MOVETYPE_NONE;
             self.pev.origin.z += 37;
@@ -73,6 +81,81 @@ namespace test_chamber
                     }
                 }
             }
+        }
+    }
+
+    void SortSections()
+    {
+        array<TextMenu::v1::MenuOption@> sortedOptions;
+        array<int> priorities;
+
+        for( uint ui = 0; ui < g_SectionEntities.length(); )
+        {
+            EHandle handle = g_SectionEntities[ui];
+
+            if( !handle.IsValid() )
+            {
+                g_SectionEntities.removeAt( ui );
+                continue;
+            }
+
+            CBaseEntity@ entity = handle.GetEntity();
+
+            if( entity is null )
+            {
+                g_SectionEntities.removeAt( ui );
+                continue;
+            }
+
+            info_section@ section = cast<info_section@>( CastToScriptClass( entity ) );
+
+            if( section is null || section.GetOption() is null )
+            {
+                g_SectionEntities.removeAt( ui );
+                continue;
+            }
+
+            sortedOptions.insertLast( section.GetOption() );
+            priorities.insertLast( int( entity.pev.health ) );
+            ui++;
+        }
+
+        for( uint ui = 0; ui < sortedOptions.length(); ui++ )
+        {
+            for( uint uj = 0; uj + 1 < sortedOptions.length() - ui; uj++ )
+            {
+                int current = priorities[uj];
+                int next = priorities[uj + 1];
+                bool nextBeforeCurrent = ( next != 0 && ( current == 0 || next < current ) );
+
+                if( nextBeforeCurrent )
+                {
+                    int priority = priorities[uj];
+                    priorities[uj] = priorities[uj + 1];
+                    priorities[uj + 1] = priority;
+
+                    TextMenu::v1::MenuOption@ option = sortedOptions[uj];
+                    @sortedOptions[uj] = sortedOptions[uj + 1];
+                    @sortedOptions[uj + 1] = option;
+                }
+            }
+        }
+
+        array<TextMenu::v1::MenuOption@>@ options = g_Sections.Options;
+
+        for( uint ui = 0; ui < options.length(); ui++ )
+        {
+            if( sortedOptions.findByRef( options[ui] ) < 0 )
+            {
+                sortedOptions.insertLast( options[ui] );
+            }
+        }
+
+        options.resize( 0 );
+
+        for( uint ui = 0; ui < sortedOptions.length(); ui++ )
+        {
+            options.insertLast( sortedOptions[ui] );
         }
     }
 }
