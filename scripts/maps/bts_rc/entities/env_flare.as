@@ -42,26 +42,23 @@ final class ASFlare : ScriptBaseAnimating
         return sprite;
     }
 
-    void Spawn()
+    void Activate()
     {
-        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flare.mdl" );
-        g_EntityFuncs.SetSize( pev, g_vecZero, g_vecZero );
-
-        self.pev.friction = 0.6f;
         self.pev.solid = SOLID::SOLID_BBOX;
         self.pev.movetype = MOVETYPE::MOVETYPE_BOUNCE;
         self.pev.effects |= EFFECTS::EF_FULLBRIGHT;
 
-        gpLivingFlares.insertLast( EHandle( self ) );
+        self.pev.nextthink = g_Engine.time;
+
+        SetThink( ThinkFunction( this.Think ) );
+        SetTouch( TouchFunction( this.Touch ) );
 
         edict_t@ edict = self.edict();
 
-        self.pev.nextthink = g_Engine.time;
+        g_SoundSystem.EmitSoundDyn( edict, SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
         // Play fire loop
         g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NONE, 0 );
-
-        g_SoundSystem.EmitSoundDyn( edict, SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
         if( FreeEdicts(3) )
         {
@@ -84,13 +81,38 @@ final class ASFlare : ScriptBaseAnimating
             sprite.pev.rendermode = RenderModes::kRenderTransAdd;
             sprite.pev.renderamt = 100;
         }
-
-        // By simply doing this it stores the owner in m_hOwner.
-        this.Owner;
     }
 
-    void UpdateOnRemove()
+    void SetOwner( edict_t@ owner )
     {
+        if( owner !is null )
+            this.m_hOwner = EHandle( g_EntityFuncs.Instance( owner ) );
+    }
+
+    // Get real owner or self if invalid.
+    CBaseEntity@ get_Owner() property
+    {
+        if( this.m_hOwner.IsValid() && this.m_hOwner.GetEntity() !is null )
+            return this.m_hOwner.GetEntity();
+        return self;
+    }
+
+    void Spawn()
+    {
+        g_EntityFuncs.SetModel( self, "models/bts_rc/weapons/w_flare.mdl" );
+        g_EntityFuncs.SetSize( pev, g_vecZero, g_vecZero );
+        self.pev.friction = 0.6f;
+        gpLivingFlares.insertLast( EHandle( self ) );
+        this.SetOwner( self.pev.owner );
+        this.Activate();
+    }
+
+    void Shutdown()
+    {
+        SetThink( null );
+        SetTouch( null );
+        self.pev.nextthink = 0;
+
         // Stop fire loop
         g_SoundSystem.StopSound( self.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_on.wav", false );
 
@@ -104,6 +126,15 @@ final class ASFlare : ScriptBaseAnimating
             if( handle.IsValid() && ( @sprite = handle.GetEntity() ) !is null )
                 sprite.pev.flags |= FL_KILLME;
         }
+
+        this.m_Sprites.resize(0);
+
+        self.pev.effects &= ~EFFECTS::EF_FULLBRIGHT;
+    }
+
+    void UpdateOnRemove()
+    {
+        this.Shutdown();
     }
 
     float m_flLastSmoke;
@@ -197,8 +228,7 @@ final class ASFlare : ScriptBaseAnimating
 
         if( g_Engine.time > self.pev.dmgtime )
         {
-            UpdateOnRemove();
-            self.pev.flags |= FL_KILLME;
+            this.Shutdown();
         }
 
         // Stupid ass engine
@@ -233,15 +263,6 @@ final class ASFlare : ScriptBaseAnimating
         }
 
         this.m_PlaceScorch = true;
-    }
-
-    CBaseEntity@ get_Owner() property
-    {
-        if( !this.m_hOwner.IsValid() )
-            this.m_hOwner = EHandle( g_EntityFuncs.Instance( self.pev.owner ) );
-        if( this.m_hOwner.GetEntity() !is null )
-            return this.m_hOwner.GetEntity();
-        return self;
     }
 
     void Touch( CBaseEntity@ other )
