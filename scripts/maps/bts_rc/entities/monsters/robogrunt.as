@@ -179,6 +179,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         if( monster is null || string( entity.pev.model ) != "models/bts_rc/monsters/rgrunt_opfor.mdl" )
             return false;
 
+        g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_puddleskin", "3" );
+
         BurningMonster::SetInmune( entity );
 
         return EntityOverriden::AddEntity( entity, monster );
@@ -600,6 +602,29 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                 {
                     shockModeActive = true;
                 }
+            }
+
+            uint bloodSplash = RandomUint( 16, monster ) + 1;
+
+            if( bloodSplash > 7 )
+                bloodSplash = -1;
+
+            g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_bloodcolor", bloodSplash );
+
+            if( Math.RandomLong( 0, 10 ) < 4 )
+            {
+                TraceResult tr = g_Utility.GetGlobalTrace();
+                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
+                    m.WriteByte( TE_BLOOD );
+                    m.WriteCoord( tr.vecEndPos.x );
+                    m.WriteCoord( tr.vecEndPos.y );
+                    m.WriteCoord( tr.vecEndPos.z );
+                    m.WriteCoord( 0 );
+                    m.WriteCoord( 0 );
+                    m.WriteCoord( -90);
+                    m.WriteByte( 110 ); // Color pallete: https://github.com/baso88/SC_AngelScript/wiki/Temporary-Entities#palette-1
+                    m.WriteByte( 16 );
+                m.End();
             }
 
             // Set up next shock

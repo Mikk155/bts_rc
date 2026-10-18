@@ -147,7 +147,13 @@ final class ASBloodPuddleConfig : IConfigurable
 
     env_bloodpuddle@ Create( CBaseMonster@ monster, int gib )
     {
-        if( monster.m_bloodColor == DONT_BLEED || !FreeEdicts(1) )
+        if( !FreeEdicts(1) )
+            return null;
+
+        auto ckv = monster.GetCustomKeyvalues();
+        auto customSkin = ckv.GetKeyvalue( "$i_puddleskin" );
+
+        if( monster.m_bloodColor == DONT_BLEED && !customSkin.Exists() )
             return null;
 
         CBaseEntity@ entity = g_EntityFuncs.Create( "env_bloodpuddle", monster.pev.origin, g_vecZero, true, monster.edict() );
@@ -165,9 +171,6 @@ final class ASBloodPuddleConfig : IConfigurable
 
         if( monster.m_bloodColor == ( BLOOD_COLOR_GREEN | BLOOD_COLOR_YELLOW ) )
             bloodpuddle.pev.skin = 1;
-
-        auto ckv = monster.GetCustomKeyvalues();
-        auto customSkin = ckv.GetKeyvalue( "$i_puddleskin" );
 
         if( customSkin.Exists() )
             bloodpuddle.pev.skin = customSkin.GetInteger();
