@@ -192,34 +192,6 @@ final class ASRoboGruntBoss : ASRoboGrunt
         return g_EntityFuncs.Instance( tr.pHit );
     }
 
-    private float m_NearbyLastCheck;
-    private array<EHandle> m_NearbyEnemies;
-
-    // Get a list of all entities nearby
-    const array<EHandle>@ EnemiesNearby( CBaseMonster@ monster )
-    {
-        if( this.m_NearbyLastCheck > g_Engine.time )
-            return @this.m_NearbyEnemies;
-
-        // Rebuild list every second
-        this.m_NearbyLastCheck = g_Engine.time + 1.0f;
-
-        this.m_NearbyEnemies.resize(0);
-
-        CBaseEntity@ entity = null;
-        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, this.shield_blast_range, "*", "classname" ) ) !is null
-        && entity.pev.takedamage != DAMAGE_NO
-        && ( entity.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0
-        && entity !is monster
-        && monster.FVisible( entity, true )
-        && monster.IRelationship( entity ) != R_AL )
-        {
-            this.m_NearbyEnemies.insertLast( EHandle( entity ) );
-        }
-
-        return @this.m_NearbyEnemies;
-    }
-
     void MeleeAttack( CBaseMonster@ monster, bool bKick )
     {
         float flRange = bKick ? 80 : 70;
@@ -266,7 +238,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
 
         dictionary@ data = monster.GetUserData();
 
-        const auto nearbyEnemies = this.EnemiesNearby( monster );
+        const auto nearbyEnemies = this.EnemiesNearby( monster, this.shield_blast_range );
         const int nearbyEnemiesCount = nearbyEnemies.length();
 
         float attackTime;

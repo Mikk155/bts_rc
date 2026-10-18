@@ -293,12 +293,41 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         );
     }
 
+    private float m_NearbyLastCheck;
+    private float m_NearbyLastRange;
+    private array<EHandle> m_NearbyEnemies;
+
+    // Get a list of all entities nearby
+    const array<EHandle>@ EnemiesNearby( CBaseMonster@ monster, int range, float nextCheck = 1.0f )
+    {
+        if( this.m_NearbyLastCheck > g_Engine.time && this.m_NearbyLastRange == range )
+            return @this.m_NearbyEnemies;
+
+        // Rebuild list every second
+        this.m_NearbyLastCheck = g_Engine.time + nextCheck;
+        this.m_NearbyLastRange = range;
+
+        this.m_NearbyEnemies.resize(0);
+
+        CBaseEntity@ entity = null;
+        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, monster.pev.origin, range, "*", "classname" ) ) !is null
+        && entity.pev.takedamage != DAMAGE_NO
+        && ( entity.pev.flags & ( FL_MONSTER | FL_CLIENT ) ) != 0
+        && entity.IsAlive()
+        && entity !is monster
+        && monster.FVisible( entity, true )
+        && monster.IRelationship( entity ) != R_AL )
+        {
+            this.m_NearbyEnemies.insertLast( EHandle( entity ) );
+        }
+
+        return @this.m_NearbyEnemies;
+    }
+
     void ShockDischarge( const Vector&in origin, CBaseMonster@ monster )
     {
         if( monster is null )
             return;
-
-        int hitCount = 0;
 
         Vector src = origin;
         src.z += 15;
@@ -307,50 +336,52 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         CBaseEntity@ entity = null;
 
-        Vector punchAngle( Math.RandomFloat(-1,1), Math.RandomFloat(-1,1), Math.RandomFloat(-1,1) );
+        Vector punchAngle( float(Math.RandomLong(-3,3)), float(Math.RandomLong(-3,3)), float(Math.RandomLong(-3,3)) );
 
-        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, origin, this.shock_radius, "*", "classname" ) ) !is null
-        && entity.pev.takedamage != DAMAGE_NO
-        && entity.IsAlive()
-        && entity !is monster
-        && entity.IRelationship( monster ) != R_AL
-        )
+        const array<EHandle>@ nearbyEnemies = this.EnemiesNearby( monster, this.shock_radius, 0.3f );
+        const uint length = nearbyEnemies.length();
+
+        for( uint ui = 0; ui < length; ui++ )
         {
-            hitCount++;
+            EHandle handle = nearbyEnemies[ui];
+            CBaseEntity@ entity;
 
-            entity.pev.punchangle = punchAngle;
-            entity.pev.velocity = entity.pev.velocity * 0.5f;
-
-            entity.TakeDamage( monster.pev, monster.pev, this.shock_damage, DMG_SHOCK | DMG_LAUNCH );
-
-            Vector target = entity.pev.origin;
-            target.z += 15;
-
+            if( handle.IsValid() && ( @entity = handle.GetEntity() ) !is null )
             {
-                NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, src );
-                    m.WriteByte( TE_BEAMPOINTS );
-                    m.WriteCoord( src.x );
-                    m.WriteCoord( src.y );
-                    m.WriteCoord( src.z );
-                    m.WriteCoord( target.x );
-                    m.WriteCoord( target.y );
-                    m.WriteCoord( target.z );
-                    m.WriteShort( models::laserbeam );
-                    m.WriteByte( 0 ); // start frame
-                    m.WriteByte( 25 ); // frame rate
-                    m.WriteByte( 4 ); // life
-                    m.WriteByte( 16 ); // width
-                    m.WriteByte( 16 ); // noise
-                    m.WriteByte( colour.r ); // red
-                    m.WriteByte( colour.g ); // green
-                    m.WriteByte( colour.b ); // blue
-                    m.WriteByte( 220 ); // brightness
-                    m.WriteByte( 0 ); // scroll speed
-                m.End();
+                entity.pev.punchangle = punchAngle;
+                entity.pev.velocity = entity.pev.velocity * 0.5f;
+
+                entity.TakeDamage( monster.pev, monster.pev, this.shock_damage, DMG_SHOCK | DMG_LAUNCH );
+
+                Vector target = entity.pev.origin;
+                target.z += 15;
+
+                {
+                    NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, src );
+                        m.WriteByte( TE_BEAMPOINTS );
+                        m.WriteCoord( src.x );
+                        m.WriteCoord( src.y );
+                        m.WriteCoord( src.z );
+                        m.WriteCoord( target.x );
+                        m.WriteCoord( target.y );
+                        m.WriteCoord( target.z );
+                        m.WriteShort( models::laserbeam );
+                        m.WriteByte( 0 ); // start frame
+                        m.WriteByte( 25 ); // frame rate
+                        m.WriteByte( 4 ); // life
+                        m.WriteByte( 16 ); // width
+                        m.WriteByte( 16 ); // noise
+                        m.WriteByte( colour.r ); // red
+                        m.WriteByte( colour.g ); // green
+                        m.WriteByte( colour.b ); // blue
+                        m.WriteByte( 220 ); // brightness
+                        m.WriteByte( 0 ); // scroll speed
+                    m.End();
+                }
             }
         }
 
-        if( hitCount > 0 )
+        if( length > 0 )
         {
             {
                 NetworkMessage m( MSG_PAS, NetworkMessages::SVC_TEMPENTITY, src );
