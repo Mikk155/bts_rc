@@ -25,6 +25,7 @@
 #include "models"
 #include "PlayerClass"
 #include "Precache"
+#include "test_chamber"
 
 #include "../../../mikk155/Server/chrono"
 #include "../../../mikk155/SemanticVersion"

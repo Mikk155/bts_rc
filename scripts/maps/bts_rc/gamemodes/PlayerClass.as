@@ -432,22 +432,22 @@ final class ASPlayerCharactersConfig : IConfigurable
             .ColorGreen();
 
         g_ClassSelectionMenu.AddOption()
-            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option ) {
+            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, TextMenu::v1::MenuOption@ option ) {
                 SetClass( player, Classification::Scientist );
             } ) ).Text.ColorWhite().Write( "Scientist" ).ColorGreen();
 
         g_ClassSelectionMenu.AddOption()
-            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option ) {
+            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, TextMenu::v1::MenuOption@ option ) {
                 SetClass( player, Classification::Security );
             } ) ).Text.ColorCyan().Write( "Security" ).ColorGreen();
 
         g_ClassSelectionMenu.AddOption()
-            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option ) {
+            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, TextMenu::v1::MenuOption@ option ) {
                 SetClass( player, Classification::Maintenance );
             } ) ).Text.ColorYellow().Write( "Maintenance" ).ColorGreen();
 
         g_ClassSelectionMenu.AddOption()
-            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option ) {
+            .SetCallback( @TextMenu::v1::MenuOptionSelect( function( CBasePlayer@ player, TextMenu::v1::MenuOption@ option ) {
                 SetClass( player, Classification::Operative );
             } ) ).Text.ColorRed().Write( "Operative" ).ColorGray();
 

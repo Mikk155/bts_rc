@@ -251,7 +251,7 @@ final class env_credits : ScriptBaseMonsterEntity
     }
 
     private
-        void VoteCallback( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option )
+        void VoteCallback( CBasePlayer@ player, TextMenu::v1::MenuOption@ option )
         {
             if( player !is null && option !is null )
             {

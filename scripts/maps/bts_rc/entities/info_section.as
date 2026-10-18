@@ -31,7 +31,7 @@ namespace test_chamber
         }
 
         private
-            void MenuOptionSelect( CBasePlayer@ player, const TextMenu::v1::MenuOption@ option )
+            void MenuOptionSelect( CBasePlayer@ player, TextMenu::v1::MenuOption@ option )
             {
                 if( player is null )
                     return;
