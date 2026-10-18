@@ -66,11 +66,17 @@ bool ASRoboGruntSchema = g_MapConfig.RegisterSchemaDefinition( "ASRoboGruntSchem
         "minimum": 0,
         "description": "Damage dealt to nearby entities during a shock discharge."
     },
-    "shock_cooldown":
+    "shock_delay":
     {
         "type": "number",
         "minimum": 0.1,
-        "description": "Shock discharge cooldown."
+        "description": "Shock discharge delay after taking damage cooldown."
+    },
+    "shock_radius":
+    {
+        "type": "integer",
+        "minimum": 64,
+        "description": "Shock discharge radius."
     },
     "shock_active":
     {
@@ -118,7 +124,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     // when to trigger low-health mode (percentage 0.0 - 1.0) eg: 0.3 = trigger when health is at 30%
     protected float shock_active;
     protected int shock_touch;
-    protected float shock_cooldown;
+    protected float shock_delay;
+    protected int shock_radius;
     protected float dmg_melee;
     protected float dmg_bullet;
     protected float dmg_burn;
@@ -137,7 +144,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         this.explosion_damage = int( config[ "explosion_damage" ] );
         this.shock_touch = int( config[ "shock_touch" ] );
         this.shock_active = float( config[ "shock_active" ] );
-        this.shock_cooldown = float( config[ "shock_cooldown" ] );
+        this.shock_delay = float( config[ "shock_delay" ] );
+        this.shock_radius = int( config[ "shock_radius" ] );
         btson@ expDelay = config[ "explosion_delay" ];
         this.explosion_delay = { float( expDelay[0] ), float( expDelay[1] ) };
 
@@ -205,9 +213,9 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         if( shockModeActive )
         {
             // Do shock discharge
-            if( g_Engine.time < nextShock )
+            if( nextShock > 0 && nextShock < g_Engine.time )
             {
-                data[ "shockmode" ] = g_Engine.time + this.shock_cooldown;
+                data[ "shockmode" ] = 0.0f;
                 ShockDischarge( monster.pev.origin, monster );
             }
 
@@ -264,7 +272,21 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
     void ShockDischarge( const Vector&in origin, CBaseEntity@ owner )
     {
-        g_Game.AlertMessage( at_console, "Shock discharge!\n" );
+        if( owner is null )
+            return;
+
+        g_SoundSystem.EmitSoundDyn( owner.edict(), CHAN_AUTO, "debris/beamstart14.wav", 0.8, ATTN_NORM, 0, PITCH_NORM );
+
+        CBaseEntity@ entity = null;
+
+        while( ( @entity = g_EntityFuncs.FindEntityInSphere( entity, origin, this.shock_radius, "*", "classname" ) ) !is null
+        && entity.pev.takedamage != DAMAGE_NO
+        && entity.IsAlive()
+        && entity !is owner
+        && entity.IRelationship( owner ) != R_AL
+        ) {
+            entity.TakeDamage( owner.pev, owner.pev, this.shock_touch, DMG_SHOCK | DMG_LAUNCH );
+        }
     }
 
     void ExplosiveDeath( CBaseMonster@ monster )
@@ -405,8 +427,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         {
             data[ "smokepuff" ] = Math.max( int( 3 + ( info.flDamage / 5.0 ) ), int( data[ "smokepuff" ] ) );
 
-            // Are we in shock mode?
-            bool shockModeActive = data.exists( "shockmode" );
+            float nextShock;
+            bool shockModeActive = data.get( "shockmode", nextShock );
 
             if( !shockModeActive )
             {
@@ -430,7 +452,8 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                 monster.pev.rendercolor[1] = ASRoboGruntGlowColor.g * healthPercent;
                 monster.pev.rendercolor[2] = ASRoboGruntGlowColor.b * healthPercent;
 
-                data[ "shockmode" ] = g_Engine.time + this.shock_cooldown;
+                if( nextShock <= 0.0 )
+                    data[ "shockmode" ] = g_Engine.time + this.shock_delay;
             }
         }
 
