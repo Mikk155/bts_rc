@@ -10,6 +10,8 @@ void RegisterSpawner( const string&in name, dictionary&in keyvalues )
     if( gpMenuSpawnerKeyvalues is null )
         @gpMenuSpawnerKeyvalues = {};
     @gpMenuSpawnerKeyvalues[ name ] = keyvalues;
+    auto entity = Entity::Create( keyvalues );
+    g_EntityFuncs.Remove( entity );
 }
 void MapInit()
 {
@@ -50,7 +52,10 @@ function( CBasePlayer@ player, array<string>@ arguments )
                 TraceResult tr;
                 Math.MakeVectors( player.pev.v_angle );
                 g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + ( g_Engine.v_forward * 128 ), dont_ignore_monsters, player.edict(), tr );
-                Entity::Create( option.Data );
+                option.Data[ "origin" ] = tr.vecEndPos.ToString();
+                option.Data[ "angles" ] = Vector( 0, player.pev.v_angle.y, 0 ).ToString();
+                auto entity = Entity::Create( option.Data );
+                EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) );
             }
         );
     }
