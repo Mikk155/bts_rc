@@ -396,8 +396,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         bool bShockTouch = bool( data[ "shocktouch" ] );
 
-        data[ "smokepuff" ] = int( 3 + ( info.flDamage / 5.0 ) );
-
         if( bShockTouch )
         {
             if( ( info.bitsDamageType & DMG_SLASH | DMG_CLUB ) != 0 )
@@ -452,6 +450,11 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                     m.WriteByte( 10 ); // scale in 0.1's
                 m.End();
             }
+        }
+
+        if( info.flDamage > 0 )
+        {
+            data[ "smokepuff" ] = int( 3 + ( info.flDamage / 5.0 ) );
         }
 
         return EntityOverridenAction::None;
