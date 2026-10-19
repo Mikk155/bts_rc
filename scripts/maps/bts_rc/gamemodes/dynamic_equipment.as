@@ -200,6 +200,8 @@ final class ASDynamicEquipentConfig : IConfigurable
 
                     if( weapon !is null )
                     {
+                        weapons::Given( player, weapon, null, false );
+
                         data.m_Index = weapon.m_iPrimaryAmmoType;
 
                         // Weapons that are their own ammo i.e flare/grenade
@@ -451,7 +453,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                 this.Lock();
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
                 @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
-                weapons::Given( player, weapon, null, false );
+                weapons::Given( player, weapon, null );
                 player.m_rgAmmo( data.index, 0 );
                 this.UnLock();
             }
