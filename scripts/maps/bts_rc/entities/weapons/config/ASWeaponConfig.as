@@ -456,6 +456,26 @@ abstract class ASWeaponConfig : IConfigurable
         }""";
     }
 
+    protected void FormatKickbackAccuracy( btson@ obj, float[]&out list, uint length ) final
+    {
+        list.resize(length);
+
+        if( obj is null || obj.Length() <= 0 )
+            return;
+
+        list[0] = float( obj[ "stand" ] );
+        list[1] = obj.ValueOrDefault( "stand_trained", list[0], false, false );
+        list[2] = obj.ValueOrDefault( "crouch", list[0], false, false );
+        list[3] = obj.ValueOrDefault( "crouch_trained", list[2], false, false );
+        list[4] = obj.ValueOrDefault( "run", list[0], false, false );
+        list[5] = obj.ValueOrDefault( "run_trained", list[4], false, false );
+
+        if( length == 7 )
+        {
+            list[6] = ( obj.ValueOrDefault( "force", true, false, false ) ? 1 : 0 );
+        }
+    }
+
     bool Register( btson@ config ) override
     {
         this.name = config.ValueOrDefault( "name", this.GetName(), false, false );
@@ -522,61 +542,16 @@ abstract class ASWeaponConfig : IConfigurable
         this.secondary_miss_cooldown = config.ValueOrDefault( "secondary_miss_cooldown", this.secondary_cooldown, false, false );
         this.secondary_miss_trained_cooldown = config.ValueOrDefault( "secondary_miss_trained_cooldown", this.secondary_miss_cooldown, false, false );
 
-        btson@ accuracy = config[ "primary_accuracy" ];
-
-        if( accuracy !is null )
-        {
-            this.primary_accuracy[0] = accuracy.ValueOrDefault( "stand", 0.001, false, false );
-            this.primary_accuracy[1] = accuracy.ValueOrDefault( "stand_trained", this.primary_accuracy[0], false, false );
-            this.primary_accuracy[2] = accuracy.ValueOrDefault( "crouch", this.primary_accuracy[1], false, false );
-            this.primary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.primary_accuracy[2], false, false );
-            this.primary_accuracy[4] = accuracy.ValueOrDefault( "run", this.primary_accuracy[3], false, false );
-            this.primary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.primary_accuracy[4], false, false );
-        }
-
-        @accuracy = config[ "secondary_accuracy" ];
-
-        if( accuracy !is null )
-        {
-            this.secondary_accuracy[0] = accuracy.ValueOrDefault( "stand", 0.001, false, false );
-            this.secondary_accuracy[1] = accuracy.ValueOrDefault( "stand_trained", this.secondary_accuracy[0], false, false );
-            this.secondary_accuracy[2] = accuracy.ValueOrDefault( "crouch", this.secondary_accuracy[1], false, false );
-            this.secondary_accuracy[3] = accuracy.ValueOrDefault( "crouch_trained", this.secondary_accuracy[2], false, false );
-            this.secondary_accuracy[4] = accuracy.ValueOrDefault( "run", this.secondary_accuracy[3], false, false );
-            this.secondary_accuracy[5] = accuracy.ValueOrDefault( "run_trained", this.secondary_accuracy[4], false, false );
-        }
+        this.FormatKickbackAccuracy( config[ "primary_accuracy" ], this.primary_accuracy, this.primary_accuracy.length() );
+        this.FormatKickbackAccuracy( config[ "secondary_accuracy" ], this.secondary_accuracy, this.secondary_accuracy.length() );
+        this.FormatKickbackAccuracy( config[ "primary_kickback" ], this.primary_kickback, this.primary_kickback.length() );
+        this.FormatKickbackAccuracy( config[ "secondary_kickback" ], this.secondary_kickback, this.secondary_kickback.length() );
 
         btson@ spread = config.ValueOrDefault( "primary_spread" );
         this.primary_spread = Vector( spread.ValueOrDefault( "0", primary_spread[0], false, false ), spread.ValueOrDefault( "1", primary_spread[1], false, false ), spread.ValueOrDefault( "2", primary_spread[2], false, false ) );
 
         @spread = config.ValueOrDefault( "secondary_spread" );
         this.secondary_spread = Vector( spread.ValueOrDefault( "0", secondary_spread[0], false, false ), spread.ValueOrDefault( "1", secondary_spread[1], false, false ), spread.ValueOrDefault( "2", secondary_spread[2], false, false ) );
-
-        btson@ kickback = config[ "primary_kickback" ];
-
-        if( kickback !is null )
-        {
-            this.primary_kickback[0] = kickback.ValueOrDefault( "stand", 0.001, false, false );
-            this.primary_kickback[1] = kickback.ValueOrDefault( "stand_trained", this.primary_kickback[0], false, false );
-            this.primary_kickback[2] = kickback.ValueOrDefault( "crouch", this.primary_kickback[1], false, false );
-            this.primary_kickback[3] = kickback.ValueOrDefault( "crouch_trained", this.primary_kickback[2], false, false );
-            this.primary_kickback[4] = kickback.ValueOrDefault( "run", this.primary_kickback[3], false, false );
-            this.primary_kickback[5] = kickback.ValueOrDefault( "run_trained", this.primary_kickback[4], false, false );
-            this.primary_kickback[6] = kickback.ValueOrDefault( "force", 1, false, false );
-        }
-
-        @kickback = config[ "secondary_kickback" ];
-
-        if( kickback !is null )
-        {
-            this.secondary_kickback[0] = kickback.ValueOrDefault( "stand", 0.001, false, false );
-            this.secondary_kickback[1] = kickback.ValueOrDefault( "stand_trained", this.secondary_kickback[0], false, false );
-            this.secondary_kickback[2] = kickback.ValueOrDefault( "crouch", this.secondary_kickback[1], false, false );
-            this.secondary_kickback[3] = kickback.ValueOrDefault( "crouch_trained", this.secondary_kickback[2], false, false );
-            this.secondary_kickback[4] = kickback.ValueOrDefault( "run", this.secondary_kickback[3], false, false );
-            this.secondary_kickback[5] = kickback.ValueOrDefault( "run_trained", this.secondary_kickback[4], false, false );
-            this.secondary_kickback[6] = kickback.ValueOrDefault( "force", 1, false, false );
-        }
 
         // Reload properties
         this.reload_time = config.ValueOrDefault( "reload_time", this.reload_time, false, false );
