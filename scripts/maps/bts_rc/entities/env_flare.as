@@ -58,7 +58,7 @@ final class ASFlare : ScriptBaseAnimating
         g_SoundSystem.EmitSoundDyn( edict, SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_on.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
         // Play fire loop
-        g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_burning.wav", VOL_NORM, ATTN_NONE, 0 );
+        g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_burning.wav", VOL_NORM, ATTN_NORM, 0 );
 
         if( FreeEdicts(3) )
         {
