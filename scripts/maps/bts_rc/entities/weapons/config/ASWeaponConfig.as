@@ -632,6 +632,9 @@ abstract class ASWeaponConfig : IConfigurable
     // Pre call of TertiaryAttack
     void WeaponTertiaryAttack( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
 
+    // Post call of weapon given to player
+    void WeaponGiven( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
+
     // PlayerThink call after Weapon's deploy and attack methods of this class has been called
     void PlayerThink( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character )
     {

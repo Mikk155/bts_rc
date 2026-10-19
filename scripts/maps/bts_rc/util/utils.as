@@ -192,6 +192,8 @@ void EquipAllWeapons( CBasePlayer@ player )
         if( weapon is null )
             continue;
 
+        weapons::Given( player, weapon );
+
         if( weapon.m_iPrimaryAmmoType > 0 )
         {
             player.m_rgAmmo( weapon.m_iPrimaryAmmoType, weapon.iMaxAmmo1() );

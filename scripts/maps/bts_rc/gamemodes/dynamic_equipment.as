@@ -451,6 +451,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                 this.Lock();
                 player.GiveNamedItem( data.classname, SF_GIVENITEM );
                 @weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( data.classname ) );
+                weapons::Given( player, weapon, null, false );
                 player.m_rgAmmo( data.index, 0 );
                 this.UnLock();
             }
