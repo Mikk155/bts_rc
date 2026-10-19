@@ -2331,6 +2331,8 @@
         "primary_accuracy": {
             "crouch": 0.012,
             "crouch_trained": 0.0054,
+            "run": 0.06,
+            "run_trained": 0.015708,
             "stand": 0.03,
             "stand_trained": 0.006
         },
@@ -2338,7 +2340,11 @@
         "primary_damage": 15,
         "primary_dropammo": 15,
         "primary_kickback": {
+            "crouch": 1.75,
+            "crouch_trained": 1.4,
             "force": false,
+            "run": 4.25,
+            "run_trained": 3.0,
             "stand": 2.5,
             "stand_trained": 2.0
         },
@@ -2383,6 +2389,8 @@
         "primary_accuracy": {
             "crouch": 0.02,
             "crouch_trained": 0.009,
+            "run": 0.1,
+            "run_trained": 0.02618,
             "stand": 0.05,
             "stand_trained": 0.01
         },
@@ -2390,6 +2398,10 @@
         "primary_damage": 65,
         "primary_dropammo": 3,
         "primary_kickback": {
+            "crouch": 7.7,
+            "crouch_trained": 2.8,
+            "run": 18.7,
+            "run_trained": 6.0,
             "stand": 11.0,
             "stand_trained": 4.0
         },
@@ -2479,8 +2491,10 @@
         "name": "Glock 17",
         "position": 4,
         "primary_accuracy": {
-            "crouch": 0.04,
-            "crouch_trained": 0.01,
+            "crouch": 0.015,
+            "crouch_trained": 0.005,
+            "run": 0.06,
+            "run_trained": 0.02618,
             "stand": 0.03,
             "stand_trained": 0.01
         },
@@ -2488,7 +2502,11 @@
         "primary_damage": 15,
         "primary_dropammo": 17,
         "primary_kickback": {
+            "crouch": 1.855,
+            "crouch_trained": 1.4,
             "force": false,
+            "run": 4.505,
+            "run_trained": 3.0,
             "stand": 2.65,
             "stand_trained": 2.0
         },
@@ -2500,12 +2518,18 @@
         "secondary_accuracy": {
             "crouch": 0.02,
             "crouch_trained": 0.01,
+            "run": 0.4,
+            "run_trained": 0.2618,
             "stand": 0.2,
             "stand_trained": 0.1
         },
         "secondary_cooldown": 0.1,
         "secondary_kickback": {
+            "crouch": 1.855,
+            "crouch_trained": 1.4,
             "force": false,
+            "run": 4.505,
+            "run_trained": 3.0,
             "stand": 2.65,
             "stand_trained": 2.0
         },
@@ -2519,8 +2543,10 @@
         "name": "Glock 17 with Flashlight",
         "position": 7,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
+            "run": 0.1,
+            "run_trained": 0.02618,
             "stand": 0.05,
             "stand_trained": 0.01
         },
@@ -2528,7 +2554,11 @@
         "primary_damage": 15,
         "primary_dropammo": 17,
         "primary_kickback": {
+            "crouch": 1.855,
+            "crouch_trained": 1.4,
             "force": false,
+            "run": 4.505,
+            "run_trained": 3.0,
             "stand": 2.65,
             "stand_trained": 2.0
         },
@@ -2555,8 +2585,10 @@
         "name": "Glock 18",
         "position": 10,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
+            "run": 0.1,
+            "run_trained": 0.02618,
             "stand": 0.05,
             "stand_trained": 0.01
         },
@@ -2564,6 +2596,10 @@
         "primary_damage": 15,
         "primary_dropammo": 19,
         "primary_kickback": {
+            "crouch": 2.8,
+            "crouch_trained": 1.4,
+            "run": 6.8,
+            "run_trained": 3.0,
             "stand": 4.0,
             "stand_trained": 2.0
         },
@@ -2574,6 +2610,10 @@
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
         "secondary_cooldown": 0.08,
         "secondary_kickback": {
+            "crouch": 4.2,
+            "crouch_trained": 2.8,
+            "run": 10.2,
+            "run_trained": 6.0,
             "stand": 6.0,
             "stand_trained": 4.0
         },
@@ -2590,8 +2630,10 @@
         "name": "Glock 17 Special",
         "position": 5,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
+            "run": 0.1,
+            "run_trained": 0.02618,
             "stand": 0.05,
             "stand_trained": 0.01
         },
@@ -2599,6 +2641,10 @@
         "primary_damage": 16,
         "primary_dropammo": 17,
         "primary_kickback": {
+            "crouch": 1.855,
+            "crouch_trained": 1.4,
+            "run": 4.505,
+            "run_trained": 3.0,
             "stand": 2.65,
             "stand_trained": 2.0
         },
@@ -2654,8 +2700,8 @@
         "name": "M16A2 with M203",
         "position": 10,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2665,6 +2711,8 @@
         "primary_damage": 23,
         "primary_dropammo": 30,
         "primary_kickback": {
+            "crouch": 2.45,
+            "crouch_trained": 1.925,
             "run": 6.0,
             "run_trained": 4.0,
             "stand": 3.5,
@@ -2692,8 +2740,8 @@
         "name": "M16A2 Suppressed with M203",
         "position": 11,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2702,6 +2750,14 @@
         "primary_cooldown": 0.12,
         "primary_damage": 24,
         "primary_dropammo": 20,
+        "primary_kickback": {
+            "crouch": 2.45,
+            "crouch_trained": 1.925,
+            "run": 6.0,
+            "run_trained": 4.0,
+            "stand": 3.5,
+            "stand_trained": 2.75
+        },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.12,
         "reload_anim": 6,
@@ -2723,8 +2779,8 @@
         "name": "M4A1",
         "position": 8,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2734,6 +2790,8 @@
         "primary_damage": 22,
         "primary_dropammo": 30,
         "primary_kickback": {
+            "crouch": 2.45,
+            "crouch_trained": 1.925,
             "run": 6.0,
             "run_trained": 4.0,
             "stand": 3.5,
@@ -2753,8 +2811,8 @@
         "name": "M4A1 Suppressed",
         "position": 9,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2764,6 +2822,8 @@
         "primary_damage": 22,
         "primary_dropammo": 30,
         "primary_kickback": {
+            "crouch": 2.45,
+            "crouch_trained": 1.925,
             "run": 6.0,
             "run_trained": 4.0,
             "stand": 3.5,
@@ -2798,8 +2858,8 @@
         "name": "H&K MP5A3",
         "position": 4,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2809,7 +2869,10 @@
         "primary_damage": 17,
         "primary_dropammo": 25,
         "primary_kickback": {
-            "crouch": 2,
+            "crouch": 2.0,
+            "crouch_trained": 1.4,
+            "run": 8.5,
+            "run_trained": 3.0,
             "stand": 5.0,
             "stand_trained": 2.0
         },
@@ -2827,8 +2890,8 @@
         "name": "H&K MP5A3 with M203",
         "position": 5,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2838,7 +2901,10 @@
         "primary_damage": 17,
         "primary_dropammo": 30,
         "primary_kickback": {
-            "crouch": 2,
+            "crouch": 2.0,
+            "crouch_trained": 1.4,
+            "run": 8.5,
+            "run_trained": 3.0,
             "stand": 5.0,
             "stand_trained": 2.0
         },
@@ -2889,7 +2955,12 @@
         "primary_damage": 17,
         "primary_distance": 32,
         "primary_kickback": {
-            "stand": -2.5
+            "crouch": -1.75,
+            "crouch_trained": -1.4,
+            "run": -4.25,
+            "run_trained": -3.0,
+            "stand": -2.5,
+            "stand_trained": -2.0
         },
         "primary_miss_cooldown": 0.75,
         "primary_miss_trained_cooldown": 0.5,
@@ -2898,7 +2969,12 @@
         "secondary_damage": 28,
         "secondary_distance": 35,
         "secondary_kickback": {
-            "stand": -4.0
+            "crouch": -2.8,
+            "crouch_trained": -2.24,
+            "run": -6.8,
+            "run_trained": -4.8,
+            "stand": -4.0,
+            "stand_trained": -3.2
         },
         "secondary_miss_cooldown": 0.85,
         "slot": 0
@@ -2933,7 +3009,9 @@
         "position": 8,
         "primary_accuracy": {
             "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch_trained": 0.005,
+            "run": 0.2,
+            "run_trained": 0.02618,
             "stand": 0.1,
             "stand_trained": 0.01
         },
@@ -2941,6 +3019,10 @@
         "primary_damage": 66,
         "primary_dropammo": 6,
         "primary_kickback": {
+            "crouch": 11.2,
+            "crouch_trained": 7.0,
+            "run": 27.2,
+            "run_trained": 15.0,
             "stand": 16.0,
             "stand_trained": 10.0
         },
@@ -2958,8 +3040,8 @@
         "name": "M249",
         "position": 4,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -2969,6 +3051,8 @@
         "primary_damage": 22,
         "primary_dropammo": 50,
         "primary_kickback": {
+            "crouch": 2.45,
+            "crouch_trained": 1.925,
             "run": 6.0,
             "run_trained": 4.0,
             "stand": 3.5,
@@ -2989,8 +3073,8 @@
         "name": "M249 Suppressed",
         "position": 5,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.01,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
             "run": 0.1,
             "run_trained": 0.02618,
             "stand": 0.05,
@@ -3000,6 +3084,8 @@
         "primary_damage": 23,
         "primary_dropammo": 50,
         "primary_kickback": {
+            "crouch": 2.45,
+            "crouch_trained": 1.925,
             "run": 6.0,
             "run_trained": 4.0,
             "stand": 3.5,
@@ -3023,6 +3109,10 @@
         "primary_damage": 16,
         "primary_dropammo": 3,
         "primary_kickback": {
+            "crouch": 7.7,
+            "crouch_trained": 3.5,
+            "run": 18.7,
+            "run_trained": 7.5,
             "stand": 11.0,
             "stand_trained": 5.0
         },
@@ -3066,6 +3156,10 @@
         "primary_damage": 18,
         "primary_dropammo": 3,
         "primary_kickback": {
+            "crouch": 7.7,
+            "crouch_trained": 3.5,
+            "run": 18.7,
+            "run_trained": 7.5,
             "stand": 11.0,
             "stand_trained": 5.0
         },
@@ -3077,6 +3171,10 @@
         ],
         "primary_trained_cooldown": 0.85,
         "secondary_kickback": {
+            "crouch": 16.8,
+            "crouch_trained": 7.0,
+            "run": 40.8,
+            "run_trained": 15.0,
             "stand": 24.0,
             "stand_trained": 10.0
         },
@@ -3094,12 +3192,12 @@
         "name": "M40A1 with NVS",
         "position": 5,
         "primary_accuracy": {
-            "crouch": 0.01,
-            "crouch_trained": 0.01,
-            "run": 0.01,
+            "crouch": 0.005,
+            "crouch_trained": 0.0025,
+            "run": 0.02,
             "run_trained": 0.01,
             "stand": 0.01,
-            "stand_trained": 0.01
+            "stand_trained": 0.005
         },
         "primary_cooldown": 2.0,
         "primary_damage": 120,
@@ -3143,8 +3241,10 @@
         "name": "S&W 637",
         "position": 17,
         "primary_accuracy": {
-            "crouch": 0.05,
-            "crouch_trained": 0.05,
+            "crouch": 0.025,
+            "crouch_trained": 0.005,
+            "run": 0.1,
+            "run_trained": 0.02618,
             "stand": 0.05,
             "stand_trained": 0.01
         },
@@ -3152,6 +3252,10 @@
         "primary_damage": 19,
         "primary_dropammo": 5,
         "primary_kickback": {
+            "crouch": 4.9,
+            "crouch_trained": 2.1,
+            "run": 11.9,
+            "run_trained": 4.5,
             "stand": 7.0,
             "stand_trained": 3.0
         },
@@ -3166,8 +3270,10 @@
         "name": "Mini-Uzi",
         "position": 11,
         "primary_accuracy": {
-            "crouch": 0.0175,
-            "crouch_trained": 0.015,
+            "crouch": 0.00875,
+            "crouch_trained": 0.0075,
+            "run": 0.035,
+            "run_trained": 0.0175,
             "stand": 0.0175,
             "stand_trained": 0.015
         },
@@ -3175,8 +3281,10 @@
         "primary_damage": 16,
         "primary_dropammo": 20,
         "primary_kickback": {
-            "crouch": 3,
+            "crouch": 3.0,
             "crouch_trained": 2.0,
+            "run": 6.8,
+            "run_trained": 4.875,
             "stand": 4.0,
             "stand_trained": 3.25
         },
@@ -3194,14 +3302,24 @@
         "name": "Mini-Uzi Suppressed",
         "position": 15,
         "primary_accuracy": {
-            "crouch": 0.0175,
-            "crouch_trained": 0.015,
+            "crouch": 0.00875,
+            "crouch_trained": 0.0075,
+            "run": 0.035,
+            "run_trained": 0.0175,
             "stand": 0.0175,
             "stand_trained": 0.015
         },
         "primary_cooldown": 0.07,
         "primary_damage": 17,
         "primary_dropammo": 20,
+        "primary_kickback": {
+            "crouch": 3.0,
+            "crouch_trained": 2.0,
+            "run": 6.8,
+            "run_trained": 4.875,
+            "stand": 4.0,
+            "stand_trained": 3.25
+        },
         "primary_maxammo": 120,
         "primary_trained_cooldown": 0.07,
         "reload_anim": 3,
