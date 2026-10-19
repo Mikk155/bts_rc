@@ -19,7 +19,7 @@ namespace Hooks
 {
     HookReturnCode PlayerCollect( CBaseEntity@ pickup, CBaseEntity@ other )
     {
-        if( pickup is null || other is null )
+        if( pickup is null || other is null || gpDynamicEquipment.Locked )
             return HOOK_CONTINUE;
 
         auto player = cast<CBasePlayer@>(other);
