@@ -457,7 +457,7 @@ final class ASPlayerCharactersConfig : IConfigurable
 
 ASPlayerCharactersConfig gpCharactersConfig;
 
-CCharacter@ SetRandomCharacter( CBasePlayer@ player, const Classification&in classify )
+CCharacter@ GetRandomCharacter( CBasePlayer@ player, const Classification&in classify )
 {
     array<CCharacter@>@ list = g_Characters[classify];
 
@@ -495,6 +495,19 @@ CCharacter@ GetCharacter( CBaseEntity@ player )
     return GetCharacter( cast<CBasePlayer@>(player) );
 }
 
+void SetTrainedPersonal( dictionary@ data, Classification&in classify )
+{
+    switch( classify )
+    {
+        case Classification::Security:
+        case Classification::Operative:
+        {
+            data[ "trained_personal" ] = true; // A trained personal
+            break;
+        }
+    }
+}
+
 /// Set the player class
 void SetClass( CBasePlayer@ player, const Classification&in classify )
 {
@@ -503,42 +516,29 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
 
     dictionary@ data = player.GetUserData();
 
-    if( data is null )
-        return;
+    data.delete( "trained_personal" );
 
-    data.delete( "character" );
-    data.delete( "security" );
+    Classification oldClassify = util::GetClass( player );
 
-    switch( util::GetClass( player ) )
+    if( oldClassify == Classification::Unset )
     {
-        case Classification::Security:
-        case Classification::Operative:
-        {
-            data[ "security" ] = true; // A trained personal
-            break;
-        }
-        case Classification::Unset:
-        {
-            g_DataTracker.Track( player );
-            break;
-        }
-        default:
-        {
-            break;
-        }
+        g_DataTracker.Track( player );
+        SetTrainedPersonal( data, classify );
+    }
+    else
+    {
+        SetTrainedPersonal( data, oldClassify );
     }
 
     if( classify <= Classification::Unset || classify >= Classification::__Size__ )
     {
         data.delete( "pm_equiped" );
+        data.delete( "character" );
         player.RemoveAllItems( false, false );
         return;
     }
 
-    auto character = SetRandomCharacter( player, classify );
-
-    if( character is null )
-        return;
+    auto character = GetRandomCharacter( player, classify );
 
     SetCharacter( player, character );
 }
@@ -628,6 +628,18 @@ void UpdatePlayerData( CBasePlayer@ player )
 
     UpdatePlayerData( player, util::GetClass( player ) );
 }
+
+ASCommand ASTrainedPersonalComand(  // disable-line W117
+"trained",
+"",
+"Toggle \"Trained personal\" state",
+function( CBasePlayer@ player, array<string>@ arguments )
+{
+    dictionary@ data = player.GetUserData();
+    bool state = !bool( data[ "trained_personal" ] );
+    data[ "trained_personal" ] = state;
+    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Set trained state to " + ( state ? "true" : "false" ) + "\n" );
+}, true, "class" );
 
 ASCommand ASEquipmentTestCommand( // disable-line W117
 "set",

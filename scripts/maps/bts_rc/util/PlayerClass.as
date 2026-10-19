@@ -42,7 +42,7 @@ namespace util
             {
                 bool isTrained;
 
-                if( data.get( "security", isTrained ) )
+                if( data.get( "trained_personal", isTrained ) )
                     return isTrained;
             }
         }
