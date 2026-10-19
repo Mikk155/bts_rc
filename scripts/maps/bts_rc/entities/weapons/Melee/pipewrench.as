@@ -105,7 +105,7 @@ final class weapon_bts_pipewrench : BTS_MeleeCharge
         {
             case AttackType::Primary:
             {
-                miss = this.Hit( tr, AttackType::Secondary, hit );
+                miss = this.Hit( tr, AttackType::Primary, hit );
 
                 if( miss )
                 {

@@ -30,7 +30,7 @@ namespace weapons
         {
             case AttackType::Tertiary:
                 vecDirection = vecDirection * config.tertiary_distance;
-                weapons::Kickback( player, config.primary_kickback, isTrainedPersonal );
+                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
             break;
             case AttackType::Secondary:
                 vecDirection = vecDirection * config.secondary_distance;
@@ -39,7 +39,7 @@ namespace weapons
             case AttackType::Primary:
             default:
                 vecDirection = vecDirection * config.primary_distance;
-                weapons::Kickback( player, config.secondary_kickback, isTrainedPersonal );
+                weapons::Kickback( player, config.primary_kickback, isTrainedPersonal );
             break;
         }
 
