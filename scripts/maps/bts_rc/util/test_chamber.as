@@ -91,6 +91,27 @@ kvs = {
     { "$i_spark_color", "4" },
     { "soundlist", "rgrunts.txt" },
     { "model", "models/bts_rc/monsters/robothwgrunt.mdl" }
-};
-test_chamber::RegisterSpawner( "Enforcer", kvs );
+}; test_chamber::RegisterSpawner( "Enforcer", kvs );
+kvs = {
+    { "soundlist", "rgrunts.txt" },
+    { "is_player_ally", "1" },
+    { "bloodcolor", "-1" },
+    { "health", "100" },
+    { "classname", "monster_human_grunt_ally" },
+    { "$i_spark_color", "4" },
+    { "model", "models/bts_rc/monsters/rgrunt_opfor.mdl" }
+
+}; test_chamber::RegisterSpawner( "Robot", kvs );
+kvs = {
+    { "classname", "monster_zombie_soldier" },
+    { "model", "models/bts_rc/monsters/zombie_engineer.mdl" }
+}; test_chamber::RegisterSpawner( "Zombie Engineer", kvs );
+kvs = {
+    { "bloodcolor", "1" },
+    { "classname", "monster_zombie_soldier" },
+    { "$i_spark_hitgroup", "10" },
+    { "$i_spark_color", "5" },
+    { "soundlist", "zombie_hev.txt" },
+    { "model", "models/bts_rc/monsters/zombie_hev.mdl" }
+}; test_chamber::RegisterSpawner( "HEV Zombie", kvs );
 } // test_chamber
