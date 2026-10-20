@@ -20,6 +20,7 @@
 #include "deathdrop"
 #include "dynamic_equipment"
 #include "equipment"
+#include "inventory"
 #include "player_voices"
 #include "PlayerClass"
 #include "randomizer"

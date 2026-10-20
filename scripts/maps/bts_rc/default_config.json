@@ -2198,6 +2198,26 @@
         "distance": 128,
         "interval": 0.1
     },
+    "inventory_items": {
+        "weapon_bts_crowbar": {
+            "carried_hidden": "1",
+            "classname": "item_inventory",
+            "description": "Hand tool for self defense (5 SLOTS)",
+            "display_name": "Crowbar",
+            "effects_permanent": "1",
+            "effects_wait_until_activated": "1",
+            "holder_can_activate": "1",
+            "holder_can_drop": "1",
+            "holder_timelimit_wait_until_activated": "1",
+            "item_group": "Items",
+            "item_name": "pickup",
+            "model": "models/hlclassic/w_crowbar.mdl",
+            "scale": "1",
+            "target_cant_collect": "GAMEMODE_FULL_TXT",
+            "target_on_collect": "GAMEMODE_ITEM_TXT",
+            "weight": "5"
+        }
+    },
     "items": {
         "battery_lighting": true,
         "item_tracking": true
