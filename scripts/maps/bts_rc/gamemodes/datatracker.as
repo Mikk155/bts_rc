@@ -78,7 +78,7 @@ final class ASDataTracker : IConfigurable
 
             @this.m_Data[ Player::GetUniqueID( player ) ] = data;
 
-            ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Now tracking your player data.\n", player );
+            ChatColor::Say( player, ChatColor::Color::Green, "Now tracking your player data.\n", player, true );
         }
     }
 
@@ -124,11 +124,11 @@ final class ASDataTracker : IConfigurable
 
             if( data is null )
             {
-                ChatColor::Say( player, ChatColor::Color::Red, string( player.pev.netname ) + ": No data tracked for joining after the simulation started.\n", player  );
+                ChatColor::Say( player, ChatColor::Color::Red, "No data tracked for joining after the simulation started.\n", player, true );
                 continue;
             }
 
-            ChatColor::Say( player, ChatColor::Color::Green, string( player.pev.netname ) + ": Processing data...\n", player  );
+            ChatColor::Say( player, ChatColor::Color::Green, "Processing data...\n", player, true );
 
             string netname = string( player.pev.netname );
             int points = int( player.pev.frags );
