@@ -3486,8 +3486,8 @@
         "secondary_miss_cooldown": 1.1,
         "secondary_miss_trained_cooldown": 1.0,
         "secondary_trained_cooldown": 0.5,
-        "tertiary_damage": 17,
-        "slot": 0
+        "slot": 0,
+        "tertiary_damage": 17
     },
     "weapon_medkit": {
         "deploy_time": 0.6,

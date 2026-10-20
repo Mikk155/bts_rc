@@ -32,11 +32,11 @@ namespace Hooks
 
             if( weapon !is null )
             {
-                ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.GetClassname() ] );
+                ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ classname ] );
 
                 if( weaponConfig !is null )
                 {
-                    if( ( weapon.pev.flags & EdictFlags::FL_ONGROUND ) != 0 )
+                    if( ( weapon.pev.flags & EdictFlags::FL_ONGROUND ) != 0 && string( weapon.pev.targetname ).IsEmpty() )
                     {
                         if( ( player.pev.button & IN_USE ) == 0 )
                         {
