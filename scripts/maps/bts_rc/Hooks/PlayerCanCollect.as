@@ -47,7 +47,7 @@ namespace Hooks
                             message = "\n";
                             data[ "pickup_current_frame" ] = g_Engine.time;
 
-                            if( bool( data[ "pickup_button_released" ] ) )
+                            if( bool( data[ "pickup_button_released" ] ) && util::IsFacing( player, weapon, 0.8f ) )
                             {
                                 if( ( player.pev.button & IN_USE ) == 0 )
                                 {

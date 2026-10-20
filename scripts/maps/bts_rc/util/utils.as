@@ -270,4 +270,20 @@ namespace util
             }
         }
     }
+
+    // For some reason CBasePlayer::IsFacing is failing.
+    bool IsFacing( CBasePlayer@ player, CBaseEntity@ target, float dot = 0.5f )
+    {
+        Vector vecSrc = player.pev.origin + player.pev.view_ofs;
+
+        TraceResult tr;
+        g_Utility.TraceLine( vecSrc, target.pev.origin, ignore_monsters, ignore_glass, player.edict(), tr );
+
+        if( tr.flFraction < 1.0 )
+            return false;
+
+        Math.MakeVectors( player.pev.v_angle );
+        Vector vecToTarget = ( target.pev.origin - vecSrc ).Normalize();
+        return ( DotProduct( g_Engine.v_forward, vecToTarget ) >= dot );
+    }
 }
