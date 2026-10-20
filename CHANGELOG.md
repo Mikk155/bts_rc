@@ -1,3 +1,18 @@
+# 20/10/2026
+- Added an inventory system for map-placed items.
+- Improved weapon pickup prompts: they appear when looking at a weapon, and each press of Use picks up only one weapon.
+
+# 19/10/2026
+- Reorganized weapon HUD slots and improved melee weapon feedback.
+- Fixed flare and crowbar sounds and the medkit's position.
+
+# 18/10/2026
+- Added a shock discharge attack to the robotic grunt, with screen and glow effects.
+- Improved flare visuals and feedback with glow, smoke, sparks, scorch marks, and looping sound.
+
+# 17/10/2026
+- Robotic grunts now emit smoke when taking damage, and flares produce smoke and sparks as they burn.
+
 # 16/10/2026
 - Implemented a flame entity that can set monsters and players on fire and burn them. this is triggered by touching activ flares, flamethrower or a gargantua monster.
 - Made HEV and Hazard have fire resistance which reduces flames damages in 20% and 10% accordingly to their class.
@@ -337,3 +352,35 @@
 
 # 16/4/2026
 - Reworked melee weapons
+
+# 15/4/2026
+- Refined melee weapons, added the poolstick, and made headcrabs react to melee hits with a shove.
+
+# 8/4/2026
+- Restored HEV night vision and added suit and cleansuit pickups.
+- Improved player classification and added a menu for choosing a class.
+
+# 5/4/2026
+- Pressing the flashlight key now selects a suitable flashlight weapon when needed, and checkpoint respawns restore the player's equipment.
+- Players without a selected class now receive one automatically.
+
+# 30/3/2026
+- Improved player voice responses, including lines played on death.
+
+# 20/1/2025
+- Night vision now powers on gradually, and flashlight batteries can be recharged with secondary attack.
+- Flashlight-equipped weapons can start with different battery levels.
+
+# 14/1/2025
+- Armor limits now vary by player class.
+
+# 9/1/2025
+- Added animation and sound feedback when recharging flashlight batteries.
+- Added ricochet sounds and impact sparks for weapons.
+
+# 23/12/2024
+- Added a night-vision helmet.
+- Added randomized squad and item placement for Shuffle-style runs.
+
+# 22/12/2024
+- Added an in-game objective-item tracker so the team can check who is carrying key items.
