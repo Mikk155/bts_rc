@@ -25,6 +25,7 @@ namespace Hooks
             return HOOK_CONTINUE;
 
         string classname = pickup.GetClassname();
+        dictionary@ data = player.GetUserData();
 
         if( classname.StartsWith( "weapon_" ) )
         {
@@ -38,13 +39,31 @@ namespace Hooks
                 {
                     if( ( weapon.pev.flags & EdictFlags::FL_ONGROUND ) != 0 && string( weapon.pev.targetname ).IsEmpty() )
                     {
+                        if( float( data[ "pickup_current_frame" ] ) == g_Engine.time )
+                        {
+                            result = false;
+                            return HOOK_CONTINUE;
+                        }
+
+                        data[ "pickup_current_frame" ] = g_Engine.time;
+
+                        bool canPickupWeapon = bool( data[ "pickup_button_released" ] );
+
+                        if( !canPickupWeapon )
+                        {
+                            data[ "pickup_button_released" ] = ( ( player.pev.button & IN_USE ) == 0 );
+                            result = false;
+                            return HOOK_CONTINUE;
+                        }
+
                         if( ( player.pev.button & IN_USE ) == 0 )
                         {
                             g_PlayerFuncs.PrintKeyBindingString( player, "+use Pickup " + weaponConfig.name + "\n" );
                             result = false;
                             return HOOK_CONTINUE;
                         }
-                        g_PlayerFuncs.PrintKeyBindingString( player, "" );
+
+                        data[ "pickup_button_released" ] = false;
                     }
                 }
             }
