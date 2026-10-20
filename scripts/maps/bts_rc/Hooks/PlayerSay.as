@@ -41,19 +41,19 @@ namespace Hooks
         if( character is null )
         {
             snprintf( message, "[Spectator] %1: %2\n", player.pev.netname, content );
-            ChatColor::Say( player, ChatColor::Color::Blue, message );
+            ChatColor::SayAll( player, ChatColor::Color::Blue, message );
             return HOOK_HANDLED;
         }
 
         if( player.IsAlive() )
         {
             snprintf( message, "[%1] %2: %3\n", Classification::ToString( character.Classify ), player.pev.netname, content );
-            ChatColor::Say( player, ChatColor::Color::Green, message );
+            ChatColor::SayAll( player, ChatColor::Color::Green, message );
         }
         else
         {
             snprintf( message, "[%1] (dead) %2: %3\n", Classification::ToString( character.Classify ), player.pev.netname, content );
-            ChatColor::Say( player, ChatColor::Color::Red, message );
+            ChatColor::SayAll( player, ChatColor::Color::Red, message );
         }
 
         return HOOK_HANDLED;

@@ -63,7 +63,7 @@ final class point_checkpoint : ScriptBaseAnimating
 
                 string message;
                 snprintf( message, "%1 %2: Reached a checkpoint.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ) );
-                ChatColor::Say( player, ChatColor::Color::Yellow, message );
+                ChatColor::SayAll( player, ChatColor::Color::Yellow, message );
 
                 g_SoundSystem.EmitSound( self.edict(), CHAN_STATIC, "bts_rc/music/bts_rc_checkpoint.ogg", 1.0f, ATTN_NONE );
 

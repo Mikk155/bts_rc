@@ -2200,6 +2200,7 @@
     },
     "inventory_items": {
         "weapon_bts_crowbar": {
+            "#equip": "weapon_crowbar",
             "carried_hidden": "1",
             "classname": "item_inventory",
             "description": "Hand tool for self defense (5 SLOTS)",

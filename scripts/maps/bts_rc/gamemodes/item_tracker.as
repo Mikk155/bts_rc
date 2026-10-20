@@ -234,7 +234,7 @@ namespace item_tracker
 
             string message;
             snprintf( message, "[%1] %2: collected %3.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ), name );
-            ChatColor::Say( player, ChatColor::Color::Yellow, message );
+            ChatColor::SayAll( player, ChatColor::Color::Yellow, message );
 
             storedItems.insertLast( name );
             changed = true;
