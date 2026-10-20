@@ -4,11 +4,9 @@ __pycache__/
 # Node, Website
 node_modules/
 
-# AngelScript sven coop and metamod API
-# https://github.com/Mikk155/Sven-Co-op/blob/main/aslp.as.predefined
-.vscode/sven.as.predefined
+# AngelScript Sven Co-op's API
 # https://codeberg.org/anggaranothing/svencoop-py-asdocs-vscode
-.vscode/aslp.as.predefined
+.vscode/sven.as.predefined
 
 # Assets
 maps/**
@@ -20,7 +18,6 @@ sprites/**
 src/maps/**
 
 # Third party
-scripts/mikk155
 src/tools/modelguy.exe
 
 sevenkewp/**
