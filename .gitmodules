@@ -1,0 +1,3 @@
+[submodule "scripts/mikk155"]
+	path = scripts/mikk155
+	url = https://github.com/Mikk155/sc-as-utils
