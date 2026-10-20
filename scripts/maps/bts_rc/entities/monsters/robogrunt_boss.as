@@ -103,7 +103,7 @@ final class ASRoboGruntBoss : ASRoboGrunt
     private int m_iAnimSpindown = -1;
     private int m_iAnimShieldStomp = -1;
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.dmg_shield = float( config[ "dmg_shield" ] );
         this.shield_blast_radius = int( config[ "shield_blast_radius" ] );
@@ -113,12 +113,12 @@ final class ASRoboGruntBoss : ASRoboGrunt
         this.shield_blast_range = int( config[ "shield_blast_range" ] );
 
         this.shield_blast_colours.resize(0);
-        btson@ colours = config[ "shield_blast_colours" ];
+        meta_api::json::v2::json@ colours = config[ "shield_blast_colours" ];
         const uint length = colours.Length();
 
         for( uint ui = 0; ui < length; ui++ )
         {
-            btson@ colour = colours[ui];
+            meta_api::json::v2::json@ colour = colours[ui];
             this.shield_blast_colours.insertLast( RGBA( int(colour[0]), int(colour[1]), int(colour[2]), int(colour[3]) ) );
         }
 

@@ -77,7 +77,7 @@ final class ASWeaponFlareConfig : ASWeaponConfig, ASMFlareConfig
         }""";
     }
 
-    bool Register( btson@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         flare_register(json);
         return ASWeaponConfig::Register( json );

@@ -456,7 +456,7 @@ abstract class ASWeaponConfig : IConfigurable
         }""";
     }
 
-    protected void FormatKickbackAccuracy( btson@ obj, float[]&out list, uint length ) final
+    protected void FormatKickbackAccuracy( meta_api::json::v2::json@ obj, float[]&out list, uint length ) final
     {
         list.resize(length);
 
@@ -476,7 +476,7 @@ abstract class ASWeaponConfig : IConfigurable
         }
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.name = config.ValueOrDefault( "name", this.GetName(), false, false );
 
@@ -487,7 +487,7 @@ abstract class ASWeaponConfig : IConfigurable
         this.primary_dropammo = config.ValueOrDefault( "primary_dropammo", this.primary_dropammo, false, false );
         this.secondary_dropammo = config.ValueOrDefault( "secondary_dropammo", this.secondary_dropammo, false, false );
 
-        btson@ secondaryDefaultAmmo = config.ValueOrDefault( "secondary_default_ammo" );
+        meta_api::json::v2::json@ secondaryDefaultAmmo = config.ValueOrDefault( "secondary_default_ammo" );
         secondary_default_ammo[0] = secondaryDefaultAmmo.ValueOrDefault(0, secondary_default_ammo[0], false, true );
         secondary_default_ammo[1] = secondaryDefaultAmmo.ValueOrDefault(1, secondary_default_ammo[1], false, true );
         if( secondary_default_ammo[0] > secondary_default_ammo[1] )
@@ -547,7 +547,7 @@ abstract class ASWeaponConfig : IConfigurable
         this.FormatKickbackAccuracy( config[ "primary_kickback" ], this.primary_kickback, this.primary_kickback.length() );
         this.FormatKickbackAccuracy( config[ "secondary_kickback" ], this.secondary_kickback, this.secondary_kickback.length() );
 
-        btson@ spread = config.ValueOrDefault( "primary_spread" );
+        meta_api::json::v2::json@ spread = config.ValueOrDefault( "primary_spread" );
         this.primary_spread = Vector( spread.ValueOrDefault( "0", primary_spread[0], false, false ), spread.ValueOrDefault( "1", primary_spread[1], false, false ), spread.ValueOrDefault( "2", primary_spread[2], false, false ) );
 
         @spread = config.ValueOrDefault( "secondary_spread" );

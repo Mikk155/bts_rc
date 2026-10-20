@@ -101,7 +101,7 @@ interface IConfigurable
     // Called at MapInit with the json object at the root containing GetName() as key.
     // Return false to remove reference to the context.
     // In this method you can reference "this" to any variable handle.
-    bool Register( btson@ config );
+    bool Register( meta_api::json::v2::json@ config );
 }
 
 final class ASMapConfig : IConfigurable
@@ -134,7 +134,7 @@ final class ASMapConfig : IConfigurable
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_AllowReload = ( g_Debug || bool( config[ "allow_reload" ] ) );
 
@@ -146,11 +146,11 @@ final class ASMapConfig : IConfigurable
         return true;
     }
 
-    btson@ m_json;
-    btson@ m_defaults;
-    btson@ m_GlobalSchema = btson();
-    btson@ m_GlobalSchemaDefinitions = btson();
-    btson@ m_GlobalSchemaProperties = btson();
+    meta_api::json::v2::json@ m_json;
+    meta_api::json::v2::json@ m_defaults;
+    meta_api::json::v2::json@ m_GlobalSchema = meta_api::json::v2::json();
+    meta_api::json::v2::json@ m_GlobalSchemaDefinitions = meta_api::json::v2::json();
+    meta_api::json::v2::json@ m_GlobalSchemaProperties = meta_api::json::v2::json();
 
     private
         bool m_MapInit = true;
@@ -193,10 +193,10 @@ final class ASMapConfig : IConfigurable
             return false;
         }
 
-        btson@ definition;
+        meta_api::json::v2::json@ definition;
         meta_api::json::Error err;
 
-        if( Deserialize( value, definition, err ) && definition !is null )
+        if( meta_api::json::v2::Deserialize( value, definition, err ) && definition !is null )
         {
             this.m_GlobalSchemaDefinitions.Set( name, definition );
             return true;
@@ -227,16 +227,16 @@ final class ASMapConfig : IConfigurable
             @m_chrono = Server::chrono();
         }
 
-        if( !Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
+        if( !meta_api::json::v2::Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
         {
             g_Logger.critical.print( "Failed to parse config data! \"const string __GetDefaultConfig__()\"" );
             array<int> arr(0);
             arr[1]; // When SetException x[
         }
 
-        if( !Deserialize( "store/bts_rc.json", this.m_json, err ) )
+        if( !meta_api::json::v2::Deserialize( "store/bts_rc.json", this.m_json, err ) )
         {
-            @this.m_json = btson();
+            @this.m_json = meta_api::json::v2::json();
         }
 
         string buffer = "Error parsing \"scripts/maps/store/bts_rc.json\"\n";
@@ -277,7 +277,7 @@ final class ASMapConfig : IConfigurable
             g_EngineFuncs.ServerPrint( "No extenal config loaded. Skiping JSON Schema validation.\n" );
         }
 
-        btson@ skipValidation = this.m_json.ValueOrDefault( this.GetName() ).Remove( "skip_validation" );
+        meta_api::json::v2::json@ skipValidation = this.m_json.ValueOrDefault( this.GetName() ).Remove( "skip_validation" );
 
         if( !g_IsMainMap )
         {
@@ -355,7 +355,7 @@ final class ASMapConfig : IConfigurable
             m_GlobalSchema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
             m_GlobalSchema.Set( "type", "object" );
             m_GlobalSchema.Set( "unevaluatedProperties", false );
-                auto@ schemaProperty = btson();
+                auto@ schemaProperty = meta_api::json::v2::json();
                     schemaProperty.Set( "type", "string" );
                     schemaProperty.Set( "description", "Reference to the JSON schema file used for validation and editor hinting." );
                 this.m_GlobalSchemaProperties.Set( "$schema", schemaProperty );
@@ -377,7 +377,7 @@ final class ASMapConfig : IConfigurable
                     continue;
                 }
 
-                btson@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
+                meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
                 if( g_Logger.info.active )
                 {
@@ -386,11 +386,11 @@ final class ASMapConfig : IConfigurable
                         g_Logger.info.print( "Validating {} external variables for context {} at priority {}", { configCount, context.GetName(), ui } );
                 }
 
-                btson@ schema;
+                meta_api::json::v2::json@ schema;
 
                 meta_api::json::Error err;
 
-                if( Deserialize( schemaString, schema, err ) && schema !is null )
+                if( meta_api::json::v2::Deserialize( schemaString, schema, err ) && schema !is null )
                 {
                     if( schema.Contains( "allOf" ) )
                     {
@@ -455,7 +455,7 @@ final class ASMapConfig : IConfigurable
                 }
             }
 
-            if( !schema::Validate( this.m_json, this.m_GlobalSchema, false, this.m_defaults ) )
+            if( !meta_api::json::v2::schema::Validate( this.m_json, this.m_GlobalSchema, false, this.m_defaults ) )
             {
                 if( g_Logger.warning.active )
                     g_Logger.warning.print( "Error validating some values for json. Using default values..." );
@@ -556,11 +556,11 @@ final class ASMapConfig : IConfigurable
             meta_api::json::parser::Indentation schemaIndentation = meta_api::json::parser::Indentation::OneTabSpace;
 
             // Write out schemas
-            Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaIndentation, schemaStyle );
+            meta_api::json::v2::Serialize( this.m_GlobalSchema, "store/bts_rc_schema.json", schemaIndentation, schemaStyle );
 
             // Write out default values for reference
             this.m_defaults.Set( "$schema", "bts_rc_schema.json" );
-            Serialize( this.m_defaults, "store/bts_rc_defaults.json", schemaIndentation, schemaStyle );
+            meta_api::json::v2::Serialize( this.m_defaults, "store/bts_rc_defaults.json", schemaIndentation, schemaStyle );
 
             if( g_Logger.info.active )
             {
@@ -640,13 +640,13 @@ final class ASMapConfig : IConfigurable
                         return;
                     }
 
-                    if( !Deserialize( g_MapConfig.__GetDefaultConfig__(), g_MapConfig.m_defaults ) )
+                    if( !meta_api::json::v2::Deserialize( g_MapConfig.__GetDefaultConfig__(), g_MapConfig.m_defaults ) )
                     {
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Failed to parse config data!\n" );
                         return;
                     }
 
-                    if( !schema::Validate( g_MapConfig.m_json, g_MapConfig.m_GlobalSchema, false, g_MapConfig.m_defaults ) )
+                    if( !meta_api::json::v2::schema::Validate( g_MapConfig.m_json, g_MapConfig.m_GlobalSchema, false, g_MapConfig.m_defaults ) )
                     {
                         g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Error validating some values for json. Using default values...\n" );
                     }

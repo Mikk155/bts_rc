@@ -70,7 +70,7 @@ final class ASZombieEngineer : EntityOverriden, IConfigurable
     private
         int health;
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         if( g_MapConfig.MapLoading )
         {

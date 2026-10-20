@@ -189,11 +189,11 @@ abstract class ASWeaponScopeLightConfig : ASWeaponConfig
         ASWeaponConfig::Precache();
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_FOV = int( config[ "scope_fov" ] );
 
-        btson@ nightvision = config[ "scope_color" ];
+        meta_api::json::v2::json@ nightvision = config[ "scope_color" ];
         m_Color = { int( nightvision[0] ), int( nightvision[1] ), int( nightvision[2] ) };
 
         return ASWeaponConfig::Register( config );

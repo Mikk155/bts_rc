@@ -150,7 +150,7 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         }""";
     }
 
-    bool Register( btson@ json ) override
+    bool Register( meta_api::json::v2::json@ json ) override
     {
         if( g_MapConfig.MapLoading )
         {

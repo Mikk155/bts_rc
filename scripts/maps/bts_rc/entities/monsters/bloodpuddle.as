@@ -85,7 +85,7 @@ final class ASBloodPuddleConfig : IConfigurable
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;
@@ -102,7 +102,7 @@ final class ASBloodPuddleConfig : IConfigurable
 
         this.m_persistent = bool( config[ "persistent" ] );
 
-        btson@ defaultSize = config[ "default_size" ];
+        meta_api::json::v2::json@ defaultSize = config[ "default_size" ];
 
         this.m_DefaultSize = { float( defaultSize[0] ), float( defaultSize[1] ) };
 
@@ -115,7 +115,7 @@ final class ASBloodPuddleConfig : IConfigurable
         if( g_Logger.info.active )
             g_Logger.info.print( "Set blood puddle default size to min: {} max: {}", { this.m_DefaultSize[0], this.m_DefaultSize[1] } );
 
-        btson@ custom_size = config[ "custom_size" ];
+        meta_api::json::v2::json@ custom_size = config[ "custom_size" ];
 
         if( custom_size is null )
             return true;
@@ -127,7 +127,7 @@ final class ASBloodPuddleConfig : IConfigurable
         {
             string name = monsterNames[ui];
 
-            btson@ customSize = custom_size[ name ];
+            meta_api::json::v2::json@ customSize = custom_size[ name ];
 
             array<float> arr = { float( customSize[0] ), float( customSize[1] ) };
 

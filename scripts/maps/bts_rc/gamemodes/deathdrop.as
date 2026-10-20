@@ -60,7 +60,7 @@ final class ASDeathDropConfig : IConfigurable
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         if( !bool( config[ "active" ] ) || !g_MapConfig.MapLoading )
             return false;

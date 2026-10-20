@@ -284,7 +284,7 @@ final class ASDynamicEquipentConfig : IConfigurable
             return true;
         }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_Active = bool( config.Remove( "active" ) );
 
@@ -297,7 +297,7 @@ final class ASDynamicEquipentConfig : IConfigurable
 
             ASDynamicEquipmentData data;
 
-            btson@ range = config[ classname ];
+            meta_api::json::v2::json@ range = config[ classname ];
 
             data.m_Min = int( range[0] );
             data.m_Max = int( range[1] );

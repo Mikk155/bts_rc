@@ -43,7 +43,7 @@ final class ASDataTracker : IConfigurable
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         config.Get( "active", this.m_TrackDataActive );
 

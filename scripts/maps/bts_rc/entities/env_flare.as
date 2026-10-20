@@ -423,7 +423,7 @@ mixin class ASMFlareConfig
     float flare_burn_time;
     float flare_bounce_resistance;
 
-    void flare_register( btson@ json ) final
+    void flare_register( meta_api::json::v2::json@ json ) final
     {
         this.flare_duration = int( json[ "flare_duration" ] );
         this.flare_gravity = float( json[ "flare_gravity" ] );

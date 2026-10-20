@@ -66,7 +66,7 @@ final class ASItemsConfig : IConfigurable
         return this.m_ItemTracking;
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_BatteryLighting = bool( config[ "battery_lighting" ] );
         this.m_ItemTracking = bool( config[ "item_tracking" ] );

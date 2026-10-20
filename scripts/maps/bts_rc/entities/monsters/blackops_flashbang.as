@@ -181,7 +181,7 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         // Deathdrop may use these.
         FlashbangGrenade::detonate_time = float( config[ "detonate_time" ] );

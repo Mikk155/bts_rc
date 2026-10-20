@@ -141,7 +141,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     protected int explosion_damage;
     protected float[] explosion_delay;
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.dmg_generic = float( config[ "dmg_generic" ] );
         this.dmg_burn = float( config[ "dmg_burn" ] );
@@ -152,9 +152,9 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         this.shock_damage = int( config[ "shock_damage" ] );
         this.shock_active = float( config[ "shock_active" ] );
         this.shock_radius = int( config[ "shock_radius" ] );
-        btson@ expDelay = config[ "explosion_delay" ];
+        meta_api::json::v2::json@ expDelay = config[ "explosion_delay" ];
         this.explosion_delay = { float( expDelay[0] ), float( expDelay[1] ) };
-        btson@ shockDelay = config[ "shock_cooldown" ];
+        meta_api::json::v2::json@ shockDelay = config[ "shock_cooldown" ];
         this.shock_cooldown = { float( shockDelay[0] ), float( shockDelay[1] ) };
 
         if( g_MapConfig.MapLoading )

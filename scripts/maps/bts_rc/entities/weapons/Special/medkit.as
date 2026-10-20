@@ -168,7 +168,7 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.health_ammount = config.ValueOrDefault( "health_ammount", 10, false, false );
         this.health_gain = config.ValueOrDefault( "health_gain", 10, false, false );

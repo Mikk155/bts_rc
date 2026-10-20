@@ -15,12 +15,14 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+#include "../../../mikk155/meta_api/json/v2"
+#include "../../../mikk155/meta_api/json/v2/schema"
+
 #include "MapConfig"
 #include "CustomKeyValues"
 #include "Difficulty"
 #include "CommandContext"
 #include "EntityOverriden"
-#include "json"
 #include "Logger"
 #include "models"
 #include "PlayerClass"

@@ -279,7 +279,7 @@ final class CLogger : IConfigurable
         }""";
     }
 
-    bool Register( btson@ config ) override
+    bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_Loggers = {
             @this.trace,
