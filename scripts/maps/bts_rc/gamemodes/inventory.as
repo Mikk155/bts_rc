@@ -17,6 +17,7 @@
 
 final class ASInventoryItemsConfig : IConfigurable
 {
+    // -TODO Separate regular keys from script-used ones
     private
         dictionary m_Templates;
 
@@ -69,30 +70,67 @@ final class ASInventoryItemsConfig : IConfigurable
     {
         return ( this.m_Templates.get( templateName, @template ) );
     }
+
+    bool Activate( CBasePlayer@ player, CItemInventory@ item )
+    {
+        dictionary@ keyValues;
+
+        // -TODO get separated from regular keys to only script-used ones
+        if( player is null || item is null || !this.Find( string( item.pev.netname ), @keyValues ) )
+            return false;
+
+        string equipItemName;
+        if( keyValues.get( "#equip", equipItemName ) )
+        {
+            CBasePlayerItem@ equipedItem = player.HasNamedPlayerItem( equipItemName );
+
+            if( equipedItem !is null )
+            {
+                string message;
+                ASWeaponConfig@ weaponConfig;
+
+                if( g_WeaponsConfig.Interfaces.get( equipItemName, @weaponConfig ) && weaponConfig !is null )
+                {
+                    snprintf( message, "You've already equiped %1", weaponConfig.name );
+                }
+                else
+                {
+                    message = "You've already equiped this item";
+                }
+
+                ChatColor::Say( player, ChatColor::Red, message, player );
+            }
+            else
+            {
+                player.GiveNamedItem( equipItemName );
+            }
+        }
+
+        return true;
+    }
 }
 
 ASInventoryItemsConfig g_InventoryTemplates;
 
 class ASInventoryTemplate : ScriptBaseItemEntity
 {
-    dictionary@ m_Template;
-
     void Spawn()
     {
+        dictionary template;
         self.pev.flags |= EdictFlags::FL_KILLME;
-
         string templateName = string( self.pev.netname );
 
-        if( !g_InventoryTemplates.Find( templateName, @m_Template ) )
+        if( !g_InventoryTemplates.Find( templateName, template ) )
         {
             g_Logger.error.print( "[{}] Could not find template with name \"{}\" at {}", { g_InventoryTemplates.GetName(), templateName, self.pev.origin.ToString() } );
             return;
         }
 
-        this.m_Template[ "target_on_activate" ] = "ASInventoryTemplate";
+        template[ "target_on_activate" ] = "ASInventoryTemplate";
 
-        CBaseEntity@ inventoryItem = g_EntityFuncs.CreateEntity( "item_inventory", this.m_Template, false );
+        CBaseEntity@ inventoryItem = g_EntityFuncs.CreateEntity( "item_inventory", template, false );
         g_EntityFuncs.SetOrigin( inventoryItem, self.pev.origin );
+        inventoryItem.pev.netname = self.pev.netname;
         g_EntityFuncs.DispatchSpawn( inventoryItem.edict() );
     }
 }
@@ -101,6 +139,6 @@ namespace ASInventoryTemplate
 {
     void Activate( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value )
     {
-        g_Game.AlertMessage( at_console, "Activator: %1 Caller: %2\n", activator is null ? "null" : activator.GetClassname(), caller is null ? "null" : caller.GetClassname() );
+        g_InventoryTemplates.Activate( cast<CBasePlayer@>( activator ), cast<CItemInventory@>( caller ) );
     }
 }
