@@ -378,8 +378,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
         PlayAnim( WeaponFlamethrowerAnim::Fire1 + RandomUint(3), PLAYER_ANIM::PLAYER_ATTACK1 );
 
-        player.pev.punchangle.x -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
-        player.pev.punchangle.y -= is_trained_personal ? Math.RandomLong( -2, 2 ) : Math.RandomLong( -6, 6 );
+        weapons::Kickback( player, this.config.primary_kickback, is_trained_personal );
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * FLAME_OFFSET.x
