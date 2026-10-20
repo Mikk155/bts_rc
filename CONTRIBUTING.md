@@ -12,7 +12,11 @@ To ensure quality and consistency across all community contributions, please fol
    Navigate to your `Sven Co-op/` directory and clone this repository under the folder name `svencoop_event_bts`. This directory name is critical to allow the event system to override local assets correctly:
    ```bash
    cd "C:\Program Files (x86)\Steam\steamapps\common\Sven Co-op"
-   git clone https://github.com/Mikk155/bts_rc.git svencoop_event_bts
+   git clone --recurse-submodules https://github.com/Mikk155/bts_rc.git svencoop_event_bts
+   ```
+   If you already cloned the repository without its submodules, initialize them from the repository directory:
+   ```bash
+   git submodule update --init --recursive
    ```
    Open the console on your initialized client and type:
    ```
@@ -31,14 +35,14 @@ To ensure quality and consistency across all community contributions, please fol
    ev_enable bts
    ```
 
-2. **Download Third-Party Dependencies**
+2. **Install Third-Party Dependencies**
    Navigate to the `src` folder inside the cloned repository and run the main script
    ```bash
    cd svencoop_event_bts/src
    pip install -r requirements.txt
    python main.py
    ```
-   This will download all the third party angelscript utility files into the working directory.
+   The Angelscript utility files are included as a Git submodule and initialized during cloning. The main script runs the repository checks and other setup tasks.
 
    To fetch game assets such as models, sounds and sprites, verify the last release at [Github](https://github.com/Mikk155/bts_rc/releases).
 

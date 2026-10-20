@@ -119,9 +119,19 @@ Set local path to subdirectories htmls
                     <span>Install repository</span>
                     <button class="copy-btn" onclick="copyCode(this)">COPY</button>
                 </div>
-                <pre><code class="code_terminal">git clone https://github.com/Mikk155/bts_rc svencoop_event_bts</code></pre>
+                <pre><code class="code_terminal">git clone --recurse-submodules https://github.com/Mikk155/bts_rc svencoop_event_bts</code></pre>
             </div>
             <li>By installing the repository as an event it will override any installation of bts_rc in your game.</li>
+            <br><br>
+            <h3><li>Initialize submodules for an existing clone</li></h3>
+            <h4>If you already cloned the repository without initializing its submodules, run this command from the repository directory:</h4>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Initialize repository submodules</span>
+                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
+                </div>
+                <pre><code class="code_terminal">git submodule update --init --recursive</code></pre>
+            </div>
             <br><br>
             <h3><li>Initialize game event</li></h3>
             <h4>Open the console on your initialized Sven Co-op client</h4>
@@ -150,8 +160,8 @@ active: UI - yes, GAME - yes
                 <pre><code class="code_terminal">ev_enable bts</code></pre>
             </div>
             <br><br>
-            <h3><li>Download Third-Party Dependencies</li></h3>
-            <h4>There are some utility scripts not present in the project which must be fetched externaly to keep up-to-date.</h4>
+            <h3><li>Install Third-Party Dependencies</li></h3>
+            <h4>The AngelScript utility scripts are included as a Git submodule and initialized when cloning the repository.</h4>
             <div class="terminal">
                 <div class="terminal-header">
                     <span>Navigate to the src/ directory.</span>
@@ -159,7 +169,7 @@ active: UI - yes, GAME - yes
                 </div>
                 <pre class="language-Bash"><code class="code_terminal">pip install -r requirements.txt<br>python main.py</code></pre>
             </div>
-            <li>This will download all the third party angelscript utility files into the working directory.</li>
+            <li>Run the main script to perform the repository checks and other setup tasks.</li>
             <h4>To fetch game assets such as models, sounds and sprites, verify the last release at <a href="https://github.com/Mikk155/bts_rc/releases", target="_blank">Github</a>.</h4>
             <br><br>
             <h3>Repository Structure</h3>
