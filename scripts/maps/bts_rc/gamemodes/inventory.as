@@ -36,26 +36,22 @@ namespace InventoryItem
 
         CBasePlayerItem@ equipedItem = player.HasNamedPlayerItem( equipItemName );
 
+        string message;
+        ChatColor::Color color;
+
         if( equipedItem !is null )
         {
-            string message;
-            ASWeaponConfig@ weaponConfig;
-
-            if( g_WeaponsConfig.Interfaces.get( equipItemName, @weaponConfig ) && weaponConfig !is null )
-            {
-                snprintf( message, "You've already equiped %1", weaponConfig.name );
-            }
-            else
-            {
-                message = "You've already equiped this item";
-            }
-
-            ChatColor::Say( player, ChatColor::Red, message, player, true );
+            color = ChatColor::Color::Red;
+            snprintf( message, "You've already equiped %1\n", itemInventory.m_szDisplayName );
         }
         else
         {
+            color = ChatColor::Color::Green;
+            snprintf( message, "Equiped %1\n", itemInventory.m_szDisplayName );
             player.GiveNamedItem( equipItemName );
             itemInventory.Destroy();
         }
+
+        ChatColor::Say( player, color, message, player, true );
     }
 }
