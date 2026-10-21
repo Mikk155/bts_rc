@@ -1,101 +1,55 @@
 # Death Drop
 
-The death drop system allows any monster entity to drop items upon death, based on a unique per-monster key-value that targets either a specific item name or a more complex randomized list.
+The death-drop system can create an item when a monster dies. A monster's custom keyvalues choose either a list from the map configuration or one explicit entity classname.
 
----
+## Monster keyvalues
 
-### Key Names
+| Key | Purpose |
+|---|---|
+| `$s_deathdrop` | Name of a list in the `deathdrop` configuration, a dot-separated choice of list names, or a direct classname prefixed with `#`. |
+| `$i_deathdrop` | Optional model attachment index. When present, the drop is placed at that attachment's origin and angles; otherwise it is placed at the monster's center. |
 
-* `$s_deathdrop`
+## Choose from a configured list
 
-  * Defines a drop list name from the JSON configuration.
+The list must exist in the `deathdrop` object in `scripts/maps/store/bts_rc.json`. The default configuration provides named lists (for example, `zhev`, `zscientist`, `Marine`, and `Medic`); list names are case-sensitive and are constrained by the configuration schema.
 
-* `$i_deathdrop`
+Example monster keyvalue:
 
-  * Defines the model attachment index used to spawn the item at a specific position and angle.
-  * If unused, the item's position defaults to the monster's center.
-
----
-
-### JSON Randomization Lists
-
-If a monster contains:
-
-```json
-"$s_deathdrop" "medic"
+```text
+"$s_deathdrop" "zhev"
 ```
 
-It will drop one of the items defined under `"medic"` in the JSON:
+Example configuration shape:
 
 ```json
-"medic":
-[
-    "item_bts_sprayaid",
-    "item_healthkit"
-],
+"deathdrop": {
+    "active": true,
+    "zhev": [
+        "",
+        "ammo_9mmAR",
+        "grenade"
+    ]
+}
 ```
 
-Each entry in the list has an equal chance to spawn.
-In this example, there are two entries, so each has a **50% chance**.
+One entry is selected at random, with equal probability per array position. Repeated entries therefore increase that entry's chance. An empty-string entry is a chance to drop nothing.
 
-You can add new entries or modify existing ones within the `"deathdrop"` object context.
+To choose between lists, separate their names with periods:
 
----
-
-### Special Entry Names
-
-In the JSON config, you can define special entity names with unique behaviors:
-
-* `"grenade"`
-
-  * Spawns a live hand grenade.
-
-* `"flashbang"`
-
-  * Spawns a live flash grenade.
-
-* `""` (empty string)
-
-  * Represents a chance to drop nothing.
-
----
-
-### Multi-List Chance
-
-You can include multiple lists. For example:
-
-```json
-"$s_deathdrop" "zhev.medic"
+```text
+"$s_deathdrop" "zhev.Medic"
 ```
 
-The system will:
+The system first chooses one of the named lists at random, then chooses an entry from that list. This is a choice between lists, not a combined weighted pool.
 
-1. Select a random list.
-2. Then select a random item from that list.
+The special entry `"grenade"` creates a timed hand grenade. `"flashbang"` creates a timed flashbang.
 
----
+## Spawn an explicit entity
 
-### Explicit Items
+Prefix a classname with `#` to bypass the configured lists:
 
-If the value of `$s_deathdrop` starts with `#`, it will bypass lists and spawn the specified entity directly.
-
-Example:
-
-```json
-"$s_deathdrop" "#weapon_minigun"
+```text
+"$s_deathdrop" "#weapon_bts_m4"
 ```
 
-This will spawn a minigun.
-
----
-
-### ⚠️ NOTE
-
-Using ``#`` is not compatible with ``.`` so whatever the key name starts with ``#`` that'd be the whole item name with no randomization at all.
-
-If an entity entry is defined in the JSON, it will be **automatically precached**.
-
-If you use `#`, make sure the entity is **already precached**.
-
-> Weapon entities precache themselves automatically.
-> This behavior may also apply to other item types depending on implementation.
+This creates that entity directly. A `#` value is treated as the complete classname after the prefix; it cannot be combined with dot-separated list names. Entities referenced in configured lists are precached while the map loads. Direct `#` entities do not go through that list precache step, so ensure the classname is available and precached elsewhere.

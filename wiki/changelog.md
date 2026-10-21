@@ -1,42 +1,41 @@
-# Rules
-When updating ``CHANGELOG.md`` we abide by certain rules in order for the website to show proper body sections and github releases to show only-changes since last version.
+# Changelog Formatting Rules
 
----
+The changelog has two consumers: GitHub Releases and the project website. Keep the date headings in the format below so the release builder can recognize them.
 
-A date time with the format: ``DAY/MONTH/YEAR`` must be provided using ``# `` as prefix.
+## Date headings
 
-Sample:
+Start each dated section with `# ` followed by `DAY/MONTH/YEAR`. One- or two-digit days and months are accepted.
+
 ```markdown
 # 25/4/2026
 ```
 
-Regular Expresion used by Python builders to identify if the date time stamp should be applied to the generated release.
+The builder matches date headings with:
+
 ```regex
-"#\s+(\d{1,2})/(\d{1,2})/(\d{4})"
+#\s+(\d{1,2})/(\d{1,2})/(\d{4})
 ```
 
----
+## GitHub Releases
 
-# Releases formatting
+Release notes use the changelog section content as Markdown.
 
-Content driven to github release will remain as-is Markdown.
+## Website rendering
 
----
+The website uses a small, purpose-built line parser; it does not render full Markdown.
 
-# Web site formatting
+| Input | Website behavior |
+|---|---|
+| `# ` | Starts a dated section and flushes the previous section. |
+| `- ` | Creates a list item. Consecutive items are grouped in a list. |
+| `## ` | Creates an `<h2>` heading. |
+| `### ` | Creates an `<h3>` heading. |
+| `**text**` | Replaced with `<b>text</b>`. |
+| `` `text` `` | Replaced with an inline `<code>` element. |
+| `` ``text`` `` | Replaced with `<code class="terminal">text</code>`. |
+| Other non-empty lines | Added as paragraphs. |
+| A line starting with a space or tab | Wrapped in `<pre>` to preserve leading whitespace. |
 
-| Prefix | HTML Equivalent | Example | Short description |
-|---|---|---|---|
-| ``- `` | ``<li>`` | ``- Fixed func door not opening at dormitories`` | "List" lines prefixed with a dot |
-| ``## `` | ``<h2>`` | ``## Map update`` | Header. medium size |
-| ``### `` | ``<h2>`` | ``### Dormitories`` | Header. small size |
-| \`\` | ``<code>`` | - Fixed \`\`monster_panthereye\`\` | Code block normally shown in green if not a recognized programing language |
-| ``**`` | ``<b>`` | ``- Fixed **func_door** not opening at dormitories`` | Bold text |
-| None | ``<p> | | Default text |
-| ``\t`` or single spaces | ``<pre>`` | | Basically just keeps leading white spaces. |
+Blank lines are ignored. Fenced code blocks and other Markdown syntax are not interpreted by this renderer. Content is inserted as HTML, so only put trusted, intentional markup in the changelog.
 
-Even though HTML elements are not fully supported in Release's Markdown. HTML elements will make their way into the pages.
-
-You can even target ``css`` classes, use href or anything that can fit into the member ``innerHTML`` of the changelog's ``div``.
-
-For more information visit how it's done in ``src/docs/src/scripts/changelog.ts``
+The implementation is in `src/docs/src/scripts/changelog.ts`.

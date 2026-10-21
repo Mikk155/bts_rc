@@ -1,14 +1,18 @@
-# Playable characters
+# Playable characters and view-model hands
 
-### Classify
+The player classification and the view-model hand style are separate values.
+
+## Player classifications
+
 | Name | Value | AngelScript | Description |
-|---|---|---|---|
-| Security | 0 | ``Classification::Security`` | Security guard officer (Blue) |
-| Scientist | 1 | ``Classification::Scientist`` | Scientist |
-| Maintenance | 2 | ``Classification::Maintenance`` | Maintenance |
-| HEV | 4 | ``Classification::HEV`` | Player is wearing a HEV suit |
-| Hazard | 5 | ``Classification::Hazard`` | Player is wearing a HAZARD suit |
-| Operative | 6 | ``Classification::Operative`` | Gray security guard |
+|---|---:|---|---|
+| Unset | -1 | `Classification::Unset` | No class selected. |
+| Security | 0 | `Classification::Security` | Security officer. |
+| Scientist | 1 | `Classification::Scientist` | Science team member. |
+| Maintenance | 2 | `Classification::Maintenance` | Maintenance worker. |
+| HEV | 3 | `Classification::HEV` | Player in an HEV suit. |
+| Hazard | 4 | `Classification::Hazard` | Player in a hazard suit. |
+| Operative | 5 | `Classification::Operative` | Gray-uniform security operative. |
 
 <details>
 <summary>AngelScript enumeration</summary>
@@ -26,33 +30,33 @@ enum Classification
     // Maintenance
     Maintenance,
     // HEV suit
-    HEV = 4,
+    HEV,
     // Hazard suit
     Hazard,
     // Operative security officer
     Operative,
-    // Just a end of enum for size reference.
+    // End marker used as the enum size.
     __Size__
 };
 ```
 
 </details>
 
-# Player view hands
+## Player view-model hands
 
-### Classify
 | Name | Value | AngelScript | Description |
-|---|---|---|---|
-| Blue | 0 | ``Hands::Blue`` | Security guard officer (Blue clothing) |
-| White | 1 | ``Hands::White`` | Scientist arms (White clothing) |
-| Orange | 2 | ``Hands::Orange`` | Maintenance arms (Orange clothing) |
-| WhiteBlackHands | 3 | ``Hands::WhiteBlackHands`` | Black Scientist arms (White clothing) |
-| Hevsuit | 4 | ``Hands::Hevsuit`` | HEV suit arms |
-| Cleansuit | 5 | ``Hands::Cleansuit`` | Hazard clean suit arms |
-| Gray | 6 | ``Hands::Gray`` | Operative arms (Gray clothing) |
-| BlueBlackHands | 7 | ``Hands::BlueBlackHands`` | Black Security arms (Blue clothing) |
-| Green | 8 | ``Hands::Green`` | Maintenance arms (Green clothing) |
-| GrayGloves | 9 | ``Hands::GrayGloves`` | Operative with gloves arms (Gray clothing) |
+|---|---:|---|---|
+| Unset | -1 | `Hands::Unset` | No hand style selected. |
+| Blue | 0 | `Hands::Blue` | Blue security sleeves. |
+| White | 1 | `Hands::White` | White scientist sleeves. |
+| Orange | 2 | `Hands::Orange` | Orange maintenance sleeves. |
+| WhiteBlackHands | 3 | `Hands::WhiteBlackHands` | White sleeves with black hands. |
+| Hevsuit | 4 | `Hands::Hevsuit` | HEV suit sleeves. |
+| Cleansuit | 5 | `Hands::Cleansuit` | Hazard clean-suit sleeves. |
+| Gray | 6 | `Hands::Gray` | Gray operative sleeves. |
+| BlueBlackHands | 7 | `Hands::BlueBlackHands` | Blue sleeves with black hands. |
+| Green | 8 | `Hands::Green` | Green maintenance sleeves. |
+| GrayGloves | 9 | `Hands::GrayGloves` | Gray operative sleeves with gloves. |
 
 <details>
 <summary>AngelScript enumeration</summary>
@@ -72,7 +76,7 @@ enum Hands
     BlueBlackHands,
     Green,
     GrayGloves,
-    // Just a end of enum for size reference.
+    // End marker used as the enum size.
     __Size__
 };
 ```

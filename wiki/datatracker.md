@@ -1,38 +1,37 @@
-# Data Tracker
-Data tracker allows server operators to track player data for their own purposes.
+# Player Data Tracker
 
-This feature is disabled by default but you can enable it in the json config.
+The data tracker records a small set of player and run statistics. It is disabled by default in the supplied configuration.
+
+Enable it in `scripts/maps/store/bts_rc.json`:
+
 ```json
 {
-    "data_tracker":
-    {
+    "data_tracker": {
         "active": true
     }
 }
 ```
 
-When the context is active the map will generate a json file at ``scripts/maps/store/bts_rc_datatracker.json`` whenever the map is finished.
+At the end of the simulation, the tracker writes `scripts/maps/store/bts_rc_datatracker.json`. The top-level object is keyed by the player's Steam ID; bots use the key `"BOT"`.
 
-The JSON object is formed with the player's Steam ID as key and contains a object with the next formats:
-
-| Key name | Type | Example | Description
-|---|---|---|--|
-| classify | string | Security | name of classification |
-| classify_index | int | 0 | classification index |
-| model | string | bts_barney | name of model used |
-| points | integer | 150 | points / frags. |
-| deaths | integer | 3 | deaths. |
-| name | string | Mikk155 | player name / netname |
-| ended_at | integer | 1791159025 | time stamp in unix form when the player selected a class |
-| joined_at | integer | 1791159025 | time stamp in unix form when the map ended |
-| difficulty | integer | 3 | map difficulty, "Story mode" being zero and so on. |
-| hellbound | boolean | false | map "hellbound" mode selected? |
+| Field | Type | Meaning |
+|---|---|---|
+| `name` | string | Player name when the run ends. |
+| `model` | string | Character model name, such as `bts_barney`. |
+| `classify` | string | Character classification name. |
+| `classify_index` | integer | Numeric classification value. |
+| `points` | integer | Player frags/points at the end of the run. |
+| `deaths` | integer | Player death count at the end of the run. |
+| `joined_at` | integer | Unix timestamp recorded when the player first selects a class. |
+| `ended_at` | integer | Unix timestamp recorded when the tracker processes the run's ending. |
+| `difficulty` | integer | Difficulty value: Story Mode `0`, Relaxed `1`, Medium `2`, Punished `3`, Tortured Standard `4`, or Tortured Legacy `5`. |
+| `hellbound` | boolean | Whether Hellbound mode was enabled for the run. |
 
 Example:
+
 ```json
 {
-    "STEAM_0:0:202010794":
-    {
+    "STEAM_0:1:123456": {
         "joined_at": 1791225472,
         "classify_index": 4,
         "points": 1,
@@ -44,8 +43,7 @@ Example:
         "hellbound": 0,
         "deaths": 0
     },
-    "BOT":
-    {
+    "BOT": {
         "joined_at": 1791225472,
         "classify_index": 1,
         "points": -1,
@@ -59,7 +57,11 @@ Example:
     }
 }
 ```
+
 > Note if you're not going to use a json library mind you the final result is not that pretty, it is a single line without any spaces. i.e
 > ```json
 > {"STEAM_0:0:202010794":{"joined_at":1791225472,"classify_index":4,"points":1,"name":"mikk","model":"bts_cleansuit","ended_at":1791225600,"classify":"Hazard","difficulty":0,"hellbound":0,"deaths":0},"BOT":{"joined_at":1791225472,"classify_index":1,"points":-1,"name":"Sniper","model":"bts_scientist6","ended_at":1791225600,"classify":"Scientist","difficulty":0,"hellbound":0,"deaths":1}}
 > ```
+
+
+Players who join after the simulation has started may not have a tracker record; they are skipped when the run is written,
