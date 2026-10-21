@@ -67,7 +67,9 @@ void RegisterContexts()
     g_MapConfig.Register( gpEquipment ); // Always active
 
     // No ordering required:
-    g_MapConfig.Register( ASBloodPuddleConfig() );
+    RegisterContext( BTSBloodPuddle(), "BTSBloodPuddle" );
+
+    g_MapConfig.Register( ASDynamicAmmoConfig() );
     g_MapConfig.Register( ASZombieUncrabConfig() );
     g_MapConfig.Register( ASDeathDropConfig() );
     g_MapConfig.Register( ASAimingLasersConfig() );
