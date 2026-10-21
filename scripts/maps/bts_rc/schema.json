@@ -13883,25 +13883,6 @@
 					}
 				}
 			},
-			"inventory_items": 
-			{
-				"type": "object",
-				"title": "Item inventory templates",
-				"description": "Templates used for inventory_template entity.",
-				"unevaluatedProperties": true,
-				"additionalProperties": 
-				{
-					"type": "object",
-					"title": "Item Inventory template",
-					"description": "Template name used for inventory_template's netname. Represents a entity key-value pairs",
-					"unevaluatedProperties": true,
-					"additionalProperties": 
-					{
-						"type": "string",
-						"description": "Key-value pair, strictly string."
-					}
-				}
-			},
 			"bloodpuddle": 
 			{
 				"type": "object",

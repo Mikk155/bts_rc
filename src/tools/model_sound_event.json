@@ -191,8 +191,10 @@
         "bts_rc/scientist/test1.wav"
     ],
     "models/bts_rc/monsters/snapbug.mdl": [
+        "bts_rc/stepsounds/crab_step2.wav",
+        "bts_rc/stepsounds/crab_step3.wav",
         "bts_rc/stepsounds/crab_step1.wav",
-        "bts_rc/stepsounds/crab_step2.wav"
+        "bts_rc/stepsounds/crab_step4.wav"
     ],
     "models/bts_rc/monsters/strooper.mdl": [
         "bts_rc/stepsounds/shock_step1.wav",

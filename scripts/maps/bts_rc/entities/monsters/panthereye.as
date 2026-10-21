@@ -180,21 +180,15 @@ final class ASPanthereyeConfig : IConfigurable
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/stealth.ogg" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert2.wav" );
-            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_alert3.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack1.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack2.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack3.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle1.wav" );
-            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle2.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack1.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack2.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_attack3.wav" );
             g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle3.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle4.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle5.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_moan.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_moan2.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain1.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain2.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain3.wav" );
-			g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_scratch.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle4.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_idle5.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain1.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain2.wav" );
+            g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_pain3.wav" );
 
             CustomEntity( "monster_panthereye" );
         }

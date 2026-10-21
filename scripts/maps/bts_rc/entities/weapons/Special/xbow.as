@@ -85,14 +85,9 @@ final class ASWeaponXBowConfig : ASWeaponScopeLightConfig
         g_Game.PrecacheModel( "models/bts_rc/weapons/electro_bolt.mdl" );
 
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fire1.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_bolt.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_fidget2.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_hit1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_hitbod1.wav" );
         g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_hitbod2.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magin.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_magready.wav" );
-        g_SoundSystem.PrecacheSound( "bts_rc/weapons/xbow_draw2.wav" );
 
         ASWeaponScopeLightConfig::Precache();
     }
