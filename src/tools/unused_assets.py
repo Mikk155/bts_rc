@@ -6,7 +6,7 @@
 #   Using:
 #       Run bts_rc.bsp using metamod aslp plugin.
 #       Use command "sv_report_precache 1"
-#       Restart the game so it tracks precaches.
+#       Restart the map so it tracks precaches.
 #       Run this script and it will generate a file containing unprecached assets.
 # ===================================================================
 # ===================================================================
