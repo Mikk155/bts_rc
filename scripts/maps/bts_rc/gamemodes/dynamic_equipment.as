@@ -522,7 +522,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                 ( pickupAmmo !is null && pickupAmmo.AddAmmo( player ) ) || ( pickupItem !is null && pickupItem.AddToPlayer( player ) ) )
                 {
                     pickup.pev.flags |= FL_KILLME;
-                    player.pev.armorvalue = oldArmor + Math.clamp( 0, player.pev.armortype, count );
+                    player.pev.armorvalue = oldArmor + Math.clamp( 0.0f, player.pev.armortype, count );
 
                     if( g_Logger.trace.active )
                         g_Logger.trace.print( "[{}] gave {} of \"{}\" to player \"{}\": min={} max={}", {
@@ -539,7 +539,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                 ( pickupAmmo !is null && pickupAmmo.AddAmmo( player ) ) || ( pickupItem !is null && pickupItem.AddToPlayer( player ) ) )
                 {
                     pickup.pev.flags |= FL_KILLME;
-                    player.pev.health = oldHealth + Math.clamp( 0, player.pev.max_health, count );
+                    player.pev.health = oldHealth + Math.clamp( 0.0f, player.pev.max_health, count );
 
                     if( g_Logger.trace.active )
                         g_Logger.trace.print( "[{}] gave {} of \"{}\" to player \"{}\": min={} max={}", {

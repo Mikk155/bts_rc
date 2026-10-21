@@ -86,7 +86,7 @@ final class env_credits : ScriptBaseMonsterEntity
 
         ASCaption@ credit = this.m_Credits[index];
 
-        auto params = credit.Params;
+        HUDTextParams params = credit.Params;
         params.channel = ++index;
 
         g_PlayerFuncs.HudMessageAll( params, credit.Content );
@@ -123,9 +123,9 @@ final class env_credits : ScriptBaseMonsterEntity
         int onScreen = index;
         while( onScreen < 4 )
         {
-            HUDTextParams params;
-            params.channel = ++onScreen;
-            g_PlayerFuncs.HudMessageAll( params, '\n' );
+            HUDTextParams paramsFill;
+            paramsFill.channel = ++onScreen;
+            g_PlayerFuncs.HudMessageAll( paramsFill, '\n' );
         }
 
         return index;

@@ -608,7 +608,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
                 }
             }
 
-            uint bloodSplash = RandomUint( 16, monster ) + 1;
+            int bloodSplash = RandomUint( 16, monster ) + 1;
 
             if( bloodSplash > 7 )
                 bloodSplash = -1;
