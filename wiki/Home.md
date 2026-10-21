@@ -12,6 +12,7 @@ Several systems that directly affect level balance are configurables. Refeer to 
 
 ## Gameplay and map design
 
+- [Monster impact effects](effects)
 - [Death drops](deathdrop)
 - [Playable characters and view-model hands](characters)
 - [Player data tracker](datatracker)
