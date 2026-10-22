@@ -623,6 +623,8 @@ abstract class ASWeaponConfig : IConfigurable
         }
     }
 
+    // Called at CollectedHook
+    void WeaponEquiped( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Called just before WeaponDeploy at this class
     void WeaponHolster( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) { }
     // Pre call of PrimaryAttack

@@ -64,6 +64,8 @@ namespace Hooks
             message.End();
         }
 
+        weaponConfig.WeaponEquiped( player, weapon, GetCharacter( player ) );
+
         return HOOK_CONTINUE;
     }
 }
