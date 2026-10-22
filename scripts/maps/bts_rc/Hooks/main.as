@@ -40,7 +40,11 @@ namespace Hooks
         g_Hooks.RegisterHook( Hooks::Monster::MonsterTakeDamage, @MonsterTakeDamage );
 
         g_Hooks.RegisterHook( Hooks::PickupObject::CanCollect, @PlayerCanCollect );
-        g_Hooks.RegisterHook( Hooks::PickupObject::Collected, @PlayerCollect );
+
+        // Stupid ass game doesn't call hooks for item_inventory x[
+        auto fnPointer = CollectedHook( PlayerCollect );
+        g_Hooks.RegisterHook( Hooks::PickupObject::Collected, @fnPointer );
+        Player::GiveItemCollectedHooks.insertLast( @fnPointer );
 
         g_Hooks.RegisterHook( Hooks::Player::PlayerKilled, @PlayerKilled );
         g_Hooks.RegisterHook( Hooks::Player::PlayerRevived, @PlayerRevive );

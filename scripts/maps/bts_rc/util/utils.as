@@ -34,6 +34,7 @@
 #include "../../../mikk155/TextMenu/v1"
 #include "../../../mikk155/Player/ChatColor"
 #include "../../../mikk155/Player/GetUniqueID"
+#include "../../../mikk155/Player/GiveItem"
 #include "../../../mikk155/Entity/Create"
 #include "../../../mikk155/meta_api"
 
@@ -182,7 +183,7 @@ void EquipAllWeapons( CBasePlayer@ player )
     {
         const string weapon_name = weaponNames[ui];
 
-        player.GiveNamedItem( weapon_name );
+        Player::GiveItem( player, weapon_name );
 
         CBasePlayerItem@ item = player.HasNamedPlayerItem( weapon_name );
 
@@ -193,8 +194,6 @@ void EquipAllWeapons( CBasePlayer@ player )
 
         if( weapon is null )
             continue;
-
-        weapons::Given( player, weapon );
 
         if( weapon.m_iPrimaryAmmoType > 0 )
         {

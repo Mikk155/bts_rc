@@ -117,8 +117,7 @@ final class ASEquipmentSet
         for( uint ui = 0; ui < itemsLength; ui++ )
         {
             string itemName = this.m_Items[ui];
-            player.GiveNamedItem( itemName, SF_GIVENITEM );
-            weapons::Given( player, cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( itemName ) ) );
+            Player::GiveItem( player, itemName );
         }
 
         uint entitiesLength = this.m_Entities.length();

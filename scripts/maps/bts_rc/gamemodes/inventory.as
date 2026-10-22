@@ -48,7 +48,7 @@ namespace InventoryItem
         {
             color = ChatColor::Color::Green;
             snprintf( message, "Equiped %1\n", itemInventory.m_szDisplayName );
-            player.GiveNamedItem( equipItemName );
+            Player::GiveItem( player, equipItemName );
             itemInventory.Destroy();
         }
 
