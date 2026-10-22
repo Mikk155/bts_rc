@@ -211,8 +211,6 @@ namespace Hooks
         if( gpItemsConfig.item_tracking )
             item_tracker::Think( player );
 
-        MedkitAmmo::Think( player );
-
         if( gpCharactersConfig.ForcePlayerModels )
             player.SetOverriddenPlayerModel(character.Name);
         else
@@ -222,6 +220,8 @@ namespace Hooks
 
         if( player.m_hActiveItem.IsValid() )
         {
+            gpWeaponMedkitConfig.MedkitAmmoCap(player, data);
+
             auto weapon = cast<CBasePlayerWeapon@>( player.m_hActiveItem.GetEntity() );
 
             if( lastWeapon !is null && weapon !is lastWeapon )

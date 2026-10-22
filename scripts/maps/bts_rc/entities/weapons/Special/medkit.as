@@ -58,6 +58,42 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
         return false;
     }
 
+    void WeaponEquiped( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
+    {
+        ASWeaponConfig::WeaponEquiped( player, weapon, character );
+
+        if( this.health_ammo_index == -1 )
+            this.health_ammo_index = weapon.m_iPrimaryAmmoType;
+
+        dictionary@ data = player.GetUserData();
+
+        if( !data.exists( "medkit_ammo" ) )
+        {
+            data[ "medkit_ammo" ] = player.m_rgAmmo( this.health_ammo_index );
+        }
+    }
+
+    int health_ammo_index = -1;
+
+    void MedkitAmmoCap( CBasePlayer@ player, dictionary@ data )
+    {
+        int ammo;
+
+        if( data.get( "medkit_ammo", ammo ) )
+        {
+            int curAmmo = player.m_rgAmmo( this.health_ammo_index );
+
+            if( curAmmo == ammo + 5 )
+            {
+                curAmmo = ammo;
+            }
+
+            data[ "medkit_ammo" ] = curAmmo;
+
+            player.m_rgAmmo( this.health_ammo_index, curAmmo );
+        }
+    }
+
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
         ASWeaponConfig::WeaponDeploy( player, weapon, character );
@@ -180,79 +216,3 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
 }
 
 ASWeaponMedkitConfig gpWeaponMedkitConfig;
-
-namespace MedkitAmmo
-{
-    CBaseEntity@ GetHealthStation( CBasePlayer@ player )
-    {
-        if( ( player.pev.button & IN_USE ) == 0 )
-            return null;
-
-        Math.MakeVectors( player.pev.v_angle );
-        TraceResult trace;
-        g_Utility.TraceLine( player.GetGunPosition(), player.GetGunPosition() + g_Engine.v_forward * 64.0f,
-            dont_ignore_monsters, player.edict(), trace );
-
-        if( trace.pHit is null )
-            return null;
-
-        CBaseEntity@ entity = g_EntityFuncs.Instance( trace.pHit );
-        if( entity is null || entity.GetClassname() != "func_healthcharger" || entity.pev.frame == 1 )
-            return null;
-
-        return entity;
-    }
-
-    void Think( CBasePlayer@ player )
-    {
-        CBasePlayerWeapon@ medkit = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( "weapon_medkit" ) );
-        if( medkit is null || medkit.m_iPrimaryAmmoType < 0 )
-            return;
-
-        dictionary@ data = player.GetUserData();
-        int currentAmmo = player.m_rgAmmo( medkit.m_iPrimaryAmmoType );
-        int previousAmmo;
-
-        if( !data.get( "medkit_previous_ammo", previousAmmo ) )
-        {
-            data[ "medkit_previous_ammo" ] = currentAmmo;
-            return;
-        }
-
-        // The stock medkit passively grants one point at a time. Roll that back;
-        // larger gains still work for explicit ammo pickups and scripted grants.
-        if( currentAmmo == previousAmmo + 1 )
-        {
-            player.m_rgAmmo( medkit.m_iPrimaryAmmoType, previousAmmo );
-            currentAmmo = previousAmmo;
-        }
-
-        CBaseEntity@ station = GetHealthStation( player );
-        int maxAmmo = gpWeaponMedkitConfig.primary_maxammo;
-
-        // Consume a real health-station charge and convert the health point into
-        // medkit ammo once the player is already at full health.
-        if( station !is null && currentAmmo < maxAmmo && player.pev.health >= player.pev.max_health )
-        {
-            float previousHealth = player.pev.health;
-            player.pev.health = player.pev.max_health - 0.45f;
-            int healthFloor = int( Math.Floor( player.pev.health ) );
-
-            station.Use( player, player, USE_ON );
-            int supplied = int( player.pev.health - healthFloor );
-            player.pev.health = previousHealth;
-
-            if( supplied > 0 )
-            {
-                currentAmmo = Math.min( currentAmmo + supplied, maxAmmo );
-                player.m_rgAmmo( medkit.m_iPrimaryAmmoType, currentAmmo );
-            }
-
-            // Prevent the engine from invoking the same charger a second time.
-            player.pev.button &= ~IN_USE;
-            player.m_afButtonPressed &= ~IN_USE;
-        }
-
-        data[ "medkit_previous_ammo" ] = currentAmmo;
-    }
-}
