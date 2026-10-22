@@ -182,41 +182,35 @@ final class CCharacter
 
     void TakeDamage( CBasePlayer@ player, DamageInfo@ info )
     {
-        if( info.flDamage > 0 )
+        if( info.flDamage <= 0 )
+            return;
+
+        switch( Classify )
         {
-            switch( Classify )
+            case Classification::Hazard:
             {
-                case Classification::Hazard:
+                // Radiation deduction for Hazard
+                if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
                 {
-                    // Radiation deduction for Hazard
-                    if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
-                    {
-                        float dmg = info.flDamage * 0.3;
+                    float dmg = info.flDamage * 0.3;
 
-                        if( dmg > 1.0 )
-                            info.flDamage = dmg;
-                    }
-                    // Generic damage does deduct 3 of armor no matter the real damage
-                    else if( player.pev.armorvalue > 0 )
-                    {
-                        player.pev.armorvalue = Math.max( 0, player.pev.armorvalue - 3 );
-                    }
+                    if( dmg > 1.0 )
+                        info.flDamage = dmg;
+                }
+                // Generic damage does deduct 3 of armor no matter the real damage
+                else if( player.pev.armorvalue > 0 )
+                {
+                    player.pev.armorvalue = Math.max( 0, player.pev.armorvalue - 3 );
+                }
 
-                    break;
-                }
-                case Classification::HEV:
-                {
-                    // Radiation inmunity for HEV
-                    if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
-                        info.flDamage = 0;
-                    break;
-                }
-                default:
-                {
-                    // Armor perforation
-                    info.bitsDamageType |= DMG_SNIPER;
-                    break;
-                }
+                break;
+            }
+            case Classification::HEV:
+            {
+                // Radiation inmunity for HEV
+                if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
+                    info.flDamage = 0;
+                break;
             }
         }
     }
