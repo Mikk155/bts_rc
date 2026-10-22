@@ -53,7 +53,7 @@ namespace Hooks
         // -TODO Move this to a IConfigurable context
         auto aiment = g_Utility.FindEntityForward( player );
 
-        if( aiment !is null )
+        if( aiment !is null && aiment.IsAlive() )
         {
             CBaseMonster@ monster;
 
