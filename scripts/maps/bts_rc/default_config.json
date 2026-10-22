@@ -2632,7 +2632,6 @@
         },
         "primary_cooldown": 0.5,
         "primary_damage": 15,
-        "secondary_damage": 15,
         "primary_dropammo": 19,
         "primary_kickback": {
             "crouch": 2.8,
@@ -2656,6 +2655,7 @@
             "stand_trained": 0.02
         },
         "secondary_cooldown": 0.08,
+        "secondary_damage": 15,
         "secondary_kickback": {
             "crouch": 4.2,
             "crouch_trained": 2.8,
