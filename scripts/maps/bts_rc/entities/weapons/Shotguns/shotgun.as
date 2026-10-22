@@ -124,6 +124,11 @@ class weapon_bts_shotgun : BTS_FireWeapon
         {
             if( self.m_iClip <= 1 )
             {
+                if( self.m_iClip == 1 )
+                {
+                    this.Attack( player, AttackType::Primary );
+                    return;
+                }
                 self.Reload();
                 this.PlayEmptySound( AttackType::Secondary );
                 return;
