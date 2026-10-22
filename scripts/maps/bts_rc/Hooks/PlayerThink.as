@@ -37,6 +37,17 @@ namespace Hooks
 
         dictionary@ data = player.GetUserData();
 
+        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
+        if( !data.exists( "connected" ) )
+        {
+            if( player.pev.button != 0 )
+            {
+                data[ "connected" ] = true;
+                PlayerInitialized( player, data );
+            }
+            return HOOK_CONTINUE;
+        }
+
         auto character = GetCharacter(player);
 
         // -TODO Move this to a IConfigurable context
@@ -150,37 +161,19 @@ namespace Hooks
                 observer.StartObserver( player.pev.origin, player.pev.angles, false );
             }
 
-            if( g_IsMainMap )
+            // Let late joined players join a role
+            if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
             {
-                // Let late joined players join a role
-                if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
-                {
-                    data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
-                    g_ClassSelectionMenu.Open( player );
-                }
-
-                player.pev.nextthink = g_Engine.time + 0.1f;
-                return HOOK_CONTINUE;
+                data[ "pm_selectcd" ] = g_Engine.time + 1.0f;
+                g_ClassSelectionMenu.Open( player );
             }
 
-            // Set random class in test maps for my bots to spawn
-            SetRandomClass( player, { Security, Scientist, Maintenance, Operative, HEV, Hazard } );
-            @character = GetCharacter( player );
+            player.pev.nextthink = g_Engine.time + 0.1f;
+            return HOOK_CONTINUE;
         }
 
         if( !player.IsAlive() )
             return HOOK_CONTINUE;
-
-        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
-        if( !data.exists( "connected" ) )
-        {
-            if( player.pev.button != 0 )
-            {
-                data[ "connected" ] = true;
-                PlayerInitialized( player, data );
-            }
-            return HOOK_CONTINUE;
-        }
 
         if( !data.exists( "pm_equiped" ) )
         {

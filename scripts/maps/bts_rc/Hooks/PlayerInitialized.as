@@ -20,6 +20,12 @@ namespace Hooks
     // Called once per player after gpGameStarted is true and the player presses any key
     void PlayerInitialized( CBasePlayer@ player, dictionary@ data )
     {
+        if( !g_IsMainMap )
+        {
+            // Set random class in test maps for my bots to spawn
+            SetRandomClass( player, { Security, Scientist, Maintenance, Operative, HEV, Hazard } );
+        }
+
         {
             NetworkMessage m( MSG_ONE, NetworkMessages::ServerName, player.edict() );
                 m.WriteString( "Black-Mesa Training Simulation" );
