@@ -193,6 +193,7 @@ class weapon_bts_mp5gl : BTS_FireWeapon
             vecSrc = vecSrc + ( ( ( player.pev.button & IN_DUCK ) != 0 ) ? g_vecZero : ( player.pev.view_ofs * 0.5f ) );
 
             CGrenade@ pGrenade = g_EntityFuncs.ShootContact( player.pev, vecSrc, g_Engine.v_forward * 900.0f );
+
             if( pGrenade !is null )
             {
                 g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/grenade.mdl" );
