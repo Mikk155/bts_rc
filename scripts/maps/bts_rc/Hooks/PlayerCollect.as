@@ -41,16 +41,16 @@ namespace Hooks
             return HOOK_CONTINUE;
         }
 
+        int primaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo1() );
+        if( primaryAmmo != WEAPON_NOCLIP )
+            player.SetMaxAmmo( primaryAmmo, weaponConfig.primary_maxammo );
+
+        int secondaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo2() );
+        if( secondaryAmmo != WEAPON_NOCLIP )
+            player.SetMaxAmmo( secondaryAmmo, weaponConfig.secondary_maxammo );
+
         if( !weaponConfig.IsCustomWeapon() )
         {
-            int primaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo1() );
-            if( primaryAmmo != WEAPON_NOCLIP )
-                player.SetMaxAmmo( primaryAmmo, weaponConfig.primary_maxammo );
-
-            int secondaryAmmo = g_PlayerFuncs.GetAmmoIndex( weapon.pszAmmo2() );
-            if( secondaryAmmo != WEAPON_NOCLIP )
-                player.SetMaxAmmo( secondaryAmmo, weaponConfig.secondary_maxammo );
-
             NetworkMessage message( MSG_ONE, NetworkMessages::WeaponList, player.edict() );
                 message.WriteString( weaponConfig.GetName() );
                 message.WriteByte( weapon.m_iPrimaryAmmoType );
