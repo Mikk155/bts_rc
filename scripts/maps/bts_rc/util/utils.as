@@ -177,8 +177,6 @@ void EquipAllWeapons( CBasePlayer@ player )
     const array<string>@ weaponNames = g_WeaponsConfig.WeaponNames();
     uint length = weaponNames.length();
 
-    gpDynamicEquipment.Lock();
-
     for( uint ui = 0; ui < length; ui++ )
     {
         const string weapon_name = weaponNames[ui];
@@ -207,8 +205,6 @@ void EquipAllWeapons( CBasePlayer@ player )
             player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
         }
     }
-
-    gpDynamicEquipment.UnLock();
 }
 
 void EquipAllWeapons( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
