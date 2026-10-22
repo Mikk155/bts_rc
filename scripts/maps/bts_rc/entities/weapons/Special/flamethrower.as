@@ -112,8 +112,16 @@ final class ASBurningMonster : ScriptBaseEntity
         self.pev.movetype = MOVETYPE_NONE;
     }
 
+    void UpdateOnRemove()
+    {
+        if( m_Target.IsValid() && m_Target.GetEntity() !is null )
+            g_SoundSystem.StopSound( m_Target.GetEntity().edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/player/pl_burn.wav", false );
+    }
+
     void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration )
     {
+        UpdateOnRemove();
+        g_SoundSystem.PlaySound( target.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/player/pl_burn.wav", VOL_NORM, ATTN_NORM, 0 );
         m_Target = EHandle( target );
         m_Attacker = EHandle( attacker );
         m_Damage = damage;

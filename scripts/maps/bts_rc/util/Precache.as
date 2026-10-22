@@ -218,6 +218,7 @@ void Precache()
     g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_moan.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_moan2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/panthereye/pe_scratch.wav" );
+    g_SoundSystem.PrecacheSound( "bts_rc/player/pl_burn.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/rgrunt/rb_activate.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/rgrunt/rb_alert2.wav" );
     g_SoundSystem.PrecacheSound( "bts_rc/rgrunt/rb_death1.wav" );
