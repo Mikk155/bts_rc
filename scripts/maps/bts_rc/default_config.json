@@ -3501,7 +3501,7 @@
     },
     "weapons": {
         "blood_splash": true,
-        "display_weapon_info": true,
+        "display_weapon_info": false,
         "flashlight_maxcarry": 10,
         "infinite_ammo": false,
         "item_remap": {
