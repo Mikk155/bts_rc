@@ -73,6 +73,7 @@ final class ASWeaponCrowbarConfig : ASWeaponConfig
 
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
+        ASWeaponConfig::WeaponDeploy( player, weapon, character );
         g_SoundSystem.EmitSoundDyn( weapon.edict(), CHAN_WEAPON, "bts_rc/weapons/cbar_draw.wav", 1.0f, ATTN_NORM );
         weapons::Deploy( weapon, player, gpWeaponCrowbarConfig );
     }

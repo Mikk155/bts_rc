@@ -60,6 +60,7 @@ final class ASWeaponMedkitConfig : ASWeaponConfig
 
     void WeaponDeploy( CBasePlayer@ player, CBasePlayerWeapon@ weapon, CCharacter@ character ) override
     {
+        ASWeaponConfig::WeaponDeploy( player, weapon, character );
         weapons::Deploy( weapon, player, gpWeaponMedkitConfig );
     }
 

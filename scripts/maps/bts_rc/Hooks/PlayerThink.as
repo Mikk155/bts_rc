@@ -249,7 +249,7 @@ namespace Hooks
                 else
                 {
                     // Call deploy for vanilla weapons to update their models
-                    if( player.pev.viewmodel != weaponConfig.view_model )
+                    if( !weaponConfig.IsCustomWeapon() && lastWeapon !is weapon )
                     {
                         weaponConfig.WeaponDeploy( player, weapon, character );
                     }
