@@ -207,6 +207,7 @@ void EquipAllWeapons( CBasePlayer@ player )
             player.m_rgAmmo( weapon.m_iSecondaryAmmoType, weapon.iMaxAmmo2() );
         }
     }
+
     gpDynamicEquipment.UnLock();
 }
 

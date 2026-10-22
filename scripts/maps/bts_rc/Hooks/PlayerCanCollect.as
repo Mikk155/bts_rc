@@ -33,7 +33,7 @@ namespace Hooks
 
             if( weapon !is null )
             {
-                ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ classname ] );
+                ASWeaponConfig@ weaponConfig = g_WeaponsConfig.GetContext( classname );
 
                 if( weaponConfig !is null )
                 {

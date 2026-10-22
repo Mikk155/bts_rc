@@ -29,7 +29,7 @@ namespace Hooks
         if( player is null || weapon is null )
             return HOOK_CONTINUE;
 
-        ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.GetClassname() ] );
+        ASWeaponConfig@ weaponConfig = g_WeaponsConfig.GetContext( weapon.GetClassname() );
 
         // We assume weaponConfig is not null.
         // If it is null then is a third party weapon.

@@ -222,7 +222,7 @@ namespace Hooks
 
             if( lastWeapon !is null && weapon !is lastWeapon )
             {
-                ASWeaponConfig@ lastWeaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ lastWeapon.GetClassname() ] );
+                ASWeaponConfig@ lastWeaponConfig = g_WeaponsConfig.GetContext( lastWeapon.GetClassname() );
 
                 if( lastWeaponConfig !is null )
                 {
@@ -236,7 +236,7 @@ namespace Hooks
 
             if( weapon !is null )
             {
-                ASWeaponConfig@ weaponConfig = cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ classname ] );
+                ASWeaponConfig@ weaponConfig = g_WeaponsConfig.GetContext( classname );
 
                 // We assume weaponConfig is not null.
                 // If it is null then is a third party weapon.

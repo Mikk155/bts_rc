@@ -205,7 +205,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                         // Weapons that are their own ammo i.e flare/grenade
                         if( data.m_Index < 0 )
                         {
-                            data.m_Index = g_PlayerFuncs.GetAmmoIndex( cast<ASWeaponConfig@>( g_WeaponsConfig.Interfaces[ weapon.GetClassname() ] ).primary_ammo );
+                            data.m_Index = g_PlayerFuncs.GetAmmoIndex( g_WeaponsConfig.GetContext( weapon.GetClassname() ).primary_ammo );
                         }
 
                         data.m_Type = DynamicEquipmentType::Weapon;
