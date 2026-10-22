@@ -352,17 +352,12 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         pev.scale = 1.5;
     }
 
-    void Attack( CBasePlayer@ player, AttackType type ) override
+    void PrimaryAttack()
     {
-        bool is_trained_personal = util::IsTrainedPersonal( player );
-        this.SetCooldown( is_trained_personal, type );
+        CBasePlayer@ player = this.owner;
 
-        switch( type )
-        {
-            case AttackType::Tertiary:
-            case AttackType::Secondary:
-                return;
-        }
+        bool is_trained_personal = util::IsTrainedPersonal( player );
+        this.SetCooldown( is_trained_personal, AttackType::Primary );
 
         if( player.pev.waterlevel == 3 )
         {
@@ -371,6 +366,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         }
 
         int ammo1 = player.m_rgAmmo( self.m_iPrimaryAmmoType );
+
         if( ammo1 <= 0 )
         {
             self.PlayEmptySound();
@@ -409,15 +405,14 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         self.ResetEmptySound();
 
         float flRand = Math.RandomFloat( 0.0f, 1.0f );
+
         if( flRand <= 0.5f )
         {
             PlayAnim( WeaponFlamethrowerAnim::Idle1 );
             return 4.2f;
         }
-        else
-        {
-            PlayAnim( WeaponFlamethrowerAnim::Fidget );
-            return 3.6f;
-        }
+
+        PlayAnim( WeaponFlamethrowerAnim::Fidget );
+        return 3.6f;
     }
 }
