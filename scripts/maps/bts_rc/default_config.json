@@ -2341,6 +2341,9 @@
     },
     "weapon_bts_beretta": {
         "deploy_time": 1.0,
+        "flashlight_ammount": 100,
+        "flashlight_drain": 0.8,
+        "flashlight_reload": 2.5,
         "max_clip": 15,
         "name": "Beretta M9",
         "position": 8,
@@ -2571,6 +2574,9 @@
     },
     "weapon_bts_glock17f": {
         "deploy_time": 0.6,
+        "flashlight_ammount": 100,
+        "flashlight_drain": 0.8,
+        "flashlight_reload": 2.5,
         "max_clip": 17,
         "name": "Glock 17 with Flashlight",
         "position": 9,
@@ -3190,6 +3196,9 @@
     },
     "weapon_bts_sbshotgun": {
         "deploy_time": 0.6,
+        "flashlight_ammount": 100,
+        "flashlight_drain": 0.8,
+        "flashlight_reload": 2.5,
         "max_clip": 6,
         "name": "Mossberg 500",
         "position": 6,
