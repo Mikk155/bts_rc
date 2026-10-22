@@ -62,7 +62,6 @@ namespace Hooks
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Use command \"bts_rc\" to see all available commands.\n" );
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Use command impulse 101 to see all weapons.\n" );
             g_PlayerFuncs.ClientPrint( player, HUD_PRINTTALK, "Press TAB (Scoreboard) to open teleport menu.\n" );
-
         }
     }
 }

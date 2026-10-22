@@ -141,24 +141,17 @@ namespace Hooks
             }
         }
 
-        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
-        if( !data.exists( "connected" ) && player.pev.button != 0 )
-        {
-            data[ "connected" ] = true;
-            PlayerInitialized( player, data );
-        }
-
         if( character is null )
         {
+            auto observer = player.GetObserver();
+
+            if( !observer.IsObserver() )
+            {
+                observer.StartObserver( player.pev.origin, player.pev.angles, false );
+            }
+
             if( g_IsMainMap )
             {
-                auto observer = player.GetObserver();
-
-                if( !observer.IsObserver() )
-                {
-                    observer.StartObserver( player.pev.origin, player.pev.angles, false );
-                }
-
                 // Let late joined players join a role
                 if( float( data[ "pm_selectcd" ] ) <= g_Engine.time )
                 {
@@ -177,6 +170,17 @@ namespace Hooks
 
         if( !player.IsAlive() )
             return HOOK_CONTINUE;
+
+        // Some high ping clients are lagged asf and freezed. let's wait until they press a key
+        if( !data.exists( "connected" ) )
+        {
+            if( player.pev.button != 0 )
+            {
+                data[ "connected" ] = true;
+                PlayerInitialized( player, data );
+            }
+            return HOOK_CONTINUE;
+        }
 
         if( !data.exists( "pm_equiped" ) )
         {
