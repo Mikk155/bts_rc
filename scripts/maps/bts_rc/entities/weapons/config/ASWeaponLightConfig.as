@@ -468,9 +468,9 @@ abstract class ASWeaponLightConfig : ASWeaponConfig
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        this.flashlight_drain = config.ValueOrDefault( "flashlight_drain", this.flashlight_drain );
-        this.flashlight_reload = config.ValueOrDefault( "flashlight_reload", this.flashlight_reload );
-        this.flashlight_ammount = config.ValueOrDefault( "flashlight_ammount", this.flashlight_ammount );
+        this.flashlight_drain = float( config[ "flashlight_drain" ] );
+        this.flashlight_reload = float( config[ "flashlight_reload" ] );
+        this.flashlight_ammount = int( config[ "flashlight_ammount" ] );
 
         return ASWeaponConfig::Register( config );
     }
