@@ -43,6 +43,8 @@ namespace InventoryItem
         {
             color = ChatColor::Color::Red;
             snprintf( message, "You've already equiped %1\n", itemInventory.m_szDisplayName );
+
+            equipedItem.GetWeaponPtr();
         }
         else
         {

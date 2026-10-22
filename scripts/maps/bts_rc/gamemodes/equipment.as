@@ -117,7 +117,41 @@ final class ASEquipmentSet
         for( uint ui = 0; ui < itemsLength; ui++ )
         {
             string itemName = this.m_Items[ui];
-            Player::GiveItem( player, itemName );
+#if FALSE
+            ASWeaponConfig@ weaponConfig = g_WeaponsConfig.GetContext( itemName );
+
+            if( weaponConfig is null )
+            {
+#endif
+                Player::GiveItem( player, itemName );
+#if FALSE
+            }
+            else
+            {
+                dictionary keyvalues = {
+                    { "classname", "item_inventory" },
+                    { "netname", weaponConfig.GetName() },
+                    { "holder_timelimit_wait_until_activated", "1" },
+                    { "description", weaponConfig.name + " that can be used or given to another player." },
+                    { "return_timelimit", "999" },
+                    { "target_on_activate", "ASInventoryTemplate" },
+                    { "effects_wait_until_activated", "1" },
+                    { "target_on_collect", "GAMEMODE_ITEM_TXT" },
+                    { "carried_hidden", "1" },
+                    { "holder_can_drop", "1" },
+                    { "item_group", "items" },
+                    { "holder_can_activate", "1" },
+                    { "display_name", weaponConfig.name },
+                    { "sequencename", "idle" },
+                    { "target_cant_collect", "GAMEMODE_FULL_TXT" },
+                    { "item_name", "pickup" },
+                    { "model", weaponConfig.world_model }
+                };
+                Player::GiveItem( player, itemName, @keyvalues );
+            }
+ERROR: Angelscript: ScriptBasePlayerItemEntity: item 'item_inventory' was not registered, removing item!
+ERROR: Angelscript: Custom entity(item_inventory): initialization failed, destroying entity
+#endif
         }
 
         uint entitiesLength = this.m_Entities.length();
