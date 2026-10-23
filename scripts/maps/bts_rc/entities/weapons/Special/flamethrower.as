@@ -112,16 +112,8 @@ final class ASBurningMonster : ScriptBaseEntity
         self.pev.movetype = MOVETYPE_NONE;
     }
 
-    void UpdateOnRemove()
-    {
-        if( m_Target.IsValid() && m_Target.GetEntity() !is null )
-            g_SoundSystem.StopSound( m_Target.GetEntity().edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/player/pl_burn.wav", false );
-    }
-
     void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration )
     {
-        UpdateOnRemove();
-        g_SoundSystem.PlaySound( target.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/player/pl_burn.wav", VOL_NORM, ATTN_NORM, 0 );
         m_Target = EHandle( target );
         m_Attacker = EHandle( attacker );
         m_Damage = damage;
@@ -167,14 +159,25 @@ final class ASBurningMonster : ScriptBaseEntity
 
         entvars_t@ attackerVars = attacker is null ? self.pev : attacker.pev;
         target.TakeDamage( self.pev, attackerVars, damage, DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB );
+        g_EntityFuncs.SetOrigin( self, target.pev.origin );
 
-        NetworkMessage flame( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, target.Center() );
+        CSprite@ sprite = g_EntityFuncs.CreateSprite( "sprites/bts_rc/fthrow.spr", g_vecZero, true );
+
+        sprite.SetAttachment( target.edict(), 0 );
+        sprite.AnimateAndDie( 15.0f );
+        sprite.SetTransparency( RenderModes::kRenderTransAdd, 255, 255, 255, 100, RenderFX::kRenderFxNone );
+        g_EntityFuncs.DispatchKeyValue( sprite.edict(), "vp_type", 1 );
+        g_SoundSystem.PlaySound( target.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/player/pl_burn.wav", VOL_NORM, ATTN_NORM, 0 );
+
+        Vector origin = target.Center();
+
+        NetworkMessage flame( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, origin );
             flame.WriteByte( TE_EXPLOSION );
-            flame.WriteCoord( target.Center().x );
-            flame.WriteCoord( target.Center().y );
-            flame.WriteCoord( target.Center().z );
+            flame.WriteCoord( Math.RandomFloat( target.pev.absmin.x + ( target.pev.mins.x / 2 ), target.pev.absmax.x - ( target.pev.maxs.x / 2 ) ) );
+            flame.WriteCoord( Math.RandomFloat( target.pev.absmin.y + ( target.pev.mins.y / 2 ), target.pev.absmax.y - ( target.pev.maxs.y / 2 ) ) );
+            flame.WriteCoord( Math.RandomFloat( target.pev.absmin.z + ( target.pev.mins.z / 2 ), target.pev.absmax.z - ( target.pev.maxs.z / 2 ) ) );
             flame.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
-            flame.WriteByte( 6 );
+            flame.WriteByte( Math.RandomLong( 4, 7 ) );
             flame.WriteByte( 12 );
             flame.WriteByte( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES );
         flame.End();
