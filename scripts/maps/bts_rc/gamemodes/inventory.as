@@ -34,26 +34,31 @@ namespace InventoryItem
         if( equipItemName.IsEmpty() )
             return;
 
-        CBasePlayerItem@ equipedItem = player.HasNamedPlayerItem( equipItemName );
+        CBasePlayerWeapon@ weapon = cast<CBasePlayerWeapon@>( player.HasNamedPlayerItem( equipItemName ) );
 
         string message;
-        ChatColor::Color color;
 
-        if( equipedItem !is null )
+        if( weapon !is null )
         {
-            color = ChatColor::Color::Red;
-            snprintf( message, "You've already equiped %1\n", itemInventory.m_szDisplayName );
+            ASWeaponConfig@ weaponConfig = g_WeaponsConfig.GetContext( equipItemName );
 
-            equipedItem.GetWeaponPtr();
-        }
-        else
-        {
-            color = ChatColor::Color::Green;
-            snprintf( message, "Equiped %1\n", itemInventory.m_szDisplayName );
-            Player::GiveItem( player, equipItemName );
-            itemInventory.Destroy();
+            if( weaponConfig.primary_maxammo == WEAPON_NOCLIP )
+            {
+                snprintf( message, "You've already equiped %1\n", itemInventory.m_szDisplayName );
+                ChatColor::Say( player, ChatColor::Color::Red, message, player, true );
+                return;
+            }
+            else if( player.m_rgAmmo( weapon.m_iPrimaryAmmoType ) == weaponConfig.primary_maxammo )
+            {
+                snprintf( message, "You're full of ammo for %1\n", itemInventory.m_szDisplayName );
+                ChatColor::Say( player, ChatColor::Color::Red, message, player, true );
+                return;
+            }
         }
 
-        ChatColor::Say( player, color, message, player, true );
+        snprintf( message, "Equiped %1\n", itemInventory.m_szDisplayName );
+        Player::GiveItem( player, equipItemName, null, false, true );
+        itemInventory.Destroy();
+        ChatColor::Say( player, ChatColor::Color::Green, message, player, true );
     }
 }
