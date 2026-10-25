@@ -261,7 +261,7 @@ final class ASGlobalWeaponConfig : IConfigurable
             CustomKeyValues::Register( "$i_spark_color" );
             CustomKeyValues::Register( "$i_spark_hitgroup" );
             CustomKeyValues::Register( "$i_bloodcolor" );
-            CustomKeyValues::Register( "$i_bloodcolor" );
+            CustomKeyValues::Register( "$f_flame_inmune" );
 
             g_CustomEntityFuncs.RegisterCustomEntity( "env_flame", "env_flame" );
 
