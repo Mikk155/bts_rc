@@ -280,6 +280,8 @@ final class ASFlare : ScriptBaseAnimating
         if( other is null )
             return;
 
+        TraceResult tr = g_Utility.GetGlobalTrace();
+
         env_flame::Ignite( other, this.Owner );
 
         if( self.pev.movetype != MOVETYPE::MOVETYPE_BOUNCE )
@@ -291,7 +293,7 @@ final class ASFlare : ScriptBaseAnimating
             self.pev.velocity.y *= self.pev.fuser1;
         }
 
-        TraceResult tr = g_Utility.GetGlobalTrace();
+        // tr = g_Utility.GetGlobalTrace();
         Vector vecDir = self.pev.velocity.Normalize();
         Vector vecNewDir = vecDir - 2.0f * tr.vecPlaneNormal * DotProduct( tr.vecPlaneNormal, vecDir );
         self.pev.angles = Math.VecToAngles( vecNewDir );
