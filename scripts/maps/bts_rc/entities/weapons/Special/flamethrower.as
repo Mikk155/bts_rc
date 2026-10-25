@@ -17,8 +17,6 @@
 
 final class ASWeaponFlamethrowerConfig : ASWeaponConfig
 {
-    int m_iFlameSprite;
-
     const string& GetName() const override
     {
         return "weapon_bts_flamethrower";
@@ -57,23 +55,6 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
     const uint8 get_animation_draw() override
     {
         return WeaponFlamethrowerAnim::Draw;
-    }
-
-    void Precache() override
-    {
-        this.m_iFlameSprite = g_ModelFuncs.ModelIndex( "sprites/bts_rc/fthrow.spr" );
-
-        ASWeaponConfig::Precache();
-    }
-
-    bool Register( meta_api::json::v2::json@ json ) override
-    {
-        if( g_MapConfig.MapLoading )
-        {
-            g_CustomEntityFuncs.RegisterCustomEntity( "env_flame", "env_flame" );
-        }
-
-        return ASWeaponConfig::Register( json );
     }
 }
 
@@ -137,7 +118,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         auto flame = env_flame::Factory( player );
 
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        Vector vecSrc = player.GetGunPosition() + ( g_Engine.v_forward * 36 ) + ( g_Engine.v_right * 8 );
+        Vector vecSrc = player.GetGunPosition() + ( g_Engine.v_right * 8 );
         vecSrc.z -= 8;
         g_EntityFuncs.SetOrigin( flame.self, vecSrc );
 

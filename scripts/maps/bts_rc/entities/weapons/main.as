@@ -240,10 +240,9 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.fire_damage = int( config[ "fire_damage" ] );
         this.fire_duration = int( config[ "fire_duration" ] );
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
+
         this.melee_weapons_push_monsters.resize( 0 );
-
         meta_api::json::v2::json@ monstersPush = config[ "melee_weapons_push_monsters" ];
-
         uint lengthPush = monstersPush.Length();
 
         for( uint ui = 0; ui < lengthPush; ui++ )
@@ -262,6 +261,9 @@ final class ASGlobalWeaponConfig : IConfigurable
             CustomKeyValues::Register( "$i_spark_color" );
             CustomKeyValues::Register( "$i_spark_hitgroup" );
             CustomKeyValues::Register( "$i_bloodcolor" );
+            CustomKeyValues::Register( "$i_bloodcolor" );
+
+            g_CustomEntityFuncs.RegisterCustomEntity( "env_flame", "env_flame" );
 
             // ItemMapping stuff
             auto@ remaps = config[ "item_remap" ];

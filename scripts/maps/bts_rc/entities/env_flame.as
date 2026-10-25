@@ -46,7 +46,7 @@ final class env_flame : ScriptBaseEntity
 
     void FlameTouch( CBaseEntity@ other )
     {
-        if( other is null || other.GetClassname() == self.GetClassname() )
+        if( other is null || other.edict() is self.pev.owner || other.GetClassname() == self.GetClassname() )
             return;
 
         if( self.pev.owner !is null )
@@ -83,7 +83,7 @@ final class env_flame : ScriptBaseEntity
             m.WriteCoord( x );
             m.WriteCoord( y );
             m.WriteCoord( z - 16 );
-            m.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
+            m.WriteShort( models::fthrow );
             m.WriteByte( int( Math.Ceil( size * self.pev.scale ) ) );
             m.WriteByte( 12 );
             m.WriteByte( ( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES ) );
@@ -138,7 +138,15 @@ final class env_flame : ScriptBaseEntity
         }
         else
         {
-            self.pev.scale = Math.min( 1.0f, self.pev.scale + 0.05f );
+            float newScale = Math.min( 1.0f, self.pev.scale + 0.05f );
+
+            if( newScale != self.pev.scale )
+            {
+                float sizeScaled = 8 * newScale;
+                g_EntityFuncs.SetSize( self.pev, Vector( -sizeScaled, -sizeScaled, -sizeScaled ), Vector( sizeScaled, sizeScaled, sizeScaled ) );
+                self.pev.scale = newScale;
+            }
+
             self.pev.velocity = self.pev.velocity * 0.8f;
             self.pev.velocity.z = Math.RandomLong( 30, 60 );
         }
