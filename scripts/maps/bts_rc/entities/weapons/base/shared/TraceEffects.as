@@ -124,7 +124,7 @@ namespace weapons
             }
         }
 
-        if( ( hit !is null && ( hit.IsBSPModel() || tr.pHit.vars.classname == "worldspawn" ) ) && tr.flFraction < 1.0f )
+        if( ( hit !is null && tr.flFraction < 1.0f && ( hit.IsBSPModel() || tr.pHit.vars.classname == "worldspawn" ) ) )
         {
             string textureName = g_Utility.TraceTexture( hit.edict(), tr.vecEndPos + Vector( -1, -1, -1 ), tr.vecEndPos + Vector( 1, 1, 1 ) );
 

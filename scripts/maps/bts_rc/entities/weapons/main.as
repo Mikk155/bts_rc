@@ -104,6 +104,8 @@ final class ASGlobalWeaponConfig : IConfigurable
     bool sparks_splash;
     bool m249_knockback;
     int flashlight_maxcarry;
+    int fire_damage;
+    float fire_duration;
     string[] melee_weapons_push_monsters;
 
     const string& GetName() const override
@@ -184,6 +186,18 @@ final class ASGlobalWeaponConfig : IConfigurable
                     "minimum": 0,
                     "description": "Quantity of ammo carry for flashlight weapons"
                 },
+                "fire_damage":
+                {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Fire damage per second"
+                },
+                "fire_duration":
+                {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Duration of fire burning"
+                },
                 "item_remap":
                 {
                     "type": "object",
@@ -223,6 +237,8 @@ final class ASGlobalWeaponConfig : IConfigurable
         this.blood_splash = bool( config[ "blood_splash" ] );
         this.m249_knockback = bool( config[ "m249_knockback" ] );
         this.flashlight_maxcarry = int( config[ "flashlight_maxcarry" ] );
+        this.fire_damage = int( config[ "fire_damage" ] );
+        this.fire_duration = int( config[ "fire_duration" ] );
         this.infinite_ammo = bool( config[ "infinite_ammo" ] );
         this.melee_weapons_push_monsters.resize( 0 );
 

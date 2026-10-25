@@ -280,7 +280,7 @@ final class ASFlare : ScriptBaseAnimating
         if( other is null )
             return;
 
-        BurningMonster::Ignite( other, this.Owner, self.pev.armorvalue, self.pev.armortype );
+        env_flame::Ignite( other, this.Owner );
 
         if( self.pev.movetype != MOVETYPE::MOVETYPE_BOUNCE )
             return;
@@ -316,7 +316,8 @@ final class ASFlare : ScriptBaseAnimating
                         if( tr.pHit !is null )
                         {
                             CBaseEntity@ pHit = g_EntityFuncs.Instance( tr.pHit );
-                            if( pHit.IsBSPModel() )
+
+                            if( pHit !is null && pHit.IsBSPModel() )
                             {
                                 g_SoundSystem.EmitSoundDyn( self.edict(), SOUND_CHANNEL::CHAN_AUTO, "bts_rc/weapons/flare_bounce.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
                             }
@@ -388,18 +389,6 @@ bool ASMFlareConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMFlareConfi
         "minimum": 0,
         "description": "Flare damage hitting enemies"
     },
-    "flare_burn_damage":
-    {
-        "type": "integer",
-        "minimum": 0,
-        "description": "Flare damage when burning enemies"
-    },
-    "flare_burn_time":
-    {
-        "type": "number",
-        "minimum": 0.1,
-        "description": "Flare duration when burning enemies"
-    },
     "flare_bounce_resistance":
     {
         "type": "number",
@@ -419,8 +408,6 @@ mixin class ASMFlareConfig
     int flare_duration;
     float flare_gravity;
     int flare_damage;
-    int flare_burn_damage;
-    float flare_burn_time;
     float flare_bounce_resistance;
 
     void flare_register( meta_api::json::v2::json@ json ) final
@@ -428,8 +415,6 @@ mixin class ASMFlareConfig
         this.flare_duration = int( json[ "flare_duration" ] );
         this.flare_gravity = float( json[ "flare_gravity" ] );
         this.flare_damage = int( json[ "flare_damage" ] );
-        this.flare_burn_damage = int( json[ "flare_burn_damage" ] );
-        this.flare_burn_time = float( json[ "flare_burn_time" ] );
         this.flare_bounce_resistance = float( json[ "flare_bounce_resistance" ] );
 
         if( !g_MapConfig.MapLoading || g_CustomEntityFuncs.IsCustomEntity( this.flare_classname ) )
@@ -467,8 +452,6 @@ mixin class ASMFlareConfig
         flare.pev.gravity = this.flare_gravity;
         flare.pev.angles = Math.VecToAngles( velocity );
         flare.pev.dmg = this.flare_damage;
-        flare.pev.armorvalue = this.flare_burn_damage;
-        flare.pev.armortype = this.flare_burn_time;
         flare.pev.fuser1 = this.flare_bounce_resistance;
         flare.pev.dmgtime = g_Engine.time + this.flare_duration;
 

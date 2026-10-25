@@ -31,6 +31,7 @@
 #include "monsters/zombie_uncrab"
 
 #include "env_credits"
+#include "env_flame"
 #include "env_flare"
 #include "entitymaker"
 #include "func_bts_recharger"

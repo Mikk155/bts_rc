@@ -27,7 +27,7 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Check attacker relationship at BurningMonster ignite.
+- [ ] Check attacker relationship at env_flame ignite.
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );

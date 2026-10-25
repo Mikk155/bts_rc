@@ -2457,8 +2457,6 @@
     "weapon_bts_flare": {
         "deploy_time": 0.75,
         "flare_bounce_resistance": 0.7,
-        "flare_burn_damage": 1,
-        "flare_burn_time": 1.0,
         "flare_damage": 1,
         "flare_duration": 120,
         "flare_gravity": 0.7,
@@ -2478,8 +2476,6 @@
     "weapon_bts_flaregun": {
         "deploy_time": 1.0,
         "flare_bounce_resistance": 0.1,
-        "flare_burn_damage": 1,
-        "flare_burn_time": 1.0,
         "flare_damage": 35,
         "flare_duration": 120,
         "flare_gravity": 0.4,
@@ -3513,6 +3509,8 @@
         "blood_splash": true,
         "display_weapon_info": false,
         "flashlight_maxcarry": 10,
+        "fire_damage": 5,
+        "fire_duration": 1.0,
         "infinite_ammo": false,
         "item_remap": {
             "weapon_sniperrifle": "weapon_bts_sniperrifle"

@@ -70,8 +70,7 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
     {
         if( g_MapConfig.MapLoading )
         {
-            g_CustomEntityFuncs.RegisterCustomEntity( "flame_proj", "flame_proj" );
-            g_CustomEntityFuncs.RegisterCustomEntity( "ASBurningMonster", "bts_burning_monster" );
+            g_CustomEntityFuncs.RegisterCustomEntity( "env_flame", "env_flame" );
         }
 
         return ASWeaponConfig::Register( json );
@@ -95,264 +94,14 @@ enum WeaponFlamethrowerAnim
     Holster
 };
 
-const float FLAME_SPEED = 800.0f;
+const float FLAME_SPEED = 600.0f;
 const Vector FLAME_OFFSET = Vector( 34.333031f, 12.009664f, -5.616758f );
-
-final class ASBurningMonster : ScriptBaseEntity
-{
-    private EHandle m_Target;
-    private EHandle m_Attacker;
-    private float m_Damage;
-    private float m_EndTime;
-
-    void Spawn()
-    {
-        self.pev.effects |= EF_NODRAW;
-        self.pev.solid = SOLID_NOT;
-        self.pev.movetype = MOVETYPE_NONE;
-    }
-
-    void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration )
-    {
-        m_Target = EHandle( target );
-        m_Attacker = EHandle( attacker );
-        m_Damage = damage;
-        m_EndTime = Math.max( m_EndTime, g_Engine.time + duration );
-        self.pev.nextthink = g_Engine.time + 0.5f;
-        SetThink( ThinkFunction( this.BurnThink ) );
-    }
-
-    void Refresh( CBaseEntity@ attacker, float damage, float duration )
-    {
-        m_Attacker = EHandle( attacker );
-        m_Damage = Math.max( m_Damage, damage );
-        m_EndTime = Math.max( m_EndTime, g_Engine.time + duration );
-    }
-
-    void BurnThink()
-    {
-        CBaseEntity@ target = m_Target.GetEntity();
-        CBaseEntity@ attacker = m_Attacker.GetEntity();
-
-        if( target is null || !target.IsAlive() || g_Engine.time >= m_EndTime )
-        {
-            if( target !is null )
-                target.GetUserData().delete( "bts_burning_monster" );
-            self.pev.flags |= EdictFlags::FL_KILLME;
-            return;
-        }
-
-        float damage = this.m_Damage;
-
-        if( target.IsPlayer() )
-        {
-            switch( util::GetClass( target ) )
-            {
-                case Classification::HEV:
-                    damage *= 0.8f;
-                break;
-                case Classification::Hazard:
-                    damage *= 0.9f;
-                break;
-            }
-        }
-
-        entvars_t@ attackerVars = attacker is null ? self.pev : attacker.pev;
-        target.TakeDamage( self.pev, attackerVars, damage, DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB );
-        g_EntityFuncs.SetOrigin( self, target.pev.origin );
-
-        CSprite@ sprite = g_EntityFuncs.CreateSprite( "sprites/bts_rc/fthrow.spr", g_vecZero, true );
-
-        sprite.SetAttachment( target.edict(), 0 );
-        sprite.AnimateAndDie( 15.0f );
-        sprite.SetTransparency( RenderModes::kRenderTransAdd, 255, 255, 255, 100, RenderFX::kRenderFxNone );
-        g_EntityFuncs.DispatchKeyValue( sprite.edict(), "vp_type", 1 );
-        g_SoundSystem.PlaySound( target.edict(), SOUND_CHANNEL::CHAN_ITEM, "bts_rc/player/pl_burn.wav", VOL_NORM, ATTN_NORM, 0 );
-
-        Vector origin = target.Center();
-
-        NetworkMessage flame( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, origin );
-            flame.WriteByte( TE_EXPLOSION );
-            flame.WriteCoord( Math.RandomFloat( target.pev.absmin.x + ( target.pev.mins.x / 2 ), target.pev.absmax.x - ( target.pev.maxs.x / 2 ) ) );
-            flame.WriteCoord( Math.RandomFloat( target.pev.absmin.y + ( target.pev.mins.y / 2 ), target.pev.absmax.y - ( target.pev.maxs.y / 2 ) ) );
-            flame.WriteCoord( Math.RandomFloat( target.pev.absmin.z + ( target.pev.mins.z / 2 ), target.pev.absmax.z - ( target.pev.maxs.z / 2 ) ) );
-            flame.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
-            flame.WriteByte( Math.RandomLong( 4, 7 ) );
-            flame.WriteByte( 12 );
-            flame.WriteByte( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES );
-        flame.End();
-
-        self.pev.nextthink = g_Engine.time + 0.5f;
-    }
-}
-
-namespace BurningMonster
-{
-    void SetInmune( CBaseEntity@ entity )
-    {
-        dictionary@ data = entity.GetUserData();
-        data[ "bts_burning_monster_inmune" ] = true;
-    }
-
-    void IgniteCheck( DamageInfo@ info )
-    {
-        if( info is null || info.pVictim is null || ( info.bitsDamageType & DMG_BURN ) == 0 )
-            return;
-
-        if( info.pAttacker !is null && info.pAttacker.GetClassname() == "bts_burning_monster" )
-            return;
-
-        if( info.pInflictor !is null && info.pInflictor.GetClassname() == "bts_burning_monster" )
-            return;
-
-        Ignite( info.pVictim, ( info.pAttacker !is null ? info.pAttacker : info.pInflictor ), 10, 4.0f );
-    }
-
-    void Ignite( CBaseEntity@ target, CBaseEntity@ attacker, float damage, float duration = 4.0f )
-    {
-        /***
-         * This is definitelly a player. but we gotta check here.
-         * A player could theorically shoot flames/flares to another player and leave the server before it hits.
-         * Then that poor player will get his arse on flames.
-         * I've definitelly not though on doing this to my teammates.
-         * It just happened by chance that i though someone may.
-         * I swear i'm innocent, i would n-never!
-         */
-        if( attacker is null )
-            return;
-
-        dictionary@ data;
-
-        if( target is null
-        || !target.IsMonster()
-        || target.IsMachine()
-        || target.pev.takedamage == DAMAGE_NO
-        || ( target.IRelationship( attacker ) == RELATIONSHIP::R_AL && target !is attacker )
-        || ( @data = target.GetUserData() ) is null
-        || data.exists( "bts_burning_monster_inmune" ) )
-            return;
-
-        EHandle handle;
-        ASBurningMonster@ burning;
-
-        if( data.get( "bts_burning_monster", handle ) && handle.IsValid() && ( @burning = cast<ASBurningMonster@>( CastToScriptClass( handle.GetEntity() ) ) ) !is null )
-        {
-            burning.Refresh( attacker, damage, duration );
-            return;
-        }
-
-        CBaseEntity@ entity = g_EntityFuncs.CreateEntity( "bts_burning_monster", null, false );
-        @burning = cast<ASBurningMonster@>( CastToScriptClass( entity ) );
-
-        if( burning is null )
-            return;
-
-        g_EntityFuncs.DispatchSpawn( entity.edict() );
-        data[ "bts_burning_monster" ] = EHandle(entity);
-        burning.Ignite( target, attacker, damage, duration );
-    }
-}
-
-class flame_proj : ScriptBaseEntity
-{
-    void Spawn()
-    {
-        g_EntityFuncs.SetSize( self.pev, Vector( -1, -1, -1 ), Vector( 1, 1, 1 ) );
-        g_EntityFuncs.SetOrigin( self, self.pev.origin );
-
-        self.pev.movetype = MOVETYPE_FLY;
-        self.pev.solid = SOLID_BBOX;
-        self.pev.dmg = gpWeaponFlamethrowerConfig.primary_damage;
-
-        SetTouch( TouchFunction( this.FlameTouch ) );
-        SetThink( ThinkFunction( this.FlameThink ) );
-        self.pev.nextthink = g_Engine.time + 0.1;
-    }
-
-    void FlameThink()
-    {
-        Vector vecOrigin = pev.origin - pev.velocity.Normalize();
-
-        NetworkMessage m1( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, vecOrigin );
-        m1.WriteByte( TE_EXPLOSION );
-        m1.WriteCoord( vecOrigin.x );
-        m1.WriteCoord( vecOrigin.y );
-        m1.WriteCoord( vecOrigin.z - 10 );
-        m1.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
-        m1.WriteByte( 8 );
-        m1.WriteByte( 16 );
-        m1.WriteByte( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES );
-        m1.End();
-
-        self.pev.frame += 1.0f;
-
-        if( self.pev.frame > 8 )
-        {
-            self.pev.frame = 0;
-            g_EntityFuncs.Remove( self );
-            return;
-        }
-
-        pev.nextthink = g_Engine.time + 0.08;
-    }
-
-    void FlameTouch( CBaseEntity@ pOther )
-    {
-        if( pOther is null || pOther.GetClassname() == "flame_proj" )
-            return;
-
-        TraceResult tr = g_Utility.GetGlobalTrace();
-
-        entvars_t@ pevOwner;
-        if( self.pev.owner !is null )
-            @pevOwner = @self.pev.owner.vars;
-        else
-            @pevOwner = self.pev;
-
-        string szClassname = pOther.GetClassname();
-
-        if( pOther.pev.takedamage != DAMAGE_NO && pOther.IsAlive() )
-        {
-            g_WeaponFuncs.ClearMultiDamage();
-
-            if( szClassname == "monster_cleansuit_scientist" || pOther.IsMachine() )
-                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.50, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
-            else if( szClassname == "monster_gargantua" || szClassname == "monster_babygarg" )
-                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.45, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
-            else if( pOther.pev.model == "models/bts_rc/monsters/zombie_hev.mdl" )
-                pOther.TraceAttack( pevOwner, self.pev.dmg * 0.40, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB );
-            else
-                pOther.TraceAttack( pevOwner, self.pev.dmg, self.pev.velocity.Normalize(), tr, DMG_BURN | DMG_NEVERGIB | DMG_POISON );
-
-            g_WeaponFuncs.ApplyMultiDamage( self.pev, pevOwner );
-        }
-
-        if( pOther.IsBSPModel() )
-        {
-            g_WeaponFuncs.RadiusDamage( self.GetOrigin() + Vector( 0, 0, 4 ), self.pev, pevOwner, self.pev.dmg * 0.5, self.pev.dmg + 32, CLASS_NONE, DMG_BURN );
-        }
-
-        if( pOther is null || pOther.IsBSPModel() )
-            g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 1, 2 ) );
-
-        SetTouch( null );
-
-        self.pev.solid = SOLID_NOT;
-        self.pev.movetype = MOVETYPE_NONE;
-    }
-}
 
 class weapon_bts_flamethrower : BTS_FireWeapon
 {
     ASWeaponConfig@ get_config() override
     {
         return @gpWeaponFlamethrowerConfig;
-    }
-
-    void Spawn() override
-    {
-        BTS_FireWeapon::Spawn();
-        pev.scale = 1.5;
     }
 
     void PrimaryAttack()
@@ -390,15 +139,13 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
         Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * FLAME_OFFSET.x
             + g_Engine.v_right * FLAME_OFFSET.y + g_Engine.v_up * FLAME_OFFSET.z;
-        Vector vecDir = player.pev.v_angle * Vector( -1, 1, 1 );
 
-        CBaseEntity@ preFlame = g_EntityFuncs.Create( "flame_proj", vecSrc, vecDir, false, player.edict() );
-        if( preFlame !is null )
-        {
-            preFlame.pev.velocity = g_Engine.v_forward * FLAME_SPEED;
-            preFlame.pev.angles = Math.VecToAngles( preFlame.pev.velocity.Normalize() );
-            preFlame.pev.avelocity.z = 10;
-        }
+        auto flame = env_flame::Factory( player );
+        vecSrc.z -= 8;
+        g_EntityFuncs.SetOrigin( flame.self, vecSrc );
+        flame.self.pev.dmg = gpWeaponFlamethrowerConfig.primary_damage;
+        flame.SetDuration( g_WeaponsConfig.fire_duration );
+        flame.self.pev.velocity = g_Engine.v_forward * FLAME_SPEED;
 
         self.m_flTimeWeaponIdle = g_Engine.time + 0.5;
     }

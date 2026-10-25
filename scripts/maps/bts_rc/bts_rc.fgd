@@ -7122,7 +7122,7 @@
 // -BTS_RC starts
 @SolidClass base(Mandatory, Angles, Appearflags, Targetname, ZHLT) = func_bts_recharger: "Wall hev armor recharger" [ ]
 
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) studio( "models/bts_rc/weapons/w_flare.mdl" ) = env_flare : "Living flare"
+@PointClass base(Mandatory, Angles, Appearflags, Targetname) iconsprite( "sprites/bts_rc/fthrow.spr" ) = env_flame : "Living flame"
 [
     dmgtime(float) : "Flare duration" : 120
     armorvalue(float) : "Time to burn touchers" : 1.0
@@ -7214,10 +7214,6 @@
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = ammo_bts_sw637lmao : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = electro_bolt : "" : "" [ ]
 @PointClass base(Mandatory, Angles, Appearflags, Targetname) = ammo_bts_xbow : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = flame_proj : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = bts_burning_monster : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = flare : "" : "" [ ]
-@PointClass base(Mandatory, Angles, Appearflags, Targetname) = env_bloodpuddle : "" : "" [ ]
 @PointClass base(Monster) = monster_panthereye : "" : "" [ ]
 @PointClass base(Monster) = monster_zombie_grenadier : "" : "" [ ]
 @PointClass base(Monster) = monster_snapbug : "" : "" [ ]

@@ -209,7 +209,10 @@ final class CCharacter
             {
                 // Radiation inmunity for HEV
                 if( ( info.bitsDamageType & DMG_RADIATION ) != 0 )
+                {
                     info.flDamage = 0;
+                }
+
                 break;
             }
         }
@@ -511,6 +514,7 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
     dictionary@ data = player.GetUserData();
 
     data.delete( "trained_personal" );
+    env_flame::SetResistance( player, 1.0f );
 
     Classification oldClassify = util::GetClass( player );
 
@@ -522,6 +526,20 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
     else
     {
         SetTrainedPersonal( data, oldClassify );
+    }
+
+    switch( classify )
+    {
+        case Classification::HEV:
+        {
+            env_flame::SetResistance( player, 0.65f );
+            break;
+        }
+        case Classification::Hazard:
+        {
+            env_flame::SetResistance( player, 0.8f );
+            break;
+        }
     }
 
     if( classify <= Classification::Unset || classify >= Classification::__Size__ )
