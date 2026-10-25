@@ -19,6 +19,7 @@ final class env_flame : ScriptBaseEntity
 
     void Spawn()
     {
+        self.pev.scale = 1.0f;
         self.pev.effects |= EF_NODRAW;
         self.pev.movetype = MOVETYPE_FLY;
         self.pev.solid = SOLID_TRIGGER;
