@@ -140,7 +140,6 @@ void Precache()
     g_Game.PrecacheModel( "sprites/bts_rc/ammo_flare.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/bts_rc_snapbug.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/flare_selection.spr" );
-    g_Game.PrecacheModel( "sprites/bts_rc/fthrow.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_maint.spr" );
     g_Game.PrecacheModel( "sprites/bts_rc/inv_card_research.spr" );

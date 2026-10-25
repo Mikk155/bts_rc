@@ -12506,18 +12506,6 @@
 						"minimum": 0,
 						"description": "Flare damage hitting enemies"
 					},
-					"flare_burn_damage": 
-					{
-						"type": "integer",
-						"minimum": 0,
-						"description": "Flare damage when burning enemies"
-					},
-					"flare_burn_time": 
-					{
-						"type": "number",
-						"minimum": 0.1,
-						"description": "Flare duration when burning enemies"
-					},
 					"flare_bounce_resistance": 
 					{
 						"type": "number",
@@ -12893,18 +12881,6 @@
 						"type": "integer",
 						"minimum": 0,
 						"description": "Flare damage hitting enemies"
-					},
-					"flare_burn_damage": 
-					{
-						"type": "integer",
-						"minimum": 0,
-						"description": "Flare damage when burning enemies"
-					},
-					"flare_burn_time": 
-					{
-						"type": "number",
-						"minimum": 0.1,
-						"description": "Flare duration when burning enemies"
 					},
 					"flare_bounce_resistance": 
 					{
@@ -13721,6 +13697,18 @@
 						"minimum": 0,
 						"description": "Quantity of ammo carry for flashlight weapons"
 					},
+					"fire_damage": 
+					{
+						"type": "integer",
+						"minimum": 1,
+						"description": "Fire damage per second"
+					},
+					"fire_duration": 
+					{
+						"type": "number",
+						"minimum": 1,
+						"description": "Duration of fire burning"
+					},
 					"item_remap": 
 					{
 						"type": "object",
@@ -14361,12 +14349,6 @@
 						"minimum": 0.01,
 						"description": "Multiplier for generic damage not fit in other multipliers."
 					},
-					"dmg_burn": 
-					{
-						"type": "number",
-						"minimum": 0.01,
-						"description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
-					},
 					"dmg_blast": 
 					{
 						"type": "number",
@@ -14503,12 +14485,6 @@
 						"type": "number",
 						"minimum": 0.01,
 						"description": "Multiplier for generic damage not fit in other multipliers."
-					},
-					"dmg_burn": 
-					{
-						"type": "number",
-						"minimum": 0.01,
-						"description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
 					},
 					"dmg_blast": 
 					{

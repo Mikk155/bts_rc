@@ -3254,7 +3254,6 @@
         "position": 7,
         "primary_cooldown": 0.85,
         "primary_damage": 18,
-        "secondary_damage": 18,
         "primary_dropammo": 3,
         "primary_kickback": {
             "crouch": 7.7,
@@ -3271,6 +3270,7 @@
             0.0
         ],
         "primary_trained_cooldown": 0.85,
+        "secondary_damage": 18,
         "secondary_kickback": {
             "crouch": 16.8,
             "crouch_trained": 7.0,
@@ -3507,9 +3507,9 @@
     "weapons": {
         "blood_splash": true,
         "display_weapon_info": false,
-        "flashlight_maxcarry": 10,
         "fire_damage": 5,
         "fire_duration": 1.5,
+        "flashlight_maxcarry": 10,
         "infinite_ammo": false,
         "item_remap": {
             "weapon_sniperrifle": "weapon_bts_sniperrifle"
