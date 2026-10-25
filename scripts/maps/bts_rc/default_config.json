@@ -2447,7 +2447,7 @@
         "name": "Flamethrower",
         "position": 6,
         "primary_cooldown": 0.1,
-        "primary_damage": 18,
+        "primary_damage": 8,
         "primary_dropammo": 40,
         "primary_maxammo": 200,
         "primary_trained_cooldown": 0.1,

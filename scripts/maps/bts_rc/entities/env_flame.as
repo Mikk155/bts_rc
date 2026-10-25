@@ -74,9 +74,9 @@ final class env_flame : ScriptBaseEntity
             m.WriteByte( TE_EXPLOSION );
             m.WriteCoord( x );
             m.WriteCoord( y );
-            m.WriteCoord( z );
+            m.WriteCoord( z - 16 );
             m.WriteShort( gpWeaponFlamethrowerConfig.m_iFlameSprite );
-            m.WriteByte( size );
+            m.WriteByte( int( Math.Ceil( size * self.pev.scale ) ) );
             m.WriteByte( 12 );
             m.WriteByte( ( TE_EXPLFLAG_NOSOUND | TE_EXPLFLAG_NOPARTICLES ) );
         m.End();
@@ -130,6 +130,7 @@ final class env_flame : ScriptBaseEntity
         }
         else
         {
+            self.pev.scale = Math.min( 1.0f, self.pev.scale + 0.05f );
             self.pev.velocity = self.pev.velocity * 0.8f;
             self.pev.velocity.z = Math.RandomLong( 30, 60 );
         }
@@ -161,6 +162,7 @@ final class env_flame : ScriptBaseEntity
 
             if( sprite !is null )
             {
+                sprite.pev.scale = self.pev.scale;
                 g_EntityFuncs.SetOrigin( sprite, self.pev.origin );
             }
         }

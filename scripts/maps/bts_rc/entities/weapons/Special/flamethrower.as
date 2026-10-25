@@ -95,8 +95,6 @@ enum WeaponFlamethrowerAnim
 };
 
 const float FLAME_SPEED = 600.0f;
-const Vector FLAME_OFFSET = Vector( 34.333031f, 12.009664f, -5.616758f );
-
 class weapon_bts_flamethrower : BTS_FireWeapon
 {
     ASWeaponConfig@ get_config() override
@@ -136,13 +134,15 @@ class weapon_bts_flamethrower : BTS_FireWeapon
 
         weapons::Kickback( player, this.config.primary_kickback, is_trained_personal );
 
-        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
-        Vector vecSrc = player.GetGunPosition() + g_Engine.v_forward * FLAME_OFFSET.x
-            + g_Engine.v_right * FLAME_OFFSET.y + g_Engine.v_up * FLAME_OFFSET.z;
-
         auto flame = env_flame::Factory( player );
+
+        Math.MakeVectors( player.pev.v_angle + player.pev.punchangle );
+        Vector vecSrc = player.GetGunPosition() + ( g_Engine.v_forward * 36 ) + ( g_Engine.v_right * 8 );
         vecSrc.z -= 8;
         g_EntityFuncs.SetOrigin( flame.self, vecSrc );
+
+        flame.pev.scale = 0.4f;
+        flame.self.pev.nextthink = g_Engine.time + Math.RandomFloat( 0.0f, 0.2f );
         flame.self.pev.dmg = gpWeaponFlamethrowerConfig.primary_damage;
         flame.SetDuration( g_WeaponsConfig.fire_duration );
         flame.self.pev.velocity = g_Engine.v_forward * FLAME_SPEED;
