@@ -21,7 +21,7 @@ final class env_flame : ScriptBaseEntity
     {
         self.pev.effects |= EF_NODRAW;
         self.pev.movetype = MOVETYPE_FLY;
-        self.pev.solid = SOLID_BBOX;
+        self.pev.solid = SOLID_TRIGGER;
 
         g_EntityFuncs.SetSize( self.pev, Vector( -8, -8, -8 ), Vector( 8, 8, 8 ) );
 
@@ -33,7 +33,6 @@ final class env_flame : ScriptBaseEntity
 
         this.m_Sprite.opAssign( sprite );
         this.m_hOwner.opAssign( g_EntityFuncs.Instance( self.pev.owner ) );
-        @self.pev.owner = null;
 
         g_SoundSystem.PlaySound( self.edict(), SOUND_CHANNEL::CHAN_AUTO, "bts_rc/player/pl_burn.wav", VOL_NORM, ATTN_NORM, 0 );
 
@@ -41,38 +40,31 @@ final class env_flame : ScriptBaseEntity
 
         self.pev.nextthink = g_Engine.time;
 
-        SetTouch( TouchFunction( this.Touch ) );
-        SetThink( ThinkFunction( this.Think ) );
+        SetTouch( TouchFunction( this.FlameTouch ) );
+        SetThink( ThinkFunction( this.FlameThink ) );
     }
 
-    void Touch( CBaseEntity@ other )
+    void FlameTouch( CBaseEntity@ other )
     {
         if( other is null || other.GetClassname() == self.GetClassname() )
             return;
 
-        if( other.IsBSPModel() )
+        if( self.pev.owner !is null )
         {
-            TraceResult tr;
-            g_Utility.TraceLine(
-                self.pev.origin + ( self.pev.mins * 1.1 ),
-                self.pev.origin + ( self.pev.maxs * 1.1 ),
-                IGNORE_MONSTERS::ignore_monsters,
-                self.edict(),
-                tr
-            );
-            g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 1, 2 ) );
+            @self.pev.owner = null;
+            self.pev.velocity.x = Math.RandomLong( -100, 100 );
+            self.pev.velocity.y = Math.RandomLong( -100, 100 );
         }
 
-        this.AnimateFlame( self.pev.origin.x, self.pev.origin.y, self.pev.origin.z, 8 );
-
-        SetTouch( null );
-
-        // Kill unless SetTarget handles it
-        self.pev.dmgtime = 0;
-
-        if( other !is null && !other.IsBSPModel() )
+        if( other.IsBSPModel() || other.GetClassname() == "worldspawn" )
         {
-            this.SetTarget( other, g_WeaponsConfig.fire_duration );
+            TraceResult tr = g_Utility.GetGlobalTrace();
+            g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 2 ) );
+        }
+        else
+        {
+            DamageEntity( other );
+            env_flame::Ignite( other, m_hOwner.GetEntity() );
         }
     }
 
@@ -95,16 +87,8 @@ final class env_flame : ScriptBaseEntity
         self.pev.dmgtime = Math.max( self.pev.dmgtime, g_Engine.time + duration );
     }
 
-    void SetTarget( CBaseEntity@ target, float duration = 1.0f )
+    void SetTarget( CBaseEntity@ target, float duration )
     {
-        env_flame@ oldFlame = env_flame::GetFlame( target );
-
-        if( oldFlame !is null )
-        {
-            oldFlame.UpdateOnRemove();
-            oldFlame.pev.flags |= EdictFlags::FL_KILLME;
-        }
-
         self.pev.solid = SOLID_NOT;
         self.pev.movetype = MOVETYPE_NONE;
         this.m_hTarget.opAssign( target );
@@ -112,9 +96,26 @@ final class env_flame : ScriptBaseEntity
         this.SetDuration( duration );
     }
 
-    void Think()
+    void DamageEntity( CBaseEntity@ victim )
+    {
+        if( victim !is null && this.m_NextBurnDamage <= g_Engine.time )
+        {
+            this.m_NextBurnDamage = g_Engine.time + 1.0f;
+
+            victim.TakeDamage(
+                self.pev,
+                ( m_hOwner.IsValid() ? m_hOwner.GetEntity().pev : self.pev ),
+                ( self.pev.dmg * env_flame::GetResistance( victim ) ),
+                ( DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB )
+            );
+        }
+    }
+
+    void FlameThink()
     {
         CBaseEntity@ target = m_hTarget.GetEntity();
+
+        DamageEntity( target );
 
         if( g_Engine.time >= self.pev.dmgtime || ( self.pev.solid == SOLID_NOT && target is null ) )
         {
@@ -129,19 +130,8 @@ final class env_flame : ScriptBaseEntity
         }
         else
         {
-            self.pev.origin.z += 8.0f;
-        }
-
-        if( target !is null && this.m_NextBurnDamage <= g_Engine.time )
-        {
-            this.m_NextBurnDamage = g_Engine.time + 1.0f;
-
-            target.TakeDamage(
-                self.pev,
-                ( m_hOwner.IsValid() ? m_hOwner.GetEntity().pev : self.pev ),
-                ( self.pev.dmg * env_flame::GetResistance( target ) ),
-                ( DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB )
-            );
+            self.pev.velocity = self.pev.velocity * 0.8f;
+            self.pev.velocity.z = Math.RandomLong( 30, 60 );
         }
 
         if( this.m_NextBurnEffect <= g_Engine.time )
@@ -237,7 +227,7 @@ namespace env_flame
     }
 
     // Ignite the given target
-    env_flame@ Ignite( CBaseEntity@ target, CBaseEntity@ attacker ) // disable-line E104
+    env_flame@ Ignite( CBaseEntity@ target, CBaseEntity@ attacker )
     {
         if( attacker is null
         || target is null
