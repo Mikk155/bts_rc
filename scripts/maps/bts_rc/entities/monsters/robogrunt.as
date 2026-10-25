@@ -180,7 +180,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             return false;
 
         g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_puddleskin", "3" );
-        env_flame::SetResistance( monster, 0.30 );
+        env_flame::SetResistance( monster, 0.70 );
 
         return EntityOverriden::AddEntity( monster, monster );
     }

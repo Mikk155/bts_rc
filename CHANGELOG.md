@@ -1,3 +1,6 @@
+# 25/10/2026
+- Robo grunts, Enforcer, turrets and sentries has now 30% resistance to fire damage
+
 # 20/10/2026
 - Added an inventory system for map-placed items.
 - Improved weapon pickup prompts: they appear when looking at a weapon, and each press of Use picks up only one weapon.

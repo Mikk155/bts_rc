@@ -112,7 +112,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
         monster.pev.armortype = Math.RandomLong( 0, 20 );
         monster.pev.armorvalue = Math.RandomLong( 0, 1 );
 
-        env_flame::SetResistance( monster, 0.30 );
+        env_flame::SetResistance( monster, 0.70 );
 
         return EntityOverriden::AddEntity( entity, monster );
     }
