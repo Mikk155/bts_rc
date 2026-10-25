@@ -22,7 +22,9 @@ enum Difficulty
     Medium,
     Punished,
     TorturedStandard,
-    TorturedLegacy
+    TorturedLegacy,
+    // Size reference
+    __Size__
 }
 
 namespace Difficulty

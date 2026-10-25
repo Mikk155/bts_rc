@@ -36,12 +36,6 @@ bool ASRoboGruntSchema = g_MapConfig.RegisterSchemaDefinition( "ASRoboGruntSchem
         "minimum": 0.01,
         "description": "Multiplier for generic damage not fit in other multipliers."
     },
-    "dmg_burn":
-    {
-        "type": "number",
-        "minimum": 0.01,
-        "description": "Multiplier for DMG_BURN type damage (Flares, flamethrower)."
-    },
     "dmg_blast":
     {
         "type": "number",
@@ -135,7 +129,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     protected int shock_radius;
     protected float dmg_melee;
     protected float dmg_bullet;
-    protected float dmg_burn;
     protected float dmg_blast;
     protected float dmg_generic;
     protected int explosion_damage;
@@ -144,7 +137,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
     bool Register( meta_api::json::v2::json@ config ) override
     {
         this.dmg_generic = float( config[ "dmg_generic" ] );
-        this.dmg_burn = float( config[ "dmg_burn" ] );
         this.dmg_blast = float( config[ "dmg_blast" ] );
         this.dmg_melee = float( config[ "dmg_melee" ] );
         this.dmg_bullet = float( config[ "dmg_bullet" ] );
@@ -180,7 +172,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             return false;
 
         g_EntityFuncs.DispatchKeyValue( monster.edict(), "$i_puddleskin", "3" );
-        env_flame::SetResistance( monster, 0.70 );
+        env_flame::SetResistance( monster, 0.70f );
 
         return EntityOverriden::AddEntity( monster, monster );
     }
@@ -566,10 +558,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         else if( ( info.bitsDamageType & DMG_BLAST ) != 0 )
         {
             info.flDamage *= this.dmg_blast;
-        }
-        else if( ( info.bitsDamageType & DMG_BURN ) == 0 )
-        {
-            info.flDamage *= this.dmg_burn;
         }
         else
         {

@@ -1,5 +1,11 @@
 # 25/10/2026
 - Robo grunts, Enforcer, turrets and sentries has now 30% resistance to fire damage
+- Players wearing a HEV suit will get 35% of fire resistance.
+- Players wearing a Hazard suit will get 25% of fire resistance.
+- Gargantua, Baby gargantua and map triggers can now fire this burning state. altogether with flares and flamethrower.
+- You can now burn yourself if you're too close to a surface that's being shoot with flamethrower.
+- Increased flamethrower's flame size accordingly to distance reach.
+- Burning state is dynamic based on difficulty, players incinerate for lesser times in low difficulties and for longer times on higher difficulties while the opposite happens to enemies where players can burn enemies for longer times in lower difficulties.
 
 # 20/10/2026
 - Added an inventory system for map-placed items.
@@ -17,7 +23,7 @@
 - Robotic grunts now emit smoke when taking damage, and flares produce smoke and sparks as they burn.
 
 # 16/10/2026
-- Implemented a flame entity that can set monsters and players on fire and burn them. this is triggered by touching activ flares, flamethrower or a gargantua monster.
+- Implemented a flame entity that can set monsters and players on fire and burn them. this is triggered by touching active flares, flamethrower or a gargantua monster.
 - Made HEV and Hazard have fire resistance which reduces flames damages in 20% and 10% accordingly to their class.
 - Players can now burn themselves by using flamethrower too close to a wall or steping in flares.
 

@@ -108,7 +108,7 @@ final class env_flame : ScriptBaseEntity
     {
         if( victim !is null && this.m_NextBurnDamage <= g_Engine.time )
         {
-            this.m_NextBurnDamage = g_Engine.time + 1.0f;
+            this.m_NextBurnDamage = g_Engine.time + 0.3f;
 
             victim.TakeDamage(
                 self.pev,
@@ -125,7 +125,7 @@ final class env_flame : ScriptBaseEntity
 
         DamageEntity( target );
 
-        if( g_Engine.time >= self.pev.dmgtime || ( self.pev.solid == SOLID_NOT && target is null ) )
+        if( g_Engine.time >= self.pev.dmgtime || ( self.pev.solid == SOLID_NOT && ( target is null ) ) )
         {
             UpdateOnRemove();
             self.pev.flags |= EdictFlags::FL_KILLME;
@@ -134,7 +134,10 @@ final class env_flame : ScriptBaseEntity
 
         if( target !is null )
         {
-            g_EntityFuncs.SetOrigin( self, target.Center() );
+            if( target.IsAlive() )
+            {
+                g_EntityFuncs.SetOrigin( self, target.Center() );
+            }
         }
         else
         {
@@ -263,7 +266,15 @@ namespace env_flame
             @flame = env_flame::Factory( attacker );
         }
 
-        flame.SetTarget( target, g_WeaponsConfig.fire_duration );
+        float duration = g_WeaponsConfig.fire_duration;
+
+        int bonus = Difficulty::Level() + 1;
+
+        // Attack from player, invert difficulty bonus
+        if( attacker.IsPlayer() )
+            bonus = Difficulty::__Size__ - bonus;
+
+        flame.SetTarget( target, duration * bonus );
 
         return flame;
     }

@@ -537,7 +537,7 @@ void SetClass( CBasePlayer@ player, const Classification&in classify )
         }
         case Classification::Hazard:
         {
-            env_flame::SetResistance( player, 0.8f );
+            env_flame::SetResistance( player, 0.75f );
             break;
         }
     }

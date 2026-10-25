@@ -2232,7 +2232,6 @@
     "robo_grunt": {
         "dmg_blast": 0.5,
         "dmg_bullet": 0.1,
-        "dmg_burn": 0.18,
         "dmg_generic": 0.6,
         "dmg_melee": 0.08,
         "explosion_damage": 125,
@@ -2251,7 +2250,6 @@
     "robo_grunt_boss": {
         "dmg_blast": 0.5,
         "dmg_bullet": 0.1,
-        "dmg_burn": 0.18,
         "dmg_generic": 0.6,
         "dmg_melee": 0.08,
         "dmg_shield": 0.0,
@@ -3511,7 +3509,7 @@
         "display_weapon_info": false,
         "flashlight_maxcarry": 10,
         "fire_damage": 5,
-        "fire_duration": 1.0,
+        "fire_duration": 1.5,
         "infinite_ammo": false,
         "item_remap": {
             "weapon_sniperrifle": "weapon_bts_sniperrifle"
