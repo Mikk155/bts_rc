@@ -142,6 +142,7 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         g_EntityFuncs.SetOrigin( flame.self, vecSrc );
 
         flame.pev.scale = 0.4f;
+        flame.pev.angles = player.pev.v_angle;
         flame.self.pev.nextthink = g_Engine.time + Math.RandomFloat( 0.0f, 0.2f );
         flame.self.pev.dmg = gpWeaponFlamethrowerConfig.primary_damage;
         flame.SetDuration( g_WeaponsConfig.fire_duration );

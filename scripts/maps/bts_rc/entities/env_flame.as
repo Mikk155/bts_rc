@@ -58,7 +58,9 @@ final class env_flame : ScriptBaseEntity
 
         if( other.IsBSPModel() || other.GetClassname() == "worldspawn" )
         {
-            TraceResult tr = g_Utility.GetGlobalTrace();
+            TraceResult tr;
+            Math.MakeVectors( self.pev.angles );
+            g_Utility.TraceLine( self.pev.origin, self.pev.origin + ( g_Engine.v_forward * ( self.pev.mins - self.pev.maxs ).Length() ), IGNORE_MONSTERS::ignore_monsters, self.edict(), tr );
             g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 2 ) );
         }
         else
