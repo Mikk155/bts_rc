@@ -3256,6 +3256,7 @@
         "position": 7,
         "primary_cooldown": 0.85,
         "primary_damage": 18,
+        "secondary_damage": 18,
         "primary_dropammo": 3,
         "primary_kickback": {
             "crouch": 7.7,
