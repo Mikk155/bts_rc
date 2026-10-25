@@ -43,6 +43,7 @@ final class point_checkpoint : ScriptBaseAnimating
         self.pev.frame = 0;
         self.ResetSequenceInfo();
 
+        SetThink( ThinkFunction( this.CheckpointThink ) );
         self.pev.nextthink = g_Engine.time + 0.1f;
     }
 
@@ -78,7 +79,7 @@ final class point_checkpoint : ScriptBaseAnimating
         }
     }
 
-    void Think()
+    void CheckpointThink()
     {
         self.pev.nextthink = g_Engine.time + 0.1;
 

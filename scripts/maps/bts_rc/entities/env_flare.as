@@ -50,8 +50,8 @@ final class ASFlare : ScriptBaseAnimating
 
         self.pev.nextthink = g_Engine.time;
 
-        SetThink( ThinkFunction( this.Think ) );
-        SetTouch( TouchFunction( this.Touch ) );
+        SetThink( ThinkFunction( this.FlareThink ) );
+        SetTouch( TouchFunction( this.FlareTouch ) );
 
         edict_t@ edict = self.edict();
 
@@ -140,7 +140,7 @@ final class ASFlare : ScriptBaseAnimating
     float m_flLastSmoke;
     float m_flLastSpark;
 
-    void Think()
+    void FlareThink()
     {
         Vector origin;
         Vector angles;
@@ -267,7 +267,7 @@ final class ASFlare : ScriptBaseAnimating
 
     float m_lastTouch;
 
-    void Touch( CBaseEntity@ other )
+    void FlareTouch( CBaseEntity@ other )
     {
         if( this.m_lastTouch > g_Engine.time )
             return;

@@ -76,7 +76,7 @@ namespace test_chamber
 
             self.pev.nextthink = g_Engine.time + 1.0f;
             self.pev.armortype = 0.1f;
-            SetThink( ThinkFunction( this.Think ) );
+            SetThink( ThinkFunction( this.FlameThink ) );
 
             if( self.pev.owner is null )
             {
@@ -109,7 +109,7 @@ namespace test_chamber
         private
             bool m_Direction;
 
-        void Think()
+        void FlameThink()
         {
             if( self.pev.owner !is null )
             {

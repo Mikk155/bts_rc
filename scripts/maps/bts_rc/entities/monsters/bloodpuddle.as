@@ -269,7 +269,7 @@ class env_bloodpuddle : ScriptBaseAnimating
             self.pev.movetype = MOVETYPE_TOSS;
         }
 
-        SetThink( ThinkFunction( this.think ) );
+        SetThink( ThinkFunction( this.PuddleThink ) );
         self.pev.nextthink = g_Engine.time + 0.1;
 
         g_EntityFuncs.SetModel( self, "models/bts_rc/monsters/bloodpuddle.mdl" );
@@ -297,7 +297,7 @@ class env_bloodpuddle : ScriptBaseAnimating
         self.ResetSequenceInfo();
     }
 
-    void think()
+    void PuddleThink()
     {
         switch( state )
         {
