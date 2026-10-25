@@ -58,10 +58,16 @@ final class env_flame : ScriptBaseEntity
 
         if( other.IsBSPModel() || other.GetClassname() == "worldspawn" )
         {
-            TraceResult tr;
-            Math.MakeVectors( self.pev.angles );
-            g_Utility.TraceLine( self.pev.origin, self.pev.origin + ( g_Engine.v_forward * ( self.pev.mins - self.pev.maxs ).Length() ), IGNORE_MONSTERS::ignore_monsters, self.edict(), tr );
-            g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 2 ) );
+            float entSize = ( self.pev.mins - self.pev.maxs ).Length();
+
+            if( ( env_flame::g_LastDecal - self.pev.origin ).Length() > entSize + 1 )
+            {
+                TraceResult tr;
+                Math.MakeVectors( self.pev.angles );
+                g_Utility.TraceLine( self.pev.origin, self.pev.origin + ( g_Engine.v_forward * entSize ), IGNORE_MONSTERS::ignore_monsters, self.edict(), tr );
+                g_Utility.DecalTrace( tr, DECAL_SMALLSCORCH1 + Math.RandomLong( 0, 2 ) );
+                env_flame::g_LastDecal = tr.vecEndPos;
+            }
         }
         else
         {
@@ -199,6 +205,9 @@ final class env_flame : ScriptBaseEntity
 
 namespace env_flame
 {
+    // Last decal was placed here. used to not draw too many decals in the same place.
+    Vector g_LastDecal;
+
     // Set resistance (multiplier 0.0/1.0) for the given entity.
     void SetResistance( CBaseEntity@ entity, float percent = 1.0f )
     {
