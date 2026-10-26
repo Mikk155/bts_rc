@@ -2200,18 +2200,18 @@
     },
     "items": {
         "battery_lighting": true,
-        "item_tracking": true
+        "item_tracking": false
     },
     "logger": {
-        "debug": true,
-        "file": true,
-        "info": true,
-        "trace": true,
+        "debug": false,
+        "file": false,
+        "info": false,
+        "trace": false,
         "warning": true
     },
     "map_config": {
-        "allow_reload": true,
-        "skip_validation": false
+        "allow_reload": false,
+        "skip_validation": true
     },
     "monster_panthereye": {
         "dmg_high_swipe": 25,

@@ -138,7 +138,7 @@ final class ASMapConfig : IConfigurable
     {
         this.m_AllowReload = ( g_Debug || bool( config[ "allow_reload" ] ) );
 
-        if( !g_IsMainMap && g_MapConfig.MapLoading )
+        if( !g_IsMainMap )
         {
             this.m_AllowReload = true;
         }
