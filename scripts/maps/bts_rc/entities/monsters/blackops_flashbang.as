@@ -209,11 +209,11 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
         if( monster is null || monster.GetCustomKeyvalues().GetKeyvalue( "$i_use_flashbang" ).GetInteger() != 1 )
             return false;
 
-        if( !g_IsMainMap )
-            SetDebugName( entity, "Blackop with flashbang grenades" );
-
         return EntityOverriden::AddEntity( entity, monster );
     }
+
+    private
+        EHandle m_LastEnemy;
 
     uint EntityThink( uint index, CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
@@ -231,6 +231,8 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
             monster.m_IdealActivity = ACT_RANGE_ATTACK2;
             monster.SetState( MONSTERSTATE::MONSTERSTATE_SCRIPT );
             monster.SetActivity( ACT_RANGE_ATTACK2 );
+
+            this.m_LastEnemy = monster.m_hEnemy;
 
             return EntityOverridenAction::Break;
         }
@@ -276,6 +278,14 @@ final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable
                         this.m_flTracking = 0;
                         FlashbangGrenade::Create( bestGrenade );
                         this.nextthink = g_Engine.time + this.throw_flash_cooldown;
+
+                        if( this.m_LastEnemy.IsValid() )
+                        {
+                            CBaseMonster@ monster = cast<CBaseMonster@>( ownerEntity );
+                            CBaseEntity@ enemy = this.m_LastEnemy.GetEntity();
+                            this.m_LastEnemy = EHandle();
+                            monster.PushEnemy( enemy, enemy.pev.origin );
+                        }
                     }
                 }
             }
