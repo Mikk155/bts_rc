@@ -39,7 +39,7 @@ const serveDefaultConfig =
             .replace( /\\/g, "/" );
 
         return html.replace(
-            '<script type="module" src="main.js"></script>',
+            '<script type="module" src="bts_rc.bundle.js"></script>',
             `<script type="module" src="/@fs/${sourceEntry}"></script>`
         );
     }
@@ -61,7 +61,7 @@ export default defineConfig(
         {
             entry: "src/main.ts",
             formats: [ "es" ],
-            fileName: () => "main.js"
+            fileName: () => "bts_rc.bundle.js"
         },
         outDir: "../../docs",
         emptyOutDir: false

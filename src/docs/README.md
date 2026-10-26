@@ -16,4 +16,6 @@ npm run dev
 
 Open the local URL shown by Vite to preview the site.
 
-The build checks TypeScript and bundles the website modules into `docs/main.js` for static hosting.
+The build checks TypeScript and bundles the website modules, including dependencies,
+into `docs/bts_rc.bundle.js` for static hosting. The dedicated bundle filename keeps
+it separate from JavaScript emitted by standalone TypeScript compilation.

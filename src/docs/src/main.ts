@@ -28,7 +28,7 @@ document.addEventListener( "DOMContentLoaded", async () : Promise<void> =>
     {
         // Async don't wait
         initSlider();
-        await initConfigGenerator();
+        initConfigGenerator();
 
         // Wait these before initializing sounds/languages
         await initContributors();
