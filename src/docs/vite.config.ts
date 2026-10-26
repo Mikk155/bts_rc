@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 const serveDefaultConfig =
 {
     name: "serve-default-config",
+    apply: "serve",
     configureServer( server )
     {
         server.middlewares.use( async ( request, response, next ) =>
@@ -31,12 +32,29 @@ const serveDefaultConfig =
                 next( error );
             }
         } );
+    },
+    transformIndexHtml( html )
+    {
+        const sourceEntry = resolve( process.cwd(), "src/main.ts" )
+            .replace( /\\/g, "/" );
+
+        return html.replace(
+            '<script type="module" src="main.js"></script>',
+            `<script type="module" src="/@fs/${sourceEntry}"></script>`
+        );
     }
 };
 
 export default defineConfig(
 {
     plugins: [ serveDefaultConfig ],
+    server:
+    {
+        fs:
+        {
+            allow: [ resolve( process.cwd(), "../.." ) ]
+        }
+    },
     build:
     {
         lib:

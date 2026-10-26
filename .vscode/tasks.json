@@ -3,15 +3,29 @@
     "tasks":
     [
         {
-            "type": "typescript",
-            "tsconfig": "src/docs/tsconfig.json",
-            "option": "watch",
-            "problemMatcher": [
-                "$tsc-watch"
+            "label": "Website compile & test",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "npm run dev"
             ],
-            "group": "build",
-            "detail": "Update website JavaScript files.",
-            "label": "tsc: watch - src/docs/tsconfig.json"
+            "options": {
+                "cwd": "${workspaceFolder}/src/docs"
+            },
+            "group":
+            {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation":
+            {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
         },
         {
             "label": "Format & check AngelScript files.",
