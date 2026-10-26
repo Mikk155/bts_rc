@@ -270,154 +270,226 @@ pre
 }
 
 /* map json schema configuration data */
-.schema-card
+.config-generator
 {
     background: #111;
     border: 1px solid #333;
     border-left: 4px solid var(--orangered);
-    margin-bottom: 20px;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
-
-#schema-sidebar
-{
-    width: 420px;
-    border-right: 3px solid var(--orange);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-#schema-searchContainer
-{
-    padding: 10px;
-    border-bottom: 3px solid var(--orange);
-}
-
-.downloadschema-btn
-{
-    padding: 10px 80px;
-    font-size: 2em;
-    background: rgba(255,140,0, 0.8);
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-
-#schema-search
-{
-    width: 100%;
-    padding: 8px;
-    background: var(--orange);
-    color: #333;
-    box-sizing: border-box;
-}
-
-#schema-content
-{
-    flex: 1;
-    overflow: auto;
+    margin-bottom: 24px;
     padding: 20px;
 }
 
-#schema-tree
-{
-    overflow: auto;
-    flex: 1;
-    padding: 10px;
-}
-
-.schema-tree-node
-{
-    cursor: pointer;
-    padding: 2px 4px;
-    user-select: none;
-    white-space: nowrap;
-}
-
-.schema-tree-children
-{
-    margin-left: 18px;
-}
-
-.schema-property-object
-{
-    color: #00ff88;
-}
-
-.schema-property-number
-{
-    color: #ea4545;
-}
-
-.schema-property-integer
-{
-    color: #be1919;
-}
-
-.schema-property-string
-{
-    color: #81c7a7;
-}
-
-.schema-property-boolean
-{
-    color: #3752d6;
-}
-
-.schema-property-array
-{
-    color: #faec27;
-}
-
-.schema-inherited
-{
-    background: #264653;
-}
-
-.schema-dynamic
-{
-    background: #5A189A;
-}
-
-.schema-badge
-{
-    display: inline-block;
-    padding: 2px 6px;
-    margin-right: 4px;
-    border-radius: 4px;
-    background: #333;
-    font-size: 12px;
-}
-
-.schema-h1
+.config-generator-help h3
 {
     margin-top: 0;
 }
 
-.schema-table
+.config-generator-layout
+{
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 20px;
+}
+
+.config-form,
+.config-output-panel
+{
+    min-width: 0;
+}
+
+.config-add-controls,
+.config-actions
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.config-add-controls select
+{
+    flex: 1;
+    min-width: 0;
+}
+
+.config-generator select,
+.config-generator input,
+.config-generator textarea
+{
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 8px;
+    background: #222;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+.config-section
+{
+    border: 1px solid #444;
+    margin: 12px 0;
+    padding: 12px;
+}
+
+.config-section-header
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.config-section-header h3
+{
+    margin: 0;
+    font-weight: bold;
+}
+
+.config-remove-section
+{
+    padding: 6px 10px;
+}
+
+.config-property
+{
+    border-top: 1px solid #333;
+    padding: 8px 0;
+}
+
+.config-property summary
+{
+    cursor: pointer;
+    list-style: none;
+}
+
+.config-property summary::-webkit-details-marker
+{
+    display: none;
+}
+
+.config-property-title
+{
+    margin-left: 8px;
+}
+
+.config-description
+{
+    color: #bbb;
+    font-size: 0.9em;
+    margin: 8px 0;
+}
+
+.config-control
+{
+    padding: 8px 0 0 20px;
+}
+
+.config-value-input
 {
     width: 100%;
-    border-collapse: collapse;
 }
 
-.schema-td
+.config-value-input[type="checkbox"]
 {
-    border: 1px solid var(--brown);
-    padding: 8px;
-    vertical-align: top;
+    width: auto;
 }
 
-.schema-td:first-child
+.config-array-input
 {
-    width: 250px;
-    font-weight: bold;
-    background: #222;
+    font-family: monospace;
+    resize: vertical;
+}
+
+.config-array-rows
+{
+    display: grid;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.config-array-row
+{
+    display: flex;
+    gap: 8px;
+}
+
+.config-array-row input
+{
+    flex: 1;
+    min-width: 0;
+}
+
+.config-dynamic-properties
+{
+    margin-top: 10px;
+}
+
+.config-dynamic-row
+{
+    display: grid;
+    grid-template-columns: minmax(80px, 0.8fr) minmax(100px, 1.2fr) auto;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.config-dynamic-value
+{
+    min-width: 0;
+}
+
+.config-output-panel
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#config-output
+{
+    flex: 1;
+    min-height: 300px;
+    width: 100%;
+    font-family: monospace;
+    resize: vertical;
+}
+
+.config-actions
+{
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.config-status
+{
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.config-valid
+{
+    color: #00ff88;
+}
+
+.config-invalid
+{
+    color: #ff6b6b;
+}
+
+@media (max-width: 800px)
+{
+    .config-generator-layout
+    {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px)
+{
+    .config-dynamic-row
+    {
+        grid-template-columns: 1fr;
+    }
 }
 
 /*
@@ -446,7 +518,7 @@ a, button
 }
 
 /* link hover */
-a:hover, button:hover, .schema-tree-node:hover
+a:hover, button:hover
 {
     color: #FFF94D;
     text-shadow: 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 15px var(--orange);
@@ -455,7 +527,7 @@ a:hover, button:hover, .schema-tree-node:hover
 }
 
 /* link active (clicked) */
-a:active, .schema-tree-node:active
+a:active
 {
     color: #000;
     text-decoration: none;

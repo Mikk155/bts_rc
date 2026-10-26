@@ -245,21 +245,32 @@ All AngelScript scripts should match the formatting conventions enforced by the 
 
     <div class="section" id="Configuring">
         <h2>📝 <a href="#Configuring">Configuring the map</a></h2>
-        <div class="schema-card">
-            <div id="schema-sidebar">
-                <div id="schema-searchContainer">
-                    <button class="downloadschema-btn" onclick="downloadSchema()">Download schema</button>
-                </div>
-                <div id="schema-searchContainer">
-                    <h1>JSON Schema Wiki</h1>
-                    <p>Select a property from the left panel to read information about them.</p>
-                </div>
-                <div id="schema-searchContainer">
-                    <input id="schema-search" type="text" placeholder="Search property..." >
-                </div>
-                <div id="schema-tree"></div>
+        <div class="config-generator">
+            <div class="config-generator-help">
+                <h3>Map Configuration</h3>
+                <p>Choose a section and fill the options you want to change.</p>
+                <p>You can also modify the JSON directly from its window.</p>
             </div>
-            <div id="schema-content">
+            <div class="config-generator-layout">
+                <div class="config-form">
+                    <div class="config-add-controls">
+                        <label for="config-section-select">Add a section</label>
+                        <select id="config-section-select">
+                            <option value="">Loading schema...</option>
+                        </select>
+                        <button id="config-add-section" type="button" style="background: rgba(255,140,0, 0.8);">Add</button>
+                    </div>
+                    <div id="config-sections"></div>
+                </div>
+                <div class="config-output-panel">
+                    <label for="config-output">JSON File</label>
+                    <textarea id="config-output" spellcheck="false">{}</textarea>
+                    <div class="config-actions">
+                        <button id="config-validate" type="button" style="background: rgba(255,140,0, 0.8);">Validate JSON</button>
+                        <button id="config-download" type="button" style="background: rgba(255,140,0, 0.8);">Download bts_rc.json</button>
+                    </div>
+                    <pre id="config-status" class="config-status" role="status" aria-live="polite"></pre>
+                </div>
             </div>
         </div>
     </div>

@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/85.1063829787234?barColor=49da0b)
+> ![](https://geps.dev/progress/86.52482269503547?barColor=43da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -36,7 +36,6 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
-- [ ] Remove ``bts_rc/weapons/flarehit1.wav`` if unused.
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
@@ -47,7 +46,6 @@ This file contains the list of to-do in the project.
 - [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
 - [ ] Remove trace effects from m16 and the likes if ASBullet already covers them.
 - [ ] Use weapons::SetCooldown where single cooldown variables are updated with hardcoded numbers so the three attack type cooldows are set.
-- [ ] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
 - [ ] have release workflows/python to zip scripts with mega assets.
 - [ ] add a throwable interface/mixin to some melees that raptor asked i forgot which ones.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
@@ -59,6 +57,8 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Remove ``bts_rc/weapons/flarehit1.wav`` if unused.
+- [x] have a json editor and schema validator at website to generate a config file.
 - [x] Fix test chamber not spawning all type of canister zombies (use trigger_changevalues as modified in bsp file.)
 - [x] Rotate ASFlare angles when created with flaregun
 - [x] Add gravity to flaregun ASFLares

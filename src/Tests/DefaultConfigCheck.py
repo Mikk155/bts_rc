@@ -38,7 +38,7 @@ class DefaultConfigCheck( PyTest ):
             return False;
 
         try:
-            with open( os.path.join( os.path.dirname( self.m_DefaultConfig ), "schema.json" ), "r" ) as fStream:
+            with open( os.path.join( self.Workspace, "docs", "schema.json" ), "r" ) as fStream:
                 jsonschema.validate( instance=parsed, schema=json.load( fStream ) );
         except jsonschema.ValidationError as e:
             self.Log( "invalid JSON: scripts/maps/bts_rc/default_config.json at {}\n{}", e.json_path, e.message );

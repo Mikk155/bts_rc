@@ -3,6 +3,7 @@ __pycache__/
 
 # Node, Website
 node_modules/
+docs/.vite/
 
 # AngelScript Sven Co-op's API
 # https://codeberg.org/anggaranothing/svencoop-py-asdocs-vscode

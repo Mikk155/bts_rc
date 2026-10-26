@@ -8,11 +8,13 @@ import { initSlider } from "./scripts/background.js";
 import { initContributors } from "./scripts/contributors.js";
 import { initVersionRelease } from "./scripts/lastRelease.js";
 import { initLanguages } from "./scripts/languages.js";
+import { initConfigGenerator } from "./scripts/configGenerator.js";
 window.copyCode = copyCode;
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         // Async don't wait
         initSlider();
+        await initConfigGenerator();
         // Wait these before initializing sounds/languages
         await initContributors();
         await initVersionRelease();

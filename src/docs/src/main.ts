@@ -10,6 +10,7 @@ import { initSlider } from "./scripts/background.js";
 import { initContributors } from "./scripts/contributors.js";
 import { initVersionRelease } from "./scripts/lastRelease.js";
 import { initLanguages } from "./scripts/languages.js";
+import { initConfigGenerator } from "./scripts/configGenerator.js";
 
 declare global
 {
@@ -27,6 +28,7 @@ document.addEventListener( "DOMContentLoaded", async () : Promise<void> =>
     {
         // Async don't wait
         initSlider();
+        await initConfigGenerator();
 
         // Wait these before initializing sounds/languages
         await initContributors();

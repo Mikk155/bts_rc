@@ -54,7 +54,7 @@ final class ASWallRechargerConfig : IConfigurable
                 "speed_rate":
                 {
                     "type": "number",
-                    "minimum": 0.1,
+                    "minimum": 0.001,
                     "description": "Charge transfer rate to player."
                 }
             }
