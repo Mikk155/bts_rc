@@ -2298,9 +2298,9 @@
         "shock_radius": 256
     },
     "wall_recharger": {
-        "juice": 35,
+        "juice": 30,
         "recharge_time": 300,
-        "speed_rate": 0.35
+        "speed_rate": 0.05
     },
     "weapon_bts_axe": {
         "deploy_time": 0.7,
@@ -2353,7 +2353,7 @@
             "stand": 0.03,
             "stand_trained": 0.006
         },
-        "primary_cooldown": 0.1,
+        "primary_cooldown": 0.15,
         "primary_damage": 15,
         "primary_dropammo": 15,
         "primary_kickback": {
@@ -2366,7 +2366,7 @@
             "stand_trained": 2.0
         },
         "primary_maxammo": 120,
-        "primary_trained_cooldown": 0.05,
+        "primary_trained_cooldown": 0.15,
         "reload_anim": 6,
         "reload_empty_anim": 5,
         "reload_sound": "bts_rc/weapons/9mm_clip.wav",
@@ -2419,7 +2419,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.22,
+        "primary_cooldown": 0.5,
         "primary_damage": 65,
         "primary_dropammo": 3,
         "primary_kickback": {
@@ -2431,7 +2431,7 @@
             "stand_trained": 4.0
         },
         "primary_maxammo": 18,
-        "primary_trained_cooldown": 0.22,
+        "primary_trained_cooldown": 0.4,
         "reload_anim": 8,
         "reload_empty_anim": 7,
         "reload_time": 1.5,
