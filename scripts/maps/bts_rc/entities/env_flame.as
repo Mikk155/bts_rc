@@ -289,8 +289,10 @@ namespace env_flame
         int bonus = Difficulty::Level() + 1;
 
         // Attack from player, invert difficulty bonus
-        if( attacker.IsPlayer() )
+        if( attacker.IsPlayer() && attacker.IRelationship( target ) != R_AL )
+        {
             bonus = Difficulty::__Size__ - bonus;
+        }
 
         flame.SetTarget( target, duration * bonus );
 

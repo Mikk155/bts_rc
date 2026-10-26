@@ -11,7 +11,7 @@ npm run build
 ```
 
 ```sh
-npm run dev
+npm run dev -- --force
 ```
 
 Open the local URL shown by Vite to preview the site.

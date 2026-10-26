@@ -350,91 +350,11 @@ pre
     padding: 6px 10px;
 }
 
-.config-property
-{
-    border-top: 1px solid #333;
-    padding: 8px 0;
-}
-
-.config-property summary
-{
-    cursor: pointer;
-    list-style: none;
-}
-
-.config-property summary::-webkit-details-marker
-{
-    display: none;
-}
-
-.config-property-title
-{
-    margin-left: 8px;
-}
-
 .config-description
 {
     color: #bbb;
     font-size: 0.9em;
     margin: 8px 0;
-}
-
-.config-control
-{
-    padding: 8px 0 0 20px;
-}
-
-.config-value-input
-{
-    width: 100%;
-}
-
-.config-value-input[type="checkbox"]
-{
-    width: auto;
-}
-
-.config-array-input
-{
-    font-family: monospace;
-    resize: vertical;
-}
-
-.config-array-rows
-{
-    display: grid;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.config-array-row
-{
-    display: flex;
-    gap: 8px;
-}
-
-.config-array-row input
-{
-    flex: 1;
-    min-width: 0;
-}
-
-.config-dynamic-properties
-{
-    margin-top: 10px;
-}
-
-.config-dynamic-row
-{
-    display: grid;
-    grid-template-columns: minmax(80px, 0.8fr) minmax(100px, 1.2fr) auto;
-    gap: 8px;
-    margin: 8px 0;
-}
-
-.config-dynamic-value
-{
-    min-width: 0;
 }
 
 .config-output-panel

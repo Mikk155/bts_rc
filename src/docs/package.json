@@ -5,7 +5,7 @@
     "type": "module",
     "scripts":
     {
-        "dev": "vite ../../docs",
+        "dev": "vite ../../docs --config vite.config.ts",
         "build": "tsc --noEmit && vite build"
     },
     "keywords": [],
