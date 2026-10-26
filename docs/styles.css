@@ -270,6 +270,26 @@ pre
 }
 
 /* map json schema configuration data */
+.config-button
+{
+    cursor: default;
+    color: var(--orange);
+    text-decoration: none;
+    background: rgba(255,140,0, 0.8);
+    transition-duration: 1s;
+    font-family: Trebuchet MS;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.config-button:hover
+{
+    color: #FFF94D;
+    text-shadow: 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 5px var(--orange), 0px 0px 15px var(--orange);
+    text-decoration: none;
+    transition-duration: 0.02s;
+}
+
 .config-generator
 {
     background: #111;
@@ -343,11 +363,6 @@ pre
 {
     margin: 0;
     font-weight: bold;
-}
-
-.config-remove-section
-{
-    padding: 6px 10px;
 }
 
 .config-description

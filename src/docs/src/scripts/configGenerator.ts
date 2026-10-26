@@ -145,7 +145,8 @@ export async function initConfigGenerator() : Promise<void>
 
             const removeButton = document.createElement( "button" );
             removeButton.type = "button";
-            removeButton.className = "config-remove-section";
+            removeButton.className = "config-button";
+            removeButton.style.padding = "6px 10px";
             removeButton.textContent = "Remove";
             removeButton.setAttribute( "aria-label", `Remove section ${name}` );
             removeButton.addEventListener( "click", () =>
