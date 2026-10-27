@@ -63,7 +63,7 @@ final class ASItemsConfig : IConfigurable
     private bool m_ItemTracking;
 
     const bool get_item_tracking() const {
-        return this.m_ItemTracking;
+        return this.m_ItemTracking || g_Debug;
     }
 
     bool Register( meta_api::json::v2::json@ config ) override
@@ -73,11 +73,6 @@ final class ASItemsConfig : IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
-            if( !g_IsMainMap )
-            {
-                this.m_ItemTracking = true;
-            }
-
             CustomEntity( "item_bts_armorvest", true );
             gpDynamicEquipment.SetType( "item_bts_armorvest", DynamicEquipmentType::Armor );
 

@@ -86,6 +86,7 @@ namespace test_chamber
             SetPair( "target", self.pev.target );
             SetPair( "message", self.pev.message );
             SetPair( "spawnflags", self.pev.spawnflags );
+            SetPair( "weapons", self.pev.weapons );
         }
 
         void Spawn()

@@ -45,12 +45,7 @@ final class ASDataTracker : IConfigurable
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        config.Get( "active", this.m_TrackDataActive );
-
-        if( !g_IsMainMap && g_MapConfig.MapLoading )
-        {
-            this.m_TrackDataActive = true;
-        }
+        this.m_TrackDataActive = ( g_Debug || bool( config[ "active" ] ) );
 
         return true;
     }

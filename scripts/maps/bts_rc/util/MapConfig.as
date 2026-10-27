@@ -138,11 +138,6 @@ final class ASMapConfig : IConfigurable
     {
         this.m_AllowReload = ( g_Debug || bool( config[ "allow_reload" ] ) );
 
-        if( !g_IsMainMap )
-        {
-            this.m_AllowReload = true;
-        }
-
         return true;
     }
 
@@ -255,7 +250,7 @@ final class ASMapConfig : IConfigurable
             {
                 this.m_ShouldWriteSchema = true;
                 this.m_ShouldWriteServerConfig = true;
-                this.m_SkipValidation = ( g_IsMainMap );
+                this.m_SkipValidation = true;
                 break;
             }
             case meta_api::json::Error::SYNTAX_ERROR:
@@ -272,14 +267,13 @@ final class ASMapConfig : IConfigurable
 
         if( this.m_SkipValidation )
         {
-            this.m_SkipValidation = true;
             @this.m_json = this.m_defaults;
             g_EngineFuncs.ServerPrint( "No extenal config loaded. Skiping JSON Schema validation.\n" );
         }
 
         meta_api::json::v2::json@ skipValidation = this.m_json.ValueOrDefault( this.GetName() ).Remove( "skip_validation" );
 
-        if( !g_IsMainMap )
+        if( g_Debug )
         {
             @skipValidation = null;
             this.m_SkipValidation = false;
@@ -622,44 +616,41 @@ final class ASMapConfig : IConfigurable
                 g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
             } ), true, "json" );
 
-            if( !g_IsMainMap )
+            RegisterCommand( "reload", "<string context name>", "Updates the json config a specific context with the given name",
+            @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
-                RegisterCommand( "reload", "<string context name>", "Updates the json config a specific context with the given name",
-                @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
+                auto chrono = Server::chrono();
+
+                if( arguments is null || arguments.length() < 0 )
+                    @arguments = { "" };
+
+                IConfigurable@ ctx = g_MapConfig.GetContext( arguments[0] );
+
+                if( ctx is null )
                 {
-                    auto chrono = Server::chrono();
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Could not find context with name \"" + arguments[0] + "\"\n" );
+                    return;
+                }
 
-                    if( arguments is null || arguments.length() < 0 )
-                        @arguments = { "" };
+                if( !meta_api::json::v2::Deserialize( g_MapConfig.__GetDefaultConfig__(), g_MapConfig.m_defaults ) )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Failed to parse config data!\n" );
+                    return;
+                }
 
-                    IConfigurable@ ctx = g_MapConfig.GetContext( arguments[0] );
+                if( !meta_api::json::v2::schema::Validate( g_MapConfig.m_json, g_MapConfig.m_GlobalSchema, false, g_MapConfig.m_defaults ) )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Error validating some values for json. Using default values...\n" );
+                }
 
-                    if( ctx is null )
-                    {
-                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Could not find context with name \"" + arguments[0] + "\"\n" );
-                        return;
-                    }
+                ctx.Register( g_MapConfig.m_json[ ctx.GetName() ] );
 
-                    if( !meta_api::json::v2::Deserialize( g_MapConfig.__GetDefaultConfig__(), g_MapConfig.m_defaults ) )
-                    {
-                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Failed to parse config data!\n" );
-                        return;
-                    }
+                chrono.Stop();
 
-                    if( !meta_api::json::v2::schema::Validate( g_MapConfig.m_json, g_MapConfig.m_GlobalSchema, false, g_MapConfig.m_defaults ) )
-                    {
-                        g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Error validating some values for json. Using default values...\n" );
-                    }
-
-                    ctx.Register( g_MapConfig.m_json[ ctx.GetName() ] );
-
-                    chrono.Stop();
-
-                    string buffer;
-                    snprintf( buffer, "Done with configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
-                    g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
-                } ), true, "json" );
-            }
+                string buffer;
+                snprintf( buffer, "Done with configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
+                g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
+            } ), true, "json" );
         }
     }
 }

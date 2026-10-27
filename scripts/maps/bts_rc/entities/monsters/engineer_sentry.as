@@ -117,9 +117,6 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         {
             EntityOverriden::SetThink( float( config[ "interval" ] ) );
 
-            if( !g_IsMainMap )
-                g_Game.PrecacheOther( "monster_human_torch_ally" );
-
             EntityOverriden::Register( this );
         }
 

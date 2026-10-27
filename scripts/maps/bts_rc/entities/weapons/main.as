@@ -228,7 +228,7 @@ final class ASGlobalWeaponConfig : IConfigurable
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
-        this.display_weapon_info = bool( config[ "display_weapon_info" ] );
+        this.display_weapon_info = ( g_Debug || bool( config[ "display_weapon_info" ] ) );
         this.melee_weapons_pull = bool( config[ "melee_weapons_pull" ] );
         this.melee_weapons_pull_force = int( config[ "melee_weapons_pull_force" ] );
         this.melee_weapons_push = bool( config[ "melee_weapons_push" ] );
@@ -252,12 +252,6 @@ final class ASGlobalWeaponConfig : IConfigurable
 
         if( g_MapConfig.MapLoading )
         {
-
-            if( !g_IsMainMap )
-            {
-                this.display_weapon_info = true;
-            }
-
             CustomKeyValues::Register( "$i_spark_color" );
             CustomKeyValues::Register( "$i_spark_hitgroup" );
             CustomKeyValues::Register( "$i_bloodcolor" );
