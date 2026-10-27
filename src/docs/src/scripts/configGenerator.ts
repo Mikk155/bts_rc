@@ -1,5 +1,5 @@
 import Ajv2020, { type AnySchema } from "ajv/dist/2020.js";
-import { DEV } from "../main.js";
+import { DEV } from "./environment.js";
 
 interface JSONSchema
 {

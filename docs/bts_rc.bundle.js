@@ -65,81 +65,101 @@ async function _() {
 	});
 }
 //#endregion
+//#region src/scripts/environment.ts
+var v = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+//#endregion
 //#region src/scripts/changelog.ts
-async function v() {
+async function y() {
 	let e = document.getElementById("changelog");
 	if (!e) {
 		console.warn("Changelog container not found");
 		return;
 	}
-	let t;
+	let t = e, n;
 	try {
-		t = $ ? await fetch("../CHANGELOG.md") : await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
+		n = v ? await fetch("/__changelog.md") : await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
 	} catch (t) {
 		console.error("Fetch failed:", t), e.innerHTML = "Failed to fetch changelog";
 		return;
 	}
-	if (!t.ok) {
-		e.innerHTML = "Failed to fetch changelog";
+	if (!n.ok) {
+		console.error(`Could not fetch changelog (${n.status}).`), e.textContent = "Failed to fetch changelog";
 		return;
 	}
 	e.innerHTML = "";
-	let n = (await t.text()).replace(/\r/g, "").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/``(.*?)``/g, "<code class=\"terminal\">$1</code>").replace(/`(.*?)`/g, "<code>$1</code>").split("\n");
-	function r(e, t, n) {
+	let r = (await n.text()).replace(/\r/g, "").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/``(.*?)``/g, "<code class=\"terminal\">$1</code>").replace(/`(.*?)`/g, "<code>$1</code>").split("\n");
+	function i() {
+		let e = window.location.hash.slice(1), n = document.getElementById(e);
+		if (!n || !t.contains(n)) return;
+		let r = n.querySelector(".changelog-header"), i = n.querySelector(".changelog-content");
+		!r || !i || (i.classList.add("open"), r.setAttribute("aria-expanded", "true"), n.scrollIntoView({
+			behavior: "smooth",
+			block: "start"
+		}));
+	}
+	function a(e) {
+		let t = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(e);
+		if (!t) return;
+		let n = Number(t[1]), r = Number(t[2]), i = Number(t[3]), a = new Date(i, r - 1, n);
+		if (!(a.getFullYear() !== i || a.getMonth() !== r - 1 || a.getDate() !== n)) return `changelog_${i}-${String(r).padStart(2, "0")}-${String(n).padStart(2, "0")}`;
+	}
+	function o(e, t, n) {
 		if (e === "") return;
 		let r = document.createElement("div");
 		r.className = "changelog-item";
-		let i = document.createElement("div");
-		i.className = "changelog-header", i.innerText = e, i.addEventListener("click", () => {
-			let e = i.nextElementSibling;
-			e instanceof HTMLElement && e.classList.toggle("open");
+		let i = a(e), o = i ?? `changelog_section_${n.querySelectorAll(".changelog-item").length + 1}`;
+		i && (r.id = i);
+		let s = document.createElement("button");
+		s.type = "button", s.className = "changelog-header", s.innerText = e, s.setAttribute("aria-expanded", "false"), s.setAttribute("aria-controls", `${o}-content`);
+		let c = document.createElement("div");
+		c.id = `${o}-content`, c.className = "changelog-content", s.addEventListener("click", () => {
+			let e = !c.classList.contains("open");
+			c.classList.toggle("open", e), s.setAttribute("aria-expanded", String(e)), i && window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${i}`);
 		});
-		let a = document.createElement("div");
-		a.className = "changelog-content";
-		let o = null;
+		let l = null;
 		for (let e of t) {
 			if (e instanceof HTMLLIElement) {
-				o ||= document.createElement("ul"), o.appendChild(e);
+				l ||= document.createElement("ul"), l.appendChild(e);
 				continue;
-			} else o && a.appendChild(o), o = null;
-			a.appendChild(e);
+			} else l && c.appendChild(l), l = null;
+			c.appendChild(e);
 		}
-		o && a.appendChild(o), r.appendChild(i), r.appendChild(a), n.appendChild(r);
+		l && c.appendChild(l), r.appendChild(s), r.appendChild(c), n.appendChild(r);
 	}
-	let i = [], a = "";
+	let s = [], c = "";
 	{
 		let t = document.createElement("a");
 		t.href = "https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md", t.target = "_blanc", t.innerText = "Full changelog in Markdown.", t.className = "changelog-header", t.style.display = "block", t.style.width = "max-content", t.style.margin = "0 auto", t.style.textAlign = "center", e.appendChild(t), e.appendChild(document.createElement("br"));
 	}
-	for (let t of n) {
+	for (let t of r) {
 		if (t.startsWith("# ")) {
-			r(a, i, e), a = t.substring(2), i = [];
+			o(c, s, e), c = t.substring(2), s = [];
 			continue;
 		}
 		if (t.startsWith("- ")) {
 			let e = document.createElement("li");
-			e.innerHTML = t.substring(2), i.push(e);
+			e.innerHTML = t.substring(2), s.push(e);
 			continue;
 		}
 		if (t.startsWith("## ")) {
 			let e = document.createElement("h2");
-			e.innerHTML = t.substring(3), i.push(e);
+			e.innerHTML = t.substring(3), s.push(e);
 			continue;
 		}
 		if (t.startsWith("### ")) {
 			let e = document.createElement("h3");
-			e.innerHTML = t.substring(4), i.push(e);
+			e.innerHTML = t.substring(4), s.push(e);
 			continue;
 		}
 		if (t.trim() === "") continue;
 		let n = document.createElement("p");
-		t[0] == " " || t[0] == "	" ? n.innerHTML = `<pre>${t}</pre>` : n.innerHTML = t, i.push(n);
+		t[0] == " " || t[0] == "	" ? n.innerHTML = `<pre>${t}</pre>` : n.innerHTML = t, s.push(n);
 	}
-	r(a, i, e);
+	o(c, s, e), window.addEventListener("hashchange", i), i();
 }
 //#endregion
 //#region src/scripts/background.ts
-async function y() {
+async function b() {
 	let e = /* @__PURE__ */ "https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/aa_bts_rc.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/a_page_logo,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_adminwing.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_brij.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_cafe.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_chem.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_class.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_doctors.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_dormsa.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_dormsb.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_firing.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_gadmin.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_gate.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_keycard.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_lab.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_legal.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_lobby.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_lockers.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_maintpost.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_overpass.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_post.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_sectorh.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_sewrs.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_sniper.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_toilet.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_tram1.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_vents.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_warej.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_wh1.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/bts_rc_wh2.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/render34.png,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot1,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot10,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot11,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot12,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot13,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot14,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot15,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot16,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot17,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot2,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot3,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot4,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot5,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot6,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot7,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot8,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot9,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Update1.jpg,https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Update2.jpg".split(","), t = 0, n = document.querySelectorAll(".bg-slide");
 	if (n.length < 2) return console.warn("Slider requires at least 2 elements"), -1;
 	let r = n[0], i = n[1];
@@ -152,7 +172,7 @@ async function y() {
 }
 //#endregion
 //#region src/scripts/contributors.ts
-async function b() {
+async function x() {
 	async function e(e, t) {
 		e.innerHTML = "";
 		let n = Array.from(t.values());
@@ -199,7 +219,7 @@ async function b() {
 		let a = Date.now() - r.timestamp < 1e3 * 60 * 5;
 		return t || a ? (await e(i, new Map(r.data)), !0) : !1;
 	}
-	if (await t($)) return;
+	if (await t(v)) return;
 	let n = /* @__PURE__ */ new Map(), r;
 	try {
 		r = await fetch("https://api.github.com/repos/Mikk155/bts_rc/contributors");
@@ -239,7 +259,7 @@ async function b() {
 }
 //#endregion
 //#region src/scripts/lastRelease.ts
-async function x() {
+async function S() {
 	let e = "last_release";
 	function t(e) {
 		let t = document.getElementById("release-notice"), n = document.createElement("div");
@@ -271,7 +291,7 @@ async function x() {
 		localStorage.setItem(e, JSON.stringify(n));
 	}
 	let i = n();
-	if (i && Date.now() - i.timestamp < 3e5 || $) return;
+	if (i && Date.now() - i.timestamp < 3e5 || v) return;
 	let a = null;
 	try {
 		let e = await fetch("https://api.github.com/repos/Mikk155/bts_rc/tags");
@@ -287,7 +307,7 @@ async function x() {
 }
 //#endregion
 //#region src/scripts/languages.ts
-async function S() {
+async function C() {
 	if (window.hljs) {
 		window.hljs.highlightAll();
 		return;
@@ -303,7 +323,7 @@ async function S() {
 }
 //#endregion
 //#region node_modules/ajv/dist/compile/codegen/code.js
-var C = /* @__PURE__ */ s(((e) => {
+var w = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.regexpCode = e.getEsmExportName = e.getProperty = e.safeStringify = e.stringify = e.strConcat = e.addCodeArg = e.str = e._ = e.nil = e._Code = e.Name = e.IDENTIFIER = e._CodeOrName = void 0;
 	var t = class {};
 	e._CodeOrName = t, e.IDENTIFIER = /^[a-z$_][a-z$_0-9]*$/i;
@@ -408,9 +428,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		return new r(e.toString());
 	}
 	e.regexpCode = g;
-})), w = /* @__PURE__ */ s(((e) => {
+})), T = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.ValueScope = e.ValueScopeName = e.Scope = e.varKinds = e.UsedValueState = void 0;
-	var t = C(), n = class extends Error {
+	var t = w(), n = class extends Error {
 		constructor(e) {
 			super(`CodeGen: "code" for ${e} not defined`), this.value = e.value;
 		}
@@ -519,9 +539,9 @@ var C = /* @__PURE__ */ s(((e) => {
 			return c;
 		}
 	};
-})), T = /* @__PURE__ */ s(((e) => {
+})), E = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.or = e.and = e.not = e.CodeGen = e.operators = e.varKinds = e.ValueScopeName = e.ValueScope = e.Scope = e.Name = e.regexpCode = e.stringify = e.getProperty = e.nil = e.strConcat = e.str = e._ = void 0;
-	var t = C(), n = w(), r = C();
+	var t = w(), n = T(), r = w();
 	Object.defineProperty(e, "_", {
 		enumerable: !0,
 		get: function() {
@@ -563,7 +583,7 @@ var C = /* @__PURE__ */ s(((e) => {
 			return r.Name;
 		}
 	});
-	var i = w();
+	var i = T();
 	Object.defineProperty(e, "Scope", {
 		enumerable: !0,
 		get: function() {
@@ -786,12 +806,12 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 	};
 	S.kind = "func";
-	var T = class extends p {
+	var C = class extends p {
 		render(e) {
 			return "return " + super.render(e);
 		}
 	};
-	T.kind = "return";
+	C.kind = "return";
 	var E = class extends m {
 		render(e) {
 			let t = "try" + super.render(e);
@@ -929,9 +949,9 @@ var C = /* @__PURE__ */ s(((e) => {
 			return this._leafNode(new u(e));
 		}
 		return(e) {
-			let t = new T();
+			let t = new C();
 			if (this._blockNode(t), this.code(e), t.nodes.length !== 1) throw Error("CodeGen: \"return\" should have one node");
-			return this._endBlockNode(T);
+			return this._endBlockNode(C);
 		}
 		try(e, t, n) {
 			if (!t && !n) throw Error("CodeGen: \"try\" without \"catch\" and \"finally\"");
@@ -1034,9 +1054,9 @@ var C = /* @__PURE__ */ s(((e) => {
 	function z(e) {
 		return e instanceof t.Name ? e : (0, t._)`(${e})`;
 	}
-})), E = /* @__PURE__ */ s(((e) => {
+})), D = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.checkStrictMode = e.getErrorPath = e.Type = e.useFunc = e.setEvaluated = e.evaluatedPropsToName = e.mergeEvaluated = e.eachItem = e.unescapeJsonPointer = e.escapeJsonPointer = e.escapeFragment = e.unescapeFragment = e.schemaRefOrVal = e.schemaHasRulesButRef = e.schemaHasRules = e.checkUnknownRules = e.alwaysValidSchema = e.toHash = void 0;
-	var t = T(), n = C();
+	var t = E(), n = w();
 	function r(e) {
 		let t = {};
 		for (let n of e) t[n] = !0;
@@ -1159,9 +1179,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 	}
 	e.checkStrictMode = x;
-})), D = /* @__PURE__ */ s(((e) => {
+})), O = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T();
+	var t = E();
 	e.default = {
 		data: new t.Name("data"),
 		valCxt: new t.Name("valCxt"),
@@ -1180,9 +1200,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		jsonLen: new t.Name("jsonLen"),
 		jsonPart: new t.Name("jsonPart")
 	};
-})), O = /* @__PURE__ */ s(((e) => {
+})), k = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.extendErrors = e.resetErrorsCount = e.reportExtraError = e.reportError = e.keyword$DataError = e.keywordError = void 0;
-	var t = T(), n = E(), r = D();
+	var t = E(), n = D(), r = O();
 	e.keywordError = { message: ({ keyword: e }) => (0, t.str)`must pass "${e}" keyword validation` }, e.keyword$DataError = { message: ({ keyword: e, schemaType: n }) => n ? (0, t.str)`"${e}" keyword must be ${n} ($data)` : (0, t.str)`"${e}" keyword is invalid ($data)` };
 	function i(n, r = e.keywordError, i, a) {
 		let { it: o } = n, { gen: s, compositeRule: u, allErrors: f } = o, p = d(n, r, i);
@@ -1244,9 +1264,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		let { keyword: o, data: s, schemaValue: c, it: l } = e, { opts: d, propertyName: f, topSchemaRef: p, schemaPath: m } = l;
 		a.push([u.keyword, o], [u.params, typeof n == "function" ? n(e) : n || (0, t._)`{}`]), d.messages && a.push([u.message, typeof i == "function" ? i(e) : i]), d.verbose && a.push([u.schema, c], [u.parentSchema, (0, t._)`${p}${m}`], [r.default.data, s]), f && a.push([u.propertyName, f]);
 	}
-})), k = /* @__PURE__ */ s(((e) => {
+})), A = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.boolOrEmptySchema = e.topBoolOrEmptySchema = void 0;
-	var t = O(), n = T(), r = D(), i = { message: "boolean schema is false" };
+	var t = k(), n = E(), r = O(), i = { message: "boolean schema is false" };
 	function a(e) {
 		let { gen: t, schema: i, validateName: a } = e;
 		i === !1 ? s(e, !1) : typeof i == "object" && i.$async === !0 ? t.return(r.default.data) : (t.assign((0, n._)`${a}.errors`, null), t.return(!0));
@@ -1270,7 +1290,7 @@ var C = /* @__PURE__ */ s(((e) => {
 		};
 		(0, t.reportError)(o, i, void 0, n);
 	}
-})), A = /* @__PURE__ */ s(((e) => {
+})), j = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.getRules = e.isJSONType = void 0;
 	var t = /* @__PURE__ */ new Set([
 		"string",
@@ -1324,7 +1344,7 @@ var C = /* @__PURE__ */ s(((e) => {
 		};
 	}
 	e.getRules = r;
-})), j = /* @__PURE__ */ s(((e) => {
+})), M = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.shouldUseRule = e.shouldUseGroup = e.schemaHasRulesForType = void 0;
 	function t({ schema: e, self: t }, r) {
 		let i = t.RULES.types[r];
@@ -1339,9 +1359,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		return e[t.keyword] !== void 0 || t.definition.implements?.some((t) => e[t] !== void 0);
 	}
 	e.shouldUseRule = r;
-})), M = /* @__PURE__ */ s(((e) => {
+})), N = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.reportTypeError = e.checkDataTypes = e.checkDataType = e.coerceAndCheckDataType = e.getJSONTypes = e.getSchemaTypes = e.DataType = void 0;
-	var t = A(), n = j(), r = O(), i = T(), a = E(), o;
+	var t = j(), n = M(), r = k(), i = E(), a = D(), o;
 	(function(e) {
 		e[e.Correct = 0] = "Correct", e[e.Wrong = 1] = "Wrong";
 	})(o || (e.DataType = o = {}));
@@ -1476,9 +1496,9 @@ var C = /* @__PURE__ */ s(((e) => {
 			it: e
 		};
 	}
-})), N = /* @__PURE__ */ s(((e) => {
+})), P = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.assignDefaults = void 0;
-	var t = T(), n = E();
+	var t = E(), n = D();
 	function r(e, t) {
 		let { properties: n, items: r } = e.schema;
 		if (t === "object" && n) for (let t in n) i(e, t, n[t].default);
@@ -1496,9 +1516,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		let u = (0, t._)`${l} === undefined`;
 		c.useDefaults === "empty" && (u = (0, t._)`${u} || ${l} === null || ${l} === ""`), a.if(u, (0, t._)`${l} = ${(0, t.stringify)(i)}`);
 	}
-})), P = /* @__PURE__ */ s(((e) => {
+})), F = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.validateUnion = e.validateArray = e.usePattern = e.callValidateCode = e.schemaProperties = e.allSchemaProperties = e.noPropertyInData = e.propertyInData = e.isOwnProperty = e.hasPropFunc = e.reportMissingProp = e.checkMissingProp = e.checkReportMissingProp = void 0;
-	var t = T(), n = E(), r = D(), i = E();
+	var t = E(), n = D(), r = O(), i = D();
 	function a(e, n) {
 		let { gen: r, data: i, it: a } = e;
 		r.if(d(r, i, n, a.opts.ownProperties), () => {
@@ -1600,9 +1620,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		})), e.result(s, () => e.reset(), () => e.error(!0));
 	}
 	e.validateUnion = v;
-})), F = /* @__PURE__ */ s(((e) => {
+})), I = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.validateKeywordUsage = e.validSchemaType = e.funcKeywordCode = e.macroKeywordCode = void 0;
-	var t = T(), n = D(), r = P(), i = O();
+	var t = E(), n = O(), r = F(), i = k();
 	function a(e, n) {
 		let { gen: r, keyword: i, schema: a, parentSchema: o, it: s } = e, c = n.macro.call(s.self, a, o, s), l = u(r, i, c);
 		s.opts.validateSchema !== !1 && s.self.validateSchema(c, !0);
@@ -1681,9 +1701,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 	}
 	e.validateKeywordUsage = f;
-})), I = /* @__PURE__ */ s(((e) => {
+})), L = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.extendSubschemaMode = e.extendSubschemaData = e.getSubschema = void 0;
-	var t = T(), n = E();
+	var t = E(), n = D();
 	function r(e, { keyword: r, schemaProp: i, schema: a, schemaPath: o, errSchemaPath: s, topSchemaRef: c }) {
 		if (r !== void 0 && a !== void 0) throw Error("both \"keyword\" and \"schema\" passed, only one allowed");
 		if (r !== void 0) {
@@ -1727,7 +1747,7 @@ var C = /* @__PURE__ */ s(((e) => {
 		r !== void 0 && (e.compositeRule = r), i !== void 0 && (e.createErrors = i), a !== void 0 && (e.allErrors = a), e.jtdDiscriminator = t, e.jtdMetadata = n;
 	}
 	e.extendSubschemaMode = a;
-})), L = /* @__PURE__ */ s(((e, t) => {
+})), R = /* @__PURE__ */ s(((e, t) => {
 	t.exports = function e(t, n) {
 		if (t === n) return !0;
 		if (t && n && typeof t == "object" && typeof n == "object") {
@@ -1751,7 +1771,7 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 		return t !== t && n !== n;
 	};
-})), R = /* @__PURE__ */ s(((e, t) => {
+})), z = /* @__PURE__ */ s(((e, t) => {
 	var n = t.exports = function(e, t, n) {
 		typeof t == "function" && (n = t, t = {}), n = t.cb || n;
 		var i = typeof n == "function" ? n : n.pre || function() {}, a = n.post || function() {};
@@ -1814,9 +1834,9 @@ var C = /* @__PURE__ */ s(((e) => {
 	function i(e) {
 		return e.replace(/~/g, "~0").replace(/\//g, "~1");
 	}
-})), z = /* @__PURE__ */ s(((e) => {
+})), B = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.getSchemaRefs = e.resolveUrl = e.normalizeId = e._getFullPath = e.getFullPath = e.inlineRef = void 0;
-	var t = E(), n = L(), r = R(), i = /* @__PURE__ */ new Set([
+	var t = D(), n = R(), r = z(), i = /* @__PURE__ */ new Set([
 		"type",
 		"format",
 		"pattern",
@@ -1905,9 +1925,9 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 	}
 	e.getSchemaRefs = h;
-})), B = /* @__PURE__ */ s(((e) => {
+})), V = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.getData = e.KeywordCxt = e.validateFunctionCode = void 0;
-	var t = k(), n = M(), r = j(), i = M(), a = N(), o = F(), s = I(), c = T(), l = D(), u = z(), d = E(), f = O();
+	var t = A(), n = N(), r = M(), i = N(), a = P(), o = I(), s = L(), c = E(), l = O(), u = B(), d = D(), f = k();
 	function p(e) {
 		if (S(e) && (w(e), x(e))) {
 			_(e);
@@ -1934,7 +1954,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	function _(e) {
 		let { schema: t, opts: n, gen: r } = e;
 		m(e, () => {
-			n.$comment && t.$comment && V(e), L(e), r.let(l.default.vErrors, null), r.let(l.default.errors, 0), n.unevaluated && v(e), A(e), H(e);
+			n.$comment && t.$comment && V(e), F(e), r.let(l.default.vErrors, null), r.let(l.default.errors, 0), n.unevaluated && v(e), T(e), H(e);
 		});
 	}
 	function v(e) {
@@ -1962,23 +1982,23 @@ var C = /* @__PURE__ */ s(((e) => {
 	}
 	function C(e, t) {
 		let { schema: n, gen: r, opts: i } = e;
-		i.$comment && n.$comment && V(e), R(e), B(e);
+		i.$comment && n.$comment && V(e), R(e), z(e);
 		let a = r.const("_errs", l.default.errors);
-		A(e, a), r.var(t, (0, c._)`${a} === ${l.default.errors}`);
+		T(e, a), r.var(t, (0, c._)`${a} === ${l.default.errors}`);
 	}
 	function w(e) {
-		(0, d.checkUnknownRules)(e), P(e);
+		(0, d.checkUnknownRules)(e), j(e);
 	}
-	function A(e, t) {
-		if (e.opts.jtd) return ee(e, [], !1, t);
+	function T(e, t) {
+		if (e.opts.jtd) return W(e, [], !1, t);
 		let r = (0, n.getSchemaTypes)(e.schema);
-		ee(e, r, !(0, n.coerceAndCheckDataType)(e, r), t);
+		W(e, r, !(0, n.coerceAndCheckDataType)(e, r), t);
 	}
-	function P(e) {
+	function j(e) {
 		let { schema: t, errSchemaPath: n, opts: r, self: i } = e;
 		t.$ref && r.ignoreKeywordsWithRef && (0, d.schemaHasRulesButRef)(t, i.RULES) && i.logger.warn(`$ref: keywords ignored in schema at path "${n}"`);
 	}
-	function L(e) {
+	function F(e) {
 		let { schema: t, opts: n } = e;
 		t.default !== void 0 && n.useDefaults && n.strictSchema && (0, d.checkStrictMode)(e, "default is ignored in the schema root");
 	}
@@ -1986,7 +2006,7 @@ var C = /* @__PURE__ */ s(((e) => {
 		let t = e.schema[e.opts.schemaId];
 		t && (e.baseId = (0, u.resolveUrl)(e.opts.uriResolver, e.baseId, t));
 	}
-	function B(e) {
+	function z(e) {
 		if (e.schema.$async && !e.schemaEnv.$async) throw Error("async schema in sync schema");
 	}
 	function V({ gen: e, schemaEnv: t, schema: n, errSchemaPath: r, opts: i }) {
@@ -2004,10 +2024,10 @@ var C = /* @__PURE__ */ s(((e) => {
 	function U({ gen: e, evaluated: t, props: n, items: r }) {
 		n instanceof c.Name && e.assign((0, c._)`${t}.props`, n), r instanceof c.Name && e.assign((0, c._)`${t}.items`, r);
 	}
-	function ee(e, t, n, a) {
+	function W(e, t, n, a) {
 		let { gen: o, schema: s, data: u, allErrors: f, opts: p, self: m } = e, { RULES: h } = m;
 		if (s.$ref && (p.ignoreKeywordsWithRef || !(0, d.schemaHasRulesButRef)(s, h))) {
-			o.block(() => ie(e, "$ref", h.all.$ref.definition));
+			o.block(() => ne(e, "$ref", h.all.$ref.definition));
 			return;
 		}
 		p.jtd || G(e, t), o.block(() => {
@@ -2015,13 +2035,13 @@ var C = /* @__PURE__ */ s(((e) => {
 			g(h.post);
 		});
 		function g(d) {
-			(0, r.shouldUseGroup)(s, d) && (d.type ? (o.if((0, i.checkDataType)(d.type, u, p.strictNumbers)), W(e, d), t.length === 1 && t[0] === d.type && n && (o.else(), (0, i.reportTypeError)(e)), o.endIf()) : W(e, d), f || o.if((0, c._)`${l.default.errors} === ${a || 0}`));
+			(0, r.shouldUseGroup)(s, d) && (d.type ? (o.if((0, i.checkDataType)(d.type, u, p.strictNumbers)), ee(e, d), t.length === 1 && t[0] === d.type && n && (o.else(), (0, i.reportTypeError)(e)), o.endIf()) : ee(e, d), f || o.if((0, c._)`${l.default.errors} === ${a || 0}`));
 		}
 	}
-	function W(e, t) {
+	function ee(e, t) {
 		let { gen: n, schema: i, opts: { useDefaults: o } } = e;
 		o && (0, a.assignDefaults)(e, t.type), n.block(() => {
-			for (let n of t.rules) (0, r.shouldUseRule)(i, n) && ie(e, n.keyword, n.definition, t.type);
+			for (let n of t.rules) (0, r.shouldUseRule)(i, n) && ne(e, n.keyword, n.definition, t.type);
 		});
 	}
 	function G(e, t) {
@@ -2034,12 +2054,12 @@ var C = /* @__PURE__ */ s(((e) => {
 				return;
 			}
 			t.forEach((t) => {
-				ne(e.dataTypes, t) || Y(e, `type "${t}" not allowed by context "${e.dataTypes.join(",")}"`);
-			}), re(e, t);
+				X(e.dataTypes, t) || Z(e, `type "${t}" not allowed by context "${e.dataTypes.join(",")}"`);
+			}), te(e, t);
 		}
 	}
 	function q(e, t) {
-		t.length > 1 && !(t.length === 2 && t.includes("null")) && Y(e, "use allowUnionTypes to allow union type keyword");
+		t.length > 1 && !(t.length === 2 && t.includes("null")) && Z(e, "use allowUnionTypes to allow union type keyword");
 	}
 	function J(e, t) {
 		let n = e.self.RULES.all;
@@ -2047,28 +2067,28 @@ var C = /* @__PURE__ */ s(((e) => {
 			let a = n[i];
 			if (typeof a == "object" && (0, r.shouldUseRule)(e.schema, a)) {
 				let { type: n } = a.definition;
-				n.length && !n.some((e) => te(t, e)) && Y(e, `missing type "${n.join(",")}" for keyword "${i}"`);
+				n.length && !n.some((e) => Y(t, e)) && Z(e, `missing type "${n.join(",")}" for keyword "${i}"`);
 			}
 		}
 	}
-	function te(e, t) {
+	function Y(e, t) {
 		return e.includes(t) || t === "number" && e.includes("integer");
 	}
-	function ne(e, t) {
+	function X(e, t) {
 		return e.includes(t) || t === "integer" && e.includes("number");
 	}
-	function re(e, t) {
+	function te(e, t) {
 		let n = [];
-		for (let r of e.dataTypes) ne(t, r) ? n.push(r) : t.includes("integer") && r === "number" && n.push("integer");
+		for (let r of e.dataTypes) X(t, r) ? n.push(r) : t.includes("integer") && r === "number" && n.push("integer");
 		e.dataTypes = n;
 	}
-	function Y(e, t) {
+	function Z(e, t) {
 		let n = e.schemaEnv.baseId + e.errSchemaPath;
 		t += ` at "${n}" (strictTypes)`, (0, d.checkStrictMode)(e, t, e.opts.strictTypes);
 	}
-	var X = class {
+	var Q = class {
 		constructor(e, t, n) {
-			if ((0, o.validateKeywordUsage)(e, t, n), this.gen = e.gen, this.allErrors = e.allErrors, this.keyword = n, this.data = e.data, this.schema = e.schema[n], this.$data = t.$data && e.opts.$data && this.schema && this.schema.$data, this.schemaValue = (0, d.schemaRefOrVal)(e, this.schema, n, this.$data), this.schemaType = t.schemaType, this.parentSchema = e.schema, this.params = {}, this.it = e, this.def = t, this.$data) this.schemaCode = e.gen.const("vSchema", Z(this.$data, e));
+			if ((0, o.validateKeywordUsage)(e, t, n), this.gen = e.gen, this.allErrors = e.allErrors, this.keyword = n, this.data = e.data, this.schema = e.schema[n], this.$data = t.$data && e.opts.$data && this.schema && this.schema.$data, this.schemaValue = (0, d.schemaRefOrVal)(e, this.schema, n, this.$data), this.schemaType = t.schemaType, this.parentSchema = e.schema, this.params = {}, this.it = e, this.def = t, this.$data) this.schemaCode = e.gen.const("vSchema", ae(this.$data, e));
 			else if (this.schemaCode = this.schemaValue, !(0, o.validSchemaType)(this.schema, t.schemaType, t.allowUndefined)) throw Error(`${n} value must be ${JSON.stringify(t.schemaType)}`);
 			("code" in t ? t.trackErrors : t.errors !== !1) && (this.errsCount = e.gen.const("_errs", l.default.errors));
 		}
@@ -2166,20 +2186,20 @@ var C = /* @__PURE__ */ s(((e) => {
 			if (n.opts.unevaluated && (n.props !== !0 || n.items !== !0)) return r.if(t, () => this.mergeEvaluated(e, c.Name)), !0;
 		}
 	};
-	e.KeywordCxt = X;
-	function ie(e, t, n, r) {
-		let i = new X(e, n, t);
+	e.KeywordCxt = Q;
+	function ne(e, t, n, r) {
+		let i = new Q(e, n, t);
 		"code" in n ? n.code(i, r) : i.$data && n.validate ? (0, o.funcKeywordCode)(i, n) : "macro" in n ? (0, o.macroKeywordCode)(i, n) : (n.compile || n.validate) && (0, o.funcKeywordCode)(i, n);
 	}
-	var ae = /^\/(?:[^~]|~0|~1)*$/, oe = /^([0-9]+)(#|\/(?:[^~]|~0|~1)*)?$/;
-	function Z(e, { dataLevel: t, dataNames: n, dataPathArr: r }) {
+	var re = /^\/(?:[^~]|~0|~1)*$/, ie = /^([0-9]+)(#|\/(?:[^~]|~0|~1)*)?$/;
+	function ae(e, { dataLevel: t, dataNames: n, dataPathArr: r }) {
 		let i, a;
 		if (e === "") return l.default.rootData;
 		if (e[0] === "/") {
-			if (!ae.test(e)) throw Error(`Invalid JSON-pointer: ${e}`);
+			if (!re.test(e)) throw Error(`Invalid JSON-pointer: ${e}`);
 			i = e, a = l.default.rootData;
 		} else {
-			let o = oe.exec(e);
+			let o = ie.exec(e);
 			if (!o) throw Error(`Invalid JSON-pointer: ${e}`);
 			let s = +o[1];
 			if (i = o[2], i === "#") {
@@ -2196,24 +2216,24 @@ var C = /* @__PURE__ */ s(((e) => {
 			return `Cannot access ${e} ${n} levels up, current level is ${t}`;
 		}
 	}
-	e.getData = Z;
-})), V = /* @__PURE__ */ s(((e) => {
+	e.getData = ae;
+})), H = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.default = class extends Error {
 		constructor(e) {
 			super("validation failed"), this.errors = e, this.ajv = this.validation = !0;
 		}
 	};
-})), H = /* @__PURE__ */ s(((e) => {
+})), U = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = z();
+	var t = B();
 	e.default = class extends Error {
 		constructor(e, n, r, i) {
 			super(i || `can't resolve reference ${r} from id ${n}`), this.missingRef = (0, t.resolveUrl)(e, n, r), this.missingSchema = (0, t.normalizeId)((0, t.getFullPath)(e, this.missingRef));
 		}
 	};
-})), U = /* @__PURE__ */ s(((e) => {
+})), W = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.resolveSchema = e.getCompilingSchema = e.resolveRef = e.compileSchema = e.SchemaEnv = void 0;
-	var t = T(), n = V(), r = D(), i = z(), a = E(), o = B(), s = class {
+	var t = E(), n = H(), r = O(), i = B(), a = D(), o = V(), s = class {
 		constructor(e) {
 			this.refs = {}, this.dynamicAnchors = {};
 			let t;
@@ -2373,26 +2393,26 @@ var C = /* @__PURE__ */ s(((e) => {
 		}), o.schema !== o.root.schema) return o;
 	}
 })), ee = /* @__PURE__ */ c({
-	$id: () => W,
+	$id: () => G,
 	additionalProperties: () => !1,
-	default: () => te,
-	description: () => G,
-	properties: () => J,
-	required: () => q,
-	type: () => K
-}), W, G, K, q, J, te, ne = o((() => {
-	W = "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#", G = "Meta-schema for $data reference (JSON AnySchema extension proposal)", K = "object", q = ["$data"], J = { $data: {
+	default: () => X,
+	description: () => K,
+	properties: () => Y,
+	required: () => J,
+	type: () => q
+}), G, K, q, J, Y, X, te = o((() => {
+	G = "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#", K = "Meta-schema for $data reference (JSON AnySchema extension proposal)", q = "object", J = ["$data"], Y = { $data: {
 		type: "string",
 		anyOf: [{ format: "relative-json-pointer" }, { format: "json-pointer" }]
-	} }, te = {
-		$id: W,
-		description: G,
-		type: K,
-		required: q,
-		properties: J,
+	} }, X = {
+		$id: G,
+		description: K,
+		type: q,
+		required: J,
+		properties: Y,
 		additionalProperties: !1
 	};
-})), re = /* @__PURE__ */ s(((e, t) => {
+})), Z = /* @__PURE__ */ s(((e, t) => {
 	var n = RegExp.prototype.test.bind(/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/iu), r = RegExp.prototype.test.bind(/^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d)$/u), i = RegExp.prototype.test.bind(/^\d*$/u), a = RegExp.prototype.test.bind(/^[\da-f]{2}$/iu), o = RegExp.prototype.test.bind(/^[\da-z\-._~]$/iu), s = RegExp.prototype.test.bind(/^[A-Za-z0-9\-._~!$&'()*+,;=:@/]$/u), c = RegExp.prototype.test.bind(/^[A-Za-z0-9\-._~!$&'()*+,;=:@/?]$/u), l = RegExp.prototype.test.bind(/^[A-Za-z0-9\-._~!$&'()*+,;=:]$/u), u = Array(256);
 	{
 		let e = "0123456789ABCDEF";
@@ -2751,8 +2771,8 @@ var C = /* @__PURE__ */ s(((e) => {
 		normalizeIPv6: b,
 		stringArrayToHexStripped: f
 	};
-})), Y = /* @__PURE__ */ s(((e, t) => {
-	var { isUUID: n } = re(), r = /^([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-./:;=@]|%[\da-f]{2})+)$/iu, i = [
+})), Q = /* @__PURE__ */ s(((e, t) => {
+	var { isUUID: n } = Z(), r = /^([\da-z][\d\-a-z]{0,31}):((?:[\w!$'()*+,\-./:;=@]|%[\da-f]{2})+)$/iu, i = [
 		"http",
 		"https",
 		"ws",
@@ -2857,8 +2877,8 @@ var C = /* @__PURE__ */ s(((e) => {
 		isValidSchemeName: a,
 		getSchemeHandler: y
 	};
-})), X = /* @__PURE__ */ s(((e, t) => {
-	var { normalizeIPv6: n, removeDotSegments: r, removeDotSegmentsRelative: i, recomposeAuthority: a, normalizePercentEncoding: o, normalizePathEncoding: s, serializePathEncoding: c, normalizeQueryFragmentEncoding: l, encodeQuery: u, encodeFragment: d, reescapeHostDelimiters: f, isIPv4: p, nonSimpleDomain: m } = re(), { SCHEMES: h, getSchemeHandler: g } = Y(), _ = /^[A-Za-z][A-Za-z0-9+.-]*$/u, v = "URI scheme is malformed.", y = "URI host is malformed.", b = /[\0-\x20"#/:<>?@[\\\]^`{|}\x7F]/u;
+})), ne = /* @__PURE__ */ s(((e, t) => {
+	var { normalizeIPv6: n, removeDotSegments: r, removeDotSegmentsRelative: i, recomposeAuthority: a, normalizePercentEncoding: o, normalizePathEncoding: s, serializePathEncoding: c, normalizeQueryFragmentEncoding: l, encodeQuery: u, encodeFragment: d, reescapeHostDelimiters: f, isIPv4: p, nonSimpleDomain: m } = Z(), { SCHEMES: h, getSchemeHandler: g } = Q(), _ = /^[A-Za-z][A-Za-z0-9+.-]*$/u, v = "URI scheme is malformed.", y = "URI host is malformed.", b = /[\0-\x20"#/:<>?@[\\\]^`{|}\x7F]/u;
 	function x(e) {
 		let t = String(e);
 		if (!_.test(t)) throw TypeError(v);
@@ -3053,20 +3073,20 @@ var C = /* @__PURE__ */ s(((e) => {
 		parse: R
 	};
 	t.exports = H, t.exports.default = H, t.exports.fastUri = H;
-})), ie = /* @__PURE__ */ s(((e) => {
+})), re = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = X();
+	var t = ne();
 	t.code = "require(\"ajv/dist/runtime/uri\").default", e.default = t;
-})), ae = /* @__PURE__ */ s(((e) => {
+})), ie = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.CodeGen = e.Name = e.nil = e.stringify = e.str = e._ = e.KeywordCxt = void 0;
-	var t = B();
+	var t = V();
 	Object.defineProperty(e, "KeywordCxt", {
 		enumerable: !0,
 		get: function() {
 			return t.KeywordCxt;
 		}
 	});
-	var n = T();
+	var n = E();
 	Object.defineProperty(e, "_", {
 		enumerable: !0,
 		get: function() {
@@ -3098,7 +3118,7 @@ var C = /* @__PURE__ */ s(((e) => {
 			return n.CodeGen;
 		}
 	});
-	var r = V(), i = H(), a = A(), o = U(), s = T(), c = z(), l = M(), u = E(), f = (ne(), d(ee).default), p = ie(), m = (e, t) => new RegExp(e, t);
+	var r = H(), i = U(), a = j(), o = W(), s = E(), c = B(), l = N(), u = D(), f = (te(), d(ee).default), p = re(), m = (e, t) => new RegExp(e, t);
 	m.code = "new RegExp";
 	var h = [
 		"removeAdditional",
@@ -3181,9 +3201,9 @@ var C = /* @__PURE__ */ s(((e) => {
 				prefixes: g,
 				es5: t,
 				lines: n
-			}), this.logger = N(e.logger);
+			}), this.logger = M(e.logger);
 			let r = e.validateFormats;
-			e.validateFormats = !1, this.RULES = (0, a.getRules)(), S.call(this, _, e, "NOT SUPPORTED"), S.call(this, v, e, "DEPRECATED", "warn"), this._metaOpts = k.call(this), e.formats && D.call(this), this._addVocabularies(), this._addDefaultMetaSchema(), e.keywords && O.call(this, e.keywords), typeof e.meta == "object" && this.addMetaSchema(e.meta), w.call(this), e.validateFormats = r;
+			e.validateFormats = !1, this.RULES = (0, a.getRules)(), S.call(this, _, e, "NOT SUPPORTED"), S.call(this, v, e, "DEPRECATED", "warn"), this._metaOpts = k.call(this), e.formats && T.call(this), this._addVocabularies(), this._addDefaultMetaSchema(), e.keywords && O.call(this, e.keywords), typeof e.meta == "object" && this.addMetaSchema(e.meta), w.call(this), e.validateFormats = r;
 		}
 		_addVocabularies() {
 			this.addKeyword("$async");
@@ -3412,7 +3432,7 @@ var C = /* @__PURE__ */ s(((e) => {
 		if (e) if (Array.isArray(e)) this.addSchema(e);
 		else for (let t in e) this.addSchema(e[t], t);
 	}
-	function D() {
+	function T() {
 		for (let e in this.opts.formats) {
 			let t = this.opts.formats[e];
 			t && this.addFormat(e, t);
@@ -3434,13 +3454,13 @@ var C = /* @__PURE__ */ s(((e) => {
 		for (let t of h) delete e[t];
 		return e;
 	}
-	var j = {
+	var A = {
 		log() {},
 		warn() {},
 		error() {}
 	};
-	function N(e) {
-		if (e === !1) return j;
+	function M(e) {
+		if (e === !1) return A;
 		if (e === void 0) return console;
 		if (e.log && e.warn && e.error) return e;
 		throw Error("logger must implement log, warn and error methods");
@@ -3480,20 +3500,20 @@ var C = /* @__PURE__ */ s(((e) => {
 		let { metaSchema: t } = e;
 		t !== void 0 && (e.$data && this.opts.$data && (t = G(t)), e.validateSchema = this.compile(t, !0));
 	}
-	var W = { $ref: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#" };
+	var z = { $ref: "https://raw.githubusercontent.com/ajv-validator/ajv/master/lib/refs/data.json#" };
 	function G(e) {
-		return { anyOf: [e, W] };
+		return { anyOf: [e, z] };
 	}
-})), oe = /* @__PURE__ */ s(((e) => {
+})), ae = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.default = {
 		keyword: "id",
 		code() {
 			throw Error("NOT SUPPORTED: keyword \"id\", use \"$id\" for schema ID");
 		}
 	};
-})), Z = /* @__PURE__ */ s(((e) => {
+})), oe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.callRef = e.getValidate = void 0;
-	var t = H(), n = P(), r = T(), i = D(), a = U(), o = E(), s = {
+	var t = U(), n = F(), r = E(), i = O(), a = W(), o = D(), s = {
 		keyword: "$ref",
 		schemaType: "string",
 		code(e) {
@@ -3568,7 +3588,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.callRef = l, e.default = s;
 })), se = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = oe(), n = Z();
+	var t = ae(), n = oe();
 	e.default = [
 		"$schema",
 		"$id",
@@ -3581,7 +3601,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	];
 })), ce = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = t.operators, r = {
+	var t = E(), n = t.operators, r = {
 		maximum: {
 			okStr: "<=",
 			ok: n.LTE,
@@ -3619,7 +3639,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), le = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T();
+	var t = E();
 	e.default = {
 		keyword: "multipleOf",
 		type: "number",
@@ -3644,7 +3664,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.default = t, t.code = "require(\"ajv/dist/runtime/ucs2length\").default";
 })), de = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E(), r = ue();
+	var t = E(), n = D(), r = ue();
 	e.default = {
 		keyword: ["maxLength", "minLength"],
 		type: "string",
@@ -3664,7 +3684,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), fe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = P(), n = E(), r = T();
+	var t = F(), n = D(), r = E();
 	e.default = {
 		keyword: "pattern",
 		type: "string",
@@ -3687,7 +3707,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), pe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T();
+	var t = E();
 	e.default = {
 		keyword: ["maxProperties", "minProperties"],
 		type: "object",
@@ -3707,7 +3727,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), me = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = P(), n = T(), r = E();
+	var t = F(), n = E(), r = D();
 	e.default = {
 		keyword: "required",
 		type: "object",
@@ -3755,7 +3775,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), he = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T();
+	var t = E();
 	e.default = {
 		keyword: ["maxItems", "minItems"],
 		type: "array",
@@ -3775,11 +3795,11 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), ge = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = L();
+	var t = R();
 	t.code = "require(\"ajv/dist/runtime/equal\").default", e.default = t;
 })), _e = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = M(), n = T(), r = E(), i = ge();
+	var t = N(), n = E(), r = D(), i = ge();
 	e.default = {
 		keyword: "uniqueItems",
 		type: "array",
@@ -3822,7 +3842,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), ve = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E(), r = ge();
+	var t = E(), n = D(), r = ge();
 	e.default = {
 		keyword: "const",
 		$data: !0,
@@ -3837,7 +3857,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), ye = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E(), r = ge();
+	var t = E(), n = D(), r = ge();
 	e.default = {
 		keyword: "enum",
 		schemaType: "array",
@@ -3892,7 +3912,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	];
 })), xe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.validateAdditionalItems = void 0;
-	var t = T(), n = E(), r = {
+	var t = E(), n = D(), r = {
 		keyword: "additionalItems",
 		type: "array",
 		schemaType: ["boolean", "object"],
@@ -3932,7 +3952,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.validateAdditionalItems = i, e.default = r;
 })), Se = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.validateTuple = void 0;
-	var t = T(), n = E(), r = P(), i = {
+	var t = E(), n = D(), r = F(), i = {
 		keyword: "items",
 		type: "array",
 		schemaType: [
@@ -3979,7 +3999,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), we = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E(), r = P(), i = xe();
+	var t = E(), n = D(), r = F(), i = xe();
 	e.default = {
 		keyword: "items",
 		type: "array",
@@ -3996,7 +4016,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Te = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E();
+	var t = E(), n = D();
 	e.default = {
 		keyword: "contains",
 		type: "array",
@@ -4051,7 +4071,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Ee = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.validateSchemaDeps = e.validatePropertyDeps = e.error = void 0;
-	var t = T(), n = E(), r = P();
+	var t = E(), n = D(), r = F();
 	e.error = {
 		message: ({ params: { property: e, depsCount: n, deps: r } }) => {
 			let i = n === 1 ? "property" : "properties";
@@ -4112,7 +4132,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.validateSchemaDeps = s, e.default = i;
 })), De = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E();
+	var t = E(), n = D();
 	e.default = {
 		keyword: "propertyNames",
 		type: "object",
@@ -4140,7 +4160,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Oe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = P(), n = T(), r = D(), i = E();
+	var t = F(), n = E(), r = O(), i = D();
 	e.default = {
 		keyword: "additionalProperties",
 		type: ["object"],
@@ -4207,7 +4227,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), ke = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = B(), n = P(), r = E(), i = Oe();
+	var t = V(), n = F(), r = D(), i = Oe();
 	e.default = {
 		keyword: "properties",
 		type: "object",
@@ -4236,7 +4256,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Ae = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = P(), n = T(), r = E(), i = E();
+	var t = F(), n = E(), r = D(), i = D();
 	e.default = {
 		keyword: "patternProperties",
 		type: "object",
@@ -4271,7 +4291,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), je = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = E();
+	var t = D();
 	e.default = {
 		keyword: "not",
 		schemaType: ["object", "boolean"],
@@ -4297,12 +4317,12 @@ var C = /* @__PURE__ */ s(((e) => {
 		keyword: "anyOf",
 		schemaType: "array",
 		trackErrors: !0,
-		code: P().validateUnion,
+		code: F().validateUnion,
 		error: { message: "must match a schema in anyOf" }
 	};
 })), Ne = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E();
+	var t = E(), n = D();
 	e.default = {
 		keyword: "oneOf",
 		schemaType: "array",
@@ -4334,7 +4354,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Pe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = E();
+	var t = D();
 	e.default = {
 		keyword: "allOf",
 		schemaType: "array",
@@ -4355,7 +4375,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Fe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E(), r = {
+	var t = E(), n = D(), r = {
 		keyword: "if",
 		schemaType: ["object", "boolean"],
 		trackErrors: !0,
@@ -4398,7 +4418,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.default = r;
 })), Ie = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = E();
+	var t = D();
 	e.default = {
 		keyword: ["then", "else"],
 		schemaType: ["object", "boolean"],
@@ -4428,7 +4448,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.default = _;
 })), Re = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.dynamicAnchor = void 0;
-	var t = T(), n = D(), r = U(), i = Z(), a = {
+	var t = E(), n = O(), r = W(), i = oe(), a = {
 		keyword: "$dynamicAnchor",
 		schemaType: "string",
 		code: (e) => o(e, e.schema)
@@ -4454,7 +4474,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.default = a;
 })), ze = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.dynamicRef = void 0;
-	var t = T(), n = D(), r = Z(), i = {
+	var t = E(), n = O(), r = oe(), i = {
 		keyword: "$dynamicRef",
 		schemaType: "string",
 		code: (e) => a(e, e.schema)
@@ -4483,7 +4503,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.dynamicRef = a, e.default = i;
 })), Be = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = Re(), n = E();
+	var t = Re(), n = D();
 	e.default = {
 		keyword: "$recursiveAnchor",
 		schemaType: "boolean",
@@ -4529,7 +4549,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Ge = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = E();
+	var t = D();
 	e.default = {
 		keyword: ["maxContains", "minContains"],
 		type: "array",
@@ -4548,7 +4568,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	];
 })), qe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E(), r = D();
+	var t = E(), n = D(), r = O();
 	e.default = {
 		keyword: "unevaluatedProperties",
 		type: "object",
@@ -4590,7 +4610,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), Je = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = E();
+	var t = E(), n = D();
 	e.default = {
 		keyword: "unevaluatedItems",
 		type: "array",
@@ -4626,7 +4646,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.default = [t.default, n.default];
 })), Xe = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T();
+	var t = E();
 	e.default = {
 		keyword: "format",
 		type: ["number", "string"],
@@ -4737,7 +4757,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	})(t || (e.DiscrError = t = {}));
 })), tt = /* @__PURE__ */ s(((e) => {
 	Object.defineProperty(e, "__esModule", { value: !0 });
-	var t = T(), n = et(), r = U(), i = H(), a = E();
+	var t = E(), n = et(), r = W(), i = U(), a = D();
 	e.default = {
 		keyword: "discriminator",
 		type: "object",
@@ -5044,15 +5064,15 @@ var C = /* @__PURE__ */ s(((e) => {
 	};
 })), pn = /* @__PURE__ */ c({
 	$dynamicAnchor: () => gn,
-	$id: () => hn,
+	$id: () => $,
 	$schema: () => mn,
-	$vocabulary: () => Q,
+	$vocabulary: () => hn,
 	default: () => bn,
 	properties: () => yn,
 	title: () => _n,
 	type: () => vn
-}), mn, hn, Q, gn, _n, vn, yn, bn, xn = o((() => {
-	mn = "https://json-schema.org/draft/2020-12/schema", hn = "https://json-schema.org/draft/2020-12/meta/meta-data", Q = { "https://json-schema.org/draft/2020-12/vocab/meta-data": !0 }, gn = "meta", _n = "Meta-data vocabulary meta-schema", vn = ["object", "boolean"], yn = {
+}), mn, $, hn, gn, _n, vn, yn, bn, xn = o((() => {
+	mn = "https://json-schema.org/draft/2020-12/schema", $ = "https://json-schema.org/draft/2020-12/meta/meta-data", hn = { "https://json-schema.org/draft/2020-12/vocab/meta-data": !0 }, gn = "meta", _n = "Meta-data vocabulary meta-schema", vn = ["object", "boolean"], yn = {
 		title: { type: "string" },
 		description: { type: "string" },
 		default: !0,
@@ -5074,8 +5094,8 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 	}, bn = {
 		$schema: mn,
-		$id: hn,
-		$vocabulary: Q,
+		$id: $,
+		$vocabulary: hn,
 		$dynamicAnchor: gn,
 		title: _n,
 		type: vn,
@@ -5191,7 +5211,7 @@ var C = /* @__PURE__ */ s(((e) => {
 	e.default = u;
 })), Pn = new (/* @__PURE__ */ u((/* @__PURE__ */ s(((e, t) => {
 	Object.defineProperty(e, "__esModule", { value: !0 }), e.MissingRefError = e.ValidationError = e.CodeGen = e.Name = e.nil = e.stringify = e.str = e._ = e.KeywordCxt = e.Ajv2020 = void 0;
-	var n = ae(), r = $e(), i = tt(), a = Nn(), o = "https://json-schema.org/draft/2020-12/schema", s = class extends n.default {
+	var n = ie(), r = $e(), i = tt(), a = Nn(), o = "https://json-schema.org/draft/2020-12/schema", s = class extends n.default {
 		constructor(e = {}) {
 			super({
 				...e,
@@ -5213,14 +5233,14 @@ var C = /* @__PURE__ */ s(((e) => {
 		}
 	};
 	e.Ajv2020 = s, t.exports = e = s, t.exports.Ajv2020 = s, Object.defineProperty(e, "__esModule", { value: !0 }), e.default = s;
-	var c = B();
+	var c = V();
 	Object.defineProperty(e, "KeywordCxt", {
 		enumerable: !0,
 		get: function() {
 			return c.KeywordCxt;
 		}
 	});
-	var l = T();
+	var l = E();
 	Object.defineProperty(e, "_", {
 		enumerable: !0,
 		get: function() {
@@ -5252,14 +5272,14 @@ var C = /* @__PURE__ */ s(((e) => {
 			return l.CodeGen;
 		}
 	});
-	var u = V();
+	var u = H();
 	Object.defineProperty(e, "ValidationError", {
 		enumerable: !0,
 		get: function() {
 			return u.default;
 		}
 	});
-	var d = H();
+	var d = U();
 	Object.defineProperty(e, "MissingRefError", {
 		enumerable: !0,
 		get: function() {
@@ -5332,7 +5352,7 @@ async function In() {
 	}
 }
 function Ln() {
-	return Fn ||= fetch($ ? "/__default_config.json" : "https://raw.githubusercontent.com/Mikk155/bts_rc/main/scripts/maps/bts_rc/default_config.json").then(async (e) => {
+	return Fn ||= fetch(v ? "/__default_config.json" : "https://raw.githubusercontent.com/Mikk155/bts_rc/main/scripts/maps/bts_rc/default_config.json").then(async (e) => {
 		if (!e.ok) throw Error(`Could not load default configuration (${e.status}).`);
 		let t = await e.json();
 		if (!Rn(t)) throw Error("Default configuration must be a JSON object.");
@@ -5346,16 +5366,12 @@ function zn(e) {
 	if (typeof e.type == "string") return e.type;
 	if (Array.isArray(e.type)) return e.type.find((e) => e !== "null");
 }
-//#endregion
-//#region src/main.ts
-var $ = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 window.copyCode = f, document.addEventListener("DOMContentLoaded", async () => {
 	try {
-		y(), await In(), await b(), await x(), await v();
+		b(), In(), await x(), await S(), await y();
 	} catch (e) {
 		console.error("Initialization error: ", e);
 	}
-	await S(), _();
+	await C(), _();
 });
 //#endregion
-export { $ as DEV };

@@ -6,6 +6,7 @@
     "scripts":
     {
         "dev": "vite ../../docs --config vite.config.ts",
+        "build:watch": "vite build --watch",
         "build": "tsc --noEmit && vite build"
     },
     "keywords": [],

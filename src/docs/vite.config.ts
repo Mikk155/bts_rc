@@ -8,9 +8,20 @@ const serveDefaultConfig =
     apply: "serve",
     configureServer( server )
     {
+        const localFiles: Record<string, string> =
+        {
+            "/__default_config.json": resolve(
+                process.cwd(),
+                "../../scripts/maps/bts_rc/default_config.json"
+            ),
+            "/__changelog.md": resolve( process.cwd(), "../../CHANGELOG.md" )
+        };
+
         server.middlewares.use( async ( request, response, next ) =>
         {
-            if( request.url?.split( "?" )[ 0 ] !== "/__default_config.json" )
+            const filePath = localFiles[ request.url?.split( "?" )[ 0 ] ?? "" ];
+
+            if( !filePath )
             {
                 next();
                 return;
@@ -18,14 +29,13 @@ const serveDefaultConfig =
 
             try
             {
-                const configPath = resolve(
-                    process.cwd(),
-                    "../../scripts/maps/bts_rc/default_config.json"
-                );
-                const config = await readFile( configPath, "utf8" );
+                const content = await readFile( filePath, "utf8" );
 
-                response.setHeader( "Content-Type", "application/json" );
-                response.end( config );
+                response.setHeader(
+                    "Content-Type",
+                    filePath.endsWith( ".json" ) ? "application/json" : "text/markdown; charset=utf-8"
+                );
+                response.end( content );
             }
             catch( error )
             {

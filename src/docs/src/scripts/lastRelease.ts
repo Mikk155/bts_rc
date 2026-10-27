@@ -1,4 +1,4 @@
-import { DEV } from "../main.js";
+import { DEV } from "./environment.js";
 
 interface ReleaseCache
 {
