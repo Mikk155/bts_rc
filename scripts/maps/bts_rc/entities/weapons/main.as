@@ -250,6 +250,33 @@ final class ASGlobalWeaponConfig : IConfigurable
             melee_weapons_push_monsters.insertLast( string( monstersPush[ui] ) );
         }
 
+        // ItemMapping stuff
+        meta_api::json::v2::json@ remaps = config[ "item_remap" ];
+        const array<string>@ remaps_from = remaps.Keys;
+        const uint length = remaps.Length();
+        this.ItemMappingList.resize(0);
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            string classFrom = remaps_from[ui];
+            string classTo = string( remaps[ classFrom ] );
+
+            ItemMapping@ remap = ItemMapping( classFrom, classTo );
+            this.ItemMappingList.insertLast( remap );
+
+            if( g_Logger.info.active )
+            {
+                g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { remap.From, remap.To } );
+            }
+        }
+
+        g_ClassicMode.SetItemMappings( this.ItemMappingList );
+        g_ClassicMode.ForceItemRemap( true );
+
+        // Free object
+        // this.ItemMappingList.resize(0);
+        // Or not? Sven coop epic design again: SetItemMappings is not making a copy.
+
         if( g_MapConfig.MapLoading )
         {
             CustomKeyValues::Register( "$i_spark_color" );
@@ -258,32 +285,6 @@ final class ASGlobalWeaponConfig : IConfigurable
             CustomKeyValues::Register( "$f_flame_inmune" );
 
             g_CustomEntityFuncs.RegisterCustomEntity( "env_flame", "env_flame" );
-
-            // ItemMapping stuff
-            meta_api::json::v2::json@ remaps = config[ "item_remap" ];
-            const array<string>@ remaps_from = remaps.Keys;
-            const uint length = remaps.Length();
-
-            for( uint ui = 0; ui < length; ui++ )
-            {
-                string classFrom = remaps_from[ui];
-                string classTo = string( remaps[ classFrom ] );
-
-                ItemMapping@ remap = ItemMapping( classFrom, classTo );
-                this.ItemMappingList.insertLast( remap );
-
-                if( g_Logger.info.active )
-                {
-                    g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { remap.From, remap.To } );
-                }
-            }
-
-            g_ClassicMode.SetItemMappings( this.ItemMappingList );
-            g_ClassicMode.ForceItemRemap( true );
-
-            // Free object
-            // this.ItemMappingList.resize(0);
-            // Or not? Sven coop epic design again: SetItemMappings is not making a copy.
 
             RegisterCommand( "infinite", "<int 0/1 (optional)>", "Toggle infinite ammunition mode",
                 @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
