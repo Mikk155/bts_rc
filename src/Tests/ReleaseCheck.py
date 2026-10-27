@@ -100,6 +100,8 @@ class ReleaseCheck( PyTest ):
 
             else:
 
+                sys.argv.insert( sys.argv.index( "+release" ) + 1, self.m_ProjectVersion );
+
                 changelog: str = "";
 
                 with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
@@ -123,7 +125,7 @@ class ReleaseCheck( PyTest ):
 
                     changelog = changelog[ : end ].strip().replace( "# ", "### " );
 
-                with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "w", encoding="utf-8" ) as fStream:
+                with open( os.path.join( self.Workspace, "release_notes.md" ), "w", encoding="utf-8" ) as fStream:
                     fStream.write( f"""# {self.m_Repository} map scripts [Version {self.m_ProjectVersion}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{self.m_ProjectVersion})
 
 ## ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g).
@@ -147,7 +149,8 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
         self.m_GithubData[ "previous_version" ] = releaseData[ "tag_name" ];
 
         if self.Type == PyTest.BuildType.Release:
-            with open( os.environ[ 'GITHUB_OUTPUT' ], 'a' ) as fStream:
+            filePath: str = os.environ[ "GITHUB_OUTPUT" ] if "GITHUB_OUTPUT" in os.environ else "GITHUB_OUTPUT";
+            with open( filePath, 'a' ) as fStream:
                 for key, value in self.m_GithubData.items():
                     print( f"{key}={value}", file=fStream );
 

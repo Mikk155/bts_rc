@@ -74,6 +74,28 @@
                 "panel": "shared"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Release Test.",
+            "type": "shell",
+            "command": "python",
+            "args":
+            [
+                "src/main.py",
+                "--release",
+                "--test"
+            ],
+            "group":
+            {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation":
+            {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
         }
     ]
 }
