@@ -21,9 +21,6 @@ namespace Hooks
 
     void DisplayDataInit()
     {
-        g_EngineFuncs.CVarSetFloat( "mp_allowplayerinfo", 0 );
-        g_EngineFuncs.CVarSetFloat( "mp_allowmonsterinfo", 0 );
-
         g_DisplayDataParams.fxTime = g_DisplayDataParams.fadeinTime = g_DisplayDataParams.fadeoutTime = 0.0f;
         g_DisplayDataParams.holdTime = 0.5f;
         g_DisplayDataParams.x = 0.0f;
