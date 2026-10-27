@@ -29,22 +29,22 @@ To ensure quality and consistency across all community contributions, please fol
    > enabled: yes, forced: no<br>
    > content: UI - yes, GAME - yes<br>
    > active: UI - yes, GAME - yes
-   
+
    If for some reason it refuses to load you can enable it:
    ```
    ev_enable bts
    ```
+3. **Install Dependencies**
 
-2. **Install Third-Party Dependencies**
+   Download assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g) directly or sync your ``svencoop_event_bts`` folder to MEGA.
+
    Navigate to the `src` folder inside the cloned repository and run the main script
    ```bash
    cd svencoop_event_bts/src
    pip install -r requirements.txt
    python main.py
    ```
-   The Angelscript utility files are included as a Git submodule and initialized during cloning. The main script runs the repository checks and other setup tasks.
-
-   To fetch game assets such as models, sounds and sprites, verify the last release at [Github](https://github.com/Mikk155/bts_rc/releases).
+   The main script runs the repository checks and other setup tasks.
 
 ---
 
@@ -83,17 +83,19 @@ All AngelScript scripts should match the formatting conventions enforced by the 
    ```
 
 2. **Spaces and Indentation**
-   - Use **4 spaces** for indentation. Do not use tabs.
+   - Use **4 spaces** for indentation. Do not use tabs. i hate it. install the recommended extension (``redlin.remove-tabs-on-save``) if needed.
    - Insert spaces inside parentheses for function parameters, conditionals, and casts:
      - `if( player !is null )` (Correct)
-     - `if(player!isnull)` (Incorrect)
-     - `cast<CBaseEntity@>( entity )` (Correct)
+     - `if (player !is null)` (Incorrect)
+     - `SetEntityOnFlames( entity, 3 )` (Correct)
+     - `SetEntityOnFlames(entity, 3)` (Incorrect)
+     - `SetEntityOnFlames(entity)` (Only one argument? Acceptable.)
 
 3. **Naming Conventions**
    - **Namespaces & Classes**: PascalCase (e.g., `namespace item_tracker`)
    - **Functions**: PascalCase (e.g., `void UpdatePlayerInventory`)
    - **Local Variables**: camelCase (e.g., `string trackedStr`)
-   - **Global/Namespace Variables**: Prefix with `gp` (e.g., `gpBufferDirty`) for global parameters or instead use `g_` (e.g., `g_logger`) for global parameters that should be accessed by one or more external structures.
+   - **Global/Namespace Variables**: Prefix with `gp` (e.g., `gpBufferDirty`) for global properties or instead use `g_` (e.g., `g_logger`) for global structures that should be accessed by one or more external scripts.
 
 ---
 
