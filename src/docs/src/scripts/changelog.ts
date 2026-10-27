@@ -10,13 +10,15 @@ export async function initChangelog() : Promise<void>
         return;
     }
 
+    const changelogContainer = container;
+
     let res : Response;
 
     try
     {
         if( DEV )
         {
-            res = await fetch( "../CHANGELOG.md" );
+            res = await fetch( "/__changelog.md" );
         }
         else
         {
@@ -32,7 +34,8 @@ export async function initChangelog() : Promise<void>
 
     if( !res.ok )
     {
-        container.innerHTML = "Failed to fetch changelog";
+        console.error( `Could not fetch changelog (${res.status}).` );
+        container.textContent = "Failed to fetch changelog";
         return;
     }
 
@@ -45,6 +48,53 @@ export async function initChangelog() : Promise<void>
         .replace( /`(.*?)`/g, "<code>$1</code>" )
         .split( "\n" );
 
+    function openChangelogFromHash() : void
+    {
+        const id = window.location.hash.slice( 1 );
+        const item = document.getElementById( id );
+
+        if( !item || !changelogContainer.contains( item ) )
+        {
+            return;
+        }
+
+        const header = item.querySelector<HTMLButtonElement>( ".changelog-header" );
+        const content = item.querySelector<HTMLElement>( ".changelog-content" );
+
+        if( !header || !content )
+        {
+            return;
+        }
+
+        content.classList.add( "open" );
+        header.setAttribute( "aria-expanded", "true" );
+        item.scrollIntoView( { behavior: "smooth", block: "start" } );
+    }
+
+    function changelogId( title: string ) : string | undefined
+    {
+        const match = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec( title );
+
+        if( !match )
+        {
+            return undefined;
+        }
+
+        const day = Number( match[ 1 ] );
+        const month = Number( match[ 2 ] );
+        const year = Number( match[ 3 ] );
+        const date = new Date( year, month - 1, day );
+
+        if( date.getFullYear() !== year
+            || date.getMonth() !== month - 1
+            || date.getDate() !== day )
+        {
+            return undefined;
+        }
+
+        return `changelog_${year}-${String( month ).padStart( 2, "0" )}-${String( day ).padStart( 2, "0" )}`;
+    }
+
     function pushSection( title: string, elements: Array<HTMLElement>, container: HTMLElement ) : void
     {
         if( title === "" )
@@ -52,22 +102,41 @@ export async function initChangelog() : Promise<void>
 
         let item: HTMLDivElement = document.createElement( "div" );
         item.className = "changelog-item";
+        const id = changelogId( title );
+        const sectionId = id
+            ?? `changelog_section_${container.querySelectorAll( ".changelog-item" ).length + 1}`;
 
-        let header: HTMLDivElement = document.createElement( "div" );
+        if( id )
+        {
+            item.id = id;
+        }
+
+        let header: HTMLButtonElement = document.createElement( "button" );
+        header.type = "button";
         header.className = "changelog-header";
         header.innerText = title;
-        header.addEventListener( "click", () : void =>
-        {
-            const next : Element | null = header.nextElementSibling;
-
-            if( next instanceof HTMLElement )
-            {
-                next.classList.toggle( "open" );
-            }
-        } );
+        header.setAttribute( "aria-expanded", "false" );
+        header.setAttribute( "aria-controls", `${sectionId}-content` );
 
         let content: HTMLDivElement = document.createElement( "div" );
+        content.id = `${sectionId}-content`;
         content.className = "changelog-content";
+
+        header.addEventListener( "click", () : void =>
+        {
+            const isOpen = !content.classList.contains( "open" );
+            content.classList.toggle( "open", isOpen );
+            header.setAttribute( "aria-expanded", String( isOpen ) );
+
+            if( id )
+            {
+                window.history.replaceState(
+                    null,
+                    "",
+                    `${window.location.pathname}${window.location.search}#${id}`
+                );
+            }
+        } );
 
         let ListElements: HTMLUListElement | null = null;
 
@@ -177,4 +246,6 @@ export async function initChangelog() : Promise<void>
     }
 
     pushSection( title, elements, container );
+    window.addEventListener( "hashchange", openChangelogFromHash );
+    openChangelogFromHash();
 }

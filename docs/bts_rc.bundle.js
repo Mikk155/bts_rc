@@ -72,70 +72,87 @@ async function v() {
 		console.warn("Changelog container not found");
 		return;
 	}
-	let t;
+	let t = e, n;
 	try {
-		t = $ ? await fetch("../CHANGELOG.md") : await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
+		n = $ ? await fetch("/__changelog.md") : await fetch("https://raw.githubusercontent.com/Mikk155/bts_rc/main/CHANGELOG.md");
 	} catch (t) {
 		console.error("Fetch failed:", t), e.innerHTML = "Failed to fetch changelog";
 		return;
 	}
-	if (!t.ok) {
-		e.innerHTML = "Failed to fetch changelog";
+	if (!n.ok) {
+		console.error(`Could not fetch changelog (${n.status}).`), e.textContent = "Failed to fetch changelog";
 		return;
 	}
 	e.innerHTML = "";
-	let n = (await t.text()).replace(/\r/g, "").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/``(.*?)``/g, "<code class=\"terminal\">$1</code>").replace(/`(.*?)`/g, "<code>$1</code>").split("\n");
-	function r(e, t, n) {
+	let r = (await n.text()).replace(/\r/g, "").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/``(.*?)``/g, "<code class=\"terminal\">$1</code>").replace(/`(.*?)`/g, "<code>$1</code>").split("\n");
+	function i() {
+		let e = window.location.hash.slice(1), n = document.getElementById(e);
+		if (!n || !t.contains(n)) return;
+		let r = n.querySelector(".changelog-header"), i = n.querySelector(".changelog-content");
+		!r || !i || (i.classList.add("open"), r.setAttribute("aria-expanded", "true"), n.scrollIntoView({
+			behavior: "smooth",
+			block: "start"
+		}));
+	}
+	function a(e) {
+		let t = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(e);
+		if (!t) return;
+		let n = Number(t[1]), r = Number(t[2]), i = Number(t[3]), a = new Date(i, r - 1, n);
+		if (!(a.getFullYear() !== i || a.getMonth() !== r - 1 || a.getDate() !== n)) return `changelog_${i}-${String(r).padStart(2, "0")}-${String(n).padStart(2, "0")}`;
+	}
+	function o(e, t, n) {
 		if (e === "") return;
 		let r = document.createElement("div");
 		r.className = "changelog-item";
-		let i = document.createElement("div");
-		i.className = "changelog-header", i.innerText = e, i.addEventListener("click", () => {
-			let e = i.nextElementSibling;
-			e instanceof HTMLElement && e.classList.toggle("open");
+		let i = a(e), o = i ?? `changelog_section_${n.querySelectorAll(".changelog-item").length + 1}`;
+		i && (r.id = i);
+		let s = document.createElement("button");
+		s.type = "button", s.className = "changelog-header", s.innerText = e, s.setAttribute("aria-expanded", "false"), s.setAttribute("aria-controls", `${o}-content`);
+		let c = document.createElement("div");
+		c.id = `${o}-content`, c.className = "changelog-content", s.addEventListener("click", () => {
+			let e = !c.classList.contains("open");
+			c.classList.toggle("open", e), s.setAttribute("aria-expanded", String(e)), i && window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${i}`);
 		});
-		let a = document.createElement("div");
-		a.className = "changelog-content";
-		let o = null;
+		let l = null;
 		for (let e of t) {
 			if (e instanceof HTMLLIElement) {
-				o ||= document.createElement("ul"), o.appendChild(e);
+				l ||= document.createElement("ul"), l.appendChild(e);
 				continue;
-			} else o && a.appendChild(o), o = null;
-			a.appendChild(e);
+			} else l && c.appendChild(l), l = null;
+			c.appendChild(e);
 		}
-		o && a.appendChild(o), r.appendChild(i), r.appendChild(a), n.appendChild(r);
+		l && c.appendChild(l), r.appendChild(s), r.appendChild(c), n.appendChild(r);
 	}
-	let i = [], a = "";
+	let s = [], c = "";
 	{
 		let t = document.createElement("a");
 		t.href = "https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md", t.target = "_blanc", t.innerText = "Full changelog in Markdown.", t.className = "changelog-header", t.style.display = "block", t.style.width = "max-content", t.style.margin = "0 auto", t.style.textAlign = "center", e.appendChild(t), e.appendChild(document.createElement("br"));
 	}
-	for (let t of n) {
+	for (let t of r) {
 		if (t.startsWith("# ")) {
-			r(a, i, e), a = t.substring(2), i = [];
+			o(c, s, e), c = t.substring(2), s = [];
 			continue;
 		}
 		if (t.startsWith("- ")) {
 			let e = document.createElement("li");
-			e.innerHTML = t.substring(2), i.push(e);
+			e.innerHTML = t.substring(2), s.push(e);
 			continue;
 		}
 		if (t.startsWith("## ")) {
 			let e = document.createElement("h2");
-			e.innerHTML = t.substring(3), i.push(e);
+			e.innerHTML = t.substring(3), s.push(e);
 			continue;
 		}
 		if (t.startsWith("### ")) {
 			let e = document.createElement("h3");
-			e.innerHTML = t.substring(4), i.push(e);
+			e.innerHTML = t.substring(4), s.push(e);
 			continue;
 		}
 		if (t.trim() === "") continue;
 		let n = document.createElement("p");
-		t[0] == " " || t[0] == "	" ? n.innerHTML = `<pre>${t}</pre>` : n.innerHTML = t, i.push(n);
+		t[0] == " " || t[0] == "	" ? n.innerHTML = `<pre>${t}</pre>` : n.innerHTML = t, s.push(n);
 	}
-	r(a, i, e);
+	o(c, s, e), window.addEventListener("hashchange", i), i();
 }
 //#endregion
 //#region src/scripts/background.ts
@@ -5351,7 +5368,7 @@ function zn(e) {
 var $ = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 window.copyCode = f, document.addEventListener("DOMContentLoaded", async () => {
 	try {
-		y(), await In(), await b(), await x(), await v();
+		y(), In(), await b(), await x(), await v();
 	} catch (e) {
 		console.error("Initialization error: ", e);
 	}
