@@ -564,17 +564,11 @@ final class ASMapConfig : IConfigurable
             }
         }
 
+        @this.m_json = null;
+        @this.m_defaults = null;
+
         if( !this.m_AllowReload )
         {
-            // Let the garbage collector remove these later, may improve loading time.
-            // this.m_json.Clear();
-            // this.m_defaults.Clear();
-            // this.m_GlobalSchema.Clear();
-            // this.m_GlobalSchemaDefinitions.Clear();
-            // this.m_GlobalSchemaProperties.Clear();
-
-            @this.m_json = null;
-            @this.m_defaults = null;
             @this.m_GlobalSchema = null;
             @this.m_GlobalSchemaDefinitions = null;
             @this.m_GlobalSchemaProperties = null;
@@ -637,6 +631,8 @@ final class ASMapConfig : IConfigurable
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Failed to parse config data!\n" );
                     return;
                 }
+
+                @g_MapConfig.m_json = meta_api::json::v2::json();
 
                 if( !meta_api::json::v2::schema::Validate( g_MapConfig.m_json, g_MapConfig.m_GlobalSchema, false, g_MapConfig.m_defaults ) )
                 {
