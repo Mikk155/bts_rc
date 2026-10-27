@@ -1,20 +1,12 @@
+
 {
     "version": "2.0.0",
     "tasks":
     [
         {
             "label": "Website compile & test",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-ExecutionPolicy",
-                "Bypass",
-                "-Command",
-                "npm run dev"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/src/docs"
-            },
+            "dependsOn": [ "Website dev server", "Website bundle (watch)" ],
+            "dependsOrder": "parallel",
             "group":
             {
                 "kind": "build",
@@ -24,8 +16,44 @@
             {
                 "reveal": "always",
                 "panel": "shared"
+            }
+        },
+        {
+            "label": "Website dev server",
+            "type": "shell",
+            "command": "npm.cmd",
+            "args":
+            [
+                "run",
+                "dev"
+            ],
+            "options":
+            {
+                "cwd": "${workspaceFolder}/src/docs"
             },
-            "problemMatcher": [],
+            "isBackground": true,
+            "presentation":
+            {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Website bundle (watch)",
+            "type": "shell",
+            "command": "npm.cmd",
+            "args": ["run", "build:watch"],
+            "options": {
+                "cwd": "${workspaceFolder}/src/docs"
+            },
+            "isBackground": true,
+            "presentation":
+            {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
         },
         {
             "label": "Format & check AngelScript files.",
