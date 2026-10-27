@@ -1,3 +1,30 @@
+# 27/10/2026
+- Engineer models have been updated to have the sentry on their back
+- Gonome models have been edited to have correct animations for deaths
+- Panthereye has been given a blue skin like the Alpha, randomsied in map
+- New and Improve Barney/Maintenance models included, created by Rusty
+- New maintenance voice lines provided by Ooleg have been Added
+- Scientist dialog in the Manual Doors has been adjusted
+- the M2 Mounted Machinegun with HECU is now useable by the player
+- Engineer sequence in Area 2 Loading bay has been fixed and adjusted
+- Robogrunts now have different heads and eye colours for roles
+- Gargantua Sequence has been adjusted and fixed
+- Blackout in Basement now happens after a period of time.
+- Area 1/2/4/5 have had updated skylight models, providing better scenery from the windows
+- Black ops ambush has been fixed
+- Doors added to Basement as a 'speedrunning Danger'
+- fixed numerous non-func_detailed entities
+- lab scenary in Area 1 has been adjusted with models and made larger
+- lab in area 1 now has a sequence for the scientist to explain teleporting fragging is a hazard
+- Cafeteria has hade slight adjustments to size, skylight and an additional entrance has been provided
+- New Security guard in Cafeteria
+- Re-added Scientist to B-201
+- Osprey sequences have been adjusted to come from different directions
+- Robogrunts have been given additional numbers
+- Ventilation skylights have been adjusted slightly
+- Otis scripted_sentence has been adjusted to actually work
+- Area 5 Reception area has been adjusted to provide better navigation
+
 # 25/10/2026
 - Robo grunts, Enforcer, turrets and sentries has now 30% resistance to fire damage
 - Players wearing a HEV suit will get 35% of fire resistance.
