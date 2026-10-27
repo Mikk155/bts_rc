@@ -34,7 +34,7 @@ Set local path to subdirectories htmls
     <div id="release-notice"></div>
 
     <div class="section" id="redirects">
-        <h2>📝 <a href="#redirects">redirects</a></h2>
+        <h2>📝 <a href="#redirects">Redirects</a></h2>
         <div class="card">
             <li><a href="#Contributing">Contributing</a></li>
             <li><a href="#Contributors">Contributors</a></li>
@@ -45,8 +45,8 @@ Set local path to subdirectories htmls
     </div>
 
     <div class="section">
+        <h2>📄 Description</h2>
         <div class="card">
-            <h2>📄 Description</h2>
             <p>
                 You have been selected for a high-level simulation inside Black Mesa.
                 <br><br>
@@ -160,15 +160,6 @@ active: UI - yes, GAME - yes
                 <pre><code class="code_terminal">ev_enable bts</code></pre>
             </div>
             <br><br>
-            <h3><li>Install Third-Party Dependencies</li></h3>
-            <h4>The AngelScript utility scripts are included as a Git submodule and initialized when cloning the repository.</h4>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>Navigate to the src/ directory.</span>
-                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-                </div>
-                <pre class="language-Bash"><code class="code_terminal">pip install -r requirements.txt<br>python main.py</code></pre>
-            </div>
             <li>Run the main script to perform the repository checks and other setup tasks.</li>
             <h4>To fetch game assets such as models, sounds and sprites, verify the last release at <a href="https://github.com/Mikk155/bts_rc/releases" target="_blank">Github</a>.</h4>
             <br><br>
@@ -188,35 +179,7 @@ active: UI - yes, GAME - yes
                     </span>
                 </div>
             </div>
-            <!--
-## Code Style Guide
-All AngelScript scripts should match the formatting conventions enforced by the project configuration.
 
-1. **Brace Wrapping (Allman Style)**
-   Place opening and closing braces on their own line:
-   ```as
-   void Think( CBasePlayer@ player )
-   {
-       if( player !is null )
-       {
-           // Do something
-       }
-   }
-   ```
-
-2. **Spaces and Indentation**
-   - Use **4 spaces** for indentation. Do not use tabs.
-   - Insert spaces inside parentheses for function parameters, conditionals, and casts:
-     - `if( player !is null )` (Correct)
-     - `if(player!isnull)` (Incorrect)
-     - `cast<CBaseEntity@>( entity )` (Correct)
-
-3. **Naming Conventions**
-   - **Namespaces & Classes**: PascalCase (e.g., `namespace item_tracker`)
-   - **Functions**: PascalCase (e.g., `void UpdatePlayerInventory`)
-   - **Local Variables**: camelCase (e.g., `string trackedStr`)
-   - **Global/Namespace Variables**: Prefix with `gp` (e.g., `gpBufferDirty`) for global parameters or instead use `g_` (e.g., `g_logger`) for global parameters that should be accessed by one or more external structures.
--->
             <br><br>
             <h3><li>Checkers</li></h3>
             <h4>Every <code>.as</code> script must contain the MIT license header. Do not write this manually!</h4>
@@ -226,8 +189,9 @@ All AngelScript scripts should match the formatting conventions enforced by the 
                     <span>Navigate to the src/ directory.</span>
                     <button class="copy-btn" onclick="copyCode(this)">COPY</button>
                 </div>
-                <pre class="language-Bash"><code class="code_terminal">pip install -r requirements.txt<br>python main.py</code></pre>
+                <pre class="language-Bash"><code class="code_terminal">pip install -r requirements.txt</code></pre>
             </div>
+            <li>Run <code>main.py</code></li>
             <li>If the program exit with return code 0 it's ready to go!</li>
             <br><br>
             <h4>Once you've commit your changes open a pull request following the template instructions and wait for a review.</h4>
@@ -240,7 +204,6 @@ All AngelScript scripts should match the formatting conventions enforced by the 
             <h2 style="text-align: center;">The simulation is amazing because of these peoples</h2>
             <div id="contributor_list"></div>
         </div>
-        <!-- -TODO get full credits from a file or smth -->
     </div>
 
     <div class="section" id="Configuring">
