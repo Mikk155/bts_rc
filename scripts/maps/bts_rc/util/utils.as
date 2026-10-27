@@ -43,7 +43,7 @@ TextMenu::v1::Menu g_ClassSelectionMenu;
 // Boolean supposed to be true on Github while development. this is set to false when a release is generated.
 const bool g_Debug = true;
 
-const SemanticVersion@ g_ScriptsVersion = SemVer( 4, 8, 1 );
+const SemanticVersion g_ScriptsVersion( 4, 9, 0 );
 
 // Whatever the current map is bts_rc
 const bool g_IsMainMap = ( string( g_Engine.mapname ) == "bts_rc" );

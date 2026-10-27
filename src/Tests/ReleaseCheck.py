@@ -49,6 +49,39 @@ class ReleaseCheck( PyTest ):
 
         return False;
 
+    def ParseSemanticVersion( self, version: str ) -> tuple[int, int, int]:
+        '''Parse a semantic version tag into its major, minor and patch values'''
+        values = version.removeprefix( "v" ).split( '.' );
+        values += [ "0" ] * ( 3 - len( values ) );
+        return tuple( int( value ) for value in values[ : 3 ] );
+
+    def GetChangelogBaseRelease( self, projectVersion: str, previousVersion: str, latestRelease: dict, releases: list[dict] ) -> dict:
+        '''Return the release whose date should be used as the changelog lower bound'''
+        projectMajor, projectMinor, _ = self.ParseSemanticVersion( projectVersion );
+        previousMajor, previousMinor, _ = self.ParseSemanticVersion( previousVersion );
+
+        if projectMajor == previousMajor and projectMinor == previousMinor:
+            return latestRelease;
+
+        if projectMajor == previousMajor:
+            matchingReleases = [
+                release for release in releases
+                if self.ParseSemanticVersion( release[ "tag_name" ])[ : 2 ] == ( previousMajor, previousMinor )
+            ];
+        else:
+            matchingReleases = [
+                release for release in releases
+                if self.ParseSemanticVersion( release[ "tag_name" ])[ 0 ] == previousMajor
+            ];
+
+        if not matchingReleases:
+            return latestRelease;
+
+        return max(
+            matchingReleases,
+            key=lambda release: self.ParseSemanticVersion( release[ "tag_name" ])
+        );
+
     m_UtilsPath: str = os.path.join( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "util", "utils.as" );
 
     def ShouldBuild(self) -> bool:
@@ -75,14 +108,13 @@ class ReleaseCheck( PyTest ):
             # Make PyTest.GetType return Release
             sys.argv[ sys.argv.index( "--release" ) ] = "+release";
             lastTag: str = releaseData[ "tag_name" ];
-            lastReleaseDate: str = releaseData[ "published_at" ];
             self.m_GithubData[ "previous_version" ] = lastTag;
 
             regexSemVer: re.Match[str] = None;
 
             # Find semantic version global variable in the project
             for script in self.Scripts:
-                regexSemVer: re.Match[str] = re.search( r"g_ScriptsVersion\s*=\s*SemVer\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", script.Content );
+                regexSemVer: re.Match[str] = re.search( r"g_ScriptsVersion\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", script.Content );
                 if regexSemVer:
                     break;
 
@@ -103,6 +135,25 @@ class ReleaseCheck( PyTest ):
                 sys.argv.insert( sys.argv.index( "+release" ) + 1, self.m_ProjectVersion );
 
                 changelog: str = "";
+                changelogBaseRelease: dict = releaseData;
+
+                projectMajor, projectMinor, _ = self.ParseSemanticVersion( self.m_ProjectVersion );
+                previousMajor, previousMinor, _ = self.ParseSemanticVersion( lastTag );
+                if ( projectMajor, projectMinor ) != ( previousMajor, previousMinor ):
+                    releasesResponse: requests.Response = requests.get(
+                        f"https://api.github.com/repos/{self.m_Author}/{self.m_Repository}/releases?per_page=100"
+                    );
+
+                    if releasesResponse.status_code != 200:
+                        self.Log( "Failed to retrieve release history from Github" );
+                        return False;
+
+                    changelogBaseRelease = self.GetChangelogBaseRelease(
+                        self.m_ProjectVersion,
+                        lastTag,
+                        releaseData,
+                        releasesResponse.json()
+                    );
 
                 with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
 
@@ -110,8 +161,8 @@ class ReleaseCheck( PyTest ):
 
                     end = len( changelog );
 
-                    # Trim changelog till find the date of the latest release
-                    dateReleased = datetime.fromisoformat( lastReleaseDate.replace( 'Z', '' ) );
+                    # Trim changelog till find the date of the changelog base release
+                    dateReleased = datetime.fromisoformat( changelogBaseRelease[ "published_at" ].replace( 'Z', '' ) );
 
                     matches = re.finditer( r'#\s+(\d{1,2})/(\d{1,2})/(\d{4})', changelog );
 

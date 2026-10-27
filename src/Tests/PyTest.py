@@ -203,8 +203,13 @@ class PyTest:
         import sys;
         if "--test" in sys.argv:
             print( "Various files may be overwriten now. Make sure you don't have unsaved changes!" );
-            while input( "Write 1 to continue." ) != "1":
-                pass;
+            while True:
+                userInput = input( "Write 1 to continue. 0 to avoid writing." );
+                if userInput == "1":
+                    break;
+                elif userInput == "0":
+                    print( "No files were writen." );
+                    return;
 
         for script in PyTest.GetScripts():
 

@@ -36,6 +36,7 @@ This file contains the list of to-do in the project.
         message.WriteFloat(15);//roll
     message.End();
     ```
+- [ ] In test chamber use trigger_auto to enable nomedkit cvar and fix hud
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
