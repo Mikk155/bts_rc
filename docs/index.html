@@ -1,256 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--
-Set local path to subdirectories htmls
-<base href="../">
--->
 <head>
-    <link rel="icon" href="favicon.ico">
-    <meta property="og:title" content="bts_rc">
-    <meta property="og:description" content="Black Mesa Training Simulation: Resonance Cascade">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11130f">
+    <meta name="description" content="Enter Black Mesa's Sector H in a cooperative survival scenario for Sven Co-op. Explore, scavenge, and survive the Resonance Cascade.">
+    <meta property="og:title" content="Black Mesa Training Simulation: Resonance Cascade">
+    <meta property="og:description" content="A cooperative Black Mesa survival scenario for Sven Co-op.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mikk155.github.io/bts_rc/">
-    <meta property="og:image" content="https://scmapdb.wikidot.com/local--files/map:blackmesa-training-simulation:resonance-cascade/aa_bts_rc.png">
+    <meta property="og:image" content="https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/aa_bts_rc.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta charset="UTF-8">
-    <title>Black Mesa Training Simulation</title>
+    <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
+    <title>Black Mesa Training Simulation: Resonance Cascade</title>
     <script type="module" src="bts_rc.bundle.js"></script>
 </head>
 <body>
-
-<header>
-    <h1 id="title1">Black Mesa Training Simulation: Resonance Cascade<span id="blink">Black Mesa Training Simulation: Resonance Cascade</span></h1>
-    <button class="play-btn" onclick="window.open( 'https://github.com/Mikk155/bts_rc/releases', '_blank' )">▶ PLAY</button>
-</header>
-
-<div class="container">
-    <!--background images-->
-    <div class="bg-slider">
-        <div class="bg-slide active"></div>
-        <div class="bg-slide"></div>
-    </div>
-
-    <div id="release-notice"></div>
-
-    <div class="section" id="redirects">
-        <h2>📝 <a href="#redirects">Redirects</a></h2>
-        <div class="card">
-            <li><a href="#Contributing">Contributing</a></li>
-            <li><a href="#Contributors">Contributors</a></li>
-            <li><a href="#section_changelog">Changelogs</a></li>
-            <li><a href="#Configuring">Configuring the map</a></li>
-            <li><a href="https://github.com/Mikk155/bts_rc/wiki" target="_blank">Documentation</a></li>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>📄 Description</h2>
-        <div class="card">
-            <p>
-                You have been selected for a high-level simulation inside Black Mesa.
-                <br><br>
-                This scenario recreates a possible resonance cascade event.
-                <br><br>
-                Explore, survive, and adapt.
-            </p>
-        </div>
-    </div>
-
-    <!--
-    <div class="section">
-        <h2>🧪 Features</h2>
-        <div class="grid">
-            <div class="card">
-                Players will be randomly placed around the map and be made to survive the resonance cascade, the first map currently features various areas which include:
-                <br>
-                <br>
-                <li>Area 1 Dormitories</li>
-                <br>
-                <li>Area 2 Warehousing</li>
-                <br>
-                <li>Area 3 Maintenance Level 2</li>
-                <br>
-                <li>Area 4 Security facilities</li>
-                <br>
-                <li>Area 5 Administration</li>
-            </div>
-            <div class="card">
-                All items are randomly generated around the map and go into the inventory with the exception of ammo and armor items.
-                <br><br><br>
-                Map events are random, so if a scientist is present 1 round and not the next - it's normal
-                <br><br><br>
-                Each Difficulty has its own perks.. Storymode is recommended for the first playthrough
-            </div>
-            <div class="card">
-                Everything you come across will need to be interacted with to pick up, weapons will go into your inventory and so will health kits.
-                <br><br>
-                <br><br>
-                You can then activate these items and it will then be given to you, this Is to allow players to carry multiple weapons for other players.
-                <br><br>
-                <br><br>
-                You can however activate the multiple weapons and it will give you the ammo
-            </div>
-        </div>
-    </div>
-
-    <div class="video-container">
-        <iframe
-            src="https://www.youtube-nocookie.com/embed/J_ZhgAbRBuQ?si=2Dk7oqOQc-eJXaBu"
-            title="Black Mesa Simulation"
-            allowfullscreen>
-        </iframe>
-    </div>
-    -->
-
-    <div class="section" id="Contributing">
-        <h2>📝 <a href="#Contributing">Contributing</a></h2>
-        <div class="card">
-            Thank you for your interest in contributing to the simulation!
-            <br><br>
-            This repository contains the maps, custom weapons, entity overriders, and custom game logic for the Sven Co-op mod.
-            <br><br>
-            To ensure quality and consistency across all community contributions, please follow these guidelines and conventions.
-            <br><br>
-            <h3><li>Clone the repository</li></h3>
-            <h4>Open a cmd and navigate to your <code>Sven Co-op</code> installation and install the repository using git.</h4>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>Install repository</span>
-                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-                </div>
-                <pre><code class="code_terminal">git clone --recurse-submodules https://github.com/Mikk155/bts_rc svencoop_event_bts</code></pre>
-            </div>
-            <li>By installing the repository as an event it will override any installation of bts_rc in your game.</li>
-            <br><br>
-            <h3><li>Initialize submodules for an existing clone</li></h3>
-            <h4>If you already cloned the repository without initializing its submodules, run this command from the repository directory:</h4>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>Initialize repository submodules</span>
-                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-                </div>
-                <pre><code class="code_terminal">git submodule update --init --recursive</code></pre>
-            </div>
-            <br><br>
-            <h3><li>Initialize game event</li></h3>
-            <h4>Open the console on your initialized Sven Co-op client</h4>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>Check validation of event mod:</span>
-                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-                </div>
-                <pre><code class="code_terminal">ev_list</code></pre>
-            </div>
-            <h4>It should now output a result like:</h4>
-            <div class="terminal">
-<pre><code class="language-Python">[0] name: 'bts', title: 'Black Mesa Training Simulation: Resonance Cascade'
-folder: 'svencoop_event_bts', priority: 1
-date: 2026-01-01 00:00:00 - 2026-12-31 23:59:59
-enabled: yes, forced: no
-content: UI - yes, GAME - yes
-active: UI - yes, GAME - yes
-</code></pre>
-            </div>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>If for some reason it refuses to load you can enable it:</span>
-                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-                </div>
-                <pre><code class="code_terminal">ev_enable bts</code></pre>
-            </div>
-            <br><br>
-            <li>Run the main script to perform the repository checks and other setup tasks.</li>
-            <h4>To fetch game assets such as models, sounds and sprites, verify the last release at <a href="https://github.com/Mikk155/bts_rc/releases" target="_blank">Github</a>.</h4>
-            <br><br>
-            <h3>Repository Structure</h3>
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/.github/" target="_blank">.github/</a><code>GitHub Actions workflows, issue templates, and pull request template.</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/docs/" target="_blank">docs/</a><code>Github pages web site.</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/scripts/maps/bts_rc/" target="_blank">scripts/maps/bts_rc/</a><code>Contains the AngelScript game logic and hooks.</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/gamemodes/" target="_blank">scripts/maps/bts_rc/gamemodes/</a><code>Gameplay mods (e.g. inventory tracking, spectator managers).</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/entities/" target="_blank">scripts/maps/bts_rc/entities/</a><code>Custom entity scripts and helpers.</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/Hooks/" target="_blank">scripts/maps/bts_rc/Hooks/</a><code>Engine event hooks (player think, player spawn, disconnects).</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/src/" target="_blank">src/</a><code>Python automation tools (license checking, dependency fetchers, release generator).</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/src/docs/" target="_blank">src/docs/</a><code>TypeScript sources for Github pages web site.</code><br>
-                    <a href="https://github.com/Mikk155/bts_rc/tree/main/wiki/" target="_blank">wiki/</a><code>Markdown docuentation for Github's "Wiki" section.</code><br>
-                    </span>
-                </div>
-            </div>
-
-            <br><br>
-            <h3><li>Checkers</li></h3>
-            <h4>Every <code>.as</code> script must contain the MIT license header. Do not write this manually!</h4>
-            Before committing your changes, run the python utility to run various tests and format the AngelScript files and ensure metadata and JSON files compile:
-            <div class="terminal">
-                <div class="terminal-header">
-                    <span>Navigate to the src/ directory.</span>
-                    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-                </div>
-                <pre class="language-Bash"><code class="code_terminal">pip install -r requirements.txt</code></pre>
-            </div>
-            <li>Run <code>main.py</code></li>
-            <li>If the program exit with return code 0 it's ready to go!</li>
-            <br><br>
-            <h4>Once you've commit your changes open a pull request following the template instructions and wait for a review.</h4>
-        </div>
-    </div>
-
-    <div class="section" id="Contributors">
-        <h2>📝 <a href="#Contributors">Contributors</a></h2>
-        <div class="card">
-            <h2 style="text-align: center;">The simulation is amazing because of these peoples</h2>
-            <div id="contributor_list"></div>
-        </div>
-    </div>
-
-    <div class="section" id="Configuring">
-        <h2>📝 <a href="#Configuring">Configuring the map</a></h2>
-        <div class="config-generator">
-            <div class="config-generator-help">
-                <h3>Map Configuration</h3>
-                <p>Add complete sections to your configuration. Each section uses all of its values from the repository's default_config.json.</p>
-                <p>You can also modify the JSON directly from its window.</p>
-            </div>
-            <div class="config-generator-layout">
-                <div class="config-form">
-                    <div class="config-add-controls">
-                        <label for="config-section-select">Add a section</label>
-                        <select id="config-section-select">
-                            <option value="">Loading schema...</option>
-                        </select>
-                        <button id="config-add-section" type="button" class="config-button">Add</button>
-                    </div>
-                    <div id="config-sections"></div>
-                </div>
-                <div class="config-output-panel">
-                    <label for="config-output">JSON File</label>
-                    <textarea id="config-output" spellcheck="false">{}</textarea>
-                    <div class="config-actions">
-                        <button id="config-validate" type="button" class="config-button">Validate JSON</button>
-                        <button id="config-download" type="button" class="config-button">Download bts_rc.json</button>
-                    </div>
-                    <pre id="config-status" class="config-status" role="status" aria-live="polite"></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section" id="section_changelog">
-        <h2>📝 <a href="#section_changelog">Changelog</a></h2>
-        <div class="card" id="changelog">
-            Loading...
-        </div>
-        <li>Older changelogs are not availables.</li>
-    </div>
-
+<div class="bg-slider" aria-hidden="true">
+    <div class="bg-slide active"></div>
+    <div class="bg-slide"></div>
 </div>
 
-<footer>
-  <a href="https://github.com/Mikk155/bts_rc?tab=License-1-ov-file" target="_blank">© Copyright</a>
-</footer>
+<header class="site-header">
+    <a class="brand" href="#top" aria-label="Black Mesa Training Simulation home">
+        <span class="brand-mark" aria-hidden="true">BTS</span>
+        <span class="brand-name">BLACK MESA<span>TRAINING SIMULATION</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="#briefing">Briefing</a>
+        <a href="#gameplay">Gameplay</a>
+        <a href="#sectors">Sectors</a>
+        <a href="#getting-started">Get started</a>
+        <a href="#community">Community</a>
+    </nav>
+    <a class="button button-small" href="https://github.com/Mikk155/bts_rc/releases" target="_blank" rel="noopener noreferrer">Find the map <span aria-hidden="true">↗</span></a>
+</header>
 
+<main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+            <p class="eyebrow"><span class="status-light"></span> CO-OPERATIVE SURVIVAL SIMULATION</p>
+            <h1 id="hero-title">BLACK MESA<br><span>TRAINING SIMULATION</span></h1>
+            <p class="hero-subtitle">RESONANCE CASCADE</p>
+            <p class="hero-description">The experiment was supposed to be a training exercise. Explore a sprawling research facility, work together, and find a way through the chaos.</p>
+            <div class="hero-actions">
+                <a class="button" href="https://github.com/Mikk155/bts_rc/releases" target="_blank" rel="noopener noreferrer">GET THE MAP <span aria-hidden="true">↗</span></a>
+                <a class="button button-quiet" href="#getting-started">NEW TO THE MAP? <span aria-hidden="true">↓</span></a>
+            </div>
+            <p class="hero-note">A Sven Co-op map by RaptorSKA, with gameplay scripts maintained in this project.</p>
+        </div>
+        <figure class="hero-image">
+            <div class="video-container">
+                <iframe src="https://www.youtube-nocookie.com/embed/J_ZhgAbRBuQ" title="Black Mesa Training Simulation map preview" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <!--
+            <img src="https://scmapdb.wdfiles.com/local--files/map:blackmesa-training-simulation:resonance-cascade/Screenshot2" alt="Interior screenshot from Black Mesa Training Simulation: Resonance Cascade" fetchpriority="high">
+            -->
+            <figcaption><span>SIMULATION FILE</span><span>STATUS: UNSTABLE</span></figcaption>
+        </figure>
+    </section>
+
+    <div id="release-notice" aria-live="polite"></div>
+
+    <section class="section briefing-section" id="briefing">
+        <div class="section-heading">
+            <p class="eyebrow">01 / THE BRIEFING</p>
+            <h2>This is not a routine drill.</h2>
+        </div>
+        <div class="briefing-copy">
+            <p class="lead">Black Mesa has prepared a restricted training simulation based on a resonance cascade. You have been assigned to Sector H. The facility is vast, the situation is unpredictable, and your team will need more than firepower to make it through.</p>
+            <p>Search the complex, pay attention to signs and environmental clues, and learn how its rooms and routes connect. The simulation rewards teamwork and careful exploration.</p>
+            <a class="text-link" href="https://scmapdb.wikidot.com/map:blackmesa-training-simulation:resonance-cascade" target="_blank" rel="noopener noreferrer">Read the map briefing on SC Map Database <span aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+
+    <section class="section" id="gameplay">
+        <div class="section-heading section-heading-wide">
+            <div>
+                <p class="eyebrow">02 / WHAT TO EXPECT</p>
+                <h2>Explore. Scavenge. Stay together.</h2>
+            </div>
+            <p class="section-intro">Every corridor is part of a larger facility. Take your time, share what you find, and adapt when the plan changes.</p>
+        </div>
+        <div class="feature-grid">
+            <article class="feature-card">
+                <span class="feature-number">A</span>
+                <h3>A facility to learn</h3>
+                <p>Explore labs, living quarters, service spaces, and connecting routes. Signs, maps, and details in the environment can help point your team in the right direction.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-number">B</span>
+                <h3>Scavenge and manage</h3>
+                <p>Weapons, supplies, and important objects use an inventory system. Finding an item is only the first step: keep track of it and activate it when you need it.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-number">C</span>
+                <h3>Expect a different run</h3>
+                <p>Many monsters, weapons, and supplies can appear in different places between playthroughs. Share discoveries and be ready to improvise.</p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-number">D</span>
+                <h3>Play as a team</h3>
+                <p>Choose a character classification, communicate about useful finds, and support one another. A teammate's spare supplies may matter more than another weapon.</p>
+            </article>
+        </div>
+        <p class="source-note">The experience is designed as a challenging survival map. New players may need more than one attempt to learn its layout and systems.</p>
+    </section>
+
+    <section class="section sectors-section" id="sectors">
+        <div class="section-heading section-heading-wide">
+            <div>
+                <p class="eyebrow">03 / FACILITY DIRECTORY</p>
+                <h2>There is more beyond Sector H.</h2>
+            </div>
+            <p class="section-intro">The facility spans multiple departments and routes. Explore carefully; these areas are only a starting point.</p>
+        </div>
+        <div class="sector-grid">
+            <article class="sector-card"><span>SECTOR 01</span><h3>Dormitories</h3><p>Living quarters and adjoining spaces.</p></article>
+            <article class="sector-card"><span>SECTOR 02</span><h3>Warehousing</h3><p>Storage and supply areas.</p></article>
+            <article class="sector-card"><span>SECTOR 03</span><h3>Maintenance</h3><p>Service routes and Maintenance Level 2.</p></article>
+            <article class="sector-card"><span>SECTOR 04</span><h3>Security</h3><p>Security facilities and controlled routes.</p></article>
+            <article class="sector-card"><span>SECTOR 05</span><h3>Administration</h3><p>Offices and administrative wings.</p></article>
+        </div>
+        <p class="source-note">Department names are drawn from the map's introductory facility directory; they are not a complete route guide.</p>
+    </section>
+
+    <section class="section getting-started-section" id="getting-started">
+        <div class="section-heading">
+            <p class="eyebrow">04 / BEFORE YOU DEPLOY</p>
+            <h2>Your first visit?</h2>
+            <p class="section-intro">A few simple pointers make the opening minutes easier.</p>
+        </div>
+        <div class="steps-grid">
+            <article class="step-card"><span class="step-number">01</span><div><h3>Get the map files</h3><p>Use the map page for the current download and installation notes. The map runs in Sven Co-op.</p></div></article>
+            <article class="step-card"><span class="step-number">02</span><div><h3>Join a co-op session</h3><p>Find a server running <code>bts_rc</code>, or ask your group to host it. A team makes exploration and inventory management easier.</p></div></article>
+            <article class="step-card"><span class="step-number">03</span><div><h3>Learn how items work</h3><p>Pickups may go into your inventory instead of being equipped immediately. Open your inventory and activate what you want to use.</p></div></article>
+            <article class="step-card"><span class="step-number">04</span><div><h3>Keep your bearings</h3><p>Read signs, look for maps and clues, and communicate with your team. If you get stuck, regroup and retrace your route.</p></div></article>
+        </div>
+        <div class="start-actions">
+            <a class="button" href="https://github.com/Mikk155/bts_rc/releases" target="_blank" rel="noopener noreferrer">MAP DOWNLOAD &amp; NOTES <span aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+
+    <section class="section community-section" id="community">
+        <div class="section-heading section-heading-wide">
+            <div>
+                <p class="eyebrow">05 / COMMUNITY &amp; UPDATES</p>
+                <h2>The project behind the simulation.</h2>
+            </div>
+            <p class="section-intro">This repository maintains scripts and tools made for the map development.</p>
+        </div>
+        <div class="community-links">
+            <a href="https://github.com/Mikk155/bts_rc/issues" target="_blank" rel="noopener noreferrer"><span>NEED HELP?</span><strong>Report an issue</strong><span class="link-arrow" aria-hidden="true">↗</span></a>
+            <a href="https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g" target="_blank" rel="noopener noreferrer"><span>MAP ASSETS</span><strong>MEGA</strong><span class="link-arrow" aria-hidden="true">↗</span></a>
+            <a href="https://github.com/Mikk155/bts_rc" target="_blank" rel="noopener noreferrer"><span>PROJECT DEVELOPMENT</span><strong>GITHUB</strong><span class="link-arrow" aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+
+    <section class="section" id="Contributors">
+        <div class="section-heading">
+            <p class="eyebrow">THE PEOPLE BEHIND THE SIMULATION</p>
+            <h2>Made possible by the community.</h2>
+        </div>
+        <div id="contributor_list" class="contributor-list"></div>
+    </section>
+
+    <section class="section project-tools" id="server-tools">
+        <details class="disclosure" id="Contributing">
+            <summary><span><span class="eyebrow">OPTIONAL / CONTRIBUTORS</span><strong>Contribute to the project</strong></span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
+            <div class="disclosure-content">
+                <p>Contributions are welcome. The project includes map scripts, custom entities, gameplay systems, and automation tools.</p>
+                <p>Before opening a pull request, read the detailed <a href="https://github.com/Mikk155/bts_rc/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">contribution guidelines</a> and run the project's checks. Repository details and technical documentation are available in the <a href="https://github.com/Mikk155/bts_rc" target="_blank" rel="noopener noreferrer">source repository</a>.</p>
+                <h3>Install or update the project</h3>
+                <p>Clone the repository into the Sven Co-op installation.</p>
+                <div class="terminal">
+                    <div class="terminal-header"><span>Clone the project</span><button class="copy-btn" type="button" onclick="copyCode(this)">COPY</button></div>
+                    <pre><code class="code_terminal">git clone --recurse-submodules https://github.com/Mikk155/bts_rc svencoop_event_bts</code></pre>
+                </div>
+                <p>If it's been already cloned without "--recurse-submodules" make sure its submodules are initialized.</p>
+                <div class="terminal">
+                    <div class="terminal-header"><span>Initialize existing submodules</span><button class="copy-btn" type="button" onclick="copyCode(this)">COPY</button></div>
+                    <pre><code class="code_terminal">git submodule update --init --recursive</code></pre>
+                </div>
+                <h3>Install assets</h3>
+                <p>Install the assets from MEGA or sync the folder to svencoop_event_bts/</p>
+                <div class="start-actions">
+                    <a class="text-link" href="https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g" target="_blank" rel="noopener noreferrer">MEGA <span aria-hidden="true">↗</span></a>
+                </div>
+                <h3>Check the event in Sven Co-op</h3>
+                <p>Use the client console to check whether the event is detected. If needed, enable it by its event name:</p>
+                <div class="terminal">
+                    <div class="terminal-header"><span>Check and enable the event</span><button class="copy-btn" type="button" onclick="copyCode(this)">COPY</button></div>
+                    <pre><code class="code_terminal">ev_list
+ev_enable bts</code></pre>
+                </div>
+            </div>
+        </details>
+
+        <details class="disclosure" id="Configuring">
+            <summary><span><span class="eyebrow">OPTIONAL / SERVER CONFIGURATION</span><strong>Build a bts_rc configuration file</strong></span><span class="disclosure-icon" aria-hidden="true">+</span></summary>
+            <div class="disclosure-content">
+                <p>Add complete sections to your configuration. Each section starts with the repository's default values; you can then edit the generated JSON if needed. When downloading bts_rc.json place it in svencoop/scripts/maps/store/ for the map scripts to parse it.</p>
+                <div class="config-generator">
+                    <div class="config-generator-layout">
+                        <div class="config-form">
+                            <div class="config-add-controls">
+                                <label for="config-section-select">Choose a section</label>
+                                <select id="config-section-select"><option value="">Loading sections...</option></select>
+                                <button id="config-add-section" type="button" class="config-button">Add</button>
+                            </div>
+                            <div id="config-sections"></div>
+                        </div>
+                        <div class="config-output-panel">
+                            <label for="config-output">Generated JSON</label>
+                            <textarea id="config-output" spellcheck="false">{}</textarea>
+                            <div class="config-actions">
+                                <button id="config-validate" type="button" class="config-button">Validate</button>
+                                <button id="config-download" type="button" class="config-button">Download bts_rc.json</button>
+                            </div>
+                            <pre id="config-status" class="config-status" role="status" aria-live="polite"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </section>
+
+    <section class="section changelog-section" id="section_changelog">
+        <div class="section-heading section-heading-wide">
+            <div><p class="eyebrow">FIELD REPORTS</p><h2>Recent project updates.</h2></div>
+            <a class="text-link" href="https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">Full changelog <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="changelog-list" id="changelog" aria-live="polite">Loading updates...</div>
+        <p class="source-note">Updates describe the project scripts and may not correspond to a new map download.</p>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">BTS</span><span class="brand-name">BLACK MESA<span>TRAINING SIMULATION</span></span></a>
+    <p>Black Mesa Training Simulation: Resonance Cascade is a Sven Co-op map by RaptorSKA. This community project maintains related gameplay scripts.</p>
+    <div class="footer-links">
+        <a href="https://scmapdb.wikidot.com/map:blackmesa-training-simulation:resonance-cascade" target="_blank" rel="noopener noreferrer">Map page</a>
+        <a href="https://github.com/Mikk155/bts_rc" target="_blank" rel="noopener noreferrer">Source project</a>
+        <a href="https://github.com/Mikk155/bts_rc/blob/main/AUTHORS.md" target="_blank" rel="noopener noreferrer">Credits</a>
+    </div>
+</footer>
 </body>
 </html>
