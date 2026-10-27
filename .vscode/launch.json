@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations":
+    [
+        // https://github.com/Gaftherman/asdebugger
+        {
+            "type": "angelscript",
+            "name": "AngelScript: Attach to Engine",
+            "request": "attach",
+            "host": "127.0.0.1",
+            "port": 9002,
+            "protocol": "dap"
+        },
+        {
+            "type": "angelscript",
+            "name": "AngelScript: Launch Game and Debug",
+            "request": "launch",
+            "executable": "${workspaceFolder}/../svends.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "host": "127.0.0.1",
+            "port": 9002,
+            "protocol": "dap"
+        }
+    ]
+}
