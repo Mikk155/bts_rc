@@ -11793,10 +11793,16 @@
 			{
 				"type": "object",
 				"unevaluatedProperties": false,
-				"title": "Weapon config",
-				"description": "weapon-related gameplay modifiers.",
+				"title": "Weapon configuration",
+				"description": "Control flamethrower configuration",
 				"properties": 
 				{
+					"fire_duration": 
+					{
+						"type": "number",
+						"minimum": 1,
+						"description": "Duration of fire flame (burning controlled from \"weapons\" section)"
+					},
 					"name": 
 					{
 						"type": "string"

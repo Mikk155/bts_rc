@@ -56,6 +56,36 @@ final class ASWeaponFlamethrowerConfig : ASWeaponConfig
     {
         return WeaponFlamethrowerAnim::Draw;
     }
+    float fire_duration;
+
+    const string GetSchema() const override
+    {
+        return """{
+            "type": "object",
+            "unevaluatedProperties": false,
+            "title": "Weapon configuration",
+            "description": "Control flamethrower configuration",
+            "allOf":
+            [
+                "ASWeaponConfig"
+            ],
+            "properties":
+            {
+                "fire_duration":
+                {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Duration of fire flame (burning controlled from \"weapons\" section)"
+                }
+            }
+        }""";
+    }
+
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        this.fire_duration = float( config[ "fire_duration" ] );
+        return ASWeaponConfig::Register( config );
+    }
 }
 
 ASWeaponFlamethrowerConfig gpWeaponFlamethrowerConfig;
@@ -75,7 +105,6 @@ enum WeaponFlamethrowerAnim
     Holster
 };
 
-const float FLAME_SPEED = 600.0f;
 class weapon_bts_flamethrower : BTS_FireWeapon
 {
     ASWeaponConfig@ get_config() override
@@ -126,8 +155,8 @@ class weapon_bts_flamethrower : BTS_FireWeapon
         flame.pev.angles = player.pev.v_angle;
         flame.self.pev.nextthink = g_Engine.time + Math.RandomFloat( 0.0f, 0.2f );
         flame.self.pev.dmg = gpWeaponFlamethrowerConfig.primary_damage;
-        flame.SetDuration( g_WeaponsConfig.fire_duration );
-        flame.self.pev.velocity = g_Engine.v_forward * FLAME_SPEED;
+        flame.SetDuration( gpWeaponFlamethrowerConfig.fire_duration );
+        flame.self.pev.velocity = g_Engine.v_forward * gpWeaponFlamethrowerConfig.primary_distance;
 
         self.m_flTimeWeaponIdle = g_Engine.time + 0.5;
     }
