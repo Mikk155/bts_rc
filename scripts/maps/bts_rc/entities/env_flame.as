@@ -154,6 +154,10 @@ final class env_flame : ScriptBaseEntity
         {
             if( target.IsAlive() )
             {
+                if( target.IsPlayer() )
+                {
+                    g_PlayerFuncs.ScreenFade( target, Vector( 255, 100, 0 ), 0.5f, 0.5f, 255, ( FFADE::FFADE_IN | FFADE::FFADE_MODULATE ) );
+                }
                 g_EntityFuncs.SetOrigin( self, target.Center() );
             }
         }
