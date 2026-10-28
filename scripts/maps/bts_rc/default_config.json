@@ -207,7 +207,7 @@
             },
             "bts_op_worker": {
                 "classify": 5,
-                "hands": 3,
+                "hands": 9,
                 "voice": "construction"
             },
             "bts_otis": {
