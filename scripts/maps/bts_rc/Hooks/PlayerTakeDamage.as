@@ -38,7 +38,9 @@ namespace Hooks
 
         character.TakeDamage( player, @info );
 
-        if( info.flDamage > 0 && ( info.pAttacker is null || info.pAttacker.IRelationship( player ) != R_AL ) )
+//        if( info.flDamage > 0 && ( info.pAttacker is null || info.pAttacker is player || info.pAttacker.IRelationship( player ) != R_AL ) )
+        // If hitting allies and they scream is annoying uncomment the above and remove the below.
+        if( info.flDamage > 0 )
         {
             CVoices@ voices = character.Voices;
 
