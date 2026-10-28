@@ -1,3 +1,16 @@
+# 28/10/2026
+- changed flares from inventory item to just a weapon_bts_flare for the new pickup system
+- adjusted ammo deletion values to balance it a little better (more ammo on punished and medium)
+- changed beretta sound
+- changed sw637 sound
+- changed mossberg sound
+- changed uzi sound
+- changed glock sound
+- changed mossberg pumping volume
+- updated bts_op_worker to have gloves
+- updated models for bts_op_gus, bts_op_worker, bts_construction, bts_construction3
+- changed hands for bts_op_worker
+
 # 27/10/2026
 - Fire resistance is now based on burn time rather than burn damage. bigger resistance equals to less burning time. The duration from config is first calculated with the victim resistance and then with the current difficulty.
 - Added ItemMapping replacements. enemies will now drop their guns replaced with bts_rc's guns.

@@ -207,7 +207,7 @@
             },
             "bts_op_worker": {
                 "classify": 5,
-                "hands": 3,
+                "hands": 9,
                 "voice": "construction"
             },
             "bts_otis": {
@@ -3514,7 +3514,15 @@
         "flashlight_maxcarry": 10,
         "infinite_ammo": false,
         "item_remap": {
-            "weapon_sniperrifle": "weapon_bts_sniperrifle"
+			"weapon_9mmAR": "ammo_9mmAR",
+			"weapon_9mmhandgun": "ammo_9mmclip",
+			"weapon_eagle": "ammo_357",
+			"weapon_m16": "ammo_556clip",
+			"weapon_saw": "ammo_556",
+			"weapon_shotgun": "ammo_buckshot",
+			"weapon_minigun": "ammo_556",
+			"weapon_rpg": "weapon_bts_m79",
+			"weapon_sniperrifle": "weapon_bts_sniperrifle"
         },
         "m249_knockback": true,
         "melee_weapons_pull": true,
