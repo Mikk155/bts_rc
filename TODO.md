@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/86.52482269503547?barColor=43da0b)
+> ![](https://geps.dev/progress/85.91549295774648?barColor=45da0b)
 <!--CompletionBar-end-->
 
 ---
