@@ -3507,7 +3507,7 @@
     "weapons": {
         "blood_splash": true,
         "display_weapon_info": false,
-        "fire_damage": 5,
+        "fire_damage": 1,
         "fire_duration": 1.5,
         "flashlight_maxcarry": 10,
         "infinite_ammo": false,

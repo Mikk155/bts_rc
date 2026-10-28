@@ -131,7 +131,7 @@ final class env_flame : ScriptBaseEntity
             victim.TakeDamage(
                 self.pev,
                 ( m_hOwner.IsValid() ? m_hOwner.GetEntity().pev : self.pev ),
-                ( self.pev.dmg * env_flame::GetResistance( victim ) ),
+                ( self.pev.dmg ),
                 ( DMG_SLOWBURN | DMG_BURN | DMG_NEVERGIB )
             );
         }
@@ -284,7 +284,7 @@ namespace env_flame
             @flame = env_flame::Factory( attacker );
         }
 
-        float duration = g_WeaponsConfig.fire_duration;
+        float duration = g_WeaponsConfig.fire_duration * env_flame::GetResistance( target );
 
         int bonus = Difficulty::Level() + 1;
 
@@ -294,7 +294,9 @@ namespace env_flame
             bonus = Difficulty::__Size__ - bonus;
         }
 
-        flame.SetTarget( target, duration * bonus );
+        duration *= bonus;
+
+        flame.SetTarget( target, duration );
 
         return flame;
     }

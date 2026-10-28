@@ -1,3 +1,8 @@
+# 27/10/2026
+- Fire resistance is now based on burn time rather than burn damage. bigger resistance equals to less burning time. The duration from config is first calculated with the victim resistance and then with the current difficulty.
+- Added ItemMapping replacements. enemies will now drop their guns replaced with bts_rc's guns.
+- Overhauled website & added a schema validator section to customize the simulation easly.
+
 # 25/10/2026
 - Robo grunts, Enforcer, turrets and sentries has now 30% resistance to fire damage
 - Players wearing a HEV suit will get 35% of fire resistance.
