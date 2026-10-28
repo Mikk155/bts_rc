@@ -43,4 +43,40 @@ namespace Difficulty
     {
         return __Difficulty__;
     }
+
+    string ToString( const Difficulty&in diff )
+    {
+        switch( diff )
+        {
+            case Difficulty::Storymode:
+                return "Story Mode (0)";
+            case Difficulty::Relaxed:
+                return "Relaxed (1)";
+            case Difficulty::Medium:
+                return "Medium (2)";
+            case Difficulty::Punished:
+                return "Punished (3)";
+            case Difficulty::TorturedStandard:
+                return "Tortured Standard (4)";
+            case Difficulty::TorturedLegacy:
+                return "Tortured Legacy (5)";
+        }
+        return String::EMPTY_STRING;
+    }
+
+    // Update difficulty
+    void UpdateDifficulty( int diff, int hellbound = -1, bool silent = false )
+    {
+        Difficulty::__Difficulty__ = Difficulty(diff);
+
+        if( hellbound > -1 )
+        {
+            Difficulty::__HellBound__ = ( hellbound == 1 );
+        }
+
+        if( !silent )
+        {
+            g_PlayerFuncs.ClientPrintAll( HUD::HUD_PRINTTALK, "The simulation difficulty has been adjusted to " + Difficulty::ToString( Difficulty::Level() ) + ( HellBound() ? " IN HELLBOUND MODE!" : "" ) + "\n" );
+        }
+    }
 }

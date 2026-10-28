@@ -53,8 +53,7 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
     auto ckv = activator.GetCustomKeyvalues();
 
-    Difficulty::__HellBound__ = ( ckv.GetKeyvalue( "$i_hellbound" ).GetInteger() == 1 );
-    Difficulty::__Difficulty__ = Difficulty( ckv.GetKeyvalue( "$i_difficulty" ).GetInteger() );
+    Difficulty::UpdateDifficulty( ckv.GetKeyvalue( "$i_difficulty" ).GetInteger(), ckv.GetKeyvalue( "$i_hellbound" ).GetInteger() );
 
     if( Difficulty::HellBound() )
     {
