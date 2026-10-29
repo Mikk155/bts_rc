@@ -4,6 +4,7 @@
 -d:.vscode*
 -d:docs*
 -d:maps/soundcache*
+-d:node_modules*
 -d:resource*
 -d:scripts*
 -d:sevenkewp*

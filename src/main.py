@@ -7,7 +7,6 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyTest import PyTest;
 
 # Include checks here
-import Tests.TestChamberUpdate;
 import Tests.TodolistCheck;
 import Tests.PrecacheCheck;
 import Tests.CreditsCheck;

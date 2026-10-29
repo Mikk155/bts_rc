@@ -34,6 +34,8 @@ class Cleanup( PyTest ):
             ".cfg",
             ".gmr",
             ".gsr",
+            ".jmf",
+            ".rmf",
             "_motd.txt"
         ];
 
