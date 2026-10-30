@@ -1,3 +1,15 @@
+# 30/10/2026
+- changed retina sequence to a more "half-life" style, with it taking time to scan the player/scientist eyes
+- changed zombie parasites to have purple blood
+- changed reception desk at area 1 to have collision
+- fixed reception desk more thoroughly at area 5
+- gave human grunts some flashbangs
+- fixed basement Doors
+- made map textures full bright so they can be seen during Blackout
+- adjusted flamethrower range with new json
+- adjusted engineer sequence to be more fluid
+- adjusted human grunt ambush
+
 # 28/10/2026
 - changed flares from inventory item to just a weapon_bts_flare for the new pickup system
 - adjusted ammo deletion values to balance it a little better (more ammo on punished and medium)
