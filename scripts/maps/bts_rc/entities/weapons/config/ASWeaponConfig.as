@@ -434,7 +434,8 @@ abstract class ASWeaponConfig : IConfigurable
     // https://github.com/anjo76/angelscript/issues/68
     const string& GetName() const override
     {
-        g_Logger.critical.print( "Unnamed ASWeaponConfig instance! Make sure to override the GetName method." );
+        if( g_WeaponsConfig.m_Logger.get() !is null && g_WeaponsConfig.m_Logger.get().critical.active )
+            g_WeaponsConfig.m_Logger.get().critical( "Unnamed ASWeaponConfig instance! Make sure to override the GetName method." );
         array<int> arr(0); arr[1]; // Stop the module somehow since no "throw" exists x[
         return String::EMPTY_STRING;
     }
@@ -492,7 +493,8 @@ abstract class ASWeaponConfig : IConfigurable
         secondary_default_ammo[1] = secondaryDefaultAmmo.ValueOrDefault(1, secondary_default_ammo[1], false, true );
         if( secondary_default_ammo[0] > secondary_default_ammo[1] )
         {
-            g_Logger.error.print( "Inverted min/max values at \"secondary_default_ammo\" for {}", { this.GetName() } );
+            if( g_WeaponsConfig.m_Logger.get() !is null && g_WeaponsConfig.m_Logger.get().error.active )
+                g_WeaponsConfig.m_Logger.get().error( "Inverted min/max values at \"secondary_default_ammo\" for {}", { this.GetName() } );
             secondary_default_ammo[3];
         }
 

@@ -94,6 +94,9 @@ const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWI
 
 final class ASGlobalWeaponConfig : IConfigurable
 {
+    /** @brief Logger shared by all weapon entities and weapon configuration. */
+    weakref<Logger> m_Logger = Logger::Shared( "weapons" );
+
     bool display_weapon_info;
     bool melee_weapons_pull;
     float melee_weapons_pull_force;
@@ -264,10 +267,8 @@ final class ASGlobalWeaponConfig : IConfigurable
             ItemMapping@ remap = ItemMapping( classFrom, classTo );
             this.ItemMappingList.insertLast( remap );
 
-            if( g_Logger.info.active )
-            {
-                g_Logger.info.print( "Adding ItemMapping \"{}\" -> \"{}\"", { remap.From, remap.To } );
-            }
+            if( m_Logger.get() !is null && m_Logger.get().info.active )
+                m_Logger.get().info( "Adding ItemMapping \"{}\" -> \"{}\"", { remap.From, remap.To } );
         }
 
         g_ClassicMode.SetItemMappings( this.ItemMappingList );

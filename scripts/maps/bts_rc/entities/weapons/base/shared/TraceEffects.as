@@ -112,7 +112,8 @@ namespace weapons
 
                     if( sparksColor < 0 || sparksColor > 11 )
                     {
-                        g_Logger.error.print("Entity {} with \"$i_spark_color\" out of range 0-11", { hit.GetClassname() } );
+                        if( g_WeaponsConfig.m_Logger.get() !is null && g_WeaponsConfig.m_Logger.get().error.active )
+                            g_WeaponsConfig.m_Logger.get().error( "Entity {} with \"$i_spark_color\" out of range 0-11", { hit.GetClassname() } );
                         sparksColor = -1;
                     }
 

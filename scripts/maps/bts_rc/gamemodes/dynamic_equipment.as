@@ -181,7 +181,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                     if( entity is null )
                     {
                         if( m_Logger.get() !is null && m_Logger.get().error.active )
-                            m_Logger.get().error( "[{}] Can not create null entity \"{}\"", { this.GetName(), data.classname } );
+                            m_Logger.get().error( "Can not create null entity \"{}\"", { data.classname } );
                         int[]a(0);a[1];
                     }
 
@@ -245,7 +245,7 @@ final class ASDynamicEquipentConfig : IConfigurable
                     case DynamicEquipmentType::Undefined:
                     {
                         if( m_Logger.get() !is null && m_Logger.get().error.active )
-                            m_Logger.get().error( "[{}] Can not guess entity type of \"{}\"", { this.GetName(), data.classname } );
+                            m_Logger.get().error( "Can not guess entity type of \"{}\"", { data.classname } );
                         int[]a(0);a[1];
                         break;
                     }
@@ -253,19 +253,19 @@ final class ASDynamicEquipentConfig : IConfigurable
                     case DynamicEquipmentType::Ammunition:
                     {
                         if( m_Logger.get() !is null && m_Logger.get().debug.active )
-                            m_Logger.get().debug( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), data.classname, data.min, data.max, data.index } );
+                            m_Logger.get().debug( "\"{}\": min={} max={} index={}", { data.classname, data.min, data.max, data.index } );
                         break;
                     }
                     case DynamicEquipmentType::Armor:
                     {
                         if( m_Logger.get() !is null && m_Logger.get().debug.active )
-                            m_Logger.get().debug( "[{}] \"{}\": min={} max={} armor", { this.GetName(), data.classname, data.min, data.max } );
+                            m_Logger.get().debug( "\"{}\": min={} max={} armor", { data.classname, data.min, data.max } );
                         break;
                     }
                     case DynamicEquipmentType::Health:
                     {
                         if( m_Logger.get() !is null && m_Logger.get().debug.active )
-                            m_Logger.get().debug( "[{}] \"{}\": min={} max={} healths", { this.GetName(), data.classname, data.min, data.max } );
+                            m_Logger.get().debug( "\"{}\": min={} max={} healths", { data.classname, data.min, data.max } );
                         break;
                     }
                 }
@@ -278,7 +278,7 @@ final class ASDynamicEquipentConfig : IConfigurable
             player.RemoveAllItems( false, false );
 
             if( m_Logger.get() !is null && m_Logger.get().info.active )
-                m_Logger.get().info( "[{}] Registered {} dynamic equipment types.", { this.GetName(), this.m_EquipentData.getSize() } );
+                m_Logger.get().info( "Registered {} dynamic equipment types.", { this.m_EquipentData.getSize() } );
 
             this.UnLock();
 
@@ -308,7 +308,7 @@ final class ASDynamicEquipentConfig : IConfigurable
             if( data.min > data.max )
             {
                 if( m_Logger.get() !is null && m_Logger.get().error.active )
-                    m_Logger.get().error( "[{}] Inverted min/max values at \"{}\"", { this.GetName(), classname } );
+                    m_Logger.get().error( "Inverted min/max values at \"{}\"", { classname } );
                 int[]a(0);a[1];
             }
 
@@ -510,9 +510,9 @@ final class ASDynamicEquipentConfig : IConfigurable
 
                 g_SoundSystem.EmitSound( player.edict(), CHAN_ITEM, "hlclassic/items/9mmclip1.wav", 1.0, ATTN_NORM );
 
-                if( g_Logger.trace.active )
-                    g_Logger.trace.print( "[{}] gave {} of \"{}\" (id: {}) to player \"{}\": min={} max={}", {
-                        this.GetName(), count, data.classname, data.index, player.pev.netname, data.min, data.max } );
+                if( m_Logger.get() !is null && m_Logger.get().trace.active )
+                    m_Logger.get().trace( "gave {} of \"{}\" (id: {}) to player \"{}\": min={} max={}", {
+                        count, data.classname, data.index, player.pev.netname, data.min, data.max } );
 
                 return false;
             }
@@ -526,9 +526,9 @@ final class ASDynamicEquipentConfig : IConfigurable
                     pickup.pev.flags |= FL_KILLME;
                     player.pev.armorvalue = oldArmor + Math.clamp( 0.0f, player.pev.armortype, count );
 
-                    if( g_Logger.trace.active )
-                        g_Logger.trace.print( "[{}] gave {} of \"{}\" to player \"{}\": min={} max={}", {
-                            this.GetName(), count, data.classname, player.pev.netname, data.min, data.max } );
+                    if( m_Logger.get() !is null && m_Logger.get().trace.active )
+                        m_Logger.get().trace( "gave {} of \"{}\" to player \"{}\": min={} max={}", {
+                            count, data.classname, player.pev.netname, data.min, data.max } );
                 }
 
                 return false;
@@ -543,9 +543,9 @@ final class ASDynamicEquipentConfig : IConfigurable
                     pickup.pev.flags |= FL_KILLME;
                     player.pev.health = oldHealth + Math.clamp( 0.0f, player.pev.max_health, count );
 
-                    if( g_Logger.trace.active )
-                        g_Logger.trace.print( "[{}] gave {} of \"{}\" to player \"{}\": min={} max={}", {
-                            this.GetName(), count, data.classname, player.pev.netname, data.min, data.max } );
+                    if( m_Logger.get() !is null && m_Logger.get().trace.active )
+                        m_Logger.get().trace( "gave {} of \"{}\" to player \"{}\": min={} max={}", {
+                            count, data.classname, player.pev.netname, data.min, data.max } );
                 }
 
                 return false;
