@@ -37,6 +37,7 @@
 #include "../../../mikk155/Player/GiveItem"
 #include "../../../mikk155/Entity/Create"
 #include "../../../mikk155/meta_api"
+#include "../../../mikk155/Logger/v2"
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 

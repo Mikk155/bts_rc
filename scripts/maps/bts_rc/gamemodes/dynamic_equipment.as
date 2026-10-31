@@ -89,6 +89,8 @@ final class ASDynamicEquipmentData
 
 final class ASDynamicEquipentConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Shared( this.GetName() );
+
     private
         dictionary m_EquipentData;
 
@@ -178,7 +180,8 @@ final class ASDynamicEquipentConfig : IConfigurable
 
                     if( entity is null )
                     {
-                        g_Logger.error.print( "[{}] Can not create null entity \"{}\"", { this.GetName(), data.classname } );
+                        if( m_Logger.get() !is null && m_Logger.get().error.active )
+                            m_Logger.get().error( "[{}] Can not create null entity \"{}\"", { this.GetName(), data.classname } );
                         int[]a(0);a[1];
                     }
 
@@ -241,27 +244,28 @@ final class ASDynamicEquipentConfig : IConfigurable
                 {
                     case DynamicEquipmentType::Undefined:
                     {
-                        g_Logger.error.print( "[{}] Can not guess entity type of \"{}\"", { this.GetName(), data.classname } );
+                        if( m_Logger.get() !is null && m_Logger.get().error.active )
+                            m_Logger.get().error( "[{}] Can not guess entity type of \"{}\"", { this.GetName(), data.classname } );
                         int[]a(0);a[1];
                         break;
                     }
                     case DynamicEquipmentType::Weapon:
                     case DynamicEquipmentType::Ammunition:
                     {
-                        if( g_Logger.debug.active )
-                            g_Logger.debug.print( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), data.classname, data.min, data.max, data.index } );
+                        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                            m_Logger.get().debug( "[{}] \"{}\": min={} max={} index={}", { this.GetName(), data.classname, data.min, data.max, data.index } );
                         break;
                     }
                     case DynamicEquipmentType::Armor:
                     {
-                        if( g_Logger.debug.active )
-                            g_Logger.debug.print( "[{}] \"{}\": min={} max={} armor", { this.GetName(), data.classname, data.min, data.max } );
+                        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                            m_Logger.get().debug( "[{}] \"{}\": min={} max={} armor", { this.GetName(), data.classname, data.min, data.max } );
                         break;
                     }
                     case DynamicEquipmentType::Health:
                     {
-                        if( g_Logger.debug.active )
-                            g_Logger.debug.print( "[{}] \"{}\": min={} max={} healths", { this.GetName(), data.classname, data.min, data.max } );
+                        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                            m_Logger.get().debug( "[{}] \"{}\": min={} max={} healths", { this.GetName(), data.classname, data.min, data.max } );
                         break;
                     }
                 }
@@ -273,8 +277,8 @@ final class ASDynamicEquipentConfig : IConfigurable
             player.pev.max_health = health[1];
             player.RemoveAllItems( false, false );
 
-            if( g_Logger.info.active )
-                g_Logger.info.print( "[{}] Registered {} dynamic equipment types.", { this.GetName(), this.m_EquipentData.getSize() } );
+            if( m_Logger.get() !is null && m_Logger.get().info.active )
+                m_Logger.get().info( "[{}] Registered {} dynamic equipment types.", { this.GetName(), this.m_EquipentData.getSize() } );
 
             this.UnLock();
 
@@ -303,7 +307,8 @@ final class ASDynamicEquipentConfig : IConfigurable
 
             if( data.min > data.max )
             {
-                g_Logger.error.print( "[{}] Inverted min/max values at \"{}\"", { this.GetName(), classname } );
+                if( m_Logger.get() !is null && m_Logger.get().error.active )
+                    m_Logger.get().error( "[{}] Inverted min/max values at \"{}\"", { this.GetName(), classname } );
                 int[]a(0);a[1];
             }
 
@@ -343,14 +348,14 @@ final class ASDynamicEquipentConfig : IConfigurable
                     }
 
                     string buffer;
-                    snprintf( buffer, "[Dynamic Equipment] g_Engine.maxClients=%1 connected=%2 simulated=%3\n", g_Engine.maxClients, g_PlayerFuncs.GetNumPlayers(), simPlayers );
+                    snprintf( buffer, "g_Engine.maxClients=%1 connected=%2 simulated=%3\n", g_Engine.maxClients, g_PlayerFuncs.GetNumPlayers(), simPlayers );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
                     float t = 0.0f;
                     if( g_Engine.maxClients > 1 )
                         t = float( simPlayers - 1 ) / float( g_Engine.maxClients - 1 );
 
-                    snprintf( buffer, "[Dynamic Equipment] t=%1 (0=solo, 1=full)\n", t );
+                    snprintf( buffer, "t=%1 (0=solo, 1=full)\n", t );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
 
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "--- Type ---   --- Give ---\n" );

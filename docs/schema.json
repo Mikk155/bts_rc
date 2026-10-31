@@ -40,6 +40,114 @@
 					}
 				}
 			},
+			"logging": 
+			{
+				"type": "object",
+				"unevaluatedProperties": false,
+				"title": "Logging settings",
+				"description": "Default state for different log levels.",
+				"properties": 
+				{
+					"global": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Logging settings",
+						"description": "Default state for different log levels.",
+						"properties": 
+						{
+							"trace": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"trace\"",
+								"default": false
+							},
+							"debug": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"debug\"",
+								"default": false
+							},
+							"info": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"info\"",
+								"default": false
+							},
+							"warning": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"warning\"",
+								"default": true
+							},
+							"error": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"error\"",
+								"default": true
+							},
+							"critical": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"critical\"",
+								"default": true
+							}
+						}
+					},
+					"dynamic_equipment": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Logging settings",
+						"description": "Default state for different log levels.",
+						"properties": 
+						{
+							"trace": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"trace\"",
+								"default": false
+							},
+							"debug": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"debug\"",
+								"default": false
+							},
+							"info": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"info\"",
+								"default": false
+							},
+							"warning": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"warning\"",
+								"default": true
+							},
+							"error": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"error\"",
+								"default": true
+							},
+							"critical": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"critical\"",
+								"default": true
+							}
+						}
+					},
+					"active": 
+					{
+						"type": "boolean",
+						"default": true,
+						"description": "Should this context be active?"
+					}
+				}
+			},
 			"items": 
 			{
 				"type": "object",

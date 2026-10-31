@@ -17,6 +17,82 @@
 
 string glog;
 
+#include "../../../mikk155/Logger/v2"
+#include "../../../mikk155/Logger/v2/time"
+#include "../../../mikk155/Logger/v2/json/v2"
+
+class btsrcLogger : IConfigurable
+{
+    bool Register( meta_api::json::v2::json@ config ) override
+    {
+        if( !bool( config[ "active" ] ) )
+        {
+            Logger::Shutdown();
+            return false;
+        }
+
+        Logger::Config
+        .SetGlobalName( "bts_rc" )
+        .SetAppendNewline( true )
+        .SetPrefixWithGlobalName( true )
+        .SetSensitiveArguments( true )
+        .SetSensitiveKeywordArguments( true )
+        .SetCallback(
+            function( string&in message, const Logger::Level&in level )
+            {
+                Logger::time::format( message, message );
+
+                while( message.Length() > 1 )
+                {
+                    uint length = Math.min( 128, int( message.Length() ) );
+                    string bufferPrint = message.SubString( 0, length );
+                    message = message.SubString( length, String::INVALID_INDEX );
+
+                    if( g_EngineFuncs.IsDedicatedServer() )
+                    {
+                        g_EngineFuncs.ServerPrint( bufferPrint );
+                    }
+                    // Host is not yet fully connected, print to server console not network client
+                    else if( g_Engine.time < 5 )
+                    {
+                        auto host = g_PlayerFuncs.FindPlayerByIndex(0);
+
+                        if( host is null || !host.IsConnected() )
+                        {
+                            g_EngineFuncs.ServerPrint( bufferPrint );
+                        }
+                    }
+
+                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, bufferPrint );
+                }
+                return true;
+            }
+        );
+
+        Logger::json::v2::configure( config );
+
+        return false;
+    }
+
+    const string GetSchema() const override
+    {
+        """{}"""; // HACK to python checkers xd
+        meta_api::json::v2::json@ schema = Logger::json::v2::schema();
+        meta_api::json::v2::json@ allOf = meta_api::json::v2::json();
+        allOf.SetType( meta_api::json::Type::Array );
+        allOf.Append( "IConfigurable" );
+        schema.Set( "allOf", allOf );
+        return schema.ToString();
+    }
+
+    const string& GetName() const override
+    {
+        return "logging";
+    }
+}
+
+weakref<Logger> g_DummyGlobalLoggerForLater = Logger::Register();
+
 namespace Logger
 {
     class ASLogger

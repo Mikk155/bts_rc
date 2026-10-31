@@ -584,6 +584,7 @@ final class ASMapConfig : IConfigurable
         auto chrono = Server::chrono();
         __LoadMapConfiguration__();
         this.Register( g_Logger );
+        this.Register( btsrcLogger() );
         RegisterContexts();
         this.Register( gpCharactersConfig );
         this.__ValidateMapConfiguration__();
