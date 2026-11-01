@@ -64,7 +64,7 @@ final class ASWeaponM16Config : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM16Anim::Draw;
+        return WeaponM16Anim::deploy;
     }
 
     void Precache() override
@@ -85,15 +85,16 @@ ASWeaponM16Config gpWeaponM16Config;
 
 enum WeaponM16Anim
 {
-    Draw = 0,
-    Holster,
-    Idle,
-    Fidget,
-    Shoot1,
-    Shoot2,
-    Reload,
-    Launch,
-    Reload2
+    longidle,
+    idle1,
+    semi,
+    reload,
+    deploy = 0,
+    shoot_1,
+	shoot_2,
+	shoot_3,
+    shoot_m203,
+    reload_m203
 };
 
 abstract class weapon_bts_m16_base : BTS_FireWeapon
@@ -143,7 +144,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
-            PlayAnim( WeaponM16Anim::Launch, PLAYER_ANIM::PLAYER_ATTACK1 );
+            PlayAnim( WeaponM16Anim::shoot_m203, PLAYER_ANIM::PLAYER_ATTACK1 );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -195,7 +196,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
             cone *= this.config.automatic_accuracy_multiplier;
         m_flLastPrimaryShot = g_Engine.time;
 
-        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::Shoot1 : WeaponM16Anim::Shoot2;
+        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::shoot_1 : WeaponM16Anim::shoot_2 : WeaponM16Anim::shoot_3;
 
         bullet.Weapon( this )
             .Accuracy( cone )
@@ -242,7 +243,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
     private void LoadGrenade()
     {
-        PlayAnim( WeaponM16Anim::Reload2, PLAYER_ANIM::PLAYER_RELOAD );
+        PlayAnim( WeaponM16Anim::reload_m203, PLAYER_ANIM::PLAYER_RELOAD );
         m_bGrenadeFire = false;
         m_flGrenadeLaunchTime = 0;
         PlaySound( "weapons/gl_reload.wav", 1.0f );
@@ -266,7 +267,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         BaseClass.ItemPostFrame();
     }
 
-    float Idle() override
+    float longidle() override
     {
         self.ResetEmptySound();
 
@@ -278,7 +279,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         }
         else
         {
-            PlayAnim( WeaponM16Anim::Fidget );
+            PlayAnim( WeaponM16Anim::idle1 );
             return 86.0f / 30.0f;
         }
     }
