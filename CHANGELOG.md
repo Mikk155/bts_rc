@@ -1,3 +1,10 @@
+# 01/11/2026
+- Added recursive submodule checkout to the GitHub Actions workflows.
+- Added automated AngelScript formatting, license management, dependency inlining, and submodule cleanup to the build pipeline.
+- Added optional packaging validation to the release build.
+- Added a versioned pre-commit hook that runs the project checks and aborts commits when validation fails.
+- Added new logger system using weak references for release optimizations.
+
 # 30/10/2026
 - changed retina sequence to a more "half-life" style, with it taking time to scan the player/scientist eyes
 - changed zombie parasites to have purple blood
