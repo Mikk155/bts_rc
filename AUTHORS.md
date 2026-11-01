@@ -9,7 +9,6 @@
 - Darekstar
 - DAVLevels
 - [Erty](https://github.com/Erty-Gamedev)
-- Fakeyou
 - FaLco
 - Falcon
 - Foran
