@@ -19,8 +19,8 @@ string glog;
 
 #include "../../../mikk155/Logger/v2"
 #include "../../../mikk155/Logger/v2/time"
+#include "../../../mikk155/Logger/v2/file"
 #include "../../../mikk155/Logger/v2/json/v2"
-
 
 // disable W117
 auto@ gpLoggerConfig = Logger::Config
@@ -33,6 +33,7 @@ auto@ gpLoggerConfig = Logger::Config
         function( string&in message, const Logger::Level&in level )
         {
             Logger::time::format( message, message );
+            Logger::file::write( message, "bts_rc.log" );
 
             while( message.Length() > 1 )
             {
@@ -62,7 +63,7 @@ auto@ gpLoggerConfig = Logger::Config
     );
 // enable W117
 
-class btsrcLogger : IConfigurable
+class ASLogger : IConfigurable
 {
     bool Register( meta_api::json::v2::json@ config ) override
     {

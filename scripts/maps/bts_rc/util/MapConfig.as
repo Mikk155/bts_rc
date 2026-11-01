@@ -607,7 +607,7 @@ final class ASMapConfig : IConfigurable
         if( m_Logger.get() !is null && m_Logger.get().debug.active )
             m_Logger.get().debug( "Map configuration file loaded." );
 
-        this.Register( btsrcLogger() );
+        this.Register( ASLogger() );
         RegisterContexts();
         this.Register( gpCharactersConfig );
         this.__ValidateMapConfiguration__();
