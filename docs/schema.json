@@ -17,12 +17,12 @@
 				"description": "Default state for different loggers.",
 				"properties": 
 				{
-					"map_config": 
+					"deathdrop": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
 						"title": "Logging settings",
-						"description": "Default state for different log levels of \"map_config\"",
+						"description": "Default state for different log levels of \"deathdrop\"",
 						"properties": 
 						{
 							"trace": 
@@ -63,12 +63,12 @@
 							}
 						}
 					},
-					"deathdrop": 
+					"map_config": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
 						"title": "Logging settings",
-						"description": "Default state for different log levels of \"deathdrop\"",
+						"description": "Default state for different log levels of \"map_config\"",
 						"properties": 
 						{
 							"trace": 
@@ -299,6 +299,52 @@
 						"unevaluatedProperties": false,
 						"title": "Logging settings",
 						"description": "Default state for different log levels of \"randomizer\"",
+						"properties": 
+						{
+							"trace": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"trace\"",
+								"default": true
+							},
+							"debug": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"debug\"",
+								"default": true
+							},
+							"info": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"info\"",
+								"default": true
+							},
+							"warning": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"warning\"",
+								"default": true
+							},
+							"error": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"error\"",
+								"default": true
+							},
+							"critical": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"critical\"",
+								"default": true
+							}
+						}
+					},
+					"JSON v2": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Logging settings",
+						"description": "Default state for different log levels of \"JSON v2\"",
 						"properties": 
 						{
 							"trace": 
