@@ -64,7 +64,7 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM16Anim::Draw;
+        return WeaponM16Anim::Deploy;
     }
 
     void Precache() override

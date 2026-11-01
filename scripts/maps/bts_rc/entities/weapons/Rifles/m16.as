@@ -64,7 +64,7 @@ final class ASWeaponM16Config : ASWeaponConfig
 
     const uint8 get_animation_draw() override
     {
-        return WeaponM16Anim::deploy;
+        return WeaponM16Anim::Deploy;
     }
 
     void Precache() override
@@ -85,16 +85,16 @@ ASWeaponM16Config gpWeaponM16Config;
 
 enum WeaponM16Anim
 {
-    longidle,
-    idle1,
-    semi,
-    reload,
-    deploy = 0,
-    shoot_1,
-	shoot_2,
-	shoot_3,
-    shoot_m203,
-    reload_m203
+    LongIdle = 0,
+    Idle1,
+    Semi,
+    Reload,
+    Deploy,
+    Shoot1,
+    Shoot2,
+    Shoot3,
+    ShootGrenade,
+    ReloadGrenade
 };
 
 abstract class weapon_bts_m16_base : BTS_FireWeapon
@@ -144,7 +144,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
             g_PlayerFuncs.ScreenShake( player.pev.origin, 7, 150.0, 0.3, 120 );
 
-            PlayAnim( WeaponM16Anim::shoot_m203, PLAYER_ANIM::PLAYER_ATTACK1 );
+            PlayAnim( WeaponM16Anim::ShootGrenade, PLAYER_ANIM::PLAYER_ATTACK1 );
 
             player.m_Activity = ACT_RELOAD;
             player.pev.frame = 0;
@@ -196,7 +196,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
             cone *= this.config.automatic_accuracy_multiplier;
         m_flLastPrimaryShot = g_Engine.time;
 
-        uint8 anim = ( Math.RandomLong( 0, 1 ) == 0 ) ? WeaponM16Anim::shoot_1 : WeaponM16Anim::shoot_2 : WeaponM16Anim::shoot_3;
+        uint8 anim = Math.RandomLong( WeaponM16Anim::Shoot1, WeaponM16Anim::Shoot3 );
 
         bullet.Weapon( this )
             .Accuracy( cone )
@@ -243,7 +243,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
 
     private void LoadGrenade()
     {
-        PlayAnim( WeaponM16Anim::reload_m203, PLAYER_ANIM::PLAYER_RELOAD );
+        PlayAnim( WeaponM16Anim::ReloadGrenade, PLAYER_ANIM::PLAYER_RELOAD );
         m_bGrenadeFire = false;
         m_flGrenadeLaunchTime = 0;
         PlaySound( "weapons/gl_reload.wav", 1.0f );
@@ -267,19 +267,19 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
         BaseClass.ItemPostFrame();
     }
 
-    float longidle() override
+    float Idle() override
     {
         self.ResetEmptySound();
 
         float flNextIdle = Math.RandomFloat( 0.0f, 1.0f );
         if( flNextIdle <= 0.66f )
         {
-            PlayAnim( WeaponM16Anim::Idle );
+            PlayAnim( WeaponM16Anim::Idle1 );
             return 50.0f / 15.0f;
         }
         else
         {
-            PlayAnim( WeaponM16Anim::idle1 );
+            PlayAnim( WeaponM16Anim::LongIdle );
             return 86.0f / 30.0f;
         }
     }
