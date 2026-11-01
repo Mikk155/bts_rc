@@ -130,7 +130,7 @@ namespace monster_zombie_grenadier
                 g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_PAIN1, SND_PAIN2 )], VOL_NORM, ATTN_NORM, 0, pitch );
         }
 
-        void AlertSound()
+        void AlertSound() // disable-line W119
         {
             int pitch = 95 + Math.RandomLong( 0, 9 );
 
@@ -147,7 +147,7 @@ namespace monster_zombie_grenadier
             g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_ATTACK1, SND_ATTACK2 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
         }
 
-        void SetYawSpeed()
+        void SetYawSpeed() // disable-line W119
         {
             pev.yaw_speed = 120;
         }
@@ -383,7 +383,7 @@ namespace monster_zombie_grenadier
             return !m_bGrenadeOut && self.m_Activity != ACT_RANGE_ATTACK1 && bCheckMeleeAttack1;
         }
 
-        bool CheckRangeAttack1( float flDot, float flDist )
+        bool CheckRangeAttack1( float flDot, float flDist ) // disable-line W119
         {
             if( m_bHasGrenade && !m_bGrenadeOut && pev.health <= ( pev.max_health * btscm::ptof( GRENADE_TRIGGER ) ) && self.m_Activity != ACT_RUN )
             {

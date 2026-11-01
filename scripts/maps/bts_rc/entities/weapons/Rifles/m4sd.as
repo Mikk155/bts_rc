@@ -78,7 +78,7 @@ enum M4SDMode
     Full
 };
 
-class weapon_bts_m4sd : BTS_FireWeapon
+class weapon_bts_m4sd : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

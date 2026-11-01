@@ -74,7 +74,7 @@ enum WeaponBroomAnim
     Attack3Hit
 };
 
-class weapon_bts_broom : BTS_MeleeWeapon
+class weapon_bts_broom : BTS_MeleeWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

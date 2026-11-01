@@ -133,19 +133,10 @@ float ptof( int iPercentage )
 {
     return float( iPercentage ) / 100.0;
 }
-
-bool RandomChance( int iPercentage )
-{
-    return Math.RandomLong( 1, 100 ) <= iPercentage;
-}
 } //namespace btscm END
 
 class bts_rc_base_monster : ScriptBaseMonsterEntity
 {
-    //for hacky velocity checking
-    Vector m_vecLastOrigins;
-    float m_flLastTimes;
-
     bool KeyValue( const string& in szKey, const string& in szValue )
     {
         if( szKey == "is_player_ally" )
@@ -170,39 +161,5 @@ class bts_rc_base_monster : ScriptBaseMonsterEntity
     CBaseEntity@ GetEnemy()
     {
         return self.m_hEnemy.GetEntity();
-    }
-
-    Vector GetAbsVelocity()
-    {
-        float flCurrentTime = g_Engine.time;
-        Vector vecCurrentOrigin = pev.origin;
-
-        if( m_vecLastOrigins == g_vecZero )
-        {
-            m_vecLastOrigins = vecCurrentOrigin;
-            m_flLastTimes = flCurrentTime;
-
-            return g_vecZero;
-        }
-
-        Vector vecLastOrigin;
-        float flLastTime;
-
-        vecLastOrigin = m_vecLastOrigins;
-        flLastTime = m_flLastTimes;
-
-        float flDeltaTime = flCurrentTime - flLastTime;
-
-        // Prevent division by zero or very tiny deltas
-        if( flDeltaTime <= 0.0 )
-            return g_vecZero;
-
-        Vector vecVelocity = (vecCurrentOrigin - vecLastOrigin) / flDeltaTime;
-
-        // Update stored values
-        m_vecLastOrigins = vecCurrentOrigin;
-        m_flLastTimes = flCurrentTime;
-
-        return vecVelocity;
     }
 }

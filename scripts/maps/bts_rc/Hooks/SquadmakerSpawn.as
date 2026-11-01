@@ -17,7 +17,7 @@
 
 namespace Hooks
 {
-    void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity )
+    void SquadmakerSpawn( CBaseMonster@ squad, CBaseEntity@ entity ) // disable-line W118
     {
         if( entity is null )
             return;

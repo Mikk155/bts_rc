@@ -102,7 +102,7 @@ final class ASWeaponFlashlightConfig : ASWeaponLightConfig
 
 ASWeaponFlashlightConfig gpWeaponFlashlight;
 
-final class weapon_bts_flashlight : BTS_MeleeWeapon
+final class weapon_bts_flashlight : BTS_MeleeWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

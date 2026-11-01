@@ -80,7 +80,7 @@ enum Glock18Mode
     FullAuto
 }
 
-class weapon_bts_glock18 : BTS_FireWeapon
+class weapon_bts_glock18 : BTS_FireWeapon // disable-line W120
 {
     private Glock18Mode m_iFireMode = Glock18Mode::SemiAuto;
 

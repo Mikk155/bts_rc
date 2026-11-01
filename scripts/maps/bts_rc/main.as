@@ -27,7 +27,7 @@ Server::chrono@ MapLoadedChrono = Server::chrono();
 #endif
 
 /// Called by the map through trigger_script the moment that the map gameplay has started
-void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value ) // disable-line W118
 {
     if( gCheckModuleError(true) )
     {

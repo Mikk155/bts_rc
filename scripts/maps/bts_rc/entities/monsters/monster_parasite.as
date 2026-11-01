@@ -123,7 +123,7 @@ final class monster_parasite : bts_rc_base_monster
         g_Game.PrecacheModel( "models/bts_rc/monsters/parasite.mdl" );
     }
 
-    void SetYawSpeed()
+    void SetYawSpeed() // disable-line W119
     {
         pev.yaw_speed = 120;
     }
@@ -215,7 +215,7 @@ final class monster_parasite : bts_rc_base_monster
         return pev.origin + Vector( 0, 0, 6 );
     }
 
-    Vector BodyTarget( const Vector& in posSrc )
+    Vector BodyTarget( const Vector& in posSrc ) // disable-line W119
     {
         return Center();
     }
@@ -225,7 +225,7 @@ final class monster_parasite : bts_rc_base_monster
         EmitRandomSound( CHAN_VOICE, pPainSounds );
     }
 
-    void DeathSound()
+    void DeathSound() // disable-line W119
     {
         EmitRandomSound( CHAN_VOICE, pDeathSounds );
     }
@@ -235,7 +235,7 @@ final class monster_parasite : bts_rc_base_monster
         EmitRandomSound( CHAN_VOICE, pIdleSounds );
     }
 
-    void AlertSound()
+    void AlertSound() // disable-line W119
     {
         EmitRandomSound( CHAN_VOICE, pAlertSounds );
     }
@@ -248,13 +248,6 @@ final class monster_parasite : bts_rc_base_monster
     void EmitRandomSound( SOUND_CHANNEL channel, const array<string>@ sounds )
     {
         g_SoundSystem.EmitSoundDyn( self.edict(), channel, sounds[Math.RandomLong( 0, sounds.length() - 1 )], VOL_NORM, ATTN_IDLE, 0, PITCH_NORM );
-    }
-
-    void PrescheduleThink()
-    {
-        // make the crab coo a little bit in combat state
-        if( self.m_MonsterState == MONSTERSTATE_COMBAT && Math.RandomFloat( 0, 5 ) < 0.1 )
-            IdleSound();
     }
 
     int Classify()
@@ -333,7 +326,7 @@ final class monster_parasite : bts_rc_base_monster
         }
     }
 
-    bool CheckRangeAttack1( float flDot, float flDist )
+    bool CheckRangeAttack1( float flDot, float flDist ) // disable-line W119
     {
         return pev.FlagBitSet( FL_ONGROUND ) && flDist <= 256 && flDot >= 0.65;
     }

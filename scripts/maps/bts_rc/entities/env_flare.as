@@ -335,6 +335,7 @@ final class ASFlare : ScriptBaseAnimating
     }
 }
 
+#if FALSE
 namespace util
 {
     float __FlaresCurrentFrame__;
@@ -369,6 +370,7 @@ namespace util
         return @__FlaresCurrentArray__;
     }
 }
+#endif
 
 bool ASMFlareConfigSchema = g_MapConfig.RegisterSchemaDefinition( "ASMFlareConfigSchema",
 """{

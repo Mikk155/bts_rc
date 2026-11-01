@@ -166,7 +166,7 @@ namespace monster_zombie_gunner
                 g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_PAIN1, SND_PAIN2 )], VOL_NORM, ATTN_NORM, 0, pitch );
         }
 
-        void AlertSound()
+        void AlertSound() // disable-line W119
         {
             int pitch = 95 + Math.RandomLong( 0, 9 );
 
@@ -190,7 +190,7 @@ namespace monster_zombie_gunner
             g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_ATTACK1, SND_ATTACK2 )], VOL_NORM, ATTN_NORM, 0, 100 + Math.RandomLong( -5, 5 ) );
         }
 
-        void SetYawSpeed()
+        void SetYawSpeed() // disable-line W119
         {
             int ys = 120;
             pev.yaw_speed = ys;
@@ -425,7 +425,7 @@ namespace monster_zombie_gunner
             return !m_bGunOut && self.m_Activity != ACT_RANGE_ATTACK1 && bCheckMeleeAttack1;
         }
 
-        bool CheckRangeAttack1( float flDot, float flDist )
+        bool CheckRangeAttack1( float flDot, float flDist ) // disable-line W119
         {
             if( m_bHasGun and !m_bGunOut and pev.health <= ( pev.max_health * btscm::ptof( GUN_TRIGGER ) ) and self.m_Activity != ACT_RUN )
             {

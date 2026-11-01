@@ -69,7 +69,7 @@ enum WeaponM79Anim
     Holster
 };
 
-class weapon_bts_m79 : BTS_FireWeapon
+class weapon_bts_m79 : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

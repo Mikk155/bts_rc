@@ -80,7 +80,7 @@ final class ASWeaponAxeConfig : ASWeaponConfig
 
 ASWeaponAxeConfig gpWeaponAxeConfig;
 
-final class weapon_bts_axe : BTS_MeleeWeapon
+final class weapon_bts_axe : BTS_MeleeWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

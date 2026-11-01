@@ -95,7 +95,7 @@ enum WeaponGlock17fAnim
     Flash
 };
 
-class weapon_bts_glock17f : BTS_FireWeapon
+class weapon_bts_glock17f : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

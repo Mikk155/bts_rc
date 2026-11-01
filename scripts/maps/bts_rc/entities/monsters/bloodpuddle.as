@@ -216,8 +216,6 @@ ASBloodPuddleConfig@ gpBloodPuddle = null;
 class env_bloodpuddle : ScriptBaseAnimating
 {
     uint8 state = 0;
-    private float last_time = 0;
-    private uint uisize = 0;
 
     private bool IsOwnerGibbed( CBaseEntity@ owner )
     {

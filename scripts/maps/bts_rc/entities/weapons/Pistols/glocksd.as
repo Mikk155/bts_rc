@@ -95,7 +95,7 @@ enum WeaponGlockSDAnim
     LaserToggle
 };
 
-class weapon_bts_glocksd : BTS_FireWeapon
+class weapon_bts_glocksd : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

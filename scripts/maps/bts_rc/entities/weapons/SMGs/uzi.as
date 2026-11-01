@@ -81,7 +81,7 @@ enum WeaponUziAnim
     AkimboDeploy
 };
 
-class weapon_bts_uzi : BTS_FireWeapon
+class weapon_bts_uzi : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

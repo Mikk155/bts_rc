@@ -587,7 +587,7 @@ void SetCharacter( CBasePlayer@ player, CCharacter@ character )
     }
 }
 
-void PlayerSetClass( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
+void PlayerSetClass( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value ) // disable-line W118
 {
     CBasePlayer@ player = null;
 

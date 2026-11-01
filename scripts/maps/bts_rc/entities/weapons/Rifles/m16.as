@@ -284,7 +284,7 @@ abstract class weapon_bts_m16_base : BTS_FireWeapon
     }
 }
 
-class weapon_bts_m16 : weapon_bts_m16_base
+class weapon_bts_m16 : weapon_bts_m16_base // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

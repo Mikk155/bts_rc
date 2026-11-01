@@ -76,7 +76,7 @@ final class ASWeaponScrewDriverConfig : ASWeaponConfig
 
 ASWeaponScrewDriverConfig gpWeaponScrewDriverConfig;
 
-final class weapon_bts_screwdriver : BTS_MeleeWeapon
+final class weapon_bts_screwdriver : BTS_MeleeWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

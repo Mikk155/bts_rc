@@ -241,7 +241,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
         self.MonsterInit();
     }
 
-    void SetYawSpeed()
+    void SetYawSpeed() // disable-line W119
     {
         int ys = 120;
         self.pev.yaw_speed = ys;
@@ -262,7 +262,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
         }
     }
 
-    void DeathSound()
+    void DeathSound() // disable-line W119
     {
         switch( RandomUint( 1, self ) )
         {
@@ -286,7 +286,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
         }
     }
 
-    void AlertSound()
+    void AlertSound() // disable-line W119
     {
         if( !this.m_bStealthed )
         {
@@ -544,7 +544,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
     }
 
     //From HL2 Fast Zombie
-    bool CheckRangeAttack1( float flDot, float flDist )
+    bool CheckRangeAttack1( float flDot, float flDist ) // disable-line W119
     {
         if( !self.m_hEnemy.IsValid() )
             return false;

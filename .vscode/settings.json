@@ -69,4 +69,11 @@
     "angelscript.features.formatting": false,
     "angelscript.features.onTypeFormatting": false,
     "angelscript.features.inlayHints": false,
+    "angelscript.diagnostics.reportUnusedMembers": true,
+    "angelscript.diagnostics.reportUnusedClasses": true,
+    "angelscript.diagnostics.reportUnusedFunctions": true,
+    "angelscript.diagnostics.reportUnusedGlobalVariables": true,
+    "angelscript.diagnostics.ignoredUnusedPaths": [
+        "scripts/mikk155/**"
+    ]
 }

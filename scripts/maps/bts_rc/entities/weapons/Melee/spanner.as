@@ -69,7 +69,7 @@ enum WeaponSpannerAnim
     Holster
 };
 
-class weapon_bts_spanner : BTS_MeleeWeapon
+class weapon_bts_spanner : BTS_MeleeWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

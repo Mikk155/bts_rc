@@ -15,8 +15,6 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-string glog;
-
 #include "../../../mikk155/Logger/v2"
 #include "../../../mikk155/Logger/v2/time"
 #include "../../../mikk155/Logger/v2/file"

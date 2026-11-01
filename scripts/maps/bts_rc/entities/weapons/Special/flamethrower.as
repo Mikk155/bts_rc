@@ -105,7 +105,7 @@ enum WeaponFlamethrowerAnim
     Holster
 };
 
-class weapon_bts_flamethrower : BTS_FireWeapon
+class weapon_bts_flamethrower : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

@@ -134,7 +134,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
             g_SoundSystem.PrecacheSound( arrsSounds[i] );
     }
 
-    void SetYawSpeed()
+    void SetYawSpeed() // disable-line W119
     {
         int ys = 120;
         pev.yaw_speed = ys;
@@ -197,7 +197,7 @@ final class monster_zombie_parasite : bts_rc_base_monster
             g_SoundSystem.EmitSoundDyn( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong(SND_PAIN1, SND_PAIN2)], VOL_NORM, ATTN_NORM, 0, pitch );
     }
 
-    void AlertSound()
+    void AlertSound() // disable-line W119
     {
         int pitch = 95 + Math.RandomLong(0, 9);
 
@@ -533,11 +533,6 @@ final class monster_zombie_parasite : bts_rc_base_monster
     const string GetHeadcrabClassname()
     {
         return "monster_parasite";
-    }
-
-    const string GetHeadcrabModel()
-    {
-        return "models/bts_rc/monsters/parasite.mdl";
     }
 
     bool HeadcrabFits( CBaseEntity@ pCrab )

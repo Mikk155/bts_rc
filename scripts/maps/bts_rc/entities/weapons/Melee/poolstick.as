@@ -74,7 +74,7 @@ final class ASWeaponPoolstickConfig : ASWeaponConfig
 
 ASWeaponPoolstickConfig gpWeaponPoolstickConfig;
 
-final class weapon_bts_poolstick : BTS_MeleeWeapon
+final class weapon_bts_poolstick : BTS_MeleeWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

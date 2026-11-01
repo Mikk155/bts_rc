@@ -83,7 +83,7 @@ final class ASWeaponM16SDConfig : ASWeaponConfig
 
 ASWeaponM16SDConfig gpWeaponM16SDConfig;
 
-class weapon_bts_m16sd : weapon_bts_m16_base
+class weapon_bts_m16sd : weapon_bts_m16_base // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

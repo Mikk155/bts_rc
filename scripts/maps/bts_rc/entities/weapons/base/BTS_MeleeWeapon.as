@@ -20,7 +20,7 @@ abstract class BTS_MeleeWeapon : BTS_Weapon
     // Amount of swings in a raw
     int m_iSwing = 0;
 
-    bool m_IsSecondary = false;
+//    bool m_IsSecondary = false;
 
     // Set weapon cooldown
     void SetCooldown( bool is_trained_personal, bool miss, AttackType type )

@@ -80,7 +80,7 @@ final class ASWeaponPipeConfig : ASWeaponConfig
 
 ASWeaponPipeConfig gpWeaponPipeConfig;
 
-final class weapon_bts_pipe : BTS_MeleeCharge
+final class weapon_bts_pipe : BTS_MeleeCharge // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

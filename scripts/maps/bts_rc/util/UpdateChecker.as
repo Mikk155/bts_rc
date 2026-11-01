@@ -15,9 +15,9 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
+#if METAMOD_PLUGIN_ASCURL
 void UpdateChecker()
 {
-#if METAMOD_PLUGIN_ASCURL
     // Tell server ops there's a new update
     int requestID = g_EngineFuncs.CreateHTTPRequest( "https://api.github.com/repos/Mikk155/bts_rc/releases/latest", true, 0, 5000, 10000 );
     g_EngineFuncs.AppendHTTPRequestHeader(requestID, "User-Agent: sven-coop" );
@@ -50,5 +50,5 @@ void UpdateChecker()
         }
     } );
     g_EngineFuncs.SendHTTPRequest( requestID );
-#endif
 }
+#endif

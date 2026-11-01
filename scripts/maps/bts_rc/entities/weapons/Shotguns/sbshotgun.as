@@ -96,7 +96,7 @@ enum WeaponSBShotgunAnim
     Flash
 };
 
-class weapon_bts_sbshotgun : BTS_FireWeapon
+class weapon_bts_sbshotgun : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

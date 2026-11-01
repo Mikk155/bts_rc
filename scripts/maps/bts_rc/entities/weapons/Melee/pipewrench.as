@@ -86,7 +86,7 @@ final class ASWeaponPipeWrenchConfig : ASWeaponConfig
 
 ASWeaponPipeWrenchConfig gpWeaponPipeWrenchConfig;
 
-final class weapon_bts_pipewrench : BTS_MeleeCharge
+final class weapon_bts_pipewrench : BTS_MeleeCharge // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

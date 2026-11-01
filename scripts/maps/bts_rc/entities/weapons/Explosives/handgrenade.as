@@ -72,7 +72,7 @@ enum WeaponHandGrenadeAnim
     Draw
 };
 
-class weapon_bts_handgrenade : BTS_Weapon, IThrowable
+class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
 {
     ASWeaponConfig@ get_config() override
     {
@@ -107,7 +107,7 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         BTS_Weapon::Spawn();
     }
 
-    bool CanHaveDuplicates()
+    bool CanHaveDuplicates() // disable-line W119
     {
         return true;
     }
@@ -120,17 +120,17 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable
         return BTS_Weapon::Deploy();
     }
 
-    bool CanHolster()
+    bool CanHolster() // disable-line W119
     {
         return m_fAttackStart == 0.0f;
     }
 
-    bool CanDeploy()
+    bool CanDeploy() // disable-line W119
     {
         return this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
     }
 
-    CBasePlayerItem@ DropItem()
+    CBasePlayerItem@ DropItem() // disable-line W119
     {
         m_iAmmoSave = this.owner.AmmoInventory( self.m_iPrimaryAmmoType );
         return self;

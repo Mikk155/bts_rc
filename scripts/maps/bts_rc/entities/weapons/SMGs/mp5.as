@@ -78,7 +78,7 @@ enum MP5Mode
     Full
 };
 
-class weapon_bts_mp5 : BTS_FireWeapon
+class weapon_bts_mp5 : BTS_FireWeapon // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

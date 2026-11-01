@@ -87,7 +87,7 @@ enum WeaponSW637Anim
     Holster
 };
 
-class weapon_bts_sw637 : BTS_FireWeapon
+class weapon_bts_sw637 : BTS_FireWeapon // disable-line W120
 {
     private bool m_fReloading = false;
     private float m_flNextInsert = 0.0f;

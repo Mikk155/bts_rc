@@ -86,7 +86,7 @@ final class ASWeaponKnifeConfig : ASWeaponConfig
 
 ASWeaponKnifeConfig gpWeaponKnifeConfig;
 
-final class weapon_bts_knife : BTS_MeleeCharge
+final class weapon_bts_knife : BTS_MeleeCharge // disable-line W120
 {
     ASWeaponConfig@ get_config() override
     {

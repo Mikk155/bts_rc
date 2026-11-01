@@ -69,7 +69,7 @@ final class ASBullet
     private int m_PlayerAnimMode;
     private bool m_PlayerIsTrainedPersonal;
     private FireBulletCallback@ m_Callback;
-    private Bullet m_BulletType;
+//    private Bullet m_BulletType;
     private float m_AccuracyOverride;
     private float m_DamageOverride;
     private float m_DistanceOverride;

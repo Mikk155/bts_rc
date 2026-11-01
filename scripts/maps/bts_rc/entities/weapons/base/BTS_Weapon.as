@@ -69,7 +69,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return deployed;
     }
 
-    bool GetItemInfo( ItemInfo& out info )
+    bool GetItemInfo( ItemInfo& out info ) // disable-line W119
     {
         info.iMaxAmmo1 = this.config.primary_maxammo;
         info.iAmmo1Drop = this.config.primary_dropammo;
@@ -90,7 +90,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         return 60.0f;
     }
 
-    void WeaponIdle()
+    void WeaponIdle() // disable-line W119
     {
         if( self.m_flTimeWeaponIdle < g_Engine.time )
         {
@@ -248,7 +248,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     }
 
     /// Returns true if the reload was initiated, false if conditions aren't met
-    bool ShouldReload( int iAnim, float flTime )
+    bool ShouldReload( int iAnim, float flTime ) // disable-line W119
     {
         if( self.m_iClip == config.max_clip || this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
             return false;

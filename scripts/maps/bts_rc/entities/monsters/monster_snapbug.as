@@ -135,7 +135,7 @@ namespace monster_snapbug
                 g_SoundSystem.PrecacheSound( arrsSounds[i] );
         }
 
-        void SetYawSpeed()
+        void SetYawSpeed() // disable-line W119
         {
             pev.yaw_speed = 240;
         }
@@ -186,7 +186,7 @@ namespace monster_snapbug
             g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_PAIN1, SND_PAIN3 )], VOL_NORM, ATTN_IDLE );
         }
 
-        void DeathSound()
+        void DeathSound() // disable-line W119
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_DEATH1, SND_DEATH2 )], VOL_NORM, ATTN_IDLE );
         }
@@ -196,16 +196,9 @@ namespace monster_snapbug
             g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[Math.RandomLong( SND_IDLE1, SND_IDLE3 )], VOL_NORM, ATTN_IDLE );
         }
 
-        void AlertSound()
+        void AlertSound() // disable-line W119
         {
             g_SoundSystem.EmitSound( self.edict(), CHAN_VOICE, arrsSounds[SND_ALERT], VOL_NORM, ATTN_IDLE );
-        }
-
-        void PrescheduleThink()
-        {
-            // make the crab coo a little bit in combat state
-            if( self.m_MonsterState == MONSTERSTATE_COMBAT and Math.RandomFloat( 0, 5 ) < 0.1 )
-                IdleSound();
         }
 
         void HandleAnimEvent( MonsterEvent@ pEvent )
@@ -269,7 +262,7 @@ namespace monster_snapbug
             }
         }
 
-        bool CheckRangeAttack1( float flDot, float flDist )
+        bool CheckRangeAttack1( float flDot, float flDist ) // disable-line W119
         {
             return pev.FlagBitSet( FL_ONGROUND ) && flDist <= 256.0 && flDot >= 0.65;
         }
@@ -487,10 +480,10 @@ namespace monster_snapbug
         }
     }
 
-    void SnapbugAntidote( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue )
+    void Antidote( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue ) // disable-line W118
     {
         if( !pActivator.pev.FlagBitSet( FL_CLIENT ) )
-            return;
+            return; // -TODO Delete item inventory pCaller
 
         CBasePlayer@ pPlayer = cast<CBasePlayer@>( pActivator );
         btscm::RemoveSnapbug( pPlayer );
