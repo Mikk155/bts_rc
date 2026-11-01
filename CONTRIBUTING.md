@@ -46,6 +46,13 @@ To ensure quality and consistency across all community contributions, please fol
    ```
    The main script runs the repository checks and other setup tasks.
 
+   Enable the versioned pre-commit hook:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File src/install-git-hooks.ps1
+   ```
+   After it is enabled, every commit runs `python src/main.py --check` and
+   is cancelled when validation returns a non-zero exit code.
+
 ---
 
 ## Repository Structure

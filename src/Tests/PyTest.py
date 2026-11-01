@@ -225,30 +225,32 @@ class PyTest:
                     print( f"Updated {script.Path}" );
                     fStream.close();
 
-        import os;
-        import subprocess;
+        if PyTest.GetType() == PyTest.BuildType.Release:
 
-        toolPath: str = os.path.join(
-            PyTest.GetWorkspace(),
-            "scripts",
-            "mikk155",
-            "tools",
-            "main.py",
-        );
-        testResult: subprocess.CompletedProcess = subprocess.run(
-            [
-                sys.executable,
-                toolPath,
-                "-source",
-                "scripts/maps/bts_rc/main.as",
-                "-inline",
-                '["Server/chrono/v1","TextMenu/v1","Player/ChatColor","Player/GetUniqueID","Player/GiveItem","Entity/Create","String/Vector","String/bool"]',
-            ],
-            cwd=PyTest.GetWorkspace(),
-            check=False,
-        );
+            import os;
+            import subprocess;
 
-        if testResult.returncode != 0:
-            raise RuntimeError(
-                f"Submodule packaging failed with exit code {testResult.returncode}."
+            toolPath: str = os.path.join(
+                PyTest.GetWorkspace(),
+                "scripts",
+                "mikk155",
+                "tools",
+                "main.py",
             );
+            testResult: subprocess.CompletedProcess = subprocess.run(
+                [
+                    sys.executable,
+                    toolPath,
+                    "-source",
+                    "scripts/maps/bts_rc/main.as",
+                    "-inline",
+                    '["Server/chrono/v1","TextMenu/v1","Player/ChatColor","Player/GetUniqueID","Player/GiveItem","Entity/Create","String/Vector","String/bool"]',
+                ],
+                cwd=PyTest.GetWorkspace(),
+                check=False,
+            );
+
+            if testResult.returncode != 0:
+                raise RuntimeError(
+                    f"Submodule packaging failed with exit code {testResult.returncode}."
+                );
