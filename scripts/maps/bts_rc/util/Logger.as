@@ -31,6 +31,12 @@ class btsrcLogger : IConfigurable
             return false;
         }
 
+        // All loggers starts on in debug.
+        if( g_Debug )
+        {
+            Logger::SetStateAll( true );
+        }
+
         Logger::Config
         .SetGlobalName( "bts_rc" )
         .SetAppendNewline( true )

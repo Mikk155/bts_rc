@@ -45,34 +45,74 @@
 				"type": "object",
 				"unevaluatedProperties": false,
 				"title": "Logging settings",
-				"description": "Default state for different log levels.",
+				"description": "Default state for different loggers.",
 				"properties": 
 				{
-					"global": 
+					"weapons": 
 					{
 						"type": "object",
 						"unevaluatedProperties": false,
 						"title": "Logging settings",
-						"description": "Default state for different log levels.",
+						"description": "Default state for different log levels of \"weapons\"",
 						"properties": 
 						{
 							"trace": 
 							{
 								"type": "boolean",
-								"description": "State for logger level \"trace\"",
-								"default": false
+								"description": "State for logger level \"trace\""
 							},
 							"debug": 
 							{
 								"type": "boolean",
-								"description": "State for logger level \"debug\"",
-								"default": false
+								"description": "State for logger level \"debug\""
 							},
 							"info": 
 							{
 								"type": "boolean",
-								"description": "State for logger level \"info\"",
-								"default": false
+								"description": "State for logger level \"info\""
+							},
+							"warning": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"warning\"",
+								"default": true
+							},
+							"error": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"error\"",
+								"default": true
+							},
+							"critical": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"critical\"",
+								"default": true
+							}
+						}
+					},
+					"global": 
+					{
+						"type": "object",
+						"unevaluatedProperties": false,
+						"title": "Logging settings",
+						"description": "Default state for different log levels of \"global\"",
+						"properties": 
+						{
+							"trace": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"trace\""
+							},
+							"debug": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"debug\""
+							},
+							"info": 
+							{
+								"type": "boolean",
+								"description": "State for logger level \"info\""
 							},
 							"warning": 
 							{
@@ -99,26 +139,23 @@
 						"type": "object",
 						"unevaluatedProperties": false,
 						"title": "Logging settings",
-						"description": "Default state for different log levels.",
+						"description": "Default state for different log levels of \"dynamic_equipment\"",
 						"properties": 
 						{
 							"trace": 
 							{
 								"type": "boolean",
-								"description": "State for logger level \"trace\"",
-								"default": false
+								"description": "State for logger level \"trace\""
 							},
 							"debug": 
 							{
 								"type": "boolean",
-								"description": "State for logger level \"debug\"",
-								"default": false
+								"description": "State for logger level \"debug\""
 							},
 							"info": 
 							{
 								"type": "boolean",
-								"description": "State for logger level \"info\"",
-								"default": false
+								"description": "State for logger level \"info\""
 							},
 							"warning": 
 							{

@@ -2211,17 +2211,7 @@
     },
     "logging": {
         "active": true,
-        "dynamic_equipment": {
-            "debug": true,
-            "info": true,
-            "trace": true,
-            "warning": true
-        },
         "global": {
-            "debug": false,
-            "info": false,
-            "trace": false,
-            "warning": true
         }
     },
     "map_config": {
