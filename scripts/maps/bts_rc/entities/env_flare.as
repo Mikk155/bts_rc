@@ -431,7 +431,8 @@ mixin class ASMFlareConfig
     {
         if( owner is null )
         {
-            g_Logger.error.print( "Null owner at ASMFlareConfig::flare_create(CBaseEntity@, Vector&in, Vector&in)" );
+            if( g_Logger.get() !is null && g_Logger.get().error.active )
+                g_Logger.get().error( "Null owner at ASMFlareConfig::flare_create(CBaseEntity@, Vector&in, Vector&in)" );
             return null;
         }
 

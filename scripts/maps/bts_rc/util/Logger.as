@@ -21,6 +21,47 @@ string glog;
 #include "../../../mikk155/Logger/v2/time"
 #include "../../../mikk155/Logger/v2/json/v2"
 
+
+// disable W117
+auto@ gpLoggerConfig = Logger::Config
+    .SetGlobalName( "bts_rc" )
+    .SetAppendNewline( true )
+    .SetPrefixWithGlobalName( true )
+    .SetSensitiveArguments( true )
+    .SetSensitiveKeywordArguments( true )
+    .SetCallback(
+        function( string&in message, const Logger::Level&in level )
+        {
+            Logger::time::format( message, message );
+
+            while( message.Length() > 1 )
+            {
+                uint length = Math.min( 128, int( message.Length() ) );
+                string bufferPrint = message.SubString( 0, length );
+                message = message.SubString( length, String::INVALID_INDEX );
+
+                if( g_EngineFuncs.IsDedicatedServer() )
+                {
+                    g_EngineFuncs.ServerPrint( bufferPrint );
+                }
+                // Host is not yet fully connected, print to server console not network client
+                else if( g_Engine.time < 5 )
+                {
+                    auto host = g_PlayerFuncs.FindPlayerByIndex(0);
+
+                    if( host is null || !host.IsConnected() )
+                    {
+                        g_EngineFuncs.ServerPrint( bufferPrint );
+                    }
+                }
+
+                g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, bufferPrint );
+            }
+            return true;
+        }
+    );
+// enable W117
+
 class btsrcLogger : IConfigurable
 {
     bool Register( meta_api::json::v2::json@ config ) override
@@ -31,50 +72,6 @@ class btsrcLogger : IConfigurable
             return false;
         }
 
-        // All loggers starts on in debug.
-        if( g_Debug )
-        {
-            Logger::SetStateAll( true );
-        }
-
-        Logger::Config
-        .SetGlobalName( "bts_rc" )
-        .SetAppendNewline( true )
-        .SetPrefixWithGlobalName( true )
-        .SetSensitiveArguments( true )
-        .SetSensitiveKeywordArguments( true )
-        .SetCallback(
-            function( string&in message, const Logger::Level&in level )
-            {
-                Logger::time::format( message, message );
-
-                while( message.Length() > 1 )
-                {
-                    uint length = Math.min( 128, int( message.Length() ) );
-                    string bufferPrint = message.SubString( 0, length );
-                    message = message.SubString( length, String::INVALID_INDEX );
-
-                    if( g_EngineFuncs.IsDedicatedServer() )
-                    {
-                        g_EngineFuncs.ServerPrint( bufferPrint );
-                    }
-                    // Host is not yet fully connected, print to server console not network client
-                    else if( g_Engine.time < 5 )
-                    {
-                        auto host = g_PlayerFuncs.FindPlayerByIndex(0);
-
-                        if( host is null || !host.IsConnected() )
-                        {
-                            g_EngineFuncs.ServerPrint( bufferPrint );
-                        }
-                    }
-
-                    g_PlayerFuncs.ClientPrintAll( HUD_PRINTCONSOLE, bufferPrint );
-                }
-                return true;
-            }
-        );
-
         Logger::json::v2::configure( config );
 
         return false;
@@ -82,12 +79,18 @@ class btsrcLogger : IConfigurable
 
     const string GetSchema() const override
     {
-        """{}"""; // HACK to python checkers xd
+        // All loggers starts on in debug.
+        if( g_Debug )
+        {
+            Logger::SetStateAll( true, true );
+        }
         meta_api::json::v2::json@ schema = Logger::json::v2::schema();
         meta_api::json::v2::json@ allOf = meta_api::json::v2::json();
         allOf.SetType( meta_api::json::Type::Array );
         allOf.Append( "IConfigurable" );
         schema.Set( "allOf", allOf );
+        // HACK to python checkers xd
+        """{}""";
         return schema.ToString();
     }
 
@@ -97,7 +100,7 @@ class btsrcLogger : IConfigurable
     }
 }
 
-weakref<Logger> g_DummyGlobalLoggerForLater = Logger::Register();
+weakref<Logger> g_Logger = Logger::Register();
 
 namespace Logger
 {
@@ -408,7 +411,7 @@ final class CLogger : IConfigurable
             {
                 bool isValid = ( arguments !is null && arguments.length() > 0 );
 
-                const auto levels = g_Logger.Loggers;
+                const auto levels = g_LoggerOld.Loggers;
                 uint length = levels.length();
 
                 if( isValid )
@@ -435,12 +438,12 @@ final class CLogger : IConfigurable
                 if( !isValid )
                 {
                     string buffer;
-                    snprintf( buffer, "You have to provide a valid argument! %1\n", g_Logger.Command.Help );
+                    snprintf( buffer, "You have to provide a valid argument! %1\n", g_LoggerOld.Command.Help );
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, buffer );
                     return;
                 }
 
-                g_Logger.Toggle( arguments[0] );
+                g_LoggerOld.Toggle( arguments[0] );
             }
         ), true );
 
@@ -448,4 +451,4 @@ final class CLogger : IConfigurable
     }
 }
 
-CLogger g_Logger;
+CLogger g_LoggerOld;

@@ -28,7 +28,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
     ASWeaponConfig@ get_config()
     {
         if( g_WeaponsConfig.m_Logger.get() !is null && g_WeaponsConfig.m_Logger.get().critical.active )
-            g_WeaponsConfig.m_Logger.get().critical( snprintf( glog, "%1 does not override ASWeaponConfig@ BTS_Weapon::get_config()" ) );
+            g_WeaponsConfig.m_Logger.get().critical( "{} does not override ASWeaponConfig@ BTS_Weapon::get_config()", { self.GetClassname() } );
         return null;
     }
 
@@ -219,7 +219,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         if( max == 0 )
         {
             if( g_WeaponsConfig.m_Logger.get() !is null && g_WeaponsConfig.m_Logger.get().critical.active )
-                g_WeaponsConfig.m_Logger.get().critical( snprintf( glog, "RandomUint called with an argument of zero!" ) );
+                g_WeaponsConfig.m_Logger.get().critical( "RandomUint called with an argument of zero!" );
             return 0;
         }
 

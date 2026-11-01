@@ -25,6 +25,8 @@
 
 final class ASItemsConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Shared( "equipment" );
+
     const string& GetName() const override
     {
         return "items";
@@ -176,8 +178,8 @@ abstract class BTS_Item : ScriptBasePlayerAmmoEntity
 
     void PickupObject( CBasePlayer@ player, const string&in name = String::EMPTY_STRING )
     {
-        if( g_Logger.trace.active )
-            g_Logger.trace.print( "Added {} to player {}", { self.pev.classname, player.pev.netname } );
+        if( gpItemsConfig.m_Logger.get() !is null && gpItemsConfig.m_Logger.get().trace.active )
+            gpItemsConfig.m_Logger.get().trace( "Added {} to player {}", { self.pev.classname, player.pev.netname } );
 
         if( !name.IsEmpty() )
         {

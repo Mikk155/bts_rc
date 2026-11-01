@@ -106,6 +106,8 @@ interface IConfigurable
 
 final class ASMapConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Shared( "map_config" );
+
     const string& GetName() const override
     {
         return "map_config";
@@ -183,8 +185,8 @@ final class ASMapConfig : IConfigurable
     {
         if( this.m_GlobalSchemaDefinitions.Contains( name ) )
         {
-            if( g_Logger.warning.active )
-                g_Logger.warning.print( "Failed to parse RegisterSchemaDefinition() for \"{}\" key name already exists!", { name } );
+            if( m_Logger.get() !is null && m_Logger.get().warning.active )
+                m_Logger.get().warning( "Failed to parse RegisterSchemaDefinition() for \"{}\" key name already exists!", { name } );
             return false;
         }
 
@@ -200,7 +202,8 @@ final class ASMapConfig : IConfigurable
         switch( err )
         {
             case meta_api::json::Error::SYNTAX_ERROR:
-                g_Logger.critical.print( "Failed to parse RegisterSchemaDefinition() for \"{}\" syntax error!", { name } );
+                if( m_Logger.get() !is null && m_Logger.get().critical.active )
+                    m_Logger.get().critical( "Failed to parse RegisterSchemaDefinition() for \"{}\" syntax error!", { name } );
             break;
         }
 
@@ -224,7 +227,8 @@ final class ASMapConfig : IConfigurable
 
         if( !meta_api::json::v2::Deserialize( this.__GetDefaultConfig__(), m_defaults ) )
         {
-            g_Logger.critical.print( "Failed to parse config data! \"const string __GetDefaultConfig__()\"" );
+            if( m_Logger.get() !is null && m_Logger.get().critical.active )
+                m_Logger.get().critical( "Failed to parse config data! \"const string __GetDefaultConfig__()\"" );
             array<int> arr(0);
             arr[1]; // When SetException x[
         }
@@ -304,16 +308,18 @@ final class ASMapConfig : IConfigurable
 
     void Register( IConfigurable@ context )
     {
-        if( g_Logger.debug.active )
-            g_Logger.debug.print( "Initializing context {}", { context.GetName() } );
+        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+            m_Logger.get().debug( "Initializing context {}", { context.GetName() } );
 
         if( context.GetName().IsEmpty() )
-            g_Logger.critical.print( "Got a IConfigurable with empty GetName method!" );
+            if( m_Logger.get() !is null && m_Logger.get().critical.active )
+                m_Logger.get().critical( "Got a IConfigurable with empty GetName method!" );
 
         for( uint ui = 0; ui < this.m_Contexts.length(); ui++ )
         {
             if( this.m_Contexts[ui].GetName() == context.GetName() )
-                g_Logger.critical.print( "Got a IConfigurable with repeated GetName! \"{}\"", { context.GetName() } );
+                if( m_Logger.get() !is null && m_Logger.get().critical.active )
+                    m_Logger.get().critical( "Got a IConfigurable with repeated GetName! \"{}\"", { context.GetName() } );
         }
 
         this.m_Contexts.insertLast( @context );
@@ -337,7 +343,7 @@ final class ASMapConfig : IConfigurable
 
     void __ValidateMapConfiguration__()
     {
-        if( g_Logger.info.active )
+        if( m_Logger.get() !is null && m_Logger.get().info.active )
             this.m_chrono.Restart();
 
         array<IConfigurable@> inactiveContexts(0);
@@ -366,18 +372,18 @@ final class ASMapConfig : IConfigurable
 
                 if( schemaString.IsEmpty() )
                 {
-                    if( g_Logger.info.active )
-                        g_Logger.info.print( "Skipping context {} at priority {} which returned an empty schema.", { context.GetName(), ui } );
+                    if( m_Logger.get() !is null && m_Logger.get().info.active )
+                        m_Logger.get().info( "Skipping context {} at priority {} which returned an empty schema.", { context.GetName(), ui } );
                     continue;
                 }
 
                 meta_api::json::v2::json@ config = this.m_json.ValueOrDefault( context.GetName(), null, true );
 
-                if( g_Logger.info.active )
+                if( m_Logger.get() !is null && m_Logger.get().info.active )
                 {
                     int configCount = config.Count();
                     if( configCount > 0 )
-                        g_Logger.info.print( "Validating {} external variables for context {} at priority {}", { configCount, context.GetName(), ui } );
+                        m_Logger.get().info( "Validating {} external variables for context {} at priority {}", { configCount, context.GetName(), ui } );
                 }
 
                 meta_api::json::v2::json@ schema;
@@ -402,7 +408,8 @@ final class ASMapConfig : IConfigurable
 
                                 if( !allOfItem.is_string() )
                                 {
-                                    g_Logger.error.print( "schema for {} contains \"allOf\" but value at index {} is not a string type!", { context.GetName(), uia } );
+                                    if( m_Logger.get() !is null && m_Logger.get().error.active )
+                                        m_Logger.get().error( "schema for {} contains \"allOf\" but value at index {} is not a string type!", { context.GetName(), uia } );
                                     continue;
                                 }
 
@@ -410,7 +417,8 @@ final class ASMapConfig : IConfigurable
 
                                 if( !this.m_GlobalSchemaDefinitions.Contains( copyKeyName ) )
                                 {
-                                    g_Logger.error.print( "schema for {} contains \"allOf\" with value {} at index {} but does not exists in the schema definition!", { context.GetName(), copyKeyName, uia } );
+                                    if( m_Logger.get() !is null && m_Logger.get().error.active )
+                                        m_Logger.get().error( "schema for {} contains \"allOf\" with value {} at index {} but does not exists in the schema definition!", { context.GetName(), copyKeyName, uia } );
                                     continue;
                                 }
 
@@ -433,7 +441,8 @@ final class ASMapConfig : IConfigurable
                         }
                         else
                         {
-                            g_Logger.error.print( "schema for {} contains \"allOf\" but is not an array type!", { context.GetName() } );
+                            if( m_Logger.get() !is null && m_Logger.get().error.active )
+                                m_Logger.get().error( "schema for {} contains \"allOf\" but is not an array type!", { context.GetName() } );
                         }
                     }
                     this.m_GlobalSchemaProperties.Set( context.GetName(), schema );
@@ -443,7 +452,8 @@ final class ASMapConfig : IConfigurable
                     switch( err )
                     {
                         case meta_api::json::Error::SYNTAX_ERROR:
-                            g_Logger.critical.print( "Failed to parse GetSchema() for context \"{}\"", { context.GetName() } );
+                            if( m_Logger.get() !is null && m_Logger.get().critical.active )
+                                m_Logger.get().critical( "Failed to parse GetSchema() for context \"{}\"", { context.GetName() } );
                         break;
                     }
                 }
@@ -451,8 +461,8 @@ final class ASMapConfig : IConfigurable
 
             if( !meta_api::json::v2::schema::Validate( this.m_json, this.m_GlobalSchema, false, this.m_defaults ) )
             {
-                if( g_Logger.warning.active )
-                    g_Logger.warning.print( "Error validating some values for json. Using default values..." );
+                if( m_Logger.get() !is null && m_Logger.get().warning.active )
+                    m_Logger.get().warning( "Error validating some values for json. Using default values..." );
             }
         }
 
@@ -461,30 +471,30 @@ final class ASMapConfig : IConfigurable
             IConfigurable@ context = this.m_Contexts[ui];
             auto@ config = this.m_json[ context.GetName() ];
 
-            if( g_Logger.info.active )
+            if( m_Logger.get() !is null && m_Logger.get().info.active )
             {
-//                g_Logger.info.print( "==============================================================" );
+//                m_Logger.get().info( "==============================================================" );
                 if( config is null )
                 {
-                    if( g_Logger.warning.active )
-                        g_Logger.warning.print( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
+                    if( m_Logger.get() !is null && m_Logger.get().warning.active )
+                        m_Logger.get().warning( "Got empty json for \"{}\" is this intended by design? If so ignore this warning.", { context.GetName() } );
                 }
                 else
                 {
-                    g_Logger.info.print( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
+                    m_Logger.get().info( "Registering context {} at priority {} with {} variables", { context.GetName(), ui, config.Count() } );
 
-//                    if( g_Logger.trace.active && config.Length() > 0 )
-//                        g_Logger.trace.print( "serialized config: {}", { config.ToString() } );
+//                    if( m_Logger.get().trace.active && config.Length() > 0 )
+//                        m_Logger.get().trace( "serialized config: {}", { config.ToString() } );
                 }
-//                g_Logger.info.print( "==============================================================" );
+//                m_Logger.get().info( "==============================================================" );
             }
 
             bool result = context.Register( config );
 
             if( !result )
             {
-                if( g_Logger.info.active )
-                    g_Logger.info.print( "Context {} set as inactive. Dereferencing...", { context.GetName() } );
+                if( m_Logger.get() !is null && m_Logger.get().info.active )
+                    m_Logger.get().info( "Context {} set as inactive. Dereferencing...", { context.GetName() } );
 
                 inactiveContexts.insertLast( context );
             }
@@ -497,10 +507,10 @@ final class ASMapConfig : IConfigurable
             this.m_Contexts.removeAt( this.m_Contexts.findByRef( inactiveContexts[ui] ) );
         }
 
-        if( g_Logger.info.active )
+        if( m_Logger.get() !is null && m_Logger.get().info.active )
         {
             this.m_chrono.Stop();
-            g_Logger.info.print( "Validated all map configuration JSON schemas in {}:{} seconds", { this.m_chrono.Seconds, this.m_chrono.Miliseconds } );
+            m_Logger.get().info( "Validated all map configuration JSON schemas in {}:{} seconds", { this.m_chrono.Seconds, this.m_chrono.Miliseconds } );
             this.m_chrono.Restart();
         }
 
@@ -556,10 +566,10 @@ final class ASMapConfig : IConfigurable
             this.m_defaults.Set( "$schema", "bts_rc_schema.json" );
             meta_api::json::v2::Serialize( this.m_defaults, "store/bts_rc_defaults.json", schemaIndentation, schemaStyle );
 
-            if( g_Logger.info.active )
+            if( m_Logger.get() !is null && m_Logger.get().info.active )
             {
                 this.m_chrono.Stop();
-                g_Logger.info.print( "Wrote to \"scripts/maps/store/bts_rc*\" in {}:{} seconds", { this.m_chrono.Seconds, this.m_chrono.Miliseconds } );
+                m_Logger.get().info( "Wrote to \"scripts/maps/store/bts_rc*\" in {}:{} seconds", { this.m_chrono.Seconds, this.m_chrono.Miliseconds } );
                 this.m_chrono.Restart();
             }
         }
@@ -583,7 +593,6 @@ final class ASMapConfig : IConfigurable
     {
         auto chrono = Server::chrono();
         __LoadMapConfiguration__();
-        this.Register( g_Logger );
         this.Register( btsrcLogger() );
         RegisterContexts();
         this.Register( gpCharactersConfig );

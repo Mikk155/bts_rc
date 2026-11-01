@@ -38,6 +38,7 @@
 #include "../../../mikk155/Entity/Create"
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/Logger/v2"
+#include "../../../mikk155/String/Vector"
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 
@@ -76,8 +77,8 @@ uint8 RandomUint( uint8 max, CBaseEntity@ target )
 
     if( max == 0 )
     {
-        if( g_Logger.critical.active )
-            g_Logger.critical.print( snprintf( glog, "RandomUint called with an argument of zero!" ) );
+        if( g_Logger.get() !is null && g_Logger.get().critical.active )
+            g_Logger.get().critical( "RandomUint called with an argument of zero!" );
         return 0;
     }
 

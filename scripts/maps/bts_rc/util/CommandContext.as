@@ -66,16 +66,16 @@ ASCommand@ RegisterCommand( ASCommand@ command )
 
         if( registered.Command == command.Command && registered.Section == command.Section )
         {
-            if( g_Logger.warning.active )
+            if( g_Logger.get() !is null && g_Logger.get().warning.active )
             {
-                g_Logger.warning.print( "Skipping duplicate command registration for {}{}{}", { command.Section, ( command.Section.IsEmpty() ? '' : ' ' ), command.Command } );
+                g_Logger.get().warning( "Skipping duplicate command registration for {}{}{}", { command.Section, ( command.Section.IsEmpty() ? '' : ' ' ), command.Command } );
             }
             return null;
         }
     }
 
-    if( g_Logger.info.active )
-        g_Logger.info.print( "Registering command \"bts_rc {}{}{}\"", { command.Section, ( command.Section.IsEmpty() ? '' : ' ' ), command.Command } );
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Registering command \"bts_rc {}{}{}\"", { command.Section, ( command.Section.IsEmpty() ? '' : ' ' ), command.Command } );
 
     __CommandContexts__.insertLast( @command );
     return @command;

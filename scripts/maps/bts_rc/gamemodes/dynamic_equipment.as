@@ -89,7 +89,7 @@ final class ASDynamicEquipmentData
 
 final class ASDynamicEquipentConfig : IConfigurable
 {
-    weakref<Logger> m_Logger = Logger::Shared( this.GetName() );
+    weakref<Logger> m_Logger = Logger::Shared( "equipment" );
 
     private
         dictionary m_EquipentData;

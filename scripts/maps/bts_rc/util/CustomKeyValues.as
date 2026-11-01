@@ -98,9 +98,9 @@ namespace CustomKeyValues
 
     void Register( const string&in keyName )
     {
-        if( g_Logger.info.active )
+        if( g_Logger.get() !is null && g_Logger.get().info.active )
         {
-            g_Logger.info.print( "Registering custom keyvalue \"{}\" to copy over from squadmakers", { keyName } );
+            g_Logger.get().info( "Registering custom keyvalue \"{}\" to copy over from squadmakers", { keyName } );
         }
 
         CustomKeyValues ckv( keyName );

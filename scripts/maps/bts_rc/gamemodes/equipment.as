@@ -44,15 +44,15 @@ final class ASEquipmentSet
             {
                 meta_api::json::v2::json@ item = items[ui];
 
-                if( !item.is_string() )
-                    g_Logger.critical.print( "only strings allowed in items at index {} for equipment {}", { string(ui), setName } );
+                if( !item.is_string() && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                    gpEquipment.m_Logger.get().critical( "only strings allowed in items at index {} for equipment {}", { string(ui), setName } );
 
                 string itemName = string( items[ui] );
 
                 CBaseEntity@ entity = g_EntityFuncs.CreateEntity( itemName, null );
 
-                if( entity is null )
-                    g_Logger.critical.print( "Invalid item name \"{}\" at index {} for \"{}\"", { itemName, string(ui), setName } );
+                if( entity is null && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                    gpEquipment.m_Logger.get().critical( "Invalid item name \"{}\" at index {} for \"{}\"", { itemName, string(ui), setName } );
 
                 g_EntityFuncs.Remove( entity );
 
@@ -79,8 +79,8 @@ final class ASEquipmentSet
 
                     meta_api::json::v2::json@ entityValue = entity[keyName];
 
-                    if( !entityValue.is_string() )
-                        g_Logger.critical.print( "only strings allowed in entities at index {} for equipment {} at key {}", { string(ui), setName, keyName } );
+                    if( !entityValue.is_string() && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                        gpEquipment.m_Logger.get().critical( "only strings allowed in entities at index {} for equipment {} at key {}", { string(ui), setName, keyName } );
 
                     entityData[ keyName ] = string( entityValue );
                 }
@@ -90,15 +90,15 @@ final class ASEquipmentSet
 
                 string className;
 
-                if( !entityData.get( "classname", className ) || className.IsEmpty() )
-                    g_Logger.critical.print( "Missing \"classname\" field for entity at index {} for equipment {}", { string(ui), setName } );
+                if( ( !entityData.get( "classname", className ) || className.IsEmpty() ) && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                    gpEquipment.m_Logger.get().critical( "Missing \"classname\" field for entity at index {} for equipment {}", { string(ui), setName } );
 
                 if( g_MapConfig.MapLoading )
                 {
                     CBaseEntity@ entityCreated = g_EntityFuncs.Create( className, g_vecZero, g_vecZero, false, null );
 
-                    if( entityCreated is null )
-                        g_Logger.critical.print( "Failed to create entity at index {} for equipment {}", { string(ui), setName } );
+                    if( entityCreated is null && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                        gpEquipment.m_Logger.get().critical( "Failed to create entity at index {} for equipment {}", { string(ui), setName } );
 
                     entityCreated.Precache();
 
@@ -198,8 +198,8 @@ final class ASEquipmentCharacter
 
                 ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
 
-                if( equipSet is null )
-                    g_Logger.critical.print( "undefined kit sets with name {} at index {} for character {}", { setName, string(ui), string(int(classification)) } );
+                if( equipSet is null && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                    gpEquipment.m_Logger.get().critical( "undefined kit sets with name {} at index {} for character {}", { setName, string(ui), string(int(classification)) } );
 
                 m_Sets.insertLast( equipSet );
             }
@@ -230,8 +230,8 @@ final class ASEquipmentCharacter
 
                 ASEquipmentSet@ equipSet = gpEquipment.EquipmentSet( setName );
 
-                if( equipSet is null )
-                    g_Logger.critical.print( "undefined kit at sets_enforce with name {} at index {} for character {} in ", { setName, string(ui), string(int(classification)) } );
+                if( equipSet is null && gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().critical.active )
+                    gpEquipment.m_Logger.get().critical( "undefined kit at sets_enforce with name {} at index {} for character {} in ", { setName, string(ui), string(int(classification)) } );
 
                 m_SetsEnforced.insertLast( equipSet );
             }
@@ -315,6 +315,8 @@ final class ASEquipmentCharacter
 
 final class ASEquipmentConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Shared( "equipment" );
+
     const string& GetName() const override {
         return "equipment";
     }

@@ -123,12 +123,7 @@ void MapInit()
     if( gCheckModuleError(true) )
         return;
 
-    Server::chrono@ chrono = null;
-
-    if( g_Logger.info.active )
-    {
-        @chrono = Server::chrono();
-    }
+    Server::chrono@ chrono = Server::chrono();
 
     models::Precache();
 
@@ -138,10 +133,10 @@ void MapInit()
 
     btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
-    if( g_Logger.info.active )
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
     {
         chrono.Stop();
-        g_Logger.info.print( snprintf( glog, "Done with MapInit. total time elapsed: %1:%2 seconds.", chrono.Seconds, chrono.Miliseconds ) );
+        g_Logger.get().info( "Done with MapInit. total time elapsed: {}:{} seconds.", { chrono.Seconds, chrono.Miliseconds } );
     }
 
     if( !g_IsMainMap )

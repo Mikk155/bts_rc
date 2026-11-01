@@ -17,6 +17,8 @@
 
 final class ASDeathDropConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Register( "deathdrop" );
+
     dictionary m_Monsters;
 
     const string& GetName() const override {
@@ -87,8 +89,8 @@ final class ASDeathDropConfig : IConfigurable
             auto@ listObject = config[ listName ];
             uint listLength = listObject.Length();
 
-            if( g_Logger.debug.active )
-                g_Logger.debug.print( snprintf( glog, "Adding %1 drops for \"%2\"", listLength, listName ) );
+            if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                m_Logger.get().debug( "Adding {} drops for \"{}\"", { listLength, listName } );
 
             for( uint uie = 0; uie < listLength; uie++ )
             {
@@ -101,8 +103,8 @@ final class ASDeathDropConfig : IConfigurable
                     {
                         CBaseEntity@ ent = g_EntityFuncs.CreateEntity( itemName, null, false );
 
-                        if( ent is null )
-                            g_Logger.error.print( "Invalid entity named \"{}\" at death drop config!", { itemName } );
+                        if( ent is null && m_Logger.get() !is null && m_Logger.get().error.active )
+                            m_Logger.get().error( "Invalid entity named \"{}\" at death drop config!", { itemName } );
 
                         ent.Precache();
                         g_EntityFuncs.Remove( ent );
@@ -115,7 +117,7 @@ final class ASDeathDropConfig : IConfigurable
             @m_Monsters[ listName ] = arr;
 
             // Just debug
-            if( g_Logger.trace.active )
+            if( m_Logger.get() !is null && m_Logger.get().trace.active )
             {
                 dictionary count;
                 for( uint uilog = 0; uilog < arr.length(); uilog++ )
@@ -128,7 +130,7 @@ final class ASDeathDropConfig : IConfigurable
                 for( uint uilog = 0; uilog < dropsCountKeys.length(); uilog++ )
                 {
                     string name = dropsCountKeys[uilog];
-                    g_Logger.trace.print( snprintf( glog, "\"%1\" %2 percent of droping %3.", listName, ( 100.0f / arr.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) ) );
+                    m_Logger.get().trace( "\"{}\" {} percent of droping {}.", { listName, ( 100.0f / arr.length() ) * int( count[name] ), ( name.IsEmpty() ? "nothing" : name ) } );
                 }
             }
         }
@@ -170,8 +172,8 @@ final class ASDeathDropConfig : IConfigurable
 
             if( !m_Monsters.get( listName, @drops ) )
             {
-                if( g_Logger.warning.active )
-                    g_Logger.warning.print( snprintf( glog, "monster \"%1\" couldn't retrieve list with name \"%2\" at %3", monster.GetClassname(), listName, monster.GetOrigin().ToString() ) );
+                if( m_Logger.get() !is null && m_Logger.get().warning.active )
+                    m_Logger.get().warning( "monster \"{}\" couldn't retrieve list with name \"{}\" at {}", { monster.GetClassname(), listName, monster.GetOrigin().ToString() } );
                 return null;
             }
 
@@ -191,8 +193,8 @@ final class ASDeathDropConfig : IConfigurable
         if( ckv_attachment.Exists() )
             monster.GetAttachment( ckv_attachment.GetInteger(), origin, angles );
 
-        if( g_Logger.debug.active )
-            g_Logger.debug.print( snprintf( glog, "monster \"%1\" droping %2 at %3 ", monster.GetClassname(), drop, origin.ToString() ) );
+        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+            m_Logger.get().debug( "monster \"{}\" droping {} at {} ", { monster.GetClassname(), drop, origin.ToString() } );
 
         if( drop == "grenade" )
         {

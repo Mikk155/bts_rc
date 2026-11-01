@@ -224,6 +224,7 @@ array<uint> g_LastSelectedCharacter(Classification::__Size__);
 
 final class ASPlayerCharactersConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Shared( "player_class" );
     private
         bool m_forcepmodels;
 
@@ -244,7 +245,7 @@ final class ASPlayerCharactersConfig : IConfigurable
             // For randomization
             g_LastSelectedCharacter[character_classify] = Math.RandomLong( 0, list.length() - 1 );
 
-            if( g_Logger.debug.active )
+            if( m_Logger.get() !is null && m_Logger.get().debug.active )
             {
                 string strlog;
                 snprintf( strlog, "Registered character \"%1\" at classify %2 ", character_name, int( character_classify ));
@@ -271,7 +272,7 @@ final class ASPlayerCharactersConfig : IConfigurable
                     case Hands::Green: snprintf( strlog, "%1\"%2\"", strlog, "Green" ); break;
                     case Hands::GrayGloves: snprintf( strlog, "%1\"%2\"", strlog, "GrayGloves" ); break;
                 }
-                g_Logger.debug.print( strlog );
+                m_Logger.get().debug( strlog );
             }
         }
 
@@ -385,16 +386,16 @@ final class ASPlayerCharactersConfig : IConfigurable
             int iClassify;
             if( !jClassify.is_number_unsigned() || !jClassify.Get( iClassify ) || Math.clamp( Classification::Unset + 1, Classification::__Size__ - 1, iClassify ) != iClassify )
             {
-                if( g_Logger.warning.active )
-                    g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 classification is not a valid number!", ui ) );
+                if( m_Logger.get() !is null && m_Logger.get().warning.active )
+                    m_Logger.get().warning( "Skipping invalid character entry at index {} classification is not a valid number!", { ui } );
                 continue;
             }
 
             int iHands;
             if( !jHands.is_number_unsigned() || !jHands.Get( iHands ) || Math.clamp( Hands::Unset + 1, Hands::__Size__ - 1, iHands ) != iHands )
             {
-                if( g_Logger.warning.active )
-                    g_Logger.warning.print( snprintf( glog, "Skipping invalid character entry at index %1 hands is not a valid number!", ui ) );
+                if( m_Logger.get() !is null && m_Logger.get().warning.active )
+                    m_Logger.get().warning( "Skipping invalid character entry at index {} hands is not a valid number!", { ui } );
                 continue;
             }
 
@@ -418,7 +419,8 @@ final class ASPlayerCharactersConfig : IConfigurable
         {
             if( g_Characters[i].length() <= 0 )
             {
-                g_Logger.critical.print( "No characters registered at index class {}!", { Classification::ToString(Classification(i)) } );
+                if( m_Logger.get() !is null && m_Logger.get().critical.active )
+                    m_Logger.get().critical( "No characters registered at index class {}!", { Classification::ToString(Classification(i)) } );
                 int[]a(0);a[1];
             }
         }

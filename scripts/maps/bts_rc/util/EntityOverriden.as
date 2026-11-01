@@ -22,8 +22,8 @@ namespace EntityOverriden
     // Register the given EntityOverriden
     void Register( EntityOverriden@ instance )
     {
-        if( g_Logger.info.active )
-            g_Logger.info.print( "Registering EntityOverriden \"{}\"", { instance.GetName() } );
+        if( instance.m_Logger.get() !is null && instance.m_Logger.get().info.active )
+            instance.m_Logger.get().info( "Registering EntityOverriden" );
 
         gpEntityOverriden.insertLast(instance);
     }
@@ -41,8 +41,8 @@ namespace EntityOverriden
 
             if( overrider !is null && overrider.AddEntity( entity, monster ) )
             {
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( "[{}] Registering {} at {}", { overrider.GetName(), entity.GetClassname(), entity.pev.origin.ToString() } );
+                if( overrider.m_Logger.get() !is null && overrider.m_Logger.get().debug.active )
+                    overrider.m_Logger.get().debug( "Registering {} at {}", { entity.GetClassname(), String::from_Vector( entity.pev.origin, ' ', true ) } );
                 added = true;
             }
         }
@@ -63,10 +63,13 @@ abstract class EntityOverriden
     // https://github.com/anjo76/angelscript/issues/68
     const string& GetName() const
     {
-        g_Logger.critical.print( "Unnamed EntityOverriden instance! Make sure to override the GetName method." );
+        if( g_Logger.get() !is null && g_Logger.get().critical.active )
+            g_Logger.get().critical( "Unnamed EntityOverriden instance! Make sure to override the GetName method." );
         m_Handles[ m_Handles.length() ]; // Stop the module somehow since no "throw" exists x[
         return String::EMPTY_STRING;
     }
+
+    weakref<Logger> m_Logger = Logger::Shared( this.GetName() );
 
     // List of entities
     protected array<EHandle> m_Handles(0);
@@ -112,8 +115,8 @@ abstract class EntityOverriden
     {
         if( index >= 0 && index < int( this.m_Handles.length() ) )
         {
-            if( g_Logger.debug.active )
-                g_Logger.debug.print( "[{}] Removing entity at index {}", { this.GetName(), index } );
+            if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                m_Logger.get().debug( "Removing entity at index {}", { index } );
 
             this.m_Handles.removeAt( index );
         }
@@ -180,8 +183,8 @@ abstract class EntityOverriden
     {
         if( ( flags & EntityOverridenAction::Remove ) != 0 )
         {
-            if( g_Logger.debug.active )
-                g_Logger.debug.print( "[{}] requested to remove a entity at index {}", { this.GetName(), index } );
+            if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                m_Logger.get().debug( "requested to remove a entity at index {}", { index } );
 
             this.Remove( index );
         }
@@ -209,8 +212,8 @@ abstract class EntityOverriden
 
             if( !handle.IsValid() || ( @entity = handle.GetEntity() ) is null )
             {
-                if( g_Logger.debug.active )
-                    g_Logger.debug.print( "[{}] Got an invalid handle at index {}", { this.GetName(), index } );
+                if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                    m_Logger.get().debug( "Got an invalid handle at index {}", { index } );
                 this.Remove( index );
                 continue;
             }
@@ -237,15 +240,15 @@ abstract class EntityOverriden
 
         if( this.thinks )
         {
-            if( g_Logger.debug.active )
-                g_Logger.debug.print( "[{}] Set think to {}", { this.GetName(), this.interval } );
+            if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                m_Logger.get().debug( "Set think to {}", { this.interval } );
 
             this.nextthink = g_Engine.time + this.interval;
         }
         else
         {
-            if( g_Logger.debug.active )
-                g_Logger.debug.print( "[{}] Stop thinking", { this.GetName() } );
+            if( m_Logger.get() !is null && m_Logger.get().debug.active )
+                m_Logger.get().debug( "Stop thinking" );
         }
     }
 }

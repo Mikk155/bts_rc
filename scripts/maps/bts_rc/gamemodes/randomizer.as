@@ -17,6 +17,7 @@
 
 namespace randomizer
 {
+    weakref<Logger> m_Logger = Logger::Shared( "randomizer" );
     // List of array<int> containing indexes for matched entities for each randomizer type.
     dictionary g_Randomizers;
 
@@ -65,8 +66,8 @@ namespace randomizer
                         @squad.pev.owner = @randomizer.edict();
                         g_EntityFuncs.SetOrigin( squad, randomizer.GetOrigin() );
 
-                        if( g_Logger.trace.active )
-                            g_Logger.trace.print( snprintf( glog, "Randomized %1 to %2 at %3", squad.GetClassname(), randomizer.GetClassname(), randomizer.GetOrigin().ToString() ) );
+                        if( m_Logger.get() !is null && m_Logger.get().trace.active )
+                            m_Logger.get().trace( "Randomized {} to {} at {}", { squad.GetClassname(), randomizer.GetClassname(), randomizer.GetOrigin().ToString() } );
                     }
                     break;
                 }
@@ -86,8 +87,8 @@ namespace randomizer
             randomized.insertLast( pRandomizer.entindex() );
         }
 
-        if( g_Logger.info.active )
-            g_Logger.info.print( snprintf( glog, "Got %1 %2", randomized.length(), entityName ) );
+        if( m_Logger.get() !is null && m_Logger.get().info.active )
+            m_Logger.get().info( "Got {} {}", { randomized.length(), entityName } );
 
         uint entityList_size = entityList.length();
         uint randomizer_size = randomized.length();
@@ -101,8 +102,8 @@ namespace randomizer
             randomized[j] = temp;
         }
 
-        if( g_Logger.critical.active && entityList_size > randomized.length() )
-            g_Logger.critical.print( snprintf( glog, "Not enough randomizers for all the entities required! expected at least %1 %2", entityList_size, entityName ) );
+        if( m_Logger.get() !is null && m_Logger.get().critical.active && entityList_size > randomized.length() )
+            m_Logger.get().critical( "Not enough randomizers for all the entities required! expected at least {} {}", { entityList_size, entityName } );
 
         for( uint ui = 0; ui < randomizer_size; ui++ )
         {

@@ -451,13 +451,14 @@ final class env_credits : ScriptBaseMonsterEntity
 
         g_DataTracker.Stop();
 
-        if( g_Logger.info.active )
-            g_Logger.info.print("Parsing credits file..." );
+        if( g_Logger.get() !is null && g_Logger.get().info.active )
+            g_Logger.get().info("Parsing credits file..." );
 
         dictionary json;
         if( !meta_api::json::v1::Deserialize( "bts_rc/credits.json", json ) )
         {
-            g_Logger.critical.print( "Could not open bts_rc/credits.json" );
+            if( g_Logger.get() !is null && g_Logger.get().critical.active )
+                g_Logger.get().critical( "Could not open bts_rc/credits.json" );
             int[]a(0);a[1];
         }
 
@@ -526,7 +527,7 @@ final class env_credits : ScriptBaseMonsterEntity
 
             this.m_Credits.insertLast( caption );
 
-            if( g_Logger.trace.active )
+            if( g_Logger.get() !is null && g_Logger.get().trace.active )
             {
                 g_EngineFuncs.ServerPrint( "ASCaption\n{\n" );
                 g_EngineFuncs.ServerPrint( "\tIndex = " + ui + "\n" );

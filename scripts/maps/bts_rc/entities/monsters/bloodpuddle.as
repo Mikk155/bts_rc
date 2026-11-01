@@ -23,6 +23,8 @@
 
 final class ASBloodPuddleConfig : IConfigurable
 {
+    weakref<Logger> m_Logger = Logger::Shared( "bloodpuddle" );
+
     float[] m_DefaultSize;
     dictionary m_CustomSizes;
     bool m_persistent;
@@ -108,12 +110,13 @@ final class ASBloodPuddleConfig : IConfigurable
 
         if( this.m_DefaultSize[0] > this.m_DefaultSize[1] )
         {
-            g_Logger.error.print( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
+            if( m_Logger.get() !is null && m_Logger.get().error.active )
+                m_Logger.get().error( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
             this.m_DefaultSize[3];
         }
 
-        if( g_Logger.info.active )
-            g_Logger.info.print( "Set blood puddle default size to min: {} max: {}", { this.m_DefaultSize[0], this.m_DefaultSize[1] } );
+        if( m_Logger.get() !is null && m_Logger.get().info.active )
+            m_Logger.get().info( "Set blood puddle default size to min: {} max: {}", { this.m_DefaultSize[0], this.m_DefaultSize[1] } );
 
         meta_api::json::v2::json@ custom_size = config[ "custom_size" ];
 
@@ -133,14 +136,15 @@ final class ASBloodPuddleConfig : IConfigurable
 
             if( arr[0] > arr[1] )
             {
-                g_Logger.error.print( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
+                if( m_Logger.get() !is null && m_Logger.get().error.active )
+                    m_Logger.get().error( "Inverted min/max values at \"default_size\" for {}", { this.GetName() } );
                 arr[3];
             }
 
             @this.m_CustomSizes[ name ] = arr;
 
-            if( g_Logger.info.active )
-                g_Logger.info.print( "Set blood puddle for {} min: {} max: {}", { name, arr[0], arr[1] } );
+            if( m_Logger.get() !is null && m_Logger.get().info.active )
+                m_Logger.get().info( "Set blood puddle for {} min: {} max: {}", { name, arr[0], arr[1] } );
         }
         return true;
     }
@@ -182,8 +186,8 @@ final class ASBloodPuddleConfig : IConfigurable
 
         bloodpuddle.pev.scale = Math.RandomFloat( sizes[0], sizes[1] );
 
-        if( g_Logger.trace.active )
-            g_Logger.trace.print( "Generated blood puddle skin={} scale={} for {} at {}", {
+        if( m_Logger.get() !is null && m_Logger.get().trace.active )
+            m_Logger.get().trace( "Generated blood puddle skin={} scale={} for {} at {}", {
                 bloodpuddle.pev.skin,
                 bloodpuddle.pev.scale,
                 monster.pev.classname,
