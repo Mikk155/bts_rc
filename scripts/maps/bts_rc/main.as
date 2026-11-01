@@ -127,8 +127,10 @@ void MapActivate()
         if( entity is null )
             continue;
 
-        EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) );
-        overriddenEntities++;
+        if( EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) ) )
+        {
+            overriddenEntities++;
+        }
 
         // item tracker data
         if( gpItemsConfig.item_tracking && entity.GetClassname() == "item_inventory" )

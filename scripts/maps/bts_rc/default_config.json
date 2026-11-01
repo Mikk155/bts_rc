@@ -2439,7 +2439,7 @@
     },
     "weapon_bts_flamethrower": {
         "deploy_time": 0.7,
-        "fire_duration": 0.5,
+        "fire_duration": 1,
         "max_clip": -1,
         "name": "Flamethrower",
         "position": 6,
