@@ -19,7 +19,13 @@ namespace test_chamber
 {
 void MapActivate()
 {
+if( g_Logger.get() !is null && g_Logger.get().info.active )
+g_Logger.get().info( "Activating test chamber systems." );
+
 test_chamber::SortSections();
+
+if( g_Logger.get() !is null && g_Logger.get().info.active )
+g_Logger.get().info( "Test chamber systems activated." );
 } // MapActivate
 dictionary@ gpMenuSpawnerKeyvalues;
 void RegisterSpawner( const string&in name, dictionary&in keyvalues )
@@ -32,6 +38,9 @@ void RegisterSpawner( const string&in name, dictionary&in keyvalues )
 }
 void MapInit()
 {
+if( g_Logger.get() !is null && g_Logger.get().info.active )
+g_Logger.get().info( "Initializing test chamber systems." );
+
 // ============================================================
 // Custom entities
 // ============================================================
@@ -79,6 +88,9 @@ function( CBasePlayer@ player, array<string>@ arguments )
     menu.Open( player, 30 );
 }, true, "test"
 );
+
+if( g_Logger.get() !is null && g_Logger.get().info.active )
+g_Logger.get().info( "Test chamber systems initialized." );
 }
 } // MapInit
 void RegisterAllSpawners()

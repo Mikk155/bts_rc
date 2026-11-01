@@ -30,13 +30,22 @@ Server::chrono@ MapLoadedChrono = Server::chrono();
 void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, float value )
 {
     if( gCheckModuleError(true) )
+    {
+        if( g_Logger.get() !is null && g_Logger.get().critical.active )
+            g_Logger.get().critical( "MapBegin skipped because the module reported an earlier error." );
         return;
+    }
+
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Starting map gameplay. main map={} debug={}", { String::from_bool( g_IsMainMap ), String::from_bool( g_Debug ) } );
 
 #if METAMOD_PLUGIN_ASCURL
     // Dont request every time while developing
     if( !g_Debug )
     {
         // Notice of new github releases if we're running a old version.
+        if( g_Logger.get() !is null && g_Logger.get().debug.active )
+            g_Logger.get().debug( "Checking for available updates." );
         UpdateChecker();
     }
 #endif
@@ -44,11 +53,20 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
     gpGameStarted = true;
     g_SurvivalMode.Activate();
 
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Survival mode activated." );
+
     Hooks::Register();
+
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Gameplay hooks registered." );
 
     if( g_IsMainMap )
     {
         randomizer::Initialize();
+
+        if( g_Logger.get() !is null && g_Logger.get().debug.active )
+            g_Logger.get().debug( "Main-map randomizer initialized." );
     }
 
     auto ckv = activator.GetCustomKeyvalues();
@@ -57,6 +75,7 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
 
     if( Difficulty::HellBound() )
     {
+        uint updatedPlayers = 0;
         for( int i = 0; i <= g_Engine.maxClients; i++ )
         {
             auto player = g_PlayerFuncs.FindPlayerByIndex(i);
@@ -64,24 +83,42 @@ void MapBegin( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE use_type, f
             if( player !is null )
             {
                 UpdatePlayerData( player, util::GetClass( player ) );
+                updatedPlayers++;
             }
         }
+
+        if( g_Logger.get() !is null && g_Logger.get().debug.active )
+            g_Logger.get().debug( "Applied Hellbound player data to {} players.", { updatedPlayers } );
     }
 
     activator.pev.flags |= FL_KILLME; // Free the trigger_script entity slot.
 
     gCheckModuleError(false);
+
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Map gameplay started successfully." );
 }
 
 void MapActivate()
 {
     if( gCheckModuleError(true) )
+    {
+        if( g_Logger.get() !is null && g_Logger.get().critical.active )
+            g_Logger.get().critical( "MapActivate skipped because the module reported an earlier error." );
         return;
+    }
+
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Activating map entities." );
 
     if( gpItemsConfig.item_tracking )
+    {
         item_tracker::Reset();
+    }
 
     uint numents = g_EngineFuncs.NumberOfEntities();
+    uint overriddenEntities = 0;
+    uint trackedItems = 0;
 
     for( uint entityIndex = 1; entityIndex < numents; entityIndex++ )
     {
@@ -91,6 +128,7 @@ void MapActivate()
             continue;
 
         EntityOverriden::Register( entity, cast<CBaseMonster@>(entity) );
+        overriddenEntities++;
 
         // item tracker data
         if( gpItemsConfig.item_tracking && entity.GetClassname() == "item_inventory" )
@@ -100,19 +138,30 @@ void MapActivate()
             if( item !is null && item_tracker::ValidItemNames.find( item.m_szItemName ) >= 0 )
             {
                 item_tracker::RegisterItem( item );
+                trackedItems++;
             }
         }
     }
+
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Processed {} entities: {} overrides and {} tracked items.", { numents - 1, overriddenEntities, trackedItems } );
 
     meta_api::NoticeInstallation();
 
     if( !g_IsMainMap )
     {
         test_chamber::MapActivate();
+
+        if( g_Logger.get() !is null && g_Logger.get().debug.active )
+            g_Logger.get().debug( "Test chamber activation completed." );
     }
 
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Map entities activated successfully in {}:{} seconds.", { MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds } );
+
     MapLoadedChrono.Stop();
-    g_Game.AlertMessage( at_console, "The map has been loaded in %1:%2 seconds\n", MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds );
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "The map has been loaded in {}:{} seconds.", { MapLoadedChrono.Seconds, MapLoadedChrono.Miliseconds } );
     @MapLoadedChrono = null;
 
     gCheckModuleError(false);
@@ -121,28 +170,42 @@ void MapActivate()
 void MapInit()
 {
     if( gCheckModuleError(true) )
+    {
+        if( g_Logger.get() !is null && g_Logger.get().critical.active )
+            g_Logger.get().critical( "MapInit skipped because the module reported an earlier error." );
         return;
+    }
 
     Server::chrono@ chrono = Server::chrono();
+
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Initializing map systems" );
 
     models::Precache();
 
     Precache();
 
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Map assets precached." );
+
     g_MapConfig.__MapInitialize__();
 
-    btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Map configuration initialized." );
 
-    if( g_Logger.get() !is null && g_Logger.get().info.active )
-    {
-        chrono.Stop();
-        g_Logger.get().info( "Done with MapInit. total time elapsed: {}:{} seconds.", { chrono.Seconds, chrono.Miliseconds } );
-    }
+    btscm::CustomMonsterMapInit(); // Nero ADDED 2026-01-07 Custom Monsters
 
     if( !g_IsMainMap )
     {
         test_chamber::MapInit();
+
+        if( g_Logger.get() !is null && g_Logger.get().debug.active )
+            g_Logger.get().debug( "Test chamber systems initialized." );
     }
+
+    chrono.Stop();
+    if( g_Logger.get() !is null && g_Logger.get().info.active )
+        g_Logger.get().info( "Map initialization completed in {}:{} seconds.", { chrono.Seconds, chrono.Miliseconds } );
 
     gCheckModuleError(false);
 }

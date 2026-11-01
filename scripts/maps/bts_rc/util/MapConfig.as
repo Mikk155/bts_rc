@@ -17,6 +17,9 @@
 
 void RegisterContexts()
 {
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Registering map configuration contexts." );
+
     // Items
     g_MapConfig.Register( gpItemsConfig ); // Always active
 
@@ -82,6 +85,9 @@ void RegisterContexts()
 
     g_MapConfig.Register( g_MapConfig ); // Always active
     g_MapConfig.Register( g_DataTracker ); // Always active
+
+    if( g_Logger.get() !is null && g_Logger.get().debug.active )
+        g_Logger.get().debug( "Map configuration contexts registered." );
 }
 
 // Inherit from this interface to configure contexts from one key at the root json
@@ -592,28 +598,49 @@ final class ASMapConfig : IConfigurable
     void __MapInitialize__()
     {
         auto chrono = Server::chrono();
+
+        if( m_Logger.get() !is null && m_Logger.get().info.active )
+            m_Logger.get().info( "Loading map configuration." );
+
         __LoadMapConfiguration__();
+
+        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+            m_Logger.get().debug( "Map configuration file loaded." );
+
         this.Register( btsrcLogger() );
         RegisterContexts();
         this.Register( gpCharactersConfig );
         this.__ValidateMapConfiguration__();
+
+        if( m_Logger.get() !is null && m_Logger.get().debug.active )
+            m_Logger.get().debug( "Map configuration contexts validated." );
+
         chrono.Stop();
 
         string buffer;
         snprintf( buffer, "Done with all map configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
         g_EngineFuncs.ServerPrint( buffer );
 
+        if( m_Logger.get() !is null && m_Logger.get().info.active )
+            m_Logger.get().info( "Map configuration initialized in {}:{} seconds.", { chrono.Seconds, chrono.Miliseconds } );
+
         if( this.m_AllowReload )
         {
             RegisterCommand( "update", "", "Updates the json config for all contexts",
             @CommandCallback( function( CBasePlayer@ player, array<string>@ arguments )
             {
+                if( g_MapConfig.m_Logger.get() !is null && g_MapConfig.m_Logger.get().info.active )
+                    g_MapConfig.m_Logger.get().info( "Reloading all map configuration contexts." );
+
                 auto chrono = Server::chrono();
 
                 g_MapConfig.__LoadMapConfiguration__();
                 g_MapConfig.__ValidateMapConfiguration__();
 
                 chrono.Stop();
+
+                if( g_MapConfig.m_Logger.get() !is null && g_MapConfig.m_Logger.get().info.active )
+                    g_MapConfig.m_Logger.get().info( "Reloaded all map configuration contexts in {}:{} seconds.", { chrono.Seconds, chrono.Miliseconds } );
 
                 string buffer;
                 snprintf( buffer, "Done with all map configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );
@@ -632,9 +659,15 @@ final class ASMapConfig : IConfigurable
 
                 if( ctx is null )
                 {
+                    if( g_MapConfig.m_Logger.get() !is null && g_MapConfig.m_Logger.get().warning.active )
+                        g_MapConfig.m_Logger.get().warning( "Could not reload unknown configuration context \"{}\".", { arguments[0] } );
+
                     g_PlayerFuncs.ClientPrint( player, HUD_PRINTCONSOLE, "Could not find context with name \"" + arguments[0] + "\"\n" );
                     return;
                 }
+
+                if( g_MapConfig.m_Logger.get() !is null && g_MapConfig.m_Logger.get().info.active )
+                    g_MapConfig.m_Logger.get().info( "Reloading map configuration context \"{}\".", { ctx.GetName() } );
 
                 if( !meta_api::json::v2::Deserialize( g_MapConfig.__GetDefaultConfig__(), g_MapConfig.m_defaults ) )
                 {
@@ -652,6 +685,9 @@ final class ASMapConfig : IConfigurable
                 ctx.Register( g_MapConfig.m_json[ ctx.GetName() ] );
 
                 chrono.Stop();
+
+                if( g_MapConfig.m_Logger.get() !is null && g_MapConfig.m_Logger.get().info.active )
+                    g_MapConfig.m_Logger.get().info( "Reloaded map configuration context \"{}\" in {}:{} seconds.", { ctx.GetName(), chrono.Seconds, chrono.Miliseconds } );
 
                 string buffer;
                 snprintf( buffer, "Done with configuration in %1:%2 seconds\n", chrono.Seconds, chrono.Miliseconds );

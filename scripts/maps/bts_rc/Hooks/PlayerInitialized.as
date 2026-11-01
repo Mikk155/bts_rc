@@ -20,6 +20,9 @@ namespace Hooks
     // Called once per player after gpGameStarted is true and the player presses any key
     void PlayerInitialized( CBasePlayer@ player, dictionary@ data )
     {
+        if( g_Logger.get() !is null && g_Logger.get().trace.active )
+            g_Logger.get().trace( "Initializing player \"{}\".", { player.pev.netname } );
+
         if( !g_IsMainMap )
         {
             // Set random class in test maps for my bots to spawn

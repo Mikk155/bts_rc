@@ -39,6 +39,7 @@
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/Logger/v2"
 #include "../../../mikk155/String/Vector"
+#include "../../../mikk155/String/bool"
 
 TextMenu::v1::Menu g_ClassSelectionMenu;
 

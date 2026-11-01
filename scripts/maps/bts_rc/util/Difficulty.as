@@ -74,6 +74,9 @@ namespace Difficulty
             Difficulty::__HellBound__ = ( hellbound == 1 );
         }
 
+        if( g_Logger.get() !is null && g_Logger.get().info.active )
+            g_Logger.get().info( "Difficulty updated to {}. hellbound={} silent={}", { Difficulty::ToString( Difficulty::Level() ), String::from_bool( Difficulty::HellBound() ), String::from_bool( silent ) } );
+
         if( !silent )
         {
             g_PlayerFuncs.ClientPrintAll( HUD::HUD_PRINTTALK, "The simulation difficulty has been adjusted to " + Difficulty::ToString( Difficulty::Level() ) + ( HellBound() ? " IN HELLBOUND MODE!" : "" ) + "\n" );
