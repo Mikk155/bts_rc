@@ -218,6 +218,8 @@ class PyTest:
                 content = fStream.read();
                 fStream.close();
 
+            script.Content = script.Content.replace( '\t', "    " );
+
             if script.Content != content:
 
                 with open( script.AbsolutePath, "w", encoding="utf-8" ) as fStream:
