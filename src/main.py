@@ -23,15 +23,6 @@ import Tests.DefaultConfigCheck;
 import Tests.Cleanup;
 #import Tests.DedicatedServerRelease;
 
-def Exit( code_error: int = 0 ):
-
-    print( f"return core: {code_error}" );
-
-    if sys.platform == "win32" and PyTest.GetType() == PyTest.BuildType.Local and "PROMPT" not in os.environ:
-        input( "Press enter to continue." );
-
-    sys.exit( code_error );
-
 def Main() -> tuple[int, int]:
 
     passes = 0;
@@ -91,7 +82,7 @@ if __name__ == "__main__":
     match buildType:
 
         case PyTest.BuildType.Release:
-            print( f"Formating map scripts for bts_rc as version {PyTest.GetTag()}" );
+            PyTest.Print( f"Formating map scripts for bts_rc as version {PyTest.GetTag()}" );
 
         case _:
             pass;
@@ -100,24 +91,28 @@ if __name__ == "__main__":
 
     if fails == 0:
         PyTest.WriteAllScripts();
-        print( f"{passes} checks passed." );
+        PyTest.Print( f"{passes} checks passed." );
     else:
-        print( f"{fails} of {fails + passes} checks failed." );
-        Exit(1);
+        PyTest.Print( f"{fails} of {fails + passes} checks failed." );
 
     match buildType:
 
         case PyTest.BuildType.Local:
             PyTest.__SaveCache__();
-#            input( "Press enter to continue" );
-
         case PyTest.BuildType.Release:
-            print( "Downloading map assets..." );
-
+            pass;
         case PyTest.BuildType.Check:
+            PyTest.__SaveCache__();
             pass;
         case _:
             pass;
 
-    print( "All done!" );
-    Exit(0);
+    PyTest.Print( "All done!" );
+
+    if PyTest.GetType() == PyTest.BuildType.Release:
+        PyTest.FlushLog();
+
+    if sys.platform == "win32" and PyTest.GetType() == PyTest.BuildType.Local and "PROMPT" not in os.environ:
+        input( "Press enter to continue." );
+
+    sys.exit( fails );

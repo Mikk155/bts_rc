@@ -1,6 +1,7 @@
 # Python, Builders | Checkers
 __pycache__/
 GITHUB_OUTPUT
+release_notes.md
 
 # Node, Website
 node_modules/

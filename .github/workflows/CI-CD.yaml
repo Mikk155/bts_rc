@@ -37,8 +37,8 @@ jobs:
 
       - name: Build project
         id: builder # Push dispatch
-        run: python src/main.py --release # Push dispatch
-#        run: python src/main.py +release "${{ github.event.release.tag_name }}" # Release dispatch
+        run: python src/main.py --release -webhook "https://discord.com/api/webhooks/${{ secrets.DISCORD_PUSH_ID }}/${{ secrets.DISCORD_PUSH_TOKEN }}" # Push dispatch
+#        run: python src/main.py -release "${{ github.event.release.tag_name }}" # Release dispatch
 
       - name: Zip project
         if: steps.builder.outputs.abort == 'false' # Push dispatch

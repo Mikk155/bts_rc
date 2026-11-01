@@ -106,7 +106,7 @@ class ReleaseCheck( PyTest ):
         elif "--release" in sys.argv:
 
             # Make PyTest.GetType return Release
-            sys.argv[ sys.argv.index( "--release" ) ] = "+release";
+            sys.argv[ sys.argv.index( "--release" ) ] = "-release";
             lastTag: str = releaseData[ "tag_name" ];
             self.m_GithubData[ "previous_version" ] = lastTag;
 
@@ -119,7 +119,8 @@ class ReleaseCheck( PyTest ):
                     break;
 
             self.m_ProjectVersion = ".".join( regexSemVer.groups() );
-            sys.argv.append( self.m_ProjectVersion ); # Set last release tag for PyTest.GetTag
+            # Set last release tag for PyTest.GetTag
+            sys.argv.insert( sys.argv.index( "-release" ) + 1, self.m_ProjectVersion );
 
             if lastTag == self.m_ProjectVersion:
 
@@ -132,7 +133,7 @@ class ReleaseCheck( PyTest ):
 
             else:
 
-                sys.argv.insert( sys.argv.index( "+release" ) + 1, self.m_ProjectVersion );
+                sys.argv.insert( sys.argv.index( "-release" ) + 1, self.m_ProjectVersion );
 
                 changelog: str = "";
                 changelogBaseRelease: dict = releaseData;
@@ -193,6 +194,14 @@ class ReleaseCheck( PyTest ):
 Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).
 </details>
 """ );
+
+                PyTest.AddWebhookFooter( f"""# {self.m_Repository} map scripts [Version {self.m_ProjectVersion}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{self.m_ProjectVersion})
+
+## Full changelog can be found [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).
+
+{changelog}
+
+Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).""" );
 
                 self.m_GithubData[ "abort" ] = False;
 

@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/85.91549295774648?barColor=45da0b)
+> ![](https://geps.dev/progress/81.33333333333333?barColor=58da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -40,26 +40,42 @@ This file contains the list of to-do in the project.
 - [ ] Python checkers should generate a server.cfg with timelimit and that. so to also allow not python checkers DSs to run the map indefinitelly without the entities in the bsp.
 - [ ] Create a temporal event folder for python tests in "release" mode.
 - [ ] When releasing scripts copy all script contents into main.as where they are included to not have a endless script inclusion messages.
-- [ ] interface or mixin class for "grenade launching" for mp5, m16 and grenade launcher deduplication of code.
-- [ ] Globalize PickupObject for using anywhere
+- [ ] Share the grenade-launching behavior between MP5, M16, and grenade-launcher variants without duplicating weapon logic.
+- [ ] Expose a reusable item-pickup helper for weapon pickups such as flare ammo, including pickup messages, sounds, and removal behavior.
 - [ ] Merge duplicated weapons such as both SAW, some M16/MP5 etc that are very similar except for specific things (Inheritance).
 - [ ] Pulish engineer sentry spawner which at the moment is a rare spawn.
 - [ ] Move all remaining hardcoded variables from weapons to json (some doesnt use the config Kickback method, trained/regular cooldowm etc)
 - [ ] Remove trace effects from m16 and the likes if ASBullet already covers them.
 - [ ] Use weapons::SetCooldown where single cooldown variables are updated with hardcoded numbers so the three attack type cooldows are set.
 - [ ] have release workflows/python to zip scripts with mega assets.
-- [ ] add a throwable interface/mixin to some melees that raptor asked i forgot which ones.
+- [ ] Replace the crowbar's custom thrown-damage hook with the existing IThrowable flow where appropriate, and identify any other melee weapons that should be throwable.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails
 - [ ] Use item display name instead of item name for item_tracker collection chat message.
+- [ ] Replace the `DMG_DROWN` alias used as `DMG_BTS_WEAPON` with a verified, non-conflicting damage marker.
+    > `entities/monsters/monster_parasite.as` also uses `DMG_DROWN` for actual drowning damage.
+- [ ] Move player targeting and enemy-information display settings from `Hooks/PlayerThink.as` into an `IConfigurable` context.
+- [ ] Make monsters face the sentry location before entering the sentry-spawn animation.
+    > `entities/monsters/engineer_sentry.as`
+- [ ] Fade the flashlight spot when its trace has no valid surface to illuminate.
+    > `entities/weapons/config/ASWeaponLightConfig.as`
+- [ ] Make bullet sound insertion configurable by weapon pattern so silenced weapons do not emit the regular player/combat sounds.
+    > `entities/weapons/base/shared/bullet.as`
+- [ ] Move the default weapon flags into the weapons configuration context instead of keeping them as a global default.
+    > `entities/weapons/base/BTS_Weapon.as`
+- [ ] Revisit the Sven Co-op 5.27 compatibility work: remove the ammo drop-type macro when the engine fix is available and pass the checkpoint entity to `Revive` if the API supports it.
+    > `gamemodes/dynamic_equipment.as`, `entities/point_checkpoint.as`
+- [ ] Verify the panthereye's maximum leap-distance behavior and remove the stray duplicate semicolon after issueing it.
+    > `entities/monsters/panthereye.as`
 ---
 
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
-- [x] Remove ``bts_rc/weapons/flarehit1.wav`` if unused.
-- [x] have a json editor and schema validator at website to generate a config file.
+- [x] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
+- [x] Reuse the default flare configuration for the flare gun and route its ammo pickup through the shared pickup behavior.
+    > `entities/weapons/Explosives/flaregun.as`
 - [x] Fix test chamber not spawning all type of canister zombies (use trigger_changevalues as modified in bsp file.)
 - [x] Rotate ASFlare angles when created with flaregun
 - [x] Add gravity to flaregun ASFLares

@@ -15,7 +15,9 @@
         "maps/soundcache/**": true,
         "src/maps/**": true,
         "Rubbish/tmp/**": true,
-        "desktop.ini": true
+        "desktop.ini": true,
+        "GITHUB_OUTPUT": true,
+        "release_notes.md": true
     },
 
     "editor.indentSize": 4,

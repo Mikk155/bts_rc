@@ -11,6 +11,12 @@ global gpCache;
 gpCache: dict = None;
 global gpAngelScriptFiles;
 gpAngelScriptFiles: list['PyTest.AScript'] = None;
+global gpLogMessages;
+gpLogMessages: list[str] = [];
+global gpLogFooterMessages;
+gpLogFooterMessages: list[str] = [];
+global gpLogWebhook;
+gpLogWebhook: str | None = None;
 
 class PyTest:
     """Inherit from PyTest and instantiate your class then Build will be called"""
@@ -38,8 +44,8 @@ class PyTest:
     def GetTag() -> str | None:
         '''If the Type is Release. this is the tag name that triggered the script in Github otherwise None'''
         import sys;
-        if "+release" in sys.argv and len(sys.argv) > sys.argv.index( "+release" ):
-            return sys.argv[ sys.argv.index( "+release" ) + 1 ];
+        if "-release" in sys.argv and len(sys.argv) > sys.argv.index( "-release" ):
+            return sys.argv[ sys.argv.index( "-release" ) + 1 ];
         return None;
 
     @staticmethod
@@ -78,11 +84,30 @@ class PyTest:
     def GetType() -> BuildType:
         '''Return the build type'''
         import sys;
-        if "+release" in sys.argv:
+        if "-release" in sys.argv:
             return PyTest.BuildType.Release;
         if "--check" in sys.argv:
             return PyTest.BuildType.Check;
         return PyTest.BuildType.Local;
+
+    @staticmethod
+    def GetWebhook() -> str | None:
+        '''Return the Discord webhook URL, if configured'''
+        global gpLogWebhook;
+
+        if gpLogWebhook is None:
+
+            import sys;
+            if "-webhook" in sys.argv:
+
+                webhookIndex: int = sys.argv.index( "-webhook" );
+
+                if webhookIndex + 1 >= len( sys.argv ) or not sys.argv[ webhookIndex + 1 ]:
+                    raise ValueError( "-webhook requires a valid URL." );
+
+                gpLogWebhook = sys.argv[ webhookIndex + 1 ];
+
+        return gpLogWebhook;
 
     @property
     def Type(self) -> BuildType:
@@ -143,11 +168,87 @@ class PyTest:
     @property
     def Name( self ) -> str:
         """Get the name of your class module"""
-        return self.__module__;
+        return self.__module__.removeprefix( "Tests." );
 
-    def Log( self, message: str, *args ):
-        """Print a message to console prefixed with your class moule name. using *args"""
-        print( f"[{self.Name}] {message.format( *args ) }" );
+    @staticmethod
+    def Print( message: str, *args ) -> None:
+        """Print a message to console using *args"""
+        message = message.format( *args );
+
+        if PyTest.GetWebhook() is not None:
+            gpLogMessages.append( message );
+
+        print( message );
+
+    def Log( self, message: str, *args ) -> None:
+        """Print a message to console prefixed with your class moule name using *args"""
+        message = message.format( *args );
+        PyTest.Print( f"[{self.Name}] {message}" );
+
+        if PyTest.GetWebhook() is not None:
+            gpLogMessages[-1] = f"> [**{self.Name}**] ``{message}``";
+
+    @staticmethod
+    def AddWebhookFooter( message: str ) -> None:
+        """Append a final Markdown message to the configured Discord webhook"""
+        if PyTest.GetWebhook() is not None:
+            gpLogFooterMessages.append( message );
+
+    @staticmethod
+    def FlushLog() -> None:
+        '''Send buffered log messages to the configured Discord webhook'''
+        import requests;
+
+        webhook = PyTest.GetWebhook();
+        if webhook is None:
+            return;
+
+        messages = [
+            message
+            for message in ( *gpLogMessages, *gpLogFooterMessages )
+            if message
+        ];
+        if not messages:
+            return;
+
+        chunks: list[str] = [];
+        chunk: str = "";
+        for message in messages:
+            for line in message.splitlines() or [ " " ]:
+                if len(line) > 2000:
+                    if chunk:
+                        chunks.append( chunk );
+                        chunk = "";
+                    chunks.extend( line[ offset: offset + 2000 ] for offset in range( 0, len( line ), 2000 ) );
+                    continue;
+
+                candidate = line if not chunk else f"{chunk}\n{line}";
+                if len(candidate) > 2000:
+                    chunks.append( chunk );
+                    chunk = line;
+                else:
+                    chunk = candidate;
+
+        if chunk:
+            chunks.append( chunk );
+
+        for content in chunks:
+            try:
+                response = requests.post(
+                    webhook,
+                    json={ "content": content },
+                    timeout=15,
+                );
+            except requests.RequestException as error:
+                print( f"Webhook request failed: {error}" );
+                break;
+
+            if response.status_code < 200 or response.status_code >= 300:
+                print(
+                    f"Webhook returned HTTP {response.status_code}: "
+                    f"{response.text}"
+                );
+                break;
 
     class AScript:
         '''Represents an angel script file in the project. Content is rewrited to the file when the script finish running'''
@@ -250,7 +351,13 @@ class PyTest:
                 ],
                 cwd=PyTest.GetWorkspace(),
                 check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
             );
+
+            for line in ( testResult.stdout or "" ).splitlines():
+                PyTest.Print( line );
 
             if testResult.returncode != 0:
                 raise RuntimeError(
