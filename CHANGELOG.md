@@ -1,4 +1,5 @@
 # 01/11/2026
+- Updated website.
 - Added recursive submodule checkout to the GitHub Actions workflows.
 - Added automated AngelScript formatting, license management, dependency inlining, and submodule cleanup to the build pipeline.
 - Added optional packaging validation to the release build.

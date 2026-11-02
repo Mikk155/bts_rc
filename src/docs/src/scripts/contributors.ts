@@ -6,6 +6,7 @@ interface Contributor
     avatar_url : string;
     html_url : string;
     contributions : number;
+    is_credit : boolean;
 }
 
 interface ContributorsCache
@@ -16,19 +17,135 @@ interface ContributorsCache
 
 export async function initContributors() : Promise<void>
 {
+    interface Credit
+    {
+        name : string;
+        url : string | undefined;
+    }
+
+    async function loadCredits() : Promise<Credit[]>
+    {
+        try
+        {
+            const response : Response = await fetch( "assets/credits.json" );
+
+            if( !response.ok )
+            {
+                console.warn( `credits.json returned HTTP ${response.status}` );
+                return [];
+            }
+
+            const users : unknown = await response.json();
+
+            if( !Array.isArray( users ) )
+            {
+                console.warn( "credits.json must contain an array" );
+                return [];
+            }
+
+            return users
+                .map( ( user : unknown ) : Credit | undefined =>
+                {
+                    if( typeof user === "string" )
+                    {
+                        return { name : user, url : undefined };
+                    }
+
+                    if( Array.isArray( user )
+                        && typeof user[ 0 ] === "string"
+                        && typeof user[ 1 ] === "string" )
+                    {
+                        return { name : user[ 0 ], url : user[ 1 ] };
+                    }
+
+                    return undefined;
+                } )
+                .filter( ( user : Credit | undefined ) : user is Credit => user !== undefined );
+        }
+        catch( err )
+        {
+            console.warn( "credits.json failed: ", err );
+            return [];
+        }
+    }
+
+    function githubCredit( credit : Credit ) : Contributor | undefined
+    {
+        if( !credit.url )
+        {
+            return undefined;
+        }
+
+        let url : URL;
+
+        try
+        {
+            url = new URL( credit.url );
+        }
+        catch
+        {
+            return undefined;
+        }
+
+        if( url.hostname.toLowerCase() !== "github.com" )
+        {
+            return undefined;
+        }
+
+        const login : string | undefined = url.pathname
+            .split( "/" )
+            .filter( ( part : string ) => part.length > 0 )[ 0 ];
+
+        if( !login )
+        {
+            return undefined;
+        }
+
+        return {
+            login,
+            avatar_url : `https://github.com/${login}.png?size=160`,
+            html_url : `https://github.com/${login}`,
+            contributions : 0,
+            is_credit : true
+        };
+    }
+
     async function render( container : HTMLElement, contributors : ReadonlyMap<string, Contributor> ) : Promise<void>
     {
         container.innerHTML = "";
 
+        const credits : Credit[] = await loadCredits();
+        const profiles : HTMLDivElement = document.createElement( "div" );
+        profiles.className = "contributor-profiles";
+        const additionalCredits : HTMLDivElement = document.createElement( "div" );
+        additionalCredits.className = "contributor-credits";
+        container.appendChild( profiles );
+        container.appendChild( additionalCredits );
+
+        const mergedContributors : Map<string, Contributor> = new Map( contributors );
+
+        for( const credit of credits )
+        {
+            const contributor : Contributor | undefined = githubCredit( credit );
+
+            if( contributor && !mergedContributors.has( contributor.login.toLowerCase() ) )
+            {
+                mergedContributors.set( contributor.login.toLowerCase(), contributor );
+            }
+        }
+
         const ordered : Contributor[] =
-            Array.from( contributors.values() );
+            Array.from( mergedContributors.values() );
 
         ordered.sort( ( a : Contributor, b : Contributor ) : number =>
         {
+            if( a.is_credit !== b.is_credit )
+            {
+                return a.is_credit ? 1 : -1;
+            }
+
             return b.contributions - a.contributions;
         } );
-
-        let slots: number = 0;
 
         for( const user of ordered )
         {
@@ -41,58 +158,35 @@ export async function initContributors() : Promise<void>
             el.innerHTML = `
                 <img src="${user.avatar_url}" />
                 <div>${user.login}</div>
-                <div>${user.contributions} contributions</div>
+                <div>${user.is_credit ? "" : `${user.contributions} contributions`}</div>
             `;
-            slots++;
-
-            container.appendChild( el );
+            profiles.appendChild( el );
         }
 
-        // Inject dummy elements to account for GIT contributors being in 5 columns
-        while( ( slots % 5 ) != 0 )
+        for( const credit of credits )
         {
-            container.appendChild( document.createElement( "a" ) );
-            slots++;
-        }
-
-        // credits.json
-        try
-        {
-            const response : Response = await fetch( "assets/credits.json" );
-
-            if( response.ok )
+            if( githubCredit( credit ) )
             {
-                const users : unknown = await response.json();
-
-                if( Array.isArray( users ) )
-                {
-                    for( let user of users )
-                    {
-                        const element : HTMLLIElement = document.createElement( "li" );
-                        element.className = "changelog-header";
-
-                        if( Array.isArray( user ) )
-                        {
-                            element.innerText = user[0];
-
-                            const url : HTMLAnchorElement = document.createElement( "a" );
-                            url.href = user[1];
-                            url.target = "_blanc";
-                            url.appendChild( element );
-                            container.appendChild( url );
-                        }
-                        else
-                        {
-                            element.innerText = user;
-                            container.appendChild( element );
-                        }
-                    }
-                }
+                continue;
             }
-        }
-        catch( err )
-        {
-            console.warn( "credits.json failed: ", err );
+
+            const element : HTMLLIElement = document.createElement( "li" );
+            element.className = "changelog-header";
+            element.innerText = credit.name;
+
+            if( credit.url )
+            {
+                const url : HTMLAnchorElement = document.createElement( "a" );
+                url.href = credit.url;
+                url.target = "_blank";
+                url.rel = "noopener noreferrer";
+                url.appendChild( element );
+                additionalCredits.appendChild( url );
+            }
+            else
+            {
+                additionalCredits.appendChild( element );
+            }
         }
     }
 
@@ -188,7 +282,8 @@ export async function initContributors() : Promise<void>
             login : String( ( user as any ).login ),
             avatar_url : String( ( user as any ).avatar_url ),
             html_url : String( ( user as any ).html_url ),
-            contributions : Number( ( user as any ).contributions )
+            contributions : Number( ( user as any ).contributions ),
+            is_credit : false
         };
 
         contributors.set(

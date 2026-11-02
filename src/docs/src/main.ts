@@ -8,6 +8,7 @@ import { initContributors } from "./scripts/contributors.js";
 import { initVersionRelease } from "./scripts/lastRelease.js";
 import { initLanguages } from "./scripts/languages.js";
 import { initConfigGenerator } from "./scripts/configGenerator.js";
+import "./scripts/navigation.js";
 
 declare global
 {

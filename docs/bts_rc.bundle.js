@@ -127,10 +127,6 @@ async function y() {
 		l && c.appendChild(l), r.appendChild(s), r.appendChild(c), n.appendChild(r);
 	}
 	let s = [], c = "";
-	{
-		let t = document.createElement("a");
-		t.href = "https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md", t.target = "_blanc", t.innerText = "Full changelog in Markdown.", t.className = "changelog-header", t.style.display = "block", t.style.width = "max-content", t.style.margin = "0 auto", t.style.textAlign = "center", e.appendChild(t), e.appendChild(document.createElement("br"));
-	}
 	for (let t of r) {
 		if (t.startsWith("# ")) {
 			o(c, s, e), c = t.substring(2), s = [];
@@ -173,43 +169,79 @@ async function b() {
 //#endregion
 //#region src/scripts/contributors.ts
 async function x() {
-	async function e(e, t) {
-		e.innerHTML = "";
-		let n = Array.from(t.values());
-		n.sort((e, t) => t.contributions - e.contributions);
-		let r = 0;
-		for (let t of n) {
-			let n = document.createElement("a");
-			n.href = t.html_url, n.target = "_blank", n.className = "contributor", n.innerHTML = `
-                <img src="${t.avatar_url}" />
-                <div>${t.login}</div>
-                <div>${t.contributions} contributions</div>
-            `, r++, e.appendChild(n);
-		}
-		for (; r % 5 != 0;) e.appendChild(document.createElement("a")), r++;
+	async function e() {
 		try {
-			let t = await fetch("assets/credits.json");
-			if (t.ok) {
-				let n = await t.json();
-				if (Array.isArray(n)) for (let t of n) {
-					let n = document.createElement("li");
-					if (n.className = "changelog-header", Array.isArray(t)) {
-						n.innerText = t[0];
-						let r = document.createElement("a");
-						r.href = t[1], r.target = "_blanc", r.appendChild(n), e.appendChild(r);
-					} else n.innerText = t, e.appendChild(n);
-				}
-			}
+			let e = await fetch("assets/credits.json");
+			if (!e.ok) return console.warn(`credits.json returned HTTP ${e.status}`), [];
+			let t = await e.json();
+			return Array.isArray(t) ? t.map((e) => {
+				if (typeof e == "string") return {
+					name: e,
+					url: void 0
+				};
+				if (Array.isArray(e) && typeof e[0] == "string" && typeof e[1] == "string") return {
+					name: e[0],
+					url: e[1]
+				};
+			}).filter((e) => e !== void 0) : (console.warn("credits.json must contain an array"), []);
 		} catch (e) {
-			console.warn("credits.json failed: ", e);
+			return console.warn("credits.json failed: ", e), [];
 		}
 	}
-	async function t(t = !1) {
-		let n = localStorage.getItem("contributors_cache");
-		if (!n) return !1;
+	function t(e) {
+		if (!e.url) return;
+		let t;
+		try {
+			t = new URL(e.url);
+		} catch {
+			return;
+		}
+		if (t.hostname.toLowerCase() !== "github.com") return;
+		let n = t.pathname.split("/").filter((e) => e.length > 0)[0];
+		if (n) return {
+			login: n,
+			avatar_url: `https://github.com/${n}.png?size=160`,
+			html_url: `https://github.com/${n}`,
+			contributions: 0,
+			is_credit: !0
+		};
+	}
+	async function n(n, r) {
+		n.innerHTML = "";
+		let i = await e(), a = document.createElement("div");
+		a.className = "contributor-profiles";
+		let o = document.createElement("div");
+		o.className = "contributor-credits", n.appendChild(a), n.appendChild(o);
+		let s = new Map(r);
+		for (let e of i) {
+			let n = t(e);
+			n && !s.has(n.login.toLowerCase()) && s.set(n.login.toLowerCase(), n);
+		}
+		let c = Array.from(s.values());
+		c.sort((e, t) => e.is_credit === t.is_credit ? t.contributions - e.contributions : e.is_credit ? 1 : -1);
+		for (let e of c) {
+			let t = document.createElement("a");
+			t.href = e.html_url, t.target = "_blank", t.className = "contributor", t.innerHTML = `
+                <img src="${e.avatar_url}" />
+                <div>${e.login}</div>
+                <div>${e.is_credit ? "" : `${e.contributions} contributions`}</div>
+            `, a.appendChild(t);
+		}
+		for (let e of i) {
+			if (t(e)) continue;
+			let n = document.createElement("li");
+			if (n.className = "changelog-header", n.innerText = e.name, e.url) {
+				let t = document.createElement("a");
+				t.href = e.url, t.target = "_blank", t.rel = "noopener noreferrer", t.appendChild(n), o.appendChild(t);
+			} else o.appendChild(n);
+		}
+	}
+	async function r(e = !1) {
+		let t = localStorage.getItem("contributors_cache");
+		if (!t) return !1;
 		let r;
 		try {
-			r = JSON.parse(n);
+			r = JSON.parse(t);
 		} catch {
 			return !1;
 		}
@@ -217,45 +249,46 @@ async function x() {
 		let i = document.getElementById("contributor_list");
 		if (!i) return !1;
 		let a = Date.now() - r.timestamp < 1e3 * 60 * 5;
-		return t || a ? (await e(i, new Map(r.data)), !0) : !1;
+		return e || a ? (await n(i, new Map(r.data)), !0) : !1;
 	}
-	if (await t(v)) return;
-	let n = /* @__PURE__ */ new Map(), r;
+	if (await r(v)) return;
+	let i = /* @__PURE__ */ new Map(), a;
 	try {
-		r = await fetch("https://api.github.com/repos/Mikk155/bts_rc/contributors");
+		a = await fetch("https://api.github.com/repos/Mikk155/bts_rc/contributors");
 	} catch (e) {
-		console.error("Fetch failed: ", e), await t(!0);
+		console.error("Fetch failed: ", e), await r(!0);
 		return;
 	}
-	if (!r.ok) {
-		console.error("HTTP Error:", r.status), await t(!0);
+	if (!a.ok) {
+		console.error("HTTP Error:", a.status), await r(!0);
 		return;
 	}
-	let i = await r.json();
-	if (!Array.isArray(i)) {
-		console.error("Invalid response: ", i), await t(!0);
+	let o = await a.json();
+	if (!Array.isArray(o)) {
+		console.error("Invalid response: ", o), await r(!0);
 		return;
 	}
-	for (let e of i) {
+	for (let e of o) {
 		if (typeof e != "object" || !e || !("login" in e)) continue;
 		let t = {
 			login: String(e.login),
 			avatar_url: String(e.avatar_url),
 			html_url: String(e.html_url),
-			contributions: Number(e.contributions)
+			contributions: Number(e.contributions),
+			is_credit: !1
 		};
-		n.set(t.login.toLowerCase(), t);
+		i.set(t.login.toLowerCase(), t);
 	}
 	localStorage.setItem("contributors_cache", JSON.stringify({
 		timestamp: Date.now(),
-		data: Array.from(n.entries())
+		data: Array.from(i.entries())
 	}));
-	let a = document.getElementById("contributor_list");
-	if (!a) {
+	let s = document.getElementById("contributor_list");
+	if (!s) {
 		console.warn("Container not found");
 		return;
 	}
-	await e(a, n);
+	await n(s, i);
 }
 //#endregion
 //#region src/scripts/lastRelease.ts
@@ -5365,6 +5398,19 @@ function Rn(e) {
 function zn(e) {
 	if (typeof e.type == "string") return e.type;
 	if (Array.isArray(e.type)) return e.type.find((e) => e !== "null");
+}
+//#endregion
+//#region src/scripts/navigation.ts
+var Bn = document.querySelectorAll(".site-nav a[href^='#']"), Vn = Array.from(Bn).map((e) => document.querySelector(e.hash)).filter((e) => e !== null);
+if (Bn.length > 0 && Vn.length > 0) {
+	let e = () => {
+		let e = window.scrollY + 140, t;
+		for (let n of Vn) n.offsetTop <= e && (t = n);
+		Bn.forEach((e) => {
+			e.classList.toggle("active", t?.id === e.hash.slice(1));
+		});
+	};
+	window.addEventListener("scroll", e, { passive: !0 }), window.addEventListener("hashchange", e), e();
 }
 window.copyCode = f, document.addEventListener("DOMContentLoaded", async () => {
 	try {

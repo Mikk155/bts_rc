@@ -182,6 +182,7 @@ img
 }
 
 .site-nav a:hover,
+.site-nav a.active,
 .footer-links a:hover
 {
     color: var(--amber-bright);
@@ -720,8 +721,62 @@ img
 .contributor-list
 {
     display: grid;
+    gap: 28px;
+}
+
+.contributor-profiles
+{
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 18px;
+}
+
+.contributor-credits
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px 18px;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+}
+
+.contributor-credits h3
+{
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.contributor-credits > a,
+.contributor-credits > li
+{
+    display: flex;
+    min-height: 18px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.contributor-credits > a
+{
+    text-decoration: none;
+}
+
+.contributor-credits > a > li
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: inherit;
 }
 
 .contributor
