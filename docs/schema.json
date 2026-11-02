@@ -707,52 +707,6 @@
 							}
 						}
 					},
-					"dummymonster": 
-					{
-						"type": "object",
-						"unevaluatedProperties": false,
-						"title": "Logging settings",
-						"description": "Default state for different log levels of \"dummymonster\"",
-						"properties": 
-						{
-							"trace": 
-							{
-								"type": "boolean",
-								"description": "State for logger level \"trace\"",
-								"default": true
-							},
-							"debug": 
-							{
-								"type": "boolean",
-								"description": "State for logger level \"debug\"",
-								"default": true
-							},
-							"info": 
-							{
-								"type": "boolean",
-								"description": "State for logger level \"info\"",
-								"default": true
-							},
-							"warning": 
-							{
-								"type": "boolean",
-								"description": "State for logger level \"warning\"",
-								"default": true
-							},
-							"error": 
-							{
-								"type": "boolean",
-								"description": "State for logger level \"error\"",
-								"default": true
-							},
-							"critical": 
-							{
-								"type": "boolean",
-								"description": "State for logger level \"critical\"",
-								"default": true
-							}
-						}
-					},
 					"active": 
 					{
 						"type": "boolean",

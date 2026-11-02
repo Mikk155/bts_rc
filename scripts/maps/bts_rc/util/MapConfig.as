@@ -86,8 +86,6 @@ void RegisterContexts()
     g_MapConfig.Register( g_MapConfig ); // Always active
     g_MapConfig.Register( g_DataTracker ); // Always active
 
-    g_MapConfig.Register( ASDummyMonsters() ); // Always active
-
     if( g_Logger.get() !is null && g_Logger.get().debug.active )
         g_Logger.get().debug( "Map configuration contexts registered." );
 }

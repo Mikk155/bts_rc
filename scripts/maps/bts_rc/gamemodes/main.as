@@ -18,7 +18,6 @@
 #include "datatracker"
 #include "item_tracker"
 #include "deathdrop"
-#include "dummymonster"
 #include "dynamic_equipment"
 #include "equipment"
 #include "inventory"
