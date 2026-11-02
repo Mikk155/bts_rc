@@ -30,7 +30,7 @@ namespace weapons
     // Play effects
     void TraceEffects( TraceResult&in tr )
     {
-        if( !FreeEdicts( 5 ) || tr.pHit is null )
+        if( !Server::FreeEdicts(20) || tr.pHit is null )
             return;
 
         int sparksColor = -1;

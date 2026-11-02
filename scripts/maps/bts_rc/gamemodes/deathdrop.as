@@ -142,7 +142,7 @@ final class ASDeathDropConfig : IConfigurable
 
     CBaseEntity@ Create( CBaseMonster@ monster )
     {
-        if( monster is null || !FreeEdicts( 1 ) )
+        if( monster is null || !Server::FreeEdicts(1) )
             return null;
 
         auto ckv = monster.GetCustomKeyvalues();

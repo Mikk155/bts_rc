@@ -54,7 +54,7 @@ final class point_checkpoint : ScriptBaseAnimating
 
         CBasePlayer@ player;
 
-        while( MultiTouch( self, player ) )
+        while( Player::MultiTouch( self, player ) )
         {
             g_PlayerFuncs.PrintKeyBindingString( player, "Press the USE key +use to activate\n" );
 
@@ -74,6 +74,7 @@ final class point_checkpoint : ScriptBaseAnimating
                 this.m_state++;
 
                 g_EntityFuncs.FireTargets( string( self.pev.target ), player, self, USE_TOGGLE );
+                Player::MultiTouchReset();
                 break;
             }
         }

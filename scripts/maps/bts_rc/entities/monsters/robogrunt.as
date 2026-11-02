@@ -454,7 +454,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
         monster.pev.flags |= EdictFlags::FL_KILLME;
         g_EntityFuncs.CreateExplosion( monster.pev.origin, g_vecZero, monster.edict(), this.explosion_damage, true );
 
-        if( FreeEdicts( 15 ) )
         {
             NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
                 m.WriteByte( TE_BREAKMODEL );
@@ -475,7 +474,6 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
             m.End();
         }
 
-        if( FreeEdicts( 15 ) )
         {
             NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, monster.pev.origin );
                 m.WriteByte( TE_BREAKMODEL );
@@ -498,7 +496,7 @@ class ASRoboGrunt : EntityOverriden, IConfigurable
 
         g_SoundSystem.EmitSoundDyn( monster.edict(), CHAN_BODY, "debris/beamstart14.wav", VOL_NORM, ATTN_NORM, 0, PITCH_NORM );
 
-        if( FreeEdicts( 1 ) )
+        if( Server::FreeEdicts(10) )
         {
             CBaseEntity@ smoker = g_EntityFuncs.Create( "env_smoker", monster.pev.origin, g_vecZero, false );
             smoker.pev.health = 1; // 1 smoke balls

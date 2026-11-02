@@ -60,7 +60,7 @@ final class ASFlare : ScriptBaseAnimating
         // Play fire loop
         g_SoundSystem.PlaySound( edict, SOUND_CHANNEL::CHAN_ITEM, "bts_rc/weapons/flare_burning.wav", VOL_NORM, ATTN_NORM, 0 );
 
-        if( FreeEdicts(3) )
+        if( Server::FreeEdicts(10) )
         {
             CSprite@ sprite;
 

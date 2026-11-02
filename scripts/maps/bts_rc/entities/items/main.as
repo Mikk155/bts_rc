@@ -51,6 +51,14 @@ final class ASItemsConfig : IConfigurable
                     "title": "Lighting battery",
                     "type": "boolean",
                     "description": "If enabled, HEV batteries will emit a blue dynamic light."
+                },
+                "pickup_cone":
+                {
+                    "title": "View cone",
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "View cone for picking up items. 1.0 is 100% of the view, 0.5 is 50% of the view, etc. a value of 0.0 will disable this."
                 }
             }
         }""";
@@ -62,6 +70,12 @@ final class ASItemsConfig : IConfigurable
         return this.m_BatteryLighting;
     }
 
+    private float m_PickupCone;
+
+    const float get_PickupCone() const {
+        return this.m_PickupCone;
+    }
+
     private bool m_ItemTracking;
 
     const bool get_item_tracking() const {
@@ -71,6 +85,7 @@ final class ASItemsConfig : IConfigurable
     bool Register( meta_api::json::v2::json@ config ) override
     {
         this.m_BatteryLighting = bool( config[ "battery_lighting" ] );
+        this.m_PickupCone = float( config[ "pickup_cone" ] );
         this.m_ItemTracking = bool( config[ "item_tracking" ] );
 
         if( g_MapConfig.MapLoading )

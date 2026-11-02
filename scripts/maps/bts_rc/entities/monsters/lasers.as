@@ -260,6 +260,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
     }
 
     bool ShouldThink() override {
-        return ( EntityOverriden::ShouldThink() && FreeEdicts( 6 ) ); // 2 sprites 3-4 temporary entity
+        return ( EntityOverriden::ShouldThink() && Server::FreeEdicts(10) );
     }
 }

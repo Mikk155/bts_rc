@@ -2200,7 +2200,8 @@
     },
     "items": {
         "battery_lighting": true,
-        "item_tracking": false
+        "item_tracking": false,
+        "pickup_cone": 0.95
     },
     "logging": {
         "active": true,

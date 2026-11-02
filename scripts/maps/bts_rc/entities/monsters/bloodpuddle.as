@@ -151,7 +151,7 @@ final class ASBloodPuddleConfig : IConfigurable
 
     env_bloodpuddle@ Create( CBaseMonster@ monster, int gib )
     {
-        if( !FreeEdicts(1) )
+        if( !Server::FreeEdicts(5) )
             return null;
 
         auto ckv = monster.GetCustomKeyvalues();
@@ -308,7 +308,7 @@ class env_bloodpuddle : ScriptBaseAnimating
                 if( gpBloodPuddle.m_persistent )
                 {
                     self.pev.nextthink = g_Engine.time + 30.0;
-                    if( !FreeEdicts( 100 ) )
+                    if( !Server::FreeEdicts(100) )
                     {
                         g_EntityFuncs.Remove( self ); // Right away so other puddle entities knows
                     }

@@ -56,7 +56,7 @@ namespace test_chamber
 
             CBasePlayer@ player;
 
-            while( MultiTouch( self, player ) )
+            while( Player::MultiTouch( self, player ) )
             {
                 g_PlayerFuncs.HudMessage( player, m_HUDParams, string( self.pev.message ) );
             }

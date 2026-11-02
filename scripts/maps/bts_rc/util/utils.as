@@ -30,11 +30,14 @@
 #include "test_chamber"
 
 #include "../../../mikk155/Server/chrono/v1"
+#include "../../../mikk155/Server/FreeEdicts"
 #include "../../../mikk155/SemanticVersion"
 #include "../../../mikk155/TextMenu/v1"
 #include "../../../mikk155/Player/ChatColor"
 #include "../../../mikk155/Player/GetUniqueID"
+#include "../../../mikk155/Player/MultiTouch"
 #include "../../../mikk155/Player/GiveItem"
+#include "../../../mikk155/Player/IsFacing"
 #include "../../../mikk155/Entity/Create"
 #include "../../../mikk155/meta_api"
 #include "../../../mikk155/Logger/v2"
@@ -59,16 +62,6 @@ const uint32 gpGameVersion = g_Game.GetGameVersion();
 
 // Alias to DMG_DROWN used to identify TakeDamage has been called by a weapon of ours
 const uint32 DMG_BTS_WEAPON = DMG_DROWN; // -TODO Maybe a new unused bit? Would have to inspect the SDK to actually see DMG_DROWN does nothing
-
-// sven only has 8192 edicts at any given time
-// so assume each player carries exactly 10 weapons, and then leave 100 slots free for various temporary things. -Zode
-const int __freedicts_overhead__ = g_Engine.maxEntities - ( 10 * g_Engine.maxClients ) - 100;
-
-// Return whatever there's space in the server to spawn "overhead" amount of entities
-bool FreeEdicts( int overhead = 1 )
-{
-    return ( g_EngineFuncs.NumberOfEntities() < __freedicts_overhead__ - overhead );
-}
 
 // Get a random number between 0 and max. if RandomUint was called before the result will be stored in target user data as "RandomUint" to avoid repeating the same number in a row
 uint8 RandomUint( uint8 max, CBaseEntity@ target )
@@ -111,36 +104,6 @@ bool CustomEntity( const string&in className, bool precacheEntity = false, const
     }
 
     return g_CustomEntityFuncs.IsCustomEntity( className );
-}
-
-float __LastMultiTouchTime__;
-int __LastMultiTouchIndex__ = 0;
-
-// Return true for all valid players that are intersecting with "other"
-bool MultiTouch( CBaseEntity@ other, CBasePlayer@&out player )
-{
-    if( other !is null )
-    {
-        if( __LastMultiTouchIndex__ > 0 && __LastMultiTouchTime__ < g_Engine.time )
-        {
-            __LastMultiTouchTime__ = g_Engine.time;
-            __LastMultiTouchIndex__ = 0;
-        }
-
-        while( __LastMultiTouchIndex__ < g_Engine.maxClients )
-        {
-            __LastMultiTouchIndex__++;
-            auto entity = g_PlayerFuncs.FindPlayerByIndex(__LastMultiTouchIndex__);
-
-            if( entity !is null && entity.IsConnected() && other.Intersects( entity ) )
-            {
-                @player = entity;
-                return true;
-            }
-        }
-    }
-
-    return false;
 }
 
 // Set a display name to a entity this is shown as simple text (No HUD Message) on the center of the screen
@@ -270,21 +233,5 @@ namespace util
                 );
             }
         }
-    }
-
-    // For some reason CBasePlayer::IsFacing is failing.
-    bool IsFacing( CBasePlayer@ player, CBaseEntity@ target, float dot = 0.5f )
-    {
-        Vector vecSrc = player.pev.origin + player.pev.view_ofs;
-
-        TraceResult tr;
-        g_Utility.TraceLine( vecSrc, target.pev.origin, ignore_monsters, ignore_glass, player.edict(), tr );
-
-        if( tr.flFraction < 1.0 )
-            return false;
-
-        Math.MakeVectors( player.pev.v_angle );
-        Vector vecToTarget = ( target.pev.origin - vecSrc ).Normalize();
-        return ( DotProduct( g_Engine.v_forward, vecToTarget ) >= dot );
     }
 }

@@ -112,7 +112,7 @@ final class ASZombieUncrabConfig : IConfigurable
 
     CBaseEntity@ Create( CBaseMonster@ monster, CBaseEntity@ attacker, int gib, dictionary@ data )
     {
-        if( !this.IsValid( monster ) || !FreeEdicts(1) )
+        if( !this.IsValid( monster ) || !Server::FreeEdicts(1) )
             return null;
 
         float headcrab_damage = 0.0f;

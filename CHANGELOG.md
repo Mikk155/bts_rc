@@ -1,3 +1,7 @@
+# 02/11/2026
+- Exposed ``items.pickup_cone`` in json for pickup items view cone
+- Increased ``items.pickup_cone`` from 0.8 to 0.95
+
 # 01/11/2026
 - Updated website.
 - Added recursive submodule checkout to the GitHub Actions workflows.
