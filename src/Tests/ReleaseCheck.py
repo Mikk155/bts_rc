@@ -82,10 +82,8 @@ class ReleaseCheck( PyTest ):
             key=lambda release: self.ParseSemanticVersion( release[ "tag_name" ])
         );
 
-    m_UtilsPath: str = os.path.join( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "util", "utils.as" );
-
     def ShouldBuild(self) -> bool:
-        return ( self.Type != PyTest.BuildType.Local or self.FileModified( self.m_UtilsPath ) );
+        return ( self.Type == PyTest.BuildType.Release );
 
     def Build(self) -> bool:
 
@@ -93,17 +91,18 @@ class ReleaseCheck( PyTest ):
 
         if response.status_code != 200:
             self.Log( "Failed to retrieve release data from Github" );
-            return True;
+            return False;
 
         releaseData: dict = response.json();
+        isPushRelease: bool = "--release" in sys.argv;
 
         # Get the provided tag
-        if self.Type == PyTest.BuildType.Release:
+        if self.Type == PyTest.BuildType.Release and not isPushRelease:
 
             self.m_GithubData[ "abort" ] = False;
 
         # HACK if we want to make actions trigger from releases rather than pushes this doesn't break compatibility.
-        elif "--release" in sys.argv:
+        elif isPushRelease:
 
             # Make PyTest.GetType return Release
             sys.argv[ sys.argv.index( "--release" ) ] = "-release";
@@ -125,6 +124,7 @@ class ReleaseCheck( PyTest ):
             if lastTag == self.m_ProjectVersion:
 
                 self.Log( "Project version has not changed. Skipping release." );
+                return False;
 
             elif self.IsGreaterSemantic( lastTag, self.m_ProjectVersion ) is False:
 

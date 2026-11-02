@@ -4,9 +4,11 @@ on:
 # Workflow dispatch
 #  workflow_dispatch:
 # Push dispatch
- push:
-   branches:
-     - main
+  push:
+    branches:
+      - main
+#    paths:
+#      - 'scripts/maps/bts_rc/util/utils.as'
 # Release dispatch
 #  release:
 #    types: [ published ]

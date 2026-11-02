@@ -84,7 +84,7 @@ class PyTest:
     def GetType() -> BuildType:
         '''Return the build type'''
         import sys;
-        if "-release" in sys.argv:
+        if "-release" in sys.argv or "--release" in sys.argv:
             return PyTest.BuildType.Release;
         if "--check" in sys.argv:
             return PyTest.BuildType.Check;

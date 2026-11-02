@@ -7,10 +7,10 @@ gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 from Tests.PyTest import PyTest;
 
 # Include checks here
+import Tests.ReleaseCheck;
 import Tests.TodolistCheck;
 import Tests.PrecacheCheck;
 import Tests.CreditsCheck;
-import Tests.ReleaseCheck;
 # import Tests.FGDCheck;
 import Tests.LicenseCheck;
 import Tests.DebugCheck;
@@ -37,41 +37,44 @@ def Main() -> tuple[int, int]:
             if builder.ShouldBuild() is False:
                 builder.Log( "Build skipped." );
                 builderCompletion.append( builder.Name );
-                continue;
 
-            ok: bool = True;
+            else:
 
-            requirements: list[str] = builder.Require();
+                ok: bool = True;
 
-            if requirements is not None:
+                requirements: list[str] = builder.Require();
 
-                if len(requirements) == 0:
-                    for b in gpBuilders:
-                        if b.Name == builder.Name:
-                            break;
-                        requirements.append( b.Name );
+                if requirements is not None:
 
-                for require in requirements:
-                    if not require in builderCompletion:
-                        ok = False;
+                    if len(requirements) == 0:
+                        for b in gpBuilders:
+                            if b.Name == builder.Name:
+                                break;
+                            requirements.append( b.Name );
 
-            if ok is True:
-                ok = builder.Build();
+                    for require in requirements:
+                        if not require in builderCompletion:
+                            ok = False;
 
-            if ok is False:
-                builder.Log( "Build failed." );
-                fails += 1;
-                continue;
+                if ok is True:
+                    ok = builder.Build();
 
-            passes += 1;
-            builderCompletion.append( builder.Name );
-            builder.Log( "Build success." );
+                if ok is False:
+                    builder.Log( "Build failed." );
+                    fails += 1;
+                else:
+                    passes += 1;
+                    builderCompletion.append( builder.Name );
+                    builder.Log( "Build success." );
 
         except:
             import traceback;
             builder.Log( f"throw an exception:" );
             traceback.print_exc();
             fails += 1;
+
+        if not "ReleaseCheck" in builderCompletion and builder.Type == PyTest.BuildType.Release:
+            break;
 
     return ( fails, passes );
 
