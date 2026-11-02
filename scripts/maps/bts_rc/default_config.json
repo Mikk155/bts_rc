@@ -2755,7 +2755,7 @@
         "automatic_accuracy_multiplier": 2.5,
         "deploy_time": 1.0,
         "max_clip": 30,
-        "name": "M16A2 with M203",
+        "name": "M4A1 with M203",
         "position": 11,
         "primary_accuracy": {
             "crouch": 0.025,
@@ -2765,7 +2765,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.12,
+        "primary_cooldown": 0.10,
         "primary_damage": 23,
         "primary_dropammo": 30,
         "primary_kickback": {
@@ -2777,7 +2777,7 @@
             "stand_trained": 2.75
         },
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.12,
+        "primary_trained_cooldown": 0.10,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -2795,7 +2795,7 @@
         "automatic_accuracy_multiplier": 2.5,
         "deploy_time": 1.0,
         "max_clip": 20,
-        "name": "M16A2 Suppressed with M203",
+        "name": "M4A1 Suppressed with M203",
         "position": 12,
         "primary_accuracy": {
             "crouch": 0.025,
@@ -2805,7 +2805,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.12,
+        "primary_cooldown": 0.10,
         "primary_damage": 24,
         "primary_dropammo": 20,
         "primary_kickback": {
@@ -2817,7 +2817,7 @@
             "stand_trained": 2.75
         },
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.12,
+        "primary_trained_cooldown": 0.10,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",

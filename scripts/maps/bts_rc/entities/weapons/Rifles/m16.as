@@ -77,7 +77,7 @@ final class ASWeaponM16Config : ASWeaponConfig
 
     const uint8 get_hands_group() override
     {
-        return 2;
+        return 1;
     }
 }
 
