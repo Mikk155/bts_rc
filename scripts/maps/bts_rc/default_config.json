@@ -2777,8 +2777,8 @@
         },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.12,
-        "reload_anim": 6,
-        "reload_empty_anim": 6,
+        "reload_anim": 3,
+        "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
         "secondary_damage": 110.0,
         "secondary_default_ammo": [
@@ -2817,8 +2817,8 @@
         },
         "primary_maxammo": 150,
         "primary_trained_cooldown": 0.12,
-        "reload_anim": 6,
-        "reload_empty_anim": 6,
+        "reload_anim": 3,
+        "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
         "secondary_damage": 110.0,
         "secondary_default_ammo": [

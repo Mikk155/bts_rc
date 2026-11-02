@@ -4,6 +4,19 @@
 - Added optional packaging validation to the release build.
 - Added a versioned pre-commit hook that runs the project checks and aborts commits when validation fails.
 - Added new logger system using weak references for release optimizations.
+- Added new M4 M203 model from TEX
+- Mikk fixed the animations for the new model
+- Raptor added temp animation to JSON (needs changed)
+- Changed all models (massn, massn_opfor, hgrunt, hgrunt_alt, hgrunt_opfor, hgrunt_opfor_alt, rgrunt) to new m4 model
+- rigged m4 m203 to have sd version for w, p and v models
+- changed multiple objects from clipping to custom hullsize on the map (reduced clipnodes from 99.9 to 95.8)
+- changed timing for some zombie spawns
+- increased ammo for harder difficulties due to new enemy types
+- fixed various models after adjustments
+- changed geometry slightly in basement for power generator
+- added new coloured walls for basement for locations to help with navigation
+- fixed zombie in lab from being a monster_generic
+- fixed scientist sequence getting stuck
 
 # 30/10/2026
 - changed retina sequence to a more "half-life" style, with it taking time to scan the player/scientist eyes
