@@ -34,6 +34,6 @@ class EnvCreditsCheck( EnvCreditsUpdate ):
             return False;
 
 
-        return False;
+        return True;
 
 EnvCreditsCheck();
