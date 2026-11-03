@@ -1,31 +1,19 @@
-// This file is parsed using json V1 which has a issue with numbers.
-// Variables supposed to be float are required to explicitly set decimals!
 {
-    // Time to take before credits roll out (Uses a fade in and out according to this variable * 2 + (1.0 hold time ))
-    "fadetime": 2.0, // In this example it takes 5 seconds in total with fading but only 4 (fadetime * 2) to fire target (see bellow)
+    "fadetime": 2.0,
 
-    // Fires this target after the bellow delay.
     "target": "start_camera",
     "delay": 2.0,
 
-    // Most variables are stored for the next caption until they are explicitly re-defined.
-    // Only variables that are not stored are "message", "target" and "delay". they're cleared every new entry.
-    // And parameters x, holdtime, y and fadein if scroll is true since they're dynamically updated.
     "captions":
     [
         {
-            // scroll: false means this is a standar game_text style message
-            // The next caption will play after fadein + fadeout + fadehold ends.
             "scroll": false,
-            // These next variables are used only on non-scroll captions.
             "x": -1.0,
-            // Remember decimals are important to retrieve "float"
             "y": -1.0,
             "fadeintime": 1.0,
             "fadeouttime": 1.0,
             "holdtime": 8.0,
             "fxtime": 1.0,
-            // Except effect it is integer.
             "effect": 1,
             "rgb2": [ 230, 230, 230 ],
             "rgb": [ 230, 230, 230 ],
@@ -36,19 +24,11 @@
             "message": "The true scale of the Resonance Cascade is only now beginning to reveal itself.\nThe entire planet is plunged into a desperate war against an invasion of alien fauna,\nas reality itself begins to fracture.\nPortal Storms engulf the world, tearing open gateways to unknown dimensions.\nBut the Xen invasion is only the beginning.\n\nSomething far more dangerous is coming."
         },
         {
-            // scroll: true means this and the next three captions will scroll in screen from down to top.
-            // When this caption has a screen difference of 0.3 Y it launchs a new caption upt to 4 in screen (channel limitation)
-            // When this caption is out of screen a new caption is launched and so on.
-            // Unless scroll: false is read again in that case it will launch once all scrolling captions are out of screen.
             "scroll": true,
             "scroll_rate": 0.005,
             "scroll_think": 0.05,
             "rgb": [ 230, 230, 230 ],
-            // Think rate for scrolling messages.
-            // This takes effect when the caption first pops up and will be overrided with another caption's think rate (if defined) when they pop up.
-            // This entity is triggered when this caption is first displayed
             "target": "First trigger_camera targetname",
-            // Delay to trigger the above entity.
             "delay": 0.5,
             "message": "Project Lead and Map Creator:\n\nRaptorSKA"
         },
@@ -65,7 +45,8 @@
             "message": "Weapons created by:\n\nArasefiq\nRizulix\n Mad\n Mikk155"
         },
         {
-            "message": "Player Models by:\nSV BOY"
+            "message": "Player Models by:\nSV BOY",
+            "target": "camera_svboy"
         },
         {
             "message": "Map scripts by:\nMikk155\nMad\nGaftherman\nRizulix\nNero"
@@ -79,7 +60,7 @@
         {
             "message": "Custom Headcrab Detachment\nCreated by:\n\nMikk115\nGauna"
         },
-		{
+        {
             "message": "Custom Models\nCreated by:\nTEXHAPb!!!\nGamit\nGauna\nRusty\nSV BOY"
         },
         {
@@ -88,25 +69,25 @@
         {
             "message": "Map Testers:\n\nAdambean\nArasefiq\nDarekstar\nDatSat\nDefer\nErty\nFaLco"
         },
-		{
+        {
             "message": "Map Testers:\n\nFaravid\nForan\nGauna\nGeneric\nGrunt\nHondrid\nJPolito"
         },
-		{
+        {
             "message": "Map Testers:\n\nJensen\nKerncore\nKezaeiv\nMemeMachine\nMeryilla\nMrFailz\nOfficer"
         },
-		{
+        {
             "message": "Map Testers:\n\nOoleg\nRyor\nSV BOY\nTama\nYoMustDie\nZang"
         },
         {
             "message": "Entity and Scripting Support:\n\nErty\nGrunt\nH2\nHondrid"
         },
-		{
+        {
             "message": "Entity and Scripting Support:\n\nMikk115\nSparks\nSoctom\nTrempler"
         },
         {
             "message": "Additional Scripting by:\n\nArasefiq\nErty\nGaftherman\nHondrid"
         },
-		{
+        {
             "message": "Additional Scripting by:\n\nKerncore\nMikk155\nMad\nNero\nRizulix"
         },
         {
@@ -118,19 +99,19 @@
         {
             "message": "Additional Models:\n\nDAVLevels\nFreeslave\nGauna\nKerncore\nMTB"
         },
-		{
+        {
             "message": "Additional Models:\n\nRusty\nRyor\nThe303\nSV BOY\nTEXHAPb!!!"
         },
         {
             "message": "Custom Model Rigs:\n\nArasefiq\nGauna\nHAPE B\nIxnay"
         },
-		{
+        {
             "message": "Custom Model Rigs:\n\nMiroSklenar\nOrganic700\nRaptorSKA\nSV BOY"
         },
         {
             "message": "Sprites by:\n\nGearbox\nKEZAEIV\nSven co-op team\nRaptorSKA"
         },
-		{
+        {
             "message": "Sprites by:\n\nSV BOY\nTEXHAPb!!!\nValve\nVika"
         },
         {
@@ -142,7 +123,7 @@
         {
             "message": "Voice Actors:\n\nJPolito as Projector Scientist\nMichi as Grunt Voice #3\nOoleg as Maintenance Npc and Grunt Voice #1\nPJC_ as Dr. Johnson"
         },
-		{
+        {
             "message": "Voice Actors:\n\nMrFailz as Maintenance Man #1\nSkillbreed as Maintenance Man #2\nYoMustDie as Grunt Voice #2\nZasli as Grunt Voice #4"
         },
         {

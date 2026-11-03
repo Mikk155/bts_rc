@@ -16,6 +16,8 @@ Several systems that directly affect level balance are configurables. Refeer to 
 - [Death drops](deathdrop)
 - [Playable characters and view-model hands](characters)
 - [Player data tracker](datatracker)
+- [Credits](credits)
+- [in-game env_credits](env_credits)
 
 ## Project documentation
 
