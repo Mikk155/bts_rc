@@ -1,47 +1,60 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Checks the credit file and update as needed
-# ===================================================================
-# ===================================================================
+'''
+### **Purpose:**
+
+Checks the ``TODO.md`` file and update as needed.
+
+Completed labels will be moved to the completed section and the progression bar ill be updated.
+'''
 
 import os;
 import colorsys;
 
 from Tests.PyTest import PyTest;
 
-class TodolistCheck( PyTest ):
+class UpdateTODOList( PyTest ):
 
     m_TODOPath: str = os.path.join( PyTest.GetWorkspace(), "TODO.md" );
+    m_TODOCompletion: float = None;
+    m_TODOContent: str;
 
-    def ShouldBuild(self) -> bool:
-        return ( self.Type == PyTest.BuildType.Local and self.FileModified( self.m_TODOPath ) );
+    def ShouldBuild( self ) -> bool:
 
-    def Build(self) -> bool:
-
-        content: str;
+        if self.Type == PyTest.BuildType.Release:
+            return False;
 
         with open( self.m_TODOPath, "r" ) as fStream:
-            content = fStream.read();
+            self.m_TODOContent = fStream.read();
 
-        incompleted: int = content.count( "- [ ]" );
-        completed: int = content.count( "- [x]" );
+        incompleted: int = self.m_TODOContent.count( "- [ ]" );
+        completed: int = self.m_TODOContent.count( "- [x]" );
 
         total: int = incompleted + completed;
-        percent: float = float( ( completed / total ) * 100 );
+        self.m_TODOCompletion: float = float( ( completed / total ) * 100 );
 
-        hue: float = ( percent / 100.0 ) * 120.0
+        if f"progress/{self.m_TODOCompletion}" in self.m_TODOContent:
+            return False;
+
+        return True;
+
+
+    def Build( self ) -> bool:
+
+        if self.Type == PyTest.BuildType.Check:
+            self.Log( "TODO.md were modified but never commited checks!" );
+            return False;
+
+        hue: float = ( self.m_TODOCompletion / 100.0 ) * 120.0
 
         r, g, b = colorsys.hls_to_rgb( hue / 360.0, 0.45, 0.90 );
         hex = f"{int( r * 255 ):02x}{int( g * 255 ):02x}{int( b * 255 ):02x}";
 
-        def InjectContent( keyword: str, add: str, content: str ) -> str:
+        def InjectContent( keyword: str, add: str ) -> str:
 
             start: str = f"<!--{keyword}-start-->";
             end: str = f"<!--{keyword}-end-->";
 
-            startPos: int = content.find( start );
-            endPos: int = content.find( end );
+            startPos: int = self.m_TODOContent.find( start );
+            endPos: int = self.m_TODOContent.find( end );
 
             if startPos == -1:
                 raise Exception( f"Could not found \"{start}\" in TODO.md" );
@@ -49,11 +62,11 @@ class TodolistCheck( PyTest ):
             if endPos == -1:
                 raise Exception( f"Could not found \"{end}\" in TODO.md" );
 
-            return content[ 0 : startPos + len(start) ] + "\n" + add + "\n" + content[ endPos : ];
+            return self.m_TODOContent[ 0 : startPos + len(start) ] + "\n" + add + "\n" + self.m_TODOContent[ endPos : ];
 
-        content = InjectContent( "CompletionBar", f"> ![](https://geps.dev/progress/{percent}?barColor={hex})", content );
+        self.m_TODOContent = InjectContent( "CompletionBar", f"> ![](https://geps.dev/progress/{self.m_TODOCompletion}?barColor={hex})" );
 
-        contentLines: list[str] = content.split( "\n" );
+        contentLines: list[str] = self.m_TODOContent.split( "\n" );
         completedMove: list[str] = [];
 
         lastCompleted: bool = False;
@@ -80,6 +93,6 @@ class TodolistCheck( PyTest ):
         with open( self.m_TODOPath, "w" ) as fStream:
             fStream.writelines( [ f"{line}\n" for line in contentLines if line is not None ] );
 
-        return True;
+        return False;
 
-TodolistCheck();
+UpdateTODOList();

@@ -1,18 +1,17 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Compact AngelScript literal strings representing json objects on release
-# ===================================================================
-# ===================================================================
+'''
+### **Purpose:**
+
+Compact AngelScript literal strings (triple quoted) representing JSON objects when in release.
+'''
 
 import re;
 import json;
 
 from Tests.PyTest import PyTest;
 
-class SerializedJsonCheck( PyTest ):
+class CompactScriptJSON( PyTest ):
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
         tripleRegex = re.compile( r'"""(.*?)"""', re.DOTALL );
 
@@ -27,7 +26,7 @@ class SerializedJsonCheck( PyTest ):
             invalidSchemas: int = 0;
             content: str = script.Content;
 
-            matches = list( tripleRegex.finditer( content ) );
+            matches: list[re.Match[str]] = list( tripleRegex.finditer( content ) );
 
             newContent = content;
             delta = 0;
@@ -84,4 +83,4 @@ class SerializedJsonCheck( PyTest ):
 
         return ( invalidFiles == 0 );
 
-SerializedJsonCheck();
+CompactScriptJSON();

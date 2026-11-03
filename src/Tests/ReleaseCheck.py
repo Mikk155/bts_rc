@@ -1,10 +1,12 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Check validation of g_ScriptsVersion & github latest release
-#   If g_ScriptsVersion is newer than the last release it generates a release
-# ===================================================================
-# ===================================================================
+'''
+### **Purpose:**
+
+Check validation of ``g_ScriptsVersion`` AS variable in utils.as & github latest release.
+
+If g_ScriptsVersion is greater a new release will be deployed. otherwise fails and stops the script.
+
+#### NOTE: This is only triggered with the ``--release`` argument
+'''
 
 import re;
 import os;
@@ -82,107 +84,88 @@ class ReleaseCheck( PyTest ):
             key=lambda release: self.ParseSemanticVersion( release[ "tag_name" ])
         );
 
-    def ShouldBuild(self) -> bool:
-        return ( self.Type == PyTest.BuildType.Release );
+    def ShouldBuild( self ) -> bool:
+        return ( self.Type == PyTest.BuildType.Release and not "--test" in sys.argv );
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
-        response: requests.Response = requests.get( f"https://api.github.com/repos/{self.m_Author}/{self.m_Repository}/releases/latest" );
+        response: requests.Response = requests.get( f"https://api.github.com/repos/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/releases/latest" );
 
         if response.status_code != 200:
             self.Log( "Failed to retrieve release data from Github" );
             return False;
 
         releaseData: dict = response.json();
-        isPushRelease: bool = "--release" in sys.argv;
 
-        # Get the provided tag
-        if self.Type == PyTest.BuildType.Release and not isPushRelease:
 
-            self.m_GithubData[ "abort" ] = False;
+        lastTag: str = releaseData[ "tag_name" ];
+        self.m_GithubData[ "previous_version" ] = lastTag;
 
-        # HACK if we want to make actions trigger from releases rather than pushes this doesn't break compatibility.
-        elif isPushRelease:
+        # Find semantic version global variable in the project
+        for script in self.Scripts:
+            regexSemVer: re.Match[str] = re.search( r"g_ScriptsVersion\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", script.Content );
+            if regexSemVer:
+                self.m_ProjectVersion = ".".join( regexSemVer.groups() );
+                break;
 
-            # Make PyTest.GetType return Release
-            sys.argv[ sys.argv.index( "--release" ) ] = "-release";
-            lastTag: str = releaseData[ "tag_name" ];
-            self.m_GithubData[ "previous_version" ] = lastTag;
+        if lastTag == self.m_ProjectVersion:
 
-            regexSemVer: re.Match[str] = None;
+            self.Log( "Project version has not changed. Skipping release." );
+            return False;
 
-            # Find semantic version global variable in the project
-            for script in self.Scripts:
-                regexSemVer: re.Match[str] = re.search( r"g_ScriptsVersion\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", script.Content );
-                if regexSemVer:
+        if self.IsGreaterSemantic( lastTag, self.m_ProjectVersion ) is False:
+
+            self.Log( "Project version is lower than the last release at Github!." );
+            return False;
+
+        changelog: str = "";
+        changelogBaseRelease: dict = releaseData;
+
+        projectMajor, projectMinor, _ = self.ParseSemanticVersion( self.m_ProjectVersion );
+        previousMajor, previousMinor, _ = self.ParseSemanticVersion( lastTag );
+        if ( projectMajor, projectMinor ) != ( previousMajor, previousMinor ):
+            releasesResponse: requests.Response = requests.get(
+                f"https://api.github.com/repos/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/releases?per_page=100"
+            );
+
+            if releasesResponse.status_code != 200:
+                self.Log( "Failed to retrieve release history from Github" );
+                return False;
+
+            changelogBaseRelease = self.GetChangelogBaseRelease(
+                self.m_ProjectVersion,
+                lastTag,
+            releaseData,
+            releasesResponse.json()
+        );
+
+        with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
+
+            changelog = fStream.read();
+
+            end = len( changelog );
+
+            # Trim changelog till find the date of the changelog base release
+            dateReleased = datetime.fromisoformat( changelogBaseRelease[ "published_at" ].replace( 'Z', '' ) );
+
+            matches = re.finditer( r'#\s+(\d{1,2})/(\d{1,2})/(\d{4})', changelog );
+
+            for match in matches:
+
+                dateFound = datetime( int( match.group(3) ), int( match.group(2) ), int( match.group(1) ) );
+
+                if dateFound <= dateReleased:
+                    end = match.start();
                     break;
 
-            self.m_ProjectVersion = ".".join( regexSemVer.groups() );
-            # Set last release tag for PyTest.GetTag
-            sys.argv.insert( sys.argv.index( "-release" ) + 1, self.m_ProjectVersion );
+            changelog = changelog[ : end ].strip().replace( "# ", "### " );
 
-            if lastTag == self.m_ProjectVersion:
-
-                self.Log( "Project version has not changed. Skipping release." );
-                return False;
-
-            elif self.IsGreaterSemantic( lastTag, self.m_ProjectVersion ) is False:
-
-                self.Log( "Project version is lower than the last release at Github!." );
-                return False;
-
-            else:
-
-                sys.argv.insert( sys.argv.index( "-release" ) + 1, self.m_ProjectVersion );
-
-                changelog: str = "";
-                changelogBaseRelease: dict = releaseData;
-
-                projectMajor, projectMinor, _ = self.ParseSemanticVersion( self.m_ProjectVersion );
-                previousMajor, previousMinor, _ = self.ParseSemanticVersion( lastTag );
-                if ( projectMajor, projectMinor ) != ( previousMajor, previousMinor ):
-                    releasesResponse: requests.Response = requests.get(
-                        f"https://api.github.com/repos/{self.m_Author}/{self.m_Repository}/releases?per_page=100"
-                    );
-
-                    if releasesResponse.status_code != 200:
-                        self.Log( "Failed to retrieve release history from Github" );
-                        return False;
-
-                    changelogBaseRelease = self.GetChangelogBaseRelease(
-                        self.m_ProjectVersion,
-                        lastTag,
-                        releaseData,
-                        releasesResponse.json()
-                    );
-
-                with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
-
-                    changelog = fStream.read();
-
-                    end = len( changelog );
-
-                    # Trim changelog till find the date of the changelog base release
-                    dateReleased = datetime.fromisoformat( changelogBaseRelease[ "published_at" ].replace( 'Z', '' ) );
-
-                    matches = re.finditer( r'#\s+(\d{1,2})/(\d{1,2})/(\d{4})', changelog );
-
-                    for match in matches:
-
-                        dateFound = datetime( int( match.group(3) ), int( match.group(2) ), int( match.group(1) ) );
-
-                        if dateFound <= dateReleased:
-                            end = match.start();
-                            break;
-
-                    changelog = changelog[ : end ].strip().replace( "# ", "### " );
-
-                with open( os.path.join( self.Workspace, "release_notes.md" ), "w", encoding="utf-8" ) as fStream:
-                    fStream.write( f"""# {self.m_Repository} map scripts [Version {self.m_ProjectVersion}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{self.m_ProjectVersion})
+        with open( os.path.join( self.Workspace, "release_notes.md" ), "w", encoding="utf-8" ) as fStream:
+            fStream.write( f"""# {PyTest.GetGithubRepository()} map scripts [Version {self.m_ProjectVersion}](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/tree/{self.m_ProjectVersion})
 
 ## ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g).
 
-## Git changes since [Version {lastTag}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{lastTag}) can be found [here](https://github.com/{self.m_Author}/{self.m_Repository}/compare/{lastTag}...{self.m_ProjectVersion}).
+## Git changes since [Version {lastTag}](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/tree/{lastTag}) can be found [here](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/compare/{lastTag}...{self.m_ProjectVersion}).
 
 <details>
 <summary>Changelog</summary>
@@ -195,7 +178,7 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
 </details>
 """ );
 
-                PyTest.AddWebhookFooter( f"""# {self.m_Repository} map scripts [Version {self.m_ProjectVersion}](https://github.com/{self.m_Author}/{self.m_Repository}/tree/{self.m_ProjectVersion})
+        PyTest.AddWebhookFooter( f"""# {PyTest.GetGithubRepository()} map scripts [Version {self.m_ProjectVersion}](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/tree/{self.m_ProjectVersion})
 
 ## Full changelog can be found [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).
 
@@ -203,16 +186,16 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
 
 Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).""" );
 
-                self.m_GithubData[ "abort" ] = False;
+        self.m_GithubData[ "abort" ] = False;
 
-        self.m_GithubData[ "version" ] = self.Tag;
+        self.m_GithubData[ "version" ] = self.m_ProjectVersion;
         self.m_GithubData[ "previous_version" ] = releaseData[ "tag_name" ];
 
-        if self.Type == PyTest.BuildType.Release:
-            filePath: str = os.environ[ "GITHUB_OUTPUT" ] if "GITHUB_OUTPUT" in os.environ else "GITHUB_OUTPUT";
-            with open( filePath, 'a' ) as fStream:
-                for key, value in self.m_GithubData.items():
-                    print( f"{key}={value}", file=fStream );
+        with open( os.environ[ "GITHUB_OUTPUT" ], 'a' ) as fStream:
+            for key, value in self.m_GithubData.items():
+                print( f"{key}={value}", file=fStream );
+
+        PyTest.Print( f"Formating map scripts for bts_rc as version {self.m_ProjectVersion}" );
 
         return True;
 

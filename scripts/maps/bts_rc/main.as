@@ -185,12 +185,7 @@ void MapInit()
     if( g_Logger.get() !is null && g_Logger.get().info.active )
         g_Logger.get().info( "Initializing map systems" );
 
-    models::Precache();
-
-    Precache();
-
-    if( g_Logger.get() !is null && g_Logger.get().debug.active )
-        g_Logger.get().debug( "Map assets precached." );
+    Precache::Precache();
 
     g_MapConfig.__MapInitialize__();
 

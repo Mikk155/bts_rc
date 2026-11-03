@@ -7,7 +7,7 @@ This file contains the list of to-do in the project.
 <!-- Python will insert the completion bar by finding the next comments.-->
 ## Completion Progress
 <!--CompletionBar-start-->
-> ![](https://geps.dev/progress/81.33333333333333?barColor=58da0b)
+> ![](https://geps.dev/progress/82.0?barColor=55da0b)
 <!--CompletionBar-end-->
 
 ---
@@ -27,7 +27,6 @@ This file contains the list of to-do in the project.
 ---
 
 # Pending
-- [ ] Check attacker relationship at env_flame ignite.
 - [ ] Add timed concuss on robot boss push
     ```C++
     NetworkMessage message( MSG_ALL, NetworkMessages::Concuss );
@@ -73,6 +72,7 @@ This file contains the list of to-do in the project.
 # Completed
 <!-- Python will move the completed goals from above to here.--->
 <!--CompletedGoals-start-->
+- [x] Check attacker relationship at env_flame ignite.
 - [x] have a json editor and schema validator at website to generate a config file without default values (and a option to have them all for raptor setup)
 - [x] Reuse the default flare configuration for the flare gun and route its ammo pickup through the shared pickup behavior.
     > `entities/weapons/Explosives/flaregun.as`

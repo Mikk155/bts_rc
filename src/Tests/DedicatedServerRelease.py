@@ -5,17 +5,16 @@
 # ===================================================================
 # ===================================================================
 
-from Tests.DebugCheck import DebugCheck;
+from Tests.ToggleDebug import ToggleDebug;
 from Tests.DedicatedServer import DedicatedServer;
 
 class DedicatedServerRelease( DedicatedServer ):
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
-        dbg = DebugCheck();
-        dbg.toggle_debug( False );
+        ToggleDebug.ToggleDebug( False );
         result: bool = DedicatedServer().Build();
-        dbg.toggle_debug( True );
+        ToggleDebug.ToggleDebug( True );
 
         return result;
 

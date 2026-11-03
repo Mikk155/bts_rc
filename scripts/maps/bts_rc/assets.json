@@ -364,7 +364,8 @@
         "zombie/zo_pain2.wav"
     ],
     "PrecacheGeneric": [
-        "events/muzzle_saw.txt"
+        "events/muzzle_saw.txt",
+        "sprites/bts_rc/gametitle.spr"
     ],
     "PrecacheModel": [
         "models/bshift/barney_helmet.mdl",

@@ -15,11 +15,8 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-#include "../../../mikk155/meta_api/json/v1"
-
 final class ASDataTracker : IConfigurable
 {
-
     const string& GetName() const override
     {
         return "data_tracker";

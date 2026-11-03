@@ -21,31 +21,28 @@ gpLogWebhook: str | None = None;
 class PyTest:
     """Inherit from PyTest and instantiate your class then Build will be called"""
 
-    m_Author = "Mikk155";
-    m_Repository = "bts_rc";
+    @staticmethod
+    def GetGithubUsername() -> str:
+        return "Mikk155";
+
+    @staticmethod
+    def GetGithubRepository() -> str:
+        return "bts_rc";
 
     class BuildType( IntEnum ):
         Local = auto();
         '''Local build for whatever reason'''
         Release = auto();
-        '''Github release. self.Tag is valid'''
+        '''Github release.'''
         Check = auto();
         '''Github check'''
 
-    def Require(self) -> list[str]:
+    def Require( self ) -> list[str]:
         '''
             Return a list of module names required to run this test.
             If any of the modules in this list hasn't been a suscess this module's test will fail without calling Build.
             Return a empty list to represent "All" modules dependant.
         '''
-        return None;
-
-    @staticmethod
-    def GetTag() -> str | None:
-        '''If the Type is Release. this is the tag name that triggered the script in Github otherwise None'''
-        import sys;
-        if "-release" in sys.argv and len(sys.argv) > sys.argv.index( "-release" ):
-            return sys.argv[ sys.argv.index( "-release" ) + 1 ];
         return None;
 
     @staticmethod
@@ -75,16 +72,11 @@ class PyTest:
             content = json.dumps( PyTest.GetCache(), indent = 4 );
             fStream.write( content );
 
-    @property
-    def Tag(self) -> str | None:
-        '''If the Type is Release. this is the tag name that triggered the script in Github otherwise None'''
-        return PyTest.GetTag();
-
     @staticmethod
     def GetType() -> BuildType:
         '''Return the build type'''
         import sys;
-        if "-release" in sys.argv or "--release" in sys.argv:
+        if "--release" in sys.argv:
             return PyTest.BuildType.Release;
         if "--check" in sys.argv:
             return PyTest.BuildType.Check;
@@ -110,7 +102,7 @@ class PyTest:
         return gpLogWebhook;
 
     @property
-    def Type(self) -> BuildType:
+    def Type( self ) -> BuildType:
         '''Return the build type'''
         return PyTest.GetType();
 
@@ -121,13 +113,13 @@ class PyTest:
         return gpWorkspace;
 
     @property
-    def Workspace(self) -> str:
+    def Workspace( self ) -> str:
         """Return the absolute path to the current workspace repository"""
         return PyTest.GetWorkspace();
 
-    def __init__(self) -> None:
+    def __init__( self ) -> None:
         from __main__ import gpBuilders;
-        gpBuilders.append(self);
+        gpBuilders.append( self );
 
     def Build( self ) -> bool:
         raise Exception( f"Instance {self.Name} doesn't overrides the Build method!" );
@@ -294,7 +286,7 @@ class PyTest:
         return gpAngelScriptFiles;
 
     @property
-    def Scripts(self) -> list[AScript]:
+    def Scripts( self ) -> list[AScript]:
         '''Return a list containing all the angel script files on this project'''
         return PyTest.GetScripts();
 
@@ -331,6 +323,7 @@ class PyTest:
         if PyTest.GetType() == PyTest.BuildType.Release:
 
             import os;
+            import json;
             import subprocess;
 
             toolPath: str = os.path.join(
@@ -347,7 +340,19 @@ class PyTest:
                     "-source",
                     "scripts/maps/bts_rc/main.as",
                     "-inline",
-                    '["Server/chrono/v1","TextMenu/v1","Player/ChatColor","Player/GetUniqueID","Player/GiveItem","Entity/Create","String/Vector","String/bool"]',
+                    json.dumps( [
+                        "Server/chrono/v1",
+                        "TextMenu/v1",
+                        "Player/ChatColor",
+                        "Player/GetUniqueID",
+                        "Player/GiveItem",
+                        "Entity/Create",
+                        "String/Vector",
+                        "String/bool",
+                        "Server/FreeEdicts",
+                        "Player/MultiTouch",
+                        "Player/IsFacing"
+                    ], separators= ( ",", ":" ), indent=-1 ),
                 ],
                 cwd=PyTest.GetWorkspace(),
                 check=False,

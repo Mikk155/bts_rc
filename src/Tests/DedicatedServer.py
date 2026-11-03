@@ -16,16 +16,16 @@ class DedicatedServer( PyTest ):
 
     m_DedicatedServer: str = os.path.join( os.path.dirname( PyTest.GetWorkspace() ), "svends.exe" );
 
-    def Require(self) -> list[str]:
+    def Require( self ) -> list[str]:
         return [];
 
-    def ShouldBuild(self) -> bool:
+    def ShouldBuild( self ) -> bool:
         return ( self.Type == PyTest.BuildType.Local \
             # -TODO idk linux for any contributor?
             and os.path.exists( self.m_DedicatedServer )
             and not "-nods" in sys.argv );
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
         if sys.platform == "win32":
             import ctypes;

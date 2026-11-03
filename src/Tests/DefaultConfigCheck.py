@@ -16,10 +16,10 @@ class DefaultConfigCheck( PyTest ):
 
     m_DefaultConfig: str = os.path.join( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "default_config.json" );
 
-    def ShouldBuild(self) -> bool:
+    def ShouldBuild( self ) -> bool:
         return ( self.Type != PyTest.BuildType.Local or self.FileModified( self.m_DefaultConfig ) );
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
         parsed: dict = None;
 

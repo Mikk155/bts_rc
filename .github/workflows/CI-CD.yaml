@@ -1,17 +1,11 @@
 name: Release
 
 on:
-# Workflow dispatch
-#  workflow_dispatch:
-# Push dispatch
   push:
     branches:
       - main
 #    paths:
 #      - 'scripts/maps/bts_rc/util/utils.as'
-# Release dispatch
-#  release:
-#    types: [ published ]
 
 permissions:
   contents: write
@@ -38,24 +32,21 @@ jobs:
           pip install -r src/requirements.txt
 
       - name: Build project
-        id: builder # Push dispatch
-        run: python src/main.py --release -webhook "https://discord.com/api/webhooks/${{ secrets.DISCORD_PUSH_ID }}/${{ secrets.DISCORD_PUSH_TOKEN }}" # Push dispatch
-#        run: python src/main.py -release "${{ github.event.release.tag_name }}" # Release dispatch
+        id: builder
+        run: python src/main.py --release -webhook "https://discord.com/api/webhooks/${{ secrets.DISCORD_PUSH_ID }}/${{ secrets.DISCORD_PUSH_TOKEN }}"
 
       - name: Zip project
-        if: steps.builder.outputs.abort == 'false' # Push dispatch
+        if: steps.builder.outputs.abort == 'false'
         run: zip -r bts_rc.zip scripts/
 
       - name: Release project
         uses: softprops/action-gh-release@v3
-        if: steps.builder.outputs.abort == 'false' # Push dispatch
+        if: steps.builder.outputs.abort == 'false'
         with:
           files: bts_rc.zip
-          body_path: "${{ github.workspace }}/release_notes.md" # Push dispatch
-          tag_name: ${{ steps.builder.outputs.version }} # Push dispatch
-          previous_tag: "${{ steps.builder.outputs.previous_version }}" # Push dispatch
-#          body: "> # ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g)." # Release dispatch | Workflow dispatch
+          body_path: "${{ github.workspace }}/release_notes.md"
+          tag_name: ${{ steps.builder.outputs.version }}
+          previous_tag: "${{ steps.builder.outputs.previous_version }}"
           append_body: true
-#          tag_name: ${{ github.event.release.tag_name }} # Release dispatch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

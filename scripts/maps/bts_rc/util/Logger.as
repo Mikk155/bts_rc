@@ -27,6 +27,7 @@ auto@ gpLoggerConfig = Logger::Config
     .SetPrefixWithGlobalName( true )
     .SetSensitiveArguments( true )
     .SetSensitiveKeywordArguments( true )
+    .SetDefaultState( g_Debug ) // All loggers starts on in debug.
     .SetCallback(
         function( string&in message, const Logger::Level&in level )
         {
@@ -78,18 +79,11 @@ class ASLogger : IConfigurable
 
     const string GetSchema() const override
     {
-        // All loggers starts on in debug.
-        if( g_Debug )
-        {
-            Logger::SetStateAll( true, true );
-        }
         meta_api::json::v2::json@ schema = Logger::json::v2::schema();
         meta_api::json::v2::json@ allOf = meta_api::json::v2::json();
         allOf.SetType( meta_api::json::Type::Array );
         allOf.Append( "IConfigurable" );
         schema.Set( "allOf", allOf );
-        // HACK to python checkers xd
-        """{}""";
         return schema.ToString();
     }
 

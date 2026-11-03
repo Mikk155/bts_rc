@@ -13,7 +13,7 @@ from Tests.PyTest import PyTest;
 
 class SchemaUpdateCheck( PyTest ):
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
         if self.Type != PyTest.BuildType.Local:
             return True;

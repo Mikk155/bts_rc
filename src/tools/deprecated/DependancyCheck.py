@@ -83,7 +83,7 @@ class DependancyCheck( PyTest ):
 
         return True;
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
         mikkFolder = Path( os.path.join( self.Workspace, "scripts", "mikk155" ) );
 

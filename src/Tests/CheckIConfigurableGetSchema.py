@@ -1,18 +1,19 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Check validation of AngelScript IConfigurable::GetSchema
-# ===================================================================
-# ===================================================================
+'''
+### **Purpose:**
+Check validation of AngelScript IConfigurable::GetSchema and ensure JSON objects are valid.
+'''
 
 import re;
 import json;
 
 from Tests.PyTest import PyTest
 
-class SchemaCheck( PyTest ):
+class CheckIConfigurableGetSchema( PyTest ):
 
-    def Build(self) -> bool:
+    def ShouldBuild( self ) -> bool:
+        return ( self.Type != PyTest.BuildType.Release );
+
+    def Build( self ) -> bool:
 
         classRegex = re.compile( r'class\s+([A-Za-z_]\w*)\s*:\s*([^{};]*\bIConfigurable\b[^{};]*)', re.MULTILINE );
         methodRegex = re.compile( r'GetSchema\s*\(\s*\)\s*const\s*(?:override\s*)?\s*\{' );
@@ -64,11 +65,9 @@ class SchemaCheck( PyTest ):
                 matches = list( tripleRegex.finditer( methodBody ) );
 
                 if len( matches ) == 0:
-                    if not "\"" in methodBody:
-                        if "return String::EMPTY_STRING" in methodBody:
-                            continue;
-                    self.Log( "{} > class \"{}\" has no triple-quoted JSON.", script.Path, className );
-                    invalidSchemas += 1;
+                    if "return \"{" in methodBody:
+                        self.Log( "{} > class \"{}\" has JSON but is not a triple-quoted string!.", script.Path, className );
+                        invalidSchemas += 1;
                     continue;
 
                 for match in matches:
@@ -89,4 +88,4 @@ class SchemaCheck( PyTest ):
 
         return ( invalidFiles == 0 );
 
-SchemaCheck();
+CheckIConfigurableGetSchema();

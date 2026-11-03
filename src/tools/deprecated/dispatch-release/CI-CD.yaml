@@ -1,0 +1,61 @@
+name: Release
+
+on:
+# Workflow dispatch
+#  workflow_dispatch:
+# Push dispatch
+  push:
+    branches:
+      - main
+#    paths:
+#      - 'scripts/maps/bts_rc/util/utils.as'
+# Release dispatch
+#  release:
+#    types: [ published ]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install python requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r src/requirements.txt
+
+      - name: Build project
+        id: builder # Push dispatch
+        run: python src/main.py --release -webhook "https://discord.com/api/webhooks/${{ secrets.DISCORD_PUSH_ID }}/${{ secrets.DISCORD_PUSH_TOKEN }}" # Push dispatch
+#        run: python src/main.py -release "${{ github.event.release.tag_name }}" # Release dispatch
+
+      - name: Zip project
+        if: steps.builder.outputs.abort == 'false' # Push dispatch
+        run: zip -r bts_rc.zip scripts/
+
+      - name: Release project
+        uses: softprops/action-gh-release@v3
+        if: steps.builder.outputs.abort == 'false' # Push dispatch
+        with:
+          files: bts_rc.zip
+          body_path: "${{ github.workspace }}/release_notes.md" # Push dispatch
+          tag_name: ${{ steps.builder.outputs.version }} # Push dispatch
+          previous_tag: "${{ steps.builder.outputs.previous_version }}" # Push dispatch
+#          body: "> # ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g)." # Release dispatch | Workflow dispatch
+          append_body: true
+#          tag_name: ${{ github.event.release.tag_name }} # Release dispatch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

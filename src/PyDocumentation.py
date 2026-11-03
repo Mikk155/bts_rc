@@ -5,7 +5,7 @@ from main import *
 
 class PyDocumentation( PyTest ):
 
-    def Build(self) -> bool:
+    def Build( self ) -> bool:
 
         def loadSchemaObject() -> dict:
             schemaPath: str = os.path.join( gpWorkspace, "scripts", "maps", "bts_rc", "schema.json" );

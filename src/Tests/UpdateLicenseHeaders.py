@@ -1,17 +1,17 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Check validation of AngelScript license headers.
-# ===================================================================
-# ===================================================================
+'''
+### **Purpose:**
+Check validation of AngelScript license headers.
+'''
 
 import os;
 
 from Tests.PyTest import PyTest;
 
-class LicenseCheck( PyTest ):
+class UpdateLicenseHeaders( PyTest ):
 
-    def Build(self) -> bool:
+    m_ModifiedFiles: list[str] = [];
+
+    def ShouldBuild( self ) -> bool:
 
         licenseHeader: str;
 
@@ -33,10 +33,6 @@ class LicenseCheck( PyTest ):
 
             if not licenseHeader in script.Content:
 
-                if self.Type == PyTest.BuildType.Check:
-                    self.Log( "AngelScript files without license headers! Execute src/main.py to format files." );
-                    return False;
-
                 if script.Content.startswith( "/*" ):
 
                     hasNotice: int = script.Content.find( "Copyright" );
@@ -52,10 +48,23 @@ class LicenseCheck( PyTest ):
                             while script.Content[0] == '\n' or script.Content[0] == ' ' or script.Content[0] == '\t':
                                 script.Content = script.Content[1:];
 
-                self.Log( f"Updated license on file {script.Path}" );
-
+                self.m_ModifiedFiles.append( script.Path );
                 script.Content = licenseHeader + script.Content;
 
-        return True;
+        return ( len( self.m_ModifiedFiles ) > 0 );
 
-LicenseCheck();
+    def Build( self ) -> bool:
+
+        match self.Type:
+
+            case PyTest.BuildType.Check:
+                self.Log( "AngelScript files without license headers! Execute src/main.py to format files." );
+                return False;
+
+            case _:
+                for file in self.m_ModifiedFiles:
+                    self.Log( "Updated license on file {}", file );
+
+        return False;
+
+UpdateLicenseHeaders();

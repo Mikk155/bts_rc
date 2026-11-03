@@ -1,102 +1,114 @@
 import os;
 import sys;
+import traceback;
 
 gpBuilders: list['PyTest'] = [];
 gpWorkspace: str = os.path.dirname( os.path.dirname( __file__ ) );
 
 from Tests.PyTest import PyTest;
 
-# Include checks here
+# Release check first to not waste time on other builders on failure
 import Tests.ReleaseCheck;
-import Tests.TodolistCheck;
-import Tests.PrecacheCheck;
-import Tests.CreditsCheck;
-# import Tests.FGDCheck;
-import Tests.LicenseCheck;
-import Tests.DebugCheck;
-import Tests.SchemaCheck;
-import Tests.SerializedJsonCheck;
-#import Tests.DependancyCheck;
+
+# Include local builders here
+import Tests.CleanWorkspace;
+import Tests.UpdateContributors;
+import Tests.UpdateTODOList;
+
+# Include relevant check builders here. ordering matters.
+import Tests.UpdatePrecaches;
+import Tests.UpdateLicenseHeaders;
+import Tests.CheckIConfigurableGetSchema;
+# Mostly release builders.
+import Tests.ToggleDebug;
+import Tests.CompactScriptJSON;
+
+
+
+
 #import Tests.DedicatedServer;
-import Tests.SchemaUpdateCheck;
-import Tests.DefaultConfigCheck;
-import Tests.Cleanup;
+#import Tests.SchemaUpdateCheck;
+#import Tests.DefaultConfigCheck;
 #import Tests.DedicatedServerRelease;
 
-def Main() -> tuple[int, int]:
+def Main() -> tuple[int, int, int]:
 
     passes = 0;
+    skips = 0;
     fails = 0;
 
-    builderCompletion: list[str] = [];
+    buildType: PyTest.BuildType = PyTest.GetType();
+    builders: list[PyTest] = list( gpBuilders );
+    completed: set[str] = set();
+    releaseCheck = next(
+        ( builder for builder in builders if isinstance( builder, Tests.ReleaseCheck.ReleaseCheck ) ),
+        None
+    );
 
-    for builder in gpBuilders:
+    for index, builder in enumerate( builders ):
 
         try:
 
             if builder.ShouldBuild() is False:
-                builder.Log( "Build skipped." );
-                builderCompletion.append( builder.Name );
+                completed.add( builder.Name );
+                skips += 1;
+                continue;
 
-            else:
+            requirements: list[str] | None = builder.Require();
 
-                ok: bool = True;
+            if requirements is not None and len( requirements ) == 0:
+                requirements = [ previous.Name for previous in builders[ : index ] ];
 
-                requirements: list[str] = builder.Require();
+            missingRequirements: list[str] = [
+                requirement for requirement in requirements
+                if requirement not in completed
+            ] if requirements is not None else [];
 
-                if requirements is not None:
+            if missingRequirements:
+                builder.Log( "Build failed. Missing requirements: {}.", ", ".join( missingRequirements ) );
+                fails += 1;
+                if builder is releaseCheck and buildType == PyTest.BuildType.Release:
+                    break;
+                continue;
 
-                    if len(requirements) == 0:
-                        for b in gpBuilders:
-                            if b.Name == builder.Name:
-                                break;
-                            requirements.append( b.Name );
+            if builder.Build() is False:
+                builder.Log( "Build failed." );
+                fails += 1;
+                if builder is releaseCheck and buildType == PyTest.BuildType.Release:
+                    break;
+                continue;
 
-                    for require in requirements:
-                        if not require in builderCompletion:
-                            ok = False;
+            passes += 1;
+            completed.add( builder.Name );
+            builder.Log( "Build success." );
 
-                if ok is True:
-                    ok = builder.Build();
-
-                if ok is False:
-                    builder.Log( "Build failed." );
-                    fails += 1;
-                else:
-                    passes += 1;
-                    builderCompletion.append( builder.Name );
-                    builder.Log( "Build success." );
-
-        except:
-            import traceback;
+        except Exception:
             builder.Log( f"throw an exception:" );
             traceback.print_exc();
             fails += 1;
 
-        if not "ReleaseCheck" in builderCompletion and builder.Type == PyTest.BuildType.Release:
+        if builder is releaseCheck and buildType == PyTest.BuildType.Release and builder.Name not in completed:
             break;
 
-    return ( fails, passes );
+    return ( fails, passes, skips );
 
 if __name__ == "__main__":
 
     buildType: PyTest.BuildType = PyTest.GetType();
 
-    match buildType:
-
-        case PyTest.BuildType.Release:
-            PyTest.Print( f"Formating map scripts for bts_rc as version {PyTest.GetTag()}" );
-
-        case _:
-            pass;
-
-    ( fails, passes ) = Main();
+    ( fails, passes, skips ) = Main();
 
     if fails == 0:
         PyTest.WriteAllScripts();
-        PyTest.Print( f"{passes} checks passed." );
-    else:
-        PyTest.Print( f"{fails} of {fails + passes} checks failed." );
+
+    total = passes + fails + skips;
+
+    PyTest.Print( "All done." );
+    PyTest.Print( "- Completed: {}", passes );
+    PyTest.Print( "- Skiped: {}", skips );
+    PyTest.Print( "- Failed: {}", fails );
+    PyTest.Print( "- Total: {}", total );
+    PyTest.Print( "- Completion: {}%", int( ( ( passes + skips ) / total ) * 100 ) );
 
     match buildType:
 
@@ -109,8 +121,6 @@ if __name__ == "__main__":
             pass;
         case _:
             pass;
-
-    PyTest.Print( "All done!" );
 
     if PyTest.GetType() == PyTest.BuildType.Release:
         PyTest.FlushLog();
