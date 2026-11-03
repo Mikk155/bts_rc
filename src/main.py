@@ -14,6 +14,7 @@ import Tests.ReleaseCheck;
 import Tests.CleanWorkspace;
 import Tests.UpdateContributors;
 import Tests.UpdateTODOList;
+import Tests.EnvCreditsCheck;
 
 # Include relevant check builders here. ordering matters.
 import Tests.UpdatePrecaches;
@@ -22,7 +23,7 @@ import Tests.CheckIConfigurableGetSchema;
 # Mostly release builders.
 import Tests.ToggleDebug;
 import Tests.CompactScriptJSON;
-import Tests.ShipEnvCredits;
+import Tests.EnvCreditsUpdate;
 
 
 
