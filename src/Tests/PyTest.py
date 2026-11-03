@@ -291,13 +291,17 @@ class PyTest:
         return PyTest.GetScripts();
 
     @staticmethod
+    def IsTest() -> bool:
+        import sys;
+        return ( "--test" in sys.argv );
+
+    @staticmethod
     def WriteAllScripts() -> int:
 
-        import sys;
-        if "--test" in sys.argv:
+        if PyTest.IsTest():
             print( "Various files may be overwriten now. Make sure you don't have unsaved changes!" );
             while True:
-                userInput = input( "Write 1 to continue. 0 to avoid writing." );
+                userInput = input( "Write 1 to continue. 0 to avoid writing.\n> " );
                 if userInput == "1":
                     break;
                 elif userInput == "0":
