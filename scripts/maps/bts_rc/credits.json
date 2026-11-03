@@ -1,4 +1,6 @@
 {
+    "$schema": "credits_schema.json",
+
     "fadetime": 2.0,
 
     "target": "start_camera",

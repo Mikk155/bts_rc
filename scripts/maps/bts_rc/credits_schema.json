@@ -1,0 +1,204 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "unevaluatedProperties": false,
+    "required":
+    [
+        "fadetime",
+        "target",
+        "delay",
+        "captions"
+    ],
+    "properties":
+    {
+        "$schema":
+        {
+            "type": "string",
+            "description": "Reference to the JSON schema file used for validation and editor hinting."
+        },
+        "schema":
+        {
+            "type": "string",
+            "description": "Schema file name used by the project tooling. This is the property used by credits.json."
+        },
+        "fadetime":
+        {
+            "type": "number",
+            "description": "Initial screen fade duration in seconds. The entity starts the first caption after twice this value."
+        },
+        "target":
+        {
+            "type": "string",
+            "description": "Targetname fired by env_credits after the initial fade."
+        },
+        "delay":
+        {
+            "type": "number",
+            "description": "Delay in seconds used when firing the top-level target."
+        },
+        "captions":
+        {
+            "type": "array",
+            "description": "Ordered captions. The AngelScript JSON V1 parser exposes the array entries as numeric dictionary keys.",
+            "items":
+            {
+                "type": "object",
+                "description": "One caption parsed into an ASCaption. Caption properties persist until explicitly changed by a later entry; message, target, and delay are cleared for every new entry.",
+                "unevaluatedProperties": false,
+                "required":
+                [
+                    "message"
+                ],
+                "properties":
+                {
+                    "message":
+                    {
+                        "type": "string",
+                        "description": "Text displayed to players. Use escaped newline characters (\\n) for line breaks."
+                    },
+                    "scroll":
+                    {
+                        "type": "boolean",
+                        "description": "When true, the caption uses scrolling HUD mode. When false, it uses normal HUD text timing."
+                    },
+                    "x":
+                    {
+                        "type": "number",
+                        "description": "Horizontal HUD position for non-scrolling captions. -1.0 centers the text."
+                    },
+                    "y":
+                    {
+                        "type": "number",
+                        "description": "Vertical HUD position for non-scrolling captions. -1.0 centers the text."
+                    },
+                    "fadeintime":
+                    {
+                        "type": "number",
+                        "description": "Fade-in duration in seconds for non-scrolling captions."
+                    },
+                    "fadeouttime":
+                    {
+                        "type": "number",
+                        "description": "Fade-out duration in seconds for non-scrolling captions."
+                    },
+                    "holdtime":
+                    {
+                        "type": "number",
+                        "description": "Time in seconds that a non-scrolling caption remains visible."
+                    },
+                    "fxtime":
+                    {
+                        "type": "number",
+                        "description": "HUD effect timing in seconds for non-scrolling captions."
+                    },
+                    "effect":
+                    {
+                        "type": "integer",
+                        "description": "HUD text effect used by non-scrolling captions."
+                    },
+                    "rgb":
+                    {
+                        "type": "array",
+                        "description": "Primary text color.",
+                        "prefixItems":
+                        [
+                            {
+                                "type": "integer",
+                                "description": "Red",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            {
+                                "type": "integer",
+                                "description": "Green",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            {
+                                "type": "integer",
+                                "description": "Blue",
+                                "minimum": 0,
+                                "maximum": 255
+                            }
+                        ],
+                        "items": false
+                    },
+                    "rgb2":
+                    {
+                        "type": "array",
+                        "description": "Secondary text color for non-scrolling captions.",
+                        "prefixItems":
+                        [
+                            {
+                                "type": "integer",
+                                "description": "Red",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            {
+                                "type": "integer",
+                                "description": "Green",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            {
+                                "type": "integer",
+                                "description": "Blue",
+                                "minimum": 0,
+                                "maximum": 255
+                            }
+                        ],
+                        "items": false
+                    },
+                    "scroll_rate":
+                    {
+                        "type": "number",
+                        "description": "Vertical position change applied on each scrolling update."
+                    },
+                    "scroll_think":
+                    {
+                        "type": "number",
+                        "description": "Scrolling update interval in seconds."
+                    },
+                    "target":
+                    {
+                        "type": "string",
+                        "description": "Targetname fired when this caption is first displayed."
+                    },
+                    "delay":
+                    {
+                        "type": "number",
+                        "description": "Delay in seconds before firing this caption's target."
+                    }
+                }
+            }
+        }
+    },
+    "$defs":
+    {
+        "color":
+        {
+            "type": "array",
+            "description": "RGB color in red, green, blue order.",
+            "prefixItems":
+            [
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                },
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                },
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                }
+            ],
+            "items": false
+        }
+    }
+}
