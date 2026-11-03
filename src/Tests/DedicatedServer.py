@@ -10,17 +10,17 @@ import sys;
 import time;
 import subprocess;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class DedicatedServer( PyTest ):
+class DedicatedServer( IBuilder ):
 
-    m_DedicatedServer: str = os.path.join( os.path.dirname( PyTest.GetWorkspace() ), "svends.exe" );
+    m_DedicatedServer: str = os.path.join( os.path.dirname( Builder.Workspace() ), "svends.exe" );
 
     def Require( self ) -> list[str]:
         return [];
 
     def ShouldBuild( self ) -> bool:
-        return ( self.Type == PyTest.BuildType.Local \
+        return ( Builder.Type() == BuildType.Local \
             # -TODO idk linux for any contributor?
             and os.path.exists( self.m_DedicatedServer )
             and not "-nods" in sys.argv );
@@ -39,7 +39,7 @@ class DedicatedServer( PyTest ):
         };
 
         for k, v in generateFiles.items():
-            with open( os.path.join( self.Workspace, k ), "w" ) as fStream:
+            with open( os.path.join( Builder.Workspace(), k ), "w" ) as fStream:
                 fStream.write( v );
 
         process = subprocess.Popen(
@@ -51,7 +51,7 @@ class DedicatedServer( PyTest ):
                 "+developer", "1"
             ],
             executable = self.m_DedicatedServer,
-            cwd = os.path.dirname( self.Workspace ),
+            cwd = os.path.dirname( Builder.Workspace() ),
             stdout = subprocess.PIPE,
             stderr = subprocess.STDOUT,
             text = True,
@@ -94,11 +94,11 @@ class DedicatedServer( PyTest ):
                 self.Log( line );
 
             for k, _ in generateFiles.items():
-                os.remove( os.path.join( self.Workspace, k ) );
+                os.remove( os.path.join( Builder.Workspace(), k ) );
 
             result = ( len(errorMessages) + len(criticalMessages) == 0 and finished );
 
-            cacheFolder =  os.path.join( self.Workspace, "src", "Tests", "cache" );
+            cacheFolder =  os.path.join( Builder.Workspace(), "src", "Tests", "cache" );
             os.makedirs( cacheFolder, exist_ok=True );
             logPath = os.path.join( cacheFolder, "ds.log" );
             with open( logPath, "w" ) as fStream:

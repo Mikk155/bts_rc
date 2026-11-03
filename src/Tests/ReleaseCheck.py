@@ -13,10 +13,9 @@ import os;
 import sys;
 import requests;
 from datetime import datetime;
+from Tests.Base import *;
 
-from Tests.PyTest import PyTest
-
-class ReleaseCheck( PyTest ):
+class ReleaseCheck( IBuilder ):
 
     m_ProjectVersion: str = None;
     m_GithubData: dict = {
@@ -85,11 +84,11 @@ class ReleaseCheck( PyTest ):
         );
 
     def ShouldBuild( self ) -> bool:
-        return ( self.Type == PyTest.BuildType.Release and not "--test" in sys.argv );
+        return ( Builder.Type() == BuildType.Release and not "--test" in sys.argv );
 
     def Build( self ) -> bool:
 
-        response: requests.Response = requests.get( f"https://api.github.com/repos/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/releases/latest" );
+        response: requests.Response = requests.get( f"https://api.github.com/repos/{Builder.GetGithubUsername()}/{Builder.GetGithubRepository()}/releases/latest" );
 
         if response.status_code != 200:
             self.Log( "Failed to retrieve release data from Github" );
@@ -102,7 +101,7 @@ class ReleaseCheck( PyTest ):
         self.m_GithubData[ "previous_version" ] = lastTag;
 
         # Find semantic version global variable in the project
-        for script in self.Scripts:
+        for script in Builder.Scripts():
             regexSemVer: re.Match[str] = re.search( r"g_ScriptsVersion\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", script.Content );
             if regexSemVer:
                 self.m_ProjectVersion = ".".join( regexSemVer.groups() );
@@ -125,7 +124,7 @@ class ReleaseCheck( PyTest ):
         previousMajor, previousMinor, _ = self.ParseSemanticVersion( lastTag );
         if ( projectMajor, projectMinor ) != ( previousMajor, previousMinor ):
             releasesResponse: requests.Response = requests.get(
-                f"https://api.github.com/repos/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/releases?per_page=100"
+                f"https://api.github.com/repos/{Builder.GetGithubUsername()}/{Builder.GetGithubRepository()}/releases?per_page=100"
             );
 
             if releasesResponse.status_code != 200:
@@ -139,7 +138,7 @@ class ReleaseCheck( PyTest ):
             releasesResponse.json()
         );
 
-        with open( os.path.join( self.Workspace, "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
+        with open( os.path.join( Builder.Workspace(), "CHANGELOG.md" ), "r", encoding="utf-8" ) as fStream:
 
             changelog = fStream.read();
 
@@ -160,12 +159,12 @@ class ReleaseCheck( PyTest ):
 
             changelog = changelog[ : end ].strip().replace( "# ", "### " );
 
-        with open( os.path.join( self.Workspace, "release_notes.md" ), "w", encoding="utf-8" ) as fStream:
-            fStream.write( f"""# {PyTest.GetGithubRepository()} map scripts [Version {self.m_ProjectVersion}](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/tree/{self.m_ProjectVersion})
+        with open( os.path.join( Builder.Workspace(), "release_notes.md" ), "w", encoding="utf-8" ) as fStream:
+            fStream.write( f"""# {Builder.GetGithubRepository()} map scripts [Version {self.m_ProjectVersion}](https://github.com/{Builder.GetGithubUsername()}/{Builder.GetGithubRepository()}/tree/{self.m_ProjectVersion})
 
 ## ⚠️ Download map assets from [MEGA](https://mega.nz/folder/oYt1VYpB#Hy741Wp8-S7yFoWaeVFB4g).
 
-## Git changes since [Version {lastTag}](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/tree/{lastTag}) can be found [here](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/compare/{lastTag}...{self.m_ProjectVersion}).
+## Git changes since [Version {lastTag}](https://github.com/{Builder.GetGithubUsername()}/{Builder.GetGithubRepository()}/tree/{lastTag}) can be found [here](https://github.com/{Builder.GetGithubUsername()}/{Builder.GetGithubRepository()}/compare/{lastTag}...{self.m_ProjectVersion}).
 
 <details>
 <summary>Changelog</summary>
@@ -178,7 +177,9 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
 </details>
 """ );
 
-        PyTest.AddWebhookFooter( f"""# {PyTest.GetGithubRepository()} map scripts [Version {self.m_ProjectVersion}](https://github.com/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/tree/{self.m_ProjectVersion})
+        #Append a final Markdown message to the configured Discord webhook
+        if Builder.GetWebhook() is not None:
+            gpLogFooterMessages.append( f"""# {Builder.GetGithubRepository()} map scripts [Version {self.m_ProjectVersion}](https://github.com/{Builder.GetGithubUsername()}/{Builder.GetGithubRepository()}/tree/{self.m_ProjectVersion});
 
 ## Full changelog can be found [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).
 
@@ -195,7 +196,7 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
             for key, value in self.m_GithubData.items():
                 print( f"{key}={value}", file=fStream );
 
-        PyTest.Print( f"Formating map scripts for bts_rc as version {self.m_ProjectVersion}" );
+        Builder.Log( f"Formating map scripts for bts_rc as version {self.m_ProjectVersion}" );
 
         return True;
 

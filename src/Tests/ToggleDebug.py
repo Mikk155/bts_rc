@@ -5,9 +5,9 @@
 ##### Note: Use src/tools/toggle_debug.py to momentarly enable/disable debug mode for testing things are not broken.
 '''
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class ToggleDebug( PyTest ):
+class ToggleDebug( IBuilder ):
 
     def ToggleDebug( self, state: bool ) -> None:
 
@@ -20,7 +20,7 @@ class ToggleDebug( PyTest ):
 
         processors = 0;
 
-        for script in self.Scripts:
+        for script in Builder.Scripts():
 
             while( script.Content.find( f"#if {processFrom}" ) > -1 ):
                 script.Content = script.Content.replace( f"#if {processFrom}", f"#if {processTo}", 1 );
@@ -34,7 +34,7 @@ class ToggleDebug( PyTest ):
         self.Log( "Set {} pre-processors to {} ({} -> {})", processors, toState, processFrom, processTo );
 
     def ShouldBuild( self ) -> bool:
-        return ( self.Type == PyTest.BuildType.Release );
+        return ( Builder.Type() == BuildType.Release );
 
     def Build( self ) -> bool:
         self.ToggleDebug( False );

@@ -6,12 +6,12 @@ Check validation of AngelScript IConfigurable::GetSchema and ensure JSON objects
 import re;
 import json;
 
-from Tests.PyTest import PyTest
+from Tests.Base import *;
 
-class CheckIConfigurableGetSchema( PyTest ):
+class CheckIConfigurableGetSchema( IBuilder ):
 
     def ShouldBuild( self ) -> bool:
-        return ( self.Type != PyTest.BuildType.Release );
+        return ( Builder.Type() != BuildType.Release );
 
     def Build( self ) -> bool:
 
@@ -22,7 +22,7 @@ class CheckIConfigurableGetSchema( PyTest ):
         invalidSchemasTotal: int = 0;
         invalidFiles: int = 0;
 
-        for script in self.Scripts:
+        for script in Builder.Scripts():
 
             invalidSchemas: int = 0;
             content: str = script.Content;

@@ -82,10 +82,10 @@ class ReleaseCheck( PyTest ):
             key=lambda release: self.ParseSemanticVersion( release[ "tag_name" ])
         );
 
-    def ShouldBuild( self ) -> bool:
+    def ShouldBuild(self) -> bool:
         return ( self.Type == PyTest.BuildType.Release );
 
-    def Build( self ) -> bool:
+    def Build(self) -> bool:
 
         response: requests.Response = requests.get( f"https://api.github.com/repos/{PyTest.GetGithubUsername()}/{PyTest.GetGithubRepository()}/releases/latest" );
 

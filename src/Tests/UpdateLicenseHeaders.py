@@ -5,9 +5,9 @@ Check validation of AngelScript license headers.
 
 import os;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class UpdateLicenseHeaders( PyTest ):
+class UpdateLicenseHeaders( IBuilder ):
 
     m_ModifiedFiles: list[str] = [];
 
@@ -15,7 +15,7 @@ class UpdateLicenseHeaders( PyTest ):
 
         licenseHeader: str;
 
-        with open( os.path.join( self.Workspace, "LICENSE.txt" ), "r", encoding="utf-8" ) as fStream:
+        with open( os.path.join( Builder.Workspace(), "LICENSE.txt" ), "r", encoding="utf-8" ) as fStream:
 
             lines: list[str] = fStream.readlines();
 
@@ -29,7 +29,7 @@ class UpdateLicenseHeaders( PyTest ):
 
             fStream.close();
 
-        for script in self.Scripts:
+        for script in Builder.Scripts():
 
             if not licenseHeader in script.Content:
 
@@ -55,9 +55,9 @@ class UpdateLicenseHeaders( PyTest ):
 
     def Build( self ) -> bool:
 
-        match self.Type:
+        match Builder.Type():
 
-            case PyTest.BuildType.Check:
+            case BuildType.Check:
                 self.Log( "AngelScript files without license headers! Execute src/main.py to format files." );
                 return False;
 

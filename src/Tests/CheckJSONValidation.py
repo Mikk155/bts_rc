@@ -11,11 +11,11 @@ import json;
 import jsonschema;
 from pathlib import Path;
 
-from Tests.PyTest import PyTest
+from Tests.Base import *;
 
-class CheckJSONValidation( PyTest ):
+class CheckJSONValidation( IBuilder ):
 
-    m_DefaultConfig: Path = Path( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "default_config.json" );
+    m_DefaultConfig: Path = Path( Builder.Workspace(), "scripts", "maps", "bts_rc", "default_config.json" );
 
     def Build( self ) -> bool:
 
@@ -30,18 +30,18 @@ class CheckJSONValidation( PyTest ):
             return False;
 
         try:
-            with open( os.path.join( self.Workspace, "docs", "schema.json" ), "r" ) as fStream:
+            with open( os.path.join( Builder.Workspace(), "docs", "schema.json" ), "r" ) as fStream:
                 jsonschema.validate( instance=parsed, schema=json.load( fStream ) );
         except jsonschema.ValidationError as e:
             self.Log( "invalid JSON: scripts/maps/bts_rc/default_config.json at {}\n{}", e.json_path, e.message );
             return False;
 
-        for script in self.Scripts:
+        for script in Builder.Scripts():
 
             if not ( "const string __GetDefaultConfig__()" in script.Content ):
                 continue;
 
-            if self.Type == PyTest.BuildType.Release:
+            if Builder.Type() == BuildType.Release:
                 script.Content = script.Content.replace( "scripts/maps/bts_rc/default_config.json", json.dumps( parsed, separators=( ",", ":" ) ) );
                 return True;
 
@@ -56,12 +56,12 @@ class CheckJSONValidation( PyTest ):
 
             if( oldSerialized != newSerialized ):
 
-                if self.Type == PyTest.BuildType.Local:
+                if Builder.Type() == BuildType.Local:
                     with open( self.m_DefaultConfig, "w" ) as fStream:
                         fStream.write( newSerialized + '\n' );
-                    self.Log( "Sorted & formated {}", self.m_DefaultConfig.relative_to( PyTest.GetWorkspace() ) );
-                elif self.Type == PyTest.BuildType.Check:
-                    self.Log( "Un-formated {} Execute src/main.py to format files.", self.m_DefaultConfig.relative_to( PyTest.GetWorkspace() ) );
+                    self.Log( "Sorted & formated {}", self.m_DefaultConfig.relative_to( Builder.Workspace() ) );
+                elif Builder.Type() == BuildType.Check:
+                    self.Log( "Un-formated {} Execute src/main.py to format files.", self.m_DefaultConfig.relative_to( Builder.Workspace() ) );
                 return False;
 
         return True;

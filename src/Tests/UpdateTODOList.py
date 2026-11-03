@@ -9,17 +9,17 @@ Completed labels will be moved to the completed section and the progression bar 
 import os;
 import colorsys;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class UpdateTODOList( PyTest ):
+class UpdateTODOList( IBuilder ):
 
-    m_TODOPath: str = os.path.join( PyTest.GetWorkspace(), "TODO.md" );
+    m_TODOPath: str = os.path.join( Builder.Workspace(), "TODO.md" );
     m_TODOCompletion: float = None;
     m_TODOContent: str;
 
     def ShouldBuild( self ) -> bool:
 
-        if self.Type == PyTest.BuildType.Release:
+        if Builder.Type() == BuildType.Release:
             return False;
 
         with open( self.m_TODOPath, "r" ) as fStream:
@@ -39,7 +39,7 @@ class UpdateTODOList( PyTest ):
 
     def Build( self ) -> bool:
 
-        if self.Type == PyTest.BuildType.Check:
+        if Builder.Type() == BuildType.Check:
             self.Log( "TODO.md were modified but never commited checks!" );
             return False;
 

@@ -7,18 +7,18 @@ Clean up garbage files generated from J.A.C.K for MEGA Sync.
 import os;
 from pathlib import Path;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class CleanWorkspace( PyTest ):
+class CleanWorkspace( IBuilder ):
 
     m_DeleteFiles: list[Path] = [];
 
     def ShouldBuild( self ) -> bool:
 
-        if self.Type != PyTest.BuildType.Local:
+        if Builder.Type() != BuildType.Local:
             return False;
 
-        mapsDirectory: Path = Path( self.Workspace, "maps" );
+        mapsDirectory: Path = Path( Builder.Workspace(), "maps" );
 
         allowedExtensions = [
             ".bsp",
@@ -41,7 +41,7 @@ class CleanWorkspace( PyTest ):
     def Build( self ) -> bool:
 
         for file in self.m_DeleteFiles:
-            self.Log( "Deleting file {}", file.relative_to( self.Workspace ).as_posix() );
+            self.Log( "Deleting file {}", file.relative_to( Builder.Workspace() ).as_posix() );
             file.unlink();
 
         return True;

@@ -9,18 +9,18 @@ The names will be sorted alphabetically and ``AUTHORS.md`` will be updated as we
 import json;
 from pathlib import Path;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class UpdateContributors( PyTest ):
+class UpdateContributors( IBuilder ):
 
-    m_AuthorsPath: Path = Path( PyTest.GetWorkspace(), "AUTHORS.md" );
-    m_CreditsPath: Path = Path( PyTest.GetWorkspace(), "docs", "assets", "credits.json" );
+    m_AuthorsPath: Path = Path( Builder.Workspace(), "AUTHORS.md" );
+    m_CreditsPath: Path = Path( Builder.Workspace(), "docs", "assets", "credits.json" );
     m_AuthorsContent: str = None;
     m_CreditsContent: str = None;
 
     def ShouldBuild( self ) -> bool:
 
-        if self.Type == PyTest.BuildType.Release:
+        if Builder.Type() == BuildType.Release:
             return False;
 
         creditsList: list[str];
@@ -66,19 +66,19 @@ To modify anyone from the ## contributors section visit docs/assets/credits.json
 
     def Build( self ) -> bool:
 
-        if self.Type == PyTest.BuildType.Check:
+        if Builder.Type() == BuildType.Check:
             self.Log( "docs/assets/credits.json were modified but never commited checks!" );
             return False;
 
         if self.m_AuthorsContent:
             with open( self.m_AuthorsPath, "w" ) as fStream:
                 fStream.write( self.m_AuthorsContent );
-            self.Log( "Updated {}", self.m_AuthorsPath.relative_to( self.Workspace ) );
+            self.Log( "Updated {}", self.m_AuthorsPath.relative_to( Builder.Workspace() ) );
 
         if self.m_CreditsContent:
             with open( self.m_CreditsPath, "w" ) as fStream:
                 fStream.write( self.m_CreditsContent );
-            self.Log( "Updated and sorted {}", self.m_CreditsPath.relative_to( self.Workspace ).as_posix() );
+            self.Log( "Updated and sorted {}", self.m_CreditsPath.relative_to( Builder.Workspace() ).as_posix() );
 
         return True;
 

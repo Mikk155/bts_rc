@@ -7,9 +7,9 @@ Compact AngelScript literal strings (triple quoted) representing JSON objects wh
 import re;
 import json;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class CompactScriptJSON( PyTest ):
+class CompactScriptJSON( IBuilder ):
 
     def Build( self ) -> bool:
 
@@ -21,7 +21,7 @@ class CompactScriptJSON( PyTest ):
         totalCharacters = 0;
         newTotalCharacters = 0;
 
-        for script in self.Scripts:
+        for script in Builder.Scripts():
 
             invalidSchemas: int = 0;
             content: str = script.Content;
@@ -57,7 +57,7 @@ class CompactScriptJSON( PyTest ):
                     invalidSchemas += 1;
                     continue;
 
-                if self.Type == PyTest.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
+                if Builder.Type() == BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
                     compact: str = json.dumps( parsed, separators=( ",", ":" ) );
                     start = match.start(1) + delta;
                     end   = match.end(1) + delta;
@@ -73,7 +73,7 @@ class CompactScriptJSON( PyTest ):
                 invalidSchemasTotal += invalidSchemas;
                 invalidFiles += 1;
 
-        if self.Type == PyTest.BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
+        if Builder.Type() == BuildType.Release and invalidSchemas == 0 and invalidSchemasTotal == 0:
             self.Log( "Removed {} characters from schemas. Total: {} -> {} {}% percent optimized.",
                 ( totalCharacters - newTotalCharacters ),
                 totalCharacters,

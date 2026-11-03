@@ -3,16 +3,19 @@
 *.wav binary
 *.ico binary
 
+docs/bts_rc.bundle.js -delta -diff
+docs/schema.json -delta -diff
+
 *.as text eol=lf
 
 *.res linguist-vendored
 *.as linguist-language=AngelScript
 *.predefined linguist-language=AngelScript
-*.json linguist-language=AngelScript
+*.json linguist-language=JSON
 docs/* linguist-documentation=false
 *.py linguist-language=Python
 *.js linguist-language=TypeScript
 *.ts linguist-language=TypeScript
 *.html linguist-language=HTML
 *.css linguist-language=HTML
-*.md linguist-language=Markdown
+*.md linguist-language=HTML

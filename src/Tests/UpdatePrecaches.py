@@ -12,11 +12,11 @@ import re;
 from pathlib import Path;
 import json;
 
-from Tests.PyTest import PyTest;
+from Tests.Base import *;
 
-class UpdatePrecaches( PyTest ):
+class UpdatePrecaches( IBuilder ):
 
-    m_PrecachesPath: Path = Path( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "assets.json" );
+    m_PrecachesPath: Path = Path( Builder.Workspace(), "scripts", "maps", "bts_rc", "assets.json" );
     m_PrecachesSorted: dict[str,list[str]];
     m_SortedContent: str = None;
     m_Duplicates: int = 0;
@@ -38,10 +38,10 @@ class UpdatePrecaches( PyTest ):
         self.m_PrecachesSorted[ "PrecacheSound" ].sort();
         self.m_PrecachesSorted[ "PrecacheGeneric" ].sort();
 
-        match self.Type:
-            case PyTest.BuildType.Release:
+        match Builder.Type():
+            case BuildType.Release:
                 return True;
-            case PyTest.BuildType.Local | PyTest.BuildType.Check:
+            case BuildType.Local | BuildType.Check:
 
                 self.m_Duplicates = 0;
                 self.m_DuplicateLocations = [];
@@ -53,7 +53,7 @@ class UpdatePrecaches( PyTest ):
 
                     listRef: list[str] = self.m_PrecachesSorted[ listName ];
 
-                    for script in self.Scripts:
+                    for script in Builder.Scripts():
 
                         fullPattern: str = r'^(?!\s*//).*?' + pattern;
 
@@ -88,11 +88,11 @@ class UpdatePrecaches( PyTest ):
 
     def Build( self ) -> bool:
 
-        match self.Type:
+        match Builder.Type():
 
-            case PyTest.BuildType.Release:
+            case BuildType.Release:
 
-                for script in self.Scripts:
+                for script in Builder.Scripts():
 
                     start: int = script.Content.find( "<Precache start>" );
 
@@ -118,20 +118,20 @@ class UpdatePrecaches( PyTest ):
                 self.Log( "Could not find \"<Precache start>\" comment in angelscript files." );
                 return False;
 
-            case PyTest.BuildType.Local:
+            case BuildType.Local:
 
                 if( self.m_SortedContent is not None ):
 
                     with open( self.m_PrecachesPath, "w" ) as fStream:
                         fStream.write( self.m_SortedContent );
-                        self.Log( "Sorted {} alphabetically", self.m_PrecachesPath.relative_to( PyTest.GetWorkspace() ) )
+                        self.Log( "Sorted {} alphabetically", self.m_PrecachesPath.relative_to( Builder.Workspace() ) )
 
-            case PyTest.BuildType.Check:
+            case BuildType.Check:
                 self.Log( "scripts/maps/bts_rc/assets.json were modified but never commited checks!" );
 
         if( self.m_Duplicates != 0 ):
 
-            self.Log( "Found {} duplicated precaches that are declared in {}", self.m_Duplicates, self.m_PrecachesPath.relative_to( PyTest.GetWorkspace() ) );
+            self.Log( "Found {} duplicated precaches that are declared in {}", self.m_Duplicates, self.m_PrecachesPath.relative_to( Builder.Workspace() ) );
 
             for script, line, column, asset in self.m_DuplicateLocations:
                 self.Log( "L{}:{}: {} duplicated precache {}", line, column, script.Path, asset );
