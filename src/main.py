@@ -22,6 +22,7 @@ import Tests.CheckIConfigurableGetSchema;
 # Mostly release builders.
 import Tests.ToggleDebug;
 import Tests.CompactScriptJSON;
+import Tests.ShipEnvCredits;
 
 
 
