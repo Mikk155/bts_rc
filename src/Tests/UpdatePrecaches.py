@@ -105,7 +105,7 @@ class UpdatePrecaches( PyTest ):
                             return False;
 
                         script.Content = \
-                        script.Content[ 0 : script.Content.rfind( "//", start ) ] +\
+                        script.Content[ 0 : script.Content.rfind( "//", 0, start ) ] +\
                         "".join( f"        g_Game.PrecacheModel( \"{asset}\" );\n" for asset in self.m_PrecachesSorted[ "PrecacheModel" ] ) +\
                         "".join( f"        g_Game.PrecacheGeneric( \"{asset}\" );\n" for asset in self.m_PrecachesSorted[ "PrecacheGeneric" ] ) +\
                         "".join( f"        g_SoundSystem.PrecacheSound( \"{asset}\" );\n" for asset in self.m_PrecachesSorted[ "PrecacheSound" ] ) +\

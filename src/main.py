@@ -9,28 +9,23 @@ from Tests.PyTest import PyTest;
 
 # Release check first to not waste time on other builders on failure
 import Tests.ReleaseCheck;
-
-# Include local builders here
+# Include Local builders here
 import Tests.CleanWorkspace;
 import Tests.UpdateContributors;
 import Tests.UpdateTODOList;
 import Tests.EnvCreditsCheck;
 
-# Include relevant check builders here. ordering matters.
+# Ordering matters here.
 import Tests.UpdatePrecaches;
 import Tests.UpdateLicenseHeaders;
 import Tests.CheckIConfigurableGetSchema;
-# Mostly release builders.
+import Tests.UpdateSchema;
+import Tests.CheckJSONValidation;
+import Tests.EnvCreditsUpdate;
 import Tests.ToggleDebug;
 import Tests.CompactScriptJSON;
-import Tests.EnvCreditsUpdate;
-
-
-
 
 #import Tests.DedicatedServer;
-#import Tests.SchemaUpdateCheck;
-#import Tests.DefaultConfigCheck;
 #import Tests.DedicatedServerRelease;
 
 def Main() -> tuple[int, int, int]:
@@ -108,9 +103,9 @@ if __name__ == "__main__":
     PyTest.Print( "All done." );
     PyTest.Print( "- Completed: {}", passes );
     PyTest.Print( "- Skiped: {}", skips );
-    PyTest.Print( "- Failed: {}", fails );
     PyTest.Print( "- Total: {}", total );
     PyTest.Print( "- Completion: {}%", int( ( ( passes + skips ) / total ) * 100 ) );
+    PyTest.Print( "- Failed: {}", fails );
 
     match buildType:
 

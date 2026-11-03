@@ -2205,8 +2205,7 @@
     },
     "logging": {
         "active": true,
-        "global": {
-        }
+        "global": {}
     },
     "map_config": {
         "allow_reload": false,
@@ -2765,7 +2764,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.10,
+        "primary_cooldown": 0.1,
         "primary_damage": 23,
         "primary_dropammo": 30,
         "primary_kickback": {
@@ -2777,7 +2776,7 @@
             "stand_trained": 2.75
         },
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.10,
+        "primary_trained_cooldown": 0.1,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",
@@ -2805,7 +2804,7 @@
             "stand": 0.05,
             "stand_trained": 0.01
         },
-        "primary_cooldown": 0.10,
+        "primary_cooldown": 0.1,
         "primary_damage": 24,
         "primary_dropammo": 20,
         "primary_kickback": {
@@ -2817,7 +2816,7 @@
             "stand_trained": 2.75
         },
         "primary_maxammo": 150,
-        "primary_trained_cooldown": 0.10,
+        "primary_trained_cooldown": 0.1,
         "reload_anim": 3,
         "reload_empty_anim": 3,
         "reload_sound": "bts_rc/weapons/fidget_3.wav",

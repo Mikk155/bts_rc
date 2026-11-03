@@ -1,10 +1,8 @@
-# ===================================================================
-# ===================================================================
-# Purpose:
-#   Python validation class builder.
-# ===================================================================
-# ===================================================================
+'''
+Python validation class builder.
+'''
 
+import sys;
 from enum import IntEnum, auto;
 
 global gpCache;
@@ -292,7 +290,6 @@ class PyTest:
 
     @staticmethod
     def IsTest() -> bool:
-        import sys;
         return ( "--test" in sys.argv );
 
     @staticmethod

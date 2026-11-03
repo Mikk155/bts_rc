@@ -9,15 +9,13 @@
 import os;
 import json;
 import jsonschema;
+from pathlib import Path;
 
 from Tests.PyTest import PyTest
 
-class DefaultConfigCheck( PyTest ):
+class CheckJSONValidation( PyTest ):
 
-    m_DefaultConfig: str = os.path.join( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "default_config.json" );
-
-    def ShouldBuild( self ) -> bool:
-        return ( self.Type != PyTest.BuildType.Local or self.FileModified( self.m_DefaultConfig ) );
+    m_DefaultConfig: Path = Path( PyTest.GetWorkspace(), "scripts", "maps", "bts_rc", "default_config.json" );
 
     def Build( self ) -> bool:
 
@@ -25,12 +23,6 @@ class DefaultConfigCheck( PyTest ):
 
         try:
             with open( self.m_DefaultConfig, "r" ) as fStream:
-                # lines: list[str] = fStream.readlines();
-                # content: str = "";
-                # for line in lines:
-                #     if not line.strip().startswith( "//" ):
-                #         content += line;
-                # I prefer to sort the object more than comments.
                 parsed = json.load( fStream );
 
         except json.JSONDecodeError as e:
@@ -50,24 +42,28 @@ class DefaultConfigCheck( PyTest ):
                 continue;
 
             if self.Type == PyTest.BuildType.Release:
-
                 script.Content = script.Content.replace( "scripts/maps/bts_rc/default_config.json", json.dumps( parsed, separators=( ",", ":" ) ) );
+                return True;
 
-            elif self.Type == PyTest.BuildType.Local:
+            def sortRecursive( obj: dict | list ) -> dict | list:
+                if isinstance( obj, dict ):
+                    return { k: sortRecursive( obj[k] ) for k in sorted( obj ) };
+                else:
+                    return obj
 
-                def sortRecursive( obj: dict | list ) -> dict | list:
-                    if isinstance( obj, dict ):
-                        return { k: sortRecursive( obj[k] ) for k in sorted( obj ) };
-                    else:
-                        return obj
+            oldSerialized = json.dumps( parsed, indent=4 );
+            newSerialized = json.dumps( sortRecursive(parsed), indent=4 );
 
-                oldSerialized = json.dumps( parsed, indent=4 );
-                newSerialized = json.dumps( sortRecursive(parsed), indent=4 );
+            if( oldSerialized != newSerialized ):
 
-                if( oldSerialized != newSerialized ):
+                if self.Type == PyTest.BuildType.Local:
                     with open( self.m_DefaultConfig, "w" ) as fStream:
                         fStream.write( newSerialized + '\n' );
+                    self.Log( "Sorted & formated {}", self.m_DefaultConfig.relative_to( PyTest.GetWorkspace() ) );
+                elif self.Type == PyTest.BuildType.Check:
+                    self.Log( "Un-formated {} Execute src/main.py to format files.", self.m_DefaultConfig.relative_to( PyTest.GetWorkspace() ) );
+                return False;
 
         return True;
 
-DefaultConfigCheck();
+CheckJSONValidation();
