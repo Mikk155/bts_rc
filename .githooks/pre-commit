@@ -4,7 +4,7 @@ repo_root=$(git rev-parse --show-toplevel) || exit 1
 cd "$repo_root" || exit 1
 
 echo "Running project validation before commit..."
-python src/main.py --check
+python src/main.py --githook
 status=$?
 
 if [ "$status" -ne 0 ]; then

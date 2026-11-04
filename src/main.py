@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
         case BuildType.Local:
 
-            if sys.platform == "win32" and Builder.Type() == BuildType.Local and "PROMPT" not in environ:
+            if sys.platform == "win32" and Builder.Type() == BuildType.Local and "PROMPT" not in environ and not "--githook" in sys.argv:
                 input( "Press enter to continue." );
 
         case BuildType.Release:

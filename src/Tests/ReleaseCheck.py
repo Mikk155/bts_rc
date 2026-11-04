@@ -110,7 +110,9 @@ class ReleaseCheck( IBuilder ):
         if lastTag == self.m_ProjectVersion:
 
             self.Log( "Project version has not changed. Skipping release." );
-            return False;
+            self.WriteGithubOutput();
+            import sys;
+            sys.exit(0);
 
         if self.IsGreaterSemantic( lastTag, self.m_ProjectVersion ) is False:
 
@@ -188,16 +190,17 @@ Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANG
 Read full change log at [here](https://github.com/Mikk155/bts_rc/blob/main/CHANGELOG.md).""" );
 
         self.m_GithubData[ "abort" ] = False;
-
         self.m_GithubData[ "version" ] = self.m_ProjectVersion;
         self.m_GithubData[ "previous_version" ] = releaseData[ "tag_name" ];
-
-        with open( os.environ[ "GITHUB_OUTPUT" ], 'a' ) as fStream:
-            for key, value in self.m_GithubData.items():
-                print( f"{key}={value}", file=fStream );
+        self.WriteGithubOutput();
 
         Builder.Log( f"Formating map scripts for bts_rc as version {self.m_ProjectVersion}" );
 
         return True;
+
+    def WriteGithubOutput( self ):
+        with open( os.environ[ "GITHUB_OUTPUT" ] if "GITHUB_OUTPUT" in os.environ else Path( "GITHUB_OUTPUT" ), 'a' ) as fStream:
+            for key, value in self.m_GithubData.items():
+                print( f"{key}={value}", file=fStream );
 
 ReleaseCheck();

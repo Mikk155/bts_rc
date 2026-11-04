@@ -29,6 +29,7 @@ class UpdateSchema( IBuilder ):
         if not self.m_SchemaPath.exists():
             return False;
 
+        # -TODO Date modify check.
         if self.m_OldSchemaPath.exists():
             with open( self.m_OldSchemaPath, "r", encoding="utf-8" ) as fOldSchema:
                 with open( self.m_SchemaPath, "r", encoding="utf-8" ) as fNewSchema:
@@ -42,8 +43,6 @@ class UpdateSchema( IBuilder ):
             with open( self.m_SchemaPath, "r", encoding="utf-8" ) as fNewSchema:
                 json.dump( json.load( fNewSchema ), fp=fOldSchema, indent=0 );
                 self.Log( "Updated {}", self.m_OldSchemaPath.relative_to( Builder.Workspace() ) );
-                return True;
-
         return False;
 
 UpdateSchema();
