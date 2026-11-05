@@ -2190,13 +2190,10 @@
     "grunt_engineer": {
         "active": true,
         "capacity": 5,
-        "chance": 75,
-        "cooldown_combat": 6,
-        "cooldown_idle": 30,
-        "cooldown_rng": 15,
-        "cooldown_start": 6,
+        "delay": 1.5,
         "distance": 128,
-        "interval": 0.1
+        "interval": 5.0,
+        "spacing": 512
     },
     "items": {
         "battery_lighting": true,

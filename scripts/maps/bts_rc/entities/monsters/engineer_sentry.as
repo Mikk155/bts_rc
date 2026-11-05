@@ -22,6 +22,16 @@
 
 final class ASGruntEngineer : EntityOverriden, IConfigurable
 {
+    dictionary@ m_ScriptedSequence = {
+        { "m_flRadius", "400" },
+        { "m_iszEntity", "monster_human_torch_ally" },
+        { "m_fMoveTo", "2" },
+        { "m_flRepeat", "300" },
+        { "m_iszPlay", "open_floor_grate" },
+        { "moveto_radius", "5" },
+        { "spawnflags", "32" }
+    };
+
     const string& GetName() const override {
         return "grunt_engineer";
     }
@@ -56,67 +66,40 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
                     "minimum": 32,
                     "description": "Distance from the engineer to spawn"
                 },
-                "cooldown_start":
+                "spacing":
                 {
                     "type": "number",
-                    "minimum": 0,
-                    "description": "Time until engineer can place a sentry after spawning"
+                    "minimum": 32,
+                    "description": "Minimum distance between sentry locations"
                 },
-                "cooldown_combat":
+                "delay":
                 {
                     "type": "number",
-                    "minimum": 0,
-                    "description": "How often to try to drop a sentry in combat, in seconds"
-                },
-                "cooldown_idle":
-                {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "How often to try to drop a sentry while idle/roaming, in seconds"
-                },
-                "cooldown_rng":
-                {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "cooldown_idle plus/minus this"
-                },
-                "chance":
-                {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "Chance to drop a sentry while idle/roaming, in percentage 0-100"
+                    "minimum": 0.0,
+                    "description": "Delay to spawn sentry after playing animation"
                 }
             }
         }""";
     }
 
-    private uint m_uiMaxCapacity;
-    private float m_fRadius;
-    private float m_fCooldownInitial;
-    private float m_fCooldownCombat;
-    private float m_fCooldownIdle;
-    private float m_fCooldownRNG;
-    private uint m_uiRandomChance;
-    private int m_iGateAnimation = -1;
+    uint capacity;
+    float distance;
+    float spacing;
+    float delay;
 
     bool Register( meta_api::json::v2::json@ config ) override
     {
         if( !bool( config[ "active" ] ) )
             return false;
 
-        this.m_uiMaxCapacity = uint( int( config[ "capacity" ] ) );
-        this.m_fRadius = float( config[ "distance" ] );
-        this.m_fCooldownInitial = float( config[ "cooldown_start" ] );
-        this.m_fCooldownCombat = float( config[ "cooldown_combat" ] );
-        this.m_fCooldownIdle = float( config[ "cooldown_idle" ] );
-        this.m_fCooldownRNG = float( config[ "cooldown_rng" ] );
-        this.m_uiRandomChance = uint( int( config[ "chance" ] ) );
+        this.capacity = uint( int( config[ "capacity" ] ) );
+        this.distance = float( config[ "distance" ] );
+        this.delay = float( config[ "delay" ] );
+        this.spacing = float( config[ "spacing" ] );
 
         if( g_MapConfig.MapLoading )
         {
             EntityOverriden::SetThink( float( config[ "interval" ] ) );
-
             EntityOverriden::Register( this );
         }
 
@@ -128,16 +111,12 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( monster is null || monster.GetClassname() != "monster_human_torch_ally" )
             return false;
 
-        if( !g_IsMainMap )
-            SetDebugName( monster, "Engineer sentry spawner" );
+        if( monster.GetTargetname().IsEmpty() )
+            monster.pev.targetname = string_t( "engineergrunt_" + monster.entindex() );
 
         dictionary@ data = monster.GetUserData();
 
-        data[ "sentry_left" ] = m_uiMaxCapacity;
-        data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownInitial + Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
-
-        if( this.m_iGateAnimation < 0 )
-            this.m_iGateAnimation = monster.LookupSequence( "open_floor_grate" );
+        data[ "sentry_left" ] = capacity;
 
         return EntityOverriden::AddEntity( entity, monster );
     }
@@ -154,58 +133,51 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         if( monster is null || !monster.IsAlive() )
             return EntityOverridenAction::Remove;
 
-        if( monster.pev.sequence == this.m_iGateAnimation )
-            return EntityOverridenAction::None;
+        switch( monster.m_MonsterState )
+        {
+            case MONSTERSTATE::MONSTERSTATE_IDLE:
+            case MONSTERSTATE::MONSTERSTATE_ALERT:
+                break;
+            default:
+                return EntityOverridenAction::None;
+        }
 
         dictionary@ data = monster.GetUserData();
 
-        if( float( data[ "sentry_cooldown" ] ) > g_Engine.time )
-            return EntityOverridenAction::None;
-
-        bool canSpawn = false;
-
-        switch( monster.m_MonsterState )
+        array<EHandle>@ deployedSentries;
+        if( !data.get( "sentry_list", @deployedSentries ) || deployedSentries is null )
         {
-            case MONSTERSTATE::MONSTERSTATE_COMBAT:
-            {
-                canSpawn = true;
-                data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownCombat;
-                break;
-            }
-            case MONSTERSTATE::MONSTERSTATE_IDLE:
-            case MONSTERSTATE::MONSTERSTATE_ALERT:
-            {
-                if( this.m_uiRandomChance > 0 && uint( Math.RandomLong( 1, 100 ) ) <= this.m_uiRandomChance )
-                {
-                    canSpawn = true;
-                    data[ "sentry_cooldown" ] = g_Engine.time + m_fCooldownIdle +
-                        Math.RandomFloat( -this.m_fCooldownRNG, this.m_fCooldownRNG );
-                }
-                break;
-            }
+            @deployedSentries = {};
+            @data[ "sentry_list" ] = deployedSentries;
         }
 
-        if( !canSpawn )
-            return EntityOverridenAction::None;
-
-        // Don't spawn a sentry if there's already one nearby
-        if( data.exists( "sentry_last" ) )
+        for( uint ui = deployedSentries.length(); ui > 0; )
         {
-            auto@ sentry = cast<CBaseEntity@>( data[ "sentry_last" ] );
+            EHandle handle = deployedSentries[--ui];
+            CBaseEntity@ sentry;
 
-            if( sentry !is null && sentry.IsAlive() && ( sentry.pev.origin - monster.pev.origin ).Length() <= 128 )
+            if( !handle.IsValid() || ( @sentry = handle.GetEntity() ) is null || !sentry.IsAlive() )
+            {
+                deployedSentries.removeAt(ui);
+                continue;
+            }
+
+            if( ( sentry.pev.origin - monster.pev.origin ).Length() <= this.spacing )
+            {
                 return EntityOverridenAction::None;
+            }
         }
 
         float flAngRad = monster.pev.angles.y * Math.PI / 180.0;
 
         Vector vecDir( cos( flAngRad ), sin( flAngRad ), 0.0 );
 
-        Vector vecPos = monster.pev.origin + vecDir * m_fRadius;
+        Vector vecPos = monster.pev.origin + vecDir * distance;
+
+        bool canSpawn = false;
 
         if( !IsHullFree( vecPos ) )
         {
-            canSpawn = false;
             for( int up = 0; up <= 4; up++ )
             {
                 for( int step = 0; step <= 6; step++ )
@@ -226,18 +198,22 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
             return EntityOverridenAction::None;
 
         if( m_Logger.get() !is null && m_Logger.get().trace.active )
-            m_Logger.get().trace( "[{}] {} spawn a sentry at {}", { this.GetName(), monster.GetClassname(), monster.pev.origin.ToString() } );
+            m_Logger.get().trace( "Spawn a sentry at {}", String::from_Vector( vecPos, true ) );
 
-        // -TODO Make the monster face towards the sentry
-        monster.SetState( MONSTERSTATE::MONSTERSTATE_SCRIPT );
-        monster.ResetSequenceInfo();
-        monster.pev.sequence = this.m_iGateAnimation;
+        CBaseEntity@ seq = g_EntityFuncs.CreateEntity( "scripted_sequence", this.m_ScriptedSequence, true );
+        g_EntityFuncs.SetOrigin( seq, monster.pev.origin );
+        seq.pev.angles[1] = monster.pev.angles[1];
+        seq.Use( null, null, USE_ON, 0.0f );
 
-        auto@ sentry = g_EntityFuncs.Create( "monster_sentry", vecPos, g_vecZero, true, monster.edict() );
-
+        CBaseEntity@ sentry = g_EntityFuncs.Create( "monster_sentry", vecPos, g_vecZero, true, monster.edict() );
+        g_EntityFuncs.DispatchKeyValue( sentry.edict(), "displayname", "H.E.C.U. Automatic Sentry MK1" );
+        g_EntityFuncs.DispatchKeyValue( sentry.edict(), "classify", "4" );
         sentry.pev.angles.y = monster.pev.angles.y;
+        sentry.pev.targetname = "sentry_" + monster.GetTargetname();
+        EHandle handle = EHandle( sentry );
+        deployedSentries.insertLast( handle );
 
-        g_Scheduler.SetTimeout( @this, "SpawnSentry", 1.0f, @sentry );
+        g_Scheduler.SetTimeout( @this, "SpawnSentry", this.delay, handle, EHandle(seq) );
 
         int remainingSentry = int( data[ "sentry_left" ] );
         remainingSentry--;
@@ -246,16 +222,26 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
             return EntityOverridenAction::Remove;
 
         data[ "sentry_left" ] = remainingSentry;
-        @data[ "sentry_last" ] = sentry;
 
         return EntityOverridenAction::None;
     }
 
-    void SpawnSentry( CBaseEntity@ sentry )
+    void SpawnSentry( EHandle handle, EHandle seq )
     {
-        if( sentry !is null )
+        CBaseEntity@ scripted;
+        if( seq.IsValid() && ( @scripted = seq.GetEntity() ) !is null )
+        {
+            scripted.UpdateOnRemove(); // If not called the game crash x[
+            scripted.pev.flags |= FL_KILLME;
+        }
+
+        CBaseEntity@ sentry;
+
+        if( handle.IsValid() && ( @sentry = handle.GetEntity() ) !is null )
         {
             g_EntityFuncs.DispatchSpawn( sentry.edict() );
+
+            g_SoundSystem.PlaySound( sentry.edict(), SOUND_CHANNEL::CHAN_AUTO, "tfc/weapons/turrset.wav", 1.0f, ATTN_NORM );
 
             auto@ AimingLasersContext = g_MapConfig.GetContext( "aiming_lasers" );
 
