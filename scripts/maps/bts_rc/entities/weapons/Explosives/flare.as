@@ -52,6 +52,11 @@ final class ASWeaponFlareConfig : ASWeaponConfig, ASMFlareConfig
         return "weapon_bts_flare";
     }
 
+    const int get_flags() property override
+    {
+        return ( ASWeaponConfig::get_flags() | ITEM_FLAG_EXHAUSTIBLE );
+    }
+
     const uint8 get_animation_draw() override
     {
         return WeaponFlareAnim::Draw;
@@ -97,25 +102,18 @@ enum WeaponFlareAnim
     Hold
 };
 
-class weapon_bts_flare : BTS_Weapon, IThrowable
+class weapon_bts_flare : BTS_Weapon, MThrowable
 {
     ASWeaponConfig@ get_config() override
     {
         return @gpWeaponFlareConfig;
     }
 
-    private int throw = 0;
+    private bool m_bRoll = false;
     private float m_fAttackStart = 0.0f;
     private ASFlare@ m_FlareOnHold;
     private bool m_bInAttack = false;
     private bool m_bThrown = false;
-    private int m_iAmmoSave = 0;
-
-    CBasePlayer@ get_Thrower() property { return this.owner; }
-    CBasePlayerWeapon@ get_ThrowableWeapon() property { return self; }
-    ASWeaponConfig@ get_ThrowableConfig() property { return this.config; }
-    AttackType get_ThrowAttackType() property { return throw == 1 ? AttackType::Secondary : AttackType::Primary; }
-    bool get_Rolling() property { return throw == 1; }
 
     void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage )
     {
@@ -135,7 +133,6 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
     bool Deploy() override
     {
         PlaySound( "bts_rc/weapons/flare_deploy.wav", 0.6f, PITCH_NORM, CHAN_ITEM );
-        m_iAmmoSave = 0;
         return BTS_Weapon::Deploy();
     }
 
@@ -147,12 +144,6 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
     bool CanDeploy() // disable-line W119
     {
         return this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
-    }
-
-    CBasePlayerItem@ DropItem() // disable-line W119
-    {
-        m_iAmmoSave = this.owner.AmmoInventory( self.m_iPrimaryAmmoType );
-        return self;
     }
 
     void DropHoldingFlare()
@@ -175,16 +166,6 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
         ClearTimerList();
 
-        if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
-        {
-            m_iAmmoSave = this.owner.m_rgAmmo( self.m_iPrimaryAmmoType );
-        }
-
-        if( m_iAmmoSave <= 0 )
-        {
-            g_Scheduler.SetTimeout( "DestroyThrowableWeapon", 0.1f, EHandle( self ) );
-        }
-
         this.DropHoldingFlare();
 
         BaseClass.Holster( skiplocal );
@@ -206,7 +187,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
         {
             case AttackType::Primary:
             {
-                throw = 0;
+                m_bRoll = false;
                 m_bInAttack = true;
                 m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
                 PlayAnim( WeaponFlareAnim::PullPin );
@@ -214,7 +195,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
             }
             case AttackType::Secondary:
             {
-                throw = 1;
+                m_bRoll = true;
                 m_bInAttack = true;
                 m_fAttackStart = g_Engine.time + ( 25.0f / 25.0f );
                 PlayAnim( WeaponFlareAnim::PullPin );
@@ -234,10 +215,7 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
     void LaunchThink()
     {
-        weapons::Throw( this );
-
-        this.owner.m_rgAmmo( self.m_iPrimaryAmmoType, this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
-        m_fAttackStart = 0.0f;
+        Throw();
     }
 
     void ItemPreFrame()
@@ -273,9 +251,9 @@ class weapon_bts_flare : BTS_Weapon, IThrowable
 
         self.m_flTimeWeaponIdle = weapons::SetCooldown( self, this.owner, ( 22.0f / 30.0f ) );
 
-        if( throw == 0 )
+        if( !m_bRoll )
             PlayAnim( WeaponFlareAnim::Throw, PLAYER_ANIM::PLAYER_ATTACK1 );
-        else if( throw == 1 )
+        else
             PlayAnim( WeaponFlareAnim::Toss, PLAYER_ANIM::PLAYER_ATTACK1 );
         m_bThrown = true;
         m_bInAttack = false;

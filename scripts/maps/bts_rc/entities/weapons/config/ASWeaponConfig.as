@@ -292,6 +292,11 @@ abstract class ASWeaponConfig : IConfigurable
     const string& get_secondary_ammo() { return String::EMPTY_STRING; }
     const string& get_secondary_ammoentity() { return String::EMPTY_STRING; }
 
+    const int get_flags() property
+    {
+        return ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
+    }
+
     private int m_view_model_index = -1;
     // Do not override. is automatic.
     const int get_view_model_index()

@@ -80,7 +80,7 @@ abstract class BTS_Weapon : ScriptBasePlayerWeaponEntity
         info.iPosition = this.config.position;
         info.iWeight = this.config.weight;
         info.iId = g_ItemRegistry.GetIdForName( self.pev.classname );
-        info.iFlags = gpDefaultWeaponFlags; // -TODO To "weapons" context?
+        info.iFlags = this.config.flags;
         return true;
     }
 

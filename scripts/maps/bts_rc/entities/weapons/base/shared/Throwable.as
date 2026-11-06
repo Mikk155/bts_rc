@@ -15,45 +15,21 @@
 *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 **/
 
-interface IThrowable
+mixin class MThrowable
 {
-    CBasePlayer@ get_Thrower();
-    CBasePlayerWeapon@ get_ThrowableWeapon();
-    ASWeaponConfig@ get_ThrowableConfig();
-    AttackType get_ThrowAttackType();
-    bool get_Rolling();
-    void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage );
-}
-
-void DestroyThrowableWeapon( EHandle weapon )
-{
-    if( !weapon.IsValid() )
-        return;
-
-    CBasePlayerItem@ item = cast<CBasePlayerItem@>( weapon.GetEntity() );
-    if( item !is null )
-        item.DestroyItem();
-}
-
-namespace weapons
-{
-    void Throw( IThrowable@ throwable )
+    void Throw()
     {
-        if( throwable is null || throwable.Thrower is null || throwable.ThrowableWeapon is null || throwable.ThrowableConfig is null )
-            return;
-
-        CBasePlayer@ player = throwable.Thrower;
-        ASWeaponConfig@ config = throwable.ThrowableConfig;
-        AttackType type = throwable.ThrowAttackType;
+        CBasePlayer@ player = this.owner;
+        AttackType type = ( m_bRoll ? AttackType::Secondary : AttackType::Primary );
 
         float maximumVelocity = type == AttackType::Secondary ? config.secondary_distance : config.primary_distance;
         if( maximumVelocity <= 0.0f )
-            maximumVelocity = throwable.Rolling ? 250.0f : 500.0f;
+            maximumVelocity = this.m_bRoll ? 250.0f : 500.0f;
 
         Vector throwAngles = player.pev.v_angle + player.pev.punchangle;
         float velocity;
 
-        if( throwable.Rolling )
+        if( this.m_bRoll )
         {
             throwAngles.x = 0.0f;
             velocity = maximumVelocity;
@@ -67,13 +43,26 @@ namespace weapons
         Math.MakeVectors( throwAngles );
         Vector source = player.GetGunPosition() + g_Engine.v_forward * 16.0f;
 
-        if( throwable.Rolling )
+        if( this.m_bRoll )
+        {
             source = player.pev.origin + g_Engine.v_forward * 16.0f + g_Engine.v_up * 4.0f;
+        }
 
         Vector throwVelocity = g_Engine.v_forward * velocity + player.pev.velocity;
         float damage = type == AttackType::Secondary && config.secondary_damage > 0.0f ? config.secondary_damage : config.primary_damage;
-        throwable.SpawnThrowable( source, throwVelocity, damage );
+        SpawnThrowable( source, throwVelocity, damage );
 
-        weapons::SetCooldown( throwable.ThrowableWeapon, player, config.GetCooldown( util::IsTrainedPersonal( player ), type ) );
+        int ammo = player.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1;
+        player.m_rgAmmo( self.m_iPrimaryAmmoType, ammo );
+
+        if( --ammo <= 0 )
+        {
+            self.DestroyItem();
+            return;
+        }
+
+        m_fAttackStart = 0.0f;
+
+        weapons::SetCooldown( self, player, config.GetCooldown( util::IsTrainedPersonal( player ), type ) );
     }
 }

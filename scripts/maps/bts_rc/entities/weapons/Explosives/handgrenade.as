@@ -52,6 +52,11 @@ final class ASWeaponHandGrenadeConfig : ASWeaponConfig
         return "weapon_bts_handgrenade";
     }
 
+    const int get_flags() property override
+    {
+        return ( ASWeaponConfig::get_flags() | ITEM_FLAG_EXHAUSTIBLE );
+    }
+
     const uint8 get_animation_draw() override
     {
         return WeaponHandGrenadeAnim::Draw;
@@ -72,7 +77,7 @@ enum WeaponHandGrenadeAnim
     Draw
 };
 
-class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
+class weapon_bts_handgrenade : BTS_Weapon, MThrowable // disable-line W119, W120
 {
     ASWeaponConfig@ get_config() override
     {
@@ -82,14 +87,7 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
     private float m_fAttackStart = 0.0f;
     private bool m_bInAttack = false;
     private bool m_bThrown = false;
-    private int m_iAmmoSave = 0;
     private bool m_bRoll = false;
-
-    CBasePlayer@ get_Thrower() property { return this.owner; }
-    CBasePlayerWeapon@ get_ThrowableWeapon() property { return self; }
-    ASWeaponConfig@ get_ThrowableConfig() property { return this.config; }
-    AttackType get_ThrowAttackType() property { return m_bRoll ? AttackType::Secondary : AttackType::Primary; }
-    bool get_Rolling() property { return m_bRoll; }
 
     void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage )
     {
@@ -115,7 +113,6 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
     bool Deploy() override
     {
         PlaySound( "bts_rc/weapons/grenade_draw.wav", 0.6f, PITCH_NORM, CHAN_ITEM );
-        m_iAmmoSave = 0;
         m_fAttackStart = 0.0;
         return BTS_Weapon::Deploy();
     }
@@ -128,12 +125,6 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
     bool CanDeploy() // disable-line W119
     {
         return this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
-    }
-
-    CBasePlayerItem@ DropItem() // disable-line W119
-    {
-        m_iAmmoSave = this.owner.AmmoInventory( self.m_iPrimaryAmmoType );
-        return self;
     }
 
     void Holster( int skiplocal = 0 )
@@ -158,16 +149,6 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
         m_bInAttack = false;
 
         ClearTimerList();
-
-        if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) > 0 )
-        {
-            m_iAmmoSave = this.owner.m_rgAmmo( self.m_iPrimaryAmmoType );
-        }
-
-        if( m_iAmmoSave <= 0 )
-        {
-            g_Scheduler.SetTimeout( "DestroyThrowableWeapon", 0.1f, EHandle( self ) );
-        }
 
         BaseClass.Holster( skiplocal );
     }
@@ -209,10 +190,7 @@ class weapon_bts_handgrenade : BTS_Weapon, IThrowable // disable-line W119, W120
         else
             PlaySound( "bts_rc/weapons/grenade_throw2.wav", 1.0f, PITCH_NORM, CHAN_ITEM );
 
-        weapons::Throw( this );
-
-        this.owner.m_rgAmmo( self.m_iPrimaryAmmoType, this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) - 1 );
-        m_fAttackStart = 0.0f;
+        Throw();
     }
 
     void ItemPreFrame()

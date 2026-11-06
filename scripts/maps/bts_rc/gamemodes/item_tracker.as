@@ -75,16 +75,11 @@ namespace item_tracker
 
     CItemInventory@ Find( const string&in itemName )
     {
-        EHandle handle;
-        CBaseEntity@ entity;
-        CItemInventory@ item;
+        Entity@ entity;
 
-        if( gpItemEntities.get( itemName, handle )
-        && handle.IsValid()
-        && ( @entity = handle.GetEntity() ) !is null
-        && ( @item = cast<CItemInventory@>( entity ) ) !is null )
+        if( gpItemEntities.get( itemName, @entity ) && entity !is null )
         {
-            return item;
+            return entity.toItemInventory;
         }
 
         return null;
@@ -95,7 +90,7 @@ namespace item_tracker
         if( item is null )
             return;
 
-        gpItemEntities[ EntityKey( item ) ] = EHandle( item );
+        @gpItemEntities[ EntityKey( item ) ] = Entity( item );
 
         string itemName = item.m_szItemName;
         array<string> details = { item.m_szDisplayName, item.m_szDescription };

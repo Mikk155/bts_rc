@@ -210,10 +210,11 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         g_EntityFuncs.DispatchKeyValue( sentry.edict(), "classify", "4" );
         sentry.pev.angles.y = monster.pev.angles.y;
         sentry.pev.targetname = "sentry_" + monster.GetTargetname();
-        EHandle handle = EHandle( sentry );
-        deployedSentries.insertLast( handle );
+        Entity@ handle = Entity( sentry );
 
-        g_Scheduler.SetTimeout( @this, "SpawnSentry", this.delay, handle, EHandle(seq) );
+        deployedSentries.insertLast( handle.toHandle );
+
+        g_Scheduler.SetTimeout( @this, "SpawnSentry", this.delay, handle, Entity(seq) );
 
         int remainingSentry = int( data[ "sentry_left" ] );
         remainingSentry--;
@@ -226,22 +227,15 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
         return EntityOverridenAction::None;
     }
 
-    void SpawnSentry( EHandle handle, EHandle seq )
+    void SpawnSentry( Entity@ sentry, Entity@ sequence )
     {
-        CBaseEntity@ scripted;
-        if( seq.IsValid() && ( @scripted = seq.GetEntity() ) !is null )
+        sequence.Remove(true);
+
+        if( sentry.toEntity !is null )
         {
-            scripted.UpdateOnRemove(); // If not called the game crash x[
-            scripted.pev.flags |= FL_KILLME;
-        }
+            g_EntityFuncs.DispatchSpawn( sentry.toEdict );
 
-        CBaseEntity@ sentry;
-
-        if( handle.IsValid() && ( @sentry = handle.GetEntity() ) !is null )
-        {
-            g_EntityFuncs.DispatchSpawn( sentry.edict() );
-
-            g_SoundSystem.PlaySound( sentry.edict(), SOUND_CHANNEL::CHAN_AUTO, "tfc/weapons/turrset.wav", 1.0f, ATTN_NORM );
+            g_SoundSystem.PlaySound( sentry.toEdict, SOUND_CHANNEL::CHAN_AUTO, "tfc/weapons/turrset.wav", 1.0f, ATTN_NORM );
 
             auto@ AimingLasersContext = g_MapConfig.GetContext( "aiming_lasers" );
 
@@ -251,7 +245,7 @@ final class ASGruntEngineer : EntityOverriden, IConfigurable
 
                 if( AimingLasersOverrider !is null )
                 {
-                    AimingLasersOverrider.AddEntity( sentry, cast<CBaseMonster@>( sentry ) );
+                    AimingLasersOverrider.AddEntity( sentry.toEntity, sentry.toMonster );
                 }
             }
         }

@@ -60,7 +60,7 @@ namespace Hooks
                 message.WriteByte( weaponConfig.slot );
                 message.WriteByte( weaponConfig.position );
                 message.WriteShort( weapon.m_iId );
-                message.WriteByte( gpDefaultWeaponFlags );
+                message.WriteByte( weaponConfig.flags );
             message.End();
         }
 

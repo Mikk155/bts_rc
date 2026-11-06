@@ -90,8 +90,6 @@
 #include "Special/xbow"
 #include "Special/flamethrower"
 
-const int gpDefaultWeaponFlags = ( ITEM_FLAG_SELECTONEMPTY | ITEM_FLAG_NOAUTOSWITCHEMPTY | ITEM_FLAG_NOAUTORELOAD );
-
 final class ASGlobalWeaponConfig : IConfigurable
 {
     /** @brief Logger shared by all weapon entities and weapon configuration. */

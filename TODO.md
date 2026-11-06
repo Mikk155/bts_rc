@@ -46,7 +46,7 @@ This file contains the list of to-do in the project.
 - [ ] Remove trace effects from m16 and the likes if ASBullet already covers them.
 - [ ] Use weapons::SetCooldown where single cooldown variables are updated with hardcoded numbers so the three attack type cooldows are set.
 - [ ] have release workflows/python to zip scripts with mega assets.
-- [ ] Replace the crowbar's custom thrown-damage hook with the existing IThrowable flow where appropriate, and identify any other melee weapons that should be throwable.
+- [ ] Replace the crowbar's custom thrown-damage hook with a IThrowable interface where appropriate, and identify any other melee weapons that should be throwable.
 - [ ] remove the additional hooks in medkit/crowbar and use config class
 - [ ] Remove custom weapon hand grenades, override vanilla grenades.
 - [ ] if python tests local run and fails instead of enter to exit do enter to retry, maybe don't clean up last DS messages if the build fails

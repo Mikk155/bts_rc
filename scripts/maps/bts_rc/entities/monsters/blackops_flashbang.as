@@ -40,7 +40,7 @@ namespace FlashbangGrenade
             @grenade.pev.owner = null;
             grenade.pev.dmgtime = g_Engine.time + detonateTime + 1.0f;
             g_EntityFuncs.SetModel( grenade, "models/bts_rc/weapons/w_fgrenade.mdl" );
-            g_Scheduler.SetTimeout( "__ExplodeFlashbangGrenade__", detonateTime, EHandle( grenade ) );
+            g_Scheduler.SetTimeout( "__ExplodeFlashbangGrenade__", detonateTime, Entity( grenade ) );
         }
     }
 
@@ -53,13 +53,12 @@ namespace FlashbangGrenade
     }
 }
 
-void __ExplodeFlashbangGrenade__( EHandle handle )
+void __ExplodeFlashbangGrenade__( Entity&in handle )
 {
-    CGrenade@ grenade = null;
+    CGrenade@ grenade = handle.toGrenade;
 
-    if( !handle.IsValid() || handle.GetEntity() is null || ( @grenade = cast<CGrenade@>( handle.GetEntity() ) ) is null )
+    if( grenade is null )
         return;
-
 
     g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "mikk155/player/earringing.wav", 0.4f, ATTN_NORM, 0, PITCH_NORM );
     g_SoundSystem.PlaySound( grenade.edict(), CHAN_AUTO, "bts_rc/weapons/flashbang_pop.wav", 1.0f, ATTN_NORM, 0, PITCH_NORM );
@@ -121,7 +120,7 @@ void __ExplodeFlashbangGrenade__( EHandle handle )
         }
     }
 
-    g_EntityFuncs.Remove( grenade );
+    handle.Remove(true);
 }
 
 final class ASBlackOpsFlashbang : EntityOverriden, IConfigurable

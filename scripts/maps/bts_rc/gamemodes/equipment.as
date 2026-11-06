@@ -298,17 +298,15 @@ final class ASEquipmentCharacter
 
             g_PlayerFuncs.ScreenFade( player, color, 0.25f, 1.0f, 255.0f, FFADE_OUT );
 
-            g_Scheduler.SetTimeout( this, "__StupidAssSchedulerStupidAssAPI__", 1.0f, EHandle(player), color );
+            g_Scheduler.SetTimeout( this, "__StupidAssSchedulerStupidAssAPI__", 1.0f, Entity(player), color );
         }
     }
 
-    void __StupidAssSchedulerStupidAssAPI__( EHandle hPlayer, Vector color )
+    void __StupidAssSchedulerStupidAssAPI__( Entity&in player, Vector color )
     {
-        CBaseEntity@ player = null;
-
-        if( hPlayer.IsValid() && ( @player = hPlayer.GetEntity() ) !is null )
+        if( player.toPlayer !is null )
         {
-            g_PlayerFuncs.ScreenFade( player, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
+            g_PlayerFuncs.ScreenFade( player.toPlayer, color, 1.0f, 0.0f, 255.0f, FFADE_IN );
         }
     }
 }

@@ -18,6 +18,10 @@
 #include "../../../mikk155/meta_api/json/v1"
 #include "../../../mikk155/meta_api/json/v2"
 #include "../../../mikk155/meta_api/json/v2/schema"
+#include "../../../mikk155/meta_api"
+#include "../../../mikk155/Entity/Entity"
+#include "../../../mikk155/SemanticVersion"
+#include "../../../mikk155/Logger/v2"
 
 #include "MapConfig"
 #include "CustomKeyValues"
@@ -32,7 +36,6 @@
 
 #include "../../../mikk155/Server/chrono/v1"
 #include "../../../mikk155/Server/FreeEdicts"
-#include "../../../mikk155/SemanticVersion"
 #include "../../../mikk155/TextMenu/v1"
 #include "../../../mikk155/Player/ChatColor"
 #include "../../../mikk155/Player/GetUniqueID"
@@ -40,8 +43,6 @@
 #include "../../../mikk155/Player/GiveItem"
 #include "../../../mikk155/Player/IsFacing"
 #include "../../../mikk155/Entity/Create"
-#include "../../../mikk155/meta_api"
-#include "../../../mikk155/Logger/v2"
 #include "../../../mikk155/String/Vector"
 #include "../../../mikk155/String/bool"
 

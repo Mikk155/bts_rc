@@ -204,8 +204,8 @@ class monster_panthereye : ScriptBaseMonsterEntity
     private bool m_bStealthed;
     private float m_iTargetRanderamt;
 
-    private EHandle m_hVictim;
-    private EHandle m_hPlayerDoll;
+    private Entity m_victim;
+    private Entity m_ragdoll;
 
     private float m_flPinThinkRate;
     private bool m_bIsPinning;
@@ -699,9 +699,9 @@ class monster_panthereye : ScriptBaseMonsterEntity
             playerDoll.pev.renderfx = kRenderFxDeadPlayer;
             playerDoll.pev.renderamt = player.entindex();
 
-            m_hPlayerDoll = EHandle( playerDoll );
+            m_ragdoll = playerDoll;
 
-            m_hVictim = EHandle( player );
+            m_victim = player;
             m_bIsPinning = true;
 
             m_flNextThrashDamage = g_Engine.time;
@@ -783,7 +783,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
     void PinThink()
     {
-        CBasePlayer@ victim = cast<CBasePlayer@>( m_hVictim.GetEntity() );
+        CBasePlayer@ victim = m_victim.toPlayer;
 
         if( !m_bIsPinning or victim is null or !victim.IsAlive() )
         {
@@ -884,7 +884,7 @@ class monster_panthereye : ScriptBaseMonsterEntity
 
     void StopPin()
     {
-        CBasePlayer@ player = cast<CBasePlayer@>( m_hVictim.GetEntity() );
+        CBasePlayer@ player = m_victim.toPlayer;
 
         if( player !is null )
         {
@@ -898,12 +898,9 @@ class monster_panthereye : ScriptBaseMonsterEntity
             player.UnblockWeapons(self);
         }
 
-        if( m_hPlayerDoll.IsValid() )
-            g_EntityFuncs.Remove( m_hPlayerDoll.GetEntity() );
-
+        m_ragdoll.Remove(true);
         m_bIsPinning = false;
-        m_hVictim = null; //EHandle();
-        m_hPlayerDoll = null;
+        m_victim.Clear();
 
         SetThink( null );
         self.pev.nextthink = g_Engine.time;
