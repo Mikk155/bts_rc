@@ -77,156 +77,62 @@ enum WeaponHandGrenadeAnim
     Draw
 };
 
-class weapon_bts_handgrenade : BTS_Weapon, MThrowable // disable-line W119, W120
+class weapon_bts_handgrenade : BTS_ThrowableWeapon // disable-line W119, W120
 {
     ASWeaponConfig@ get_config() override
     {
         return @gpWeaponHandGrenadeConfig;
     }
 
-    private float m_fAttackStart = 0.0f;
-    private bool m_bInAttack = false;
-    private bool m_bThrown = false;
-    private bool m_bRoll = false;
+    bool Deploy() override
+    {
+        PlaySound( "bts_rc/weapons/grenade_draw.wav", 0.6f, PITCH_NORM, CHAN_ITEM );
+        return BTS_Weapon::Deploy();
+    }
 
-    void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage )
+    void Attack( CBasePlayer@ player, AttackType type ) override
+    {
+        switch( type )
+        {
+            case AttackType::Primary:
+            case AttackType::Secondary:
+            {
+                if( this.ThrowStart( type, 0.83 ) )
+                {
+                    PlayAnim( WeaponHandGrenadeAnim::PullPin );
+                }
+                break;
+            }
+        }
+    }
+
+    void ThrowCreate( const Vector&in source, const Vector&in velocity ) override
     {
         CGrenade@ grenade = g_EntityFuncs.ShootTimed( this.owner.pev, source, velocity, 3.0f );
 
         if( grenade !is null )
         {
             g_EntityFuncs.SetModel( grenade, this.config.world_model );
-            grenade.pev.dmg = damage;
+            grenade.pev.dmg = gpWeaponHandGrenadeConfig.primary_damage;
         }
     }
 
-    void Spawn() override
+    float ThrowEnd( AttackType&in type, const Vector&in source, const Vector&in velocity ) override
     {
-        BTS_Weapon::Spawn();
-    }
-
-    bool CanHaveDuplicates() // disable-line W119
-    {
-        return true;
-    }
-
-    bool Deploy() override
-    {
-        PlaySound( "bts_rc/weapons/grenade_draw.wav", 0.6f, PITCH_NORM, CHAN_ITEM );
-        m_fAttackStart = 0.0;
-        return BTS_Weapon::Deploy();
-    }
-
-    bool CanHolster() // disable-line W119
-    {
-        return m_fAttackStart == 0.0f;
-    }
-
-    bool CanDeploy() // disable-line W119
-    {
-        return this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
-    }
-
-    void Holster( int skiplocal = 0 )
-    {
-        if( this.owner.pev.deadflag != DEAD_NO && m_fAttackStart != 0.0f )
+        if( RandomUint( 1 ) == 0 )
         {
-            Vector vecHandPos, vecVelocity;
-            g_EngineFuncs.GetBonePosition( this.owner.edict(), 28, vecHandPos, void );
-
-            vecVelocity = Vector( Math.RandomFloat( -20.0, 20.0 ), Math.RandomFloat( -20.0, 20.0 ), 40.0 );
-            CGrenade@ pGrenade = g_EntityFuncs.ShootTimed( this.owner.pev, vecHandPos, vecVelocity, 3.0f );
-            if( pGrenade !is null )
-            {
-                g_EntityFuncs.SetModel( pGrenade, "models/hlclassic/w_grenade.mdl" );
-                pGrenade.pev.dmg = gpWeaponHandGrenadeConfig.primary_damage;
-            }
-
-            m_fAttackStart = 0.0;
-        }
-
-        m_bThrown = false;
-        m_bInAttack = false;
-
-        ClearTimerList();
-
-        BaseClass.Holster( skiplocal );
-    }
-
-    void PrimaryAttack() override
-    {
-        StartThrow( false );
-        this.SetCooldown( util::IsTrainedPersonal( this.owner ), AttackType::Primary );
-    }
-
-    void SecondaryAttack() override
-    {
-        StartThrow( true );
-        this.SetCooldown( util::IsTrainedPersonal( this.owner ), AttackType::Secondary );
-    }
-
-    private void StartThrow( bool rolling )
-    {
-        if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
-            return;
-
-        PlayAnim( WeaponHandGrenadeAnim::PullPin );
-
-        m_bRoll = rolling;
-
-        m_bInAttack = true;
-        m_fAttackStart = g_Engine.time + ( 24.0f / 30.0f );
-
-        self.m_flTimeWeaponIdle = g_Engine.time + ( 24.0f / 30.0f ) + ( 9.0f / 30.0f );
-    }
-
-    void LaunchThink()
-    {
-        if( Math.RandomLong( 0, 1 ) == 0 )
             PlaySound( "bts_rc/weapons/grenade_throw1.wav", 1.0f, PITCH_NORM, CHAN_ITEM );
+        }
         else
-            PlaySound( "bts_rc/weapons/grenade_throw2.wav", 1.0f, PITCH_NORM, CHAN_ITEM );
-
-        Throw();
-    }
-
-    void ItemPreFrame()
-    {
-        if( m_fAttackStart == 0.0f && m_bThrown == true && m_bInAttack == false && self.m_flTimeWeaponIdle - 0.1f < g_Engine.time )
         {
-            if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) == 0 )
-            {
-                self.Holster();
-            }
-            else
-            {
-                self.Deploy();
-                m_bThrown = false;
-                m_bInAttack = false;
-                m_fAttackStart = 0.0f;
-            }
+            PlaySound( "bts_rc/weapons/grenade_throw2.wav", 1.0f, PITCH_NORM, CHAN_ITEM );
         }
 
-        if( !m_bInAttack || CheckButton() || g_Engine.time < m_fAttackStart )
-            return;
+        PlayAnim( WeaponHandGrenadeAnim::Throw1, PLAYER_ANIM::PLAYER_ATTACK1 );
 
-        self.m_flTimeWeaponIdle = weapons::SetCooldown( self, this.owner, ( 9.0f / 30.0f ) );
+        ThrowCreate( source, velocity );
 
-        if( m_bRoll )
-            PlayAnim( WeaponHandGrenadeAnim::Throw1, PLAYER_ANIM::PLAYER_ATTACK1 );
-        else
-            PlayAnim( WeaponHandGrenadeAnim::Throw1, PLAYER_ANIM::PLAYER_ATTACK1 );
-
-        m_bThrown = true;
-        m_bInAttack = false;
-        this.owner.SetAnimation( PLAYER_ATTACK1 );
-
-        StartSchedule( g_Scheduler.SetTimeout( @this, "LaunchThink", 0.2f ) );
-
-        BaseClass.ItemPreFrame();
+        return 0.2;
     }
 
     float Idle() override
@@ -242,10 +148,5 @@ class weapon_bts_handgrenade : BTS_Weapon, MThrowable // disable-line W119, W120
             PlayAnim( WeaponHandGrenadeAnim::Fidget );
             return 2.33f;
         }
-    }
-
-    private bool CheckButton()
-    {
-        return ( this.owner.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) ) != 0;
     }
 }

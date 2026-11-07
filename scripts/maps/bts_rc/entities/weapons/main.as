@@ -23,7 +23,6 @@
 #include "base/shared/Kickback"
 #include "base/shared/SetCooldown"
 #include "base/shared/TraceEffects"
-#include "base/shared/Throwable"
 
 // Base
 #include "config/ASWeaponConfig"
@@ -34,6 +33,7 @@
 #include "base/BTS_FireWeapon"
 #include "base/BTS_MeleeCharge"
 #include "base/BTS_MeleeWeapon"
+#include "base/BTS_ThrowableWeapon"
 #include "base/BTS_Weapon"
 
 // Melee

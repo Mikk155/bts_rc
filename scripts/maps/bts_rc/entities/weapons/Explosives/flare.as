@@ -102,48 +102,19 @@ enum WeaponFlareAnim
     Hold
 };
 
-class weapon_bts_flare : BTS_Weapon, MThrowable
+class weapon_bts_flare : BTS_ThrowableWeapon
 {
     ASWeaponConfig@ get_config() override
     {
         return @gpWeaponFlareConfig;
     }
 
-    private bool m_bRoll = false;
-    private float m_fAttackStart = 0.0f;
     private ASFlare@ m_FlareOnHold;
-    private bool m_bInAttack = false;
-    private bool m_bThrown = false;
-
-    void SpawnThrowable( const Vector&in source, const Vector&in velocity, float damage )
-    {
-        gpWeaponFlareConfig.flare_create( this.owner, source, velocity );
-    }
-
-    void Spawn() override
-    {
-        BTS_Weapon::Spawn();
-    }
-
-    bool CanHaveDuplicates() // disable-line W119
-    {
-        return true;
-    }
 
     bool Deploy() override
     {
         PlaySound( "bts_rc/weapons/flare_deploy.wav", 0.6f, PITCH_NORM, CHAN_ITEM );
-        return BTS_Weapon::Deploy();
-    }
-
-    bool CanHolster() // disable-line W119
-    {
-        return m_fAttackStart == 0.0f;
-    }
-
-    bool CanDeploy() // disable-line W119
-    {
-        return this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) != 0;
+        return BTS_ThrowableWeapon::Deploy();
     }
 
     void DropHoldingFlare()
@@ -158,69 +129,81 @@ class weapon_bts_flare : BTS_Weapon, MThrowable
         }
     }
 
-    void Holster( int skiplocal = 0 )
+    void Holster( int skiplocal = 0 ) override
     {
-        m_bThrown = false;
-        m_bInAttack = false;
-        m_fAttackStart = 0.0f;
-
-        ClearTimerList();
-
         this.DropHoldingFlare();
-
-        BaseClass.Holster( skiplocal );
+        BTS_ThrowableWeapon::Holster( skiplocal );
     }
 
     void Attack( CBasePlayer@ player, AttackType type ) override
     {
         this.DropHoldingFlare();
 
-        if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) <= 0 )
-            return;
-
-        if( m_fAttackStart < 0.0f || m_fAttackStart > 0.0f )
-            return;
-
-        this.SetCooldown( util::IsTrainedPersonal( this.owner ), type );
-
         switch( type )
         {
             case AttackType::Primary:
             {
-                m_bRoll = false;
-                m_bInAttack = true;
-                m_fAttackStart = g_Engine.time + ( 25.0f / 30.0f );
-                PlayAnim( WeaponFlareAnim::PullPin );
+                if( this.ThrowStart( type, 0.83 ) )
+                {
+                    PlayAnim( WeaponFlareAnim::PullPin );
+                }
                 break;
             }
             case AttackType::Secondary:
             {
-                m_bRoll = true;
-                m_bInAttack = true;
-                m_fAttackStart = g_Engine.time + ( 25.0f / 25.0f );
-                PlayAnim( WeaponFlareAnim::PullPin );
+                if( this.ThrowStart( type, 1.0 ) )
+                {
+                    PlayAnim( WeaponFlareAnim::PullPin );
+                }
                 break;
             }
             case AttackType::Tertiary:
             {
-                PlayAnim( WeaponFlareAnim::PullHold );
-//                @this.m_FlareOnHold = FLARE::Toss( this.owner.pev, g_vecZero, g_vecZero, 0 );
-//                this.m_FlareOnHold.self.pev.nextthink = self.m_flNextTertiaryAttack;
+                if( this.ThrowStart( type, 0.83 ) )
+                {
+                    PlayAnim( WeaponFlareAnim::PullHold );
+                }
+                break;
+            }
+        }
+    }
+
+    void ThrowCreate( const Vector&in source, const Vector&in velocity ) override
+    {
+        gpWeaponFlareConfig.flare_create( this.owner, source, velocity );
+    }
+
+    float ThrowEnd( AttackType&in type, const Vector&in source, const Vector&in velocity ) override
+    {
+        switch( type )
+        {
+            case AttackType::Primary:
+            {
+                PlayAnim( WeaponFlareAnim::Throw, PLAYER_ANIM::PLAYER_ATTACK1 );
+                break;
+            }
+            case AttackType::Secondary:
+            {
+                PlayAnim( WeaponFlareAnim::Toss, PLAYER_ANIM::PLAYER_ATTACK1 );
                 break;
             }
         }
 
-        self.m_flTimeWeaponIdle = g_Engine.time + ( 25.0f / 30.0f ) + ( 23.0f / 30.0f );
+        ThrowCreate( source, velocity );
+
+        return 0.2;
     }
 
-    void LaunchThink()
+    void ItemPreFrame() override
     {
-        Throw();
-    }
-
-    void ItemPreFrame()
-    {
-        BaseClass.ItemPreFrame();
+        if( this.m_FlareOnHold !is null )
+        {
+            Vector origin;
+            g_EngineFuncs.GetAttachment( this.owner.edict(), 1, origin, void );
+            g_EntityFuncs.SetOrigin( this.m_FlareOnHold.self, origin );
+            this.m_FlareOnHold.self.pev.effects |= EF_NODRAW;
+            return;
+        }
 
         if( this.m_FlareOnHold !is null )
         {
@@ -231,34 +214,7 @@ class weapon_bts_flare : BTS_Weapon, MThrowable
             return;
         }
 
-        if( m_fAttackStart == 0.0f && m_bThrown == true && m_bInAttack == false && self.m_flTimeWeaponIdle - 0.1f < g_Engine.time )
-        {
-            if( this.owner.m_rgAmmo( self.m_iPrimaryAmmoType ) == 0 )
-            {
-                self.Holster();
-            }
-            else
-            {
-                self.Deploy();
-                m_bThrown = false;
-                m_bInAttack = false;
-                m_fAttackStart = 0.0f;
-            }
-        }
-
-        if( !m_bInAttack || CheckButton() || g_Engine.time < m_fAttackStart )
-            return;
-
-        self.m_flTimeWeaponIdle = weapons::SetCooldown( self, this.owner, ( 22.0f / 30.0f ) );
-
-        if( !m_bRoll )
-            PlayAnim( WeaponFlareAnim::Throw, PLAYER_ANIM::PLAYER_ATTACK1 );
-        else
-            PlayAnim( WeaponFlareAnim::Toss, PLAYER_ANIM::PLAYER_ATTACK1 );
-        m_bThrown = true;
-        m_bInAttack = false;
-
-        StartSchedule( g_Scheduler.SetTimeout( @this, "LaunchThink", 0.2f ) );
+        BTS_ThrowableWeapon::ItemPreFrame();
     }
 
     float Idle() override
@@ -273,10 +229,5 @@ class weapon_bts_flare : BTS_Weapon, MThrowable
         }
 
         return Math.RandomFloat( 5.0f, 7.0f );
-    }
-
-    private bool CheckButton()
-    {
-        return ( this.owner.pev.button & ( IN_ATTACK | IN_ATTACK2 | IN_ALT1 ) ) != 0;
     }
 }

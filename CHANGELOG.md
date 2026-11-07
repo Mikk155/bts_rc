@@ -1,3 +1,6 @@
+# 06/11/2026
+- Grenades can now be thrown as roll or not simply by alternating primary/secondary attack at any time when the pin is pull.
+
 # 02/11/2026
 - Exposed ``items.pickup_cone`` in json for pickup items view cone
 - Increased ``items.pickup_cone`` from 0.8 to 0.95
