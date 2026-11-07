@@ -71,8 +71,6 @@ enum WeaponHandGrenadeAnim
     Fidget,
     PullPin,
     Throw1,
-    Throw2,
-    Throw3,
     Holster,
     Draw
 };
