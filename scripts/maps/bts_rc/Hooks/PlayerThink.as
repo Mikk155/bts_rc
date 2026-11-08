@@ -182,6 +182,9 @@ namespace Hooks
 
         player.m_iHideHUD |= HIDEHUD_FLASHLIGHT;
 
+        player.pev.armorvalue = Math.min( player.pev.armortype, player.pev.armorvalue );
+        player.pev.health = Math.min( player.pev.health, player.pev.max_health );
+
         // Change impulse 101 command with our own weapons
         if( player.pev.impulse == 101 && g_PlayerFuncs.AdminLevel( player ) >= ADMIN_YES )
         {
