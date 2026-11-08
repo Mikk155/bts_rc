@@ -171,6 +171,8 @@ void MapActivate()
 
 void MapInit()
 {
+    gpLogging.__Init__();
+
     if( gCheckModuleError(true) )
     {
         if( g_Logger.get() !is null && g_Logger.get().critical.active )

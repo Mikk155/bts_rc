@@ -2200,10 +2200,6 @@
         "item_tracking": false,
         "pickup_cone": 0.95
     },
-    "logging": {
-        "active": true,
-        "global": {}
-    },
     "map_config": {
         "allow_reload": false,
         "skip_validation": true
