@@ -18,7 +18,6 @@
 #include "../../../mikk155/Logger/v2"
 #include "../../../mikk155/Logger/v2/time"
 #include "../../../mikk155/Logger/v2/file"
-#include "../../../mikk155/Logger/v2/json/v2"
 
 final class ASLoggingSystem
 {
@@ -66,8 +65,82 @@ final class ASLoggingSystem
 
     void WriteData()
     {
-        meta_api::json::v1::Serialize(
-            this.m_data,
+        auto@ schema = meta_api::json::v2::json();
+            schema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
+            schema.Set( "type", "object" );
+            schema.Set( "unevaluatedProperties", false );
+            schema.Set( "title", "Logging settings" );
+            schema.Set( "description", "Default state for different loggers." );
+            auto@ properties = schema.ValueOrDefault( "properties", null, true );
+                auto@ schemaReference = properties.ValueOrDefault( "$schema", null, true );
+                    schemaReference.Set( "type", "string" );
+                auto@ active = properties.ValueOrDefault( "active", null, true );
+                    active.Set( "type", "boolean" );
+                    active.Set( "description", "Whatever logging is enabled" );
+                auto@ file = properties.ValueOrDefault( "file", null, true );
+                    file.Set( "type", "boolean" );
+                    file.Set( "description", "Whatever logging to bts_rc.log is active" );
+            auto@ additionalProperties = schema.ValueOrDefault( "additionalProperties", null, true );
+                additionalProperties.Set( "description", "Settings for the logger with the given key name." );
+                auto@ critical = additionalProperties.ValueOrDefault( "critical", null, true );
+                    critical.Set( "description", "Critical level. printed when something went really wrong." );
+                    critical.Set( "type", "string" );
+                    critical.Set( "default", "true" );
+                auto@ error = additionalProperties.ValueOrDefault( "error", null, true );
+                    error.Set( "description", "Error level. printed when something went wrong." );
+                    error.Set( "type", "string" );
+                    error.Set( "default", "true" );
+                auto@ warning = additionalProperties.ValueOrDefault( "warning", null, true );
+                    warning.Set( "description", "Warning level. printed when something may be wrong." );
+                    warning.Set( "type", "string" );
+                    warning.Set( "default", "true" );
+                auto@ info = additionalProperties.ValueOrDefault( "info", null, true );
+                    info.Set( "description", "Information level. printed when something is being informed." );
+                    info.Set( "type", "string" );
+                auto@ debug = additionalProperties.ValueOrDefault( "debug", null, true );
+                    debug.Set( "description", "Debug level. Like info but more spaming." );
+                    debug.Set( "type", "string" );
+                auto@ trace = additionalProperties.ValueOrDefault( "trace", null, true );
+                    trace.Set( "description", "Trace level. Like debug but more spaming." );
+                    trace.Set( "type", "string" );
+
+        meta_api::json::v2::Serialize(
+            schema,
+            "store/bts_rc_log_schema.json",
+            meta_api::json::parser::Indentation::OneSpace,
+            meta_api::json::parser::Style::AllMan
+        );
+
+        meta_api::json::v2::json@ serializationFix = meta_api::json::v2::json();
+        serializationFix.Set( "file", bool( this.Data[ "file" ] ) );
+        serializationFix.Set( "active", bool( this.Data[ "active" ] ) );
+        serializationFix.Set( "$schema", "bts_rc_log_schema.json" );
+
+        const array<string>@ keyNames = this.Data.getKeys();
+        const uint length = keyNames.length();
+
+        for( uint ui = 0; ui < length; ui++ )
+        {
+            string keyName = keyNames[ui];
+
+            dictionary@ obj;
+            if( this.Data.get( keyName, @obj ) && obj !is null )
+            {
+                meta_api::json::v2::json@ obj2 = serializationFix.ValueOrDefault( keyName, null, true );
+
+                const array<string>@ levelNames = obj.getKeys();
+                const uint length2 = levelNames.length();
+
+                for( uint ui2 = 0; ui2 < length2; ui2++ )
+                {
+                    string levelName = levelNames[ui2];
+                    obj2.Set( levelName, bool( obj[ levelName ] ) );
+                }
+            }
+        }
+
+        meta_api::json::v2::Serialize(
+            serializationFix,
             "store/bts_rc_log.json",
             meta_api::json::parser::Indentation::OneSpace,
             meta_api::json::parser::Style::AllMan
@@ -168,6 +241,35 @@ final class ASLoggingSystem
 
             return true;
         } );
+
+        // Find existent loggers not catched in SetCreatedCallback
+        Logger::Iterator it;
+        Logger@ logger;
+
+        while( it.Next( logger ) )
+        {
+            string objName = ( logger.name.IsEmpty() ? "global" : logger.name );
+
+            dictionary@ loggerObject;
+
+            if( !this.Data.get( objName, @loggerObject ) || loggerObject is null )
+                continue;
+
+            const array<string>@ levelNames = loggerObject.getKeys();
+            const uint length = levelNames.length();
+
+            for( uint ui = 0; ui < length; ui++ )
+            {
+                string levelName = levelNames[ui];
+                bool state = bool( loggerObject[ levelName ] );
+                Logger::Level@ level = logger.GetLevel( levelName );
+
+                if( level !is null )
+                {
+                    level.active = state;
+                }
+            }
+        }
     }
 }
 
