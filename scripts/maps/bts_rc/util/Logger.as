@@ -63,7 +63,17 @@ final class ASLoggingSystem
         }
     }
 
+    CScheduledFunction@ __WriteDatafn__;
+
     void WriteData()
+    {
+        if( this.__WriteDatafn__ is null )
+        {
+            @this.__WriteDatafn__ = g_Scheduler.SetTimeout( @this, "__WriteData__", 0.5f );
+        }
+    }
+
+    void __WriteData__()
     {
         auto@ schema = meta_api::json::v2::json();
             schema.Set( "$schema", "https://json-schema.org/draft/2020-12/schema" );
@@ -145,6 +155,9 @@ final class ASLoggingSystem
             meta_api::json::parser::Indentation::OneSpace,
             meta_api::json::parser::Style::AllMan
         );
+
+        g_Scheduler.RemoveTimer( this.__WriteDatafn__ );
+        @this.__WriteDatafn__ = null;
     }
 
     ASLoggingSystem()
