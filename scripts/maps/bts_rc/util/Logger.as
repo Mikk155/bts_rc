@@ -199,6 +199,157 @@ final class ASLoggingSystem
             return;
         }
 
+        RegisterCommand(
+            "toggle",
+            "[Logger name] [Logger level]",
+            "Toggle logger level for the given logger name",
+            function( CBasePlayer@ player, array<string>@ arguments )
+            {
+                if( arguments is null || arguments.length() < 2 )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Not enough arguments\n" );
+                    return;
+                }
+
+                string loggerName = arguments[0];
+                string loggerLevelName = arguments[1];
+
+                Logger@ logger = Logger::First( loggerName );
+
+                if( logger is null )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Logger with name \"" + loggerName + "\" does not exists!\n" );
+                    return;
+                }
+
+                Logger::Level@ level = logger.GetLevel( loggerLevelName );
+
+                if( level is null )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Logger level with name \"" + loggerLevelName + "\" does not exists!\n" );
+                    return;
+                }
+
+                const string dataLoggerName = ( logger.name.IsEmpty() ? "global" : logger.name );
+                dictionary@ logData;
+
+                if( !gpLogging.Data.get( dataLoggerName, @logData ) || logData is null )
+                {
+                    @logData = {};
+                    @gpLogging.Data[ dataLoggerName ] = logData;
+                }
+
+                level.active = !level.active;
+                logData[ loggerLevelName ] = level.active;
+                g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Logger \"" + dataLoggerName + "\" level \"" + loggerLevelName + "\" has been set to \"" + String::from_bool( level.active ) + "\"\n" );
+                gpLogging.WriteData();
+            },
+            true,
+            "log"
+        );
+
+        RegisterCommand(
+            "set",
+            "[Logger level] [state]",
+            "Set logger level state for all registered loggers",
+            function( CBasePlayer@ player, array<string>@ arguments )
+            {
+                if( arguments is null || arguments.length() < 2 )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Not enough arguments\n" );
+                    return;
+                }
+
+                const string loggerLevelName = arguments[0];
+                bool state;
+
+                string normalized = arguments[1];
+                normalized.ToLowercase();
+
+                if( normalized == "true" || normalized == "1" )
+                {
+                    state = true;
+                }
+                else if( normalized == "false" || normalized == "0" )
+                {
+                    state = false;
+                }
+                else
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "State must be true, false, 1 or 0\n" );
+                    return;
+                }
+
+                Logger::Iterator it;
+                Logger@ logger;
+
+                while( it.Next( logger ) )
+                {
+                    Logger::Level@ level = logger.GetLevel( loggerLevelName );
+
+                    if( level is null )
+                    {
+                        g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Logger level with name \"" + loggerLevelName + "\" does not exists!\n" );
+                        return;
+                    }
+
+                    const string dataLoggerName = ( logger.name.IsEmpty() ? "global" : logger.name );
+                    dictionary@ logData;
+
+                    if( !gpLogging.Data.get( dataLoggerName, @logData ) || logData is null )
+                    {
+                        @logData = {};
+                        @gpLogging.Data[ dataLoggerName ] = logData;
+                    }
+
+                    level.active = state;
+                    logData[ loggerLevelName ] = state;
+                }
+
+                g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "All logger's level \"" + loggerLevelName + "\" has been set to \"" + String::from_bool( state ) + "\"\n" );
+                gpLogging.WriteData();
+            },
+            true,
+            "log"
+        );
+
+
+        RegisterCommand(
+            "file",
+            "[state]",
+            "Set logger file write state",
+            function( CBasePlayer@ player, array<string>@ arguments )
+            {
+                if( arguments is null || arguments.length() < 1 )
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Not enough arguments\n" );
+                    return;
+                }
+
+                string normalized = arguments[0];
+                normalized.ToLowercase();
+
+                if( normalized == "true" || normalized == "1" )
+                {
+                    gpLogging.Data[ "file" ] = true;
+                }
+                else if( normalized == "false" || normalized == "0" )
+                {
+                    gpLogging.Data[ "file" ] = false;
+                }
+                else
+                {
+                    g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "State must be true, false, 1 or 0\n" );
+                    return;
+                }
+
+                g_PlayerFuncs.ClientPrint( player, HUD::HUD_PRINTCONSOLE, "Set logging file write to \"" + String::from_bool( gpLogging.WriteFile ) + "\"\n" );
+                gpLogging.WriteData();
+            },
+            true,
+            "log"
+        );
+
         Logger::Config
         .SetGlobalName( "bts_rc" )
         .SetAppendNewline( true )
