@@ -580,6 +580,9 @@ final class env_credits : ScriptBaseMonsterEntity
 
         this.Fade( fadeTime );
 
+        if( g_Logger.get() !is null && g_Logger.get().info.active )
+            g_Logger.get().info( "Loaded {} credit captions and started the credits sequence.", { this.m_Credits.length() } );
+
         self.pev.message = string_t( string( json[ "target" ] ) );
         g_EntityFuncs.FireTargets( string( self.pev.message ), self, self, USE_TOGGLE, 0.0f, float( json[ "delay" ] ) );
 

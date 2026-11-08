@@ -514,6 +514,9 @@ final class ASEquipmentConfig : IConfigurable
         this.m_MessageParams.fxTime = 0.025f;
         this.m_MessageParams.channel = 5;
 
+        if( this.m_Logger.get() !is null && this.m_Logger.get().info.active )
+            this.m_Logger.get().info( "Registered {} equipment sets for {} character classes.", { this.m_AllEquipments.getSize(), this.m_Characters.length() } );
+
         return true;
     }
 }

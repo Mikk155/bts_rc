@@ -50,6 +50,9 @@ namespace InventoryItem
             }
             else if( player.m_rgAmmo( weapon.m_iPrimaryAmmoType ) == weaponConfig.primary_maxammo )
             {
+                if( gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().trace.active )
+                    gpEquipment.m_Logger.get().trace( "Player \"{}\" already has maximum ammo for \"{}\".", { player.pev.netname, equipItemName } );
+
                 snprintf( message, "You're full of ammo for %1\n", itemInventory.m_szDisplayName );
                 ChatColor::Say( player, ChatColor::Color::Red, message, player, true );
                 return;
@@ -60,5 +63,8 @@ namespace InventoryItem
         Player::GiveItem( player, equipItemName, null, false, true );
         itemInventory.Destroy();
         ChatColor::Say( player, ChatColor::Color::Green, message, player, true );
+
+        if( gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().debug.active )
+            gpEquipment.m_Logger.get().debug( "Player \"{}\" equipped inventory item \"{}\".", { player.pev.netname, equipItemName } );
     }
 }

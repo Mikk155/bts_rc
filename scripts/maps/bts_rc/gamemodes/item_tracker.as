@@ -95,6 +95,9 @@ namespace item_tracker
         string itemName = item.m_szItemName;
         array<string> details = { item.m_szDisplayName, item.m_szDescription };
         Items[ itemName ] = details;
+
+        if( gpEquipment.m_Logger.get() !is null && g_Logger.get().info.active )
+            gpEquipment.m_Logger.get().info( "Registered inventory item \"{}\" at entity index {}.", { itemName, item.entindex() } );
     }
 
     bool IsTrackedItem( CItemInventory@ item )
@@ -226,6 +229,9 @@ namespace item_tracker
 
             if( storedItems.find( name ) >= 0 )
                 continue;
+
+            if( gpEquipment.m_Logger.get() !is null && gpEquipment.m_Logger.get().info.active )
+                gpEquipment.m_Logger.get().info( "Player \"{}\" collected tracked item \"{}\".", { player.pev.netname, name } );
 
             string message;
             snprintf( message, "[%1] %2: collected %3.\n", Classification::ToString( util::GetClass(player) ), string( player.pev.netname ), name );

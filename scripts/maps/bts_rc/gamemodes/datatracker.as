@@ -44,6 +44,9 @@ final class ASDataTracker : IConfigurable
     {
         this.m_TrackDataActive = ( g_Debug || bool( config[ "active" ] ) );
 
+        if( g_Logger.get() !is null && g_Logger.get().info.active )
+            g_Logger.get().info( "Player data tracking {}.", { this.m_TrackDataActive ? "enabled" : "disabled" } );
+
         return true;
     }
 
@@ -57,6 +60,9 @@ final class ASDataTracker : IConfigurable
         if( player !is null )
         {
             this.m_Data.delete( Player::GetUniqueID( player ) );
+
+            if( g_Logger.get() !is null && g_Logger.get().trace.active )
+                g_Logger.get().trace( "Removed tracked data for player \"{}\".", { player.pev.netname } );
         }
     }
 
@@ -69,6 +75,9 @@ final class ASDataTracker : IConfigurable
             };
 
             @this.m_Data[ Player::GetUniqueID( player ) ] = data;
+
+            if( g_Logger.get() !is null && g_Logger.get().debug.active )
+                g_Logger.get().debug( "Started tracking player \"{}\".", { player.pev.netname } );
 
             ChatColor::Say( player, ChatColor::Color::Green, "Now tracking your player data.\n", player, true );
         }
@@ -116,6 +125,9 @@ final class ASDataTracker : IConfigurable
 
             if( data is null )
             {
+                if( g_Logger.get() !is null && g_Logger.get().warning.active )
+                    g_Logger.get().warning( "Could not finalize data for player \"{}\": no tracked data found.", { player.pev.netname } );
+
                 ChatColor::Say( player, ChatColor::Color::Red, "No data tracked for joining after the simulation started.\n", player, true );
                 continue;
             }
@@ -160,6 +172,9 @@ final class ASDataTracker : IConfigurable
         {
             meta_api::json::v1::Serialize( this.m_Data, "scripts/maps/store/bts_rc_datatracker.json" );
         }
+
+        if( g_Logger.get() !is null && g_Logger.get().info.active )
+            g_Logger.get().info( "Finished processing player data for {} players.", { this.m_CurrentRun.length() } );
     }
 }
 
