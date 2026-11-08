@@ -480,13 +480,16 @@ namespace monster_snapbug
         }
     }
 
-    void Antidote( CBaseEntity@ pActivator, CBaseEntity@ pCaller, USE_TYPE useType, float flValue ) // disable-line W118
+    void Antidote( CBaseEntity@ activator, CBaseEntity@ caller, USE_TYPE useType, float value ) // disable-line W118
     {
-        if( !pActivator.pev.FlagBitSet( FL_CLIENT ) )
-            return; // -TODO Delete item inventory pCaller
+        CBasePlayer@ player;
+        CItemInventory@ itemInventory;
 
-        CBasePlayer@ pPlayer = cast<CBasePlayer@>( pActivator );
-        btscm::RemoveSnapbug( pPlayer );
+        if( activator !is null && caller !is null && ( @player = cast<CBasePlayer@>( activator )) !is null && ( @itemInventory = cast<CItemInventory@>( caller ) ) !is null )
+        {
+            btscm::RemoveSnapbug( player );
+            itemInventory.Destroy();
+        }
     }
 
     void Register()
