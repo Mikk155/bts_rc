@@ -96,8 +96,59 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
             EntityOverriden::SetThink( float( config[ "interval" ] ) );
             EntityOverriden::Register( this );
         }
+
         return true;
     }
+
+    funcdef bool ShouldDraw( CBaseMonster@, CBaseEntity@, Vector&out );
+
+    private ASAimingLasersConfig::ShouldDraw@ pfnTurret = function( CBaseMonster@ monster, CBaseEntity@ enemy, Vector&out endpos )
+    {
+        if( monster.pev.sequence == 0 )
+            return false;
+
+        if( enemy is null )
+            return false;
+
+        dictionary@ data = monster.GetUserData();
+
+        bool reverse;
+
+        if( !data.get( "lasers_tu_rev", reverse ) )
+        {
+            data[ "lasers_tu_rev" ] = reverse = ( Math.RandomLong( 0, 1 ) == 1 );
+        }
+
+        int offset;
+        if( !data.get( "lasers_tu_offset", offset ) )
+        {
+            data[ "lasers_tu_offset" ] = offset = Math.RandomLong( 0, 20 );
+        }
+
+        if( reverse )
+        {
+            offset -= 1;
+
+            if( offset <= 0 )
+                data[ "lasers_tu_rev" ] = false;
+        }
+        else
+        {
+            offset += 1;
+
+            if( offset >= 20 )
+            {
+                data[ "lasers_tu_rev" ] = true;
+            }
+        }
+
+        data[ "lasers_tu_offset" ] = offset;
+
+        // Offset of 10 units bellow the eye position
+        endpos = enemy.EyePosition() - Vector( Math.RandomFloat(0, 1), Math.RandomFloat(0, 1), offset );
+
+        return true;
+    };
 
     bool AddEntity( CBaseEntity@ entity, CBaseMonster@ monster ) override
     {
@@ -106,15 +157,33 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
 
         string classname = monster.GetClassname();
 
-        if( classname != "monster_sentry" && classname != "monster_turret" && classname != "monster_miniturret" )
-            return false;
+        dictionary@ userData = monster.GetUserData();
 
-        monster.pev.armortype = Math.RandomLong( 0, 20 );
-        monster.pev.armorvalue = Math.RandomLong( 0, 1 );
+        if( "monster_sentry" == classname )
+        {
+            userData[ "lasers_bone" ] = 5;
+            env_flame::SetResistance( monster, 0.70f );
+            @userData[ "lasers_callback" ] = this.pfnTurret;
+            return EntityOverriden::AddEntity( entity, monster );
+        }
 
-        env_flame::SetResistance( monster, 0.70f );
+        if( "monster_turret" == classname )
+        {
+            userData[ "lasers_bone" ] = 9;
+            env_flame::SetResistance( monster, 0.70f );
+            @userData[ "lasers_callback" ] = this.pfnTurret;
+            return EntityOverriden::AddEntity( entity, monster );
+        }
 
-        return EntityOverriden::AddEntity( entity, monster );
+        if( "monster_miniturret" == classname )
+        {
+            userData[ "lasers_bone" ] = 3;
+            env_flame::SetResistance( monster, 0.70f );
+            @userData[ "lasers_callback" ] = this.pfnTurret;
+            return EntityOverriden::AddEntity( entity, monster );
+        }
+
+        return false;
     }
 
     protected CSprite@ sprite( Vector &in VecPos )
@@ -138,43 +207,29 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
         if( monster is null || !monster.IsAlive() )
             return EntityOverridenAction::Remove;
 
-        CBaseEntity@ enemy;
+        dictionary@ userData = monster.GetUserData();
 
-        if( monster.pev.sequence == 0 || !monster.m_hEnemy.IsValid() || ( @enemy = monster.m_hEnemy.GetEntity() ) is null )
+        ASAimingLasersConfig::ShouldDraw@ callback;
+
+        if( !userData.get( "lasers_callback", @callback ) || callback is null )
+            return EntityOverridenAction::Remove;
+
+        Vector vecEnd;
+        CBaseEntity@ enemy = monster.m_hEnemy.GetEntity();
+
+        if( !callback( monster, enemy, vecEnd ) )
             return EntityOverridenAction::None;
 
-        TraceResult tr;
         Vector VecStart;
-        Vector VecAngles;
 
-        string classname = entity.GetClassname();
-
-        if( "monster_sentry" == classname )
-            monster.GetBonePosition( 5, VecStart, VecAngles );
-        else if( "monster_turret" == classname )
-            monster.GetBonePosition( 9, VecStart, VecAngles );
-        else if( "monster_miniturret" == classname )
-            monster.GetBonePosition( 3, VecStart, VecAngles );
-
-        if( int(monster.pev.armorvalue) == 1 )
+        int boneController;
+        if( userData.get( "lasers_bone", boneController ) )
         {
-            monster.pev.armortype -= 1;
-
-            if( monster.pev.armortype <= 0 )
-                monster.pev.armorvalue = 0;
-        }
-        else
-        {
-            monster.pev.armortype += 1;
-
-            if( monster.pev.armortype >= 20 )
-            {
-                monster.pev.armorvalue = 1;
-            }
+            monster.GetBonePosition( boneController, VecStart, void );
         }
 
-        // Offset of 10 units bellow the eye position
-        g_Utility.TraceLine( VecStart, enemy.EyePosition() - Vector( Math.RandomFloat(0, 1), Math.RandomFloat(0, 1), monster.pev.armortype ), dont_ignore_monsters, monster.edict(), tr );
+        TraceResult tr;
+        g_Utility.TraceLine( VecStart, vecEnd, dont_ignore_monsters, monster.edict(), tr );
 
         CSprite@ spr;
 
@@ -190,7 +245,7 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
             spr.pev.rendermode = kRenderTransAdd;
             spr.pev.renderamt = this.color.a / 2;
 
-            if( enemy.IsPlayer() && ( enemy.pev.origin - tr.vecEndPos ).Length() < 64 )
+            if( enemy !is null && enemy.IsPlayer() && ( enemy.pev.origin - tr.vecEndPos ).Length() < 64 )
             {
                 auto playerClass = util::GetClass(enemy);
 
@@ -204,7 +259,6 @@ final class ASAimingLasersConfig : EntityOverriden, IConfigurable
 
         int clientInterval = int( this.interval / 0.1f );
 
-        if( classname == "monster_turret" )
         {
             NetworkMessage m( MSG_PVS, NetworkMessages::SVC_TEMPENTITY, VecStart );
                 m.WriteByte( TE_DLIGHT );
